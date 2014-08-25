@@ -1,6 +1,6 @@
 import random
 from . import heroes
-from .cards import cardsForHero, THE_COIN
+from .cards import Card, cardsForHero, THE_COIN
 
 class Deck(object):
 	MAX_CARDS = 30
@@ -19,7 +19,7 @@ class Deck(object):
 			if deck.count(card) < cls.MAX_UNIQUE_CARDS: # this probably doesnt work right because dicts
 				# todo legendary check too
 				deck.append(card)
-		return Deck(deck)
+		return Deck([Card.byId(card) for card in deck])
 
 	def __init__(self, cards):
 		self.cards = cards
@@ -70,7 +70,7 @@ class Game(object):
 		winner, loser = self.tossCoin()
 		loser.draw()
 		# TODO mulligan phase
-		loser.addToHand(THE_COIN)
+		loser.addToHand(Card.byId(THE_COIN))
 		self.beginTurn(winner)
 
 	def beginTurn(self, player):

@@ -11,9 +11,13 @@ def main():
 
 	game = fireplace.Game(players=(player1, player2))
 	game.start()
+
+	# Let's give player1 a Novice Engineer
+	card = game.player1.addToHand(fireplace.cards.Card.byId("EX1_015"))
+
+
 	print(game.player1.hand)
 	print(game.player2.hand)
-
 
 
 if __name__ == "__main__":
