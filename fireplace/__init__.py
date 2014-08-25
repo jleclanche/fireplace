@@ -16,7 +16,7 @@ class Deck(object):
 		collection = cardsForHero(hero)
 		while len(deck) < cls.MAX_CARDS:
 			card = random.choice(collection)
-			if deck.count(card) < cls.MAX_UNIQUE_CARDS: # this probably doesnt work right because dicts
+			if deck.count(card) < cls.MAX_UNIQUE_CARDS:
 				# todo legendary check too
 				deck.append(card)
 		return Deck([Card.byId(card) for card in deck])
@@ -30,21 +30,45 @@ class Deck(object):
 
 class Player(object):
 	MAX_HAND = 10
+	MAX_MANA = 10
+
 	def __init__(self, name, deck):
 		self.name = name
 		self.deck = deck
 		self.hand = []
+		self.field = []
+		## Mana
+		# total crystals
+		self.manaCrystals = 0
+		# additional crystals this turn
+		self.additionalCrystals = 0
+		# mana used this turn
+		self.usedMana = 0
+		# overloaded mana
+		self.overload = 0
+		# mana overload next turn
+		self.nextOverload = 0
+
+	@property
+	def mana(self):
+		return self.manaCrystals - self.usedMana - self.overload + self.additionalCrystals
 
 	def addToHand(self, card):
 		if len(self.hand) >= self.MAX_HAND:
 			return
+		card.owner = self # Cards are not necessarily from the deck
 		self.hand.append(card)
+		card.status = card.STATUS_HAND
+		return card
 
 	def draw(self, count=1):
 		while count:
 			card = self.deck.cards.pop()
 			self.addToHand(card)
 			count -= 1
+
+	def gainMana(self, amount):
+		self.manaCrystals = min(self.MAX_MANA, self.manaCrystals + amount)
 
 
 class Game(object):
@@ -76,3 +100,11 @@ class Game(object):
 	def beginTurn(self, player):
 		self.turn += 1
 		self.playerTurn = player
+		player.gainMana(1)
+		player.usedMana = 0
+		player.overload = player.nextOverload
+		player.nextOverload = 0
+		player.draw()
+
+	def endTurn(self):
+		self.playerTurn.additionalCrystals = 0

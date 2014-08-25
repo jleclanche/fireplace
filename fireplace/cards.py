@@ -12,6 +12,11 @@ THE_COIN = "GAME_005"
 
 
 class Card(object):
+	STATUS_DECK = 1
+	STATUS_HAND = 2
+	STATUS_FIELD = 3
+	STATUS_GRAVEYARD = 4
+
 	@classmethod
 	def byId(cls, id):
 		for card in CARDS:
@@ -24,12 +29,25 @@ class Card(object):
 		self.name = data["name"]
 		self.id = data["id"]
 		self.uuid = uuid.uuid4()
+		self.owner = None
+		self.cost = data.get("cost", 0)
+		self.status = self.STATUS_DECK
 
 	def __str__(self):
 		return self.name
 
 	def __repr__(self):
 		return "<%s %s (%r)>" % (self.__class__.__name__, self.id, self.name)
+
+	def isPlayable(self):
+		return self.owner.mana >= self.cost
+
+	def play(self):
+		assert self.owner
+		# XXX check for battlecry target
+		self.owner.usedMana += self.cost
+		self.owner.field.append(self)
+		self.status = self.STATUS_FIELD
 
 
 def cardsForHero(hero):

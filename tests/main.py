@@ -14,7 +14,8 @@ def main():
 
 	# Let's give player1 a Novice Engineer
 	card = game.player1.addToHand(fireplace.cards.Card.byId("EX1_015"))
-
+	# put it on the board. it should draw 1 card
+	card.play()
 
 	print(game.player1.hand)
 	print(game.player2.hand)
