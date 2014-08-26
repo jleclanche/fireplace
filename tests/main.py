@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import sys; sys.path.append("..")
 import fireplace
+import logging
+
+logging.getLogger().setLevel(logging.INFO)
 
 
 def main():
