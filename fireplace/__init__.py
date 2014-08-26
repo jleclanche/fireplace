@@ -74,6 +74,11 @@ class Player(object):
 	def mana(self):
 		return self.manaCrystals - self.usedMana - self.overload + self.additionalCrystals
 
+	@property
+	def opponent(self):
+		# Hacky.
+		return [p for p in self.game.players if p != self][0]
+
 	def addToHand(self, card):
 		logging.debug("%s: Adding %r to hand" % (self, card))
 		if len(self.hand) >= self.MAX_HAND:
@@ -120,6 +125,8 @@ class Game(object):
 
 	def __init__(self, players):
 		self.players = players
+		for player in players:
+			player.game = self
 		self.turn = 0
 		self.playerTurn = None
 		self.status = self.STATUS_BEGIN
@@ -138,8 +145,7 @@ class Game(object):
 		outcome = random.randint(0, 1)
 		# player who wins the outcome is the index
 		winner = self.players[outcome]
-		# T_T
-		loser = [p for p in self.players if p != winner][0]
+		loser = winner.opponent
 		logging.info("Tossing the coin... %s wins!" % (winner))
 		return winner, loser
 
@@ -184,5 +190,6 @@ class Game(object):
 
 	def endTurn(self):
 		logging.info("%s ends turn" % (self.playerTurn))
-		self.status = self.STATUS_ENDTURN
+		self.status = self.STATUS_END_TURN
 		self.playerTurn.additionalCrystals = 0
+		self.beginTurn(self.playerTurn.opponent)
