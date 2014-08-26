@@ -18,7 +18,9 @@ def main():
 	card.play()
 
 	print(game.player1.hand)
+	print(game.player1.field)
 	print(game.player2.hand)
+	print(game.player2.field)
 
 
 if __name__ == "__main__":

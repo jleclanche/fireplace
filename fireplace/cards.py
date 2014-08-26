@@ -17,6 +17,13 @@ class Card(object):
 	STATUS_FIELD = 3
 	STATUS_GRAVEYARD = 4
 
+	TYPE_MINION = "Minion"
+	TYPE_SPELL = "Spell"
+	TYPE_WEAPON = "Weapon"
+	TYPE_HERO = "Hero"
+	TYPE_HERO_POWER = "Hero Power"
+	TYPE_ENCHANTMENT = "Enchantment"
+
 	@classmethod
 	def byId(cls, id):
 		for card in CARDS:
@@ -28,6 +35,7 @@ class Card(object):
 		self._data = data
 		self.name = data["name"]
 		self.id = data["id"]
+		self.type = data["type"]
 		self.uuid = uuid.uuid4()
 		self.owner = None
 		self.cost = data.get("cost", 0)
@@ -42,11 +50,16 @@ class Card(object):
 	def isPlayable(self):
 		return self.owner.mana >= self.cost
 
-	def play(self):
+	def play(self, target=None):
 		assert self.owner
-		# XXX check for battlecry target
+		# remove the card from the hand
+		self.owner.hand.remove(self)
 		self.owner.usedMana += self.cost
-		self.owner.field.append(self)
+		if self.type == self.TYPE_MINION:
+			self.owner.field.append(self)
+		else:
+			raise NotImplementedError
+
 		self.status = self.STATUS_FIELD
 
 
