@@ -37,6 +37,8 @@ class Player(object):
 		self.deck = deck
 		self.hand = []
 		self.field = []
+		# set to False after the player has finished his mulligan
+		self.canMulligan = True
 		## Mana
 		# total crystals
 		self.manaCrystals = 0
@@ -61,21 +63,47 @@ class Player(object):
 		card.status = card.STATUS_HAND
 		return card
 
-	def draw(self, count=1):
+	def insertToHand(self, card, pos):
+		# Same as addToHand but inserts (usually in place of a None)
+		# used for mulligan
+		card.owner = self
+		del self.hand[pos]
+		self.hand.insert(card, pos)
+		card.status = card.STATUS_HAND
+		return card
+
+	def draw(self, count=1, hold=False):
+		drawn = []
 		while count:
 			card = self.deck.cards.pop()
-			self.addToHand(card)
 			count -= 1
+			if not hold:
+				self.addToHand(card)
+			drawn.append(card)
+		return drawn
 
 	def gainMana(self, amount):
 		self.manaCrystals = min(self.MAX_MANA, self.manaCrystals + amount)
 
 
 class Game(object):
+	STATUS_BEGIN = 0
+	STATUS_TURN = 1
+	STATUS_END_TURN = 2
+	STATUS_MULLIGAN = 3
+	STATUS_END = 4
+	TIMEOUT_TURN = 75
+	TIMEOUT_MULLIGAN = 85
+
 	def __init__(self, players):
 		self.players = players
 		self.turn = 0
 		self.playerTurn = None
+		self.status = self.STATUS_BEGIN
+
+	def waitForEvent(self, event, timeout):
+		# Not implemented
+		pass
 
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
@@ -91,11 +119,25 @@ class Game(object):
 			player.draw(3)
 		self.player1, self.player2 = self.tossCoin()
 		self.player2.draw()
-		# TODO mulligan phase
+		self.beginMulligan()
+
+	def onMulliganInput(self, player, cards):
+		assert self.status == self.STATUS_MULLIGAN
+		assert player.canMulligan
+		drawn = player.draw(len(cards), hold=True)
+		for i, index in enumerate(cards):
+			player.placeCardInDeck(player.cards[card])
+			player.insertToHand(drawn[i], index)
+		player.canMulligan = False
+
+	def beginMulligan(self):
+		self.status = self.STATUS_MULLIGAN
+		self.waitForEvent("END_MULLIGAN", timeout=self.TIMEOUT_MULLIGAN)
 		self.player2.addToHand(Card.byId(THE_COIN))
 		self.beginTurn(self.player1)
 
 	def beginTurn(self, player):
+		self.status = self.STATUS_TURN
 		self.turn += 1
 		self.playerTurn = player
 		player.gainMana(1)
@@ -103,6 +145,8 @@ class Game(object):
 		player.overload = player.nextOverload
 		player.nextOverload = 0
 		player.draw()
+		self.waitForEvent("END_TURN", timeout=self.TIMEOUT_TURN)
 
 	def endTurn(self):
+		self.status = self.STATUS_ENDTURN
 		self.playerTurn.additionalCrystals = 0
