@@ -135,7 +135,7 @@ class Game(object):
 		for player in players:
 			player.game = self
 		self.turn = 0
-		self.playerTurn = None
+		self.currentPlayer = None
 		self.status = self.STATUS_BEGIN
 
 	def waitForEvent(self, event, timeout):
@@ -187,7 +187,7 @@ class Game(object):
 		logging.info("%s begins turn" % (player))
 		self.status = self.STATUS_TURN
 		self.turn += 1
-		self.playerTurn = player
+		self.currentPlayer = player
 		player.gainMana(1)
 		player.usedMana = 0
 		player.overload = player.nextOverload
@@ -196,7 +196,7 @@ class Game(object):
 		self.waitForEvent("END_TURN", timeout=self.TIMEOUT_TURN)
 
 	def endTurn(self):
-		logging.info("%s ends turn" % (self.playerTurn))
+		logging.info("%s ends turn" % (self.currentPlayer))
 		self.status = self.STATUS_END_TURN
-		self.playerTurn.additionalCrystals = 0
-		self.beginTurn(self.playerTurn.opponent)
+		self.currentPlayer.additionalCrystals = 0
+		self.beginTurn(self.currentPlayer.opponent)

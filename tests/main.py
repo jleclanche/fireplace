@@ -19,15 +19,16 @@ def main():
 	game.endTurn()
 
 	logging.info("DEBUG: Player2 receive Novice Engineer")
-	novice = game.player2.addToHand(fireplace.cards.Card.byId("EX1_015"))
+	novice = game.currentPlayer.addToHand(fireplace.cards.Card.byId("EX1_015"))
 	# Play the coin
-	coin = game.player2.getById("GAME_005")
+	coin = game.currentPlayer.getById("GAME_005")
 	coin.play()
-	# put it on the board. it should draw 1 card
+	# put novice on the board. it should draw 1 card
 	novice.play()
 	game.endTurn()
 
-	archer = game.player1.addToHand(fireplace.cards.Card.byId("CS2_189"))
+	# play an archer on the novice
+	archer = game.currentPlayer.addToHand(fireplace.cards.Card.byId("CS2_189"))
 	archer.play(target=novice)
 
 
