@@ -1,3 +1,4 @@
+import inspect
 import json
 import logging
 import os
@@ -11,6 +12,9 @@ f.close()
 
 THE_COIN = "GAME_005"
 
+
+def hasTarget(func):
+	return "target" in inspect.getargspec(func).args
 
 class Card(object):
 	STATUS_DECK = 1
@@ -27,9 +31,17 @@ class Card(object):
 
 	@classmethod
 	def byId(cls, id):
-		for card in CARDS:
-			if card["id"] == id:
-				return cls(card)
+		from . import carddata
+		if hasattr(carddata, id):
+			datacls = getattr(carddata, id)
+		else:
+			# temporary until most cards are done
+			logging.warning("Unimplemented card: %r" % (id))
+			datacls = object
+		for data in CARDS:
+			if data["id"] == id:
+				new_class = type(id, (cls, datacls), {})
+				return new_class(data)
 		raise ValueError("Could not find a card with id %r" % (id))
 
 	def __init__(self, data):
@@ -42,21 +54,27 @@ class Card(object):
 		self.cost = data.get("cost", 0)
 		self.status = self.STATUS_DECK
 
-		from . import carddata
-		if hasattr(carddata, self.id):
-			self.script = getattr(carddata, self.id)(self)
-		else:
-			self.script = None
-			logging.warning("Unimplemented card: %r" % (self))
-
 	def __str__(self):
 		return self.name
 
 	def __repr__(self):
-		return "<%s %s (%r)>" % (self.__class__.__name__, self.id, self.name)
+		return "<%s (%r)>" % (self.__class__.__name__, self.name)
 
 	def isPlayable(self):
 		return self.owner.mana >= self.cost
+
+	def damage(self, amount):
+		self.health -= amount
+		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
+
+		# this should happen elsewhere
+		if self.health == 0:
+			self.destroy()
+
+	def destroy(self):
+		logging.info("%r dies" % (self))
+		self.status = self.STATUS_GRAVEYARD
+		self.owner.field.remove(self)
 
 	def play(self, target=None):
 		logging.info("%s plays %r" % (self.owner, self))
@@ -68,17 +86,24 @@ class Card(object):
 		if self.type == self.TYPE_MINION:
 			self.owner.field.append(self)
 		elif self.type == self.TYPE_SPELL:
-			if not hasattr(self.script, "activate"):
+			print(self, self.__dict__, self.__class__)
+			if not hasattr(self, "activate"):
 				raise NotImplementedError
-			self.script.activate()
+			if hasTarget(self.activate):
+				self.activate(target=target)
+			else:
+				self.activate()
 		else:
 			raise NotImplementedError
 
-		if not self.script:
+		if not self:
 			raise NotImplementedError("Unimplemented card: %r" % (self))
-		if hasattr(self.script, "battlecry"):
+		if hasattr(self, "battlecry"):
 			logging.info("Triggering battlecry for %r" % (self))
-			self.script.battlecry()
+			if hasTarget(self.battlecry):
+				self.battlecry(target=target)
+			else:
+				self.battlecry()
 
 		self.status = self.STATUS_FIELD
 
@@ -89,14 +114,7 @@ def cardsForHero(hero):
 
 
 class BaseCard(object):
-	def __init__(self, card):
-		self._card = card
-
-	def __getattr__(self, attr):
-		# XXX hacky, should merge with Card
-		if attr == "_card":
-			return super().__getattr__(attr)
-		return getattr(self._card, attr)
+	pass
 
 
 class Minion(BaseCard):

@@ -25,6 +25,10 @@ def main():
 	coin.play()
 	# put it on the board. it should draw 1 card
 	novice.play()
+	game.endTurn()
+
+	archer = game.player1.addToHand(fireplace.cards.Card.byId("CS2_189"))
+	archer.play(target=novice)
 
 
 if __name__ == "__main__":

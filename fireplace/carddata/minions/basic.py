@@ -166,6 +166,14 @@ class CS2_187(Minion):
 	cost = 5
 	taunt = True
 
+# Elven Archer
+class CS2_189(Minion):
+	attack = 1
+	health = 1
+	cost = 1
+	def battlecry(self, target):
+		target.damage(1)
+
 # Ogre Magi
 class CS2_197(Minion):
 	attack = 4
