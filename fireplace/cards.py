@@ -46,6 +46,7 @@ class Card(object):
 		if hasattr(carddata, self.id):
 			self.script = getattr(carddata, self.id)(self)
 		else:
+			self.script = None
 			logging.warning("Unimplemented card: %r" % (self))
 
 	def __str__(self):
@@ -59,6 +60,8 @@ class Card(object):
 
 	def play(self, target=None):
 		assert self.owner
+		#assert self.isPlayable()
+		logging.info("%s plays %r" % (self.owner, self))
 		# remove the card from the hand
 		self.owner.hand.remove(self)
 		self.owner.usedMana += self.cost
@@ -66,6 +69,12 @@ class Card(object):
 			self.owner.field.append(self)
 		else:
 			raise NotImplementedError
+
+		if not self.script:
+			raise NotImplementedError("Unimplemented card: %r" % (self))
+		if hasattr(self.script, "battlecry"):
+			logging.info("Triggering battlecry for %r" % (self))
+			self.script.battlecry()
 
 		self.status = self.STATUS_FIELD
 
@@ -77,8 +86,13 @@ def cardsForHero(hero):
 
 class BaseCard(object):
 	def __init__(self, card):
-		self.card = card
-		self.owner = card.owner
+		self._card = card
+
+	def __getattr__(self, attr):
+		# XXX hacky, should merge with Card
+		if attr == "_card":
+			return super().__getattr__(attr)
+		return getattr(self._card, attr)
 
 
 class Minion(BaseCard):
