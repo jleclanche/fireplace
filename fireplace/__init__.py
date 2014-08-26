@@ -74,8 +74,6 @@ class Player(object):
 class Game(object):
 	def __init__(self, players):
 		self.players = players
-		self.player1 = self.players[0]
-		self.player2 = self.players[1]
 		self.turn = 0
 		self.playerTurn = None
 
@@ -91,11 +89,11 @@ class Game(object):
 		for player in self.players:
 			player.deck.shuffle()
 			player.draw(3)
-		winner, loser = self.tossCoin()
-		loser.draw()
+		self.player1, self.player2 = self.tossCoin()
+		self.player2.draw()
 		# TODO mulligan phase
-		loser.addToHand(Card.byId(THE_COIN))
-		self.beginTurn(winner)
+		self.player2.addToHand(Card.byId(THE_COIN))
+		self.beginTurn(self.player1)
 
 	def beginTurn(self, player):
 		self.turn += 1
