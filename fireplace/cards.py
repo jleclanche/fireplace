@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import uuid
 
@@ -41,6 +42,12 @@ class Card(object):
 		self.cost = data.get("cost", 0)
 		self.status = self.STATUS_DECK
 
+		from . import carddata
+		if hasattr(carddata, self.id):
+			self.script = getattr(carddata, self.id)(self)
+		else:
+			logging.warning("Unimplemented card: %r" % (self))
+
 	def __str__(self):
 		return self.name
 
@@ -64,4 +71,31 @@ class Card(object):
 
 
 def cardsForHero(hero):
+	"Returns playable (collectible) cards for hero \a hero"
 	return [card["id"] for card in CARDS if card.get("playerClass") in (None, hero) and card.get("collectible")]
+
+
+class BaseCard(object):
+	def __init__(self, card):
+		self.card = card
+		self.owner = card.owner
+
+
+class Minion(BaseCard):
+	pass
+
+
+class Spell(BaseCard):
+	pass
+
+
+class Weapon(BaseCard):
+	pass
+
+
+class Hero(BaseCard):
+	pass
+
+
+class HeroPower(BaseCard):
+	pass
