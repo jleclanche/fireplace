@@ -59,14 +59,18 @@ class Card(object):
 		return self.owner.mana >= self.cost
 
 	def play(self, target=None):
-		assert self.owner
-		#assert self.isPlayable()
 		logging.info("%s plays %r" % (self.owner, self))
+		assert self.owner, "That minion is not mine!"
+		assert self.isPlayable(), "Not enough mana!"
 		# remove the card from the hand
 		self.owner.hand.remove(self)
 		self.owner.usedMana += self.cost
 		if self.type == self.TYPE_MINION:
 			self.owner.field.append(self)
+		elif self.type == self.TYPE_SPELL:
+			if not hasattr(self.script, "activate"):
+				raise NotImplementedError
+			self.script.activate()
 		else:
 			raise NotImplementedError
 

@@ -5,5 +5,5 @@ from ..cards import Spell
 class GAME_005(Spell):
 	cost = 0
 
-	def action(self):
+	def activate(self):
 		self.owner.additionalCrystals += 1

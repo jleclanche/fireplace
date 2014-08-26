@@ -88,6 +88,13 @@ class Player(object):
 		card.status = card.STATUS_HAND
 		return card
 
+	def getById(self, id):
+		"Helper to get a card from the hand by its id"
+		for card in self.hand:
+			if card.id == id:
+				return card
+		raise ValueError
+
 	def insertToHand(self, card, pos):
 		# Same as addToHand but inserts (usually in place of a None)
 		# used for mulligan
