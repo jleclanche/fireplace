@@ -33,10 +33,11 @@ class Card(object):
 			datacls = getattr(carddata, id)
 		else:
 			# temporary until most cards are done
-			logging.warning("Unimplemented card: %r" % (id))
 			datacls = object
 		for data in CARDS:
 			if data["id"] == id:
+				if datacls is object:
+					logging.warning("Unimplemented card: %r (%s)" % (id, data["name"]))
 				new_class = type(id, (cls, datacls), {})
 				return new_class(data)
 		raise ValueError("Could not find a card with id %r" % (id))
