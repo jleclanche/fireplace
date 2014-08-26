@@ -85,7 +85,7 @@ class Card(object):
 		self.owner.hand.remove(self)
 		self.owner.usedMana += self.cost
 		if self.type == self.TYPE_MINION:
-			self.owner.field.append(self)
+			self.owner.summon(self)
 		elif self.type == self.TYPE_SPELL:
 			if not hasattr(self, "activate"):
 				raise NotImplementedError

@@ -30,6 +30,13 @@ def main():
 	# play an archer on the novice
 	archer = game.currentPlayer.addToHand(fireplace.cards.Card.byId("CS2_189"))
 	archer.play(target=novice)
+	game.endTurn()
+
+	# get a murloc tidehunter
+	murloc = game.currentPlayer.addToHand(fireplace.cards.Card.byId("EX1_506"))
+	# play it. it should summon a 1/1
+	murloc.play()
+
 
 
 if __name__ == "__main__":

@@ -120,6 +120,11 @@ class Player(object):
 		logging.info("%s gains %i mana" % (self, amount))
 		self.manaCrystals = min(self.MAX_MANA, self.manaCrystals + amount)
 
+	def summon(self, minion):
+		assert minion.type == minion.TYPE_MINION
+		# TODO index
+		self.field.append(minion)
+
 
 class Game(object):
 	STATUS_BEGIN = 0
