@@ -17,7 +17,7 @@ class EX1_015(Minion):
 	attack = 1
 	health = 1
 	cost = 2
-	battlecry = drawCard
+	activate = drawCard
 
 # Dalaran Mage
 class EX1_582(Minion):
@@ -98,7 +98,7 @@ class CS2_147(Minion):
 	attack = 2
 	health = 4
 	cost = 4
-	battlecry = drawCard
+	activate = drawCard
 
 # Archmage
 class CS2_155(Minion):
@@ -171,7 +171,7 @@ class CS2_189(Minion):
 	attack = 1
 	health = 1
 	cost = 1
-	def battlecry(self, target):
+	def activate(self, target):
 		target.damage(1)
 
 # Ogre Magi

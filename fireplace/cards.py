@@ -13,9 +13,6 @@ f.close()
 THE_COIN = "GAME_005"
 
 
-def hasTarget(func):
-	return "target" in inspect.getargspec(func).args
-
 class Card(object):
 	STATUS_DECK = 1
 	STATUS_HAND = 2
@@ -63,6 +60,9 @@ class Card(object):
 	def isPlayable(self):
 		return self.owner.mana >= self.cost
 
+	def hasTarget(self):
+		return "target" in inspect.getargspec(self.activate).args
+
 	def damage(self, amount):
 		self.health -= amount
 		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
@@ -86,24 +86,17 @@ class Card(object):
 		if self.type == self.TYPE_MINION:
 			self.owner.field.append(self)
 		elif self.type == self.TYPE_SPELL:
-			print(self, self.__dict__, self.__class__)
 			if not hasattr(self, "activate"):
 				raise NotImplementedError
-			if hasTarget(self.activate):
-				self.activate(target=target)
-			else:
-				self.activate()
 		else:
 			raise NotImplementedError
 
-		if not self:
-			raise NotImplementedError("Unimplemented card: %r" % (self))
-		if hasattr(self, "battlecry"):
-			logging.info("Triggering battlecry for %r" % (self))
-			if hasTarget(self.battlecry):
-				self.battlecry(target=target)
+		if hasattr(self, "activate"):
+			logging.info("Triggering 'activate' for %r" % (self))
+			if self.hasTarget():
+				self.activate(target=target)
 			else:
-				self.battlecry()
+				self.activate()
 
 		self.status = self.STATUS_FIELD
 
