@@ -27,12 +27,6 @@ class EX1_506(Murloc):
 	def activate(self):
 		self.owner.summon(Card.byId("EX1_506a"))
 
-# Murloc Scout
-class EX1_506a(Murloc):
-	attack = 1
-	health = 1
-	cost = 0
-
 # Dalaran Mage
 class EX1_582(Minion):
 	attack = 1

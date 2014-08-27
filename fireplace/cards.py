@@ -3,12 +3,10 @@ import json
 import logging
 import os
 import uuid
+from lxml.etree import ElementTree
 
 
-_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "data", "basic.json")
-f = open(_path, "r")
-CARDS = json.load(f)
-f.close()
+_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "data", "TextAsset")
 
 THE_COIN = "GAME_005"
 
@@ -19,8 +17,8 @@ class Card(object):
 	STATUS_FIELD = 3
 	STATUS_GRAVEYARD = 4
 
-	TYPE_MINION = "Minion"
-	TYPE_SPELL = "Spell"
+	TYPE_MINION = 4
+	TYPE_SPELL = 5
 	TYPE_WEAPON = "Weapon"
 	TYPE_HERO = "Hero"
 	TYPE_HERO_POWER = "Hero Power"
@@ -32,24 +30,16 @@ class Card(object):
 		if hasattr(carddata, id):
 			datacls = getattr(carddata, id)
 		else:
-			# temporary until most cards are done
 			datacls = object
-		for data in CARDS:
-			if data["id"] == id:
-				if datacls is object:
-					logging.warning("Unimplemented card: %r (%s)" % (id, data["name"]))
-				new_class = type(id, (cls, datacls), {})
-				return new_class(data)
-		raise ValueError("Could not find a card with id %r" % (id))
+		new_class = type(id, (cls, datacls), {})
+		return new_class(id)
 
-	def __init__(self, data):
-		self._data = data
-		self.name = data["name"]
-		self.id = data["id"]
-		self.type = data["type"]
+	def __init__(self, id):
+		self.file = os.path.join(_path, "%s.xml" % (id))
+		self.xml = ElementTree().parse(self.file)
+		self.id = id
 		self.uuid = uuid.uuid4()
 		self.owner = None
-		self.cost = data.get("cost", 0)
 		self.status = self.STATUS_DECK
 
 	def __str__(self):
@@ -57,6 +47,21 @@ class Card(object):
 
 	def __repr__(self):
 		return "<%s (%r)>" % (self.__class__.__name__, self.name)
+
+	def _getXML(self, xpath):
+		return self.xml.xpath(xpath)
+
+	@property
+	def name(self):
+		return self._getXML("/Entity/Tag[@name='CardName']/enUS/text()")[0]
+
+	@property
+	def type(self):
+		return int(self._getXML("/Entity/Tag[@name='CardType']/@value")[0])
+
+	@property
+	def cost(self):
+		return int((self._getXML("/Entity/Tag[@name='Cost']/@value") or [0])[0])
 
 	def isPlayable(self):
 		return self.owner.mana >= self.cost
@@ -90,7 +95,7 @@ class Card(object):
 			if not hasattr(self, "activate"):
 				raise NotImplementedError
 		else:
-			raise NotImplementedError
+			raise NotImplementedError(self.name, self.type)
 
 		if hasattr(self, "activate"):
 			logging.info("Triggering 'activate' for %r" % (self))
@@ -103,8 +108,7 @@ class Card(object):
 
 
 def cardsForHero(hero):
-	"Returns playable (collectible) cards for hero \a hero"
-	return [card["id"] for card in CARDS if card.get("playerClass") in (None, hero) and card.get("collectible")]
+	return ['CS1_042', 'CS2_118', 'CS2_119', 'CS2_120', 'CS2_121', 'CS2_124', 'CS2_125', 'CS2_127', 'CS2_131', 'CS2_142', 'CS2_147', 'CS2_155', 'CS2_162', 'CS2_168', 'CS2_171', 'CS2_172', 'CS2_173', 'CS2_179', 'CS2_182', 'CS2_186', 'CS2_187', 'CS2_189', 'CS2_197', 'CS2_200', 'CS2_201', 'CS2_213', 'EX1_015', 'EX1_506', 'EX1_582']
 
 
 class BaseCard(object):

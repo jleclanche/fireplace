@@ -1,0 +1,3 @@
+[submodule "hearthstone-data"]
+	path = data
+	url = https://github.com/jleclanche/hearthstone-data.git

@@ -37,6 +37,9 @@ def main():
 	# play it. it should summon a 1/1
 	murloc.play()
 
+	print(game.player1.field)
+	print(game.player2.field)
+
 
 
 if __name__ == "__main__":

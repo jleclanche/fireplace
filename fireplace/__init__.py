@@ -121,6 +121,7 @@ class Player(object):
 		self.manaCrystals = min(self.MAX_MANA, self.manaCrystals + amount)
 
 	def summon(self, minion):
+		logging.info("Summoning %r" % (minion))
 		assert minion.type == minion.TYPE_MINION
 		# TODO index
 		self.field.append(minion)
