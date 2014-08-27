@@ -79,6 +79,9 @@ class _Card(XMLCard):
 			return False
 		if len(self.targets) < self.minTargets:
 			return False
+		if self.type == self.TYPE_MINION:
+			if len(self.owner.field) >= self.game.MAX_MINIONS_ON_FIELD:
+				return False
 		return True
 
 	def getTargets(self, t):

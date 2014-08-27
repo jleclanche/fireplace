@@ -134,7 +134,10 @@ class Player(object):
 			minion = Card(minion)
 		assert minion.type == minion.TYPE_MINION
 		# TODO index
+		if len(self.field) >= self.game.MAX_MINIONS_ON_FIELD:
+			return
 		self.field.append(minion)
+		return minion
 
 
 class Game(object):
@@ -145,6 +148,7 @@ class Game(object):
 	STATUS_END = 4
 	TIMEOUT_TURN = 75
 	TIMEOUT_MULLIGAN = 85
+	MAX_MINIONS_ON_FIELD = 8
 
 	def __init__(self, players):
 		self.players = players
