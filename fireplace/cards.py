@@ -58,6 +58,7 @@ class Card(XMLCard):
 	TYPE_ENCHANTMENT = "Enchantment"
 
 	targeting = TARGET_NONE
+	minTargets = 0
 
 	@classmethod
 	def byId(cls, id):
@@ -84,7 +85,11 @@ class Card(XMLCard):
 		return "<%s (%r)>" % (self.__class__.__name__, self.name)
 
 	def isPlayable(self):
-		return self.owner.mana >= self.cost
+		if self.owner.mana < self.cost:
+			return False
+		if len(self.targets) < self.minTargets:
+			return False
+		return True
 
 	@property
 	def targets(self):
