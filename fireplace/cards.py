@@ -71,6 +71,7 @@ class Card(XMLCard):
 		self.uuid = uuid.uuid4()
 		self.owner = None
 		self.status = self.STATUS_DECK
+		self.damageCounter = 0
 		super().__init__(id)
 
 	def __str__(self):
@@ -85,12 +86,20 @@ class Card(XMLCard):
 	def hasTarget(self):
 		return "target" in inspect.getargspec(self.activate).args
 
+	@property
+	def currentHealth(self):
+		return max(0, self.health - self.damageCounter)
+
+	def heal(self, amount):
+		self.damageCounter -= min(amount, self.damageCounter)
+		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.currentHealth))
+
 	def damage(self, amount):
-		self.health -= amount
-		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
+		self.damageCounter = min(self.health, amount)
+		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.currentHealth))
 
 		# this should happen elsewhere
-		if self.health == 0:
+		if self.currentHealth == 0:
 			self.destroy()
 
 	def destroy(self):
