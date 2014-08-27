@@ -12,13 +12,6 @@ class NEW1_009:
 			if self.game.currentPlayer is self.owner:
 				target.heal(1)
 
-# Minion types
-class Murloc:
-	type = "Murloc"
-
-class Beast:
-	type = "Beast"
-
 
 # Novice Engineer
 class EX1_015:

@@ -137,8 +137,8 @@ class Player(object):
 		self.hero.damage(self.fatigueCounter)
 
 	def gainMana(self, amount):
-		logging.info("%s gains %i mana" % (self, amount))
 		self.manaCrystals = min(self.MAX_MANA, self.manaCrystals + amount)
+		logging.info("%s gains %i mana (now at %i)" % (self, amount, self.manaCrystals))
 
 	def summon(self, minion):
 		logging.info("Summoning %r" % (minion))
