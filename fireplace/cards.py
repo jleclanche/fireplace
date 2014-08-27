@@ -4,6 +4,7 @@ import logging
 import os
 import uuid
 from lxml.etree import ElementTree
+from .targeting import *
 
 
 _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "data", "TextAsset")
@@ -56,6 +57,8 @@ class Card(XMLCard):
 	TYPE_HERO_POWER = "Hero Power"
 	TYPE_ENCHANTMENT = "Enchantment"
 
+	targeting = TARGET_NONE
+
 	@classmethod
 	def byId(cls, id):
 		from . import carddata
@@ -82,6 +85,20 @@ class Card(XMLCard):
 
 	def isPlayable(self):
 		return self.owner.mana >= self.cost
+
+	@property
+	def targets(self):
+		ret = []
+		t = self.targeting
+		if t & TARGET_FRIENDLY_HERO:
+			ret.append(self.owner.hero)
+		if t & TARGET_FRIENDLY_MINIONS:
+			ret += self.owner.field
+		if t & TARGET_ENEMY_HERO:
+			ret.append(self.enemy.hero)
+		if t & TARGET_ENEMY_MINIONS:
+			ret += self.owner.opponent.field
+		return ret
 
 	def hasTarget(self):
 		return "target" in inspect.getargspec(self.activate).args
