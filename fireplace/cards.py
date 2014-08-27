@@ -10,8 +10,36 @@ _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir,
 
 THE_COIN = "GAME_005"
 
+class XMLCard(object):
+	def __init__(self, id):
+		self.file = os.path.join(_path, "%s.xml" % (id))
+		self.xml = ElementTree().parse(self.file)
 
-class Card(object):
+	def _getXML(self, xpath):
+		return self.xml.xpath(xpath)
+
+	@property
+	def name(self):
+		return self._getXML("/Entity/Tag[@name='CardName']/enUS/text()")[0]
+
+	@property
+	def type(self):
+		return int(self._getXML("/Entity/Tag[@name='CardType']/@value")[0])
+
+	@property
+	def cost(self):
+		return int((self._getXML("/Entity/Tag[@name='Cost']/@value") or [0])[0])
+
+	@property
+	def charge(self):
+		return bool(int((self._getXML("/Entity/Tag/[@name='Charge']/@value") or [0])[0]) or 0)
+
+	@property
+	def taunt(self):
+		return bool(int((self._getXML("/Entity/Tag/[@name='Taunt']/@value") or [0])[0]) or 0)
+
+
+class Card(XMLCard):
 	STATUS_DECK = 1
 	STATUS_HAND = 2
 	STATUS_FIELD = 3
@@ -35,33 +63,17 @@ class Card(object):
 		return new_class(id)
 
 	def __init__(self, id):
-		self.file = os.path.join(_path, "%s.xml" % (id))
-		self.xml = ElementTree().parse(self.file)
 		self.id = id
 		self.uuid = uuid.uuid4()
 		self.owner = None
 		self.status = self.STATUS_DECK
+		super().__init__(id)
 
 	def __str__(self):
 		return self.name
 
 	def __repr__(self):
 		return "<%s (%r)>" % (self.__class__.__name__, self.name)
-
-	def _getXML(self, xpath):
-		return self.xml.xpath(xpath)
-
-	@property
-	def name(self):
-		return self._getXML("/Entity/Tag[@name='CardName']/enUS/text()")[0]
-
-	@property
-	def type(self):
-		return int(self._getXML("/Entity/Tag[@name='CardType']/@value")[0])
-
-	@property
-	def cost(self):
-		return int((self._getXML("/Entity/Tag[@name='Cost']/@value") or [0])[0])
 
 	def isPlayable(self):
 		return self.owner.mana >= self.cost
