@@ -2,6 +2,7 @@
 import sys; sys.path.append("..")
 import fireplace
 import logging
+import random
 
 logging.getLogger().setLevel(logging.DEBUG)
 
@@ -35,17 +36,22 @@ def main():
 	footman.play()
 	game.endTurn()
 
-	novice = game.currentPlayer.give("EX1_015")
 	# Play the coin
 	coin = game.currentPlayer.getById("GAME_005")
 	coin.play()
-	# put novice on the board. it should draw 1 card
-	novice.play()
+
+	if random.randint(0, 1):
+		# novice should draw 1 card
+		card = game.currentPlayer.give("EX1_015")
+	else:
+		# succubus should discard 1 card
+		card = game.currentPlayer.give("EX1_306")
+	card.play()
 	game.endTurn()
 
-	# play an archer on the novice
+	# play an archer on the opponent's minion
 	archer = game.currentPlayer.give("CS2_189")
-	archer.play(target=novice)
+	archer.play(target=card)
 	game.endTurn()
 
 	# get a murloc tidehunter

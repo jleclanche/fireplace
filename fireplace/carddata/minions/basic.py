@@ -1,8 +1,17 @@
+import random
 from fireplace.targeting import *
 
 
 # helpers
 drawCard = lambda self: self.owner.draw()
+
+def discard(count):
+	def _discard(self):
+		# discard at most x card
+		discard = random.sample(self.owner.hand, min(count, len(self.owner.hand)))
+		for card in discard:
+			card.discard()
+	return _discard
 
 # Healing Totem
 class NEW1_009:
@@ -17,10 +26,20 @@ class NEW1_009:
 class EX1_015:
 	activate = drawCard
 
+# Succubus
+class EX1_306:
+	activate = discard(1)
+
 # Murloc Tidehunter
 class EX1_506:
 	def activate(self):
 		self.owner.summon("EX1_506a")
+
+# Nightblade
+class EX1_593:
+	targeting = TARGET_ENEMY_HERO
+	def activate(self, target):
+		target.damage(3)
 
 # Dalaran Mage
 class EX1_582:

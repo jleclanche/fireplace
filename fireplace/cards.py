@@ -55,6 +55,7 @@ class _Card(XMLCard):
 	STATUS_HAND = 2
 	STATUS_FIELD = 3
 	STATUS_GRAVEYARD = 4
+	STATUS_DISCARD = 5
 
 	TYPE_HERO = 3
 	TYPE_MINION = 4
@@ -155,6 +156,11 @@ class _Card(XMLCard):
 			raise GameOver("%s wins!" % (self.owner.opponent))
 		else:
 			raise NotImplementedError(self.type)
+
+	def discard(self):
+		logging.info("Discarding %r" % (self))
+		self.status = self.STATUS_DISCARD
+		self.owner.hand.remove(self)
 
 	def play(self, target=None):
 		logging.info("%s plays %r" % (self.owner, self))
