@@ -2,6 +2,8 @@ import logging
 import random
 from . import heroes
 from .cards import Card, cardsForHero, THE_COIN
+from .exceptions import *
+
 
 class Deck(object):
 	MAX_CARDS = 30
@@ -49,9 +51,11 @@ class Player(object):
 	def __init__(self, name, deck):
 		self.name = name
 		self.deck = deck
+		self.deck.hero.owner = self
 		self.hero = self.deck.hero
 		self.hand = []
 		self.field = []
+		self.fatigueCounter = 0
 		# set to False after the player has finished his mulligan
 		self.canMulligan = True
 		## Mana
@@ -116,13 +120,21 @@ class Player(object):
 	def draw(self, count=1, hold=False):
 		drawn = []
 		while count:
-			card = self.deck.cards.pop()
 			count -= 1
+			if not self.deck.cards:
+				self.fatigue()
+				continue
+			card = self.deck.cards.pop()
 			if not hold:
 				self.addToHand(card)
 			drawn.append(card)
 		logging.info("%s draws: %r" % (self, drawn))
 		return drawn
+
+	def fatigue(self):
+		self.fatigueCounter += 1
+		logging.info("%s takes %i fatigue damage" % (self, self.fatigueCounter))
+		self.hero.damage(self.fatigueCounter)
 
 	def gainMana(self, amount):
 		logging.info("%s gains %i mana" % (self, amount))
@@ -149,6 +161,8 @@ class Game(object):
 	TIMEOUT_TURN = 75
 	TIMEOUT_MULLIGAN = 85
 	MAX_MINIONS_ON_FIELD = 8
+	# Game draws after 50 full turns (100 game turns)
+	MAX_TURNS = 100
 
 	def __init__(self, players):
 		self.players = players
@@ -208,9 +222,11 @@ class Game(object):
 		self.beginTurn(self.player1)
 
 	def beginTurn(self, player):
-		logging.info("%s begins turn" % (player))
 		self.status = self.STATUS_TURN
 		self.turn += 1
+		logging.info("%s begins turn %i" % (player, self.turn))
+		if self.turn == self.MAX_TURNS:
+			raise GameOver("It's a draw!")
 		self.currentPlayer = player
 		player.gainMana(1)
 		player.usedMana = 0

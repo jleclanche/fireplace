@@ -3,12 +3,15 @@ import logging
 import os
 import uuid
 from lxml.etree import ElementTree
+from .exceptions import *
 from .targeting import *
 from . import carddata
+
 
 _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "data", "TextAsset")
 
 THE_COIN = "GAME_005"
+
 
 class XMLCard(object):
 	def __init__(self, id):
@@ -49,10 +52,10 @@ class _Card(XMLCard):
 	STATUS_FIELD = 3
 	STATUS_GRAVEYARD = 4
 
+	TYPE_HERO = 3
 	TYPE_MINION = 4
 	TYPE_SPELL = 5
 	TYPE_WEAPON = "Weapon"
-	TYPE_HERO = "Hero"
 	TYPE_HERO_POWER = "Hero Power"
 	TYPE_ENCHANTMENT = "Enchantment"
 
@@ -118,7 +121,7 @@ class _Card(XMLCard):
 		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.currentHealth))
 
 	def damage(self, amount):
-		self.damageCounter = min(self.health, amount)
+		self.damageCounter += min(self.health, amount)
 		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.currentHealth))
 
 		# this should happen elsewhere
@@ -128,7 +131,12 @@ class _Card(XMLCard):
 	def destroy(self):
 		logging.info("%r dies" % (self))
 		self.status = self.STATUS_GRAVEYARD
-		self.owner.field.remove(self)
+		if self.type == self.TYPE_MINION:
+			self.owner.field.remove(self)
+		elif self.type == self.TYPE_HERO:
+			raise GameOver("%s wins!" % (self.owner.opponent))
+		else:
+			raise NotImplementedError(self.type)
 
 	def play(self, target=None):
 		logging.info("%s plays %r" % (self.owner, self))
