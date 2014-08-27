@@ -27,6 +27,10 @@ class XMLCard(object):
 		return int(self._getXML("/Entity/Tag[@name='CardType']/@value")[0])
 
 	@property
+	def health(self):
+		return int(self._getXML("/Entity/Tag[@name='Health']/@value")[0])
+
+	@property
 	def cost(self):
 		return int((self._getXML("/Entity/Tag[@name='Cost']/@value") or [0])[0])
 
