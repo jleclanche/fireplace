@@ -130,6 +130,8 @@ class Player(object):
 
 	def summon(self, minion):
 		logging.info("Summoning %r" % (minion))
+		if isinstance(minion, str):
+			minion = Card(minion)
 		assert minion.type == minion.TYPE_MINION
 		# TODO index
 		self.field.append(minion)
