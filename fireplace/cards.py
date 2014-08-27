@@ -97,14 +97,20 @@ class Card(XMLCard):
 
 	def getTargets(self, t):
 		ret = []
-		if t & TARGET_FRIENDLY_HERO:
-			ret.append(self.owner.hero)
-		if t & TARGET_FRIENDLY_MINIONS:
-			ret += self.owner.field
-		if t & TARGET_ENEMY_HERO:
-			ret.append(self.enemy.hero)
-		if t & TARGET_ENEMY_MINIONS:
-			ret += self.owner.opponent.field
+		if t & TARGET_FRIENDLY:
+			if t & TARGET_HERO:
+				ret.append(self.owner.hero)
+			if t & TARGET_MULTIPLE:
+				if t & TARGET_MINION:
+					ret += self.owner.field
+
+		if t & TARGET_ENEMY:
+			if t & TARGET_HERO:
+				ret.append(self.owner.opponent.hero)
+			if t & TARGET_MULTIPLE:
+				if t & TARGET_MINION:
+					ret += self.owner.opponent.field
+
 		return ret
 
 	@property
