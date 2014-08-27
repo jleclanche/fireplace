@@ -1,4 +1,3 @@
-from fireplace.cards import Card, Minion
 from fireplace.targeting import *
 
 
@@ -6,7 +5,7 @@ from fireplace.targeting import *
 drawCard = lambda self: self.owner.draw()
 
 # Healing Totem
-class NEW1_009(Minion):
+class NEW1_009:
 	def endTurn(self):
 		targets = self.getTargets(TARGET_FRIENDLY_MINIONS)
 		for target in targets:
@@ -14,43 +13,44 @@ class NEW1_009(Minion):
 				target.heal(1)
 
 # Minion types
-class Murloc(Minion):
+class Murloc:
 	type = "Murloc"
 
-class Beast(Minion):
+class Beast:
 	type = "Beast"
 
 
 # Novice Engineer
-class EX1_015(Minion):
+class EX1_015:
 	activate = drawCard
 
 # Murloc Tidehunter
-class EX1_506(Murloc):
+class EX1_506:
 	def activate(self):
-		self.owner.summon(Card.byId("EX1_506a"))
+		self.owner.summon("EX1_506a")
 
 # Dalaran Mage
-class EX1_582(Minion):
+class EX1_582:
 	spelldamage = 1
 
 # Kobold Geomancer
-class CS2_142(Minion):
+class CS2_142:
 	spellpower = 1
 
 # Gnomish Inventor
-class CS2_147(Minion):
+class CS2_147:
 	activate = drawCard
 
 # Archmage
-class CS2_155(Minion):
+class CS2_155:
 	spelldamage = 1
 
 # Elven Archer
-class CS2_189(Minion):
+class CS2_189:
+	targeting = TARGET_ANY_CHARACTER
 	def activate(self, target):
 		target.damage(1)
 
 # Ogre Magi
-class CS2_197(Minion):
+class CS2_197:
 	spellpower = 1

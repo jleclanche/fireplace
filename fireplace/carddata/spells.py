@@ -1,15 +1,14 @@
 import random
-from ..cards import Spell
 from ..targeting import *
 
 
 # The Coin
-class GAME_005(Spell):
+class GAME_005:
 	def activate(self):
 		self.owner.additionalCrystals += 1
 
 # Holy Nova
-class CS1_112(Spell):
+class CS1_112:
 	targeting = TARGET_ALL_CHARACTERS
 	def activate(self):
 		for target in self.targets:
@@ -19,7 +18,7 @@ class CS1_112(Spell):
 				target.damage(2)
 
 # Cleave
-class CS2_114(Spell):
+class CS2_114:
 	targeting = TARGET_ENEMY_MINIONS
 	minTargets = 2
 	def activate(self):

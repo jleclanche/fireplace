@@ -16,13 +16,13 @@ class Deck(object):
 		deck = []
 		logging.info("Drafting a random deck for %r" % (hero))
 		collection = cardsForHero(hero)
-		heroCard = Card.byId(hero)
+		heroCard = Card(hero)
 		while len(deck) < cls.MAX_CARDS:
 			card = random.choice(collection)
 			if deck.count(card) < cls.MAX_UNIQUE_CARDS:
 				# todo legendary check too
 				deck.append(card)
-		return Deck([Card.byId(card) for card in deck], hero=heroCard)
+		return Deck([Card(card) for card in deck], hero=heroCard)
 
 	def __init__(self, cards, hero, name=None):
 		self.cards = cards
@@ -83,7 +83,7 @@ class Player(object):
 
 	# for debugging
 	def give(self, id):
-		card = Card.byId(id)
+		card = Card(id)
 		logging.debug("Giving %r to %s" % (card, self))
 		self.addToHand(card)
 		return card
@@ -198,7 +198,7 @@ class Game(object):
 		self.status = self.STATUS_MULLIGAN
 		self.waitForEvent("END_MULLIGAN", timeout=self.TIMEOUT_MULLIGAN)
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
-		self.player2.addToHand(Card.byId(THE_COIN))
+		self.player2.addToHand(Card(THE_COIN))
 		self.beginTurn(self.player1)
 
 	def beginTurn(self, player):

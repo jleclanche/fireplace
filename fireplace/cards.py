@@ -5,7 +5,7 @@ import os
 import uuid
 from lxml.etree import ElementTree
 from .targeting import *
-
+from . import carddata
 
 _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "data", "TextAsset")
 
@@ -44,7 +44,7 @@ class XMLCard(object):
 		return bool(int((self._getXML("/Entity/Tag/[@name='Taunt']/@value") or [0])[0]) or 0)
 
 
-class Card(XMLCard):
+class _Card(XMLCard):
 	STATUS_DECK = 1
 	STATUS_HAND = 2
 	STATUS_FIELD = 3
@@ -56,19 +56,6 @@ class Card(XMLCard):
 	TYPE_HERO = "Hero"
 	TYPE_HERO_POWER = "Hero Power"
 	TYPE_ENCHANTMENT = "Enchantment"
-
-	targeting = TARGET_NONE
-	minTargets = 0
-
-	@classmethod
-	def byId(cls, id):
-		from . import carddata
-		if hasattr(carddata, id):
-			datacls = getattr(carddata, id)
-		else:
-			datacls = object
-		new_class = type(id, (cls, datacls), {})
-		return new_class(id)
 
 	def __init__(self, id):
 		self.id = id
@@ -164,6 +151,16 @@ class Card(XMLCard):
 				self.activate()
 
 		self.status = self.STATUS_FIELD
+
+
+def Card(id):
+	data = getattr(carddata, id, object)
+	datadict = {
+		"targeting": getattr(data, "targeting", TARGET_NONE),
+		"minTargets": getattr(data, "minTargets", 0),
+	}
+	cardcls = type(id, (_Card, data), datadict)
+	return cardcls(id)
 
 
 def cardsForHero(hero):
