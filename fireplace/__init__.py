@@ -16,12 +16,13 @@ class Deck(object):
 		deck = []
 		logging.info("Drafting a random deck for %r" % (hero))
 		collection = cardsForHero(hero)
+		heroCard = Card.byId(hero)
 		while len(deck) < cls.MAX_CARDS:
 			card = random.choice(collection)
 			if deck.count(card) < cls.MAX_UNIQUE_CARDS:
 				# todo legendary check too
 				deck.append(card)
-		return Deck([Card.byId(card) for card in deck], hero=hero)
+		return Deck([Card.byId(card) for card in deck], hero=heroCard)
 
 	def __init__(self, cards, hero, name=None):
 		self.cards = cards
@@ -34,7 +35,7 @@ class Deck(object):
 		return self.name
 
 	def __repr__(self):
-		return "<%s %s (%i cards)>" % (self.hero, self.__class__.__name__, len(self.cards))
+		return "<%s (%i cards)>" % (self.hero, len(self.cards))
 
 	def shuffle(self):
 		logging.info("Shuffling %r..." % (self))
@@ -48,6 +49,7 @@ class Player(object):
 	def __init__(self, name, deck):
 		self.name = name
 		self.deck = deck
+		self.hero = self.deck.hero
 		self.hand = []
 		self.field = []
 		# set to False after the player has finished his mulligan
