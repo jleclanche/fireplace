@@ -34,6 +34,10 @@ class XMLCard(object):
 		return int(self._getXML("/Entity/Tag[@name='Health']/@value")[0])
 
 	@property
+	def atk(self):
+		return int((self._getXML("/Entity/Tag[@name='Atk']/@value") or [0])[0])
+
+	@property
 	def cost(self):
 		return int((self._getXML("/Entity/Tag[@name='Cost']/@value") or [0])[0])
 
@@ -111,6 +115,19 @@ class _Card(XMLCard):
 
 	def hasTarget(self):
 		return self.targeting and (not self.targeting & TARGET_MULTIPLE)
+
+	def canAttack(self):
+		if self.atk == 0:
+			return False
+		if self.summoningSickness and not self.charge:
+			return False
+		return True
+
+	def attack(self, target):
+		logging.info("%r attacks %r" % (self, target))
+		target.damage(self.atk)
+		if target.atk:
+			self.damage(target.atk)
 
 	@property
 	def currentHealth(self):
