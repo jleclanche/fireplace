@@ -84,6 +84,10 @@ class Card(XMLCard):
 	def __repr__(self):
 		return "<%s (%r)>" % (self.__class__.__name__, self.name)
 
+	@property
+	def game(self):
+		return self.owner.game
+
 	def isPlayable(self):
 		if self.owner.mana < self.cost:
 			return False
@@ -91,10 +95,8 @@ class Card(XMLCard):
 			return False
 		return True
 
-	@property
-	def targets(self):
+	def getTargets(self, t):
 		ret = []
-		t = self.targeting
 		if t & TARGET_FRIENDLY_HERO:
 			ret.append(self.owner.hero)
 		if t & TARGET_FRIENDLY_MINIONS:
@@ -104,6 +106,10 @@ class Card(XMLCard):
 		if t & TARGET_ENEMY_MINIONS:
 			ret += self.owner.opponent.field
 		return ret
+
+	@property
+	def targets(self):
+		return self.getTargets(self.targeting)
 
 	def hasTarget(self):
 		return "target" in inspect.getargspec(self.activate).args

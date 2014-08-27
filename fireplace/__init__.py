@@ -81,8 +81,14 @@ class Player(object):
 		# Hacky.
 		return [p for p in self.game.players if p != self][0]
 
+	# for debugging
+	def give(self, id):
+		card = Card.byId(id)
+		logging.debug("Giving %r to %s" % (card, self))
+		self.addToHand(card)
+		return card
+
 	def addToHand(self, card):
-		logging.debug("%s: Adding %r to hand" % (self, card))
 		if len(self.hand) >= self.MAX_HAND:
 			return
 		card.owner = self # Cards are not necessarily from the deck
@@ -156,6 +162,10 @@ class Game(object):
 	def __str__(self):
 		return "%r vs %r" % (self.players[0], self.players[1])
 
+	@property
+	def board(self):
+		return self.currentPlayer.field + self.currentPlayer.opponent.field
+
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
 		# player who wins the outcome is the index
@@ -207,4 +217,7 @@ class Game(object):
 		logging.info("%s ends turn" % (self.currentPlayer))
 		self.status = self.STATUS_END_TURN
 		self.currentPlayer.additionalCrystals = 0
+		for minion in self.board:
+			if hasattr(minion, "endTurn"):
+				minion.endTurn()
 		self.beginTurn(self.currentPlayer.opponent)

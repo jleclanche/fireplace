@@ -1,8 +1,17 @@
 from fireplace.cards import Card, Minion
+from fireplace.targeting import *
 
 
 # helpers
 drawCard = lambda self: self.owner.draw()
+
+# Healing Totem
+class NEW1_009(Minion):
+	def endTurn(self):
+		targets = self.getTargets(TARGET_FRIENDLY_MINIONS)
+		for target in targets:
+			if self.game.currentPlayer is self.owner:
+				target.heal(1)
 
 # Minion types
 class Murloc(Minion):
