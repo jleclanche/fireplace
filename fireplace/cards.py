@@ -1,4 +1,3 @@
-import inspect
 import json
 import logging
 import os
@@ -105,7 +104,7 @@ class _Card(XMLCard):
 		return self.getTargets(self.targeting)
 
 	def hasTarget(self):
-		return "target" in inspect.getargspec(self.activate).args
+		return self.targeting and (not self.targeting & TARGET_MULTIPLE)
 
 	@property
 	def currentHealth(self):
