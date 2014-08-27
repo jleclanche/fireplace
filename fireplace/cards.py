@@ -69,6 +69,7 @@ class _Card(XMLCard):
 		self.owner = None
 		self.status = self.STATUS_DECK
 		self.damageCounter = 0
+		self.summoningSickness = False
 		super().__init__(id)
 
 	def __str__(self):
@@ -164,6 +165,7 @@ class _Card(XMLCard):
 		self.owner.usedMana += self.cost
 		if self.type == self.TYPE_MINION:
 			self.owner.summon(self)
+			self.summoningSickness = True
 		elif self.type == self.TYPE_SPELL:
 			if not hasattr(self, "activate"):
 				raise NotImplementedError

@@ -233,6 +233,9 @@ class Game(object):
 		player.overload = player.nextOverload
 		player.nextOverload = 0
 		player.draw()
+		# remove all summon sickness
+		for minion in self.currentPlayer.field:
+			minion.summoningSickness = False
 		self.waitForEvent("END_TURN", timeout=self.TIMEOUT_TURN)
 
 	def endTurn(self):
