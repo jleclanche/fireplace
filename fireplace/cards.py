@@ -34,6 +34,10 @@ class XMLCard(object):
 		return int(self._getXML("/Entity/Tag[@name='Health']/@value")[0])
 
 	@property
+	def durability(self):
+		return int(self._getXML("/Entity/Tag[@name='Durability']/@value")[0])
+
+	@property
 	def atk(self):
 		return int((self._getXML("/Entity/Tag[@name='Atk']/@value") or [0])[0])
 
@@ -60,7 +64,7 @@ class _Card(XMLCard):
 	TYPE_HERO = 3
 	TYPE_MINION = 4
 	TYPE_SPELL = 5
-	TYPE_WEAPON = "Weapon"
+	TYPE_WEAPON = 7
 	TYPE_HERO_POWER = "Hero Power"
 	TYPE_ENCHANTMENT = "Enchantment"
 
@@ -70,7 +74,9 @@ class _Card(XMLCard):
 		self.owner = None
 		self.status = self.STATUS_DECK
 		self.damageCounter = 0
+		self.durabilityCounter = 0
 		self.summoningSickness = False
+		self.weapon = None
 		super().__init__(id)
 
 	def __str__(self):
@@ -119,17 +125,45 @@ class _Card(XMLCard):
 		return self.targeting and (not self.targeting & TARGET_MULTIPLE)
 
 	def canAttack(self):
-		if self.atk == 0:
+		if self.getProperty("atk") == 0:
 			return False
 		if self.summoningSickness and not self.charge:
 			return False
 		return True
 
+	@property
+	def slots(self):
+		# TODO enchantments
+		if self.weapon:
+			assert self.type == self.TYPE_HERO
+			return [self.weapon]
+		return []
+
+	def getProperty(self, prop):
+		ret = getattr(self, prop)
+		ret -= getattr(self, prop + "Counter", 0)
+		for slot in self.slots:
+			ret += getattr(slot, prop)
+			ret -= getattr(slot, prop + "Counter", 0)
+		return ret
+
 	def attack(self, target):
 		logging.info("%r attacks %r" % (self, target))
-		target.damage(self.atk)
+		atk = self.getProperty("atk")
+		target.damage(atk)
+		if self.weapon:
+			self.weapon.loseDurability()
 		if target.atk:
 			self.damage(target.atk)
+
+	def loseDurability(self, amount=1):
+		assert self.type == self.TYPE_WEAPON
+		assert self.getProperty("durability")
+		# XXX
+		self.durabilityCounter += 1
+		logging.info("%r loses %i durability (now at %i)" % (self, amount, self.getProperty("durability")))
+		if self.getProperty("durability") == 0:
+			self.destroy()
 
 	@property
 	def currentHealth(self):
@@ -147,11 +181,20 @@ class _Card(XMLCard):
 		if self.currentHealth == 0:
 			self.destroy()
 
+	def equip(self, weapon):
+		logging.info("%r equips %r" % (self, weapon))
+		if self.weapon:
+			self.weapon.destroy()
+		self.weapon = weapon
+
 	def destroy(self):
 		logging.info("%r dies" % (self))
 		self.status = self.STATUS_GRAVEYARD
 		if self.type == self.TYPE_MINION:
 			self.owner.field.remove(self)
+		elif self.type == self.TYPE_WEAPON:
+			# HACK
+			self.owner.hero.weapon = None
 		elif self.type == self.TYPE_HERO:
 			raise GameOver("%s wins!" % (self.owner.opponent))
 		else:
@@ -175,6 +218,8 @@ class _Card(XMLCard):
 		elif self.type == self.TYPE_SPELL:
 			if not hasattr(self, "activate"):
 				raise NotImplementedError
+		elif self.type == self.TYPE_WEAPON:
+			self.owner.hero.equip(self)
 		else:
 			raise NotImplementedError(self.name, self.type)
 
