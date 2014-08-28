@@ -5,6 +5,7 @@ from fireplace.targeting import *
 # helpers
 drawCard = lambda self: self.owner.draw()
 
+
 def discard(count):
 	def _discard(self):
 		# discard at most x card
@@ -12,6 +13,13 @@ def discard(count):
 		for card in discard:
 			card.discard()
 	return _discard
+
+
+def healTarget(amount):
+	def _healTarget(self, target):
+		target.heal(amount)
+	return _healTarget
+
 
 # Healing Totem
 class NEW1_009:
@@ -21,6 +29,11 @@ class NEW1_009:
 			if self.game.currentPlayer is self.owner:
 				target.heal(1)
 
+
+# Voodoo Doctor
+class EX1_011:
+	targeting = TARGET_ANY_CHARACTER
+	activate = healTarget(2)
 
 # Novice Engineer
 class EX1_015:
@@ -35,6 +48,11 @@ class EX1_506:
 	def activate(self):
 		self.owner.summon("EX1_506a")
 
+# Priestess of Elune
+class EX1_583:
+	targeting = TARGET_FRIENDLY_HERO
+	activate = healTarget(4)
+
 # Nightblade
 class EX1_593:
 	targeting = TARGET_ENEMY_HERO
@@ -44,6 +62,16 @@ class EX1_593:
 # Dalaran Mage
 class EX1_582:
 	spelldamage = 1
+
+# Guardian of Kings
+class CS2_088:
+	targeting = TARGET_FRIENDLY_HERO
+	activate = healTarget(6)
+
+# Earthen Ring Farseer
+class CS2_117:
+	targeting = TARGET_ANY_CHARACTER
+	activate = healTarget(3)
 
 # Kobold Geomancer
 class CS2_142:
