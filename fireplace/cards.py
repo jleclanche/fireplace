@@ -43,7 +43,7 @@ class XMLCard(object):
 
 	@property
 	def charge(self):
-		return bool(int((self._getXML("/Entity/Tag/[@name='Charge']/@value") or [0])[0]) or 0)
+		return bool(int((self._getXML("/Entity/Tag[@name='Charge']/@value") or [0])[0]))
 
 	@property
 	def taunt(self):
