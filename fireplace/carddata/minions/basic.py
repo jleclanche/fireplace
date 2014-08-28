@@ -29,6 +29,13 @@ class NEW1_009:
 			if self.game.currentPlayer is self.owner:
 				target.heal(1)
 
+# Bloodsail Corsair
+class NEW1_025:
+	def activate(self):
+		weapon = self.owner.opponent.hero.weapon
+		if self.owner.opponent.hero.weapon:
+			weapon.loseDurability(1)
+
 
 # Voodoo Doctor
 class EX1_011:
@@ -39,6 +46,12 @@ class EX1_011:
 class EX1_015:
 	activate = drawCard
 
+# Acidic Swamp Ooze
+class EX1_066:
+	def activate(self):
+		if self.owner.opponent.hero.weapon:
+			self.owner.opponent.hero.weapon.destroy()
+
 # Succubus
 class EX1_306:
 	activate = discard(1)
@@ -47,6 +60,14 @@ class EX1_306:
 class EX1_506:
 	def activate(self):
 		self.owner.summon("EX1_506a")
+
+# Harrison Jones
+class EX1_558:
+	def activate(self):
+		weapon = self.owner.opponent.hero.weapon
+		if weapon:
+			weapon.destroy()
+			self.owner.draw(weapon.getProperty("durability"))
 
 # Priestess of Elune
 class EX1_583:
