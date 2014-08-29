@@ -51,7 +51,11 @@ class XMLCard(object):
 
 	@property
 	def taunt(self):
-		return bool(int((self._getXML("/Entity/Tag/[@name='Taunt']/@value") or [0])[0]) or 0)
+		return bool(int((self._getXML("/Entity/Tag/[@name='Taunt']/@value") or [0])[0]))
+
+	@property
+	def divineShield(self):
+		return bool(int((self._getXML("/Entity/Tag[@name='Divine Shield']/@value") or [0])[0]))
 
 
 class _Card(XMLCard):
@@ -78,6 +82,7 @@ class _Card(XMLCard):
 		self.summoningSickness = False
 		self.weapon = None
 		super().__init__(id)
+		self.shield = self.divineShield
 
 	def __str__(self):
 		return self.name
@@ -174,6 +179,10 @@ class _Card(XMLCard):
 		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.currentHealth))
 
 	def damage(self, amount):
+		if self.shield:
+			self.shield = False
+			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
+			return
 		self.damageCounter += min(self.health, amount)
 		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.currentHealth))
 
