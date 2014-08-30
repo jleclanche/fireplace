@@ -122,7 +122,7 @@ class Game(object):
 			raise GameOver("It's a draw!")
 		self.currentPlayer = player
 		player.gainMana(1)
-		player.usedMana = 0
+		player.availableMana = player.maxMana
 		player.overload = player.nextOverload
 		player.nextOverload = 0
 		player.draw()
@@ -134,7 +134,6 @@ class Game(object):
 	def endTurn(self):
 		logging.info("%s ends turn" % (self.currentPlayer))
 		self.status = self.STATUS_END_TURN
-		self.currentPlayer.additionalCrystals = 0
 		for minion in self.board:
 			if hasattr(minion, "endTurn"):
 				minion.endTurn()

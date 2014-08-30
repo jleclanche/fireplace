@@ -14,16 +14,15 @@ class Player(Entity):
 		self.hero = self.deck.hero
 		self.hand = []
 		self.field = []
+		self.buffs = []
 		self.fatigueCounter = 0
 		# set to False after the player has finished his mulligan
 		self.canMulligan = True
 		## Mana
-		# total crystals
-		self.manaCrystals = 0
-		# additional crystals this turn
-		self.additionalCrystals = 0
-		# mana used this turn
-		self.manaCounter = 0
+		# total mana
+		self.maxMana = 0
+		# available mana (resets every turn)
+		self.availableMana = 0
 		# overloaded mana
 		self.overload = 0
 		# mana overload next turn
@@ -36,8 +35,15 @@ class Player(Entity):
 		return "%s(name=%r, deck=%r)" % (self.__class__.__name__, self.name, self.deck)
 
 	@property
+	def slots(self):
+		return self.buffs
+
+	@property
 	def mana(self):
-		return self.manaCrystals - self.usedMana - self.overload + self.additionalCrystals
+		mana = self.availableMana
+		for slot in self.slots:
+			mana += slot.getProperty("mana")
+		return mana - self.overload
 
 	@property
 	def opponent(self):
@@ -96,8 +102,8 @@ class Player(Entity):
 		self.hero.damage(self.fatigueCounter)
 
 	def gainMana(self, amount):
-		self.manaCrystals = min(self.MAX_MANA, self.manaCrystals + amount)
-		logging.info("%s gains %i mana (now at %i)" % (self, amount, self.manaCrystals))
+		self.maxMana = min(self.MAX_MANA, self.maxMana + amount)
+		logging.info("%s gains %i mana (now at %i)" % (self, amount, self.maxMana))
 
 	def summon(self, minion):
 		logging.info("Summoning %r" % (minion))

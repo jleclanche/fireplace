@@ -228,7 +228,7 @@ class _Card(Entity, XMLCard):
 		assert self.isPlayable(), "Not enough mana!"
 		# remove the card from the hand
 		self.owner.hand.remove(self)
-		self.owner.manaCounter += self.cost
+		self.owner.availableMana -= self.cost
 		if self.type == self.TYPE_MINION:
 			self.owner.summon(self)
 			self.summoningSickness = True
