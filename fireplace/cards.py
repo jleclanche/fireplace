@@ -21,41 +21,44 @@ class XMLCard(object):
 	def _getXML(self, xpath):
 		return self.xml.xpath(xpath)
 
+	def getInt(self, name):
+		return int((self._getXML("/Entity/Tag[@name='%s']/@value" % (name)) or [0])[0])
+
 	@property
 	def name(self):
 		return self._getXML("/Entity/Tag[@name='CardName']/enUS/text()")[0]
 
 	@property
 	def type(self):
-		return int(self._getXML("/Entity/Tag[@name='CardType']/@value")[0])
+		return self.getInt("CardType")
 
 	@property
 	def health(self):
-		return int(self._getXML("/Entity/Tag[@name='Health']/@value")[0])
+		return self.getInt("Health")
 
 	@property
 	def durability(self):
-		return int(self._getXML("/Entity/Tag[@name='Durability']/@value")[0])
+		return self.getInt("Durability")
 
 	@property
 	def atk(self):
-		return int((self._getXML("/Entity/Tag[@name='Atk']/@value") or [0])[0])
+		return self.getInt("Atk")
 
 	@property
 	def cost(self):
-		return int((self._getXML("/Entity/Tag[@name='Cost']/@value") or [0])[0])
+		return self.getInt("Cost")
 
 	@property
 	def charge(self):
-		return bool(int((self._getXML("/Entity/Tag[@name='Charge']/@value") or [0])[0]))
+		return bool(self.getInt("Charge"))
 
 	@property
 	def taunt(self):
-		return bool(int((self._getXML("/Entity/Tag/[@name='Taunt']/@value") or [0])[0]))
+		return bool(self.getInt("Taunt"))
 
 	@property
 	def divineShield(self):
-		return bool(int((self._getXML("/Entity/Tag[@name='Divine Shield']/@value") or [0])[0]))
+		return bool(self.getInt("Divine Shield"))
 
 
 class _Card(XMLCard):
