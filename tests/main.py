@@ -16,22 +16,6 @@ def main():
 	game = fireplace.Game(players=(player1, player2))
 	game.start()
 
-	while True:
-		for card in game.currentPlayer.hand:
-			if card.type == card.TYPE_MINION:
-				if card.isPlayable():
-					print("Playing", card)
-					if card.hasTarget():
-						card.play(target=card.targets[0])
-					else:
-						card.play()
-				else:
-					print("Not playing", card)
-		for minion in game.currentPlayer.field:
-			if minion.canAttack:
-				minion.attack(game.currentPlayer.opponent.hero)
-		game.endTurn()
-
 	footman = game.currentPlayer.give("CS1_042")
 	footman.play()
 	game.endTurn()
