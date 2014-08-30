@@ -33,7 +33,7 @@ class XMLCard(object):
 		return self.getInt("CardType")
 
 	@property
-	def health(self):
+	def _health(self):
 		return self.getInt("Health")
 
 	@property
@@ -174,12 +174,14 @@ class _Card(XMLCard):
 			self.destroy()
 
 	@property
-	def currentHealth(self):
-		return max(0, self.health - self.damageCounter)
+	def health(self):
+		damage  = self.damageCounter
+		health = self.getProperty("_health")
+		return max(0, health - damage)
 
 	def heal(self, amount):
 		self.damageCounter -= min(amount, self.damageCounter)
-		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.currentHealth))
+		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.health))
 
 	def damage(self, amount):
 		if self.shield:
@@ -187,10 +189,10 @@ class _Card(XMLCard):
 			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
 			return
 		self.damageCounter += min(self.health, amount)
-		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.currentHealth))
+		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
 
 		# this should happen elsewhere
-		if self.currentHealth == 0:
+		if self.health == 0:
 			self.destroy()
 
 	def equip(self, weapon):
