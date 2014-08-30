@@ -17,12 +17,16 @@ def main():
 	game.start()
 
 	footman = game.currentPlayer.give("CS1_042")
+	assert footman.cost == 1
 	footman.play()
+	assert footman.atk == 1
+	assert footman.health == 2
 	game.endTurn()
 
 	# Play the coin
 	coin = game.currentPlayer.getById("GAME_005")
 	coin.play()
+	assert game.currentPlayer.mana == 2
 
 	if random.randint(0, 1):
 		# novice should draw 1 card

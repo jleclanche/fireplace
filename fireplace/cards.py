@@ -3,6 +3,7 @@ import logging
 import os
 import uuid
 from lxml.etree import ElementTree
+from .entity import Entity
 from .exceptions import *
 from .targeting import *
 from . import carddata
@@ -33,7 +34,7 @@ class XMLCard(object):
 		return self.getInt("CardType")
 
 	@property
-	def _health(self):
+	def health(self):
 		return self.getInt("Health")
 
 	@property
@@ -61,7 +62,7 @@ class XMLCard(object):
 		return bool(self.getInt("Divine Shield"))
 
 
-class _Card(XMLCard):
+class _Card(Entity, XMLCard):
 	STATUS_DECK = 1
 	STATUS_HAND = 2
 	STATUS_FIELD = 3
@@ -97,15 +98,26 @@ class _Card(XMLCard):
 	def game(self):
 		return self.owner.game
 
-	def isPlayable(self):
-		if self.owner.mana < self.cost:
-			return False
-		if len(self.targets) < self.minTargets:
-			return False
-		if self.type == self.TYPE_MINION:
-			if len(self.owner.field) >= self.game.MAX_MINIONS_ON_FIELD:
-				return False
-		return True
+	##
+	# Properties affected by slots
+
+	@property
+	def health(self):
+		damage  = self.damageCounter
+		health = self.getProperty("health")
+		return max(0, health - damage)
+
+	@property
+	def atk(self):
+		return self.getProperty("atk")
+
+	@property
+	def durability(self):
+		return self.getProperty("durability")
+
+	@property
+	def targets(self):
+		return self.getTargets(self.targeting)
 
 	def getTargets(self, t):
 		ret = []
@@ -125,19 +137,8 @@ class _Card(XMLCard):
 
 		return ret
 
-	@property
-	def targets(self):
-		return self.getTargets(self.targeting)
-
 	def hasTarget(self):
 		return self.targeting and (not self.targeting & TARGET_MULTIPLE)
-
-	def canAttack(self):
-		if self.getProperty("atk") == 0:
-			return False
-		if self.summoningSickness and not self.charge:
-			return False
-		return True
 
 	@property
 	def slots(self):
@@ -147,18 +148,16 @@ class _Card(XMLCard):
 			return [self.weapon]
 		return []
 
-	def getProperty(self, prop):
-		ret = getattr(self, prop)
-		ret -= getattr(self, prop + "Counter", 0)
-		for slot in self.slots:
-			ret += getattr(slot, prop)
-			ret -= getattr(slot, prop + "Counter", 0)
-		return ret
+	def canAttack(self):
+		if self.attack == 0:
+			return False
+		if self.summoningSickness and not self.charge:
+			return False
+		return True
 
 	def attack(self, target):
 		logging.info("%r attacks %r" % (self, target))
-		atk = self.getProperty("atk")
-		target.damage(atk)
+		target.damage(self.atk)
 		if self.weapon:
 			self.weapon.loseDurability()
 		if target.atk:
@@ -173,16 +172,6 @@ class _Card(XMLCard):
 		if self.getProperty("durability") == 0:
 			self.destroy()
 
-	@property
-	def health(self):
-		damage  = self.damageCounter
-		health = self.getProperty("_health")
-		return max(0, health - damage)
-
-	def heal(self, amount):
-		self.damageCounter -= min(amount, self.damageCounter)
-		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.health))
-
 	def damage(self, amount):
 		if self.shield:
 			self.shield = False
@@ -194,6 +183,10 @@ class _Card(XMLCard):
 		# this should happen elsewhere
 		if self.health == 0:
 			self.destroy()
+
+	def heal(self, amount):
+		self.damageCounter -= min(amount, self.damageCounter)
+		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.health))
 
 	def equip(self, weapon):
 		logging.info("%r equips %r" % (self, weapon))
@@ -219,13 +212,23 @@ class _Card(XMLCard):
 		self.status = self.STATUS_DISCARD
 		self.owner.hand.remove(self)
 
+	def isPlayable(self):
+		if self.owner.mana < self.cost:
+			return False
+		if len(self.targets) < self.minTargets:
+			return False
+		if self.type == self.TYPE_MINION:
+			if len(self.owner.field) >= self.game.MAX_MINIONS_ON_FIELD:
+				return False
+		return True
+
 	def play(self, target=None):
 		logging.info("%s plays %r" % (self.owner, self))
 		assert self.owner, "That minion is not mine!"
 		assert self.isPlayable(), "Not enough mana!"
 		# remove the card from the hand
 		self.owner.hand.remove(self)
-		self.owner.usedMana += self.cost
+		self.owner.manaCounter += self.cost
 		if self.type == self.TYPE_MINION:
 			self.owner.summon(self)
 			self.summoningSickness = True
