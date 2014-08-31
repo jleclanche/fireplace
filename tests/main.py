@@ -7,15 +7,19 @@ import random
 logging.getLogger().setLevel(logging.DEBUG)
 
 
-def main():
+def prepare_game():
+	print("Initializing a new game")
 	deck1 = fireplace.Deck.randomDraft(hero=fireplace.heroes.MAGE)
 	deck2 = fireplace.Deck.randomDraft(hero=fireplace.heroes.WARRIOR)
 	player1 = fireplace.Player(name="Player1", deck=deck1)
 	player2 = fireplace.Player(name="Player2", deck=deck2)
-
 	game = fireplace.Game(players=(player1, player2))
 	game.start()
 
+	return game
+
+def test_mana():
+	game = prepare_game()
 	footman = game.currentPlayer.give("CS1_042")
 	assert footman.cost == 1
 	footman.play()
@@ -28,37 +32,55 @@ def main():
 	coin.play()
 	assert game.currentPlayer.mana == 2
 
-	if random.randint(0, 1):
-		# novice should draw 1 card
-		card = game.currentPlayer.give("EX1_015")
-	else:
-		# succubus should discard 1 card
-		card = game.currentPlayer.give("EX1_306")
+def test_card_draw():
+	game = prepare_game()
+	# pass turn 1
+	game.endTurn()
+	game.endTurn()
+
+	# novice should draw 1 card
+	card = game.currentPlayer.give("EX1_015")
+	handlength = len(game.currentPlayer.hand)
 	card.play()
+	# hand should be 1 card played, 1 card drawn; same length
+	assert len(game.currentPlayer.hand) == handlength
 	game.endTurn()
 
-	# play an archer on the opponent's minion
+	# succubus should discard 1 card
+	card = game.currentPlayer.give("EX1_306")
+	handlength = len(game.currentPlayer.hand)
+	card.play()
+	assert len(game.currentPlayer.hand) == handlength - 2
+
+def test_end_turn_heal():
+	game = prepare_game()
+
+	footman = game.currentPlayer.give("CS1_042")
+	footman.play()
+	assert footman.health == 2
+	game.endTurn()
+
+	# play an archer on the footman
 	archer = game.currentPlayer.give("CS2_189")
-	archer.play(target=card)
-	game.endTurn()
-
-	# get a murloc tidehunter
-	murloc = game.currentPlayer.give("EX1_506")
-	# play it. it should summon a 1/1
-	murloc.play()
-	game.endTurn()
-
-	archer = game.currentPlayer.give("CS2_189")
-	healtotem = game.currentPlayer.give("NEW1_009")
-
-	# play archer on footman, then play totem. totem will heal footman.
 	archer.play(target=footman)
+	assert footman.health == 1
+	game.endTurn()
+
+	healtotem = game.currentPlayer.give("NEW1_009")
 	healtotem.play()
 	game.endTurn()
+	assert footman.health == 2
+	game.endTurn()
+	game.endTurn()
+	# check it's still at max health after a couple of turns
+	assert footman.health == 2
 
-	print(game.player1.field)
-	print(game.player2.field)
 
+def main():
+	test_mana()
+	test_card_draw()
+	test_end_turn_heal()
+	print("All tests ran OK")
 
 
 if __name__ == "__main__":
