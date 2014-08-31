@@ -2,10 +2,18 @@ import random
 from ..targeting import *
 
 
+destroySelf = lambda self: self.destroy()
+
 # The Coin
 class GAME_005:
 	def activate(self):
-		self.owner.additionalCrystals += 1
+		self.owner.buff("GAME_005e")
+
+class GAME_005e:
+	mana = 1
+	endTurn = destroySelf
+
+
 
 # Holy Nova
 class CS1_112:

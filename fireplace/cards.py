@@ -72,9 +72,9 @@ class _Card(Entity, XMLCard):
 	TYPE_HERO = 3
 	TYPE_MINION = 4
 	TYPE_SPELL = 5
+	TYPE_ENCHANTMENT = 6
 	TYPE_WEAPON = 7
 	TYPE_HERO_POWER = "Hero Power"
-	TYPE_ENCHANTMENT = "Enchantment"
 
 	def __init__(self, id):
 		self.id = id
@@ -204,6 +204,8 @@ class _Card(Entity, XMLCard):
 			self.owner.hero.weapon = None
 		elif self.type == self.TYPE_HERO:
 			raise GameOver("%s wins!" % (self.owner.opponent))
+		elif self.type == self.TYPE_ENCHANTMENT:
+			self.owner.slots.remove(self)
 		else:
 			raise NotImplementedError(self.type)
 
