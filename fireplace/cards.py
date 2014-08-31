@@ -153,7 +153,7 @@ class _Card(Entity, XMLCard):
 		return []
 
 	def canAttack(self):
-		if self.attack == 0:
+		if self.atk == 0:
 			return False
 		if self.summoningSickness and not self.charge:
 			return False
