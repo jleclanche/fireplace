@@ -89,6 +89,7 @@ class _Card(Entity, XMLCard):
 		self.durabilityCounter = 0
 		self.summoningSickness = False
 		self.weapon = None
+		self.armor = 0
 		super().__init__(id)
 		self.shield = self.divineShield
 
@@ -176,11 +177,23 @@ class _Card(Entity, XMLCard):
 		if self.getProperty("durability") == 0:
 			self.destroy()
 
+	def gainArmor(self, amount):
+		assert self.type == self.TYPE_HERO
+		self.armor += amount
+		logging.info("%r gains %i armor (now at %i)" % (self, amount, self.armor))
+
 	def damage(self, amount):
 		if self.shield:
+			assert self.type is self.TYPE_MINION
 			self.shield = False
 			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
 			return
+		if self.armor:
+			newAmount = max(0, amount - self.armor)
+			self.armor -= min(self.armor, amount)
+			logging.info("%r reduces damage taken by %i through armor. %i armor remaining" % (self, amount - newAmount, self.armor))
+			amount = newAmount
+
 		self.damageCounter += min(self.health, amount)
 		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
 
