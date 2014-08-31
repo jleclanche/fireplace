@@ -2,8 +2,6 @@ import random
 from ..targeting import *
 
 
-destroySelf = lambda self: self.destroy()
-
 # The Coin
 class GAME_005:
 	def activate(self):
@@ -11,7 +9,7 @@ class GAME_005:
 
 class GAME_005e:
 	mana = 1
-	endTurn = destroySelf
+	oneTurnEffect = True
 
 
 

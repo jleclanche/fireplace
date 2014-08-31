@@ -139,7 +139,10 @@ class Game(object):
 				logging.info("Processing end of turn for %r" % (minion))
 				minion.endTurn()
 		for slot in self.currentPlayer.slots:
-			if hasattr(slot, "endTurn"):
+			if slot.oneTurnEffect:
+				logging.info("Ending One-Turn effect: %r" % (slot))
+				slot.destroy()
+			elif hasattr(slot, "endTurn"):
 				logging.info("Processing end of turn for %r" % (slot))
 				slot.endTurn()
 		self.beginTurn(self.currentPlayer.opponent)

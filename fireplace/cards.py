@@ -61,6 +61,10 @@ class XMLCard(object):
 	def divineShield(self):
 		return bool(self.getInt("Divine Shield"))
 
+	@property
+	def oneTurnEffect(self):
+		return bool(self.getInt("OneTurnEffect"))
+
 
 class _Card(Entity, XMLCard):
 	STATUS_DECK = 1
