@@ -170,11 +170,11 @@ class _Card(Entity, XMLCard):
 
 	def loseDurability(self, amount=1):
 		assert self.type == self.TYPE_WEAPON
-		assert self.getProperty("durability")
+		assert self.durability
 		# XXX
 		self.durabilityCounter += 1
-		logging.info("%r loses %i durability (now at %i)" % (self, amount, self.getProperty("durability")))
-		if self.getProperty("durability") == 0:
+		logging.info("%r loses %i durability (now at %i)" % (self, amount, self.durability))
+		if self.durability == 0:
 			self.destroy()
 
 	def gainArmor(self, amount):

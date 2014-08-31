@@ -67,7 +67,7 @@ class EX1_558:
 		weapon = self.owner.opponent.hero.weapon
 		if weapon:
 			weapon.destroy()
-			self.owner.draw(weapon.getProperty("durability"))
+			self.owner.draw(weapon.durability)
 
 # Priestess of Elune
 class EX1_583:
