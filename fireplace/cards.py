@@ -265,15 +265,16 @@ class _Card(Entity, XMLCard):
 		else:
 			raise NotImplementedError(self.name, self.type)
 
+		# Card must already be on the field for activate
+		if self.type not in (self.TYPE_HERO, self.TYPE_HERO_POWER):
+			self.owner.hand.remove(self)
+
 		if hasattr(self, "activate"):
 			logging.info("Triggering 'activate' for %r" % (self))
 			if self.hasTarget():
 				self.activate(target=target)
 			else:
 				self.activate()
-
-		if self.type not in (self.TYPE_HERO, self.TYPE_HERO_POWER):
-			self.owner.hand.remove(self)
 
 
 
