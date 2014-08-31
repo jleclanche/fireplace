@@ -90,6 +90,7 @@ class Game(object):
 	def start(self):
 		logging.info("Starting game: %r" % (self))
 		for player in self.players:
+			player.deck.hero.play()
 			player.deck.shuffle()
 			player.draw(3)
 		self.player1, self.player2 = self.tossCoin()

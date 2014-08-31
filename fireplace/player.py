@@ -11,7 +11,6 @@ class Player(Entity):
 		self.name = name
 		self.deck = deck
 		self.deck.hero.owner = self
-		self.hero = self.deck.hero
 		self.hand = []
 		self.field = []
 		self.buffs = []

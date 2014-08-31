@@ -78,7 +78,7 @@ class _Card(Entity, XMLCard):
 	TYPE_SPELL = 5
 	TYPE_ENCHANTMENT = 6
 	TYPE_WEAPON = 7
-	TYPE_HERO_POWER = "Hero Power"
+	TYPE_HERO_POWER = 10
 
 	def __init__(self, id):
 		self.id = id
@@ -232,17 +232,23 @@ class _Card(Entity, XMLCard):
 		logging.info("%s plays %r" % (self.owner, self))
 		assert self.owner, "That minion is not mine!"
 		assert self.isPlayable(), "Not enough mana!"
-		# remove the card from the hand
-		self.owner.hand.remove(self)
 		self.owner.availableMana -= self.cost
-		if self.type == self.TYPE_MINION:
+		self.status = self.STATUS_FIELD
+
+		if self.type is self.TYPE_MINION:
 			self.owner.summon(self)
 			self.summoningSickness = True
-		elif self.type == self.TYPE_SPELL:
+		elif self.type in (self.TYPE_SPELL, self.TYPE_HERO_POWER):
 			if not hasattr(self, "activate"):
-				raise NotImplementedError
+				raise NotImplementedError(self)
 		elif self.type == self.TYPE_WEAPON:
 			self.owner.hero.equip(self)
+		elif self.type == self.TYPE_HERO:
+			assert isinstance(self.power, str)
+			self.owner.hero = self
+			self.power = Card(self.power)
+			self.power.owner = self.owner
+			assert self.power.type is self.TYPE_HERO_POWER, self.power.type
 		else:
 			raise NotImplementedError(self.name, self.type)
 
@@ -253,7 +259,9 @@ class _Card(Entity, XMLCard):
 			else:
 				self.activate()
 
-		self.status = self.STATUS_FIELD
+		if self.type not in (self.TYPE_HERO, self.TYPE_HERO_POWER):
+			self.owner.hand.remove(self)
+
 
 
 def Card(id):
