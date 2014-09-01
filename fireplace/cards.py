@@ -50,6 +50,10 @@ class XMLCard(object):
 		return self.getInt("Cost")
 
 	@property
+	def race(self):
+		return self.getInt("Race")
+
+	@property
 	def charge(self):
 		return bool(self.getInt("Charge"))
 
