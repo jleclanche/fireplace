@@ -95,9 +95,11 @@ def test_auras():
 	wisp2.play()
 	raidleader = game.currentPlayer.give("CS2_122")
 	raidleader.play()
+	assert raidleader.data.hasAura
 	assert raidleader.atk == 2
 	assert wisp1.atk == 1
-	assert wisp2.atk == 2, wisp2.atk
+	slot = wisp2.slots[0]
+	assert wisp2.atk == 2
 	wisp3 = game.currentPlayer.give("CS2_231")
 	wisp3.play()
 	assert wisp3.atk == 2

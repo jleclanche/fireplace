@@ -1,66 +1,16 @@
 import json
 import logging
-import os
 import uuid
-from xml.etree import ElementTree
-from .entity import Entity
 from .exceptions import *
 from .targeting import *
-from . import carddata
+from .xmlcard import XMLCard
 
 
-_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "data", "TextAsset")
 
 THE_COIN = "GAME_005"
 
 
-class XMLCard(object):
-
-	_tags = {
-		"type": "CardType",
-		"health": "Health",
-		"durability": "Durability",
-		"atk": "Atk",
-		"cost": "Cost",
-		"race": "Race",
-		"charge": "Charge",
-		"taunt": "Taunt",
-		"divineShield": "Divine Shield",
-		"oneTurnEffect": "OneTurnEffect",
-		"hasAura": "Aura",
-	}
-
-	def __init__(self, id):
-		self.file = os.path.join(_path, "%s.xml" % (id))
-		self.xml = ElementTree.parse(self.file)
-
-	def __getattr__(self, name):
-		par = super()
-		print("__getattr__", repr(self), repr(name), repr(par))
-		if hasattr(par, name):
-			print("path 1", getattr(par, name))
-			return getattr(par, name)
-		if name in self._tags:
-			print("path 2", self.getTag(self._tags[name]))
-			return self.getTag(self._tags[name])
-		return getattr(par, name)
-
-	def getTag(self, name):
-		tag = self.xml.findall('./Tag[@name="%s"]' % (name))
-		if not tag:
-			return 0
-		tag = tag[0]
-		value, type = tag.attrib["value"], tag.attrib["type"]
-		if type == "Bool":
-			return bool(int(value))
-		return int(value)
-
-	@property
-	def name(self):
-		return self.xml.findall("./Tag[@name='CardName']/enUS")[0].text
-
-
-class _Card(Entity, XMLCard):
+class Card(object):
 	STATUS_DECK = 1
 	STATUS_HAND = 2
 	STATUS_FIELD = 3
@@ -76,6 +26,7 @@ class _Card(Entity, XMLCard):
 
 	def __init__(self, id):
 		self.id = id
+		self.data = XMLCard.get(id)
 		self.uuid = uuid.uuid4()
 		self.owner = None
 		self.status = self.STATUS_DECK
@@ -84,14 +35,18 @@ class _Card(Entity, XMLCard):
 		self.summoningSickness = False
 		self.weapon = None
 		self.armor = 0
-		super().__init__(id)
-		self.shield = self.divineShield
+		super().__init__()
+		self.shield = self.data.divineShield
+		if not hasattr(self.data, "targeting"):
+			self.data.targeting = TARGET_NONE
+		if not hasattr(self.data, "minTargets"):
+			self.data.minTargets = 0
 
 	def __str__(self):
-		return self.name
+		return self.data.name
 
 	def __repr__(self):
-		return "<%s (%r)>" % (self.__class__.__name__, self.name)
+		return "<%s (%r)>" % (self.__class__.__name__, self.data.name)
 
 	@property
 	def game(self):
@@ -116,7 +71,15 @@ class _Card(Entity, XMLCard):
 
 	@property
 	def targets(self):
-		return self.getTargets(self.targeting)
+		return self.getTargets(self.data.targeting)
+
+	@property
+	def cost(self):
+		return self.data.cost
+
+	@property
+	def type(self):
+		return self.data.type
 
 	def getTargets(self, t):
 		ret = []
@@ -137,12 +100,12 @@ class _Card(Entity, XMLCard):
 		return ret
 
 	def hasTarget(self):
-		return self.targeting and (not self.targeting & TARGET_MULTIPLE)
+		return self.data.targeting and (not self.data.targeting & TARGET_MULTIPLE)
 
 	def isValidTarget(self, card):
 		if card not in self.targets:
 			return False
-		return super().isValidTarget(card)
+		return self.data.__class__.isValidTarget(self, card)
 
 	@property
 	def slots(self):
@@ -220,7 +183,7 @@ class _Card(Entity, XMLCard):
 		if self.type == self.TYPE_MINION:
 			self.owner.field.remove(self)
 			# Remove any aura the minion gives
-			if self.hasAura:
+			if self.data.hasAura:
 				logging.info("Aura %r fades" % (self.aura))
 				self.game.auras.remove(self.aura)
 		elif self.type == self.TYPE_WEAPON:
@@ -241,7 +204,7 @@ class _Card(Entity, XMLCard):
 	def isPlayable(self):
 		if self.owner.mana < self.cost:
 			return False
-		if len(self.targets) < self.minTargets:
+		if len(self.targets) < self.data.minTargets:
 			return False
 		if self.type == self.TYPE_MINION:
 			if len(self.owner.field) >= self.game.MAX_MINIONS_ON_FIELD:
@@ -258,20 +221,20 @@ class _Card(Entity, XMLCard):
 		if self.type is self.TYPE_MINION:
 			self.owner.summon(self)
 			self.summoningSickness = True
-			if self.hasAura:
-				self.aura = Card(self.aura)
+			if self.data.hasAura:
+				self.aura = Card(self.data.aura)
 				self.aura.owner = self.owner
+				self.aura.source = self
 				logging.info("Aura %r suddenly appears" % (self.aura))
 				self.game.auras.append(self.aura)
 		elif self.type in (self.TYPE_SPELL, self.TYPE_HERO_POWER):
-			if not hasattr(self, "activate"):
+			if not hasattr(self.data, "activate"):
 				raise NotImplementedError(self)
 		elif self.type == self.TYPE_WEAPON:
 			self.owner.hero.equip(self)
 		elif self.type == self.TYPE_HERO:
-			assert isinstance(self.power, str)
 			self.owner.hero = self
-			self.power = Card(self.power)
+			self.power = Card(self.data.power)
 			self.power.owner = self.owner
 			assert self.power.type is self.TYPE_HERO_POWER, self.power.type
 		else:
@@ -281,23 +244,30 @@ class _Card(Entity, XMLCard):
 		if self.type not in (self.TYPE_HERO, self.TYPE_HERO_POWER):
 			self.owner.hand.remove(self)
 
-		if hasattr(self, "activate"):
+		if hasattr(self.data, "activate"):
 			logging.info("Triggering 'activate' for %r" % (self))
+			activate = self.data.__class__.activate
 			if self.hasTarget():
-				self.activate(target=target)
+				activate(self, target=target)
 			else:
-				self.activate()
+				activate(self)
 
+	def getProperty(self, prop):
+		ret = getattr(self.data, prop)
+		ret -= getattr(self, prop + "Counter", 0)
+		for slot in self.slots:
+			ret += slot.getProperty(prop)
+		return ret
 
+	def buff(self, card):
+		if isinstance(card, str):
+			from .cards import Card
+			card = Card(card)
+		card.owner = self
+		logging.debug("%r receives buff: %r" % (self, card))
+		assert card.type == card.TYPE_ENCHANTMENT, card.type
+		self.buffs.append(card)
 
-def Card(id):
-	data = getattr(carddata, id, object)
-	datadict = {
-		"targeting": getattr(data, "targeting", TARGET_NONE),
-		"minTargets": getattr(data, "minTargets", 0),
-	}
-	cardcls = type(id, (_Card, data), datadict)
-	return cardcls(id)
 
 
 def cardsForHero(hero):

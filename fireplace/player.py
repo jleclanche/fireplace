@@ -1,9 +1,8 @@
 import logging
 from .cards import Card
-from .entity import Entity
 
 
-class Player(Entity):
+class Player(object):
 	MAX_HAND = 10
 	MAX_MANA = 10
 
