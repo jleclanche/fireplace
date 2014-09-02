@@ -64,6 +64,8 @@ class Game(object):
 		self.turn = 0
 		self.currentPlayer = None
 		self.status = self.STATUS_BEGIN
+		# Maybe auras should be elsewhere but they need to be somewhere global
+		self.auras = []
 
 	def waitForEvent(self, event, timeout):
 		# Not implemented

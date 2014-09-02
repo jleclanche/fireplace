@@ -94,6 +94,10 @@ class CS2_117:
 	targeting = TARGET_ANY_CHARACTER
 	activate = healTarget(3)
 
+# Raid Leader
+class CS2_122:
+	aura = "CS2_122e"
+
 # Kobold Geomancer
 class CS2_142:
 	spellpower = 1

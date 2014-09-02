@@ -76,7 +76,36 @@ def test_end_turn_heal():
 	assert footman.health == 2
 
 
+def test_auras():
+	game = prepare_game()
+
+	wisp1 = game.currentPlayer.give("CS2_231")
+	wisp1.play()
+	assert wisp1.atk == 1
+	game.endTurn()
+
+	# pass next two turns to gain some mana
+	game.endTurn()
+	game.endTurn()
+
+	game.endTurn()
+	game.endTurn()
+
+	wisp2 = game.currentPlayer.give("CS2_231")
+	wisp2.play()
+	raidleader = game.currentPlayer.give("CS2_122")
+	raidleader.play()
+	assert raidleader.atk == 2
+	assert wisp1.atk == 1
+	assert wisp2.atk == 2, wisp2.atk
+	wisp3 = game.currentPlayer.give("CS2_231")
+	wisp3.play()
+	assert wisp3.atk == 2
+
+
+
 def main():
+	test_auras()
 	test_mana()
 	test_card_draw()
 	test_end_turn_heal()

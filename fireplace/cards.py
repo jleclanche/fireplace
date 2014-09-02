@@ -73,6 +73,10 @@ class XMLCard(object):
 	def oneTurnEffect(self):
 		return self.getTag("OneTurnEffect")
 
+	@property
+	def hasAura(self):
+		return self.getTag("Aura")
+
 
 class _Card(Entity, XMLCard):
 	STATUS_DECK = 1
@@ -153,13 +157,22 @@ class _Card(Entity, XMLCard):
 	def hasTarget(self):
 		return self.targeting and (not self.targeting & TARGET_MULTIPLE)
 
+	def isValidTarget(self, card):
+		if card not in self.targets:
+			return False
+		return super().isValidTarget(card)
+
 	@property
 	def slots(self):
 		# TODO enchantments
+		ret = []
 		if self.weapon:
 			assert self.type == self.TYPE_HERO
-			return [self.weapon]
-		return []
+			ret.append(self.weapon)
+		for aura in self.game.auras:
+			if aura.isValidTarget(self):
+				ret.append(aura)
+		return ret
 
 	def canAttack(self):
 		if self.atk == 0:
@@ -224,6 +237,10 @@ class _Card(Entity, XMLCard):
 		self.status = self.STATUS_GRAVEYARD
 		if self.type == self.TYPE_MINION:
 			self.owner.field.remove(self)
+			# Remove any aura the minion gives
+			if self.hasAura:
+				logging.info("Aura %r fades" % (self.aura))
+				self.game.auras.remove(self.aura)
 		elif self.type == self.TYPE_WEAPON:
 			# HACK
 			self.owner.hero.weapon = None
@@ -259,6 +276,11 @@ class _Card(Entity, XMLCard):
 		if self.type is self.TYPE_MINION:
 			self.owner.summon(self)
 			self.summoningSickness = True
+			if self.hasAura:
+				self.aura = Card(self.aura)
+				self.aura.owner = self.owner
+				logging.info("Aura %r suddenly appears" % (self.aura))
+				self.game.auras.append(self.aura)
 		elif self.type in (self.TYPE_SPELL, self.TYPE_HERO_POWER):
 			if not hasattr(self, "activate"):
 				raise NotImplementedError(self)
