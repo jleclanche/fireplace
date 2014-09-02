@@ -15,9 +15,35 @@ THE_COIN = "GAME_005"
 
 
 class XMLCard(object):
+
+	_tags = {
+		"type": "CardType",
+		"health": "Health",
+		"durability": "Durability",
+		"atk": "Atk",
+		"cost": "Cost",
+		"race": "Race",
+		"charge": "Charge",
+		"taunt": "Taunt",
+		"divineShield": "Divine Shield",
+		"oneTurnEffect": "OneTurnEffect",
+		"hasAura": "Aura",
+	}
+
 	def __init__(self, id):
 		self.file = os.path.join(_path, "%s.xml" % (id))
 		self.xml = ElementTree.parse(self.file)
+
+	def __getattr__(self, name):
+		par = super()
+		print("__getattr__", repr(self), repr(name), repr(par))
+		if hasattr(par, name):
+			print("path 1", getattr(par, name))
+			return getattr(par, name)
+		if name in self._tags:
+			print("path 2", self.getTag(self._tags[name]))
+			return self.getTag(self._tags[name])
+		return getattr(par, name)
 
 	def getTag(self, name):
 		tag = self.xml.findall('./Tag[@name="%s"]' % (name))
@@ -32,50 +58,6 @@ class XMLCard(object):
 	@property
 	def name(self):
 		return self.xml.findall("./Tag[@name='CardName']/enUS")[0].text
-
-	@property
-	def type(self):
-		return self.getTag("CardType")
-
-	@property
-	def health(self):
-		return self.getTag("Health")
-
-	@property
-	def durability(self):
-		return self.getTag("Durability")
-
-	@property
-	def atk(self):
-		return self.getTag("Atk")
-
-	@property
-	def cost(self):
-		return self.getTag("Cost")
-
-	@property
-	def race(self):
-		return self.getTag("Race")
-
-	@property
-	def charge(self):
-		return self.getTag("Charge")
-
-	@property
-	def taunt(self):
-		return self.getTag("Taunt")
-
-	@property
-	def divineShield(self):
-		return self.getTag("Divine Shield")
-
-	@property
-	def oneTurnEffect(self):
-		return self.getTag("OneTurnEffect")
-
-	@property
-	def hasAura(self):
-		return self.getTag("Aura")
 
 
 class _Card(Entity, XMLCard):
