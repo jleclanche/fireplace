@@ -2,7 +2,7 @@ import json
 import logging
 import os
 import uuid
-from lxml.etree import ElementTree
+from xml.etree import ElementTree
 from .entity import Entity
 from .exceptions import *
 from .targeting import *
@@ -17,57 +17,61 @@ THE_COIN = "GAME_005"
 class XMLCard(object):
 	def __init__(self, id):
 		self.file = os.path.join(_path, "%s.xml" % (id))
-		self.xml = ElementTree().parse(self.file)
+		self.xml = ElementTree.parse(self.file)
 
-	def _getXML(self, xpath):
-		return self.xml.xpath(xpath)
-
-	def getInt(self, name):
-		return int((self._getXML("/Entity/Tag[@name='%s']/@value" % (name)) or [0])[0])
+	def getTag(self, name):
+		tag = self.xml.findall('./Tag[@name="%s"]' % (name))
+		if not tag:
+			return 0
+		tag = tag[0]
+		value, type = tag.attrib["value"], tag.attrib["type"]
+		if type == "Bool":
+			return bool(int(value))
+		return int(value)
 
 	@property
 	def name(self):
-		return self._getXML("/Entity/Tag[@name='CardName']/enUS/text()")[0]
+		return self.xml.findall("./Tag[@name='CardName']/enUS")[0].text
 
 	@property
 	def type(self):
-		return self.getInt("CardType")
+		return self.getTag("CardType")
 
 	@property
 	def health(self):
-		return self.getInt("Health")
+		return self.getTag("Health")
 
 	@property
 	def durability(self):
-		return self.getInt("Durability")
+		return self.getTag("Durability")
 
 	@property
 	def atk(self):
-		return self.getInt("Atk")
+		return self.getTag("Atk")
 
 	@property
 	def cost(self):
-		return self.getInt("Cost")
+		return self.getTag("Cost")
 
 	@property
 	def race(self):
-		return self.getInt("Race")
+		return self.getTag("Race")
 
 	@property
 	def charge(self):
-		return bool(self.getInt("Charge"))
+		return self.getTag("Charge")
 
 	@property
 	def taunt(self):
-		return bool(self.getInt("Taunt"))
+		return self.getTag("Taunt")
 
 	@property
 	def divineShield(self):
-		return bool(self.getInt("Divine Shield"))
+		return self.getTag("Divine Shield")
 
 	@property
 	def oneTurnEffect(self):
-		return bool(self.getInt("OneTurnEffect"))
+		return self.getTag("OneTurnEffect")
 
 
 class _Card(Entity, XMLCard):
