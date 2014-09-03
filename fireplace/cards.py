@@ -182,6 +182,8 @@ class Card(object):
 		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.health))
 
 	def equip(self, weapon):
+		if isinstance(weapon, str):
+			weapon = Card(weapon)
 		logging.info("%r equips %r" % (self, weapon))
 		if self.weapon:
 			self.weapon.destroy()
