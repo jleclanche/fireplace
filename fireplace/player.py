@@ -52,7 +52,7 @@ class Player(object):
 	def give(self, id):
 		card = Card(id)
 		logging.debug("Giving %r to %s" % (card, self))
-		self.addToHand(card)
+		assert self.addToHand(card), "Hand is full!"
 		return card
 
 	def addToHand(self, card):
