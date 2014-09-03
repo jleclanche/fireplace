@@ -31,3 +31,15 @@ class CS2_114(Card):
 		targets = random.sample(self.targets, 2)
 		for target in targets:
 			target.damage(2)
+
+
+# Soul of the Forest
+class EX1_158(Card):
+	targeting = TARGET_FRIENDLY_MINIONS
+	def activate(self):
+		for target in self.targets:
+			target.buff("EX1_158e")
+
+class EX1_158e(Card):
+	def deathrattle(self):
+		self.owner.owner.summon("EX1_158t")

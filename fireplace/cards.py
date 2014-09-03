@@ -202,7 +202,12 @@ class Card(object):
 		else:
 			raise NotImplementedError(self.type)
 
-		if self.data.hasDeathrattle:
+		self.onDeath()
+		for slot in self.slots:
+			slot.onDeath()
+
+	def onDeath(self):
+		if self.hasDeathrattle:
 			logging.info("Triggering Deathrattle for %r" % (self))
 			self.data.__class__.deathrattle(self)
 

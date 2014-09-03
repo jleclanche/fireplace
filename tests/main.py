@@ -32,6 +32,20 @@ def test_deathrattle():
 
 	assert len(game.currentPlayer.opponent.hand) == cardcount + 1
 
+	# test soul of the forest: deathrattle in slots
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	sotf = game.currentPlayer.give("EX1_158")
+	sotf.play()
+	assert len(archer.slots) == 1
+	game.endTurn()
+
+	archer2 = game.currentPlayer.give("CS2_189")
+	archer2.play(target=archer)
+
+	assert len(game.currentPlayer.opponent.field) == 1
+
 
 def test_mana():
 	game = prepare_game()
