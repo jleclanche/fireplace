@@ -82,6 +82,10 @@ class Card(object):
 	def type(self):
 		return self.data.type
 
+	@property
+	def hasDeathrattle(self):
+		return hasattr(self.data, "deathrattle") or self.data.hasDeathrattle
+
 	def getTargets(self, t):
 		ret = []
 		if t & TARGET_FRIENDLY:
