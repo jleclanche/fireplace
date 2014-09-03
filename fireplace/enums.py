@@ -1,6 +1,6 @@
-from enum import Enum
+from enum import IntEnum
 
-class Race(Enum):
+class Race(IntEnum):
 	INVALID = 0
 	BLOODELF = 1
 	DRAENEI = 2

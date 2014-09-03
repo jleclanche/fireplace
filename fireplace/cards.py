@@ -83,6 +83,10 @@ class Card(object):
 		return self.data.type
 
 	@property
+	def race(self):
+		return self.data.race
+
+	@property
 	def hasDeathrattle(self):
 		return hasattr(self.data, "deathrattle") or self.data.hasDeathrattle
 
