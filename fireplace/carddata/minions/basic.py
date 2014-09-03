@@ -124,3 +124,8 @@ class CS2_189(Card):
 # Ogre Magi
 class CS2_197(Card):
 	spellpower = 1
+
+
+# Timber Wolf
+class DS1_175(Card):
+	aura = "DS1_175o"

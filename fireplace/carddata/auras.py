@@ -16,4 +16,4 @@ class DS1_175o(Card):
 	atk = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
-		return target.type == Race.BEAST and target is not self
+		return target.race == Race.BEAST and target is not self.source

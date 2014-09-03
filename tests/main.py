@@ -132,25 +132,33 @@ def test_auras():
 	assert wisp1.atk == 1
 	game.endTurn()
 
-	# pass next two turns to gain some mana
-	game.endTurn()
-	game.endTurn()
+	# pass next few turns to gain some mana
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
 
-	game.endTurn()
-	game.endTurn()
-
-	wisp2 = game.currentPlayer.give("CS2_231")
-	wisp2.play()
+	webspinner = game.currentPlayer.give("FP1_011")
+	webspinner.play()
 	raidleader = game.currentPlayer.give("CS2_122")
 	raidleader.play()
 	assert raidleader.data.hasAura
 	assert raidleader.atk == 2
 	assert wisp1.atk == 1
-	slot = wisp2.slots[0]
-	assert wisp2.atk == 2
-	wisp3 = game.currentPlayer.give("CS2_231")
-	wisp3.play()
-	assert wisp3.atk == 2
+	assert webspinner.atk == 2
+	wisp2 = game.currentPlayer.give("CS2_231")
+	wisp2.play()
+	assert webspinner.atk == 2
+
+	# Test the timber wolf (beast-only) too
+	game.currentPlayer.getById("GAME_005").play()
+	timberwolf = game.currentPlayer.give("DS1_175")
+	timberwolf.play()
+	assert timberwolf.atk == 2 # 1 (+1 from RL)
+	assert raidleader.atk == 2 # 2 (+0)
+	print(webspinner.slots)
+	assert len(webspinner.slots) == 2
+	assert webspinner.atk == 3 # 1 (+1 from RL, +1 from TW)
+	assert wisp2.atk == 2 # 1 (+1 from TW)
 
 
 
