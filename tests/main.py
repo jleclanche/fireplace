@@ -61,6 +61,25 @@ def test_mana():
 	coin.play()
 	assert game.currentPlayer.mana == 2
 
+
+def test_divine_shield():
+	game = prepare_game()
+	squire = game.currentPlayer.give("EX1_008")
+	squire.play()
+	assert squire.shield
+	game.endTurn()
+
+	archer = game.currentPlayer.give("CS2_189")
+	archer.play(target=squire)
+	assert len(game.currentPlayer.field) == 1
+	assert not squire.shield
+	game.currentPlayer.getById("GAME_005").play()
+	archer2 = game.currentPlayer.give("CS2_189")
+	archer2.play(target=squire)
+	assert len(game.currentPlayer.opponent.field) == 0
+	assert not squire.shield
+
+
 def test_card_draw():
 	game = prepare_game()
 	# pass turn 1
@@ -141,6 +160,7 @@ def main():
 	test_card_draw()
 	test_end_turn_heal()
 	test_auras()
+	test_divine_shield()
 	print("All tests ran OK")
 
 
