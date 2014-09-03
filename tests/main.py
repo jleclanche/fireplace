@@ -18,6 +18,22 @@ def prepare_game():
 
 	return game
 
+def test_deathrattle():
+	game = prepare_game()
+	game.endTurn()
+	game.endTurn()
+
+	loothoarder = game.currentPlayer.give("EX1_096")
+	loothoarder.play()
+	cardcount = len(game.currentPlayer.hand)
+
+	game.endTurn()
+	archer = game.currentPlayer.give("CS2_189")
+	archer.play(target=loothoarder)
+
+	assert len(game.currentPlayer.opponent.hand) == cardcount + 1
+
+
 def test_mana():
 	game = prepare_game()
 	footman = game.currentPlayer.give("CS1_042")
@@ -107,10 +123,11 @@ def test_auras():
 
 
 def main():
-	test_auras()
+	test_deathrattle()
 	test_mana()
 	test_card_draw()
 	test_end_turn_heal()
+	test_auras()
 	print("All tests ran OK")
 
 

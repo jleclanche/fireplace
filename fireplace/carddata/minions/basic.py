@@ -53,6 +53,10 @@ class EX1_066(Card):
 		if self.owner.opponent.hero.weapon:
 			self.owner.opponent.hero.weapon.destroy()
 
+# Loot Hoarder
+class EX1_096(Card):
+	deathrattle = drawCard
+
 # Succubus
 class EX1_306(Card):
 	activate = discard(1)

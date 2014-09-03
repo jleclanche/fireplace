@@ -18,6 +18,7 @@ class XMLCard(object):
 		"divineShield": "Divine Shield",
 		"oneTurnEffect": "OneTurnEffect",
 		"hasAura": "Aura",
+		"hasDeathrattle": "Deathrattle",
 	}
 
 	@classmethod

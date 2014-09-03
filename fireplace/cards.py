@@ -196,6 +196,10 @@ class Card(object):
 		else:
 			raise NotImplementedError(self.type)
 
+		if self.data.hasDeathrattle:
+			logging.info("Triggering Deathrattle for %r" % (self))
+			self.data.__class__.deathrattle(self)
+
 	def discard(self):
 		logging.info("Discarding %r" % (self))
 		self.status = self.STATUS_DISCARD
