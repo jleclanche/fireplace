@@ -35,6 +35,7 @@ class Card(object):
 		self.summoningSickness = False
 		self.weapon = None
 		self.armor = 0
+		self.buffs = []
 		super().__init__()
 		self.shield = self.data.divineShield
 		if not hasattr(self.data, "targeting"):
@@ -117,6 +118,7 @@ class Card(object):
 		for aura in self.game.auras:
 			if aura.isValidTarget(self):
 				ret.append(aura)
+		ret += self.buffs
 		return ret
 
 	def canAttack(self):

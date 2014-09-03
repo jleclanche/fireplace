@@ -20,8 +20,7 @@ def prepare_game():
 
 def test_deathrattle():
 	game = prepare_game()
-	game.endTurn()
-	game.endTurn()
+	game.endTurn(); game.endTurn()
 
 	loothoarder = game.currentPlayer.give("EX1_096")
 	loothoarder.play()

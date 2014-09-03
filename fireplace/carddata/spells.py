@@ -13,7 +13,6 @@ class GAME_005e(Card):
 	oneTurnEffect = True
 
 
-
 # Holy Nova
 class CS1_112(Card):
 	targeting = TARGET_ALL_CHARACTERS
