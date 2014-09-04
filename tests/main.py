@@ -138,6 +138,24 @@ def test_card_draw():
 	card.play()
 	assert len(game.currentPlayer.hand) == handlength - 2
 
+
+def test_kill_command():
+	game = prepare_game(HUNTER, HUNTER)
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	kc = game.currentPlayer.give("EX1_539")
+	kc.play(target=game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.opponent.hero.health == 27
+	game.endTurn(); game.endTurn()
+
+	# play a timber wolf before this time
+	game.currentPlayer.give("DS1_175").play()
+	kc = game.currentPlayer.give("EX1_539")
+	kc.play(target=game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.opponent.hero.health == 22
+
+
 def test_end_turn_heal():
 	game = prepare_game()
 
@@ -211,6 +229,7 @@ def main():
 	test_divine_shield()
 	test_mage_priest()
 	test_paladin_shaman()
+	test_kill_command()
 	print("All tests ran OK")
 
 
