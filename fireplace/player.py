@@ -88,6 +88,9 @@ class Player(object):
 				self.fatigue()
 				continue
 			card = self.deck.cards.pop()
+			if len(self.hand) >= self.MAX_HAND:
+				logging.info("%s overdraws and loses %r!" % (self, card))
+				continue
 			if not hold:
 				self.addToHand(card)
 			drawn.append(card)
