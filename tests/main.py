@@ -3,20 +3,44 @@ import sys; sys.path.append("..")
 import fireplace
 import logging
 import random
+from fireplace.heroes import *
 
 logging.getLogger().setLevel(logging.DEBUG)
 
 
-def prepare_game():
+def prepare_game(hero1=MAGE, hero2=WARRIOR):
 	print("Initializing a new game")
-	deck1 = fireplace.Deck.randomDraft(hero=fireplace.heroes.MAGE)
-	deck2 = fireplace.Deck.randomDraft(hero=fireplace.heroes.WARRIOR)
+	deck1 = fireplace.Deck.randomDraft(hero=hero1)
+	deck2 = fireplace.Deck.randomDraft(hero=hero2)
 	player1 = fireplace.Player(name="Player1", deck=deck1)
 	player2 = fireplace.Player(name="Player2", deck=deck2)
 	game = fireplace.Game(players=(player1, player2))
 	game.start()
 
 	return game
+
+
+def test_armor():
+	game = prepare_game(WARRIOR, WARRIOR)
+	game.endTurn(); game.endTurn()
+	assert game.currentPlayer.hero.armor == 0
+	game.currentPlayer.hero.power.play()
+	assert game.currentPlayer.hero.armor == 2
+
+
+
+def test_mage_priest():
+	game = prepare_game(MAGE, PRIEST)
+	# With this seed, Mage starts
+	assert game.currentPlayer.hero.id is MAGE
+	game.endTurn(); game.endTurn()
+	assert game.currentPlayer.hero.health == 30
+	game.currentPlayer.hero.power.play(target=game.currentPlayer.opponent.hero)
+	game.endTurn()
+	assert game.currentPlayer.hero.health == 29
+	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
+	assert game.currentPlayer.hero.health == 30
+
 
 def test_deathrattle():
 	game = prepare_game()
@@ -163,12 +187,15 @@ def test_auras():
 
 
 def main():
+	random.seed(12345)
 	test_deathrattle()
 	test_mana()
 	test_card_draw()
+	test_armor()
 	test_end_turn_heal()
 	test_auras()
 	test_divine_shield()
+	test_mage_priest()
 	print("All tests ran OK")
 
 

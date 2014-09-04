@@ -1,6 +1,7 @@
 """
 Heroes and their Hero Powers
 """
+import random
 from ..targeting import *
 from .card import Card
 
