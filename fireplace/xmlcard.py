@@ -54,4 +54,7 @@ class XMLCard(object):
 	def name(self):
 		return self.xml.findall("./Tag[@name='CardName']/enUS")[0].text
 
-
+	@property
+	def entourage(self):
+		cards = self.xml.findall("EntourageCard")
+		return [tag.attrib["cardID"] for tag in cards]

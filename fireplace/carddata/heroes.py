@@ -18,7 +18,16 @@ class CS2_102(Card):
 
 # Thrall
 class HERO_02(Card):
-	power = "CS2_049"  # Totemic Call
+	power = "CS2_049"
+
+# Totemic Call
+class CS2_049(Card):
+	def activate(self):
+		entourage = self.data.entourage
+		for minion in self.owner.field:
+			if minion.id in entourage:
+				entourage.remove(minion.id)
+		self.owner.summon(random.choice(entourage))
 
 
 # Valeera Sanguinar
