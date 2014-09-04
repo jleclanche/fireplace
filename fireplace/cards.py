@@ -75,6 +75,13 @@ class Card(object):
 		return self.getTargets(self.data.targeting)
 
 	@property
+	def charge(self):
+		for slot in self.slots:
+			if slot.charge:
+				return True
+		return self.data.charge
+
+	@property
 	def cost(self):
 		return self.data.cost
 
