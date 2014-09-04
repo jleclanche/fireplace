@@ -42,6 +42,20 @@ def test_mage_priest():
 	assert game.currentPlayer.hero.health == 30
 
 
+def test_paladin_shaman():
+	game = prepare_game(PALADIN, SHAMAN)
+	# With this seed, Shaman starts
+	assert game.currentPlayer.hero.id is SHAMAN
+	game.endTurn(); game.endTurn()
+	assert len(game.currentPlayer.hero.power.data.entourage) == 4
+	game.currentPlayer.hero.power.play()
+	assert game.currentPlayer.field[0].id == "CS2_050"
+	game.endTurn()
+	game.currentPlayer.hero.power.play()
+	assert game.currentPlayer.field[0].id == "CS2_101t"
+	game.endTurn()
+
+
 def test_deathrattle():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()
@@ -196,6 +210,7 @@ def main():
 	test_auras()
 	test_divine_shield()
 	test_mage_priest()
+	test_paladin_shaman()
 	print("All tests ran OK")
 
 
