@@ -6,7 +6,7 @@ from ..card import *
 # Claw
 class CS2_005(Card):
 	def activate(self):
-		selfBuff(self, "CS2_005o")
+		buffSelf(self, "CS2_005o")
 		self.owner.gainArmor(2)
 
 class CS2_005o(Card):
@@ -59,7 +59,7 @@ class EX1_161(Card):
 # Bite
 class EX1_570(Card):
 	def activate(self):
-		selfBuff(self, "EX1_570e")
+		buffSelf(self, "EX1_570e")
 		self.owner.gainArmor(4)
 
 

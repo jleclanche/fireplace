@@ -211,7 +211,6 @@ def test_auras():
 	timberwolf.play()
 	assert timberwolf.atk == 2 # 1 (+1 from RL)
 	assert raidleader.atk == 2 # 2 (+0)
-	print(webspinner.slots)
 	assert len(webspinner.slots) == 2
 	assert webspinner.atk == 3 # 1 (+1 from RL, +1 from TW)
 	assert wisp2.atk == 2 # 1 (+1 from TW)

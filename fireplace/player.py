@@ -33,13 +33,10 @@ class Player(object):
 		return "%s(name=%r, deck=%r)" % (self.__class__.__name__, self.name, self.deck)
 
 	@property
-	def slots(self):
-		return self.buffs
-
-	@property
 	def mana(self):
 		mana = self.availableMana
-		for slot in self.slots:
+		# also check for the hero's extra mana
+		for slot in self.deck.hero.slots:
 			mana += slot.getProperty("mana")
 		return mana - self.overload
 

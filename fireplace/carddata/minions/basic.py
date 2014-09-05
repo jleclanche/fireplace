@@ -61,9 +61,8 @@ class EX1_583(Card):
 
 # Nightblade
 class EX1_593(Card):
-	targeting = TARGET_ENEMY_HERO
-	def activate(self, target):
-		target.damage(3)
+	def activate(self):
+		self.owner.opponent.hero.damage(3)
 
 # Dalaran Mage
 class EX1_582(Card):
@@ -98,8 +97,7 @@ class CS2_155(Card):
 # Elven Archer
 class CS2_189(Card):
 	targeting = TARGET_ANY_CHARACTER
-	def activate(self, target):
-		target.damage(1)
+	activate = damageTarget(1)
 
 # Ogre Magi
 class CS2_197(Card):

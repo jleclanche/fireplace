@@ -1,5 +1,6 @@
 import logging
 import random
+from itertools import chain
 from . import heroes
 from .cards import Card, cardsForHero, THE_COIN
 from .exceptions import *
@@ -137,15 +138,14 @@ class Game(object):
 	def endTurn(self):
 		logging.info("%s ends turn" % (self.currentPlayer))
 		self.status = self.STATUS_END_TURN
-		for minion in self.board:
-			if hasattr(minion.data, "endTurn"):
-				logging.info("Processing end of turn for %r" % (minion))
-				minion.data.__class__.endTurn(minion)
-		for slot in self.currentPlayer.slots:
-			if slot.data.oneTurnEffect:
-				logging.info("Ending One-Turn effect: %r" % (slot))
-				slot.destroy()
-			elif hasattr(slot.data, "endTurn"):
-				logging.info("Processing end of turn for %r" % (slot))
-				slot.data.__class__.endTurn(slot)
+		for entity in chain(self.board, self.currentPlayer.hero.slots):
+			if hasattr(entity.data, "endTurn"):
+				logging.info("Processing end of turn for %r" % (entity))
+				entity.data.__class__.endTurn(entity)
+			if entity.data.oneTurnEffect:
+				logging.info("Ending One-Turn effect: %r" % (entity))
+				entity.destroy()
+			elif hasattr(entity.data, "endTurn"):
+				logging.info("Processing end of turn for %r" % (entity))
+				entity.data.__class__.endTurn(entity)
 		self.beginTurn(self.currentPlayer.opponent)
