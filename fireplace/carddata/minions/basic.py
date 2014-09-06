@@ -37,6 +37,11 @@ class EX1_066(Card):
 class EX1_096(Card):
 	deathrattle = drawCard
 
+# Felguard
+class EX1_301(Card):
+	def activate(self):
+		self.owner.loseMana(1)
+
 # Succubus
 class EX1_306(Card):
 	activate = discard(1)

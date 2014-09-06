@@ -98,6 +98,16 @@ def test_mana():
 	coin = game.currentPlayer.getById("GAME_005")
 	coin.play()
 	assert game.currentPlayer.mana == 2
+	game.endTurn()
+
+	game.endTurn(); game.endTurn()
+
+	assert game.currentPlayer.mana == 3
+	assert game.currentPlayer.maxMana == 3
+	felguard = game.currentPlayer.give("EX1_301")
+	felguard.play()
+	assert game.currentPlayer.mana == 0
+	assert game.currentPlayer.maxMana == 2
 
 
 def test_divine_shield():

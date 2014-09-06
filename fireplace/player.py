@@ -101,7 +101,11 @@ class Player(object):
 
 	def gainMana(self, amount):
 		self.maxMana = min(self.MAX_MANA, self.maxMana + amount)
-		logging.info("%s gains %i mana (now at %i)" % (self, amount, self.maxMana))
+		logging.info("%s gains %i mana crystal (now at %i)" % (self, amount, self.maxMana))
+
+	def loseMana(self, amount):
+		self.maxMana = max(0, self.maxMana - amount)
+		logging.info("%s loses %i mana crystal (now at %i)" % (self, amount, self.maxMana))
 
 	def summon(self, minion):
 		logging.info("Summoning %r" % (minion))
