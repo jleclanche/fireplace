@@ -196,15 +196,19 @@ class Card(object):
 			self.weapon.destroy()
 		self.weapon = weapon
 
+	def removeFromField(self):
+		logging.info("%r is removed from the field" % (self))
+		self.owner.field.remove(self)
+		# Remove any aura the minion gives
+		if self.data.hasAura:
+			logging.info("Aura %r fades" % (self.aura))
+			self.game.auras.remove(self.aura)
+
 	def destroy(self):
 		logging.info("%r dies" % (self))
 		self.status = self.STATUS_GRAVEYARD
 		if self.type == self.TYPE_MINION:
-			self.owner.field.remove(self)
-			# Remove any aura the minion gives
-			if self.data.hasAura:
-				logging.info("Aura %r fades" % (self.aura))
-				self.game.auras.remove(self.aura)
+			self.removeFromField()
 		elif self.type == self.TYPE_WEAPON:
 			# HACK
 			self.owner.hero.weapon = None
