@@ -39,3 +39,10 @@ class EX1_313(Card):
 class EX1_319(Card):
 	def activate(self):
 		self.owner.hero.damage(3)
+
+
+# Lord Jaraxxus
+class EX1_323(Card):
+	def activate(self):
+		self.removeFromField()
+		self.owner.setHero("EX1_323h")
