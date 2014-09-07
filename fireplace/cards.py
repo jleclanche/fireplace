@@ -265,10 +265,7 @@ class Card(object):
 		elif self.type == self.TYPE_WEAPON:
 			self.owner.hero.equip(self)
 		elif self.type == self.TYPE_HERO:
-			self.owner.hero = self
-			self.power = Card(self.data.power)
-			self.power.owner = self.owner
-			assert self.power.type is self.TYPE_HERO_POWER, self.power.type
+			self.owner.setHero(self)
 		else:
 			raise NotImplementedError(self.name, self.type)
 

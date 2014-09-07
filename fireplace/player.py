@@ -67,6 +67,16 @@ class Player(object):
 				return card
 		raise ValueError
 
+	def setHero(self, hero):
+		if isinstance(hero, str):
+			hero = Card(hero)
+		hero.power = Card(hero.data.power)
+		logging.info("%s: Setting hero to %r and hero power to %r" % (self, hero, hero.power))
+		assert hero.power.type is Card.TYPE_HERO_POWER
+		hero.power.owner = self
+		hero.owner = self
+		self.hero = hero
+
 	def insertToHand(self, card, pos):
 		# Same as addToHand but inserts (usually in place of a None)
 		# used for mulligan
