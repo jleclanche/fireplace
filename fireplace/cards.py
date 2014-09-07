@@ -2,6 +2,7 @@ import json
 import logging
 import uuid
 from .exceptions import *
+from .enums import CardType
 from .targeting import *
 from .xmlcard import XMLCard
 
@@ -17,31 +18,35 @@ class Card(object):
 	STATUS_GRAVEYARD = 4
 	STATUS_DISCARD = 5
 
-	TYPE_HERO = 3
-	TYPE_MINION = 4
-	TYPE_SPELL = 5
-	TYPE_ENCHANTMENT = 6
-	TYPE_WEAPON = 7
-	TYPE_HERO_POWER = 10
+	def __new__(cls, id):
+		if cls is not Card:
+			return super().__new__(cls)
+		data = XMLCard.get(id)
+		type = data.type
+		card = {
+			CardType.HERO: Hero,
+			CardType.MINION: Minion,
+			CardType.SPELL: Spell,
+			CardType.ENCHANTMENT: Enchantment,
+			CardType.WEAPON: Weapon,
+			CardType.HERO_POWER: HeroPower,
+		}[type](id)
+		card.data = data
+		if not hasattr(card.data, "targeting"):
+			card.data.targeting = TARGET_NONE
+		return card
 
 	def __init__(self, id):
 		self.id = id
-		self.data = XMLCard.get(id)
 		self.uuid = uuid.uuid4()
 		self.owner = None
 		self.status = self.STATUS_DECK
 		self.damageCounter = 0
 		self.durabilityCounter = 0
-		self.summoningSickness = False
 		self.weapon = None
 		self.armor = 0
 		self.buffs = []
 		super().__init__()
-		self.shield = self.data.divineShield
-		if not hasattr(self.data, "targeting"):
-			self.data.targeting = TARGET_NONE
-		if not hasattr(self.data, "minTargets"):
-			self.data.minTargets = 0
 
 	def __str__(self):
 		return self.data.name
@@ -67,19 +72,8 @@ class Card(object):
 		return self.getProperty("atk")
 
 	@property
-	def durability(self):
-		return self.getProperty("durability")
-
-	@property
 	def targets(self):
 		return self.getTargets(self.data.targeting)
-
-	@property
-	def charge(self):
-		for slot in self.slots:
-			if slot.charge:
-				return True
-		return self.data.charge
 
 	@property
 	def cost(self):
@@ -90,12 +84,12 @@ class Card(object):
 		return self.data.type
 
 	@property
-	def race(self):
-		return self.data.race
-
-	@property
 	def hasDeathrattle(self):
 		return hasattr(self.data, "deathrattle") or self.data.hasDeathrattle
+
+	@property
+	def minTargets(self):
+		return getattr(self.data, "minTargets", 0)
 
 	def getTargets(self, t):
 		ret = []
@@ -118,17 +112,12 @@ class Card(object):
 	def hasTarget(self):
 		return self.data.targeting and (not self.data.targeting & TARGET_MULTIPLE)
 
-	def isValidTarget(self, card):
-		if card not in self.targets:
-			return False
-		return self.data.__class__.isValidTarget(self, card)
-
 	@property
 	def slots(self):
 		# TODO enchantments
 		ret = []
 		if self.weapon:
-			assert self.type == self.TYPE_HERO
+			assert self.type == CardType.HERO
 			ret.append(self.weapon)
 		for aura in self.game.auras:
 			if aura.isValidTarget(self):
@@ -136,89 +125,9 @@ class Card(object):
 		ret += self.buffs
 		return ret
 
-	def canAttack(self):
-		if self.atk == 0:
-			return False
-		if self.summoningSickness and not self.charge:
-			return False
-		return True
-
-	def attack(self, target):
-		logging.info("%r attacks %r" % (self, target))
-		target.damage(self.atk)
-		if self.weapon:
-			self.weapon.loseDurability()
-		if target.atk:
-			self.damage(target.atk)
-
-	def loseDurability(self, amount=1):
-		assert self.type == self.TYPE_WEAPON
-		assert self.durability
-		# XXX
-		self.durabilityCounter += 1
-		logging.info("%r loses %i durability (now at %i)" % (self, amount, self.durability))
-		if self.durability == 0:
-			self.destroy()
-
-	def gainArmor(self, amount):
-		assert self.type == self.TYPE_HERO
-		self.armor += amount
-		logging.info("%r gains %i armor (now at %i)" % (self, amount, self.armor))
-
-	def damage(self, amount):
-		if self.shield:
-			assert self.type is self.TYPE_MINION
-			self.shield = False
-			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
-			return
-		if self.armor:
-			newAmount = max(0, amount - self.armor)
-			self.armor -= min(self.armor, amount)
-			logging.info("%r reduces damage taken by %i through armor. %i armor remaining" % (self, amount - newAmount, self.armor))
-			amount = newAmount
-
-		self.damageCounter += min(self.health, amount)
-		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
-
-		# this should happen elsewhere
-		if self.health == 0:
-			self.destroy()
-
-	def heal(self, amount):
-		self.damageCounter -= min(amount, self.damageCounter)
-		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.health))
-
-	def equip(self, weapon):
-		if isinstance(weapon, str):
-			weapon = Card(weapon)
-		logging.info("%r equips %r" % (self, weapon))
-		if self.weapon:
-			self.weapon.destroy()
-		self.weapon = weapon
-
-	def removeFromField(self):
-		logging.info("%r is removed from the field" % (self))
-		self.owner.field.remove(self)
-		# Remove any aura the minion gives
-		if self.data.hasAura:
-			logging.info("Aura %r fades" % (self.aura))
-			self.game.auras.remove(self.aura)
-
 	def destroy(self):
 		logging.info("%r dies" % (self))
 		self.status = self.STATUS_GRAVEYARD
-		if self.type == self.TYPE_MINION:
-			self.removeFromField()
-		elif self.type == self.TYPE_WEAPON:
-			# HACK
-			self.owner.hero.weapon = None
-		elif self.type == self.TYPE_HERO:
-			raise GameOver("%s wins!" % (self.owner.opponent))
-		elif self.type == self.TYPE_ENCHANTMENT:
-			self.owner.slots.remove(self)
-		else:
-			raise NotImplementedError(self.type)
-
 		self.onDeath()
 		for slot in self.slots:
 			slot.onDeath()
@@ -236,11 +145,6 @@ class Card(object):
 	def isPlayable(self):
 		if self.owner.mana < self.cost:
 			return False
-		if len(self.targets) < self.data.minTargets:
-			return False
-		if self.type == self.TYPE_MINION:
-			if len(self.owner.field) >= self.game.MAX_MINIONS_ON_FIELD:
-				return False
 		return True
 
 	def play(self, target=None):
@@ -249,29 +153,11 @@ class Card(object):
 		self.owner.availableMana -= self.cost
 		self.status = self.STATUS_FIELD
 
-		if self.type is self.TYPE_MINION:
-			self.owner.summon(self)
-			self.summoningSickness = True
-			if self.data.hasAura:
-				self.aura = Card(self.data.aura)
-				self.aura.owner = self.owner
-				self.aura.source = self
-				logging.info("Aura %r suddenly appears" % (self.aura))
-				self.game.auras.append(self.aura)
-		elif self.type in (self.TYPE_SPELL, self.TYPE_HERO_POWER):
-			if not hasattr(self.data, "activate"):
-				raise NotImplementedError(self)
-		elif self.type == self.TYPE_WEAPON:
-			self.owner.hero.equip(self)
-		elif self.type == self.TYPE_HERO:
-			self.owner.setHero(self)
-		else:
-			raise NotImplementedError(self.name, self.type)
-
-		# Card must already be on the field for activate
-		if self.type not in (self.TYPE_HERO, self.TYPE_HERO_POWER):
+		# hacky
+		if self.type not in (CardType.HERO, CardType.HERO_POWER):
 			self.owner.hand.remove(self)
 
+		# Card must already be on the field for activate
 		if hasattr(self.data, "activate"):
 			logging.info("Triggering 'activate' for %r" % (self))
 			activate = self.data.__class__.activate
@@ -293,34 +179,169 @@ class Card(object):
 			card = Card(card)
 		card.owner = self
 		logging.debug("%r receives buff: %r" % (self, card))
-		assert card.type == card.TYPE_ENCHANTMENT, card.type
+		assert card.type == CardType.ENCHANTMENT, card.type
 		self.buffs.append(card)
-
 
 
 def cardsForHero(hero):
 	return ['CS1_042', 'CS2_118', 'CS2_119', 'CS2_120', 'CS2_121', 'CS2_124', 'CS2_125', 'CS2_127', 'CS2_131', 'CS2_142', 'CS2_147', 'CS2_155', 'CS2_162', 'CS2_168', 'CS2_171', 'CS2_172', 'CS2_173', 'CS2_179', 'CS2_182', 'CS2_186', 'CS2_187', 'CS2_189', 'CS2_197', 'CS2_200', 'CS2_201', 'CS2_213', 'EX1_015', 'EX1_506', 'EX1_582']
 
 
-class BaseCard(object):
-	pass
+class Character(Card):
+	@property
+	def race(self):
+		return self.data.race
+
+	def canAttack(self):
+		if self.atk == 0:
+			return False
+		if self.summoningSickness and not self.charge:
+			return False
+		return True
+
+	def attack(self, target):
+		logging.info("%r attacks %r" % (self, target))
+		target.damage(self.atk)
+		if self.weapon:
+			self.weapon.loseDurability()
+		if target.atk:
+			self.damage(target.atk)
+
+	def damage(self, amount):
+		self.damageCounter += min(self.health, amount)
+		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
+
+		# this should happen elsewhere
+		if self.health == 0:
+			self.destroy()
+
+	def heal(self, amount):
+		self.damageCounter -= min(amount, self.damageCounter)
+		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.health))
 
 
-class Minion(BaseCard):
-	pass
+class Hero(Character):
+	def gainArmor(self, amount):
+		assert self.type == CardType.HERO
+		self.armor += amount
+		logging.info("%r gains %i armor (now at %i)" % (self, amount, self.armor))
+
+	def damage(self, amount):
+		if self.armor:
+			newAmount = max(0, amount - self.armor)
+			self.armor -= min(self.armor, amount)
+			logging.info("%r reduces damage taken by %i through armor. %i armor remaining" % (self, amount - newAmount, self.armor))
+			amount = newAmount
+		super().damage(amount)
+
+	def destroy(self):
+		raise GameOver("%s wins!" % (self.owner.opponent))
+
+	def equip(self, weapon):
+		if isinstance(weapon, str):
+			weapon = Card(weapon)
+		logging.info("%r equips %r" % (self, weapon))
+		if self.weapon:
+			self.weapon.destroy()
+		self.weapon = weapon
+
+	def play(self, target=None):
+		self.owner.setHero(self)
+		super().play(target)
 
 
-class Spell(BaseCard):
-	pass
+class Minion(Character):
+	def __init__(self, id):
+		super().__init__(id)
+		self.summoningSickness = False
+
+	@property
+	def charge(self):
+		for slot in self.slots:
+			if slot.charge:
+				return True
+		return self.data.charge
+
+	def removeFromField(self):
+		logging.info("%r is removed from the field" % (self))
+		self.owner.field.remove(self)
+		# Remove any aura the minion gives
+		if self.data.hasAura:
+			logging.info("Aura %r fades" % (self.aura))
+			self.game.auras.remove(self.aura)
+
+	def damage(self, amount):
+		if self.shield:
+			self.shield = False
+			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
+			return
+		super().damage(amount)
+
+	def destroy(self):
+		self.removeFromField()
+		super().destroy()
+
+	def isPlayable(self):
+		playable = super().isPlayable()
+		if len(self.owner.field) >= self.game.MAX_MINIONS_ON_FIELD:
+			return False
+		return playable
+
+	def play(self, target=None):
+		self.owner.summon(self)
+		self.summoningSickness = True
+		if self.data.hasAura:
+			self.aura = Card(self.data.aura)
+			self.aura.owner = self.owner
+			self.aura.source = self
+			logging.info("Aura %r suddenly appears" % (self.aura))
+			self.game.auras.append(self.aura)
+		self.shield = self.data.divineShield
+		super().play(target)
 
 
-class Weapon(BaseCard):
-	pass
+class Spell(Card):
+	def isPlayable(self):
+		playable = super().isPlayable()
+		if len(self.targets) < self.minTargets:
+			return False
+		return playable
 
 
-class Hero(BaseCard):
-	pass
+class Enchantment(Card):
+	def isValidTarget(self, card):
+		if card not in self.targets:
+			return False
+		return self.data.__class__.isValidTarget(self, card)
+
+	def destroy(self):
+		self.owner.slots.remove(self)
+		super().destroy()
 
 
-class HeroPower(BaseCard):
+class Weapon(Card):
+	@property
+	def durability(self):
+		return self.getProperty("durability")
+
+	def loseDurability(self, amount=1):
+		assert self.type == CardType.WEAPON
+		assert self.durability
+		# XXX
+		self.durabilityCounter += 1
+		logging.info("%r loses %i durability (now at %i)" % (self, amount, self.durability))
+		if self.durability == 0:
+			self.destroy()
+
+	def destroy(self):
+		# HACK
+		self.owner.hero.weapon = None
+		super().destroy()
+
+	def play(self, target=None):
+		self.owner.hero.equip(self)
+		super().play(target)
+
+
+class HeroPower(Card):
 	pass
