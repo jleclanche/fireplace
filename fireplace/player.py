@@ -72,7 +72,6 @@ class Player(object):
 			hero = Card(hero)
 		hero.power = Card(hero.data.power)
 		logging.info("%s: Setting hero to %r and hero power to %r" % (self, hero, hero.power))
-		assert hero.power.type is Card.TYPE_HERO_POWER
 		hero.power.owner = self
 		hero.owner = self
 		self.hero = hero
@@ -121,7 +120,6 @@ class Player(object):
 		logging.info("Summoning %r" % (minion))
 		if isinstance(minion, str):
 			minion = Card(minion)
-		assert minion.type == minion.TYPE_MINION
 		# TODO index
 		if len(self.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return

@@ -246,7 +246,6 @@ class Card(object):
 	def play(self, target=None):
 		logging.info("%s plays %r" % (self.owner, self))
 		assert self.owner, "That minion is not mine!"
-		assert self.isPlayable(), "Not enough mana!"
 		self.owner.availableMana -= self.cost
 		self.status = self.STATUS_FIELD
 
