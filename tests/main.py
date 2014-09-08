@@ -226,6 +226,18 @@ def test_auras():
 	assert wisp2.atk == 2 # 1 (+1 from TW)
 
 
+def test_arcane_explosion():
+	game = prepare_game(MAGE, MAGE)
+	# play some wisps
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+	game.endTurn()
+
+	arcanex = game.currentPlayer.give("CS2_025")
+	assert len(game.currentPlayer.opponent.field) == 3
+	arcanex.play()
+	assert len(game.currentPlayer.opponent.field) == 0
 
 def main():
 	random.seed(12345)
@@ -239,6 +251,7 @@ def main():
 	test_mage_priest()
 	test_paladin_shaman()
 	test_kill_command()
+	test_arcane_explosion()
 	print("All tests ran OK")
 
 

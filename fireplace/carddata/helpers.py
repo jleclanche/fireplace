@@ -4,6 +4,10 @@ import random
 drawCard = lambda self: self.owner.draw()
 
 
+def drawCards(amount):
+	return lambda self: self.owner.draw(amount)
+
+
 def discard(count):
 	def _discard(self):
 		# discard at most x card
