@@ -41,6 +41,9 @@ class Deck(object):
 	def __repr__(self):
 		return "<%s (%i cards)>" % (self.hero, len(self.cards))
 
+	def __iter__(self):
+		return self.cards.__iter__()
+
 	def shuffle(self):
 		logging.info("Shuffling %r..." % (self))
 		random.shuffle(self.cards)
