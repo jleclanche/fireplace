@@ -1,5 +1,6 @@
 import logging
 from .cards import Card
+from .enums import Zone
 
 
 class Player(object):
@@ -57,7 +58,7 @@ class Player(object):
 			return
 		card.owner = self # Cards are not necessarily from the deck
 		self.hand.append(card)
-		card.status = card.STATUS_HAND
+		card.zone = Zone.HAND
 		return card
 
 	def getById(self, id):
@@ -83,7 +84,7 @@ class Player(object):
 		card.owner = self
 		del self.hand[pos]
 		self.hand.insert(card, pos)
-		card.status = card.STATUS_HAND
+		card.zone = Zone.HAND
 		return card
 
 	def draw(self, count=1, hold=False):

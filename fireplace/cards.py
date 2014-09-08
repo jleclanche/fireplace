@@ -2,7 +2,7 @@ import json
 import logging
 import uuid
 from .exceptions import *
-from .enums import CardType
+from .enums import CardType, Zone
 from .targeting import *
 from .xmlcard import XMLCard
 
@@ -12,12 +12,6 @@ THE_COIN = "GAME_005"
 
 
 class Card(object):
-	STATUS_DECK = 1
-	STATUS_HAND = 2
-	STATUS_FIELD = 3
-	STATUS_GRAVEYARD = 4
-	STATUS_DISCARD = 5
-
 	def __new__(cls, id):
 		if cls is not Card:
 			return super().__new__(cls)
@@ -40,7 +34,7 @@ class Card(object):
 		self.id = id
 		self.uuid = uuid.uuid4()
 		self.owner = None
-		self.status = self.STATUS_DECK
+		self.zone = Zone.DECK
 		self.damageCounter = 0
 		self.durabilityCounter = 0
 		self.weapon = None
@@ -127,7 +121,7 @@ class Card(object):
 
 	def destroy(self):
 		logging.info("%r dies" % (self))
-		self.status = self.STATUS_GRAVEYARD
+		self.zone = Zone.GRAVEYARD
 		self.onDeath()
 		for slot in self.slots:
 			slot.onDeath()
@@ -139,7 +133,7 @@ class Card(object):
 
 	def discard(self):
 		logging.info("Discarding %r" % (self))
-		self.status = self.STATUS_DISCARD
+		self.zone = Zone.GRAVEYARD
 		self.owner.hand.remove(self)
 
 	def isPlayable(self):
@@ -151,7 +145,7 @@ class Card(object):
 		logging.info("%s plays %r" % (self.owner, self))
 		assert self.owner, "That minion is not mine!"
 		self.owner.availableMana -= self.cost
-		self.status = self.STATUS_FIELD
+		self.zone = Zone.PLAY
 
 		# hacky
 		if self.type not in (CardType.HERO, CardType.HERO_POWER):
