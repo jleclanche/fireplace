@@ -239,6 +239,22 @@ def test_arcane_explosion():
 	arcanex.play()
 	assert len(game.currentPlayer.opponent.field) == 0
 
+
+def test_mindgames():
+	game = prepare_game(PRIEST, PRIEST)
+	mindgames = game.currentPlayer.give("EX1_345")
+
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert len(game.currentPlayer.field) == 0
+	mindgames.play()
+	assert len(game.currentPlayer.field) == 1
+	assert game.currentPlayer.field[0].id in game.currentPlayer.opponent.deck
+
+
+
 def main():
 	random.seed(12345)
 	test_deathrattle()
@@ -252,6 +268,7 @@ def main():
 	test_paladin_shaman()
 	test_kill_command()
 	test_arcane_explosion()
+	test_mindgames()
 	print("All tests ran OK")
 
 
