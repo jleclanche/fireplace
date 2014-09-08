@@ -121,6 +121,7 @@ class Player(object):
 		logging.info("Summoning %r" % (minion))
 		if isinstance(minion, str):
 			minion = Card(minion)
+			minion.owner = self
 		# TODO index
 		if len(self.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return
