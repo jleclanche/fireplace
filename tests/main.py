@@ -254,6 +254,28 @@ def test_mindgames():
 	assert game.currentPlayer.field[0].id in game.currentPlayer.opponent.deck
 
 
+def test_cleave():
+	game = prepare_game()
+	# play some wisps
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+	game.endTurn()
+
+	# Play the coin
+	game.currentPlayer.getById("GAME_005").play()
+
+	cleave = game.currentPlayer.give("CS2_114")
+	assert cleave.data.minTargets == 2, cleave.data.minTargets
+	assert cleave.isPlayable()
+	cleave.play()
+	assert len(game.currentPlayer.opponent.field) == 0
+
+	# play another wisp
+	game.currentPlayer.give("CS2_231").play()
+
+	game.endTurn()
+	cleave2 = game.currentPlayer.give("CS2_114")
+	assert not cleave2.isPlayable()
 
 def main():
 	random.seed(12345)
@@ -269,6 +291,7 @@ def main():
 	test_kill_command()
 	test_arcane_explosion()
 	test_mindgames()
+	test_cleave()
 	print("All tests ran OK")
 
 
