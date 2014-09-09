@@ -50,7 +50,13 @@ def isValidTarget(self, target):
 		elif req == PlayReq.REQ_DAMAGED_TARGET:
 			if target.health == target.maxHealth:
 				return False
+		elif req == PlayReq.REQ_TARGET_MAX_ATTACK:
+			if target.atk > self.data.targetMaxAttack:
+				return False
 		elif req == PlayReq.REQ_NONSELF_TARGET:
 			if target is self:
+				return False
+		elif req == PlayReq.REQ_TARGET_MIN_ATTACK:
+			if target.atk < self.data.targetMinAttack:
 				return False
 	return True

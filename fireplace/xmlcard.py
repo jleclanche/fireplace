@@ -42,6 +42,12 @@ class XMLCard(object):
 			return self.getTag(self._tags[name])
 		return parent.__getattribute__(name)
 
+	def _reqParam(self, req):
+		tags = self.xml.findall("Power/PlayRequirement[@reqID='%i']" % (req))
+		if tags:
+			return int(tags[0].attrib["param"])
+		return 0
+
 	def getTag(self, name):
 		tag = self.xml.findall('./Tag[@name="%s"]' % (name))
 		if not tag:
@@ -68,7 +74,12 @@ class XMLCard(object):
 
 	@property
 	def minTargets(self):
-		tags = self.xml.findall("Power/PlayRequirement[@reqID='%i']" % (PlayReq.REQ_MINIMUM_ENEMY_MINIONS))
-		if tags:
-			return int(tags[0].attrib["param"])
-		return 0
+		return self._reqParam(PlayReq.REQ_MINIMUM_ENEMY_MINIONS)
+
+	@property
+	def targetMaxAttack(self):
+		return self._reqParam(PlayReq.REQ_TARGET_MAX_ATTACK)
+
+	@property
+	def targetMinAttack(self):
+		return self._reqParam(PlayReq.REQ_TARGET_MIN_ATTACK)
