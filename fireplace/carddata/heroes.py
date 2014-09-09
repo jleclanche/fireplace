@@ -2,7 +2,6 @@
 Heroes and their Hero Powers
 """
 import random
-from ..targeting import *
 from .card import Card
 
 
@@ -91,7 +90,6 @@ class HERO_08(Card):
 
 # Fireblast
 class CS2_034(Card):
-	targeting = TARGET_ANY_CHARACTER
 	def activate(self, target):
 		target.damage(1)
 
@@ -102,7 +100,6 @@ class HERO_09(Card):
 
 # Lesser Heal
 class CS1h_001(Card):
-	targeting = TARGET_ANY_CHARACTER
 	def activate(self, target):
 		target.heal(2)
 

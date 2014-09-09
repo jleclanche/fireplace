@@ -5,7 +5,6 @@ from ..card import *
 
 # Arcane Shot
 class DS1_185(Card):
-	targeting = TARGET_ANY_CHARACTER
 	def activate(self, target):
 		target.damage(2)
 
@@ -24,7 +23,6 @@ class NEW1_031(Card):
 
 # Kill Command
 class EX1_539(Card):
-	targeting = TARGET_ANY_CHARACTER
 	def activate(self, target):
 		for minion in self.owner.field:
 			if minion.race == Race.BEAST:

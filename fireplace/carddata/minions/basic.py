@@ -4,7 +4,7 @@ from ..card import *
 # Healing Totem
 class NEW1_009(Card):
 	def endTurn(self):
-		targets = self.getTargets(TARGET_FRIENDLY_MINIONS)
+		targets = self.owner.getTargets(TARGET_FRIENDLY_MINIONS)
 		for target in targets:
 			if self.game.currentPlayer is self.owner:
 				target.heal(1)
@@ -19,7 +19,6 @@ class NEW1_025(Card):
 
 # Voodoo Doctor
 class EX1_011(Card):
-	targeting = TARGET_ANY_CHARACTER
 	activate = healTarget(2)
 
 # Novice Engineer
@@ -51,8 +50,8 @@ class EX1_558(Card):
 
 # Priestess of Elune
 class EX1_583(Card):
-	targeting = TARGET_FRIENDLY_HERO
-	activate = healTarget(4)
+	def activate(self):
+		self.owner.hero.heal(4)
 
 # Nightblade
 class EX1_593(Card):
@@ -65,12 +64,11 @@ class EX1_582(Card):
 
 # Guardian of Kings
 class CS2_088(Card):
-	targeting = TARGET_FRIENDLY_HERO
-	activate = healTarget(6)
+	def activate(self):
+		self.owner.hero.heal(4)
 
 # Earthen Ring Farseer
 class CS2_117(Card):
-	targeting = TARGET_ANY_CHARACTER
 	activate = healTarget(3)
 
 # Raid Leader
@@ -91,7 +89,6 @@ class CS2_155(Card):
 
 # Elven Archer
 class CS2_189(Card):
-	targeting = TARGET_ANY_CHARACTER
 	activate = damageTarget(1)
 
 # Ogre Magi

@@ -1,9 +1,10 @@
 import json
 import logging
 import uuid
+from itertools import chain
+from . import targeting
 from .exceptions import *
-from .enums import CardType, Zone
-from .targeting import *
+from .enums import CardType, PlayReq, Zone
 from .xmlcard import XMLCard
 
 
@@ -26,8 +27,6 @@ class Card(object):
 			CardType.HERO_POWER: HeroPower,
 		}[type](id)
 		card.data = data
-		if not hasattr(card.data, "targeting"):
-			card.data.targeting = TARGET_NONE
 		return card
 
 	def __init__(self, id):
@@ -65,10 +64,6 @@ class Card(object):
 		return self.getProperty("atk")
 
 	@property
-	def targets(self):
-		return self.getTargets(self.data.targeting)
-
-	@property
 	def cost(self):
 		return self.data.cost
 
@@ -81,29 +76,15 @@ class Card(object):
 		return hasattr(self.data, "deathrattle") or self.data.hasDeathrattle
 
 	@property
-	def minTargets(self):
-		return getattr(self.data, "minTargets", 0)
+	def targets(self):
+		full_board = self.game.board + [self.owner.hero, self.owner.opponent.hero]
+		return [card for card in full_board if self.isValidTarget(card)]
 
-	def getTargets(self, t):
-		ret = []
-		if t & TARGET_FRIENDLY:
-			if t & TARGET_HERO:
-				ret.append(self.owner.hero)
-			if t & TARGET_MULTIPLE:
-				if t & TARGET_MINION:
-					ret += self.owner.field
-
-		if t & TARGET_ENEMY:
-			if t & TARGET_HERO:
-				ret.append(self.owner.opponent.hero)
-			if t & TARGET_MULTIPLE:
-				if t & TARGET_MINION:
-					ret += self.owner.opponent.field
-
-		return ret
+	isValidTarget = targeting.isValidTarget
 
 	def hasTarget(self):
-		return self.data.targeting and (not self.data.targeting & TARGET_MULTIPLE)
+		return PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements or \
+			PlayReq.REQ_TARGET_IF_AVAILABLE in self.data.requirements
 
 	@property
 	def slots(self):
@@ -306,7 +287,7 @@ class Minion(Character):
 class Spell(Card):
 	def isPlayable(self):
 		playable = super().isPlayable()
-		if len(self.targets) < self.minTargets:
+		if len(self.owner.opponent.field) < self.data.minTargets:
 			return False
 		return playable
 
@@ -317,6 +298,10 @@ class Spell(Card):
 
 
 class Enchantment(Card):
+	@property
+	def targets(self):
+		return self.owner.getTargets(self.data.targeting)
+
 	def isValidTarget(self, card):
 		if card not in self.targets:
 			return False

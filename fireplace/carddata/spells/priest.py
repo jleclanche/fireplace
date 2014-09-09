@@ -6,7 +6,7 @@ from fireplace.enums import CardType
 # Holy Nova
 class CS1_112(Card):
 	def activate(self):
-		for target in self.getTargets(TARGET_ALL_CHARACTERS):
+		for target in self.owner.getTargets(TARGET_ALL_CHARACTERS):
 			if target.owner == self.owner:
 				target.heal(2)
 			else:
@@ -15,7 +15,6 @@ class CS1_112(Card):
 
 # Shadow Word: Pain
 class CS2_234(Card):
-	targeting = TARGET_ANY_MINION
 	activate = lambda self, target: target.destroy()
 
 
@@ -38,13 +37,11 @@ class EX1_345(Card):
 
 # Shadow Word: Death
 class EX1_622(Card):
-	targeting = TARGET_ANY_MINION
 	activate = lambda self, target: target.destroy()
 
 
 # Holy Fire
 class EX1_624(Card):
-	targeting = TARGET_ANY_CHARACTER
 	def activate(self, target):
 		target.damage(5)
 		self.owner.hero.heal(5)

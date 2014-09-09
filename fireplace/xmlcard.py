@@ -1,5 +1,6 @@
 import os
 from xml.etree import ElementTree
+from .enums import PlayReq
 
 
 _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "data", "TextAsset")
@@ -59,3 +60,15 @@ class XMLCard(object):
 	def entourage(self):
 		cards = self.xml.findall("EntourageCard")
 		return [tag.attrib["cardID"] for tag in cards]
+
+	@property
+	def requirements(self):
+		reqs = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
+		return {PlayReq(int(tag.attrib["reqID"])) for tag in reqs}
+
+	@property
+	def minTargets(self):
+		tags = self.xml.findall("Power/PlayRequirement[@reqID='%i']" % (PlayReq.REQ_MINIMUM_ENEMY_MINIONS))
+		if tags:
+			return int(tags[0].attrib["param"])
+		return 0

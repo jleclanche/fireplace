@@ -1,6 +1,7 @@
 import logging
 from .cards import Card
 from .enums import Zone
+from .targeting import *
 
 
 class Player(object):
@@ -52,6 +53,22 @@ class Player(object):
 		logging.debug("Giving %r to %s" % (card, self))
 		assert self.addToHand(card), "Hand is full!"
 		return card
+
+	def getTargets(owner, t):
+		ret = []
+		if t & TARGET_FRIENDLY:
+			if t & TARGET_HERO:
+				ret.append(owner.hero)
+			if t & TARGET_MULTIPLE:
+				if t & TARGET_MINION:
+					ret += owner.field
+		if t & TARGET_ENEMY:
+			if t & TARGET_HERO:
+				ret.append(owner.opponent.hero)
+			if t & TARGET_MULTIPLE:
+				if t & TARGET_MINION:
+					ret += owner.opponent.field
+		return ret
 
 	def addToHand(self, card):
 		if len(self.hand) >= self.MAX_HAND:

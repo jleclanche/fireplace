@@ -1,3 +1,14 @@
+"""
+Targeting logic
+"""
+
+from .enums import PlayReq
+
+
+##
+# Constants
+# Only for use in getTargets()
+
 TARGET_NONE = 0x0
 TARGET_FRIENDLY = 0x1
 TARGET_ENEMY = 0x2
@@ -22,3 +33,24 @@ TARGET_ANY_HERO = TARGET_FRIENDLY_HERO | TARGET_ENEMY_HERO
 TARGET_ANY_CHARACTER = TARGET_ANY_MINION | TARGET_ANY_HERO
 TARGET_ALL_MINIONS = TARGET_FRIENDLY_MINIONS | TARGET_ENEMY_MINIONS
 TARGET_ALL_CHARACTERS = TARGET_ALL_MINIONS | TARGET_ANY_HERO
+
+
+# Requirements-based targeting
+def isValidTarget(self, target):
+	for req in self.data.requirements:
+		if req == PlayReq.REQ_MINION_TARGET:
+			if target.type != CardType.MINION:
+				return False
+		elif req == PlayReq.REQ_FRIENDLY_TARGET:
+			if target.owner != self.owner:
+				return False
+		elif req == PlayReq.REQ_ENEMY_TARGET:
+			if target.owner == self.owner:
+				return False
+		elif req == PlayReq.REQ_DAMAGED_TARGET:
+			if target.health == target.maxHealth:
+				return False
+		elif req == PlayReq.REQ_NONSELF_TARGET:
+			if target is self:
+				return False
+	return True

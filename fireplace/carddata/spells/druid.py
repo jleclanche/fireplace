@@ -15,19 +15,16 @@ class CS2_005o(Card):
 
 # Healing Touch
 class CS2_007(Card):
-	targeting = TARGET_ANY_CHARACTER
 	activate = healTarget(8)
 
 
 # Moonfire
 class CS2_008(Card):
-	targeting = TARGET_ANY_CHARACTER
 	activate = damageTarget(1)
 
 
 # Mark of the Wild
 class CS2_009(Card):
-	targeting = TARGET_ANY_MINION
 	activate = buffTarget("CS2_009e")
 
 class CS2_009e(Card):
@@ -50,7 +47,6 @@ class CS2_013t(Card):
 
 # Naturalize
 class EX1_161(Card):
-	targeting = TARGET_ANY_MINION
 	def activate(self, target):
 		target.destroy()
 		self.owner.opponent.draw(2)
@@ -66,7 +62,7 @@ class EX1_570(Card):
 # Soul of the Forest
 class EX1_158(Card):
 	def activate(self):
-		for target in self.owner.board:
+		for target in self.owner.field:
 			target.buff("EX1_158e")
 
 class EX1_158e(Card):
