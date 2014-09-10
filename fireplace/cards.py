@@ -136,11 +136,12 @@ class Card(object):
 
 		# Card must already be on the field for activate
 		if hasattr(self.data, "activate"):
-			logging.info("Triggering 'activate' for %r" % (self))
 			activate = self.data.__class__.activate
 			if self.hasTarget():
+				logging.info("Activating %r on %r" % (self, target))
 				activate(self, target=target)
 			else:
+				logging.info("Activating %r" % (self))
 				activate(self)
 
 	def getProperty(self, prop):
