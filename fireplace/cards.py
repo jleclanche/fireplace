@@ -307,6 +307,14 @@ class Minion(Character):
 
 
 class Spell(Card):
+	def isPlayable(self):
+		playable = super().isPlayable()
+		if self.data.secret:
+			# secrets are all unique
+			if self in self.owner.hero.secrets:
+				return False
+		return playable
+
 	def play(self, target=None):
 		if self.data.secret:
 			self.owner.hero.summonSecret(self)

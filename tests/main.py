@@ -278,6 +278,22 @@ def test_cleave():
 	assert not cleave2.isPlayable()
 
 
+def test_ice_barrier():
+	game = prepare_game(MAGE, MAGE)
+	icebarrier = game.currentPlayer.give("EX1_289")
+	icebarrier2 = game.currentPlayer.give("EX1_289")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert icebarrier.isPlayable()
+	icebarrier.play()
+	assert not icebarrier2.isPlayable()
+	assert game.currentPlayer.hero.secrets
+	assert "EX1_289" in game.currentPlayer.hero.secrets
+	game.endTurn(); game.endTurn()
+	assert not icebarrier2.isPlayable()
+
+
 def test_warlock():
 	game = prepare_game(WARLOCK, WARLOCK)
 	sacpact = game.currentPlayer.give("NEW1_003")
@@ -307,6 +323,7 @@ def main():
 	test_arcane_explosion()
 	test_mindgames()
 	test_cleave()
+	test_ice_barrier()
 	print("All tests ran OK")
 
 
