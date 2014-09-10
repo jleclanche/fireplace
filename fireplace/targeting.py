@@ -37,6 +37,8 @@ TARGET_ALL_CHARACTERS = TARGET_ALL_MINIONS | TARGET_ANY_HERO
 
 # Requirements-based targeting
 def isValidTarget(self, target):
+	if target.stealth and self.owner != target.owner:
+		return False
 	for req in self.data.requirements:
 		if req == PlayReq.REQ_MINION_TARGET:
 			if target.type != CardType.MINION:

@@ -202,6 +202,8 @@ class Character(Card):
 			self.weapon.loseDurability()
 		if target.atk:
 			self.damage(target.atk)
+		if self.stealth:
+			self.stealth = False
 
 	def damage(self, amount):
 		self.damageCounter += min(self.health, amount)
@@ -221,6 +223,7 @@ class Hero(Character):
 		super().__init__(id)
 		self.secrets = []
 		self.armor = 0
+		self.stealth = False
 
 	def gainArmor(self, amount):
 		assert self.type == CardType.HERO
@@ -296,6 +299,7 @@ class Minion(Character):
 	def play(self, target=None):
 		self.owner.summon(self)
 		self.summoningSickness = True
+		self.stealth = self.data.stealth
 		if self.data.hasAura:
 			self.aura = Card(self.data.aura)
 			self.aura.owner = self.owner

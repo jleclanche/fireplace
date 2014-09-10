@@ -128,6 +128,26 @@ def test_divine_shield():
 	assert not squire.shield
 
 
+def test_stealth():
+	game = prepare_game(MAGE, MAGE)
+	worgen = game.currentPlayer.give("EX1_010")
+	worgen.play()
+	assert worgen.stealth
+	game.endTurn()
+
+	archer = game.currentPlayer.give("CS2_189")
+	assert len(archer.targets) == 2  # Only the heroes
+	game.currentPlayer.getById("GAME_005").play()
+	assert len(game.currentPlayer.hero.power.targets) == 2
+	game.endTurn()
+
+	worgen.attack(game.currentPlayer.opponent.hero)
+	assert not worgen.stealth
+	game.endTurn()
+
+	assert len(archer.targets) == 3
+
+
 def test_card_draw():
 	game = prepare_game()
 	# pass turn 1
@@ -319,6 +339,7 @@ def main():
 	test_mage_priest()
 	test_paladin_shaman()
 	test_warlock()
+	test_stealth()
 	test_kill_command()
 	test_arcane_explosion()
 	test_mindgames()
