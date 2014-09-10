@@ -277,6 +277,20 @@ def test_cleave():
 	cleave2 = game.currentPlayer.give("CS2_114")
 	assert not cleave2.isPlayable()
 
+
+def test_warlock():
+	game = prepare_game(WARLOCK, WARLOCK)
+	sacpact = game.currentPlayer.give("NEW1_003")
+	assert not sacpact.isPlayable()
+	flameimp = game.currentPlayer.give("EX1_319")
+	flameimp.play()
+	assert game.currentPlayer.hero.health == 27
+	assert sacpact.isPlayable()
+	sacpact.play(target=flameimp)
+	assert game.currentPlayer.hero.health == 30
+	game.endTurn()
+
+
 def main():
 	random.seed(12345)
 	test_deathrattle()
@@ -288,6 +302,7 @@ def main():
 	test_divine_shield()
 	test_mage_priest()
 	test_paladin_shaman()
+	test_warlock()
 	test_kill_command()
 	test_arcane_explosion()
 	test_mindgames()
