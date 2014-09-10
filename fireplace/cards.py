@@ -119,6 +119,9 @@ class Card(object):
 	def isPlayable(self):
 		if self.owner.mana < self.cost:
 			return False
+		if PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements:
+			if not self.targets:
+				return False
 		return True
 
 	def play(self, target=None):
