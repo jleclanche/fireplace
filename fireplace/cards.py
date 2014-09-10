@@ -46,6 +46,13 @@ class Card(object):
 	def __repr__(self):
 		return "<%s (%r)>" % (self.__class__.__name__, self.data.name)
 
+	def __eq__(self, other):
+		if isinstance(other, Card):
+			return self.id.__eq__(other.id)
+		elif isinstance(other, str):
+			return self.id.__eq__(other)
+		return super().__eq__(other)
+
 	@property
 	def game(self):
 		return self.owner.game
