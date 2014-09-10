@@ -217,6 +217,9 @@ class Character(Card):
 		self.damageCounter -= min(amount, self.damageCounter)
 		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.health))
 
+	def isDamaged(self):
+		return bool(self.damageCounter)
+
 
 class Hero(Character):
 	def __init__(self, id):
