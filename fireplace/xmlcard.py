@@ -73,6 +73,10 @@ class XMLCard(object):
 		return {PlayReq(int(tag.attrib["reqID"])) for tag in reqs}
 
 	@property
+	def minMinions(self):
+		return self._reqParam(PlayReq.REQ_MINIMUM_TOTAL_MINIONS)
+
+	@property
 	def minTargets(self):
 		return self._reqParam(PlayReq.REQ_MINIMUM_ENEMY_MINIONS)
 

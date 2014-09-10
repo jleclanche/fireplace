@@ -122,6 +122,17 @@ class Card(object):
 		if PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements:
 			if not self.targets:
 				return False
+		if len(self.owner.opponent.field) < self.data.minTargets:
+			return False
+		if len(self.owner.game.board) < self.data.minMinions:
+			return False
+		if PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY in self.data.requirements:
+			entourage = list(self.data.entourage)
+			for minion in self.owner.field:
+				if minion.id in entourage:
+					entourage.remove(minion.id)
+			if not entourage:
+				return False
 		return True
 
 	def play(self, target=None):
@@ -289,12 +300,6 @@ class Minion(Character):
 
 
 class Spell(Card):
-	def isPlayable(self):
-		playable = super().isPlayable()
-		if len(self.owner.opponent.field) < self.data.minTargets:
-			return False
-		return playable
-
 	def play(self, target=None):
 		if self.data.secret:
 			self.owner.hero.summonSecret(self)
