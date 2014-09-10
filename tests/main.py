@@ -298,6 +298,27 @@ def test_cleave():
 	assert not cleave2.isPlayable()
 
 
+def test_upgrade():
+	game = prepare_game()
+	axe = game.currentPlayer.give("CS2_106")
+	upgrade = game.currentPlayer.give("EX1_409")
+	game.endTurn(); game.endTurn()
+	axe.play()
+	game.currentPlayer.hero.attack(game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.opponent.hero.health == 27
+
+	game.endTurn(); game.endTurn()
+	assert game.currentPlayer.hero.weapon.atk == 3
+	assert game.currentPlayer.hero.weapon.durability == 1
+	upgrade.play()
+	assert game.currentPlayer.hero.weapon.atk == 4
+	assert game.currentPlayer.hero.weapon.durability == 2
+	game.currentPlayer.hero.attack(game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.opponent.hero.health == 23
+	assert game.currentPlayer.hero.weapon.durability == 1
+
+
+
 def test_ice_barrier():
 	game = prepare_game(MAGE, MAGE)
 	icebarrier = game.currentPlayer.give("EX1_289")
@@ -345,6 +366,7 @@ def main():
 	test_mindgames()
 	test_cleave()
 	test_ice_barrier()
+	test_upgrade()
 	print("All tests ran OK")
 
 
