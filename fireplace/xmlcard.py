@@ -1,6 +1,6 @@
 import os
 from xml.etree import ElementTree
-from .enums import PlayReq
+from .enums import PlayReq, Race
 
 
 _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "data", "TextAsset")
@@ -83,3 +83,9 @@ class XMLCard(object):
 	@property
 	def targetMinAttack(self):
 		return self._reqParam(PlayReq.REQ_TARGET_MIN_ATTACK)
+
+	@property
+	def targetRace(self):
+		race = self._reqParam(PlayReq.REQ_TARGET_WITH_RACE)
+		if race:
+			return Race(race)

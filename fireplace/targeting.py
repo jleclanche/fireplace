@@ -56,6 +56,9 @@ def isValidTarget(self, target):
 		elif req == PlayReq.REQ_NONSELF_TARGET:
 			if target is self:
 				return False
+		elif req == PlayReq.REQ_TARGET_WITH_RACE:
+			if target.race != self.data.targetRace:
+				return False
 		elif req == PlayReq.REQ_TARGET_MIN_ATTACK:
 			if target.atk < self.data.targetMinAttack:
 				return False
