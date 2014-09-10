@@ -7,7 +7,7 @@ from ..card import *
 class CS2_005(Card):
 	def activate(self):
 		buffSelf(self, "CS2_005o")
-		self.owner.gainArmor(2)
+		self.owner.hero.gainArmor(2)
 
 class CS2_005o(Card):
 	attack = 2
@@ -56,7 +56,7 @@ class EX1_161(Card):
 class EX1_570(Card):
 	def activate(self):
 		buffSelf(self, "EX1_570e")
-		self.owner.gainArmor(4)
+		self.owner.hero.gainArmor(4)
 
 
 # Soul of the Forest
