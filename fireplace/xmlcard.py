@@ -61,6 +61,11 @@ class XMLCard(object):
 		return int(value)
 
 	@property
+	def spellpower(self):
+		# Game treats as a bool. We default to 1 if present.
+		return int(getTag("Spellpower"))
+
+	@property
 	def name(self):
 		return self.xml.findall("./Tag[@name='CardName']/enUS")[0].text
 

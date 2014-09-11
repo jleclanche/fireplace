@@ -58,10 +58,6 @@ class EX1_593(Card):
 	def activate(self):
 		self.owner.opponent.hero.damage(3)
 
-# Dalaran Mage
-class EX1_582(Card):
-	spelldamage = 1
-
 # Guardian of Kings
 class CS2_088(Card):
 	def activate(self):
@@ -75,25 +71,13 @@ class CS2_117(Card):
 class CS2_122(Card):
 	aura = "CS2_122e"
 
-# Kobold Geomancer
-class CS2_142(Card):
-	spellpower = 1
-
 # Gnomish Inventor
 class CS2_147(Card):
 	activate = drawCard
 
-# Archmage
-class CS2_155(Card):
-	spelldamage = 1
-
 # Elven Archer
 class CS2_189(Card):
 	activate = damageTarget(1)
-
-# Ogre Magi
-class CS2_197(Card):
-	spellpower = 1
 
 
 # Timber Wolf
