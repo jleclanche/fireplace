@@ -38,7 +38,6 @@ class Card(object):
 		self.damageCounter = 0
 		self.durabilityCounter = 0
 		self.weapon = None
-		self.armor = 0
 		self.buffs = []
 		super().__init__()
 
@@ -215,10 +214,20 @@ class Character(Card):
 
 
 class Hero(Character):
+	def __init__(self, id):
+		super().__init__(id)
+		self.secrets = []
+		self.armor = 0
+
 	def gainArmor(self, amount):
 		assert self.type == CardType.HERO
 		self.armor += amount
 		logging.info("%r gains %i armor (now at %i)" % (self, amount, self.armor))
+
+	def summonSecret(self, secret):
+		logging.info("%r summons secret %r" % (self, secret))
+		self.secrets.append(secret)
+		secret.zone = Zone.SECRET
 
 	def damage(self, amount):
 		if self.armor:
@@ -300,6 +309,11 @@ class Spell(Card):
 		if len(self.targets) < self.minTargets:
 			return False
 		return playable
+
+	def play(self, target=None):
+		if self.data.secret:
+			self.owner.hero.summonSecret(self)
+		super().play(target)
 
 
 class Enchantment(Card):

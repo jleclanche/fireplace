@@ -14,6 +14,7 @@ class XMLCard(object):
 		"cost": "Cost",
 		"race": "Race",
 		"charge": "Charge",
+		"secret": "Secret",
 		"taunt": "Taunt",
 		"divineShield": "Divine Shield",
 		"oneTurnEffect": "OneTurnEffect",
