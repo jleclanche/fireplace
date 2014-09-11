@@ -36,7 +36,7 @@ class HERO_03(Card):
 # Dagger Mastery
 class CS2_083b(Card):
 	def activate(self):
-		self.owner.equip("CS2_082")
+		self.owner.summon("CS2_082")
 
 
 # Uther Lightbringer

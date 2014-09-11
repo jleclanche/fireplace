@@ -45,5 +45,5 @@ class EX1_319(Card):
 class EX1_323(Card):
 	def activate(self):
 		self.removeFromField()
-		self.owner.setHero("EX1_323h")
-		self.owner.hero.equip("EX1_323w")
+		self.owner.summon("EX1_323h")
+		self.owner.summon("EX1_323w")

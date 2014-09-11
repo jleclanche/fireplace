@@ -108,6 +108,16 @@ class Card(object):
 		ret += self.buffs
 		return ret
 
+	def activate(self, target=None):
+		if hasattr(self.data, "activate"):
+			activate = self.data.__class__.activate
+			if self.hasTarget():
+				logging.info("Activating %r on %r" % (self, target))
+				activate(self, target=target)
+			else:
+				logging.info("Activating %r" % (self))
+				activate(self)
+
 	def destroy(self):
 		logging.info("%r dies" % (self))
 		self.zone = Zone.GRAVEYARD
@@ -145,24 +155,13 @@ class Card(object):
 		return True
 
 	def play(self, target=None):
-		logging.info("%s plays %r" % (self.owner, self))
-		assert self.owner, "That minion is not mine!"
-		self.owner.availableMana -= self.cost
-		self.zone = Zone.PLAY
+		"""
+		Helper for Player.play(card)
+		"""
+		self.owner.play(self, target)
 
-		# hacky
-		if self.type not in (CardType.HERO, CardType.HERO_POWER):
-			self.owner.hand.remove(self)
-
-		# Card must already be on the field for activate
-		if hasattr(self.data, "activate"):
-			activate = self.data.__class__.activate
-			if self.hasTarget():
-				logging.info("Activating %r on %r" % (self, target))
-				activate(self, target=target)
-			else:
-				logging.info("Activating %r" % (self))
-				activate(self)
+	def summon(self):
+		pass
 
 	def getProperty(self, prop):
 		ret = getattr(self.data, prop)
@@ -172,12 +171,10 @@ class Card(object):
 		return ret
 
 	def buff(self, card):
-		if isinstance(card, str):
-			from .cards import Card
-			card = Card(card)
-		card.owner = self
-		logging.debug("%r receives buff: %r" % (self, card))
+		card = self.owner.summon(card)
 		assert card.type == CardType.ENCHANTMENT, card.type
+		logging.debug("%r receives buff: %r" % (self, card))
+		card.owner = self
 		self.buffs.append(card)
 
 
@@ -226,7 +223,6 @@ class Character(Card):
 class Hero(Character):
 	def __init__(self, id):
 		super().__init__(id)
-		self.secrets = []
 		self.armor = 0
 		self.stealth = False
 
@@ -234,11 +230,6 @@ class Hero(Character):
 		assert self.type == CardType.HERO
 		self.armor += amount
 		logging.info("%r gains %i armor (now at %i)" % (self, amount, self.armor))
-
-	def summonSecret(self, secret):
-		logging.info("%r summons secret %r" % (self, secret))
-		self.secrets.append(secret)
-		secret.zone = Zone.SECRET
 
 	def damage(self, amount):
 		if self.armor:
@@ -251,17 +242,9 @@ class Hero(Character):
 	def destroy(self):
 		raise GameOver("%s wins!" % (self.owner.opponent))
 
-	def equip(self, weapon):
-		if isinstance(weapon, str):
-			weapon = Card(weapon)
-		logging.info("%r equips %r" % (self, weapon))
-		if self.weapon:
-			self.weapon.destroy()
-		self.weapon = weapon
-
-	def play(self, target=None):
-		self.owner.setHero(self)
-		super().play(target)
+	def summon(self):
+		self.owner.hero = self
+		self.owner.summon(self.data.power)
 
 
 class Minion(Character):
@@ -301,8 +284,10 @@ class Minion(Character):
 			return False
 		return playable
 
-	def play(self, target=None):
-		self.owner.summon(self)
+	def summon(self):
+		if len(self.owner.field) >= self.owner.game.MAX_MINIONS_ON_FIELD:
+			return
+		self.owner.field.append(self)
 		self.summoningSickness = True
 		self.stealth = self.data.stealth
 		if self.data.hasAura:
@@ -312,7 +297,6 @@ class Minion(Character):
 			logging.info("Aura %r suddenly appears" % (self.aura))
 			self.game.auras.append(self.aura)
 		self.shield = self.data.divineShield
-		super().play(target)
 
 
 class Spell(Card):
@@ -322,13 +306,13 @@ class Spell(Card):
 class Secret(Card):
 	def isPlayable(self):
 		# secrets are all unique
-		if self in self.owner.hero.secrets:
+		if self in self.owner.secrets:
 			return False
 		return super().isPlayable()
 
-	def play(self, target=None):
-		self.owner.hero.summonSecret(self)
-		super().play(target)
+	def summon(self):
+		self.owner.secrets.append(self)
+		self.zone = Zone.SECRET
 
 
 class Enchantment(Card):
@@ -365,10 +349,12 @@ class Weapon(Card):
 		self.owner.hero.weapon = None
 		super().destroy()
 
-	def play(self, target=None):
-		self.owner.hero.equip(self)
-		super().play(target)
+	def summon(self):
+		if self.owner.hero.weapon:
+			self.owner.hero.weapon.destroy()
+		self.owner.hero.weapon = self
 
 
 class HeroPower(Card):
-	pass
+	def summon(self):
+		self.owner.hero.power = self

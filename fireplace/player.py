@@ -1,6 +1,6 @@
 import logging
 from .cards import Card
-from .enums import Zone
+from .enums import CardType, Zone
 from .targeting import *
 
 
@@ -15,6 +15,7 @@ class Player(object):
 		self.hand = []
 		self.field = []
 		self.buffs = []
+		self.secrets = []
 		self.fatigueCounter = 0
 		# set to False after the player has finished his mulligan
 		self.canMulligan = True
@@ -85,15 +86,6 @@ class Player(object):
 				return card
 		raise ValueError
 
-	def setHero(self, hero):
-		if isinstance(hero, str):
-			hero = Card(hero)
-		hero.power = Card(hero.data.power)
-		logging.info("%s: Setting hero to %r and hero power to %r" % (self, hero, hero.power))
-		hero.power.owner = self
-		hero.owner = self
-		self.hero = hero
-
 	def insertToHand(self, card, pos):
 		# Same as addToHand but inserts (usually in place of a None)
 		# used for mulligan
@@ -134,13 +126,26 @@ class Player(object):
 		self.maxMana = max(0, self.maxMana - amount)
 		logging.info("%s loses %i mana crystal (now at %i)" % (self, amount, self.maxMana))
 
-	def summon(self, minion):
-		logging.info("Summoning %r" % (minion))
-		if isinstance(minion, str):
-			minion = Card(minion)
-			minion.owner = self
-		# TODO index
-		if len(self.field) >= self.game.MAX_MINIONS_ON_FIELD:
-			return
-		self.field.append(minion)
-		return minion
+	def summon(self, card):
+		"""
+		Puts \a card in the PLAY zone
+		"""
+		if isinstance(card, str):
+			card = Card(card)
+			card.owner = self
+		logging.debug("%s summons %r" % (self, card))
+		card.summon()
+		return card
+
+	def play(self, card, target=None):
+		"""
+		Plays \a card from the player's hand
+		"""
+		logging.info("%s plays %r from their hand" % (self, card))
+		assert card.owner
+		self.availableMana -= card.cost
+		self.hand.remove(card)
+		card.zone = Zone.PLAY
+		self.summon(card)
+		# Card must already be on the field for activate()
+		card.activate(target)
