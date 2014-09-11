@@ -144,6 +144,9 @@ class Player(object):
 		logging.info("%s plays %r from their hand" % (self, card))
 		assert card.owner
 		self.availableMana -= card.cost
+		if card.data.overload:
+			self.nextOverload += card.data.overload
+			logging.info("%s is overloaded for %i mana" % (self, self.nextOverload))
 		self.hand.remove(card)
 		card.zone = Zone.PLAY
 		self.summon(card)

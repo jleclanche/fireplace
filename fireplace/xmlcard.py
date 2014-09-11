@@ -15,6 +15,7 @@ class XMLCard(object):
 		"cost": "Cost",
 		"race": "Race",
 		"charge": "Charge",
+		"overload": "Recall",
 		"secret": "Secret",
 		"stealth": "Stealth",
 		"taunt": "Taunt",
