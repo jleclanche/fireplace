@@ -17,15 +17,17 @@ class Card(object):
 		if cls is not Card:
 			return super().__new__(cls)
 		data = XMLCard.get(id)
-		type = data.type
-		card = {
+		type = {
 			CardType.HERO: Hero,
 			CardType.MINION: Minion,
 			CardType.SPELL: Spell,
 			CardType.ENCHANTMENT: Enchantment,
 			CardType.WEAPON: Weapon,
 			CardType.HERO_POWER: HeroPower,
-		}[type](id)
+		}[data.type]
+		if type is Spell and data.secret:
+			type = Secret
+		card = type(id)
 		card.data = data
 		return card
 
@@ -314,17 +316,18 @@ class Minion(Character):
 
 
 class Spell(Card):
+	pass
+
+
+class Secret(Card):
 	def isPlayable(self):
-		playable = super().isPlayable()
-		if self.data.secret:
-			# secrets are all unique
-			if self in self.owner.hero.secrets:
-				return False
-		return playable
+		# secrets are all unique
+		if self in self.owner.hero.secrets:
+			return False
+		return super().isPlayable()
 
 	def play(self, target=None):
-		if self.data.secret:
-			self.owner.hero.summonSecret(self)
+		self.owner.hero.summonSecret(self)
 		super().play(target)
 
 
