@@ -344,6 +344,22 @@ def test_ice_barrier():
 	assert not icebarrier2.isPlayable()
 
 
+def test_flare():
+	game = prepare_game(HUNTER, HUNTER)
+	flare = game.currentPlayer.give("EX1_544")
+	worgen = game.currentPlayer.give("EX1_010")
+	worgen.play()
+	game.endTurn()
+
+	avenge = game.currentPlayer.give("FP1_020")
+	avenge.play()
+	game.endTurn()
+
+	flare.play()
+	assert not game.currentPlayer.opponent.secrets
+	assert not worgen.stealth
+
+
 def test_warlock():
 	game = prepare_game(WARLOCK, WARLOCK)
 	sacpact = game.currentPlayer.give("NEW1_003")
@@ -376,6 +392,7 @@ def main():
 	test_mindgames()
 	test_cleave()
 	test_ice_barrier()
+	test_flare()
 	test_upgrade()
 	print("All tests ran OK")
 
