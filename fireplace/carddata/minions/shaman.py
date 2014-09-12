@@ -4,8 +4,8 @@ from ..card import *
 # Healing Totem
 class NEW1_009(Card):
 	def endTurn(self):
-		if self.game.currentPlayer is self.owner:
-			targets = self.owner.getTargets(TARGET_FRIENDLY_MINIONS)
+		if self.game.currentPlayer is self.controller:
+			targets = self.controller.getTargets(TARGET_FRIENDLY_MINIONS)
 			for target in targets:
 				target.heal(1)
 
@@ -28,8 +28,8 @@ class EX1_250(Card):
 # Mana Tide Totem
 class EX1_575(Card):
 	def endTurn(self):
-		if self.game.currentPlayer is self.owner:
-			self.owner.draw()
+		if self.game.currentPlayer is self.controller:
+			self.controller.draw()
 
 
 # Windspeaker

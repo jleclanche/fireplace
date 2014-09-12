@@ -4,8 +4,8 @@ from ..card import *
 # Bloodsail Corsair
 class NEW1_025(Card):
 	def activate(self):
-		weapon = self.owner.opponent.hero.weapon
-		if self.owner.opponent.hero.weapon:
+		weapon = self.controller.opponent.hero.weapon
+		if self.controller.opponent.hero.weapon:
 			weapon.loseDurability(1)
 
 
@@ -20,8 +20,8 @@ class EX1_015(Card):
 # Acidic Swamp Ooze
 class EX1_066(Card):
 	def activate(self):
-		if self.owner.opponent.hero.weapon:
-			self.owner.opponent.hero.weapon.destroy()
+		if self.controller.opponent.hero.weapon:
+			self.controller.opponent.hero.weapon.destroy()
 
 # Loot Hoarder
 class EX1_096(Card):
@@ -30,30 +30,30 @@ class EX1_096(Card):
 # Murloc Tidehunter
 class EX1_506(Card):
 	def activate(self):
-		self.owner.summon("EX1_506a")
+		self.controller.summon("EX1_506a")
 
 # Harrison Jones
 class EX1_558(Card):
 	def activate(self):
-		weapon = self.owner.opponent.hero.weapon
+		weapon = self.controller.opponent.hero.weapon
 		if weapon:
 			weapon.destroy()
-			self.owner.draw(weapon.durability)
+			self.controller.draw(weapon.durability)
 
 # Priestess of Elune
 class EX1_583(Card):
 	def activate(self):
-		self.owner.hero.heal(4)
+		self.controller.hero.heal(4)
 
 # Nightblade
 class EX1_593(Card):
 	def activate(self):
-		self.owner.opponent.hero.damage(3)
+		self.controller.opponent.hero.damage(3)
 
 # Guardian of Kings
 class CS2_088(Card):
 	def activate(self):
-		self.owner.hero.heal(4)
+		self.controller.hero.heal(4)
 
 # Earthen Ring Farseer
 class CS2_117(Card):

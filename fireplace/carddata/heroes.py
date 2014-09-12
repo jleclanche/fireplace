@@ -12,7 +12,7 @@ class HERO_01(Card):
 # Armor Up!
 class CS2_102(Card):
 	def activate(self):
-		self.owner.hero.gainArmor(2)
+		self.controller.hero.gainArmor(2)
 
 
 # Thrall
@@ -23,10 +23,10 @@ class HERO_02(Card):
 class CS2_049(Card):
 	def activate(self):
 		entourage = self.data.entourage
-		for minion in self.owner.field:
+		for minion in self.controller.field:
 			if minion.id in entourage:
 				entourage.remove(minion.id)
-		self.owner.summon(random.choice(entourage))
+		self.controller.summon(random.choice(entourage))
 
 
 # Valeera Sanguinar
@@ -36,7 +36,7 @@ class HERO_03(Card):
 # Dagger Mastery
 class CS2_083b(Card):
 	def activate(self):
-		self.owner.summon("CS2_082")
+		self.controller.summon("CS2_082")
 
 
 # Uther Lightbringer
@@ -46,7 +46,7 @@ class HERO_04(Card):
 # Reinforce
 class CS2_101(Card):
 	def activate(self):
-		self.owner.summon("CS2_101t")
+		self.controller.summon("CS2_101t")
 
 
 # Rexxar
@@ -56,7 +56,7 @@ class HERO_05(Card):
 # Steady Shot
 class DS1h_292(Card):
 	def activate(self):
-		self.owner.opponent.hero.damage(2)
+		self.controller.opponent.hero.damage(2)
 
 
 # Malfurion Stormrage
@@ -66,7 +66,7 @@ class HERO_06(Card):
 # Shapeshift
 class CS2_017(Card):
 	def activate(self):
-		self.owner.hero.buff("CS2_017o")
+		self.controller.hero.buff("CS2_017o")
 
 # Claws
 class CS2_017o(Card):
@@ -80,8 +80,8 @@ class HERO_07(Card):
 # Life Tap
 class CS2_056(Card):
 	def activate(self):
-		self.owner.hero.damage(2)
-		self.owner.draw()
+		self.controller.hero.damage(2)
+		self.controller.draw()
 
 
 # Jaina Proudmoore
@@ -111,4 +111,4 @@ class EX1_323h(Card):
 # INFERNO!
 class EX1_tk33(Card):
 	def activate(self):
-		self.owner.summon("EX1_tk34")
+		self.controller.summon("EX1_tk34")

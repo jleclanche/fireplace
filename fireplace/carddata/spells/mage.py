@@ -9,7 +9,7 @@ class CS2_023(Card):
 # Arcane Explosion
 class CS2_025(Card):
 	def activate(self):
-		for target in self.owner.getTargets(TARGET_ENEMY_MINIONS):
+		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
 			target.damage(1)
 
 

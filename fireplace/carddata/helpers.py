@@ -1,17 +1,17 @@
 import random
 
 
-drawCard = lambda self: self.owner.draw()
+drawCard = lambda self: self.controller.draw()
 
 
 def drawCards(amount):
-	return lambda self: self.owner.draw(amount)
+	return lambda self: self.controller.draw(amount)
 
 
 def discard(count):
 	def _discard(self):
 		# discard at most x card
-		discard = random.sample(self.owner.hand, min(count, len(self.owner.hand)))
+		discard = random.sample(self.controller.hand, min(count, len(self.controller.hand)))
 		for card in discard:
 			card.discard()
 	return _discard
@@ -37,5 +37,5 @@ def buffTarget(buff):
 
 def buffSelf(buff):
 	def _buffSelf(self):
-		self.owner.hero.buff(buff)
+		self.controller.hero.buff(buff)
 	return _buffSelf

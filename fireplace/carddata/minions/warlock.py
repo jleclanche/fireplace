@@ -5,9 +5,9 @@ from ..card import *
 # Blood Imp
 class CS2_059(Card):
 	def endTurn(self):
-		if self.game.currentPlayer is self.owner:
-			if self.owner.field:
-				random.choice(self.owner.field).buff("CS2_059o")
+		if self.game.currentPlayer is self.controller:
+			if self.controller.field:
+				random.choice(self.controller.field).buff("CS2_059o")
 
 class CS2_059o(Card):
 	health = 1
@@ -16,7 +16,7 @@ class CS2_059o(Card):
 # Felguard
 class EX1_301(Card):
 	def activate(self):
-		self.owner.loseMana(1)
+		self.controller.loseMana(1)
 
 
 # Succubus
@@ -32,18 +32,18 @@ class EX1_310(Card):
 # Pit Lord
 class EX1_313(Card):
 	def activate(self):
-		self.owner.hero.damage(5)
+		self.controller.hero.damage(5)
 
 
 # Flame Imp
 class EX1_319(Card):
 	def activate(self):
-		self.owner.hero.damage(3)
+		self.controller.hero.damage(3)
 
 
 # Lord Jaraxxus
 class EX1_323(Card):
 	def activate(self):
 		self.removeFromField()
-		self.owner.summon("EX1_323h")
-		self.owner.summon("EX1_323w")
+		self.controller.summon("EX1_323h")
+		self.controller.summon("EX1_323w")

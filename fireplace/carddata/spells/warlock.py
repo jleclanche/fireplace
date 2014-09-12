@@ -13,7 +13,7 @@ class CS2_061(Card):
 # Hellfire
 class CS2_062(Card):
 	def activate(self):
-		for target in self.owner.getTargets(TARGET_ALL_CHARACTERS):
+		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
 			target.damage(3)
 
 
@@ -27,13 +27,13 @@ class EX1_302(Card):
 	def activate(self, target):
 		target.damage(1)
 		if target.zone == Zone.GRAVEYARD:
-			self.owner.draw()
+			self.controller.draw()
 
 
 # Shadowflame
 class EX1_303(Card):
 	def activate(self, target):
-		for minion in self.owner.opponent.field:
+		for minion in self.controller.opponent.field:
 			minion.damage(target.atk)
 		target.destroy()
 
@@ -42,21 +42,21 @@ class EX1_303(Card):
 class EX1_308(Card):
 	def activate(self, target):
 		target.damage(4)
-		if self.owner.hand:
-			random.choice(self.owner.hand).discard()
+		if self.controller.hand:
+			random.choice(self.controller.hand).discard()
 
 
 # Siphon Soul
 class EX1_309(Card):
 	def activate(self, target):
-		self.owner.hero.heal(3)
+		self.controller.hero.heal(3)
 		target.destroy()
 
 
 # Twisting Nether
 class EX1_312(Card):
 	def activate(self):
-		for minion in self.owner.getTargets(TARGET_ALL_MINIONS):
+		for minion in self.controller.getTargets(TARGET_ALL_MINIONS):
 			target.destroy()
 
 
@@ -65,13 +65,13 @@ class EX1_320(Card):
 	def activate(self, target):
 		target.damage(2)
 		if target.zone == Zone.GRAVEYARD:
-			self.owner.summon(random.choice(self.data.entourage))
+			self.controller.summon(random.choice(self.data.entourage))
 
 
 # Demonfire
 class EX1_596(Card):
 	def activate(self, target):
-		if target.race == Race.DEMON and target.owner == self.owner:
+		if target.race == Race.DEMON and target.controller == self.controller:
 			target.buff("EX1_596e")
 		else:
 			target.damage(2)
@@ -85,4 +85,4 @@ class EX1_596e(Card):
 class NEW1_003(Card):
 	def activate(self, target):
 		target.destroy()
-		self.owner.hero.heal(5)
+		self.controller.hero.heal(5)

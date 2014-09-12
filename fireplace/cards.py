@@ -34,7 +34,7 @@ class Card(object):
 	def __init__(self, id):
 		self.id = id
 		self.uuid = uuid.uuid4()
-		self.owner = None
+		self.controller = None
 		self.zone = Zone.DECK
 		self.damageCounter = 0
 		self.durabilityCounter = 0
@@ -57,7 +57,7 @@ class Card(object):
 
 	@property
 	def game(self):
-		return self.owner.game
+		return self.controller.game
 
 	##
 	# Properties affected by slots
@@ -86,7 +86,7 @@ class Card(object):
 
 	@property
 	def targets(self):
-		full_board = self.game.board + [self.owner.hero, self.owner.opponent.hero]
+		full_board = self.game.board + [self.controller.hero, self.controller.opponent.hero]
 		return [card for card in full_board if self.isValidTarget(card)]
 
 	isValidTarget = targeting.isValidTarget
@@ -133,21 +133,21 @@ class Card(object):
 	def discard(self):
 		logging.info("Discarding %r" % (self))
 		self.zone = Zone.GRAVEYARD
-		self.owner.hand.remove(self)
+		self.controller.hand.remove(self)
 
 	def isPlayable(self):
-		if self.owner.mana < self.cost:
+		if self.controller.mana < self.cost:
 			return False
 		if PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements:
 			if not self.targets:
 				return False
-		if len(self.owner.opponent.field) < self.data.minTargets:
+		if len(self.controller.opponent.field) < self.data.minTargets:
 			return False
-		if len(self.owner.game.board) < self.data.minMinions:
+		if len(self.controller.game.board) < self.data.minMinions:
 			return False
 		if PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY in self.data.requirements:
 			entourage = list(self.data.entourage)
-			for minion in self.owner.field:
+			for minion in self.controller.field:
 				if minion.id in entourage:
 					entourage.remove(minion.id)
 			if not entourage:
@@ -158,7 +158,7 @@ class Card(object):
 		"""
 		Helper for Player.play(card)
 		"""
-		self.owner.play(self, target)
+		self.controller.play(self, target)
 
 	def summon(self):
 		pass
@@ -174,7 +174,7 @@ class Card(object):
 		"""
 		Helper for Player.summon(buff, minion)
 		"""
-		return self.owner.summon(card, target=self)
+		return self.controller.summon(card, target=self)
 
 
 def cardsForHero(hero):
@@ -239,11 +239,11 @@ class Hero(Character):
 		super().damage(amount)
 
 	def destroy(self):
-		raise GameOver("%s wins!" % (self.owner.opponent))
+		raise GameOver("%s wins!" % (self.controller.opponent))
 
 	def summon(self):
-		self.owner.hero = self
-		self.owner.summon(self.data.power)
+		self.controller.hero = self
+		self.controller.summon(self.data.power)
 
 
 class Minion(Character):
@@ -261,14 +261,14 @@ class Minion(Character):
 	@property
 	def adjacentMinions(self):
 		assert self.zone is Zone.PLAY, self.zone
-		index = self.owner.field.index(self)
-		left = self.owner.field[:index]
-		right = self.owner.field[index+1:]
+		index = self.controller.field.index(self)
+		left = self.controller.field[:index]
+		right = self.controller.field[index+1:]
 		return (left and left[-1] or None, right and right[0] or None)
 
 	def removeFromField(self):
 		logging.info("%r is removed from the field" % (self))
-		self.owner.field.remove(self)
+		self.controller.field.remove(self)
 		# Remove any aura the minion gives
 		if self.data.hasAura:
 			logging.info("Aura %r fades" % (self.aura))
@@ -287,19 +287,19 @@ class Minion(Character):
 
 	def isPlayable(self):
 		playable = super().isPlayable()
-		if len(self.owner.field) >= self.game.MAX_MINIONS_ON_FIELD:
+		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return False
 		return playable
 
 	def summon(self):
-		if len(self.owner.field) >= self.owner.game.MAX_MINIONS_ON_FIELD:
+		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return
-		self.owner.field.append(self)
+		self.controller.field.append(self)
 		self.summoningSickness = True
 		self.stealth = self.data.stealth
 		if self.data.hasAura:
 			self.aura = Card(self.data.aura)
-			self.aura.owner = self.owner
+			self.aura.controller = self.controller
 			self.aura.zone = Zone.PLAY
 			self.aura.source = self
 			logging.info("Aura %r suddenly appears" % (self.aura))
@@ -314,23 +314,23 @@ class Spell(Card):
 class Secret(Card):
 	def isPlayable(self):
 		# secrets are all unique
-		if self in self.owner.secrets:
+		if self in self.controller.secrets:
 			return False
 		return super().isPlayable()
 
 	def summon(self):
-		self.owner.secrets.append(self)
+		self.controller.secrets.append(self)
 		self.zone = Zone.SECRET
 
 	def destroy(self):
-		self.owner.secrets.remove(self)
+		self.controller.secrets.remove(self)
 		super().destroy()
 
 
 class Enchantment(Card):
 	@property
 	def targets(self):
-		return self.owner.getTargets(self.data.targeting)
+		return self.controller.getTargets(self.data.targeting)
 
 	def isValidTarget(self, card):
 		if card not in self.targets:
@@ -362,15 +362,15 @@ class Weapon(Card):
 
 	def destroy(self):
 		# HACK
-		self.owner.hero.weapon = None
+		self.controller.hero.weapon = None
 		super().destroy()
 
 	def summon(self):
-		if self.owner.hero.weapon:
-			self.owner.hero.weapon.destroy()
-		self.owner.hero.weapon = self
+		if self.controller.hero.weapon:
+			self.controller.hero.weapon.destroy()
+		self.controller.hero.weapon = self
 
 
 class HeroPower(Card):
 	def summon(self):
-		self.owner.hero.power = self
+		self.controller.hero.power = self

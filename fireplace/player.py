@@ -19,7 +19,7 @@ class Player(object):
 	def __init__(self, name, deck):
 		self.name = name
 		self.deck = deck
-		self.deck.hero.owner = self
+		self.deck.hero.controller = self
 		self.hand = CardList()
 		self.field = CardList()
 		self.buffs = CardList()
@@ -63,26 +63,26 @@ class Player(object):
 		assert self.addToHand(card), "Hand is full!"
 		return card
 
-	def getTargets(owner, t):
+	def getTargets(self, t):
 		ret = []
 		if t & TARGET_FRIENDLY:
 			if t & TARGET_HERO:
-				ret.append(owner.hero)
+				ret.append(self.hero)
 			if t & TARGET_MULTIPLE:
 				if t & TARGET_MINION:
-					ret += owner.field
+					ret += self.field
 		if t & TARGET_ENEMY:
 			if t & TARGET_HERO:
-				ret.append(owner.opponent.hero)
+				ret.append(self.opponent.hero)
 			if t & TARGET_MULTIPLE:
 				if t & TARGET_MINION:
-					ret += owner.opponent.field
+					ret += self.opponent.field
 		return ret
 
 	def addToHand(self, card):
 		if len(self.hand) >= self.MAX_HAND:
 			return
-		card.owner = self # Cards are not necessarily from the deck
+		card.controller = self # Cards are not necessarily from the deck
 		self.hand.append(card)
 		card.zone = Zone.HAND
 		return card
@@ -98,7 +98,7 @@ class Player(object):
 		# Same as addToHand but inserts (usually in place of a None)
 		# used for mulligan
 		logging.debug("%s: Inserting %r to hand" % (self, card))
-		card.owner = self
+		card.controller = self
 		del self.hand[pos]
 		self.hand.insert(card, pos)
 		card.zone = Zone.HAND
@@ -140,7 +140,7 @@ class Player(object):
 		"""
 		if isinstance(card, str):
 			card = Card(card)
-			card.owner = self
+			card.controller = self
 		logging.debug("%s summons %r" % (self, card))
 		if target:
 			card.summon(target)
@@ -153,7 +153,7 @@ class Player(object):
 		Plays \a card from the player's hand
 		"""
 		logging.info("%s plays %r from their hand" % (self, card))
-		assert card.owner
+		assert card.controller
 		self.availableMana -= card.cost
 		if card.data.overload:
 			self.nextOverload += card.data.overload

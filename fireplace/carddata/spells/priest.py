@@ -6,8 +6,8 @@ from fireplace.enums import CardType
 # Holy Nova
 class CS1_112(Card):
 	def activate(self):
-		for target in self.owner.getTargets(TARGET_ALL_CHARACTERS):
-			if target.owner == self.owner:
+		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+			if target.controller == self.controller:
 				target.heal(2)
 			else:
 				target.damage(2)
@@ -21,18 +21,18 @@ class CS2_234(Card):
 # Mind Blast
 class DS1_233(Card):
 	def activate(self):
-		self.owner.opponent.hero.damage(5)
+		self.controller.opponent.hero.damage(5)
 
 
 # Mindgames
 class EX1_345(Card):
 	def activate(self):
-		creatures = [c for c in self.owner.opponent.deck if c.type == CardType.MINION]
+		creatures = [c for c in self.controller.opponent.deck if c.type == CardType.MINION]
 		if creatures:
 			creature = random.choice(creatures).id
 		else:
 			creature = "EX1_345t"
-		self.owner.summon(creature)
+		self.controller.summon(creature)
 
 
 # Shadow Word: Death
@@ -44,4 +44,4 @@ class EX1_622(Card):
 class EX1_624(Card):
 	def activate(self, target):
 		target.damage(5)
-		self.owner.hero.heal(5)
+		self.controller.hero.heal(5)

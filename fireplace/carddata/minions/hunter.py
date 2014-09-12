@@ -30,11 +30,11 @@ class DS1_178e(Card):
 # Savannah Highmane
 class EX1_534(Card):
 	def deathrattle(self):
-		self.owner.summon("EX1_534t")
-		self.owner.summon("EX1_534t")
+		self.controller.summon("EX1_534t")
+		self.controller.summon("EX1_534t")
 
 
 # Webspinner
 class FP1_011(Card):
 	def deathrattle(self):
-		self.owner.give(random.choice(self.data.entourage))
+		self.controller.give(random.choice(self.data.entourage))
