@@ -49,7 +49,7 @@ def test_paladin_shaman():
 	game.endTurn(); game.endTurn()
 	assert len(game.currentPlayer.hero.power.data.entourage) == 4
 	game.currentPlayer.hero.power.activate()
-	assert game.currentPlayer.field[0].id == "CS2_050"
+	assert game.currentPlayer.field[0].id == "CS2_051"
 	game.endTurn()
 	game.currentPlayer.hero.power.activate()
 	assert game.currentPlayer.field[0].id == "CS2_101t"
@@ -375,6 +375,8 @@ def test_warlock():
 
 def main():
 	random.seed(12345)
+	test_mage_priest()
+	test_paladin_shaman()
 	test_deathrattle()
 	test_mana()
 	test_card_draw()
@@ -382,8 +384,6 @@ def main():
 	test_end_turn_heal()
 	test_auras()
 	test_divine_shield()
-	test_mage_priest()
-	test_paladin_shaman()
 	test_warlock()
 	test_overload()
 	test_stealth()
