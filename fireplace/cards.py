@@ -333,9 +333,15 @@ class Enchantment(Card):
 		return self.controller.getTargets(self.data.targeting)
 
 	def isValidTarget(self, card):
+		if self.source.data.adjacentBuff:
+			adj = self.source.adjacentMinions
+			if card is not adj[0] and card is not adj[1]:
+				return False
 		if card not in self.targets:
 			return False
-		return self.data.__class__.isValidTarget(self, card)
+		if hasattr(self.data.__class__, "isValidTarget"):
+			return self.data.__class__.isValidTarget(self, card)
+		return True
 
 	def summon(self, target):
 		self.owner = target

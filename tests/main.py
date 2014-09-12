@@ -32,6 +32,18 @@ def test_positioning():
 	assert wisp1.adjacentMinions == (None, wisp2)
 	assert wisp2.adjacentMinions == (wisp1, wisp3)
 	assert wisp3.adjacentMinions == (wisp2, None)
+	game.endTurn(); game.endTurn()
+	flametongue = game.currentPlayer.give("EX1_565")
+	flametongue.play()
+	wisp4 = game.currentPlayer.give("CS2_231")
+	wisp4.play()
+	print(game.auras)
+	print(flametongue, flametongue.slots)
+	assert wisp1.atk == 1
+	assert wisp2.atk == 1
+	assert wisp3.atk == 3
+	assert flametongue.atk == 0, flametongue.atk
+	assert wisp4.atk == 3
 
 
 def test_armor():

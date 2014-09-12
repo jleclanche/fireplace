@@ -25,6 +25,15 @@ class EX1_250(Card):
 	overload = 3
 
 
+# Flametongue Totem
+class EX1_565(Card):
+	aura = "EX1_565o"
+
+class EX1_565o(Card):
+	atk = 2
+	targeting = TARGET_FRIENDLY_MINIONS
+
+
 # Mana Tide Totem
 class EX1_575(Card):
 	def endTurn(self):
