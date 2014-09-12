@@ -142,6 +142,7 @@ class Player(object):
 			card = Card(card)
 			card.controller = self
 		logging.debug("%s summons %r" % (self, card))
+		card.zone = Zone.PLAY
 		if target:
 			card.summon(target)
 		else:
@@ -159,7 +160,6 @@ class Player(object):
 			self.nextOverload += card.data.overload
 			logging.info("%s is overloaded for %i mana" % (self, self.nextOverload))
 		self.hand.remove(card)
-		card.zone = Zone.PLAY
 		self.summon(card)
 		# Card must already be on the field for activate()
 		card.activate(target)
