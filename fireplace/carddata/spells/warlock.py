@@ -60,6 +60,17 @@ class EX1_312(Card):
 			target.destroy()
 
 
+# Power Overwhelming
+class EX1_316(Card):
+	action = buffTarget("EX1_316e")
+
+class EX1_316e(Card):
+	atk = 4
+	health = 4
+	def endTurn(self):
+		self.owner.destroy()
+
+
 # Bane of Doom
 class EX1_320(Card):
 	def action(self, target):

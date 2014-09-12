@@ -296,6 +296,18 @@ def test_arcane_explosion():
 	assert len(game.currentPlayer.opponent.field) == 0
 
 
+def test_power_overwhelming():
+	game = prepare_game()
+	power = game.currentPlayer.give("EX1_316")
+	wisp = game.currentPlayer.give("CS2_231")
+	wisp.play()
+	power.play(target=wisp)
+	assert wisp.atk == 5
+	assert wisp.health == 5
+	game.endTurn()
+	assert wisp not in game.board
+
+
 def test_mindgames():
 	game = prepare_game(PRIEST, PRIEST)
 	mindgames = game.currentPlayer.give("EX1_345")
@@ -422,6 +434,7 @@ def main():
 	test_stealth()
 	test_kill_command()
 	test_arcane_explosion()
+	test_power_overwhelming()
 	test_mindgames()
 	test_cleave()
 	test_ice_barrier()
