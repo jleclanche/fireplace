@@ -148,7 +148,8 @@ class Game(object):
 			if entity.data.oneTurnEffect:
 				logging.info("Ending One-Turn effect: %r" % (entity))
 				entity.destroy()
-			elif hasattr(entity.data, "endTurn"):
-				logging.info("Processing end of turn for %r" % (entity))
-				entity.data.__class__.endTurn(entity)
+			for slot in entity.slots:
+				if hasattr(slot.data, "endTurn"):
+					logging.info("Processing end of turn for slot %r of %r" % (slot, entity))
+					slot.data.__class__.endTurn(slot)
 		self.beginTurn(self.currentPlayer.opponent)
