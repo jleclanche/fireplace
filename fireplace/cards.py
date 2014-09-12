@@ -378,5 +378,10 @@ class Weapon(Card):
 
 
 class HeroPower(Card):
+	def play(self, target=None):
+		logging.info("%s plays hero power %r" % (self.controller, self))
+		self.controller.availableMana -= self.cost
+		self.action(target)
+
 	def summon(self):
 		self.controller.hero.power = self
