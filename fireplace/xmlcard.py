@@ -26,6 +26,9 @@ class XMLCard(object):
 		"hasDeathrattle": "Deathrattle",
 	}
 
+	def action(self):
+		pass
+
 	@classmethod
 	def get(cls, id):
 		from . import carddata
