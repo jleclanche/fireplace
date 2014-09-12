@@ -17,6 +17,14 @@ class DS1_185(Card):
 		target.damage(2)
 
 
+# Explosive Shot
+class EX1_537(Card):
+	def action(self, target):
+		for minion in target.adjacentMinions:
+			minion.damage(2)
+		target.damage(5)
+
+
 # Unleash the Hounds
 class EX1_538(Card):
 	def action(self):
