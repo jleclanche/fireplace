@@ -110,6 +110,15 @@ def test_mana():
 	assert game.currentPlayer.maxMana == 2
 
 
+def test_overload():
+	game = prepare_game()
+	dustdevil = game.currentPlayer.give("EX1_243")
+	dustdevil.play()
+	assert game.currentPlayer.nextOverload == 2
+	game.endTurn(); game.endTurn()
+	assert game.currentPlayer.mana == 0
+
+
 def test_divine_shield():
 	game = prepare_game()
 	squire = game.currentPlayer.give("EX1_008")
@@ -360,6 +369,7 @@ def main():
 	test_mage_priest()
 	test_paladin_shaman()
 	test_warlock()
+	test_overload()
 	test_stealth()
 	test_kill_command()
 	test_arcane_explosion()

@@ -1,14 +1,6 @@
 from ..card import *
 
 
-# Healing Totem
-class NEW1_009(Card):
-	def endTurn(self):
-		targets = self.owner.getTargets(TARGET_FRIENDLY_MINIONS)
-		for target in targets:
-			if self.game.currentPlayer is self.owner:
-				target.heal(1)
-
 # Bloodsail Corsair
 class NEW1_025(Card):
 	def activate(self):
