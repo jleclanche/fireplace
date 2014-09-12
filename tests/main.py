@@ -20,6 +20,20 @@ def prepare_game(hero1=MAGE, hero2=WARRIOR):
 	return game
 
 
+def test_positioning():
+	game = prepare_game()
+	wisp1 = game.currentPlayer.give("CS2_231")
+	wisp1.play()
+	wisp2 = game.currentPlayer.give("CS2_231")
+	wisp2.play()
+	wisp3 = game.currentPlayer.give("CS2_231")
+	wisp3.play()
+
+	assert wisp1.adjacentMinions == (None, wisp2)
+	assert wisp2.adjacentMinions == (wisp1, wisp3)
+	assert wisp3.adjacentMinions == (wisp2, None)
+
+
 def test_armor():
 	game = prepare_game(WARRIOR, WARRIOR)
 	game.endTurn(); game.endTurn()
@@ -377,6 +391,7 @@ def main():
 	random.seed(12345)
 	test_mage_priest()
 	test_paladin_shaman()
+	test_positioning()
 	test_deathrattle()
 	test_mana()
 	test_card_draw()

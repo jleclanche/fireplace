@@ -259,6 +259,14 @@ class Minion(Character):
 				return True
 		return self.data.charge
 
+	@property
+	def adjacentMinions(self):
+		assert self.zone is Zone.PLAY, self.zone
+		index = self.owner.field.index(self)
+		left = self.owner.field[:index]
+		right = self.owner.field[index+1:]
+		return (left and left[-1] or None, right and right[0] or None)
+
 	def removeFromField(self):
 		logging.info("%r is removed from the field" % (self))
 		self.owner.field.remove(self)
