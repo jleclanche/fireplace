@@ -314,6 +314,10 @@ class Secret(Card):
 		self.owner.secrets.append(self)
 		self.zone = Zone.SECRET
 
+	def destroy(self):
+		self.owner.secrets.remove(self)
+		super().destroy()
+
 
 class Enchantment(Card):
 	@property
