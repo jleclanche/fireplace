@@ -50,7 +50,7 @@ def test_armor():
 	game = prepare_game(WARRIOR, WARRIOR)
 	game.endTurn(); game.endTurn()
 	assert game.currentPlayer.hero.armor == 0
-	game.currentPlayer.hero.power.activate()
+	game.currentPlayer.hero.power.action()
 	assert game.currentPlayer.hero.armor == 2
 
 
@@ -61,10 +61,10 @@ def test_mage_priest():
 	assert game.currentPlayer.hero.id is MAGE
 	game.endTurn(); game.endTurn()
 	assert game.currentPlayer.hero.health == 30
-	game.currentPlayer.hero.power.activate(target=game.currentPlayer.opponent.hero)
+	game.currentPlayer.hero.power.action(target=game.currentPlayer.opponent.hero)
 	game.endTurn()
 	assert game.currentPlayer.hero.health == 29
-	game.currentPlayer.hero.power.activate(target=game.currentPlayer.hero)
+	game.currentPlayer.hero.power.action(target=game.currentPlayer.hero)
 	assert game.currentPlayer.hero.health == 30
 
 
@@ -74,10 +74,10 @@ def test_paladin_shaman():
 	assert game.currentPlayer.hero.id is SHAMAN
 	game.endTurn(); game.endTurn()
 	assert len(game.currentPlayer.hero.power.data.entourage) == 4
-	game.currentPlayer.hero.power.activate()
+	game.currentPlayer.hero.power.action()
 	assert game.currentPlayer.field[0].id == "CS2_051"
 	game.endTurn()
-	game.currentPlayer.hero.power.activate()
+	game.currentPlayer.hero.power.action()
 	assert game.currentPlayer.field[0].id == "CS2_101t"
 	game.endTurn()
 

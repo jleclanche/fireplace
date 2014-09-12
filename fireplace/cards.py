@@ -108,15 +108,15 @@ class Card(object):
 		ret += self.buffs
 		return ret
 
-	def activate(self, target=None):
-		if hasattr(self.data, "activate"):
-			activate = self.data.__class__.activate
+	def action(self, target=None):
+		if hasattr(self.data, "action"):
+			action = self.data.__class__.action
 			if self.hasTarget():
 				logging.info("Activating %r on %r" % (self, target))
-				activate(self, target=target)
+				action(self, target=target)
 			else:
 				logging.info("Activating %r" % (self))
-				activate(self)
+				action(self)
 
 	def destroy(self):
 		logging.info("%r dies" % (self))

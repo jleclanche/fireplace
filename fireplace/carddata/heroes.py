@@ -11,7 +11,7 @@ class HERO_01(Card):
 
 # Armor Up!
 class CS2_102(Card):
-	def activate(self):
+	def action(self):
 		self.controller.hero.gainArmor(2)
 
 
@@ -21,7 +21,7 @@ class HERO_02(Card):
 
 # Totemic Call
 class CS2_049(Card):
-	def activate(self):
+	def action(self):
 		entourage = self.data.entourage
 		for minion in self.controller.field:
 			if minion.id in entourage:
@@ -35,7 +35,7 @@ class HERO_03(Card):
 
 # Dagger Mastery
 class CS2_083b(Card):
-	def activate(self):
+	def action(self):
 		self.controller.summon("CS2_082")
 
 
@@ -45,7 +45,7 @@ class HERO_04(Card):
 
 # Reinforce
 class CS2_101(Card):
-	def activate(self):
+	def action(self):
 		self.controller.summon("CS2_101t")
 
 
@@ -55,7 +55,7 @@ class HERO_05(Card):
 
 # Steady Shot
 class DS1h_292(Card):
-	def activate(self):
+	def action(self):
 		self.controller.opponent.hero.damage(2)
 
 
@@ -65,7 +65,7 @@ class HERO_06(Card):
 
 # Shapeshift
 class CS2_017(Card):
-	def activate(self):
+	def action(self):
 		self.controller.hero.buff("CS2_017o")
 
 # Claws
@@ -79,7 +79,7 @@ class HERO_07(Card):
 
 # Life Tap
 class CS2_056(Card):
-	def activate(self):
+	def action(self):
 		self.controller.hero.damage(2)
 		self.controller.draw()
 
@@ -90,7 +90,7 @@ class HERO_08(Card):
 
 # Fireblast
 class CS2_034(Card):
-	def activate(self, target):
+	def action(self, target):
 		target.damage(1)
 
 
@@ -100,7 +100,7 @@ class HERO_09(Card):
 
 # Lesser Heal
 class CS1h_001(Card):
-	def activate(self, target):
+	def action(self, target):
 		target.heal(2)
 
 
@@ -110,5 +110,5 @@ class EX1_323h(Card):
 
 # INFERNO!
 class EX1_tk33(Card):
-	def activate(self):
+	def action(self):
 		self.controller.summon("EX1_tk34")

@@ -12,7 +12,7 @@ class NEW1_009(Card):
 
 # Fire Elemental
 class CS2_042(Card):
-	activate = damageTarget(3)
+	action = damageTarget(3)
 
 
 # Dust Devil
@@ -43,7 +43,7 @@ class EX1_575(Card):
 
 # Windspeaker
 class EX1_587(Card):
-	activate = buffTarget("EX1_587e")
+	action = buffTarget("EX1_587e")
 
 class EX1_587e(Card):
 	windfury = True

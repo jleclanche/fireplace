@@ -161,5 +161,5 @@ class Player(object):
 			logging.info("%s is overloaded for %i mana" % (self, self.nextOverload))
 		self.hand.remove(card)
 		self.summon(card)
-		# Card must already be on the field for activate()
-		card.activate(target)
+		# Card must already be on the field for action()
+		card.action(target)
