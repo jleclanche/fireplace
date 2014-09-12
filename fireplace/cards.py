@@ -171,11 +171,10 @@ class Card(object):
 		return ret
 
 	def buff(self, card):
-		card = self.owner.summon(card)
-		assert card.type == CardType.ENCHANTMENT, card.type
-		logging.debug("%r receives buff: %r" % (self, card))
-		card.owner = self
-		self.buffs.append(card)
+		"""
+		Helper for Player.summon(buff, minion)
+		"""
+		return self.owner.summon(card, target=self)
 
 
 def cardsForHero(hero):
@@ -301,6 +300,7 @@ class Minion(Character):
 		if self.data.hasAura:
 			self.aura = Card(self.data.aura)
 			self.aura.owner = self.owner
+			self.aura.zone = Zone.PLAY
 			self.aura.source = self
 			logging.info("Aura %r suddenly appears" % (self.aura))
 			self.game.auras.append(self.aura)
@@ -336,6 +336,10 @@ class Enchantment(Card):
 		if card not in self.targets:
 			return False
 		return self.data.__class__.isValidTarget(self, card)
+
+	def summon(self, target):
+		self.owner = target
+		target.buffs.append(self)
 
 	def destroy(self):
 		self.owner.slots.remove(self)

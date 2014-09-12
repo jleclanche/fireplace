@@ -134,7 +134,7 @@ class Player(object):
 		self.maxMana = max(0, self.maxMana - amount)
 		logging.info("%s loses %i mana crystal (now at %i)" % (self, amount, self.maxMana))
 
-	def summon(self, card):
+	def summon(self, card, target=None):
 		"""
 		Puts \a card in the PLAY zone
 		"""
@@ -142,7 +142,10 @@ class Player(object):
 			card = Card(card)
 			card.owner = self
 		logging.debug("%s summons %r" % (self, card))
-		card.summon()
+		if target:
+			card.summon(target)
+		else:
+			card.summon()
 		return card
 
 	def play(self, card, target=None):
