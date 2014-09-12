@@ -4,6 +4,14 @@ from .enums import CardType, Zone
 from .targeting import *
 
 
+class CardList(list):
+	def index(self, x):
+		for i, item in enumerate(self):
+			if x is item:
+				return i
+		raise ValueError
+
+
 class Player(object):
 	MAX_HAND = 10
 	MAX_MANA = 10
@@ -12,10 +20,10 @@ class Player(object):
 		self.name = name
 		self.deck = deck
 		self.deck.hero.owner = self
-		self.hand = []
-		self.field = []
-		self.buffs = []
-		self.secrets = []
+		self.hand = CardList()
+		self.field = CardList()
+		self.buffs = CardList()
+		self.secrets = CardList()
 		self.fatigueCounter = 0
 		# set to False after the player has finished his mulligan
 		self.canMulligan = True
