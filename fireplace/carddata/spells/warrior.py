@@ -83,7 +83,10 @@ class EX1_408(Card):
 # Upgrade!
 class EX1_409(Card):
 	def activate(self):
-		self.controller.hero.weapon.buff("EX1_409e")
+		if self.controller.hero.weapon:
+			self.controller.hero.weapon.buff("EX1_409e")
+		else:
+			self.controller.summon("EX1_409t")
 
 class EX1_409e(Card):
 	atk = 1

@@ -342,7 +342,12 @@ def test_upgrade():
 	game.currentPlayer.hero.attack(game.currentPlayer.opponent.hero)
 	assert game.currentPlayer.opponent.hero.health == 27
 
-	game.endTurn(); game.endTurn()
+	game.endTurn()
+	upgrade2 = game.currentPlayer.give("EX1_409")
+	upgrade2.play()
+	assert game.currentPlayer.hero.atk == 1
+	assert game.currentPlayer.hero.weapon.atk == 1
+	game.endTurn()
 	assert game.currentPlayer.hero.weapon.atk == 3
 	assert game.currentPlayer.hero.weapon.durability == 1
 	upgrade.play()
