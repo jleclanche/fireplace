@@ -184,7 +184,7 @@ def test_stealth():
 	game = prepare_game(MAGE, MAGE)
 	worgen = game.currentPlayer.give("EX1_010")
 	worgen.play()
-	assert worgen.stealth
+	assert worgen.stealthed
 	game.endTurn()
 
 	archer = game.currentPlayer.give("CS2_189")
@@ -194,7 +194,7 @@ def test_stealth():
 	game.endTurn()
 
 	worgen.attack(game.currentPlayer.opponent.hero)
-	assert not worgen.stealth
+	assert not worgen.stealthed
 	game.endTurn()
 
 	assert len(archer.targets) == 3
@@ -443,7 +443,7 @@ def test_flare():
 
 	flare.play()
 	assert not game.currentPlayer.opponent.secrets
-	assert not worgen.stealth
+	assert not worgen.stealthed
 
 
 def test_warlock():

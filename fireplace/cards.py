@@ -198,6 +198,10 @@ class Character(Card):
 	def frozen(self):
 		return self.tags.get(GameTag.FROZEN, False)
 
+	@property
+	def stealthed(self):
+		return self.tags.get(GameTag.STEALTH, False)
+
 	def canAttack(self):
 		if self.atk == 0:
 			return False
@@ -214,8 +218,8 @@ class Character(Card):
 			self.weapon.loseDurability()
 		if target.atk:
 			self.damage(target.atk)
-		if self.stealth:
-			self.stealth = False
+		if self.stealthed:
+			self.unstealth()
 
 	def damage(self, amount):
 		self.damageCounter += min(self.health, amount)
@@ -240,12 +244,19 @@ class Character(Card):
 		logging.info("%r is no longer frozen" % (self))
 		del self.tags[GameTag.FROZEN]
 
+	def stealth(self):
+		logging.info("%r is now stealthed" % (self))
+		self.tags[GameTag.STEALTH] = True
+
+	def unstealth(self):
+		logging.info("%r is no longer stealthed" % (self))
+		del self.tags[GameTag.STEALTH]
+
 
 class Hero(Character):
 	def __init__(self, id):
 		super().__init__(id)
 		self.armor = 0
-		self.stealth = False
 
 	def gainArmor(self, amount):
 		assert self.type == CardType.HERO
@@ -323,7 +334,8 @@ class Minion(Character):
 			return
 		self.controller.field.append(self)
 		self.summoningSickness = True
-		self.stealth = self.data.stealth
+		if self.data.stealth:
+			self.stealth()
 		if self.data.hasAura:
 			self.aura = Card(self.data.aura)
 			self.aura.controller = self.controller

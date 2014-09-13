@@ -45,7 +45,7 @@ class EX1_539(Card):
 class EX1_544(Card):
 	def action(self):
 		for minion in self.controller.getTargets(TARGET_ALL_MINIONS):
-			minion.stealth = False
+			minion.unstealth()
 		for secret in self.controller.opponent.secrets:
 			secret.destroy()
 		self.controller.draw()
