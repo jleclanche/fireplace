@@ -4,7 +4,7 @@ import uuid
 from itertools import chain
 from . import targeting
 from .exceptions import *
-from .enums import CardType, PlayReq, Zone
+from .enums import CardType, GameTag, PlayReq, Zone
 from .xmlcard import XMLCard
 
 
@@ -33,6 +33,7 @@ class Card(object):
 
 	def __init__(self, id):
 		self.id = id
+		self.tags = {}
 		self.uuid = uuid.uuid4()
 		self.controller = None
 		self.zone = Zone.DECK
@@ -188,11 +189,14 @@ def cardsForHero(hero):
 class Character(Card):
 	def __init__(self, id):
 		super().__init__(id)
-		self.frozen = False
 
 	@property
 	def race(self):
 		return self.data.race
+
+	@property
+	def frozen(self):
+		return self.tags.get(GameTag.FROZEN, False)
 
 	def canAttack(self):
 		if self.atk == 0:
@@ -230,7 +234,11 @@ class Character(Card):
 
 	def freeze(self):
 		logging.info("%r is now frozen" % (self))
-		self.frozen = True
+		self.tags[GameTag.FROZEN] = True
+
+	def unfreeze(self):
+		logging.info("%r is no longer frozen" % (self))
+		del self.tags[GameTag.FROZEN]
 
 
 class Hero(Character):

@@ -3,6 +3,7 @@ import random
 from itertools import chain
 from . import heroes
 from .cards import Card, cardsForHero, THE_COIN
+from .enums import GameTag
 from .exceptions import *
 from .player import Player
 
@@ -155,6 +156,5 @@ class Game(object):
 					slot.data.__class__.endTurn(slot)
 		for minion in self.currentPlayer.field:
 			if minion.frozen:
-				logging.info("%r is no longer frozen" % (minion))
-				minion.frozen = False
+				minion.unfreeze()
 		self.beginTurn(self.currentPlayer.opponent)
