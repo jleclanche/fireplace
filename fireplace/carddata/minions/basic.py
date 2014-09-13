@@ -39,6 +39,11 @@ class EX1_096(Card):
 class EX1_134(Card):
 	combo = damageTarget(2)
 
+# Frost Elemental
+class EX1_283(Card):
+	def action(self, target):
+		target.freeze()
+
 # Murloc Tidehunter
 class EX1_506(Card):
 	def action(self):

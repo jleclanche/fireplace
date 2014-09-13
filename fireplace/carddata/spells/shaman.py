@@ -3,6 +3,13 @@ from fireplace.enums import Race
 from ..card import *
 
 
+# Frost Shock
+class CS2_037(Card):
+	def action(self, target):
+		target.damage(1)
+		target.freeze()
+
+
 # Ancestral Spirit
 class CS2_038(Card):
 	action = buffTarget("CS2_038e")

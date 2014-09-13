@@ -55,6 +55,22 @@ def test_armor():
 	assert game.currentPlayer.mana == 0
 
 
+def test_freeze():
+	game = prepare_game()
+	flameimp = game.currentPlayer.give("EX1_319")
+	flameimp.play()
+	game.endTurn()
+
+	frostshock = game.currentPlayer.give("CS2_037")
+	frostshock.play(target=flameimp)
+	assert flameimp.frozen
+	game.endTurn()
+
+	assert flameimp.frozen
+	assert not flameimp.canAttack()
+	game.endTurn()
+	assert not flameimp.frozen
+
 
 def test_mage_priest():
 	game = prepare_game(MAGE, PRIEST)
@@ -452,6 +468,7 @@ def main():
 	test_mana()
 	test_card_draw()
 	test_armor()
+	test_freeze()
 	test_bounce()
 	test_end_turn_heal()
 	test_auras()
