@@ -53,6 +53,12 @@ def test_armor():
 	game.currentPlayer.hero.power.play()
 	assert game.currentPlayer.hero.armor == 2
 	assert game.currentPlayer.mana == 0
+	game.endTurn()
+	# Play an axe
+	game.currentPlayer.give("CS2_106").play()
+	game.currentPlayer.hero.attack(game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.opponent.hero.health == 29
+	assert game.currentPlayer.opponent.hero.armor == 0
 
 
 def test_freeze():
