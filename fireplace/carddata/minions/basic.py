@@ -17,6 +17,14 @@ class EX1_011(Card):
 class EX1_015(Card):
 	action = drawCard
 
+# Youthful Brewmaster
+class EX1_049(Card):
+	action = bounceTarget
+
+# Ancient Brewmaster
+class EX1_057(Card):
+	action = bounceTarget
+
 # Acidic Swamp Ooze
 class EX1_066(Card):
 	def action(self):

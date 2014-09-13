@@ -296,6 +296,18 @@ def test_auras():
 	assert wisp2.atk == 2 # 1 (+1 from TW)
 
 
+def test_bounce():
+	game = prepare_game()
+	wisp = game.currentPlayer.give("CS2_231")
+	wisp.play()
+	assert game.currentPlayer.field == [wisp]
+	game.endTurn(); game.endTurn()
+
+	brewmaster = game.currentPlayer.give("EX1_049")
+	brewmaster.play(target=wisp)
+	assert game.currentPlayer.field == [brewmaster]
+
+
 def test_arcane_explosion():
 	game = prepare_game(MAGE, MAGE)
 	# play some wisps
@@ -440,6 +452,7 @@ def main():
 	test_mana()
 	test_card_draw()
 	test_armor()
+	test_bounce()
 	test_end_turn_heal()
 	test_auras()
 	test_divine_shield()

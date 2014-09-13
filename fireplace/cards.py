@@ -270,6 +270,11 @@ class Minion(Character):
 		right = self.controller.field[index+1:]
 		return (left and left[-1] or None, right and right[0] or None)
 
+	def bounce(self):
+		logging.info("%r is bounced back to %s's hand" % (self, self.controller))
+		self.removeFromField()
+		self.controller.addToHand(self)
+
 	def removeFromField(self):
 		logging.info("%r is removed from the field" % (self))
 		self.controller.field.remove(self)
