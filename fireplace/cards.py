@@ -186,6 +186,10 @@ def cardsForHero(hero):
 
 
 class Character(Card):
+	def __init__(self, id):
+		super().__init__(id)
+		self.frozen = False
+
 	@property
 	def race(self):
 		return self.data.race
@@ -194,6 +198,8 @@ class Character(Card):
 		if self.atk == 0:
 			return False
 		if self.summoningSickness and not self.charge:
+			return False
+		if self.frozen:
 			return False
 		return True
 
@@ -221,6 +227,10 @@ class Character(Card):
 
 	def isDamaged(self):
 		return bool(self.damageCounter)
+
+	def freeze(self):
+		logging.info("%r is now frozen" % (self))
+		self.frozen = True
 
 
 class Hero(Character):

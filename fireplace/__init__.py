@@ -153,4 +153,8 @@ class Game(object):
 				if hasattr(slot.data, "endTurn"):
 					logging.info("Processing end of turn for slot %r of %r" % (slot, entity))
 					slot.data.__class__.endTurn(slot)
+		for minion in self.currentPlayer.field:
+			if minion.frozen:
+				logging.info("%r is no longer frozen" % (minion))
+				minion.frozen = False
 		self.beginTurn(self.currentPlayer.opponent)
