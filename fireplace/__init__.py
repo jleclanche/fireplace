@@ -124,6 +124,7 @@ class Game(object):
 	def beginTurn(self, player):
 		self.status = self.STATUS_TURN
 		self.turn += 1
+		self.playedThisTurn = []
 		logging.info("%s begins turn %i" % (player, self.turn))
 		if self.turn == self.MAX_TURNS:
 			raise GameOver("It's a draw!")

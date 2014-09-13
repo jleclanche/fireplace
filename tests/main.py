@@ -205,6 +205,20 @@ def test_card_draw():
 	assert len(game.currentPlayer.hand) == handlength - 2
 
 
+def test_combo():
+	game = prepare_game()
+	game.endTurn(); game.endTurn()
+	game.endTurn()
+	game.currentPlayer.getById("GAME_005").play()
+	# SI:7 with combo
+	game.currentPlayer.give("EX1_134").play(target=game.currentPlayer.hero)
+	assert game.currentPlayer.hero.health == 28
+	game.endTurn()
+
+	# Without combo should not have a target
+	game.currentPlayer.give("EX1_134").play()
+
+
 def test_kill_command():
 	game = prepare_game(HUNTER, HUNTER)
 	game.endTurn(); game.endTurn()
@@ -431,6 +445,7 @@ def main():
 	test_divine_shield()
 	test_warlock()
 	test_overload()
+	test_combo()
 	test_stealth()
 	test_kill_command()
 	test_arcane_explosion()

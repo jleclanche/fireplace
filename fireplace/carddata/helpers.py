@@ -24,7 +24,7 @@ def healTarget(amount):
 
 
 def damageTarget(amount):
-	def _damageTarget(self, target):
+	def _damageTarget(self, target, combo=None):
 		target.damage(amount)
 	return _damageTarget
 

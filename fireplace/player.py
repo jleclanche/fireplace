@@ -162,4 +162,5 @@ class Player(object):
 		self.hand.remove(card)
 		self.summon(card)
 		# Card must already be on the field for action()
-		card.action(target)
+		card.action(target, combo=len(self.game.playedThisTurn))
+		self.game.playedThisTurn.append(card.id)

@@ -108,14 +108,19 @@ class Card(object):
 		ret += self.buffs
 		return ret
 
-	def action(self, target=None):
-		action = self.data.__class__.action
+	def action(self, target=None, combo=None):
+		kwargs = {}
 		if self.hasTarget():
-			logging.info("Activating %r on %r" % (self, target))
-			action(self, target=target)
+			kwargs["target"] = target
+		if combo and self.data.hasCombo:
+			if PlayReq.REQ_TARGET_FOR_COMBO in self.data.requirements:
+				kwargs["target"] = target
+			kwargs["combo"] = combo
+			logging.info("Activating %r combo (%r)" % (self, kwargs))
+			self.data.__class__.combo(self, **kwargs)
 		else:
-			logging.info("Activating %r" % (self))
-			action(self)
+			logging.info("%r activates action(%r)" % (self, kwargs))
+			self.data.__class__.action(self, **kwargs)
 
 	def destroy(self):
 		logging.info("%r dies" % (self))

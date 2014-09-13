@@ -27,6 +27,10 @@ class EX1_066(Card):
 class EX1_096(Card):
 	deathrattle = drawCard
 
+# SI:7 Agent
+class EX1_134(Card):
+	combo = damageTarget(2)
+
 # Murloc Tidehunter
 class EX1_506(Card):
 	def action(self):

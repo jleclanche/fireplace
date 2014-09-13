@@ -23,6 +23,7 @@ class XMLCard(object):
 		"divineShield": "Divine Shield",
 		"oneTurnEffect": "OneTurnEffect",
 		"hasAura": "Aura",
+		"hasCombo": "Combo",
 		"hasDeathrattle": "Deathrattle",
 	}
 
