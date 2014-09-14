@@ -2,7 +2,7 @@
 Heroes and their Hero Powers
 """
 import random
-from .card import Card
+from .card import *
 
 
 # Garrosh Hellscream
@@ -45,8 +45,7 @@ class HERO_04(Card):
 
 # Reinforce
 class CS2_101(Card):
-	def action(self):
-		self.controller.summon("CS2_101t")
+	action = summonMinion("CS2_101t")
 
 
 # Rexxar
@@ -110,5 +109,4 @@ class EX1_323h(Card):
 
 # INFERNO!
 class EX1_tk33(Card):
-	def action(self):
-		self.controller.summon("EX1_tk34")
+	action = summonMinion("EX1_tk34")

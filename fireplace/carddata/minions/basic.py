@@ -46,8 +46,7 @@ class EX1_283(Card):
 
 # Murloc Tidehunter
 class EX1_506(Card):
-	def action(self):
-		self.controller.summon("EX1_506a")
+	action = summonMinion("EX1_506a")
 
 # Harrison Jones
 class EX1_558(Card):

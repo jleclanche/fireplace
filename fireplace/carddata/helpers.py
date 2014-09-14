@@ -42,3 +42,9 @@ def buffSelf(buff):
 	def _buffSelf(self):
 		self.controller.hero.buff(buff)
 	return _buffSelf
+
+
+def summonMinion(minion):
+	def _summonMinion(self):
+		self.controller.summon(minion)
+	return _summonMinion
