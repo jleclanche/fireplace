@@ -20,8 +20,7 @@ class CS2_234(Card):
 
 # Mind Blast
 class DS1_233(Card):
-	def action(self):
-		self.controller.opponent.hero.damage(5)
+	action = damageEnemyHero(5)
 
 
 # Mindgames

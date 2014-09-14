@@ -54,8 +54,7 @@ class HERO_05(Card):
 
 # Steady Shot
 class DS1h_292(Card):
-	def action(self):
-		self.controller.opponent.hero.damage(2)
+	action = damageEnemyHero(2)
 
 
 # Malfurion Stormrage
