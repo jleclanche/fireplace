@@ -3,9 +3,3 @@ from ..enums import Race
 from ..targeting import *
 
 
-# Enhanced
-class CS2_122e(Card):
-	atk = 1
-	targeting = TARGET_FRIENDLY_MINIONS
-	def isValidTarget(self, target):
-		return target is not self.source
