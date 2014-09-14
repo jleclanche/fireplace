@@ -10,7 +10,7 @@ class CS2_005(Card):
 		self.controller.hero.gainArmor(2)
 
 class CS2_005o(Card):
-	attack = 2
+	atk = 2
 
 
 # Healing Touch
@@ -28,7 +28,7 @@ class CS2_009(Card):
 	action = buffTarget("CS2_009e")
 
 class CS2_009e(Card):
-	attack = 2
+	atk = 2
 	health = 2
 	taunt = True
 
@@ -40,7 +40,7 @@ class CS2_011(Card):
 			target.buff("CS2_011o")
 
 class CS2_011o(Card):
-	attack = 2
+	atk = 2
 
 
 # Swipe
@@ -96,6 +96,9 @@ class EX1_570(Card):
 		buffSelf(self, "EX1_570e")
 		self.controller.hero.gainArmor(4)
 
+class EX1_570e(Card):
+	atk = 4
+
 
 # Force of Nature
 class EX1_571(Card):
@@ -110,4 +113,4 @@ class EX1_tk9(Card):
 # Savagery
 class EX1_578(Card):
 	def action(self, target):
-		target.damage(self.controller.hero.attack)
+		target.damage(self.controller.hero.atk)
