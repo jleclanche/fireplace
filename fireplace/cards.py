@@ -208,6 +208,12 @@ class Character(Card):
 	def stealthed(self):
 		return self.tags.get(GameTag.STEALTH, False)
 
+	@property
+	def windfury(self):
+		if self.tags.get(GameTag.WINDFURY, False):
+			return True
+		return self.getProperty("windfury")
+
 	def canAttack(self):
 		if self.atk == 0:
 			return False
@@ -346,6 +352,8 @@ class Minion(Character):
 		self.summoningSickness = True
 		if self.data.stealth:
 			self.stealth()
+		if self.data.windfury:
+			self.setTag(GameTag.WINDFURY, True)
 		if self.data.hasAura:
 			self.aura = Card(self.data.aura)
 			self.aura.controller = self.controller

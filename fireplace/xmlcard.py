@@ -19,6 +19,7 @@ class XMLCard(object):
 		"secret": "Secret",
 		"stealth": "Stealth",
 		"taunt": "Taunt",
+		"windfury": "Windfury",
 		"adjacentBuff": "AdjacentBuff",
 		"divineShield": "Divine Shield",
 		"oneTurnEffect": "OneTurnEffect",

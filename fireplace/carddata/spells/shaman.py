@@ -1,5 +1,5 @@
 import random
-from fireplace.enums import Race
+from fireplace.enums import GameTag, Race
 from ..card import *
 
 
@@ -21,8 +21,8 @@ class CS2_038e(Card):
 
 # Windfury
 class CS2_039(Card):
-	# is this right?
-	action = buffTarget("EX1_587e")
+	def action(self, target):
+		target.setTag(GameTag.WINDFURY, True)
 
 
 # Ancestral Healing
