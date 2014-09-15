@@ -215,6 +215,12 @@ class Character(Card):
 		return self.getProperty("windfury")
 
 	def canAttack(self):
+		numAttacks = self.tags[GameTag.NUM_ATTACKS_THIS_TURN]
+		if self.windfury:
+			if numAttacks >= 2:
+				return False
+		elif numAttacks >= 1:
+			return False
 		if self.atk == 0:
 			return False
 		if self.summoningSickness and not self.charge:
@@ -232,6 +238,7 @@ class Character(Card):
 			self.damage(target.atk)
 		if self.stealthed:
 			self.unstealth()
+		self.tags[GameTag.NUM_ATTACKS_THIS_TURN] += 1
 
 	def damage(self, amount):
 		self.damageCounter += min(self.health, amount)

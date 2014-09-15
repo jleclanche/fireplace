@@ -138,6 +138,8 @@ class Game(object):
 		# remove all summon sickness
 		for minion in self.currentPlayer.field:
 			minion.summoningSickness = False
+			minion.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
+		player.hero.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 		self.waitForEvent("END_TURN", timeout=self.TIMEOUT_TURN)
 
 	def endTurn(self):

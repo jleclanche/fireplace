@@ -186,7 +186,7 @@ def test_divine_shield():
 	assert not squire.shield
 
 
-def test_stealth():
+def test_stealth_windfury():
 	game = prepare_game(MAGE, MAGE)
 	worgen = game.currentPlayer.give("EX1_010")
 	worgen.play()
@@ -201,6 +201,12 @@ def test_stealth():
 
 	worgen.attack(game.currentPlayer.opponent.hero)
 	assert not worgen.stealthed
+	assert not worgen.canAttack()
+	windfury = game.currentPlayer.give("CS2_039")
+	windfury.play(target=worgen)
+	assert worgen.canAttack()
+	worgen.attack(game.currentPlayer.opponent.hero)
+	assert not worgen.canAttack()
 	game.endTurn()
 
 	assert len(archer.targets) == 3
@@ -482,7 +488,7 @@ def main():
 	test_warlock()
 	test_overload()
 	test_combo()
-	test_stealth()
+	test_stealth_windfury()
 	test_kill_command()
 	test_arcane_explosion()
 	test_power_overwhelming()
