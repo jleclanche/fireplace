@@ -175,6 +175,12 @@ class Card(object):
 			ret += slot.getProperty(prop)
 		return ret
 
+	def setTag(self, tag, value):
+		self.tags[tag] = value
+
+	def unsetTag(self, tag):
+		del self.tags[tag]
+
 	def buff(self, card):
 		"""
 		Helper for Player.summon(buff, minion)
@@ -238,19 +244,19 @@ class Character(Card):
 
 	def freeze(self):
 		logging.info("%r is now frozen" % (self))
-		self.tags[GameTag.FROZEN] = True
+		self.setTag(GameTag.FROZEN, True)
 
 	def unfreeze(self):
 		logging.info("%r is no longer frozen" % (self))
-		del self.tags[GameTag.FROZEN]
+		self.unsetTag(GameTag.FROZEN)
 
 	def stealth(self):
 		logging.info("%r is now stealthed" % (self))
-		self.tags[GameTag.STEALTH] = True
+		self.setTag(GameTag.STEALTH, True)
 
 	def unstealth(self):
 		logging.info("%r is no longer stealthed" % (self))
-		del self.tags[GameTag.STEALTH]
+		self.unsetTag(GameTag.STEALTH)
 
 
 class Hero(Character):
