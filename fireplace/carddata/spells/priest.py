@@ -13,6 +13,12 @@ class CS1_112(Card):
 				target.damage(2)
 
 
+# Mind Control
+class CS1_113(Card):
+	def action(self, target):
+		self.controller.takeControl(target)
+
+
 # Shadow Word: Pain
 class CS2_234(Card):
 	action = lambda self, target: target.destroy()

@@ -425,6 +425,36 @@ def test_upgrade():
 	assert game.currentPlayer.hero.weapon.durability == 1
 
 
+CHEAT_MIRROR_ENTITY = True
+def test_mctech():
+	game = prepare_game()
+	game.endTurn(); game.endTurn()
+	game.endTurn()
+	# play some wisps
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+	# coin mirror entity
+	game.currentPlayer.getById("GAME_005").play()
+	if CHEAT_MIRROR_ENTITY:
+		# TODO secrets
+		game.currentPlayer.give("EX1_294").play()
+	game.endTurn()
+
+	assert len(game.currentPlayer.opponent.field) == 3
+	# play an mctech. nothing should be controlled.
+	game.currentPlayer.give("EX1_085").play()
+	assert len(game.currentPlayer.field) == 1
+	game.endTurn()
+	if CHEAT_MIRROR_ENTITY:
+		# mc tech gets copied, board now at 4
+		game.currentPlayer.give("EX1_085").play()
+	assert len(game.currentPlayer.field) == 4
+	game.endTurn()
+	game.currentPlayer.give("EX1_085").play()
+	assert len(game.currentPlayer.field) == 3
+	assert len(game.currentPlayer.opponent.field) == 3
+
 
 def test_ice_barrier():
 	game = prepare_game(MAGE, MAGE)
@@ -497,6 +527,7 @@ def main():
 	test_ice_barrier()
 	test_flare()
 	test_upgrade()
+	test_mctech()
 	print("All tests ran OK")
 
 

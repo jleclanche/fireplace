@@ -134,6 +134,12 @@ class Player(object):
 		self.maxMana = max(0, self.maxMana - amount)
 		logging.info("%s loses %i mana crystal (now at %i)" % (self, amount, self.maxMana))
 
+	def takeControl(self, minion):
+		logging.info("%s takes control of %r" % (self, minion))
+		self.opponent.field.remove(minion)
+		self.field.append(minion)
+		minion.owner = self
+
 	def summon(self, card, target=None):
 		"""
 		Puts \a card in the PLAY zone

@@ -26,6 +26,14 @@ class EX1_050(Card):
 		self.controller.draw(2)
 		self.controller.opponent.draw(2)
 
+
+# Mind Control Tech
+class EX1_085(Card):
+	def action(self):
+		if len(self.controller.opponent.field) >= 4:
+			self.controller.takeControl(random.choice(self.controller.opponent.field))
+
+
 # Arcane Golem
 class EX1_089(Card):
 	def action(self):
