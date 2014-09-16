@@ -21,7 +21,7 @@ class CS1_113(Card):
 
 # Shadow Word: Pain
 class CS2_234(Card):
-	action = lambda self, target: target.destroy()
+	action = destroyTarget
 
 
 # Mind Blast
@@ -42,7 +42,7 @@ class EX1_345(Card):
 
 # Shadow Word: Death
 class EX1_622(Card):
-	action = lambda self, target: target.destroy()
+	action = destroyTarget
 
 
 # Holy Fire

@@ -29,8 +29,7 @@ class CS2_075(Card):
 
 # Assassinate
 class CS2_076(Card):
-	def action(self, target):
-		target.destroy()
+	action = destroyTarget
 
 
 # Sprint

@@ -31,8 +31,7 @@ class CS2_105e(Card):
 
 # Execute
 class CS2_108(Card):
-	def action(self, target):
-		target.destroy()
+	action = destroyTarget
 
 
 # Cleave
