@@ -111,6 +111,18 @@ class PlayReq(IntEnum):
 	REQ_UNDAMAGED_TARGET = 47
 
 
+class SpellZoneTag(IntEnum):
+	NONE = 0
+	PLAY = 1
+	HERO = 2
+	HERO_POWER = 3
+	WEAPON = 4
+	DECK = 5
+	HAND = 6
+	GRAVEYARD = 7
+	SECRET = 8
+
+
 class Zone(IntEnum):
 	INVALID = 0
 	PLAY = 1
