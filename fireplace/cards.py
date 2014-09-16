@@ -412,7 +412,10 @@ class Enchantment(Card):
 		target.buffs.append(self)
 
 	def destroy(self):
-		self.owner.slots.remove(self)
+		if self in self.game.auras:
+			self.game.auras.remove(self)
+		else:
+			self.owner.buffs.remove(self)
 		super().destroy()
 
 

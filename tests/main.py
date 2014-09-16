@@ -148,6 +148,7 @@ def test_mana():
 	coin.play()
 	assert game.currentPlayer.mana == 2
 	game.endTurn()
+	assert game.currentPlayer.opponent.mana == 1
 
 	game.endTurn(); game.endTurn()
 
