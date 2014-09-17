@@ -187,6 +187,11 @@ class Card(object):
 		"""
 		return self.controller.summon(card, target=self)
 
+	def clearAura(self):
+		if self.data.hasAura:
+			logging.info("Aura %r fades" % (self.aura))
+			self.game.auras.remove(self.aura)
+
 
 def cardsForHero(hero):
 	return ['CS1_042', 'CS2_118', 'CS2_119', 'CS2_120', 'CS2_121', 'CS2_124', 'CS2_125', 'CS2_127', 'CS2_131', 'CS2_142', 'CS2_147', 'CS2_155', 'CS2_162', 'CS2_168', 'CS2_171', 'CS2_172', 'CS2_173', 'CS2_179', 'CS2_182', 'CS2_186', 'CS2_187', 'CS2_189', 'CS2_197', 'CS2_200', 'CS2_201', 'CS2_213', 'EX1_015', 'EX1_506', 'EX1_582']
@@ -331,9 +336,7 @@ class Minion(Character):
 		logging.info("%r is removed from the field" % (self))
 		self.controller.field.remove(self)
 		# Remove any aura the minion gives
-		if self.data.hasAura:
-			logging.info("Aura %r fades" % (self.aura))
-			self.game.auras.remove(self.aura)
+		self.clearAura()
 
 	def damage(self, amount, source=None):
 		if self.shield:
