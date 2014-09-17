@@ -4,6 +4,7 @@ import fireplace
 import logging
 import random
 from fireplace.heroes import *
+from fireplace.enums import *
 
 logging.getLogger().setLevel(logging.DEBUG)
 
@@ -377,6 +378,28 @@ def test_mindgames():
 	assert game.currentPlayer.field[0].id in game.currentPlayer.opponent.deck
 
 
+def test_poisonous():
+	game = prepare_game()
+	game.endTurn(); game.endTurn()
+	game.endTurn()
+	game.currentPlayer.getById("GAME_005").play()
+	cobra = game.currentPlayer.give("EX1_170")
+	cobra.play()
+	assert cobra.data.poisonous
+	game.endTurn()
+	zchow = game.currentPlayer.give("FP1_001")
+	zchow.play()
+	zchow2 = game.currentPlayer.give("FP1_001")
+	zchow2.play()
+	game.endTurn()
+	cobra.attack(target=zchow)
+	assert zchow not in game.currentPlayer.opponent.field
+	assert zchow.zone == Zone.GRAVEYARD
+	game.endTurn()
+	zchow2.attack(target=cobra)
+	assert zchow2.zone == Zone.GRAVEYARD
+
+
 def test_cleave():
 	game = prepare_game()
 	# play some wisps
@@ -516,6 +539,7 @@ def main():
 	test_end_turn_heal()
 	test_auras()
 	test_divine_shield()
+	test_poisonous()
 	test_warlock()
 	test_overload()
 	test_combo()

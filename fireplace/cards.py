@@ -231,16 +231,16 @@ class Character(Card):
 
 	def attack(self, target):
 		logging.info("%r attacks %r" % (self, target))
-		target.damage(self.atk)
+		target.damage(self.atk, source=self)
 		if self.weapon:
 			self.weapon.loseDurability()
 		if target.atk:
-			self.damage(target.atk)
+			self.damage(target.atk, source=target)
 		if self.stealthed:
 			self.unstealth()
 		self.tags[GameTag.NUM_ATTACKS_THIS_TURN] += 1
 
-	def damage(self, amount):
+	def damage(self, amount, source):
 		self.damageCounter += min(self.health, amount)
 		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
 
@@ -287,12 +287,12 @@ class Hero(Character):
 		self.tags[GameTag.ARMOR] -= amount
 		logging.info("%r loses %i armor (now at %i)" % (self, amount, self.armor))
 
-	def damage(self, amount):
+	def damage(self, amount, source=None):
 		if self.armor:
 			newAmount = max(0, amount - self.armor)
 			self.loseArmor(min(self.armor, amount))
 			amount = newAmount
-		super().damage(amount)
+		super().damage(amount, source)
 
 	def destroy(self):
 		raise GameOver("%s wins!" % (self.controller.opponent))
@@ -335,12 +335,15 @@ class Minion(Character):
 			logging.info("Aura %r fades" % (self.aura))
 			self.game.auras.remove(self.aura)
 
-	def damage(self, amount):
+	def damage(self, amount, source=None):
 		if self.shield:
 			self.shield = False
 			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
 			return
-		super().damage(amount)
+		super().damage(amount, source)
+		if source and source.data.poisonous:
+			logging.info("%r is destroyed because of %r is poisonous" % (self, source))
+			self.destroy()
 
 	def destroy(self):
 		self.removeFromField()
