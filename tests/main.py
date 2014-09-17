@@ -468,7 +468,7 @@ def test_ice_barrier():
 	icebarrier.play()
 	assert not icebarrier2.isPlayable()
 	assert game.currentPlayer.secrets
-	assert "EX1_289" in game.currentPlayer.secrets
+	assert icebarrier in game.currentPlayer.secrets
 	game.endTurn(); game.endTurn()
 	assert not icebarrier2.isPlayable()
 

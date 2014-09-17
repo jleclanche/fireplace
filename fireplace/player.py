@@ -5,6 +5,19 @@ from .targeting import *
 
 
 class CardList(list):
+	def __contains__(self, x):
+		for item in self:
+			if x is item:
+				return True
+		return False
+
+	def contains(self, x):
+		"True if list contains any instance of x"
+		for item in self:
+			if x == item:
+				return True
+		return False
+
 	def index(self, x):
 		for i, item in enumerate(self):
 			if x is item:

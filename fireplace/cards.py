@@ -378,7 +378,7 @@ class Spell(Card):
 class Secret(Card):
 	def isPlayable(self):
 		# secrets are all unique
-		if self in self.controller.secrets:
+		if self.controller.secrets.contains(self):
 			return False
 		return super().isPlayable()
 
