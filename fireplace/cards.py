@@ -268,6 +268,20 @@ class Character(Card):
 		logging.info("%r is no longer frozen" % (self))
 		self.unsetTag(GameTag.FROZEN)
 
+	def silence(self):
+		logging.info("%r has been silenced" % (self))
+		self.clearAura()
+		self.buffs = []
+		tags = (
+			GameTag.FROZEN,
+			GameTag.STEALTH,
+			GameTag.WINDFURY,
+		)
+		for tag in tags:
+			if tag in self.tags:
+				logging.info("Silencing tag %r on %r" % (tag, self))
+				del self.tags[tag]
+
 	def stealth(self):
 		logging.info("%r is now stealthed" % (self))
 		self.setTag(GameTag.STEALTH, True)

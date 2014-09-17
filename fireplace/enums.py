@@ -51,6 +51,7 @@ class GameTag(IntEnum):
 	ATK = 47
 	COST = 48
 	DURABILITY = 187
+	SILENCED = 188
 	WINDFURY = 189
 	TAUNT = 190
 	STEALTH = 191
