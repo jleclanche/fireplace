@@ -170,6 +170,30 @@ def test_overload():
 	assert game.currentPlayer.mana == 0
 
 
+def test_charge():
+	game = prepare_game()
+	wisp = game.currentPlayer.give("CS2_231")
+	wisp.play()
+	assert not wisp.charge
+	assert not wisp.canAttack()
+	# play Charge on wisp
+	game.currentPlayer.give("CS2_103").play(target=wisp)
+	assert wisp.charge
+	assert wisp.canAttack()
+	wisp.attack(game.currentPlayer.opponent.hero)
+	assert not wisp.canAttack()
+	game.endTurn()
+	game.currentPlayer.getById("GAME_005").play()
+	wolfrider = game.currentPlayer.give("CS2_124")
+	wolfrider.play()
+	assert wolfrider.charge
+	assert wolfrider.canAttack()
+	game.endTurn()
+	assert wisp.canAttack()
+	wisp.attack(game.currentPlayer.opponent.hero)
+	assert not wisp.canAttack()
+
+
 def test_divine_shield():
 	game = prepare_game()
 	squire = game.currentPlayer.give("EX1_008")
@@ -193,6 +217,7 @@ def test_stealth_windfury():
 	worgen = game.currentPlayer.give("EX1_010")
 	worgen.play()
 	assert worgen.stealthed
+	assert not worgen.canAttack()
 	game.endTurn()
 
 	archer = game.currentPlayer.give("CS2_189")
@@ -543,6 +568,7 @@ def main():
 	test_warlock()
 	test_overload()
 	test_combo()
+	test_charge()
 	test_stealth_windfury()
 	test_kill_command()
 	test_arcane_explosion()

@@ -330,10 +330,9 @@ class Minion(Character):
 
 	@property
 	def charge(self):
-		for slot in self.slots:
-			if slot.charge:
-				return True
-		return self.data.charge
+		if self.tags.get(GameTag.CHARGE, False):
+			return True
+		return self.getProperty("charge")
 
 	@property
 	def adjacentMinions(self):
@@ -383,6 +382,8 @@ class Minion(Character):
 			self.stealth()
 		if self.data.windfury:
 			self.setTag(GameTag.WINDFURY, True)
+		if self.data.charge:
+			self.setTag(GameTag.CHARGE, True)
 		if self.data.hasAura:
 			self.aura = Card(self.data.aura)
 			self.aura.controller = self.controller
