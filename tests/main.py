@@ -192,6 +192,16 @@ def test_charge():
 	assert wisp.canAttack()
 	wisp.attack(game.currentPlayer.opponent.hero)
 	assert not wisp.canAttack()
+	game.endTurn()
+	watcher = game.currentPlayer.give("EX1_045")
+	watcher.play()
+	assert not watcher.canAttack()
+	game.currentPlayer.give("CS2_103").play(target=watcher)
+	assert not watcher.canAttack()
+	game.endTurn(); game.endTurn()
+	assert not watcher.canAttack()
+	watcher.silence()
+	assert watcher.canAttack()
 
 
 def test_divine_shield():

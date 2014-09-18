@@ -29,6 +29,8 @@ class XMLCard(object):
 		"hasDeathrattle": "Deathrattle",
 	}
 
+	cantAttack = False
+
 	def action(self):
 		pass
 

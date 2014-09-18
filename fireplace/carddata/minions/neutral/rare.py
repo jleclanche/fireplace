@@ -20,6 +20,11 @@ class EX1_004e(Card):
 	health = 1
 
 
+# Ancient Watcher
+class EX1_045(Card):
+	cantAttack = True
+
+
 # Coldlight Oracle
 class EX1_050(Card):
 	def action(self):

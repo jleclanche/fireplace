@@ -1,4 +1,12 @@
+import random
 from ...card import *
+
+
+# Ragnaros the Firelord
+class EX1_298(Card):
+	cantAttack = True
+	def endTurn(self):
+		random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)).damage(8)
 
 
 # Harrison Jones

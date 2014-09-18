@@ -220,6 +220,8 @@ class Character(Card):
 		return self.getProperty("windfury")
 
 	def canAttack(self):
+		if self.tags.get(GameTag.CANT_ATTACK, False):
+			return False
 		numAttacks = self.tags.get(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 		if self.windfury:
 			if numAttacks >= 2:
@@ -275,6 +277,7 @@ class Character(Card):
 		self.clearAura()
 		self.buffs = []
 		tags = (
+			GameTag.CANT_ATTACK,
 			GameTag.FROZEN,
 			GameTag.STEALTH,
 			GameTag.WINDFURY,
@@ -384,6 +387,8 @@ class Minion(Character):
 			self.setTag(GameTag.WINDFURY, True)
 		if self.data.charge:
 			self.setTag(GameTag.CHARGE, True)
+		if self.data.cantAttack:
+			self.setTag(GameTag.CANT_ATTACK, True)
 		if self.data.hasAura:
 			self.aura = Card(self.data.aura)
 			self.aura.controller = self.controller
