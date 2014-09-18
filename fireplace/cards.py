@@ -220,7 +220,7 @@ class Character(Card):
 		return self.getProperty("windfury")
 
 	def canAttack(self):
-		numAttacks = self.tags[GameTag.NUM_ATTACKS_THIS_TURN]
+		numAttacks = self.tags.get(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 		if self.windfury:
 			if numAttacks >= 2:
 				return False
@@ -243,6 +243,8 @@ class Character(Card):
 			self.damage(target.atk, source=target)
 		if self.stealthed:
 			self.unstealth()
+		if GameTag.NUM_ATTACKS_THIS_TURN not in self.tags:
+			self.tags[GameTag.NUM_ATTACKS_THIS_TURN] = 0
 		self.tags[GameTag.NUM_ATTACKS_THIS_TURN] += 1
 
 	def damage(self, amount, source):
