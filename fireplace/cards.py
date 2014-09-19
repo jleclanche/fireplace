@@ -1,6 +1,5 @@
 import json
 import logging
-import uuid
 from itertools import chain
 from . import targeting
 from .exceptions import *
@@ -34,7 +33,6 @@ class Card(object):
 	def __init__(self, id):
 		self.id = id
 		self.tags = {}
-		self.uuid = uuid.uuid4()
 		self.controller = None
 		self.zone = Zone.DECK
 		self.weapon = None
