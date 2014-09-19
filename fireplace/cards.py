@@ -166,7 +166,6 @@ class Card(object):
 
 	def getProperty(self, prop):
 		ret = getattr(self.data, prop)
-		ret -= getattr(self, prop + "Counter", 0)
 		for slot in self.slots:
 			ret += slot.getProperty(prop)
 		return ret
