@@ -37,7 +37,6 @@ class Card(object):
 		self.uuid = uuid.uuid4()
 		self.controller = None
 		self.zone = Zone.DECK
-		self.damageCounter = 0
 		self.durabilityCounter = 0
 		self.weapon = None
 		self.buffs = []
@@ -65,7 +64,7 @@ class Card(object):
 
 	@property
 	def health(self):
-		damage  = self.damageCounter
+		damage  = self.tags.get(GameTag.DAMAGE, 0)
 		health = self.getProperty("health")
 		return max(0, health - damage)
 
@@ -250,7 +249,9 @@ class Character(Card):
 		self.tags[GameTag.NUM_ATTACKS_THIS_TURN] += 1
 
 	def damage(self, amount, source):
-		self.damageCounter += min(self.health, amount)
+		if GameTag.DAMAGE not in self.tags:
+			self.tags[GameTag.DAMAGE] = 0
+		self.tags[GameTag.DAMAGE] += min(self.health, amount)
 		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
 
 		# this should happen elsewhere
@@ -258,11 +259,14 @@ class Character(Card):
 			self.destroy()
 
 	def heal(self, amount):
-		self.damageCounter -= min(amount, self.damageCounter)
+		damage = self.tags.get(GameTag.DAMAGE, 0)
+		if not damage:
+			return
+		self.tags[GameTag.DAMAGE] -= min(amount, damage)
 		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.health))
 
 	def isDamaged(self):
-		return bool(self.damageCounter)
+		return bool(self.tags.get(GameTag.DAMAGE))
 
 	def freeze(self):
 		logging.info("%r is now frozen" % (self))
