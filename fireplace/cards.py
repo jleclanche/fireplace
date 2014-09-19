@@ -37,7 +37,6 @@ class Card(object):
 		self.uuid = uuid.uuid4()
 		self.controller = None
 		self.zone = Zone.DECK
-		self.durabilityCounter = 0
 		self.weapon = None
 		self.buffs = []
 		super().__init__()
@@ -454,19 +453,20 @@ class Enchantment(Card):
 class Weapon(Card):
 	@property
 	def durability(self):
-		return self.getProperty("durability")
+		return self.tags[GameTag.DURABILITY]
+
+	def gainDurability(self, amount=1):
+		self.tags[GameTag.DURABILITY] += 1
+		logging.info("%r gains %i durability (now at %i)" % (self, amount, self.durability))
 
 	def loseDurability(self, amount=1):
-		assert self.type == CardType.WEAPON
 		assert self.durability
-		# XXX
-		self.durabilityCounter += 1
+		self.tags[GameTag.DURABILITY] -= 1
 		logging.info("%r loses %i durability (now at %i)" % (self, amount, self.durability))
 		if self.durability == 0:
 			self.destroy()
 
 	def destroy(self):
-		# HACK
 		self.controller.hero.weapon = None
 		super().destroy()
 
@@ -474,6 +474,7 @@ class Weapon(Card):
 		if self.controller.hero.weapon:
 			self.controller.hero.weapon.destroy()
 		self.controller.hero.weapon = self
+		self.tags[GameTag.DURABILITY] = self.data.durability
 
 
 class HeroPower(Card):

@@ -84,12 +84,12 @@ class EX1_409(Card):
 	def action(self):
 		if self.controller.hero.weapon:
 			self.controller.hero.weapon.buff("EX1_409e")
+			self.controller.hero.weapon.gainDurability()
 		else:
 			self.controller.summon("EX1_409t")
 
 class EX1_409e(Card):
 	atk = 1
-	durability = 1
 
 
 # Shield Slam
