@@ -3,6 +3,7 @@ import logging
 from itertools import chain
 from . import targeting
 from .exceptions import *
+from .entity import Entity
 from .enums import CardType, GameTag, PlayReq, Zone
 from .xmlcard import XMLCard
 
@@ -11,7 +12,7 @@ from .xmlcard import XMLCard
 THE_COIN = "GAME_005"
 
 
-class Card(object):
+class Card(Entity):
 	def __new__(cls, id):
 		if cls is not Card:
 			return super().__new__(cls)
@@ -169,12 +170,6 @@ class Card(object):
 		for slot in self.slots:
 			ret += slot.getProperty(prop)
 		return ret
-
-	def setTag(self, tag, value):
-		self.tags[tag] = value
-
-	def unsetTag(self, tag):
-		del self.tags[tag]
 
 	def buff(self, card):
 		"""

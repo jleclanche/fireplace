@@ -1,5 +1,6 @@
 import logging
 from .cards import Card
+from .entity import Entity
 from .enums import CardType, Zone
 from .targeting import *
 
@@ -25,7 +26,7 @@ class CardList(list):
 		raise ValueError
 
 
-class Player(object):
+class Player(Entity):
 	MAX_HAND = 10
 	MAX_MANA = 10
 

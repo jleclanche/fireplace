@@ -3,6 +3,7 @@ import random
 from itertools import chain
 from . import heroes
 from .cards import Card, cardsForHero, THE_COIN
+from .entity import Entity
 from .enums import GameTag
 from .exceptions import *
 from .player import Player
@@ -50,7 +51,7 @@ class Deck(object):
 		random.shuffle(self.cards)
 
 
-class Game(object):
+class Game(Entity):
 	STATUS_BEGIN = 0
 	STATUS_TURN = 1
 	STATUS_END_TURN = 2
