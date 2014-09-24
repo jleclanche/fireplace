@@ -208,18 +208,18 @@ def test_divine_shield():
 	game = prepare_game()
 	squire = game.currentPlayer.give("EX1_008")
 	squire.play()
-	assert squire.shield
+	assert squire.divineShield
 	game.endTurn()
 
 	archer = game.currentPlayer.give("CS2_189")
 	archer.play(target=squire)
 	assert len(game.currentPlayer.field) == 1
-	assert not squire.shield
+	assert not squire.divineShield
 	game.currentPlayer.getById("GAME_005").play()
 	archer2 = game.currentPlayer.give("CS2_189")
 	archer2.play(target=squire)
 	assert len(game.currentPlayer.opponent.field) == 0
-	assert not squire.shield
+	assert not squire.divineShield
 
 
 def test_stealth_windfury():

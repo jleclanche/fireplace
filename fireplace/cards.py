@@ -333,6 +333,10 @@ class Minion(Character):
 		return self.getProperty("charge")
 
 	@property
+	def divineShield(self):
+		return self.tags.get(GameTag.DIVINE_SHIELD, False)
+
+	@property
 	def adjacentMinions(self):
 		assert self.zone is Zone.PLAY, self.zone
 		index = self.controller.field.index(self)
@@ -352,8 +356,8 @@ class Minion(Character):
 		self.clearAura()
 
 	def damage(self, amount, source=None):
-		if self.shield:
-			self.shield = False
+		if self.divineShield:
+			del self.tags[GameTag.DIVINE_SHIELD]
 			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
 			return
 		super().damage(amount, source)
@@ -384,6 +388,8 @@ class Minion(Character):
 			self.setTag(GameTag.CHARGE, True)
 		if self.data.cantAttack:
 			self.setTag(GameTag.CANT_ATTACK, True)
+		if self.data.divineShield:
+			self.setTag(GameTag.DIVINE_SHIELD, True)
 		if self.data.hasAura:
 			self.aura = Card(self.data.aura)
 			self.aura.controller = self.controller
@@ -391,7 +397,6 @@ class Minion(Character):
 			self.aura.source = self
 			logging.info("Aura %r suddenly appears" % (self.aura))
 			self.game.auras.append(self.aura)
-		self.shield = self.data.divineShield
 
 
 class Spell(Card):
