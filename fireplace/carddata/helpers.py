@@ -55,3 +55,6 @@ def summonMinion(minion):
 	def _summonMinion(self):
 		self.controller.summon(minion)
 	return _summonMinion
+
+# equipping a weapon and summoning a minion is the same
+equipWeapon = summonMinion
