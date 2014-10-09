@@ -371,6 +371,19 @@ def test_bounce():
 	brewmaster = game.currentPlayer.give("EX1_049")
 	brewmaster.play(target=wisp)
 	assert game.currentPlayer.field == [brewmaster]
+	assert wisp in game.currentPlayer.hand
+	game.endTurn()
+	vanish = game.currentPlayer.give("NEW1_004")
+	game.endTurn()
+	wisp.play()
+	# fill the hand with some bananas
+	game.currentPlayer.give("EX1_014t")
+	game.currentPlayer.give("EX1_014t")
+	game.currentPlayer.give("EX1_014t")
+	game.currentPlayer.give("EX1_014t")
+	game.endTurn()
+	vanish.play()
+	assert brewmaster not in game.currentPlayer.opponent.hand
 
 
 def test_arcane_explosion():

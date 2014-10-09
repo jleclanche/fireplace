@@ -346,8 +346,11 @@ class Minion(Character):
 
 	def bounce(self):
 		logging.info("%r is bounced back to %s's hand" % (self, self.controller))
-		self.removeFromField()
-		self.controller.addToHand(self)
+		if not self.controller.addToHand(self):
+			logging.info("%s's hand is full and bounce fails" % (self.controller))
+			self.destroy()
+		else:
+			self.removeFromField()
 
 	def removeFromField(self):
 		logging.info("%r is removed from the field" % (self))
