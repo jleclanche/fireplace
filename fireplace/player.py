@@ -1,7 +1,7 @@
 import logging
 from .cards import Card
 from .entity import Entity
-from .enums import CardType, Zone
+from .enums import CardType, GameTag, Zone
 from .targeting import *
 
 
@@ -183,5 +183,9 @@ class Player(Entity):
 		self.hand.remove(card)
 		self.summon(card)
 		# Card must already be on the field for action()
-		card.action(target, combo=len(self.game.playedThisTurn))
-		self.game.playedThisTurn.append(card.id)
+		if self.tags[GameTag.COMBO_ACTIVE]:
+			card.action(target, combo=self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN])
+		else:
+			card.action(target, combo=None)
+			self.setTag(GameTag.COMBO_ACTIVE, True)
+		self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN] += 1

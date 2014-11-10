@@ -295,11 +295,13 @@ def test_combo():
 	game.endTurn()
 	game.currentPlayer.getById("GAME_005").play()
 	# SI:7 with combo
+	assert game.currentPlayer.tags[GameTag.COMBO_ACTIVE]
 	game.currentPlayer.give("EX1_134").play(target=game.currentPlayer.hero)
 	assert game.currentPlayer.hero.health == 28
 	game.endTurn()
 
 	# Without combo should not have a target
+	assert not game.currentPlayer.tags[GameTag.COMBO_ACTIVE]
 	game.currentPlayer.give("EX1_134").play()
 
 

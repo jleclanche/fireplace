@@ -127,11 +127,12 @@ class Game(Entity):
 	def beginTurn(self, player):
 		self.status = self.STATUS_TURN
 		self.turn += 1
-		self.playedThisTurn = []
 		logging.info("%s begins turn %i" % (player, self.turn))
 		if self.turn == self.MAX_TURNS:
 			raise GameOver("It's a draw!")
 		self.currentPlayer = player
+		self.currentPlayer.setTag(GameTag.COMBO_ACTIVE, False)
+		self.currentPlayer.setTag(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
 		player.gainMana(1)
 		player.availableMana = player.maxMana
 		player.overload = player.nextOverload
