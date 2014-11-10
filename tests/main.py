@@ -466,6 +466,18 @@ def test_poisonous():
 	zchow2.attack(target=cobra)
 	assert zchow2.zone == Zone.GRAVEYARD
 
+	# test silencing the cobra
+	zchow3 = game.currentPlayer.give("FP1_001")
+	zchow3.play()
+	game.endTurn()
+	cobra = game.currentPlayer.give("EX1_170")
+	cobra.play()
+	cobra.silence()
+	game.endTurn()
+	zchow3.attack(cobra)
+	assert zchow3 in game.currentPlayer.field
+	assert cobra in game.currentPlayer.opponent.field
+
 
 def test_cleave():
 	game = prepare_game()

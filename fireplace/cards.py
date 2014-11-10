@@ -200,6 +200,10 @@ class Character(Card):
 		return self.tags.get(GameTag.FROZEN, False)
 
 	@property
+	def poisonous(self):
+		return self.tags.get(GameTag.POISONOUS, False)
+
+	@property
 	def stealthed(self):
 		return self.tags.get(GameTag.STEALTH, False)
 
@@ -274,6 +278,7 @@ class Character(Card):
 		tags = (
 			GameTag.CANT_ATTACK,
 			GameTag.FROZEN,
+			GameTag.POISONOUS,
 			GameTag.STEALTH,
 			GameTag.WINDFURY,
 		)
@@ -364,7 +369,7 @@ class Minion(Character):
 			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
 			return
 		super().damage(amount, source)
-		if source and source.data.poisonous:
+		if source and source.poisonous:
 			logging.info("%r is destroyed because of %r is poisonous" % (self, source))
 			self.destroy()
 
