@@ -28,6 +28,9 @@ class Card(Entity):
 		if type is Spell and data.secret:
 			type = Secret
 		card = type(id)
+		# type(id) triggers __init__, so we can't rely on card.data existing
+		# so instead we super __init__ here and initialize tags then.
+		super(Card, cls).__init__(card)
 		card.data = data
 		card.tags = data.tags
 		return card
@@ -38,7 +41,6 @@ class Card(Entity):
 		self.zone = Zone.DECK
 		self.weapon = None
 		self.buffs = []
-		super().__init__()
 
 	def __str__(self):
 		return self.data.name

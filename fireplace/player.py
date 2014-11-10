@@ -31,6 +31,7 @@ class Player(Entity):
 	MAX_MANA = 10
 
 	def __init__(self, name, deck):
+		super().__init__()
 		self.name = name
 		self.deck = deck
 		self.deck.hero.controller = self

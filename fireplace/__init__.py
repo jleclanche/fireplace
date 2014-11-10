@@ -64,6 +64,7 @@ class Game(Entity):
 	MAX_TURNS = 100
 
 	def __init__(self, players):
+		super().__init__()
 		self.players = players
 		for player in players:
 			player.game = self
