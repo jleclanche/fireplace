@@ -5,9 +5,9 @@ from ..card import *
 
 # Charge
 class CS2_103(Card):
-	action = buffTarget("CS2_103e")
+	action = buffTarget("CS2_103e2")
 
-class CS2_103e(Card):
+class CS2_103e2(Card):
 	atk = 2
 	charge = True
 
