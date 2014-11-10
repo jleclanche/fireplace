@@ -249,6 +249,25 @@ def test_stealth_windfury():
 	assert len(archer.targets) == 3
 
 
+def test_tags():
+	game = prepare_game()
+
+	alakir = game.currentPlayer.give("NEW1_010")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	alakir.play()
+	assert alakir.tags[GameTag.CHARGE]
+	assert alakir.tags[GameTag.DIVINE_SHIELD]
+	assert alakir.tags[GameTag.TAUNT]
+	assert alakir.tags[GameTag.WINDFURY]
+
+
 def test_card_draw():
 	game = prepare_game()
 	# pass turn 1
@@ -593,6 +612,7 @@ def main():
 	test_combo()
 	test_charge()
 	test_stealth_windfury()
+	test_tags()
 	test_kill_command()
 	test_arcane_explosion()
 	test_power_overwhelming()

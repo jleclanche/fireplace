@@ -29,11 +29,11 @@ class Card(Entity):
 			type = Secret
 		card = type(id)
 		card.data = data
+		card.tags = data.tags
 		return card
 
 	def __init__(self, id):
 		self.id = id
-		self.tags = {}
 		self.controller = None
 		self.zone = Zone.DECK
 		self.weapon = None
@@ -383,16 +383,8 @@ class Minion(Character):
 			return
 		self.controller.field.append(self)
 		self.summoningSickness = True
-		if self.data.stealth:
-			self.stealth()
-		if self.data.windfury:
-			self.setTag(GameTag.WINDFURY, True)
-		if self.data.charge:
-			self.setTag(GameTag.CHARGE, True)
 		if self.data.cantAttack:
 			self.setTag(GameTag.CANT_ATTACK, True)
-		if self.data.divineShield:
-			self.setTag(GameTag.DIVINE_SHIELD, True)
 		if self.data.hasAura:
 			self.aura = Card(self.data.aura)
 			self.aura.controller = self.controller
@@ -474,7 +466,6 @@ class Weapon(Card):
 		if self.controller.hero.weapon:
 			self.controller.hero.weapon.destroy()
 		self.controller.hero.weapon = self
-		self.tags[GameTag.DURABILITY] = self.data.durability
 
 
 class HeroPower(Card):

@@ -1,6 +1,6 @@
 import os
 from xml.etree import ElementTree
-from .enums import PlayReq, Race
+from .enums import GameTag, PlayReq, Race
 
 
 _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir, "data", "TextAsset")
@@ -19,7 +19,6 @@ class XMLCard(object):
 		"poisonous": "Poisonous",
 		"secret": "Secret",
 		"stealth": "Stealth",
-		"taunt": "Taunt",
 		"windfury": "Windfury",
 		"adjacentBuff": "AdjacentBuff",
 		"divineShield": "Divine Shield",
@@ -59,15 +58,26 @@ class XMLCard(object):
 			return int(tags[0].attrib["param"])
 		return 0
 
-	def getTag(self, name):
-		tag = self.xml.findall('./Tag[@name="%s"]' % (name))
-		if not tag:
-			return 0
-		tag = tag[0]
-		value, type = tag.attrib["value"], tag.attrib["type"]
+
+	def _getTag(self, element, locale="enUS"):
+		type = element.attrib["type"]
+		if type == "String":
+			return element.find(locale).text
+
+		value = int(element.attrib["value"])
 		if type == "Bool":
-			return bool(int(value))
-		return int(value)
+			return bool(value)
+		return value
+
+	def getTag(self, name):
+		element = self.xml.findall('./Tag[@name="%s"]' % (name))
+		if not element:
+			return 0
+		return self._getTag(element[0])
+
+	@property
+	def tags(self):
+		return {GameTag(int(e.attrib["enumID"])): self._getTag(e) for e in self.xml.findall("./Tag")}
 
 	@property
 	def spellpower(self):
