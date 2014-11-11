@@ -149,6 +149,14 @@ class Player(Entity):
 		self.tags[GameTag.RESOURCES] = min(self.MAX_MANA, max(0, amount))
 		logging.info("%s is now at %i mana crystals" % (self, amount))
 
+	@property
+	def usedMana(self):
+		return self.tags.get(GameTag.RESOURCES_USED, 0)
+
+	@usedMana.setter
+	def usedMana(self, value):
+		self.tags[GameTag.RESOURCES_USED] = value
+
 	def takeControl(self, minion):
 		logging.info("%s takes control of %r" % (self, minion))
 		self.opponent.field.remove(minion)
