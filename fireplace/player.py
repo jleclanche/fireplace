@@ -47,8 +47,6 @@ class Player(Entity):
 		self.availableMana = 0
 		# overloaded mana
 		self.overload = 0
-		# mana overload next turn
-		self.nextOverload = 0
 
 	def __str__(self):
 		return self.name
@@ -138,6 +136,14 @@ class Player(Entity):
 		self.fatigueCounter += 1
 		logging.info("%s takes %i fatigue damage" % (self, self.fatigueCounter))
 		self.hero.hit(self.hero, self.fatigueCounter)
+
+	@property
+	def nextOverload(self):
+		return self.tags.get(GameTag.RECALL_OWED, 0)
+
+	@nextOverload.setter
+	def nextOverload(self, amount):
+		self.tags[GameTag.RECALL_OWED] = amount
 
 	@property
 	def maxMana(self):
