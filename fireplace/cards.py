@@ -60,6 +60,17 @@ class Card(Entity):
 		return self.controller.game
 
 	##
+	# Tag properties
+
+	@property
+	def zone(self):
+		return self.tags.get(GameTag.ZONE)
+
+	@zone.setter
+	def zone(self, value):
+		self.tags[GameTag.ZONE] = value
+
+	##
 	# Properties affected by slots
 
 	@property

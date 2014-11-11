@@ -54,6 +54,7 @@ class GameTag(IntEnum):
 	HEALTH = 45
 	ATK = 47
 	COST = 48
+	ZONE = 49
 	DURABILITY = 187
 	SILENCED = 188
 	WINDFURY = 189
