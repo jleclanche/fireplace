@@ -43,8 +43,6 @@ class Player(Entity):
 		# set to False after the player has finished his mulligan
 		self.canMulligan = True
 		## Mana
-		# total mana
-		self.maxMana = 0
 		# available mana (resets every turn)
 		self.availableMana = 0
 		# overloaded mana
@@ -141,13 +139,14 @@ class Player(Entity):
 		logging.info("%s takes %i fatigue damage" % (self, self.fatigueCounter))
 		self.hero.damage(self.fatigueCounter)
 
-	def gainMana(self, amount):
-		self.maxMana = min(self.MAX_MANA, self.maxMana + amount)
-		logging.info("%s gains %i mana crystal (now at %i)" % (self, amount, self.maxMana))
+	@property
+	def maxMana(self):
+		return self.tags.get(GameTag.RESOURCES, 0)
 
-	def loseMana(self, amount):
-		self.maxMana = max(0, self.maxMana - amount)
-		logging.info("%s loses %i mana crystal (now at %i)" % (self, amount, self.maxMana))
+	@maxMana.setter
+	def maxMana(self, amount):
+		self.tags[GameTag.RESOURCES] = min(self.MAX_MANA, max(0, amount))
+		logging.info("%s is now at %i mana crystals" % (self, amount))
 
 	def takeControl(self, minion):
 		logging.info("%s takes control of %r" % (self, minion))

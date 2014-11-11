@@ -42,7 +42,7 @@ class EX1_085(Card):
 # Arcane Golem
 class EX1_089(Card):
 	def action(self):
-		self.controller.opponent.gainMana(1)
+		self.controller.opponent.maxMana += 1
 
 
 # Defender of Argus

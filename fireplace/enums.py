@@ -47,6 +47,7 @@ class Race(IntEnum):
 
 
 class GameTag(IntEnum):
+	RESOURCES = 25
 	DAMAGE = 44
 	HEALTH = 45
 	ATK = 47

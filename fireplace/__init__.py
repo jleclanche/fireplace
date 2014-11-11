@@ -133,7 +133,7 @@ class Game(Entity):
 		self.currentPlayer = player
 		self.currentPlayer.setTag(GameTag.COMBO_ACTIVE, False)
 		self.currentPlayer.setTag(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
-		player.gainMana(1)
+		player.maxMana += 1
 		player.availableMana = player.maxMana
 		player.overload = player.nextOverload
 		player.nextOverload = 0

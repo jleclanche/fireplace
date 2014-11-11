@@ -57,7 +57,7 @@ class CS2_012(Card):
 class CS2_013(Card):
 	def action(self):
 		if self.controller.maxMana < self.controller.MAX_MANA:
-			self.controller.gainMana(1)
+			self.controller.maxMana += 1
 		else:
 			self.controller.give("CS2_013t")
 

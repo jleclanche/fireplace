@@ -16,7 +16,7 @@ class CS2_059o(Card):
 # Felguard
 class EX1_301(Card):
 	def action(self):
-		self.controller.loseMana(1)
+		self.controller.maxMana -= 1
 
 
 # Succubus
