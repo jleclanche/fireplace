@@ -10,7 +10,7 @@ class CS2_023(Card):
 class CS2_024(Card):
 	def action(self, target):
 		target.damage(3)
-		target.freeze()
+		target.frozen = True
 
 
 # Arcane Explosion
@@ -24,7 +24,7 @@ class CS2_025(Card):
 class CS2_026(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
-			target.freeze()
+			target.frozen = True
 
 
 # Blizzard
@@ -32,7 +32,7 @@ class CS2_028(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
 			target.damage(2)
-			target.freeze()
+			target.frozen = True
 
 
 # Fireball
@@ -46,7 +46,7 @@ class CS2_031(Card):
 		if target.frozen:
 			target.damage(4)
 		else:
-			target.freeze()
+			target.frozen = True
 
 
 # Cone of Cold
@@ -54,9 +54,9 @@ class EX1_275(Card):
 	def action(self, target):
 		for minion in target.adjacentMinions:
 			minion.damage(1)
-			minion.freeze()
+			minion.frozen = True
 		target.damage(1)
-		target.freeze()
+		target.frozen = True
 
 
 # Pyroblast

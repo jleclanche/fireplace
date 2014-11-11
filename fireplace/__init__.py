@@ -167,5 +167,5 @@ class Game(Entity):
 					slot.data.__class__.endTurn(slot)
 		for minion in self.currentPlayer.field:
 			if minion.frozen:
-				minion.unfreeze()
+				minion.frozen = False
 		self.beginTurn(self.currentPlayer.opponent)

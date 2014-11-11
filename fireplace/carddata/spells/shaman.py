@@ -7,7 +7,7 @@ from ..card import *
 class CS2_037(Card):
 	def action(self, target):
 		target.damage(1)
-		target.freeze()
+		target.frozen = True
 
 
 # Ancestral Spirit

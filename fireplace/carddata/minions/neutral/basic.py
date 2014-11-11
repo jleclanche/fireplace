@@ -157,7 +157,7 @@ class EX1_162o(Card):
 # Frost Elemental
 class EX1_283(Card):
 	def action(self, target):
-		target.freeze()
+		target.frozen = True
 
 
 # Murloc Tidehunter

@@ -219,6 +219,10 @@ class Character(Card):
 	def frozen(self):
 		return self.tags.get(GameTag.FROZEN, False)
 
+	@frozen.setter
+	def frozen(self, value):
+		self.setTag(GameTag.FROZEN, value)
+
 	@property
 	def poisonous(self):
 		return self.tags.get(GameTag.POISONOUS, False)
@@ -282,14 +286,6 @@ class Character(Card):
 
 	def isDamaged(self):
 		return bool(self.tags.get(GameTag.DAMAGE))
-
-	def freeze(self):
-		logging.info("%r is now frozen" % (self))
-		self.setTag(GameTag.FROZEN, True)
-
-	def unfreeze(self):
-		logging.info("%r is no longer frozen" % (self))
-		self.unsetTag(GameTag.FROZEN)
 
 	def silence(self):
 		logging.info("%r has been silenced" % (self))
