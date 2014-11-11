@@ -231,6 +231,10 @@ class Character(Card):
 	def stealthed(self):
 		return self.tags.get(GameTag.STEALTH, False)
 
+	@stealthed.setter
+	def stealthed(self, value):
+		self.setTag(GameTag.STEALTH, value)
+
 	@property
 	def windfury(self):
 		if self.tags.get(GameTag.WINDFURY, False):
@@ -262,7 +266,7 @@ class Character(Card):
 		if target.atk:
 			self.damage(target.atk, source=target)
 		if self.stealthed:
-			self.unstealth()
+			self.stealthed = False
 		if GameTag.NUM_ATTACKS_THIS_TURN not in self.tags:
 			self.tags[GameTag.NUM_ATTACKS_THIS_TURN] = 0
 		self.tags[GameTag.NUM_ATTACKS_THIS_TURN] += 1
@@ -302,14 +306,6 @@ class Character(Card):
 			if tag in self.tags:
 				logging.info("Silencing tag %r on %r" % (tag, self))
 				del self.tags[tag]
-
-	def stealth(self):
-		logging.info("%r is now stealthed" % (self))
-		self.setTag(GameTag.STEALTH, True)
-
-	def unstealth(self):
-		logging.info("%r is no longer stealthed" % (self))
-		self.unsetTag(GameTag.STEALTH)
 
 
 class Hero(Character):
@@ -353,6 +349,10 @@ class Minion(Character):
 	def divineShield(self):
 		return self.tags.get(GameTag.DIVINE_SHIELD, False)
 
+	@divineShield.setter
+	def divineShield(self, value):
+		self.tags[GameTag.DIVINE_SHIELD] = value
+
 	@property
 	def adjacentMinions(self):
 		assert self.zone is Zone.PLAY, self.zone
@@ -377,7 +377,7 @@ class Minion(Character):
 
 	def damage(self, amount, source=None):
 		if self.divineShield:
-			del self.tags[GameTag.DIVINE_SHIELD]
+			self.divineShield = False
 			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
 			return
 		super().damage(amount, source)

@@ -27,4 +27,4 @@ class NEW1_005(Card):
 # Master of Disguise
 class NEW1_014(Card):
 	def battlecry(self, target):
-		target.stealth()
+		target.stealthed = True
