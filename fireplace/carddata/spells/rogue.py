@@ -23,8 +23,7 @@ class CS2_074e(Card):
 
 # Sinister Strike
 class CS2_075(Card):
-	def action(self):
-		self.controller.opponent.damage(3)
+	action = damageEnemyHero(3)
 
 
 # Assassinate
@@ -43,7 +42,7 @@ class CS2_233(Card):
 		damage = self.controller.hero.weapon.atk
 		self.controller.hero.weapon.destroy()
 		for target in self.controller.opponent.field:
-			target.damage(damage)
+			self.hit(target, damage)
 
 
 # Eviscerate
@@ -56,14 +55,14 @@ class EX1_124(Card):
 class EX1_129(Card):
 	def action(self):
 		for target in self.controller.opponent.field:
-			target.damage(1)
+			self.hit(target, 1)
 		self.controller.draw()
 
 
 # Shiv
 class EX1_278(Card):
 	def action(self, target):
-		target.damage(1)
+		self.hit(target, 1)
 		self.controller.draw()
 
 

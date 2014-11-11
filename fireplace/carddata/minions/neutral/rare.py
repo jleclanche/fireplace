@@ -6,7 +6,7 @@ from fireplace.enums import Race
 # Injured Blademaster
 class CS2_181(Card):
 	def action(self):
-		self.damage(4)
+		self.hit(self, 4)
 
 
 # Young Priestess
@@ -61,7 +61,7 @@ class EX1_093e(Card):
 class EX1_097(Card):
 	def deathrattle(self):
 		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
-			target.damage(2)
+			self.hit(target, 2)
 
 
 # Coldlight Seer
@@ -88,7 +88,7 @@ class EX1_584e(Card):
 # Imp Master
 class EX1_597(Card):
 	def endTurn(self):
-		self.damage(1)
+		self.hit(self, 1)
 		self.controller.summon("EX1_598")
 
 

@@ -7,7 +7,7 @@ class NEW1_009(Card):
 		if self.game.currentPlayer is self.controller:
 			targets = self.controller.getTargets(TARGET_FRIENDLY_MINIONS)
 			for target in targets:
-				target.heal(1)
+				self.heal(target, 1)
 
 
 # Fire Elemental

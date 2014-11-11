@@ -9,7 +9,7 @@ class CS2_023(Card):
 # Frostbolt
 class CS2_024(Card):
 	def action(self, target):
-		target.damage(3)
+		self.hit(target, 3)
 		target.frozen = True
 
 
@@ -17,7 +17,7 @@ class CS2_024(Card):
 class CS2_025(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
-			target.damage(1)
+			self.hit(target, 1)
 
 
 # Frost Nova
@@ -31,7 +31,7 @@ class CS2_026(Card):
 class CS2_028(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
-			target.damage(2)
+			self.hit(target, 2)
 			target.frozen = True
 
 
@@ -44,7 +44,7 @@ class CS2_029(Card):
 class CS2_031(Card):
 	def action(self, target):
 		if target.frozen:
-			target.damage(4)
+			self.hit(target, 4)
 		else:
 			target.frozen = True
 
@@ -53,9 +53,9 @@ class CS2_031(Card):
 class EX1_275(Card):
 	def action(self, target):
 		for minion in target.adjacentMinions:
-			minion.damage(1)
+			self.hit(minion, 1)
 			minion.frozen = True
-		target.damage(1)
+		self.hit(target, 1)
 		target.frozen = True
 
 

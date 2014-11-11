@@ -82,9 +82,8 @@ class Card(Entity):
 
 	@property
 	def health(self):
-		damage  = self.tags.get(GameTag.DAMAGE, 0)
 		health = self.getProperty("health")
-		return max(0, health - damage)
+		return max(0, health - self.damage)
 
 	@property
 	def atk(self):
@@ -139,6 +138,14 @@ class Card(Entity):
 		else:
 			logging.info("%r activates action(%r)" % (self, kwargs))
 			self.data.__class__.action(self, **kwargs)
+
+	def heal(self, target, amount):
+		logging.info("%r heals %r for %i" % (self, target, amount))
+		target.onHeal(amount, self)
+
+	def hit(self, target, amount):
+		logging.info("%r hits %r for %i" % (self, target, amount))
+		target.onDamage(amount, self)
 
 	def destroy(self):
 		logging.info("%r dies" % (self))
@@ -260,36 +267,44 @@ class Character(Card):
 
 	def attack(self, target):
 		logging.info("%r attacks %r" % (self, target))
-		target.damage(self.atk, source=self)
+		self.hit(target, self.atk)
 		if self.weapon:
 			self.weapon.loseDurability()
 		if target.atk:
-			self.damage(target.atk, source=target)
+			target.hit(self, target.atk)
 		if self.stealthed:
 			self.stealthed = False
 		if GameTag.NUM_ATTACKS_THIS_TURN not in self.tags:
 			self.tags[GameTag.NUM_ATTACKS_THIS_TURN] = 0
 		self.tags[GameTag.NUM_ATTACKS_THIS_TURN] += 1
 
-	def damage(self, amount, source):
-		if GameTag.DAMAGE not in self.tags:
-			self.tags[GameTag.DAMAGE] = 0
-		self.tags[GameTag.DAMAGE] += min(self.health, amount)
-		logging.info("%r damaged for %i health (now at %i health)" % (self, amount, self.health))
+	@property
+	def damage(self):
+		return self.tags.get(GameTag.DAMAGE, 0)
 
-		# this should happen elsewhere
-		if self.health == 0:
+	@damage.setter
+	def damage(self, amount):
+		amount = max(0, amount)
+		if amount < self.damage:
+			logging.info("%r healed for %i health (now at %i health)" % (self, self.damage - amount, self.health))
+		elif amount == self.damage:
+			logging.info("%r receives a no-op health change (now at %i health)" % (self, self.health))
+		else:
+			logging.info("%r damaged for %i health (now at %i health)" % (self, amount - self.damage, self.health))
+
+		self.tags[GameTag.DAMAGE] = amount
+
+	def onDamage(self, amount, source):
+		logging.info("%r onDamage event (amount=%r, source=%r)" % (self, amount, source))
+		self.damage += amount
+
+		# FIXME this should happen in a separate tick
+		if not self.health:
 			self.destroy()
 
-	def heal(self, amount):
-		damage = self.tags.get(GameTag.DAMAGE, 0)
-		if not damage:
-			return
-		self.tags[GameTag.DAMAGE] -= min(amount, damage)
-		logging.info("%r healed for %i health (now at %i health)" % (self, amount, self.health))
-
-	def isDamaged(self):
-		return bool(self.tags.get(GameTag.DAMAGE))
+	def onHeal(self, amount, source):
+		logging.info("%r onHeal event (amount=%r, source=%r)" % (self, amount, source))
+		self.damage -= amount
 
 	def silence(self):
 		logging.info("%r has been silenced" % (self))
@@ -317,12 +332,12 @@ class Hero(Character):
 	def armor(self, value):
 		self.tags[GameTag.ARMOR] = value
 
-	def damage(self, amount, source=None):
+	def onDamage(self, amount, source):
 		if self.armor:
 			newAmount = max(0, amount - self.armor)
 			self.armor -= min(self.armor, amount)
 			amount = newAmount
-		super().damage(amount, source)
+		super().onDamage(amount, source)
 
 	def destroy(self):
 		raise GameOver("%s wins!" % (self.controller.opponent))
@@ -369,13 +384,13 @@ class Minion(Character):
 		# Remove any aura the minion gives
 		self.clearAura()
 
-	def damage(self, amount, source=None):
+	def onDamage(self, amount, source):
 		if self.divineShield:
 			self.divineShield = False
 			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
 			return
-		super().damage(amount, source)
-		if source and source.poisonous:
+		super().onDamage(amount, source)
+		if isinstance(source, Minion) and source.poisonous:
 			logging.info("%r is destroyed because of %r is poisonous" % (self, source))
 			self.destroy()
 

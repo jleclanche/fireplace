@@ -48,9 +48,9 @@ class CS2_012(Card):
 	def action(self, target):
 		for character in self.controller.getTargets(TARGET_ENEMY_CHARACTERS):
 			if character is target:
-				character.damage(4)
+				self.hit(character, 4)
 			else:
-				character.damage(1)
+				self.hit(character, 1)
 
 
 # Wild Growth
@@ -86,7 +86,7 @@ class EX1_161(Card):
 # Starfire
 class EX1_173(Card):
 	def action(self, target):
-		target.damage(5)
+		self.hit(character, 5)
 		self.controller.draw()
 
 
@@ -113,4 +113,4 @@ class EX1_tk9(Card):
 # Savagery
 class EX1_578(Card):
 	def action(self, target):
-		target.damage(self.controller.hero.atk)
+		self.hit(target, self.controller.hero.atk)

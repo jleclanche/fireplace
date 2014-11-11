@@ -137,7 +137,7 @@ class Player(Entity):
 	def fatigue(self):
 		self.fatigueCounter += 1
 		logging.info("%s takes %i fatigue damage" % (self, self.fatigueCounter))
-		self.hero.damage(self.fatigueCounter)
+		self.hero.hit(self.hero, self.fatigueCounter)
 
 	@property
 	def maxMana(self):

@@ -32,13 +32,13 @@ class EX1_310(Card):
 # Pit Lord
 class EX1_313(Card):
 	def action(self):
-		self.controller.hero.damage(5)
+		self.hit(self.controller.hero, 5)
 
 
 # Flame Imp
 class EX1_319(Card):
 	def action(self):
-		self.controller.hero.damage(3)
+		self.hit(self.controller.hero, 3)
 
 
 # Lord Jaraxxus

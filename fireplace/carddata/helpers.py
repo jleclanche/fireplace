@@ -23,19 +23,19 @@ destroyTarget = lambda self, target: target.destroy()
 
 def healTarget(amount):
 	def _healTarget(self, target):
-		target.heal(amount)
+		self.heal(target, amount)
 	return _healTarget
 
 
 def damageTarget(amount):
 	def _damageTarget(self, target, combo=None):
-		target.damage(amount)
+		self.hit(target, amount)
 	return _damageTarget
 
 
 def damageEnemyHero(amount):
 	def _damageEnemyHero(self):
-		self.controller.opponent.hero.damage(amount)
+		self.hit(self.controller.opponent.hero, amount)
 	return _damageEnemyHero
 
 

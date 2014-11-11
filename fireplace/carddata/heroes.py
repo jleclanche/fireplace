@@ -78,7 +78,7 @@ class HERO_07(Card):
 # Life Tap
 class CS2_056(Card):
 	def action(self):
-		self.controller.hero.damage(2)
+		self.hit(self.controller.hero, 2)
 		self.controller.draw()
 
 
@@ -88,8 +88,7 @@ class HERO_08(Card):
 
 # Fireblast
 class CS2_034(Card):
-	def action(self, target):
-		target.damage(1)
+	action = damageTarget(1)
 
 
 # Anduin Wrynn
@@ -98,8 +97,7 @@ class HERO_09(Card):
 
 # Lesser Heal
 class CS1h_001(Card):
-	def action(self, target):
-		target.heal(2)
+	action = healTarget(2)
 
 
 # Lord Jaraxxus

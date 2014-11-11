@@ -8,9 +8,9 @@ class CS1_112(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
 			if target.controller == self.controller:
-				target.heal(2)
+				self.heal(target, 2)
 			else:
-				target.damage(2)
+				self.hit(target, 2)
 
 
 # Mind Control
@@ -48,5 +48,5 @@ class EX1_622(Card):
 # Holy Fire
 class EX1_624(Card):
 	def action(self, target):
-		target.damage(5)
-		self.controller.hero.heal(5)
+		self.hit(target, 5)
+		self.heal(self.controller.hero, 5)

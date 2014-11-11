@@ -16,4 +16,4 @@ class EX1_567(Card):
 class FP1_021(Card):
 	def deathrattle(self):
 		for target in self.controller.game.board:
-			target.damage(1)
+			self.hit(target, 1)

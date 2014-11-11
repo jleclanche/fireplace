@@ -8,21 +8,21 @@ class DS1_183(Card):
 	def action(self):
 		targets = random.sample(self.controller.opponent.field, 2)
 		for target in targets:
-			target.damage(3)
+			self.hit(target, 3)
 
 
 # Arcane Shot
 class DS1_185(Card):
 	def action(self, target):
-		target.damage(2)
+		self.hit(target, 3)
 
 
 # Explosive Shot
 class EX1_537(Card):
 	def action(self, target):
 		for minion in target.adjacentMinions:
-			minion.damage(2)
-		target.damage(5)
+			self.hit(minion, 2)
+		self.hit(target, 5)
 
 
 # Unleash the Hounds
@@ -37,8 +37,8 @@ class EX1_539(Card):
 	def action(self, target):
 		for minion in self.controller.field:
 			if minion.race == Race.BEAST:
-				return target.damage(5)
-		target.damage(3)
+				return self.hit(target, 5)
+		self.hit(target, 3)
 
 
 # Flare

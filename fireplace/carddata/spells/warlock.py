@@ -6,15 +6,15 @@ from ..card import *
 # Drain Life
 class CS2_061(Card):
 	def action(self, target):
-		target.damage(2)
-		self.heal(2)
+		self.hit(target, 2)
+		self.heal(self.controller.hero, 2)
 
 
 # Hellfire
 class CS2_062(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
-			target.damage(3)
+			self.hit(target, 3)
 
 
 # Shadow Bolt
@@ -25,7 +25,7 @@ class CS2_057(Card):
 # Mortal Coil
 class EX1_302(Card):
 	def action(self, target):
-		target.damage(1)
+		self.hit(target, 1)
 		if target.zone == Zone.GRAVEYARD:
 			self.controller.draw()
 
@@ -34,14 +34,14 @@ class EX1_302(Card):
 class EX1_303(Card):
 	def action(self, target):
 		for minion in self.controller.opponent.field:
-			minion.damage(target.atk)
+			self.hit(minion, target.atk)
 		target.destroy()
 
 
 # Soulfire
 class EX1_308(Card):
 	def action(self, target):
-		target.damage(4)
+		self.hit(target, 4)
 		if self.controller.hand:
 			random.choice(self.controller.hand).discard()
 
@@ -49,7 +49,7 @@ class EX1_308(Card):
 # Siphon Soul
 class EX1_309(Card):
 	def action(self, target):
-		self.controller.hero.heal(3)
+		self.heal(self.controller.hero, 3)
 		target.destroy()
 
 
@@ -74,7 +74,7 @@ class EX1_316e(Card):
 # Bane of Doom
 class EX1_320(Card):
 	def action(self, target):
-		target.damage(2)
+		self.hit(target, 2)
 		if target.zone == Zone.GRAVEYARD:
 			self.controller.summon(random.choice(self.data.entourage))
 
@@ -85,7 +85,7 @@ class EX1_596(Card):
 		if target.race == Race.DEMON and target.controller == self.controller:
 			target.buff("EX1_596e")
 		else:
-			target.damage(2)
+			self.hit(target, 2)
 
 class EX1_596e(Card):
 	atk = 2
@@ -96,4 +96,4 @@ class EX1_596e(Card):
 class NEW1_003(Card):
 	def action(self, target):
 		target.destroy()
-		self.controller.hero.heal(5)
+		self.heal(self.controller.hero, 5)

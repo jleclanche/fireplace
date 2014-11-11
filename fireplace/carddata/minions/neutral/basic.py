@@ -93,7 +93,7 @@ class CS2_222o(Card):
 class DS1_055(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_FRIENDLY_CHARACTERS):
-			target.heal(2)
+			self.heal(target, 2)
 
 
 # Shattered Sun Cleric
@@ -184,13 +184,13 @@ class EX1_556(Card):
 # Priestess of Elune
 class EX1_583(Card):
 	def action(self):
-		self.controller.hero.heal(4)
+		self.heal(self.controller.hero, 4)
 
 
 # Zombie Chow
 class FP1_001(Card):
 	def deathrattle(self):
-		self.controller.opponent.hero.heal(5)
+		self.heal(self.controller.opponent.hero, 5)
 
 
 # Haunted Creeper
@@ -204,7 +204,7 @@ class FP1_002(Card):
 class FP1_024(Card):
 	def deathrattle(self):
 		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
-			target.damage(1)
+			self.hit(target, 1)
 
 
 # Dancing Swords

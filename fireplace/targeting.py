@@ -50,7 +50,7 @@ def isValidTarget(self, target):
 			if target.controller == self.controller:
 				return False
 		elif req == PlayReq.REQ_DAMAGED_TARGET:
-			if not target.isDamaged():
+			if not target.damage:
 				return False
 		elif req == PlayReq.REQ_TARGET_MAX_ATTACK:
 			if target.atk > self.data.targetMaxAttack:
@@ -71,6 +71,6 @@ def isValidTarget(self, target):
 			if not target.taunt:
 				return False
 		elif req == PlayReq.REQ_UNDAMAGED_TARGET:
-			if target.isDamaged():
+			if target.damage:
 				return False
 	return True

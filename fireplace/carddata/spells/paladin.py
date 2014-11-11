@@ -27,13 +27,13 @@ class CS2_092e(Card):
 class CS2_093(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_ENEMY_CHARACTERS):
-			target.damage(2)
+			self.hit(target, 2)
 
 
 # Hammer of Wrath
 class CS2_094(Card):
 	def action(self, target):
-		target.damage(3)
+		self.hit(target, 3)
 		self.controller.draw()
 
 
@@ -47,7 +47,7 @@ class EX1_349(Card):
 # Lay on Hands
 class EX1_354(Card):
 	def action(self, target):
-		target.heal(8)
+		self.heal(target, 8)
 		self.controller.draw(3)
 
 
@@ -55,7 +55,7 @@ class EX1_354(Card):
 class EX1_365(Card):
 	def action(self, target):
 		drawn = self.controller.draw()
-		target.damage(drawn[0].cost)
+		self.hit(target, drawn[0].cost)
 
 
 # Hand of Protection

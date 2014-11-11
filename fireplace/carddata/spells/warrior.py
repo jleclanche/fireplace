@@ -39,13 +39,13 @@ class CS2_114(Card):
 	def action(self):
 		targets = random.sample(self.controller.opponent.field, 2)
 		for target in targets:
-			target.damage(2)
+			self.hit(target, 2)
 
 
 # Slam
 class EX1_391(Card):
 	def action(self, target):
-		target.damage(2)
+		self.hit(target, 2)
 		if target.zone == Zone.PLAY:
 			self.controller.draw()
 
@@ -54,7 +54,7 @@ class EX1_391(Card):
 class EX1_392(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_FRIENDLY_CHARACTERS):
-			if target.isDamaged():
+			if target.damage:
 				self.controller.draw()
 
 
@@ -62,7 +62,7 @@ class EX1_392(Card):
 class EX1_400(Card):
 	def action(self):
 		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
-			target.damage(1)
+			self.hit(target, 1)
 
 
 # Brawl
@@ -76,7 +76,7 @@ class EX1_407(Card):
 # Mortal Strike
 class EX1_408(Card):
 	def action(self, target):
-		target.damage(6 if self.controller.hero.health <= 12 else 4)
+		self.hit(target, 6 if self.controller.hero.health <= 12 else 4)
 
 
 # Upgrade!
@@ -95,7 +95,7 @@ class EX1_409e(Card):
 # Shield Slam
 class EX1_410(Card):
 	def action(self, target):
-		target.damage(self.controller.hero.armor)
+		self.hit(target, self.controller.hero.armor)
 
 
 # Shield Block
@@ -109,7 +109,7 @@ class EX1_606(Card):
 class EX1_607(Card):
 	def action(self, target):
 		target.buff("EX1_607e")
-		target.damage(1)
+		self.hit(target, 1)
 
 class EX1_607e(Card):
 	atk = 2

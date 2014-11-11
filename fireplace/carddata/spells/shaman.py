@@ -6,7 +6,7 @@ from ..card import *
 # Frost Shock
 class CS2_037(Card):
 	def action(self, target):
-		target.damage(1)
+		self.hit(target, 1)
 		target.frozen = True
 
 
@@ -28,7 +28,7 @@ class CS2_039(Card):
 # Ancestral Healing
 class CS2_041(Card):
 	def action(self, target):
-		target.heal(target.maxHealth)
+		self.heal(target, target.maxHealth)
 		target.buff("CS2_041e")
 
 
@@ -86,7 +86,7 @@ class EX1_251(Card):
 	def action(self):
 		targets = random.sample(self.controller.opponent.field, 2)
 		for target in targets:
-			target.damage(2)
+			self.hit(target, 2)
 
 
 # Lightning Storm
@@ -94,7 +94,7 @@ class EX1_259(Card):
 	overload = 2
 	def action(self):
 		for target in self.controller.opponent.field:
-			target.damage(random.choice((2, 3)))
+			self.hit(target, random.choice((2, 3)))
 
 
 # Reincarnate

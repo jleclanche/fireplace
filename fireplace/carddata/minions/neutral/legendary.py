@@ -6,7 +6,7 @@ from ...card import *
 class EX1_298(Card):
 	cantAttack = True
 	def endTurn(self):
-		random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)).damage(8)
+		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 8)
 
 
 # Harrison Jones
