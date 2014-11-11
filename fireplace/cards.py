@@ -62,6 +62,14 @@ class Card(Entity):
 	# Tag properties
 
 	@property
+	def exhausted(self):
+		return self.tags.get(GameTag.EXHAUSTED, False)
+
+	@exhausted.setter
+	def exhausted(self, value):
+		self.tags[GameTag.EXHAUSTED] = value
+
+	@property
 	def zone(self):
 		return self.tags.get(GameTag.ZONE)
 
@@ -236,7 +244,7 @@ class Character(Card):
 			return False
 		if self.atk == 0:
 			return False
-		if self.summoningSickness and not self.charge:
+		if self.exhausted and not self.charge:
 			return False
 		if self.frozen:
 			return False
@@ -339,10 +347,6 @@ class Hero(Character):
 
 
 class Minion(Character):
-	def __init__(self, id):
-		super().__init__(id)
-		self.summoningSickness = False
-
 	@property
 	def charge(self):
 		if self.tags.get(GameTag.CHARGE, False):
@@ -399,7 +403,7 @@ class Minion(Character):
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return
 		self.controller.field.append(self)
-		self.summoningSickness = True
+		self.exhausted = True
 		if self.data.cantAttack:
 			self.setTag(GameTag.CANT_ATTACK, True)
 		if self.data.hasAura:
