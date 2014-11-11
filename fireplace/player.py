@@ -138,11 +138,11 @@ class Player(Entity):
 		self.hero.hit(self.hero, self.fatigueCounter)
 
 	@property
-	def nextOverload(self):
+	def overloaded(self):
 		return self.tags.get(GameTag.RECALL_OWED, 0)
 
-	@nextOverload.setter
-	def nextOverload(self, amount):
+	@overloaded.setter
+	def overloaded(self, amount):
 		self.tags[GameTag.RECALL_OWED] = amount
 
 	@property
@@ -183,8 +183,8 @@ class Player(Entity):
 		assert card.controller
 		self.availableMana -= card.cost
 		if card.data.overload:
-			self.nextOverload += card.data.overload
-			logging.info("%s is overloaded for %i mana" % (self, self.nextOverload))
+			self.overloaded += card.data.overload
+			logging.info("%s is overloaded for %i mana" % (self, self.overloaded))
 		self.hand.remove(card)
 		self.summon(card)
 		# Card must already be on the field for action()

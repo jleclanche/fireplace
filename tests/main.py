@@ -171,7 +171,7 @@ def test_overload():
 	game = prepare_game()
 	dustdevil = game.currentPlayer.give("EX1_243")
 	dustdevil.play()
-	assert game.currentPlayer.nextOverload == 2
+	assert game.currentPlayer.overloaded == 2
 	game.endTurn(); game.endTurn()
 	assert game.currentPlayer.mana == 0
 

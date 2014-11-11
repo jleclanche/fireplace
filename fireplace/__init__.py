@@ -140,9 +140,9 @@ class Game(Entity):
 		self.currentPlayer.setTag(GameTag.COMBO_ACTIVE, False)
 		self.currentPlayer.setTag(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
 		player.maxMana += 1
-		player.availableMana = player.maxMana
-		player.overload = player.nextOverload
-		player.nextOverload = 0
+		player.availableMana = player.maxMana - player.overloaded
+		if player.overloaded:
+			player.overloaded = 0
 		player.draw()
 		# remove all summon sickness
 		for minion in self.currentPlayer.field:
