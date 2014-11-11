@@ -4,7 +4,7 @@ from itertools import chain
 from . import heroes
 from .cards import Card, cardsForHero, THE_COIN
 from .entity import Entity
-from .enums import GameTag
+from .enums import GameTag, Zone
 from .exceptions import *
 from .player import Player
 
@@ -99,6 +99,8 @@ class Game(Entity):
 	def start(self):
 		logging.info("Starting game: %r" % (self))
 		for player in self.players:
+			for card in player.deck:
+				card.zone = Zone.DECK
 			player.summon(player.deck.hero)
 			player.deck.shuffle()
 			player.draw(3)

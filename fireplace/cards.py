@@ -38,7 +38,6 @@ class Card(Entity):
 	def __init__(self, id):
 		self.id = id
 		self.controller = None
-		self.zone = Zone.DECK
 		self.weapon = None
 		self.buffs = []
 
