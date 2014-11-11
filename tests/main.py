@@ -416,16 +416,24 @@ def test_bounce():
 	brewmaster.play(target=wisp)
 	assert game.currentPlayer.field == [brewmaster]
 	assert wisp in game.currentPlayer.hand
-	game.endTurn()
-	vanish = game.currentPlayer.give("NEW1_004")
-	game.endTurn()
 	wisp.play()
+	game.endTurn(); game.endTurn()
+
+	# test for damage reset on bounce
+	brewmaster2 = game.currentPlayer.give("EX1_049")
+	moonfire = game.currentPlayer.give("CS2_008")
+	moonfire.play(target=brewmaster)
+	assert brewmaster.health == 1
+	brewmaster2.play(target=brewmaster)
+	assert brewmaster.health == 2
+	assert brewmaster2.health == 2
+
+	game.endTurn()
 	# fill the hand with some bananas
 	game.currentPlayer.give("EX1_014t")
 	game.currentPlayer.give("EX1_014t")
-	game.currentPlayer.give("EX1_014t")
-	game.currentPlayer.give("EX1_014t")
 	game.endTurn()
+	vanish = game.currentPlayer.give("NEW1_004")
 	vanish.play()
 	assert brewmaster not in game.currentPlayer.opponent.hand
 

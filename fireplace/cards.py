@@ -383,6 +383,8 @@ class Minion(Character):
 		self.controller.field.remove(self)
 		# Remove any aura the minion gives
 		self.clearAura()
+		if self.damage:
+			self.damage = 0
 
 	def onDamage(self, amount, source):
 		if self.divineShield:
