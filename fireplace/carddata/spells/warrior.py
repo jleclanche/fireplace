@@ -101,7 +101,7 @@ class EX1_410(Card):
 # Shield Block
 class EX1_606(Card):
 	def action(self):
-		self.controller.hero.gainArmor(5)
+		self.controller.hero.armor += 5
 		self.controller.draw()
 
 

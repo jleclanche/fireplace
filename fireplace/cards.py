@@ -313,20 +313,14 @@ class Hero(Character):
 	def armor(self):
 		return self.tags.get(GameTag.ARMOR, 0)
 
-	def gainArmor(self, amount):
-		if GameTag.ARMOR not in self.tags:
-			self.tags[GameTag.ARMOR] = 0
-		self.tags[GameTag.ARMOR] += amount
-		logging.info("%r gains %i armor (now at %i)" % (self, amount, self.armor))
-
-	def loseArmor(self, amount):
-		self.tags[GameTag.ARMOR] -= amount
-		logging.info("%r loses %i armor (now at %i)" % (self, amount, self.armor))
+	@armor.setter
+	def armor(self, value):
+		self.tags[GameTag.ARMOR] = value
 
 	def damage(self, amount, source=None):
 		if self.armor:
 			newAmount = max(0, amount - self.armor)
-			self.loseArmor(min(self.armor, amount))
+			self.armor -= min(self.armor, amount)
 			amount = newAmount
 		super().damage(amount, source)
 

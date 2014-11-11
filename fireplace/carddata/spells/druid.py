@@ -7,7 +7,7 @@ from ..card import *
 class CS2_005(Card):
 	def action(self):
 		buffSelf(self, "CS2_005o")
-		self.controller.hero.gainArmor(2)
+		self.controller.hero.armor += 2
 
 class CS2_005o(Card):
 	atk = 2
@@ -94,7 +94,7 @@ class EX1_173(Card):
 class EX1_570(Card):
 	def action(self):
 		buffSelf(self, "EX1_570e")
-		self.controller.hero.gainArmor(4)
+		self.controller.hero.armor += 4
 
 class EX1_570e(Card):
 	atk = 4

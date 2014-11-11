@@ -12,7 +12,7 @@ class HERO_01(Card):
 # Armor Up!
 class CS2_102(Card):
 	def action(self):
-		self.controller.hero.gainArmor(2)
+		self.controller.hero.armor += 2
 
 
 # Thrall
