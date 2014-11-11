@@ -105,6 +105,7 @@ class Game(Entity):
 		self.player1, self.player2 = self.tossCoin()
 		self.player2.draw()
 		self.beginMulligan()
+		self.player1.setTag(GameTag.FIRST_PLAYER, True)
 
 	def onMulliganInput(self, player, cards):
 		assert self.status == self.STATUS_MULLIGAN
@@ -130,7 +131,10 @@ class Game(Entity):
 		logging.info("%s begins turn %i" % (player, self.turn))
 		if self.turn == self.MAX_TURNS:
 			raise GameOver("It's a draw!")
+		if self.currentPlayer:
+			self.currentPlayer.setTag(GameTag.CURRENT_PLAYER, False)
 		self.currentPlayer = player
+		self.currentPlayer.setTag(GameTag.CURRENT_PLAYER, True)
 		self.currentPlayer.setTag(GameTag.COMBO_ACTIVE, False)
 		self.currentPlayer.setTag(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
 		player.maxMana += 1

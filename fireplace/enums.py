@@ -47,6 +47,8 @@ class Race(IntEnum):
 
 
 class GameTag(IntEnum):
+	CURRENT_PLAYER = 23
+	FIRST_PLAYER = 24
 	RESOURCES = 25
 	DAMAGE = 44
 	HEALTH = 45
