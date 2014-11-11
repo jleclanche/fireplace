@@ -42,11 +42,6 @@ class Player(Entity):
 		self.fatigueCounter = 0
 		# set to False after the player has finished his mulligan
 		self.canMulligan = True
-		## Mana
-		# available mana (resets every turn)
-		self.availableMana = 0
-		# overloaded mana
-		self.overload = 0
 
 	def __str__(self):
 		return self.name
@@ -56,11 +51,11 @@ class Player(Entity):
 
 	@property
 	def mana(self):
-		mana = self.availableMana
+		mana = max(0, self.maxMana - self.usedMana)
 		# also check for the hero's extra mana
 		for slot in self.deck.hero.slots:
 			mana += slot.getProperty("mana")
-		return mana - self.overload
+		return mana
 
 	@property
 	def opponent(self):
@@ -181,7 +176,7 @@ class Player(Entity):
 		"""
 		logging.info("%s plays %r from their hand" % (self, card))
 		assert card.controller
-		self.availableMana -= card.cost
+		self.usedMana += card.cost
 		if card.data.overload:
 			self.overloaded += card.data.overload
 			logging.info("%s is overloaded for %i mana" % (self, self.overloaded))

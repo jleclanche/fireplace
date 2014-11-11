@@ -498,7 +498,7 @@ class HeroPower(Card):
 	def play(self, target=None):
 		logging.info("%s plays hero power %r" % (self.controller, self))
 		assert not self.exhausted
-		self.controller.availableMana -= self.cost
+		self.controller.usedMana += self.cost
 		self.action(target)
 		self.exhausted = True
 

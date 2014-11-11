@@ -163,8 +163,8 @@ def test_mana():
 	assert game.currentPlayer.maxMana == 3
 	felguard = game.currentPlayer.give("EX1_301")
 	felguard.play()
-	assert game.currentPlayer.mana == 0
-	assert game.currentPlayer.maxMana == 2
+	assert game.currentPlayer.mana == 0, game.currentPlayer.mana
+	assert game.currentPlayer.maxMana == 2, game.currentPlayer.maxMana
 
 
 def test_overload():
