@@ -50,10 +50,16 @@ def test_positioning():
 def test_armor():
 	game = prepare_game(WARRIOR, WARRIOR)
 	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
 	assert game.currentPlayer.hero.armor == 0
+	assert not game.currentPlayer.hero.power.exhausted
+	assert game.currentPlayer.hero.power.isPlayable()
 	game.currentPlayer.hero.power.play()
+	assert game.currentPlayer.hero.power.exhausted
+	assert not game.currentPlayer.hero.power.isPlayable()
 	assert game.currentPlayer.hero.armor == 2
-	assert game.currentPlayer.mana == 0
+	assert game.currentPlayer.mana == 2
 	game.endTurn()
 	# Play an axe
 	game.currentPlayer.give("CS2_106").play()
