@@ -16,3 +16,13 @@ class EX1_558(Card):
 		if weapon:
 			weapon.destroy()
 			self.controller.draw(weapon.durability)
+
+
+# Deathwing
+class NEW1_030(Card):
+	def action(self):
+		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+			# Let's not kill ourselves in the process
+			if target is not self:
+				target.destroy()
+		self.controller.discardHand()

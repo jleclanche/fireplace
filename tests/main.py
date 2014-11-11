@@ -295,6 +295,23 @@ def test_card_draw():
 	assert len(game.currentPlayer.hand) == handlength - 2
 
 
+def test_deathwing():
+	game = prepare_game()
+	deathwing = game.currentPlayer.give("NEW1_030")
+	# play some wisps
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+
+	# fast-forward to turn 10
+	for i in range(9 * 2):
+		game.endTurn()
+
+	deathwing.play()
+	assert not game.currentPlayer.hand
+	assert len(game.board) == 1
+
+
 def test_combo():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()
@@ -620,6 +637,7 @@ def main():
 	test_deathrattle()
 	test_mana()
 	test_card_draw()
+	test_deathwing()
 	test_armor()
 	test_freeze()
 	test_bounce()

@@ -100,6 +100,13 @@ class Player(Entity):
 				return card
 		raise ValueError
 
+	def discardHand(self):
+		logging.info("%r discards his entire hand!" % (self))
+		# iterate the list in reverse so we don't skip over cards in the process
+		# yes it's stupid.
+		for card in self.hand[::-1]:
+			card.discard()
+
 	def insertToHand(self, card, pos):
 		# Same as addToHand but inserts (usually in place of a None)
 		# used for mulligan
