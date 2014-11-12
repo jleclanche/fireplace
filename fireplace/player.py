@@ -208,3 +208,19 @@ class Player(Entity):
 			card.action(target, combo=None)
 			self.setTag(GameTag.COMBO_ACTIVE, True)
 		self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN] += 1
+
+	##
+	# Events
+
+	def onTurnBegin(self, player):
+		if player is self:
+			self.onOwnTurnBegin()
+
+	def onOwnTurnBegin(self):
+		self.setTag(GameTag.COMBO_ACTIVE, False)
+		self.setTag(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
+		self.maxMana += 1
+		self.usedMana = self.overloaded
+		if self.overloaded:
+			self.overloaded = 0
+		self.draw()

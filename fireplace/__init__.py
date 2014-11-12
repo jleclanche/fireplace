@@ -124,9 +124,15 @@ class Game(Entity):
 		self.status = self.STATUS_MULLIGAN
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
 		self.player2.addToHand(Card(THE_COIN))
-		self.beginTurn(self.player1)
+		self.broadcast("onTurnBegin", self.player1)
 
-	def beginTurn(self, player):
+	def broadcast(self, event, *args):
+		logging.debug("Broadcasting event %r to %r with arguments %r" % (event, self.entities, args))
+		for entity in chain([self], self.players, self.entities):
+			if entity:
+				getattr(entity, event)(*args)
+
+	def onTurnBegin(self, player):
 		self.status = self.STATUS_TURN
 		self.turn += 1
 		logging.info("%s begins turn %i" % (player, self.turn))
@@ -136,18 +142,6 @@ class Game(Entity):
 			self.currentPlayer.setTag(GameTag.CURRENT_PLAYER, False)
 		self.currentPlayer = player
 		self.currentPlayer.setTag(GameTag.CURRENT_PLAYER, True)
-		self.currentPlayer.setTag(GameTag.COMBO_ACTIVE, False)
-		self.currentPlayer.setTag(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
-		player.maxMana += 1
-		player.usedMana = player.overloaded
-		if player.overloaded:
-			player.overloaded = 0
-		player.draw()
-		# remove all summon sickness
-		for minion in self.currentPlayer.field:
-			minion.exhausted = False
-			minion.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
-		player.hero.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 
 	def endTurn(self):
 		logging.info("%s ends turn" % (self.currentPlayer))
@@ -166,4 +160,4 @@ class Game(Entity):
 		for minion in self.currentPlayer.field:
 			if minion.frozen:
 				minion.frozen = False
-		self.beginTurn(self.currentPlayer.opponent)
+		self.broadcast("onTurnBegin", self.currentPlayer.opponent)
