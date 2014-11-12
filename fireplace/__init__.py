@@ -74,10 +74,6 @@ class Game(Entity):
 		# Maybe auras should be elsewhere but they need to be somewhere global
 		self.auras = []
 
-	def waitForEvent(self, event, timeout):
-		# Not implemented
-		pass
-
 	def __repr__(self):
 		return "<%s %s>" % (self.__class__.__name__, self)
 
@@ -122,7 +118,6 @@ class Game(Entity):
 	def beginMulligan(self):
 		logging.info("Entering mulligan phase")
 		self.status = self.STATUS_MULLIGAN
-		self.waitForEvent("END_MULLIGAN", timeout=self.TIMEOUT_MULLIGAN)
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
 		self.player2.addToHand(Card(THE_COIN))
 		self.beginTurn(self.player1)
@@ -149,7 +144,6 @@ class Game(Entity):
 			minion.exhausted = False
 			minion.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 		player.hero.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
-		self.waitForEvent("END_TURN", timeout=self.TIMEOUT_TURN)
 
 	def endTurn(self):
 		logging.info("%s ends turn" % (self.currentPlayer))
