@@ -58,6 +58,10 @@ class Player(Entity):
 		return mana
 
 	@property
+	def entities(self):
+		return [self.hero, self.hero.weapon, self.hero.power] + self.field
+
+	@property
 	def opponent(self):
 		# Hacky.
 		return [p for p in self.game.players if p != self][0]

@@ -84,6 +84,10 @@ class Game(Entity):
 	def board(self):
 		return self.currentPlayer.field + self.currentPlayer.opponent.field
 
+	@property
+	def entities(self):
+		return self.player1.entities + self.player2.entities
+
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
 		# player who wins the outcome is the index
