@@ -152,6 +152,14 @@ class Player(Entity):
 		self.hero.hit(self.hero, self.fatigueCounter)
 
 	@property
+	def combo(self):
+		return self.tags.get(GameTag.COMBO_ACTIVE, False)
+
+	@combo.setter
+	def combo(self, value):
+		self.tags[GameTag.COMBO_ACTIVE] = value
+
+	@property
 	def overloaded(self):
 		return self.tags.get(GameTag.RECALL_OWED, 0)
 
@@ -210,11 +218,11 @@ class Player(Entity):
 		self.hand.remove(card)
 		self.summon(card)
 		# Card must already be on the field for action()
-		if self.tags[GameTag.COMBO_ACTIVE]:
+		if self.combo:
 			card.action(target, combo=self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN])
 		else:
 			card.action(target, combo=None)
-			self.setTag(GameTag.COMBO_ACTIVE, True)
+			self.combo = True
 		self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN] += 1
 
 	##
@@ -225,7 +233,7 @@ class Player(Entity):
 			self.onOwnTurnBegin()
 
 	def onOwnTurnBegin(self):
-		self.setTag(GameTag.COMBO_ACTIVE, False)
+		self.combo = False
 		self.setTag(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
 		self.maxMana += 1
 		self.usedMana = self.overloaded
