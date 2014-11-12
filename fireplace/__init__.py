@@ -147,9 +147,9 @@ class Game(Entity):
 		if self.turn == self.MAX_TURNS:
 			raise GameOver("It's a draw!")
 		if self.currentPlayer:
-			self.currentPlayer.setTag(GameTag.CURRENT_PLAYER, False)
+			self.currentPlayer.currentPlayer = False
 		self.currentPlayer = player
-		self.currentPlayer.setTag(GameTag.CURRENT_PLAYER, True)
+		self.currentPlayer.currentPlayer = True
 
 	def endTurn(self):
 		logging.info("%s ends turn" % (self.currentPlayer))

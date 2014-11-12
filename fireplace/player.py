@@ -66,6 +66,14 @@ class Player(Entity):
 		# Hacky.
 		return [p for p in self.game.players if p != self][0]
 
+	@property
+	def currentPlayer(self):
+		return self.tags.get(GameTag.CURRENT_PLAYER, False)
+
+	@currentPlayer.setter
+	def currentPlayer(self, value):
+		self.tags[GameTag.CURRENT_PLAYER] = value
+
 	# for debugging
 	def give(self, id):
 		card = Card(id)
