@@ -47,6 +47,7 @@ class Race(IntEnum):
 
 
 class GameTag(IntEnum):
+	TURN = 20
 	CURRENT_PLAYER = 23
 	FIRST_PLAYER = 24
 	RESOURCES_USED = 25

@@ -88,6 +88,14 @@ class Game(Entity):
 	def entities(self):
 		return self.player1.entities + self.player2.entities
 
+	@property
+	def turn(self):
+		return self.tags.get(GameTag.TURN, 0)
+
+	@turn.setter
+	def turn(self, amount):
+		self.tags[GameTag.TURN] = amount
+
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
 		# player who wins the outcome is the index
