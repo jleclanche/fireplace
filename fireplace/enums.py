@@ -58,6 +58,7 @@ class GameTag(IntEnum):
 	ATK = 47
 	COST = 48
 	ZONE = 49
+	CONTROLLER = 50
 	DURABILITY = 187
 	SILENCED = 188
 	WINDFURY = 189

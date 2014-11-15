@@ -61,6 +61,14 @@ class Card(Entity):
 	# Tag properties
 
 	@property
+	def controller(self):
+		return self.tags.get(GameTag.CONTROLLER, None)
+
+	@controller.setter
+	def controller(self, value):
+		self.tags[GameTag.CONTROLLER] = value
+
+	@property
 	def exhausted(self):
 		return self.tags.get(GameTag.EXHAUSTED, False)
 
