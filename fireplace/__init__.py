@@ -108,6 +108,7 @@ class Game(Entity):
 		logging.info("Starting game: %r" % (self))
 		for player in self.players:
 			for card in player.deck:
+				card.controller = player
 				card.zone = Zone.DECK
 			player.summon(player.deck.hero)
 			player.deck.shuffle()
