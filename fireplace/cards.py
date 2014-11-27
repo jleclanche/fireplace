@@ -176,6 +176,9 @@ class Card(Entity):
 	def onOwnTurnBegin(self):
 		self.exhausted = False
 
+		if hasattr(self.data.__class__, "onOwnTurnBegin"):
+			return self.data.__class__.onOwnTurnBegin(self)
+
 	def discard(self):
 		logging.info("Discarding %r" % (self))
 		self.zone = Zone.GRAVEYARD
