@@ -59,7 +59,11 @@ class Player(Entity):
 
 	@property
 	def entities(self):
-		return [self.hero, self.hero.weapon, self.hero.power] + self.field
+		field = self.field
+		ret = [self.hero, self.hero.weapon, self.hero.power] + field + self.hero.slots
+		for entity in field:
+			ret += entity.slots
+		return ret
 
 	@property
 	def opponent(self):
