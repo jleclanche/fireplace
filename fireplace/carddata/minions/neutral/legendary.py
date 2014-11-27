@@ -5,7 +5,7 @@ from ...card import *
 # Ragnaros the Firelord
 class EX1_298(Card):
 	cantAttack = True
-	def endTurn(self):
+	def onTurnEnd(self, player):
 		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 8)
 
 

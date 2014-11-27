@@ -154,19 +154,8 @@ class Game(Entity):
 
 	def endTurn(self):
 		logging.info("%s ends turn" % (self.currentPlayer))
-		self.status = self.STATUS_END_TURN
-		for entity in chain(self.board, self.currentPlayer.hero.slots):
-			if hasattr(entity.data, "endTurn"):
-				logging.info("Processing end of turn for %r" % (entity))
-				entity.data.__class__.endTurn(entity)
-			if entity.data.oneTurnEffect:
-				logging.info("Ending One-Turn effect: %r" % (entity))
-				entity.destroy()
-			for slot in entity.slots:
-				if hasattr(slot.data, "endTurn"):
-					logging.info("Processing end of turn for slot %r of %r" % (slot, entity))
-					slot.data.__class__.endTurn(slot)
-		for minion in self.currentPlayer.field:
-			if minion.frozen:
-				minion.frozen = False
+		self.broadcast("onTurnEnd", self.currentPlayer)
 		self.broadcast("onTurnBegin", self.currentPlayer.opponent)
+
+	def onTurnEnd(self, player):
+		self.status = self.STATUS_END_TURN

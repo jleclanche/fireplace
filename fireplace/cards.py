@@ -164,6 +164,10 @@ class Card(Entity):
 	##
 	# Events
 
+	def _forwardBroadcast(self, event, *args, **kwargs):
+		if hasattr(self.data.__class__, event):
+			return getattr(self.data.__class__, event)(self, *args, **kwargs)
+
 	def onDeath(self):
 		if self.hasDeathrattle:
 			logging.info("Triggering Deathrattle for %r" % (self))
@@ -172,12 +176,19 @@ class Card(Entity):
 	def onTurnBegin(self, player):
 		if player is self.controller:
 			self.onOwnTurnBegin()
+		self._forwardBroadcast("onTurnBegin", player)
 
 	def onOwnTurnBegin(self):
 		self.exhausted = False
+		self._forwardBroadcast("onOwnTurnBegin")
 
-		if hasattr(self.data.__class__, "onOwnTurnBegin"):
-			return self.data.__class__.onOwnTurnBegin(self)
+	def onTurnEnd(self, player):
+		if player is self.controller:
+			self.onOwnTurnEnd()
+		self._forwardBroadcast("onTurnEnd", player)
+
+	def onOwnTurnEnd(self):
+		self._forwardBroadcast("onOwnTurnEnd")
 
 	def discard(self):
 		logging.info("Discarding %r" % (self))
@@ -317,6 +328,11 @@ class Character(Card):
 	def onOwnTurnBegin(self):
 		self.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 		super().onOwnTurnBegin()
+
+	def onOwnTurnEnd(self):
+		if self.frozen and not self.tags[GameTag.NUM_ATTACKS_THIS_TURN]:
+			self.frozen = False
+		super().onOwnTurnEnd()
 
 	def onDamage(self, amount, source):
 		logging.info("%r onDamage event (amount=%r, source=%r)" % (self, amount, source))
@@ -492,6 +508,12 @@ class Enchantment(Card):
 		else:
 			self.owner.buffs.remove(self)
 		super().destroy()
+
+	def onTurnEnd(self, player):
+		if self.data.oneTurnEffect:
+			logging.info("Ending One-Turn effect: %r" % (self))
+			self.destroy()
+		super().onTurnEnd(player)
 
 
 class Weapon(Card):

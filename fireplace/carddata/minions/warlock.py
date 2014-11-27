@@ -4,10 +4,9 @@ from ..card import *
 
 # Blood Imp
 class CS2_059(Card):
-	def endTurn(self):
-		if self.controller.currentPlayer:
-			if self.controller.field:
-				random.choice(self.controller.field).buff("CS2_059o")
+	def onOwnTurnEnd(self):
+		if self.controller.field:
+			random.choice(self.controller.field).buff("CS2_059o")
 
 class CS2_059o(Card):
 	health = 1

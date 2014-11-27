@@ -244,3 +244,6 @@ class Player(Entity):
 		if self.overloaded:
 			self.overloaded = 0
 		self.draw()
+
+	def onTurnEnd(self, player):
+		pass
