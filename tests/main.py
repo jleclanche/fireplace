@@ -369,6 +369,21 @@ def test_end_turn_heal():
 	assert footman.health == 2
 
 
+def test_demolisher():
+	game = prepare_game()
+
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	demolisher = game.currentPlayer.give("EX1_102")
+	demolisher.play()
+
+	assert game.currentPlayer.opponent.hero.health == 30
+	game.endTurn()
+	assert game.currentPlayer.opponent.hero.health == 30
+	game.endTurn()
+	assert game.currentPlayer.opponent.hero.health == 28
+
 def test_auras():
 	game = prepare_game()
 
@@ -663,6 +678,7 @@ def main():
 	test_arcane_explosion()
 	test_power_overwhelming()
 	test_mindgames()
+	test_demolisher()
 	test_cleave()
 	test_ice_barrier()
 	test_flare()

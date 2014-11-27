@@ -26,6 +26,12 @@ class EX1_015(Card):
 	action = drawCard
 
 
+# Demolisher
+class EX1_102(Card):
+	def onOwnTurnBegin(self):
+		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 2)
+
+
 # Nightblade
 class EX1_593(Card):
 	action = damageEnemyHero(3)
