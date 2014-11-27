@@ -384,6 +384,24 @@ def test_demolisher():
 	game.endTurn()
 	assert game.currentPlayer.opponent.hero.health == 28
 
+
+def test_imp_master():
+	game = prepare_game()
+
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	impmaster = game.currentPlayer.give("EX1_597")
+	impmaster.play()
+
+	assert impmaster.health == 5
+	assert len(impmaster.controller.field) == 1
+	game.endTurn()
+	assert impmaster.health == 4
+	assert len(impmaster.controller.field) == 2
+	assert impmaster.controller.field.contains("EX1_598")
+
+
 def test_auras():
 	game = prepare_game()
 
@@ -679,6 +697,7 @@ def main():
 	test_power_overwhelming()
 	test_mindgames()
 	test_demolisher()
+	test_imp_master()
 	test_cleave()
 	test_ice_barrier()
 	test_flare()
