@@ -40,6 +40,13 @@ class EX1_345(Card):
 		self.controller.summon(creature)
 
 
+# Circle of Healing
+class EX1_621(Card):
+	def action(self):
+		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+			self.heal(target, 4)
+
+
 # Shadow Word: Death
 class EX1_622(Card):
 	action = destroyTarget
