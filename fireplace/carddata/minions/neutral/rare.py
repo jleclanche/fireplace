@@ -1,6 +1,6 @@
 import random
 from ...card import *
-from fireplace.enums import Race
+from fireplace.enums import CardType, Race
 
 
 # Injured Blademaster
@@ -100,6 +100,14 @@ class FP1_007(Card):
 # Sludge Belcher
 class FP1_012(Card):
 	deathrattle = summonMinion("FP1_012t")
+
+
+# Wild Pyromancer
+class NEW1_020(Card):
+	def onOwnCardPlayed(self, card):
+		if card.type == CardType.SPELL:
+			for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+				self.hit(target, 1)
 
 
 # Bloodsail Corsair

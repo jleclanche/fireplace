@@ -159,3 +159,6 @@ class Game(Entity):
 
 	def onTurnEnd(self, player):
 		self.status = self.STATUS_END_TURN
+
+	def onCardPlayed(self, player, card):
+		pass

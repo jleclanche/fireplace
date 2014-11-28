@@ -173,6 +173,14 @@ class Card(Entity):
 			logging.info("Triggering Deathrattle for %r" % (self))
 			self.data.__class__.deathrattle(self)
 
+	def onCardPlayed(self, player, card):
+		if player is self.controller:
+			self.onOwnCardPlayed(card)
+		self._forwardBroadcast("onCardPlayed", player, card)
+
+	def onOwnCardPlayed(self, card):
+		self._forwardBroadcast("onOwnCardPlayed", card)
+
 	def onTurnBegin(self, player):
 		if player is self.controller:
 			self.onOwnTurnBegin()

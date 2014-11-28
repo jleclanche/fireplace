@@ -511,6 +511,28 @@ def test_mindgames():
 	assert game.currentPlayer.field[0].id in game.currentPlayer.opponent.deck
 
 
+def test_wild_pyromancer():
+	game = prepare_game()
+	wisp = game.currentPlayer.give("CS2_231")
+	wisp.play()
+
+	game.endTurn(); game.endTurn()
+
+	pyro = game.currentPlayer.give("NEW1_020")
+	pyro.play()
+	assert pyro.health == 2
+	assert wisp.zone == Zone.PLAY
+
+	# play moonfire. wisp should die.
+	game.currentPlayer.give("CS2_008").play(target=game.currentPlayer.opponent.hero)
+	assert wisp.zone == Zone.GRAVEYARD
+	assert pyro.health == 1
+
+	# play circle of healing. pyro should go up to 2hp then back to 1.
+	game.currentPlayer.give("EX1_621").play()
+	assert pyro.health == 1
+
+
 def test_poisonous():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()
@@ -696,6 +718,7 @@ def main():
 	test_arcane_explosion()
 	test_power_overwhelming()
 	test_mindgames()
+	test_wild_pyromancer()
 	test_demolisher()
 	test_imp_master()
 	test_cleave()

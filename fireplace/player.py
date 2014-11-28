@@ -228,6 +228,8 @@ class Player(Entity):
 			card.action(target, combo=None)
 			self.combo = True
 		self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN] += 1
+		# FIXME: Should happen earlier
+		self.game.broadcast("onCardPlayed", self, card)
 
 	##
 	# Events
@@ -246,4 +248,7 @@ class Player(Entity):
 		self.draw()
 
 	def onTurnEnd(self, player):
+		pass
+
+	def onCardPlayed(self, player, card):
 		pass
