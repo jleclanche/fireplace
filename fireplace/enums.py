@@ -71,6 +71,7 @@ class GameTag(IntEnum):
 	FACTION = 201
 	CARDTYPE = 202
 	FREEZE = 208
+	ENRAGED = 212
 	RECALL = 215
 	DEATH_RATTLE = 217
 	BATTLECRY = 218
@@ -81,12 +82,17 @@ class GameTag(IntEnum):
 	COMBO_ACTIVE = 266
 	NUM_CARDS_PLAYED_THIS_TURN = 269
 	ARMOR = 292
+	MORPH = 293
 	RECALL_OWED = 296
 	NUM_ATTACKS_THIS_TURN = 297
 	OneTurnEffect = 338
+	SILENCE = 339
+	ImmuneToSpellpower = 349
 	ADJACENT_BUFF = 350
 	AURA = 362
 	POISONOUS = 363
+	AIMustPlay = 367
+	AFFECTED_BY_SPELL_POWER = 370
 
 	# flavor
 	ELITE = 114
@@ -95,11 +101,15 @@ class GameTag(IntEnum):
 	RARITY = 203
 
 	# unused
+	SUMMONED = 205
 	AttackVisualType = 251
 	DevState = 268
 	Collectible = 321
 	ENCHANTMENT_BIRTH_VISUAL = 330
 	ENCHANTMENT_IDLE_VISUAL = 331
+	InvisibleDeathrattle = 335  # Hack for Bigglesworth/Worshipper
+	GrantCharge = 355  # RFG
+	HealTarget = 361  # Northshire Cleric
 
 	# strings
 	TRIGGER_VISUAL = 32
