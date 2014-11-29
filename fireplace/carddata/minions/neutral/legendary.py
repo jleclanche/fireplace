@@ -22,6 +22,13 @@ class EX1_298(Card):
 		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 8)
 
 
+# Nat Pagle
+class EX1_557(Card):
+	def onOwnTurnBegin(self):
+		if random.choice((0, 1)):
+			self.controller.draw()
+
+
 # Harrison Jones
 class EX1_558(Card):
 	def action(self):
