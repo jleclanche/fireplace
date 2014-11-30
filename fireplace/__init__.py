@@ -138,7 +138,7 @@ class Game(Entity):
 	def broadcast(self, event, *args):
 		logging.debug("Broadcasting event %r to %r with arguments %r" % (event, self.entities, args))
 		for entity in chain([self], self.players, self.entities):
-			if entity:
+			if entity and hasattr(entity, event):
 				getattr(entity, event)(*args)
 
 	def onTurnBegin(self, player):
@@ -159,6 +159,3 @@ class Game(Entity):
 
 	def onTurnEnd(self, player):
 		self.status = self.STATUS_END_TURN
-
-	def onCardPlayed(self, player, card):
-		pass
