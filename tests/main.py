@@ -549,6 +549,32 @@ def test_doomsayer():
 	assert len(game.board) == 0
 
 
+def test_illidan():
+	game = prepare_game()
+	illidan = game.currentPlayer.give("EX1_614")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	assert len(game.board) == 0
+	illidan.play()
+	assert len(game.board) == 1
+	game.currentPlayer.give("CS2_008").play(target=illidan)
+	assert len(game.board) == 2
+	game.currentPlayer.give("CS2_008").play(target=illidan)
+	assert len(game.board) == 3
+	game.currentPlayer.give("CS2_008").play(target=illidan)
+	assert len(game.board) == 4
+	game.currentPlayer.give("CS2_008").play(target=illidan)
+	assert len(game.board) == 5
+
+	# 5th moonfire kills illidan, but spawns another token before
+	game.currentPlayer.give("CS2_008").play(target=illidan)
+	assert len(game.board) == 5
+	assert illidan.zone == Zone.GRAVEYARD
+
+
 def test_leeroy():
 	game = prepare_game()
 	leeroy = game.currentPlayer.give("EX1_116")
@@ -803,6 +829,7 @@ def main():
 	test_demolisher()
 	test_doomsayer()
 	test_stoneskin_gargoyle()
+	test_illidan()
 	test_leeroy()
 	test_imp_master()
 	test_cleave()

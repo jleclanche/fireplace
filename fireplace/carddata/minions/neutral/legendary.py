@@ -50,6 +50,12 @@ class EX1_563(Card):
 	spellpower = 5
 
 
+# Illidan Stormrage
+class EX1_614(Card):
+	def onOwnCardPlayed(self, card):
+		self.controller.summon("EX1_614t")
+
+
 # Deathwing
 class NEW1_030(Card):
 	def action(self):
