@@ -29,6 +29,13 @@ class NEW1_017e(Card):
 	health = 2
 
 
+# Doomsayer
+class NEW1_021(Card):
+	def onOwnTurnBegin(self):
+		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+			target.destroy()
+
+
 # Southsea Captain
 class NEW1_027(Card):
 	aura = "NEW1_027e"

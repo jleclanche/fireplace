@@ -529,6 +529,28 @@ def test_mind_vision():
 	assert game.currentPlayer.hand[-1] == drawn[0]
 
 
+def test_doomsayer():
+	game = prepare_game()
+
+	# play some wisps
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+
+	game.endTurn();
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+
+	assert len(game.board) == 4
+	doomsayer = game.currentPlayer.give("NEW1_021")
+	doomsayer.play()
+	assert len(game.board) == 5
+
+	game.endTurn()
+	assert len(game.board) == 5
+	game.endTurn()
+	assert len(game.board) == 0
+
+
 def test_wild_pyromancer():
 	game = prepare_game()
 	wisp = game.currentPlayer.give("CS2_231")
@@ -739,6 +761,7 @@ def main():
 	test_mind_vision()
 	test_wild_pyromancer()
 	test_demolisher()
+	test_doomsayer()
 	test_imp_master()
 	test_cleave()
 	test_ice_barrier()
