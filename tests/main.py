@@ -551,6 +551,22 @@ def test_doomsayer():
 	assert len(game.board) == 0
 
 
+def test_leeroy():
+	game = prepare_game()
+	leeroy = game.currentPlayer.give("EX1_116")
+
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	leeroy.play()
+	assert leeroy.canAttack()
+	assert game.currentPlayer.opponent.field.contains("EX1_116t")
+	assert game.currentPlayer.opponent.field[0] == game.currentPlayer.opponent.field[1]
+
+
 def test_wild_pyromancer():
 	game = prepare_game()
 	wisp = game.currentPlayer.give("CS2_231")
@@ -762,6 +778,7 @@ def main():
 	test_wild_pyromancer()
 	test_demolisher()
 	test_doomsayer()
+	test_leeroy()
 	test_imp_master()
 	test_cleave()
 	test_ice_barrier()

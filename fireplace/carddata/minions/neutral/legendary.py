@@ -7,6 +7,13 @@ class EX1_110(Card):
 	deathrattle = summonMinion("EX1_110t")
 
 
+# Leeroy Jenkins
+class EX1_116(Card):
+	def action(self):
+		self.controller.opponent.summon("EX1_116t")
+		self.controller.opponent.summon("EX1_116t")
+
+
 # Baron Geddon
 class EX1_249(Card):
 	def action(self):
