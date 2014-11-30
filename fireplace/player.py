@@ -215,6 +215,7 @@ class Player(Entity):
 		"""
 		logging.info("%s plays %r from their hand" % (self, card))
 		assert card.controller
+		self.game.broadcast("onCardPlayed", self, card)
 		self.usedMana += card.cost
 		if card.data.overload:
 			self.overloaded += card.data.overload
@@ -228,8 +229,7 @@ class Player(Entity):
 			card.action(target, combo=None)
 			self.combo = True
 		self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN] += 1
-		# FIXME: Should happen earlier
-		self.game.broadcast("onCardPlayed", self, card)
+		self.game.broadcast("afterCardPlayed", self, card)
 
 	##
 	# Events

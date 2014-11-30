@@ -104,7 +104,7 @@ class FP1_012(Card):
 
 # Wild Pyromancer
 class NEW1_020(Card):
-	def onOwnCardPlayed(self, card):
+	def afterOwnCardPlayed(self, card):
 		if card.type == CardType.SPELL:
 			for target in self.controller.getTargets(TARGET_ALL_MINIONS):
 				self.hit(target, 1)

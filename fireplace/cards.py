@@ -181,6 +181,14 @@ class Card(Entity):
 	def onOwnCardPlayed(self, card):
 		self._forwardBroadcast("onOwnCardPlayed", card)
 
+	def afterCardPlayed(self, player, card):
+		if player is self.controller:
+			self.afterOwnCardPlayed(card)
+		self._forwardBroadcast("afterCardPlayed", player, card)
+
+	def afterOwnCardPlayed(self, card):
+		self._forwardBroadcast("afterOwnCardPlayed", card)
+
 	def onTurnBegin(self, player):
 		if player is self.controller:
 			self.onOwnTurnBegin()
