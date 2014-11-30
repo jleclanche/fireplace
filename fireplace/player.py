@@ -25,6 +25,12 @@ class CardList(list):
 				return i
 		raise ValueError
 
+	def filterByType(self, type):
+		return [card for card in self if card.type == type]
+
+	def filterByRace(self, race):
+		return [card for card in self if card.race == race]
+
 
 class Player(Entity):
 	MAX_HAND = 10
