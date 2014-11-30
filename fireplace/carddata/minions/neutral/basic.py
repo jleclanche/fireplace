@@ -213,6 +213,12 @@ class FP1_024(Card):
 			self.hit(target, 1)
 
 
+# Stoneskin Gargoyle
+class FP1_027(Card):
+	def onOwnTurnBegin(self):
+		self.heal(self, self.damage)
+
+
 # Dancing Swords
 class FP1_029(Card):
 	def deathrattle(self):

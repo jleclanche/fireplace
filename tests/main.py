@@ -38,8 +38,6 @@ def test_positioning():
 	flametongue.play()
 	wisp4 = game.currentPlayer.give("CS2_231")
 	wisp4.play()
-	print(game.auras)
-	print(flametongue, flametongue.slots)
 	assert wisp1.atk == 1
 	assert wisp2.atk == 1
 	assert wisp3.atk == 3
@@ -719,6 +717,32 @@ def test_ice_barrier():
 	assert not icebarrier2.isPlayable()
 
 
+def test_stoneskin_gargoyle():
+	game = prepare_game()
+	gargoyle = game.currentPlayer.give("FP1_027")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	gargoyle.play()
+	assert gargoyle.health == 4
+	# damage the gargoyle by 1
+	game.currentPlayer.give("CS2_008").play(target=gargoyle)
+	assert gargoyle.health == 3
+	game.endTurn(); game.endTurn()
+	assert gargoyle.health == 4
+
+	# soulpriest test. NYI
+	# soulpriest = game.currentPlayer.give("EX1_591")
+	# soulpriest.play()
+	# game.endTurn(); game.endTurn()
+	# assert gargoyle.health == 4
+	# game.currentPlayer.give("CS2_008").play(target=gargoyle)
+	# assert gargoyle.health == 3
+	# game.endTurn(); game.endTurn()
+	# assert gargoyle.health == 2
+	# game.endTurn(); game.endTurn()
+	# assert gargoyle.zone == Zone.GRAVEYARD
+
+
 def test_flare():
 	game = prepare_game(HUNTER, HUNTER)
 	flare = game.currentPlayer.give("EX1_544")
@@ -778,6 +802,7 @@ def main():
 	test_wild_pyromancer()
 	test_demolisher()
 	test_doomsayer()
+	test_stoneskin_gargoyle()
 	test_leeroy()
 	test_imp_master()
 	test_cleave()
