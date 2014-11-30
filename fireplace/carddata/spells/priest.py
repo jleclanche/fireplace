@@ -19,6 +19,13 @@ class CS1_113(Card):
 		self.controller.takeControl(target)
 
 
+# Mind Vision
+class CS2_003(Card):
+	def action(self):
+		if self.controller.opponent.hand:
+			self.controller.give(random.choice(self.controller.opponent.hand).id)
+
+
 # Shadow Word: Pain
 class CS2_234(Card):
 	action = destroyTarget

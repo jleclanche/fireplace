@@ -511,6 +511,24 @@ def test_mindgames():
 	assert game.currentPlayer.field[0].id in game.currentPlayer.opponent.deck
 
 
+def test_mind_vision():
+	game = prepare_game()
+	# discard our hand, let's clean this.
+	game.currentPlayer.discardHand()
+	game.endTurn()
+
+	# play mind vision, should give nothing
+	assert len(game.currentPlayer.hand) == 6
+	game.currentPlayer.give("CS2_003").play()
+	assert len(game.currentPlayer.hand) == 6
+
+	# opponent draws a card, coin mind vision should get that one card
+	drawn = game.currentPlayer.opponent.draw()
+	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.give("CS2_003").play()
+	assert game.currentPlayer.hand[-1] == drawn[0]
+
+
 def test_wild_pyromancer():
 	game = prepare_game()
 	wisp = game.currentPlayer.give("CS2_231")
@@ -718,6 +736,7 @@ def main():
 	test_arcane_explosion()
 	test_power_overwhelming()
 	test_mindgames()
+	test_mind_vision()
 	test_wild_pyromancer()
 	test_demolisher()
 	test_imp_master()
