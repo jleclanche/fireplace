@@ -1,0 +1,16 @@
+# https://travis-ci.org/#!/jleclanche/fireplace
+language: python
+python:
+  - 3.4
+script:
+  - cd tests
+  - python main.py
+notifications:
+  email:
+    on_failure: always
+    on_success: change
+  irc:
+    channels:
+      - "chat.freenode.net#hearthsim"
+    use_notice: true
+    skip_join: true

@@ -1,4 +1,5 @@
 ## Fireplace
+[![Build Status](https://travis-ci.org/jleclanche/fireplace.svg)](https://travis-ci.org/jleclanche/fireplace)
 
 A Hearthstone simulator and implementation, written in Python.
 
