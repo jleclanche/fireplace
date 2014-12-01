@@ -82,6 +82,7 @@ class Card(Entity):
 
 	@zone.setter
 	def zone(self, value):
+		self.moveToZone(self.zone, value)
 		self.tags[GameTag.ZONE] = value
 
 	##
@@ -161,6 +162,13 @@ class Card(Entity):
 		for slot in self.slots:
 			slot.onDeath()
 
+	def moveToZone(self, old, new):
+		logging.debug("%r moves from %r to %r" % (self, old, new))
+		if old == Zone.HAND:
+			self.controller.hand.remove(self)
+		if new == Zone.HAND:
+			self.controller.hand.append(self)
+
 	##
 	# Events
 
@@ -209,7 +217,6 @@ class Card(Entity):
 	def discard(self):
 		logging.info("Discarding %r" % (self))
 		self.zone = Zone.GRAVEYARD
-		self.controller.hand.remove(self)
 
 	def isPlayable(self):
 		if self.controller.mana < self.cost:
@@ -432,15 +439,17 @@ class Minion(Character):
 			logging.info("%s's hand is full and bounce fails" % (self.controller))
 			self.destroy()
 		else:
-			self.removeFromField()
+			self.zone = Zone.HAND
 
-	def removeFromField(self):
-		logging.info("%r is removed from the field" % (self))
-		self.controller.field.remove(self)
-		# Remove any aura the minion gives
-		self.clearAura()
-		if self.damage:
-			self.damage = 0
+	def moveToZone(self, old, new):
+		if old == Zone.PLAY:
+			logging.info("%r is removed from the field" % (self))
+			self.controller.field.remove(self)
+			# Remove any aura the minion gives
+			self.clearAura()
+			if self.damage:
+				self.damage = 0
+		super().moveToZone(old, new)
 
 	def onDamage(self, amount, source):
 		if self.divineShield:
@@ -451,10 +460,6 @@ class Minion(Character):
 		if isinstance(source, Minion) and source.poisonous:
 			logging.info("%r is destroyed because of %r is poisonous" % (self, source))
 			self.destroy()
-
-	def destroy(self):
-		self.removeFromField()
-		super().destroy()
 
 	def isPlayable(self):
 		playable = super().isPlayable()
@@ -490,12 +495,14 @@ class Secret(Card):
 		return super().isPlayable()
 
 	def summon(self):
-		self.controller.secrets.append(self)
 		self.zone = Zone.SECRET
 
-	def destroy(self):
-		self.controller.secrets.remove(self)
-		super().destroy()
+	def moveToZone(self, old, new):
+		if old == Zone.SECRET:
+			self.controller.secrets.remove(self)
+		if new == Zone.SECRET:
+			self.controller.secrets.append(self)
+		super().moveToZone(old, new)
 
 
 class Enchantment(Card):

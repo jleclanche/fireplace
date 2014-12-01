@@ -121,6 +121,8 @@ def test_deathrattle():
 	game.endTurn()
 	archer = game.currentPlayer.give("CS2_189")
 	archer.play(target=loothoarder)
+	assert loothoarder.zone == Zone.GRAVEYARD
+	assert loothoarder.damage == 0
 
 	assert len(game.currentPlayer.opponent.hand) == cardcount + 1
 
@@ -447,6 +449,7 @@ def test_bounce():
 	brewmaster.play(target=wisp)
 	assert game.currentPlayer.field == [brewmaster]
 	assert wisp in game.currentPlayer.hand
+	assert wisp.zone == Zone.HAND
 	wisp.play()
 	game.endTurn(); game.endTurn()
 

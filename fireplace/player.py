@@ -111,7 +111,6 @@ class Player(Entity):
 		if len(self.hand) >= self.MAX_HAND:
 			return
 		card.controller = self # Cards are not necessarily from the deck
-		self.hand.append(card)
 		card.zone = Zone.HAND
 		return card
 
@@ -226,7 +225,6 @@ class Player(Entity):
 		if card.data.overload:
 			self.overloaded += card.data.overload
 			logging.info("%s is overloaded for %i mana" % (self, self.overloaded))
-		self.hand.remove(card)
 		self.summon(card)
 		# Card must already be on the field for action()
 		if self.combo:
