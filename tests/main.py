@@ -349,6 +349,27 @@ def test_kill_command():
 	assert game.currentPlayer.opponent.hero.health == 22
 
 
+def test_doomhammer():
+	game = prepare_game()
+	doomhammer = game.currentPlayer.give("EX1_567")
+
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert not game.currentPlayer.hero.atk
+	assert not game.currentPlayer.hero.windfury
+	doomhammer.play()
+	assert game.currentPlayer.hero.atk == 2
+	assert game.currentPlayer.hero.windfury
+	assert game.currentPlayer.hero.weapon.durability == 8
+	game.currentPlayer.hero.attack(target=game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.hero.canAttack()
+	game.currentPlayer.hero.attack(target=game.currentPlayer.opponent.hero)
+	assert not game.currentPlayer.hero.canAttack()
+	assert game.currentPlayer.hero.weapon.durability == 6
+
 def test_end_turn_heal():
 	game = prepare_game()
 
@@ -862,6 +883,7 @@ def main():
 	test_wild_pyromancer()
 	test_demolisher()
 	test_doomsayer()
+	test_doomhammer()
 	test_stoneskin_gargoyle()
 	test_illidan()
 	test_leeroy()

@@ -63,6 +63,7 @@ class Card(Entity):
 
 	controller = _TAG(GameTag.CONTROLLER, None)
 	exhausted = _TAG(GameTag.EXHAUSTED, False)
+	windfury = _TAG(GameTag.WINDFURY, False)
 
 	@property
 	def zone(self):
@@ -268,12 +269,6 @@ class Character(Card):
 	poisonous = _TAG(GameTag.POISONOUS, False)
 	stealthed = _TAG(GameTag.STEALTH, False)
 
-	@property
-	def windfury(self):
-		if self.tags.get(GameTag.WINDFURY, False):
-			return True
-		return self.getProperty("windfury")
-
 	def canAttack(self):
 		if self.tags.get(GameTag.CANT_ATTACK, False):
 			return False
@@ -374,6 +369,17 @@ class Hero(Character):
 	def summon(self):
 		self.controller.hero = self
 		self.controller.summon(self.data.power)
+
+	@property
+	def windfury(self):
+		ret = self.tags.get(GameTag.WINDFURY, False)
+		if not ret and self.weapon:
+			# Heroes can inherit Windfury from weapons
+			return self.weapon.windfury
+
+	@windfury.setter
+	def windfury(self, value):
+		self.tags[GameTag.WINDFURY] = value
 
 
 class Minion(Character):
