@@ -313,7 +313,7 @@ class Character(Card):
 		else:
 			logging.info("%r damaged for %i health (now at %i health)" % (self, amount - self.damage, self.health))
 
-		self.tags[GameTag.DAMAGE] = amount
+		self.setTag(GameTag.DAMAGE, amount)
 
 	def onOwnTurnBegin(self):
 		self.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
