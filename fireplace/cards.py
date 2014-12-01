@@ -383,6 +383,7 @@ class Minion(Character):
 			return True
 		return self.getProperty("charge")
 
+	taunt = _TAG(GameTag.TAUNT, False)
 	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
 
 	@property

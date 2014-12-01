@@ -269,9 +269,13 @@ def test_tags():
 
 	alakir.play()
 	assert alakir.tags[GameTag.CHARGE]
+	assert alakir.charge
 	assert alakir.tags[GameTag.DIVINE_SHIELD]
+	assert alakir.divineShield
 	assert alakir.tags[GameTag.TAUNT]
+	assert alakir.taunt
 	assert alakir.tags[GameTag.WINDFURY]
+	assert alakir.windfury
 
 
 def test_card_draw():
