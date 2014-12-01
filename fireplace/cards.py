@@ -5,6 +5,7 @@ from . import targeting
 from .exceptions import *
 from .entity import Entity
 from .enums import CardType, GameTag, PlayReq, Zone
+from .utils import _TAG
 from .xmlcard import XMLCard
 
 
@@ -60,21 +61,8 @@ class Card(Entity):
 	##
 	# Tag properties
 
-	@property
-	def controller(self):
-		return self.tags.get(GameTag.CONTROLLER, None)
-
-	@controller.setter
-	def controller(self, value):
-		self.tags[GameTag.CONTROLLER] = value
-
-	@property
-	def exhausted(self):
-		return self.tags.get(GameTag.EXHAUSTED, False)
-
-	@exhausted.setter
-	def exhausted(self, value):
-		self.tags[GameTag.EXHAUSTED] = value
+	controller = _TAG(GameTag.CONTROLLER, None)
+	exhausted = _TAG(GameTag.EXHAUSTED, False)
 
 	@property
 	def zone(self):
@@ -276,25 +264,9 @@ class Character(Card):
 	def race(self):
 		return self.data.race
 
-	@property
-	def frozen(self):
-		return self.tags.get(GameTag.FROZEN, False)
-
-	@frozen.setter
-	def frozen(self, value):
-		self.setTag(GameTag.FROZEN, value)
-
-	@property
-	def poisonous(self):
-		return self.tags.get(GameTag.POISONOUS, False)
-
-	@property
-	def stealthed(self):
-		return self.tags.get(GameTag.STEALTH, False)
-
-	@stealthed.setter
-	def stealthed(self, value):
-		self.setTag(GameTag.STEALTH, value)
+	frozen = _TAG(GameTag.FROZEN, False)
+	poisonous = _TAG(GameTag.POISONOUS, False)
+	stealthed = _TAG(GameTag.STEALTH, False)
 
 	@property
 	def windfury(self):
@@ -387,13 +359,7 @@ class Character(Card):
 
 
 class Hero(Character):
-	@property
-	def armor(self):
-		return self.tags.get(GameTag.ARMOR, 0)
-
-	@armor.setter
-	def armor(self, value):
-		self.tags[GameTag.ARMOR] = value
+	armor = _TAG(GameTag.ARMOR, 0)
 
 	def onDamage(self, amount, source):
 		if self.armor:
@@ -417,13 +383,7 @@ class Minion(Character):
 			return True
 		return self.getProperty("charge")
 
-	@property
-	def divineShield(self):
-		return self.tags.get(GameTag.DIVINE_SHIELD, False)
-
-	@divineShield.setter
-	def divineShield(self, value):
-		self.tags[GameTag.DIVINE_SHIELD] = value
+	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
 
 	@property
 	def adjacentMinions(self):

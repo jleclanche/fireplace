@@ -3,33 +3,7 @@ from .cards import Card
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
 from .targeting import *
-
-
-class CardList(list):
-	def __contains__(self, x):
-		for item in self:
-			if x is item:
-				return True
-		return False
-
-	def contains(self, x):
-		"True if list contains any instance of x"
-		for item in self:
-			if x == item:
-				return True
-		return False
-
-	def index(self, x):
-		for i, item in enumerate(self):
-			if x is item:
-				return i
-		raise ValueError
-
-	def filterByType(self, type):
-		return [card for card in self if card.type == type]
-
-	def filterByRace(self, race):
-		return [card for card in self if card.race == race]
+from .utils import CardList, _TAG
 
 
 class Player(Entity):
@@ -75,14 +49,6 @@ class Player(Entity):
 	def opponent(self):
 		# Hacky.
 		return [p for p in self.game.players if p != self][0]
-
-	@property
-	def currentPlayer(self):
-		return self.tags.get(GameTag.CURRENT_PLAYER, False)
-
-	@currentPlayer.setter
-	def currentPlayer(self, value):
-		self.tags[GameTag.CURRENT_PLAYER] = value
 
 	# for debugging
 	def give(self, id):
@@ -160,21 +126,10 @@ class Player(Entity):
 		logging.info("%s takes %i fatigue damage" % (self, self.fatigueCounter))
 		self.hero.hit(self.hero, self.fatigueCounter)
 
-	@property
-	def combo(self):
-		return self.tags.get(GameTag.COMBO_ACTIVE, False)
-
-	@combo.setter
-	def combo(self, value):
-		self.tags[GameTag.COMBO_ACTIVE] = value
-
-	@property
-	def overloaded(self):
-		return self.tags.get(GameTag.RECALL_OWED, 0)
-
-	@overloaded.setter
-	def overloaded(self, amount):
-		self.tags[GameTag.RECALL_OWED] = amount
+	currentPlayer = _TAG(GameTag.CURRENT_PLAYER, False)
+	combo = _TAG(GameTag.COMBO_ACTIVE, False)
+	overloaded = _TAG(GameTag.RECALL_OWED, 0)
+	usedMana = _TAG(GameTag.RESOURCES_USED, 0)
 
 	@property
 	def maxMana(self):
@@ -184,14 +139,6 @@ class Player(Entity):
 	def maxMana(self, amount):
 		self.tags[GameTag.RESOURCES] = min(self.MAX_MANA, max(0, amount))
 		logging.info("%s is now at %i mana crystals" % (self, amount))
-
-	@property
-	def usedMana(self):
-		return self.tags.get(GameTag.RESOURCES_USED, 0)
-
-	@usedMana.setter
-	def usedMana(self, value):
-		self.tags[GameTag.RESOURCES_USED] = value
 
 	def takeControl(self, minion):
 		logging.info("%s takes control of %r" % (self, minion))

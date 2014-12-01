@@ -7,6 +7,7 @@ from .entity import Entity
 from .enums import GameTag, Zone
 from .exceptions import *
 from .player import Player
+from .utils import _TAG
 
 
 class Deck(object):
@@ -88,13 +89,7 @@ class Game(Entity):
 	def entities(self):
 		return self.player1.entities + self.player2.entities
 
-	@property
-	def turn(self):
-		return self.tags.get(GameTag.TURN, 0)
-
-	@turn.setter
-	def turn(self, amount):
-		self.tags[GameTag.TURN] = amount
+	turn = _TAG(GameTag.TURN, 0)
 
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
