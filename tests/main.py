@@ -498,6 +498,32 @@ def test_power_overwhelming():
 	assert wisp not in game.board
 
 
+def test_voidcaller():
+	game = prepare_game()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.currentPlayer.discardHand()
+	voidcaller = game.currentPlayer.give("FP1_022")
+	voidcaller.play()
+
+	# give the player a Doomguard and a couple of wisps
+	doomguard = game.currentPlayer.give("EX1_310")
+	game.currentPlayer.give("CS2_231")
+	game.currentPlayer.give("CS2_231")
+	game.currentPlayer.give("CS2_231")
+	assert len(game.currentPlayer.hand) == 4
+
+	# sacrificial pact on the voidcaller, should summon the Doomguard w/o discards
+	game.currentPlayer.give("NEW1_003").play(target=voidcaller)
+	assert voidcaller.zone == Zone.GRAVEYARD
+	assert doomguard.zone == Zone.PLAY
+	assert doomguard.canAttack()
+	print(game.currentPlayer.hand)
+	print(game.currentPlayer.field)
+	assert len(game.currentPlayer.hand) == 3
+
+
 def test_mindgames():
 	game = prepare_game(PRIEST, PRIEST)
 	mindgames = game.currentPlayer.give("EX1_345")
@@ -826,6 +852,7 @@ def main():
 	test_kill_command()
 	test_arcane_explosion()
 	test_power_overwhelming()
+	test_voidcaller()
 	test_mindgames()
 	test_mind_vision()
 	test_wild_pyromancer()

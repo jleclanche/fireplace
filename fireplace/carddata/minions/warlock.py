@@ -1,4 +1,5 @@
 import random
+from fireplace.enums import Race
 from ..card import *
 
 
@@ -46,3 +47,11 @@ class EX1_323(Card):
 		self.removeFromField()
 		self.controller.summon("EX1_323h")
 		self.controller.summon("EX1_323w")
+
+
+# Voidcaller
+class FP1_022(Card):
+	def deathrattle(self):
+		demons = self.controller.hand.filterByRace(Race.DEMON)
+		if demons:
+			self.controller.summon(random.choice(demons))
