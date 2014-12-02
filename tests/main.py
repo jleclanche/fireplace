@@ -154,8 +154,10 @@ def test_mana():
 	coin = game.currentPlayer.getById("GAME_005")
 	coin.play()
 	assert game.currentPlayer.mana == 2
+	assert game.currentPlayer.tempMana == 1
 	game.endTurn()
-	assert game.currentPlayer.opponent.mana == 1
+	assert game.currentPlayer.opponent.tempMana == 0
+	assert game.currentPlayer.opponent.mana == 1, game.currentPlayer.opponent.mana
 
 	game.endTurn(); game.endTurn()
 

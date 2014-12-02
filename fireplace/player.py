@@ -31,10 +31,7 @@ class Player(Entity):
 
 	@property
 	def mana(self):
-		mana = max(0, self.maxMana - self.usedMana)
-		# also check for the hero's extra mana
-		for slot in self.deck.hero.slots:
-			mana += slot.getProperty("mana")
+		mana = max(0, self.maxMana - self.usedMana) + self.tempMana
 		return mana
 
 	@property
@@ -129,6 +126,7 @@ class Player(Entity):
 	currentPlayer = _TAG(GameTag.CURRENT_PLAYER, False)
 	combo = _TAG(GameTag.COMBO_ACTIVE, False)
 	overloaded = _TAG(GameTag.RECALL_OWED, 0)
+	tempMana = _TAG(GameTag.TEMP_RESOURCES, 0)
 	usedMana = _TAG(GameTag.RESOURCES_USED, 0)
 
 	@property
@@ -168,7 +166,12 @@ class Player(Entity):
 		logging.info("%s plays %r from their hand" % (self, card))
 		assert card.controller
 		self.game.broadcast("onCardPlayed", self, card)
-		self.usedMana += card.cost
+		cost = card.cost
+		if self.tempMana:
+			# The coin, Innervate etc
+			cost -= self.tempMana
+			self.tempMana = max(0, self.tempMana - card.cost)
+		self.usedMana += cost
 		if card.data.overload:
 			self.overloaded += card.data.overload
 			logging.info("%s is overloaded for %i mana" % (self, self.overloaded))
@@ -197,3 +200,7 @@ class Player(Entity):
 		if self.overloaded:
 			self.overloaded = 0
 		self.draw()
+
+	def onTurnEnd(self, player):
+		if self.tempMana:
+			self.tempMana = 0
