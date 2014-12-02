@@ -82,12 +82,23 @@ class Card(Entity):
 
 	@property
 	def health(self):
-		health = self.getProperty("health")
-		return max(0, health - self.damage)
+		return max(0, self.getIntProperty(GameTag.HEALTH) - self.damage)
 
 	@property
 	def atk(self):
-		return self.getProperty("atk")
+		return self.getIntProperty(GameTag.ATK)
+
+	@atk.setter
+	def atk(self, value):
+		self.tags[GameTag.ATK] = value
+
+	@property
+	def extraAtk(self):
+		return sum(slot.getIntProperty(GameTag.ATK) for slot in self.slots)
+
+	@property
+	def extraHealth(self):
+		return sum(slot.getIntProperty(GameTag.HEALTH) for slot in self.slots)
 
 	@property
 	def hasDeathrattle(self):
