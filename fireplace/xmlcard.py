@@ -8,22 +8,22 @@ _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir,
 
 class XMLCard(object):
 	_tags = {
-		"type": "CardType",
-		"health": "Health",
-		"durability": "Durability",
-		"atk": "Atk",
-		"cost": "Cost",
-		"race": "Race",
-		"charge": "Charge",
-		"overload": "Recall",
-		"poisonous": "Poisonous",
-		"secret": "Secret",
-		"windfury": "Windfury",
-		"adjacentBuff": "AdjacentBuff",
-		"oneTurnEffect": "OneTurnEffect",
-		"hasAura": "Aura",
-		"hasCombo": "Combo",
-		"hasDeathrattle": "Deathrattle",
+		"type": GameTag.CARDTYPE,
+		"health": GameTag.HEALTH,
+		"durability": GameTag.DURABILITY,
+		"atk": GameTag.ATK,
+		"cost": GameTag.COST,
+		"race": GameTag.CARDRACE,
+		"charge": GameTag.CHARGE,
+		"overload": GameTag.RECALL,
+		"poisonous": GameTag.POISONOUS,
+		"secret": GameTag.SECRET,
+		"windfury": GameTag.WINDFURY,
+		"adjacentBuff": GameTag.ADJACENT_BUFF,
+		"oneTurnEffect": GameTag.OneTurnEffect,
+		"hasAura": GameTag.AURA,
+		"hasCombo": GameTag.COMBO,
+		"hasDeathrattle": GameTag.DEATH_RATTLE,
 	}
 
 	cantAttack = False
@@ -67,8 +67,8 @@ class XMLCard(object):
 			return bool(value)
 		return value
 
-	def getTag(self, name):
-		element = self.xml.findall('./Tag[@name="%s"]' % (name))
+	def getTag(self, id):
+		element = self.xml.findall('./Tag[@enumID="%i"]' % (id))
 		if not element:
 			return 0
 		return self._getTag(element[0])
