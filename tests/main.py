@@ -38,11 +38,15 @@ def test_positioning():
 	flametongue.play()
 	wisp4 = game.currentPlayer.give("CS2_231")
 	wisp4.play()
-	assert wisp1.atk == 1
+	assert flametongue.aura
+	assert wisp3.buffs, wisp3.buffs
+	assert flametongue.aura in wisp3.buffs, wisp3.buffs
+	assert wisp1.atk == 1, wisp1.atk
 	assert wisp2.atk == 1
-	assert wisp3.atk == 3
+	assert wisp3.atk == 3, wisp3.atk
 	assert flametongue.atk == 0, flametongue.atk
-	assert wisp4.atk == 3
+	assert flametongue.adjacentMinions == (wisp3, wisp4)
+	assert wisp4.atk == 3, wisp4.atk
 
 
 def test_armor():
@@ -59,8 +63,11 @@ def test_armor():
 	assert game.currentPlayer.hero.armor == 2
 	assert game.currentPlayer.mana == 2
 	game.endTurn()
-	# Play an axe
-	game.currentPlayer.give("CS2_106").play()
+	axe = game.currentPlayer.give("CS2_106")
+	axe.play()
+	assert axe is game.currentPlayer.hero.weapon
+	assert axe in game.currentPlayer.hero.slots
+	assert game.currentPlayer.hero.atk == 3
 	game.currentPlayer.hero.attack(game.currentPlayer.opponent.hero)
 	assert game.currentPlayer.opponent.hero.health == 29
 	assert game.currentPlayer.opponent.hero.armor == 0
@@ -88,7 +95,7 @@ def test_mage_priest():
 	# With this seed, Mage starts
 	assert game.currentPlayer.hero.id is MAGE
 	game.endTurn(); game.endTurn()
-	assert game.currentPlayer.hero.health == 30
+	assert game.currentPlayer.hero.health == 30, game.currentPlayer.hero.health
 	game.currentPlayer.hero.power.play(target=game.currentPlayer.opponent.hero)
 	game.endTurn()
 	assert game.currentPlayer.hero.health == 29
