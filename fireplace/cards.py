@@ -375,16 +375,16 @@ class Hero(Character):
 
 
 class Minion(Character):
-	@property
-	def charge(self):
-		if self.tags.get(GameTag.CHARGE, False):
-			return True
-		return self.getProperty("charge")
-
 	taunt = _TAG(GameTag.TAUNT, False)
 	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
 	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
 	hasAura = _TAG(GameTag.AURA, False)
+
+	@property
+	def charge(self):
+		if self.tags.get(GameTag.CHARGE, False):
+			return True
+		return any(slot.getBoolProperty(GameTag.CHARGE) for slot in self.slots)
 
 	@property
 	def adjacentMinions(self):
