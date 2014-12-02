@@ -184,6 +184,7 @@ class Player(Entity):
 			self.combo = True
 		self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN] += 1
 		self.game.broadcast("afterCardPlayed", self, card)
+		self.game.broadcast("onUpdate")
 
 	##
 	# Events

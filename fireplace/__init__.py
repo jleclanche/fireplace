@@ -72,7 +72,6 @@ class Game(Entity):
 		self.turn = 0
 		self.currentPlayer = None
 		self.status = self.STATUS_BEGIN
-		# Maybe auras should be elsewhere but they need to be somewhere global
 		self.auras = []
 
 	def __repr__(self):
@@ -132,9 +131,11 @@ class Game(Entity):
 
 	def broadcast(self, event, *args):
 		logging.debug("Broadcasting event %r to %r with arguments %r" % (event, self.entities, args))
-		for entity in chain([self], self.players, self.entities):
+		for entity in chain([self], self.players, self.entities, self.auras):
 			if entity and hasattr(entity, event):
 				getattr(entity, event)(*args)
+		if event != "onUpdate":
+			self.broadcast("onUpdate")
 
 	def onTurnBegin(self, player):
 		self.status = self.STATUS_TURN

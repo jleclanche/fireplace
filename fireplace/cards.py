@@ -5,7 +5,7 @@ from . import targeting
 from .exceptions import *
 from .entity import Entity
 from .enums import CardType, GameTag, PlayReq, Race, Zone
-from .utils import _TAG
+from .utils import _TAG, CardList
 from .xmlcard import XMLCard
 
 
@@ -38,6 +38,7 @@ class Card(Entity):
 
 	def __init__(self, id):
 		self.id = id
+		self.aura = None
 		self.weapon = None
 		self.buffs = []
 
@@ -117,14 +118,10 @@ class Card(Entity):
 
 	@property
 	def slots(self):
-		# TODO enchantments
 		ret = []
 		if self.weapon:
 			assert self.type == CardType.HERO
 			ret.append(self.weapon)
-		for aura in self.game.auras:
-			if aura.isValidTarget(self):
-				ret.append(aura)
 		ret += self.buffs
 		return ret
 
@@ -209,6 +206,12 @@ class Card(Entity):
 	def onOwnTurnEnd(self):
 		self._forwardBroadcast("onOwnTurnEnd")
 
+	def setTag(self, *args):
+		# Fire an onOwnUpdate every time a tag is set while in play
+		super().setTag(*args)
+		if self.zone == Zone.PLAY:
+			self._forwardBroadcast("onOwnUpdate")
+
 	def discard(self):
 		logging.info("Discarding %r" % (self))
 		self.zone = Zone.GRAVEYARD
@@ -236,27 +239,18 @@ class Card(Entity):
 		"""
 		Helper for Player.play(card)
 		"""
+		assert self.zone != Zone.PLAY
 		self.controller.play(self, target)
 
 	def summon(self):
 		pass
 
-	def getProperty(self, prop):
-		ret = getattr(self.data, prop)
-		for slot in self.slots:
-			ret += slot.getProperty(prop)
-		return ret
-
 	def buff(self, card):
 		"""
 		Helper for Player.summon(buff, minion)
 		"""
-		return self.controller.summon(card, target=self)
-
-	def clearAura(self):
-		if self.data.hasAura:
-			logging.info("Aura %r fades" % (self.aura))
-			self.game.auras.remove(self.aura)
+		ret = self.controller.summon(card, target=self)
+		self._forwardBroadcast("onOwnUpdate")
 
 
 def cardsForHero(hero):
@@ -341,7 +335,8 @@ class Character(Card):
 
 	def silence(self):
 		logging.info("%r has been silenced" % (self))
-		self.clearAura()
+		if self.aura:
+			self.aura.destroy()
 		self.buffs = []
 		tags = (
 			GameTag.CANT_ATTACK,
@@ -418,7 +413,8 @@ class Minion(Character):
 			logging.info("%r is removed from the field" % (self))
 			self.controller.field.remove(self)
 			# Remove any aura the minion gives
-			self.clearAura()
+			if self.aura:
+				self.aura.destroy()
 			if self.damage:
 				self.damage = 0
 		super().moveToZone(old, new)
@@ -447,12 +443,11 @@ class Minion(Character):
 		if self.data.cantAttack:
 			self.setTag(GameTag.CANT_ATTACK, True)
 		if self.hasAura:
-			self.aura = Card(self.data.aura)
-			self.aura.controller = self.controller
-			self.aura.zone = Zone.PLAY
+			self.aura = Aura(self.data.aura)
 			self.aura.source = self
+			self.aura.controller = self.controller
+			self.aura.summon()
 			logging.info("Aura %r suddenly appears" % (self.aura))
-			self.game.auras.append(self.aura)
 
 
 class Spell(Card):
@@ -478,12 +473,44 @@ class Secret(Card):
 
 
 class Enchantment(Card):
+	def summon(self, target):
+		self.owner = target
+		target.buffs.append(self)
+
+	def destroy(self):
+		self.owner.buffs.remove(self)
+		super().destroy()
+
+	def onTurnEnd(self, player):
+		if self.data.oneTurnEffect:
+			logging.info("Ending One-Turn effect: %r" % (self))
+			self.destroy()
+		super().onTurnEnd(player)
+
+
+class Aura(Card):
+	"""
+	A virtual Card class which is only for the source of the Enchantment buff on
+	targets affected by an aura. It is only internal.
+	"""
+
+	def __init__(self, id):
+		super().__init__(id)
+		self._buffed = CardList()
+		self._buffs = []
+		self.data = XMLCard.get(id)
+		self.tags = self.data.tags
+
 	@property
 	def targets(self):
 		return self.controller.getTargets(self.data.targeting)
 
+	def summon(self):
+		self.game.auras.append(self)
+		self.zone = Zone.PLAY
+
 	def isValidTarget(self, card):
-		if self.source.data.adjacentBuff:
+		if self.source.adjacentBuff:
 			adj = self.source.adjacentMinions
 			if card is not adj[0] and card is not adj[1]:
 				return False
@@ -493,22 +520,19 @@ class Enchantment(Card):
 			return self.data.__class__.isValidTarget(self, card)
 		return True
 
-	def summon(self, target):
-		self.owner = target
-		target.buffs.append(self)
+	def onUpdate(self):
+		for target in self.targets:
+			if self.isValidTarget(target):
+				if not target in self._buffed:
+					self._buffs.append(target.buff(self.id))
+					self._buffed.append(target)
 
 	def destroy(self):
-		if self in self.game.auras:
-			self.game.auras.remove(self)
-		else:
-			self.owner.buffs.remove(self)
-		super().destroy()
-
-	def onTurnEnd(self, player):
-		if self.data.oneTurnEffect:
-			logging.info("Ending One-Turn effect: %r" % (self))
-			self.destroy()
-		super().onTurnEnd(player)
+		for buff in self._buffs:
+			buff.destroy()
+		self.update()
+		del self._buffed
+		self.game.auras.remove(self)
 
 
 class Weapon(Card):
