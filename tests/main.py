@@ -648,6 +648,32 @@ def test_leeroy():
 	assert game.currentPlayer.opponent.field[0] == game.currentPlayer.opponent.field[1]
 
 
+def test_lightspawn():
+	game = prepare_game()
+	lightspawn = game.currentPlayer.give("EX1_335")
+	flametongue = game.currentPlayer.give("EX1_565")
+
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	lightspawn.play()
+	assert lightspawn.health == 5
+	assert lightspawn.atk == 5, lightspawn.atk
+
+	game.endTurn()
+	# play archer on lightspawn, goes to 4 health
+	game.currentPlayer.give("CS2_189").play(target=lightspawn)
+	assert lightspawn.health == 4
+	assert lightspawn.atk == 4, lightspawn.atk
+	assert not lightspawn.buffs
+	game.endTurn(); game.endTurn()
+	flametongue.play()
+
+	assert lightspawn.health == 4
+	assert lightspawn.buffs
+	assert lightspawn.atk == 4, lightspawn.atk
+
+
 def test_wild_pyromancer():
 	game = prepare_game()
 	wisp = game.currentPlayer.give("CS2_231")
@@ -859,6 +885,7 @@ def main():
 	random.seed(12345)
 	test_mage_priest()
 	test_paladin_shaman()
+	test_lightspawn()
 	test_positioning()
 	test_deathrattle()
 	test_mana()
