@@ -446,7 +446,7 @@ def test_auras():
 	webspinner.play()
 	raidleader = game.currentPlayer.give("CS2_122")
 	raidleader.play()
-	assert raidleader.data.hasAura
+	assert raidleader.hasAura
 	assert raidleader.atk == 2
 	assert wisp1.atk == 1
 	assert webspinner.atk == 2
@@ -676,7 +676,7 @@ def test_poisonous():
 	game.currentPlayer.getById("GAME_005").play()
 	cobra = game.currentPlayer.give("EX1_170")
 	cobra.play()
-	assert cobra.data.poisonous
+	assert cobra.poisonous
 	game.endTurn()
 	zchow = game.currentPlayer.give("FP1_001")
 	zchow.play()

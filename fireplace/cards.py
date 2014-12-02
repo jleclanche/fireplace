@@ -4,7 +4,7 @@ from itertools import chain
 from . import targeting
 from .exceptions import *
 from .entity import Entity
-from .enums import CardType, GameTag, PlayReq, Zone
+from .enums import CardType, GameTag, PlayReq, Race, Zone
 from .utils import _TAG
 from .xmlcard import XMLCard
 
@@ -25,8 +25,8 @@ class Card(Entity):
 			CardType.ENCHANTMENT: Enchantment,
 			CardType.WEAPON: Weapon,
 			CardType.HERO_POWER: HeroPower,
-		}[data.type]
-		if type is Spell and data.secret:
+		}[data.getTag(GameTag.CARDTYPE)]
+		if type is Spell and data.getTag(GameTag.SECRET):
 			type = Secret
 		card = type(id)
 		# type(id) triggers __init__, so we can't rely on card.data existing
@@ -61,9 +61,12 @@ class Card(Entity):
 	##
 	# Tag properties
 
+	type = _TAG(GameTag.CARDTYPE, CardType.INVALID)
+	cost = _TAG(GameTag.COST, 0)
 	controller = _TAG(GameTag.CONTROLLER, None)
 	exhausted = _TAG(GameTag.EXHAUSTED, False)
 	windfury = _TAG(GameTag.WINDFURY, False)
+	hasCombo = _TAG(GameTag.COMBO, False)
 
 	@property
 	def zone(self):
@@ -85,14 +88,6 @@ class Card(Entity):
 	@property
 	def atk(self):
 		return self.getProperty("atk")
-
-	@property
-	def cost(self):
-		return self.data.cost
-
-	@property
-	def type(self):
-		return self.data.type
 
 	@property
 	def hasDeathrattle(self):
@@ -126,7 +121,7 @@ class Card(Entity):
 		kwargs = {}
 		if self.hasTarget():
 			kwargs["target"] = target
-		if combo and self.data.hasCombo:
+		if combo and self.hasCombo:
 			if PlayReq.REQ_TARGET_FOR_COMBO in self.data.requirements:
 				kwargs["target"] = target
 			kwargs["combo"] = combo
@@ -261,10 +256,7 @@ class Character(Card):
 	def __init__(self, id):
 		super().__init__(id)
 
-	@property
-	def race(self):
-		return self.data.race
-
+	race = _TAG(GameTag.CARDRACE, Race.INVALID)
 	frozen = _TAG(GameTag.FROZEN, False)
 	poisonous = _TAG(GameTag.POISONOUS, False)
 	stealthed = _TAG(GameTag.STEALTH, False)
@@ -391,6 +383,8 @@ class Minion(Character):
 
 	taunt = _TAG(GameTag.TAUNT, False)
 	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
+	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
+	hasAura = _TAG(GameTag.AURA, False)
 
 	@property
 	def adjacentMinions(self):
@@ -441,7 +435,7 @@ class Minion(Character):
 		self.exhausted = True
 		if self.data.cantAttack:
 			self.setTag(GameTag.CANT_ATTACK, True)
-		if self.data.hasAura:
+		if self.hasAura:
 			self.aura = Card(self.data.aura)
 			self.aura.controller = self.controller
 			self.aura.zone = Zone.PLAY

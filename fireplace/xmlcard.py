@@ -8,21 +8,13 @@ _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir,
 
 class XMLCard(object):
 	_tags = {
-		"type": GameTag.CARDTYPE,
 		"health": GameTag.HEALTH,
 		"durability": GameTag.DURABILITY,
 		"atk": GameTag.ATK,
-		"cost": GameTag.COST,
-		"race": GameTag.CARDRACE,
 		"charge": GameTag.CHARGE,
 		"overload": GameTag.RECALL,
-		"poisonous": GameTag.POISONOUS,
-		"secret": GameTag.SECRET,
 		"windfury": GameTag.WINDFURY,
-		"adjacentBuff": GameTag.ADJACENT_BUFF,
 		"oneTurnEffect": GameTag.OneTurnEffect,
-		"hasAura": GameTag.AURA,
-		"hasCombo": GameTag.COMBO,
 		"hasDeathrattle": GameTag.DEATH_RATTLE,
 	}
 
@@ -55,7 +47,6 @@ class XMLCard(object):
 		if tags:
 			return int(tags[0].attrib["param"])
 		return 0
-
 
 	def _getTag(self, element, locale="enUS"):
 		type = element.attrib["type"]
