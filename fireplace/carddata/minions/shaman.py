@@ -29,7 +29,7 @@ class EX1_565(Card):
 	aura = "EX1_565o"
 
 class EX1_565o(Card):
-	atk = 2
+	Atk = 2
 	targeting = TARGET_FRIENDLY_MINIONS
 
 

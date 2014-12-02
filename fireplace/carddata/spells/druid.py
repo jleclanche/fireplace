@@ -10,7 +10,7 @@ class CS2_005(Card):
 		self.controller.hero.armor += 2
 
 class CS2_005o(Card):
-	atk = 2
+	Atk = 2
 
 
 # Healing Touch
@@ -28,8 +28,8 @@ class CS2_009(Card):
 	action = buffTarget("CS2_009e")
 
 class CS2_009e(Card):
-	atk = 2
-	health = 2
+	Atk = 2
+	Health = 2
 	taunt = True
 
 
@@ -40,7 +40,7 @@ class CS2_011(Card):
 			target.buff("CS2_011o")
 
 class CS2_011o(Card):
-	atk = 2
+	Atk = 2
 
 
 # Swipe
@@ -97,7 +97,7 @@ class EX1_570(Card):
 		self.controller.hero.armor += 4
 
 class EX1_570e(Card):
-	atk = 4
+	Atk = 4
 
 
 # Force of Nature

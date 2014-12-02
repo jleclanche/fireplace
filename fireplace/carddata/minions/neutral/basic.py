@@ -10,7 +10,7 @@ class CS2_122(Card):
 	aura = "CS2_122e"
 
 class CS2_122e(Card):
-	atk = 1
+	Atk = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target is not self.source
@@ -75,7 +75,7 @@ class CS2_188(Card):
 	action = buffTarget("CS2_188o")
 
 class CS2_188o(Card):
-	atk = 2
+	Atk = 2
 
 
 # Razorfen Hunter
@@ -88,8 +88,8 @@ class CS2_222(Card):
 	aura = "CS2_222o"
 
 class CS2_222o(Card):
-	atk = 1
-	health = 1
+	Atk = 1
+	Health = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target is not self.source
@@ -107,8 +107,8 @@ class EX1_019(Card):
 	action = buffTarget("EX1_019e")
 
 class EX1_019e(Card):
-	atk = 1
-	health = 1
+	Atk = 1
+	Health = 1
 
 
 # Dragonling Mechanic
@@ -126,7 +126,7 @@ class EX1_046(Card):
 	action = buffTarget("EX1_046e")
 
 class EX1_046e(Card):
-	atk = 2
+	Atk = 2
 
 
 # Youthful Brewmaster
@@ -156,7 +156,7 @@ class EX1_162(Card):
 	aura = "EX1_162o"
 
 class EX1_162o(Card):
-	atk = 1
+	Atk = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 
 
@@ -177,7 +177,7 @@ class EX1_508(Card):
 
 class EX1_508o(Card):
 	targeting = TARGET_FRIENDLY_MINIONS
-	atk = 1
+	Atk = 1
 	def isValidTarget(self, target):
 		return target.race == Race.MURLOC and target is not self.source
 

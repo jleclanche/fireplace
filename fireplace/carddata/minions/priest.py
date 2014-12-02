@@ -12,4 +12,4 @@ class EX1_623(Card):
 	action = buffTarget("EX1_623e")
 
 class EX1_623e(Card):
-	health = 3
+	Health = 3

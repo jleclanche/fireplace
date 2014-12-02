@@ -65,8 +65,8 @@ class EX1_316(Card):
 	action = buffTarget("EX1_316e")
 
 class EX1_316e(Card):
-	atk = 4
-	health = 4
+	Atk = 4
+	Health = 4
 	def onTurnEnd(self, player):
 		self.owner.destroy()
 
@@ -88,8 +88,8 @@ class EX1_596(Card):
 			self.hit(target, 2)
 
 class EX1_596e(Card):
-	atk = 2
-	health = 2
+	Atk = 2
+	Health = 2
 
 
 # Sacrificial Pact

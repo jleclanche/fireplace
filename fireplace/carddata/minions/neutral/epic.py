@@ -12,8 +12,8 @@ class EX1_507(Card):
 	aura = "EX1_507e"
 
 class EX1_507e(Card):
-	atk = 2
-	health = 1
+	Atk = 2
+	Health = 1
 	def isValidTarget(self, target):
 		return target.race == Race.MURLOC and target is not self.source
 
@@ -25,8 +25,8 @@ class NEW1_017(Card):
 		self.buff("NEW1_017e")
 
 class NEW1_017e(Card):
-	atk = 2
-	health = 2
+	Atk = 2
+	Health = 2
 
 
 # Doomsayer
@@ -41,7 +41,7 @@ class NEW1_027(Card):
 	aura = "NEW1_027e"
 
 class NEW1_027e(Card):
-	atk = 1
-	health = 1
+	Atk = 1
+	Health = 1
 	def isValidTarget(self, target):
 		return target.race == Race.PIRATE and target is not self.source

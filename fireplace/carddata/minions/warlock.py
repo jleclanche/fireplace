@@ -10,7 +10,7 @@ class CS2_059(Card):
 			random.choice(self.controller.field).buff("CS2_059o")
 
 class CS2_059o(Card):
-	health = 1
+	Health = 1
 
 
 # Felguard

@@ -37,7 +37,7 @@ class CS2_045(Card):
 	action = buffTarget("CS2_045e")
 
 class CS2_045e(Card):
-	atk = 3
+	Atk = 3
 
 
 # Bloodlust
@@ -47,7 +47,7 @@ class CS2_046(Card):
 			target.buff("CS2_046e")
 
 class CS2_046e(Card):
-	atk = 3
+	Atk = 3
 
 
 # Lightning Bolt
@@ -70,7 +70,7 @@ class EX1_244(Card):
 
 
 class EX1_244e(Card):
-	health = 2
+	Health = 2
 
 
 class EX1_248(Card):

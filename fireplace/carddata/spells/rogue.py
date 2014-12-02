@@ -18,7 +18,7 @@ class CS2_074(Card):
 		self.controller.hero.weapon.buff("CS2_074e")
 
 class CS2_074e(Card):
-	atk = 2
+	Atk = 2
 
 
 # Sinister Strike

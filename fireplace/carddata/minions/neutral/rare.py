@@ -17,7 +17,7 @@ class EX1_004(Card):
 			random.choice(other_minions).buff("EX1_004e")
 
 class EX1_004e(Card):
-	health = 1
+	Health = 1
 
 
 # Ancient Watcher
@@ -52,8 +52,8 @@ class EX1_093(Card):
 			target.buff("EX1_093e")
 
 class EX1_093e(Card):
-	atk = 1
-	health = 1
+	Atk = 1
+	Health = 1
 	taunt = True
 
 
@@ -72,7 +72,7 @@ class EX1_103(Card):
 				minion.buff("EX1_103e")
 
 class EX1_103e(Card):
-	health = 2
+	Health = 2
 
 
 # Ancient Mage
@@ -126,7 +126,7 @@ class NEW1_037(Card):
 			random.choice(other_minions).buff("NEW1_037e")
 
 class NEW1_037e(Card):
-	atk = 1
+	Atk = 1
 
 
 # Stampeding Kodo

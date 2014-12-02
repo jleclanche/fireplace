@@ -8,8 +8,8 @@ class CS2_103(Card):
 	action = buffTarget("CS2_103e2")
 
 class CS2_103e2(Card):
-	atk = 2
-	charge = True
+	Atk = 2
+	Charge = True
 
 
 # Rampage
@@ -17,8 +17,8 @@ class CS2_104(Card):
 	action = buffTarget("CS2_104e")
 
 class CS2_104e(Card):
-	atk = 3
-	health = 3
+	Atk = 3
+	Health = 3
 
 
 # Heroic Strike
@@ -26,7 +26,7 @@ class CS2_105e(Card):
 	action = buffSelf("CS2_105e")
 
 class CS2_105e(Card):
-	atk = 4
+	Atk = 4
 
 
 # Execute
@@ -89,7 +89,7 @@ class EX1_409(Card):
 			self.controller.summon("EX1_409t")
 
 class EX1_409e(Card):
-	atk = 1
+	Atk = 1
 
 
 # Shield Slam
@@ -112,4 +112,4 @@ class EX1_607(Card):
 		self.hit(target, 1)
 
 class EX1_607e(Card):
-	atk = 2
+	Atk = 2

@@ -6,7 +6,7 @@ class CS2_087(Card):
 	action = buffTarget("CS2_087e")
 
 class CS2_087e(Card):
-	atk = 3
+	Atk = 3
 
 
 # Holy Light
@@ -19,8 +19,8 @@ class CS2_092(Card):
 	action = buffTarget("CS2_092e")
 
 class CS2_092e(Card):
-	atk = 4
-	health = 4
+	Atk = 4
+	Health = 4
 
 
 # Consecration

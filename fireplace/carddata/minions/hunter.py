@@ -9,7 +9,7 @@ class DS1_175(Card):
 
 # Furious Howl
 class DS1_175o(Card):
-	atk = 1
+	Atk = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target.race == Race.BEAST and target is not self.source
@@ -21,7 +21,7 @@ class DS1_178(Card):
 
 # Charge
 class DS1_178e(Card):
-	charge = True
+	Charge = True
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target.race == Race.BEAST

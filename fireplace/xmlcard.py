@@ -8,14 +8,18 @@ _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir,
 
 class XMLCard(object):
 	_tags = {
-		"health": GameTag.HEALTH,
-		"durability": GameTag.DURABILITY,
-		"atk": GameTag.ATK,
 		"charge": GameTag.CHARGE,
 		"overload": GameTag.RECALL,
 		"windfury": GameTag.WINDFURY,
 		"oneTurnEffect": GameTag.OneTurnEffect,
 		"hasDeathrattle": GameTag.DEATH_RATTLE,
+	}
+
+	_definitions = {
+		"Atk": GameTag.ATK,
+		"Health": GameTag.HEALTH,
+		"Charge": GameTag.CHARGE,
+		"Durability": GameTag.DURABILITY,
 	}
 
 	cantAttack = False
@@ -66,7 +70,11 @@ class XMLCard(object):
 
 	@property
 	def tags(self):
-		return {GameTag(int(e.attrib["enumID"])): self._getTag(e) for e in self.xml.findall("./Tag")}
+		ret = {GameTag(int(e.attrib["enumID"])): self._getTag(e) for e in self.xml.findall("./Tag")}
+		for attr, tag in self._definitions.items():
+			if hasattr(self, attr):
+				ret[tag] = getattr(self, attr)
+		return ret
 
 	@property
 	def spellpower(self):
