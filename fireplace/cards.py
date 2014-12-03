@@ -149,10 +149,7 @@ class Card(Entity):
 
 	def destroy(self):
 		logging.info("%r dies" % (self))
-		self.zone = Zone.GRAVEYARD
-		self.onDeath()
-		for slot in self.slots:
-			slot.onDeath()
+		self.game.broadcast("onDeath", self)
 
 	def moveToZone(self, old, new):
 		logging.debug("%r moves from %r to %r" % (self, old, new))
@@ -168,10 +165,13 @@ class Card(Entity):
 		if hasattr(self.data.__class__, event):
 			return getattr(self.data.__class__, event)(self, *args, **kwargs)
 
-	def onDeath(self):
-		if self.hasDeathrattle:
-			logging.info("Triggering Deathrattle for %r" % (self))
-			self.data.__class__.deathrattle(self)
+	def onDeath(self, card):
+		if card is self:
+			self.zone = Zone.GRAVEYARD
+			if self.hasDeathrattle:
+				logging.info("Triggering Deathrattle for %r" % (self))
+				self.data.__class__.deathrattle(self)
+		self._forwardBroadcast("onDeath", card)
 
 	def onCardPlayed(self, player, card):
 		if player is self.controller:
@@ -480,6 +480,13 @@ class Enchantment(Card):
 	def destroy(self):
 		self.owner.buffs.remove(self)
 		super().destroy()
+
+	def onDeath(self, card):
+		if card is self.owner:
+			# If we have a deathrattle, it means the deathrattle is on the owner.
+			if self.hasDeathrattle:
+				logging.info("Triggering Enchantment Deathrattle for %r" % (self))
+				self.data.__class__.deathrattle(self)
 
 	def onTurnEnd(self, player):
 		if self.data.oneTurnEffect:

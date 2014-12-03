@@ -137,6 +137,11 @@ class Game(Entity):
 		if event != "onUpdate":
 			self.broadcast("onUpdate")
 
+	def onUpdate(self):
+		for card in self.board:
+			if card.health == 0:
+				card.destroy()
+
 	def onTurnBegin(self, player):
 		self.status = self.STATUS_TURN
 		self.turn += 1
