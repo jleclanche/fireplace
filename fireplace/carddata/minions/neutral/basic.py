@@ -1,4 +1,4 @@
-from fireplace.enums import Race
+from fireplace.enums import CardType, Race
 from ...card import *
 
 
@@ -35,6 +35,13 @@ class EX1_102(Card):
 # Nightblade
 class EX1_593(Card):
 	action = damageEnemyHero(3)
+
+
+# Cult Master
+class EX1_595(Card):
+	def onOwnDeath(self, card):
+		if card.type == CardType.MINION:
+			self.controller.draw()
 
 
 ##

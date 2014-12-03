@@ -148,6 +148,33 @@ def test_deathrattle():
 	assert len(game.currentPlayer.opponent.field) == 1
 
 
+def test_cult_master():
+	game = prepare_game()
+	cultmaster = game.currentPlayer.give("EX1_595")
+
+	wisp1 = game.currentPlayer.give("CS2_231")
+	wisp1.play()
+	wisp2 = game.currentPlayer.give("CS2_231")
+	wisp2.play()
+
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	cultmaster.play()
+	assert len(game.currentPlayer.hand) == 7
+	game.currentPlayer.give("CS2_008").play(target=wisp1)
+	assert len(game.currentPlayer.hand) == 8
+
+	# Make sure cult master doesn't draw off itself
+	game.currentPlayer.give("CS2_008").play(target=cultmaster)
+	game.currentPlayer.give("CS2_008").play(target=cultmaster)
+	assert len(game.currentPlayer.hand) == 8
+
+	game.currentPlayer.give("CS2_008").play(target=wisp2)
+	assert len(game.currentPlayer.hand) == 8
+
+
 def test_mana():
 	game = prepare_game()
 	footman = game.currentPlayer.give("CS1_042")
@@ -895,6 +922,7 @@ def main():
 	test_lightspawn()
 	test_positioning()
 	test_deathrattle()
+	test_cult_master()
 	test_mana()
 	test_card_draw()
 	test_deathwing()
