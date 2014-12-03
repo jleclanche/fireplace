@@ -2,6 +2,23 @@ import random
 from ...card import *
 
 
+# The Black Knight
+class EX1_002(Card):
+	action = destroyTarget
+
+
+# Bloodmage Thalnos
+class EX1_012(Card):
+	deathrattle = drawCard
+
+
+# Sylvanas Windrunner
+class EX1_016(Card):
+	def deathrattle(self):
+		if self.controller.opponent.field:
+			self.controller.takeControl(random.choice(self.controller.opponent.field))
+
+
 # Cairne Bloodhoof
 class EX1_110(Card):
 	deathrattle = summonMinion("EX1_110t")
@@ -48,6 +65,12 @@ class EX1_558(Card):
 # Malygos
 class EX1_563(Card):
 	spellpower = 5
+
+
+# The Beast
+class EX1_577(Card):
+	def deathrattle(self):
+		self.controller.opponent.summon("EX1_finkle")
 
 
 # Illidan Stormrage
