@@ -1,4 +1,4 @@
-from fireplace.enums import CardType, Race
+from fireplace.enums import Race
 from ...card import *
 
 
@@ -28,7 +28,7 @@ class EX1_015(Card):
 
 # Demolisher
 class EX1_102(Card):
-	def onOwnTurnBegin(self):
+	def OWN_TURN_BEGIN(self):
 		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 2)
 
 
@@ -39,9 +39,8 @@ class EX1_593(Card):
 
 # Cult Master
 class EX1_595(Card):
-	def onOwnDeath(self, card):
-		if card.type == CardType.MINION:
-			self.controller.draw()
+	def OWN_MINION_DESTROYED(self, minion):
+		self.controller.draw()
 
 
 ##
@@ -222,7 +221,7 @@ class FP1_024(Card):
 
 # Stoneskin Gargoyle
 class FP1_027(Card):
-	def onOwnTurnBegin(self):
+	def OWN_TURN_BEGIN(self):
 		self.heal(self, self.damage)
 
 

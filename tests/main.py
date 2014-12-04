@@ -95,9 +95,18 @@ def test_mage_priest():
 	# With this seed, Mage starts
 	assert game.currentPlayer.hero.id is MAGE
 	game.endTurn(); game.endTurn()
-	assert game.currentPlayer.hero.health == 30, game.currentPlayer.hero.health
+
+	assert game.currentPlayer.hero.health == 30
+	assert game.currentPlayer.opponent.hero.health == 30
+
+	# Fireblast the opponent hero
 	game.currentPlayer.hero.power.play(target=game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.hero.health == 30
+	assert game.currentPlayer.opponent.hero.health == 29
+
 	game.endTurn()
+
+	# Heal self
 	assert game.currentPlayer.hero.health == 29
 	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
 	assert game.currentPlayer.hero.health == 30

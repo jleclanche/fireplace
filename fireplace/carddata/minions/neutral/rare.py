@@ -11,7 +11,7 @@ class CS2_181(Card):
 
 # Young Priestess
 class EX1_004(Card):
-	def onOwnTurnEnd(self):
+	def OWN_TURN_END(self):
 		other_minions = [t for t in self.controller.field if t is not self]
 		if other_minions:
 			random.choice(other_minions).buff("EX1_004e")
@@ -87,7 +87,7 @@ class EX1_584e(Card):
 
 # Imp Master
 class EX1_597(Card):
-	def onOwnTurnEnd(self):
+	def OWN_TURN_END(self):
 		self.hit(self, 1)
 		self.controller.summon("EX1_598")
 
@@ -104,7 +104,7 @@ class FP1_012(Card):
 
 # Wild Pyromancer
 class NEW1_020(Card):
-	def afterOwnCardPlayed(self, card):
+	def AFTER_OWN_CARD_PLAYED(self, card):
 		if card.type == CardType.SPELL:
 			for target in self.controller.getTargets(TARGET_ALL_MINIONS):
 				self.hit(target, 1)
@@ -120,7 +120,7 @@ class NEW1_025(Card):
 
 # Master Swordsmith
 class NEW1_037(Card):
-	def onOwnTurnEnd(self):
+	def OWN_TURN_END(self):
 		other_minions = [t for t in self.controller.field if t is not self]
 		if other_minions:
 			random.choice(other_minions).buff("NEW1_037e")

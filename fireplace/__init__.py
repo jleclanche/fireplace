@@ -4,7 +4,7 @@ from itertools import chain
 from . import heroes
 from .cards import Card, cardsForHero, THE_COIN
 from .entity import Entity
-from .enums import GameTag, Zone
+from .enums import CardType, GameTag, Zone
 from .exceptions import *
 from .player import Player
 from .utils import _TAG
@@ -82,7 +82,7 @@ class Game(Entity):
 
 	@property
 	def entities(self):
-		return self.player1.entities + self.player2.entities
+		return chain([self], self.auras, self.player1.entities, self.player2.entities)
 
 	turn = _TAG(GameTag.TURN, 0)
 
@@ -121,22 +121,24 @@ class Game(Entity):
 		logging.info("Entering mulligan phase")
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
 		self.player2.addToHand(Card(THE_COIN))
-		self.broadcast("onTurnBegin", self.player1)
+		self.broadcast("TURN_BEGIN", self.player1)
 
-	def broadcast(self, event, *args):
-		logging.debug("Broadcasting event %r to %r with arguments %r" % (event, self.entities, args))
-		for entity in chain([self], self.players, self.entities, self.auras):
-			if entity and hasattr(entity, event):
-				getattr(entity, event)(*args)
-		if event != "onUpdate":
-			self.broadcast("onUpdate")
+	def endTurn(self):
+		logging.info("%s ends turn" % (self.currentPlayer))
+		self.broadcast("TURN_END", self.currentPlayer)
+		self.broadcast("TURN_BEGIN", self.currentPlayer.opponent)
 
-	def onUpdate(self):
+	##
+	# Events
+
+	events = ["UPDATE", "TURN_BEGIN", "TURN_END", "DAMAGE", "HEAL", "CARD_DESTROYED", "MINION_DESTROYED"]
+
+	def UPDATE(self):
 		for card in self.board:
 			if card.health == 0:
 				card.destroy()
 
-	def onTurnBegin(self, player):
+	def TURN_BEGIN(self, player):
 		self.turn += 1
 		logging.info("%s begins turn %i" % (player, self.turn))
 		if self.turn == self.MAX_TURNS:
@@ -145,8 +147,21 @@ class Game(Entity):
 			self.currentPlayer.currentPlayer = False
 		self.currentPlayer = player
 		self.currentPlayer.currentPlayer = True
+		player.broadcast("OWN_TURN_BEGIN")
 
-	def endTurn(self):
-		logging.info("%s ends turn" % (self.currentPlayer))
-		self.broadcast("onTurnEnd", self.currentPlayer)
-		self.broadcast("onTurnBegin", self.currentPlayer.opponent)
+	def TURN_END(self, player):
+		player.broadcast("OWN_TURN_END")
+
+	def DAMAGE(self, source, target, amount):
+		source.controller.broadcast("OWN_DAMAGE", source, target, amount)
+
+	def HEAL(self, source, target, amount):
+		source.controller.broadcast("OWN_HEAL", source, target, amount)
+
+	def MINION_DESTROYED(self, minion):
+		minion.controller.broadcast("OWN_MINION_DESTROYED", minion)
+
+	def CARD_DESTROYED(self, card):
+		card.controller.broadcast("OWN_CARD_DESTROYED", card)
+		if card.type == CardType.MINION:
+			self.broadcast("MINION_DESTROYED", card)

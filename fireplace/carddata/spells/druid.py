@@ -107,7 +107,7 @@ class EX1_571(Card):
 			self.controller.summon("EX1_tk9")
 
 class EX1_tk9(Card):
-	def onTurnEnd(self, player):
+	def TURN_END(self, player):
 		self.destroy()
 
 

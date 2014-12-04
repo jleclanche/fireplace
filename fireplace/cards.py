@@ -34,6 +34,13 @@ class Card(Entity):
 		super(Card, cls).__init__(card)
 		card.data = data
 		card.tags = data.tags
+		for event in card.events:
+			if hasattr(data, event):
+				if event not in card._eventListeners:
+					card._eventListeners[event] = []
+				# A bit of magic powder to pass the Card object as self to the Card defs
+				func = getattr(data.__class__, event)
+				card._eventListeners[event].append(lambda *args: func(card, *args))
 		return card
 
 	def __init__(self, id):
@@ -56,6 +63,10 @@ class Card(Entity):
 		elif isinstance(other, str):
 			return self.id.__eq__(other)
 		return super().__eq__(other)
+
+	@property
+	def entities(self):
+		return chain([self], self.slots)
 
 	@property
 	def game(self):
@@ -143,15 +154,21 @@ class Card(Entity):
 
 	def heal(self, target, amount):
 		logging.info("%r heals %r for %i" % (self, target, amount))
-		target.onHeal(amount, self)
+		self.game.broadcast("HEAL", self, target, amount)
 
 	def hit(self, target, amount):
 		logging.info("%r hits %r for %i" % (self, target, amount))
-		target.onDamage(amount, self)
+		self.game.broadcast("DAMAGE", self, target, amount)
 
 	def destroy(self):
 		logging.info("%r dies" % (self))
-		self.game.broadcast("onDeath", self)
+		self.zone = Zone.GRAVEYARD
+		if self.hasDeathrattle:
+			logging.info("Triggering Deathrattle for %r" % (self))
+			self.data.__class__.deathrattle(self)
+		for buff in self.buffs:
+			buff.destroy()
+		self.game.broadcast("CARD_DESTROYED", self)
 
 	def moveToZone(self, old, new):
 		logging.debug("%r moves from %r to %r" % (self, old, new))
@@ -163,61 +180,17 @@ class Card(Entity):
 	##
 	# Events
 
-	def _forwardBroadcast(self, event, *args, **kwargs):
-		if hasattr(self.data.__class__, event):
-			return getattr(self.data.__class__, event)(self, *args, **kwargs)
+	events = [
+		"UPDATE",
+		"TURN_BEGIN", "TURN_END",
+		"OWN_TURN_BEGIN", "OWN_TURN_END",
+		"OWN_MINION_DESTROYED",
+		"OWN_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
+		"SELF_DAMAGE", "SELF_HEAL"
+	]
 
-	def onDeath(self, card):
-		if card is self:
-			self.zone = Zone.GRAVEYARD
-			if self.hasDeathrattle:
-				logging.info("Triggering Deathrattle for %r" % (self))
-				self.data.__class__.deathrattle(self)
-		elif card.controller == self.controller:
-			self.onOwnDeath(card)
-		self._forwardBroadcast("onDeath", card)
-
-	def onOwnDeath(self, card):
-		self._forwardBroadcast("onOwnDeath", card)
-
-	def onCardPlayed(self, player, card):
-		if player is self.controller:
-			self.onOwnCardPlayed(card)
-		self._forwardBroadcast("onCardPlayed", player, card)
-
-	def onOwnCardPlayed(self, card):
-		self._forwardBroadcast("onOwnCardPlayed", card)
-
-	def afterCardPlayed(self, player, card):
-		if player is self.controller:
-			self.afterOwnCardPlayed(card)
-		self._forwardBroadcast("afterCardPlayed", player, card)
-
-	def afterOwnCardPlayed(self, card):
-		self._forwardBroadcast("afterOwnCardPlayed", card)
-
-	def onTurnBegin(self, player):
-		if player is self.controller:
-			self.onOwnTurnBegin()
-		self._forwardBroadcast("onTurnBegin", player)
-
-	def onOwnTurnBegin(self):
+	def OWN_TURN_BEGIN(self):
 		self.exhausted = False
-		self._forwardBroadcast("onOwnTurnBegin")
-
-	def onTurnEnd(self, player):
-		if player is self.controller:
-			self.onOwnTurnEnd()
-		self._forwardBroadcast("onTurnEnd", player)
-
-	def onOwnTurnEnd(self):
-		self._forwardBroadcast("onOwnTurnEnd")
-
-	def setTag(self, *args):
-		# Fire an onOwnUpdate every time a tag is set while in play
-		super().setTag(*args)
-		if self.zone == Zone.PLAY:
-			self._forwardBroadcast("onOwnUpdate")
 
 	def discard(self):
 		logging.info("Discarding %r" % (self))
@@ -257,7 +230,6 @@ class Card(Entity):
 		Helper for Player.summon(buff, minion)
 		"""
 		ret = self.controller.summon(card, target=self)
-		self._forwardBroadcast("onOwnUpdate")
 
 
 def cardsForHero(hero):
@@ -319,25 +291,22 @@ class Character(Card):
 
 		self.setTag(GameTag.DAMAGE, amount)
 
-	def onOwnTurnBegin(self):
+	def OWN_TURN_BEGIN(self):
 		self.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
-		super().onOwnTurnBegin()
+		super().OWN_TURN_BEGIN()
 
-	def onOwnTurnEnd(self):
+	def OWN_TURN_END(self):
 		if self.frozen and not self.tags[GameTag.NUM_ATTACKS_THIS_TURN]:
 			self.frozen = False
-		super().onOwnTurnEnd()
 
-	def onDamage(self, amount, source):
-		logging.info("%r onDamage event (amount=%r, source=%r)" % (self, amount, source))
+	def SELF_DAMAGE(self, source, amount):
 		self.damage += amount
 
 		# FIXME this should happen in a separate tick
 		if not self.health:
 			self.destroy()
 
-	def onHeal(self, amount, source):
-		logging.info("%r onHeal event (amount=%r, source=%r)" % (self, amount, source))
+	def SELF_HEAL(self, source, amount):
 		self.damage -= amount
 
 	def silence(self):
@@ -361,12 +330,12 @@ class Character(Card):
 class Hero(Character):
 	armor = _TAG(GameTag.ARMOR, 0)
 
-	def onDamage(self, amount, source):
+	def SELF_DAMAGE(self, source, amount):
 		if self.armor:
 			newAmount = max(0, amount - self.armor)
 			self.armor -= min(self.armor, amount)
 			amount = newAmount
-		super().onDamage(amount, source)
+		super().SELF_DAMAGE(source, amount)
 
 	def destroy(self):
 		raise GameOver("%s wins!" % (self.controller.opponent))
@@ -426,15 +395,15 @@ class Minion(Character):
 				self.damage = 0
 		super().moveToZone(old, new)
 
-	def onDamage(self, amount, source):
+	def SELF_DAMAGE(self, source, amount):
 		if self.divineShield:
 			self.divineShield = False
 			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
 			return
-		super().onDamage(amount, source)
 		if isinstance(source, Minion) and source.poisonous:
 			logging.info("%r is destroyed because of %r is poisonous" % (self, source))
 			self.destroy()
+		super().SELF_DAMAGE(source, amount)
 
 	def isPlayable(self):
 		playable = super().isPlayable()
@@ -486,20 +455,15 @@ class Enchantment(Card):
 
 	def destroy(self):
 		self.owner.buffs.remove(self)
-		super().destroy()
-
-	def onDeath(self, card):
-		if card is self.owner:
+		if self.hasDeathrattle:
 			# If we have a deathrattle, it means the deathrattle is on the owner.
-			if self.hasDeathrattle:
-				logging.info("Triggering Enchantment Deathrattle for %r" % (self))
-				self.data.__class__.deathrattle(self)
+			logging.info("Triggering Enchantment Deathrattle for %r" % (self))
+			self.data.__class__.deathrattle(self)
 
-	def onTurnEnd(self, player):
+	def TURN_END(self, *args):
 		if self.data.oneTurnEffect:
 			logging.info("Ending One-Turn effect: %r" % (self))
 			self.destroy()
-		super().onTurnEnd(player)
 
 
 class Aura(Card):
@@ -510,6 +474,7 @@ class Aura(Card):
 
 	def __init__(self, id):
 		super().__init__(id)
+		Entity.__init__(self) # HACK
 		self._buffed = CardList()
 		self._buffs = []
 		self.data = XMLCard.get(id)
@@ -534,7 +499,7 @@ class Aura(Card):
 			return self.data.__class__.isValidTarget(self, card)
 		return True
 
-	def onUpdate(self):
+	def UPDATE(self):
 		for target in self.targets:
 			if self.isValidTarget(target):
 				if not target in self._buffed:

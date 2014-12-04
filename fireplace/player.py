@@ -1,4 +1,5 @@
 import logging
+from itertools import chain
 from .cards import Card
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
@@ -12,7 +13,6 @@ class Player(Entity):
 
 	def __init__(self, name, deck):
 		self.name = name
-		super().__init__()
 		self.deck = deck
 		self.deck.hero.controller = self
 		self.hand = CardList()
@@ -37,11 +37,12 @@ class Player(Entity):
 
 	@property
 	def entities(self):
-		field = self.field
-		ret = [self.hero, self.hero.weapon, self.hero.power] + field + self.hero.slots + self.secrets
-		for entity in field:
-			ret += entity.slots
-		return ret
+		ret = []
+		for entity in self.field:
+			ret += entity.entities
+		for entity in self.secrets:
+			ret += entity.entities
+		return chain([self], list(self.hero.entities), ret)
 
 	@property
 	def opponent(self):
@@ -166,7 +167,7 @@ class Player(Entity):
 		"""
 		logging.info("%s plays %r from their hand" % (self, card))
 		assert card.controller
-		self.game.broadcast("onCardPlayed", self, card)
+		self.game.broadcast("CARD_PLAYED", self, card)
 		cost = card.cost
 		if self.tempMana:
 			# The coin, Innervate etc
@@ -184,17 +185,18 @@ class Player(Entity):
 			card.action(target, combo=None)
 			self.combo = True
 		self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN] += 1
-		self.game.broadcast("afterCardPlayed", self, card)
-		self.game.broadcast("onUpdate")
+		self.game.broadcast("AFTER_CARD_PLAYED", self, card)
 
 	##
 	# Events
 
-	def onTurnBegin(self, player):
-		if player is self:
-			self.onOwnTurnBegin()
+	events = [
+		"OWN_TURN_BEGIN", "TURN_END",
+		"OWN_DAMAGE", "OWN_HEAL",
+		"CARD_PLAYED", "AFTER_CARD_PLAYED"
+	]
 
-	def onOwnTurnBegin(self):
+	def OWN_TURN_BEGIN(self):
 		self.combo = False
 		self.setTag(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
 		self.maxMana += 1
@@ -203,6 +205,20 @@ class Player(Entity):
 			self.overloaded = 0
 		self.draw()
 
-	def onTurnEnd(self, player):
+	def TURN_END(self, *args):
 		if self.tempMana:
 			self.tempMana = 0
+
+	def OWN_DAMAGE(self, source, target, amount):
+		target.broadcast("SELF_DAMAGE", source, amount)
+
+	def OWN_HEAL(self, source, target, amount):
+		target.broadcast("SELF_HEAL", source, amount)
+
+	def CARD_PLAYED(self, player, card):
+		if player is self:
+			card.controller.broadcast("OWN_CARD_PLAYED", card)
+
+	def AFTER_CARD_PLAYED(self, player, card):
+		if player is self:
+			card.controller.broadcast("AFTER_OWN_CARD_PLAYED", card)
