@@ -53,11 +53,6 @@ class Deck(object):
 
 
 class Game(Entity):
-	STATUS_BEGIN = 0
-	STATUS_TURN = 1
-	STATUS_END_TURN = 2
-	STATUS_MULLIGAN = 3
-	STATUS_END = 4
 	TIMEOUT_TURN = 75
 	TIMEOUT_MULLIGAN = 85
 	MAX_MINIONS_ON_FIELD = 8
@@ -71,7 +66,6 @@ class Game(Entity):
 			player.game = self
 		self.turn = 0
 		self.currentPlayer = None
-		self.status = self.STATUS_BEGIN
 		self.auras = []
 
 	def __repr__(self):
@@ -113,7 +107,6 @@ class Game(Entity):
 		self.player1.setTag(GameTag.FIRST_PLAYER, True)
 
 	def onMulliganInput(self, player, cards):
-		assert self.status == self.STATUS_MULLIGAN
 		assert player.canMulligan
 		logging.info("Received mulligan input from %r: %r" % (player, cards))
 		drawn = player.draw(len(cards), hold=True)
@@ -124,7 +117,6 @@ class Game(Entity):
 
 	def beginMulligan(self):
 		logging.info("Entering mulligan phase")
-		self.status = self.STATUS_MULLIGAN
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
 		self.player2.addToHand(Card(THE_COIN))
 		self.broadcast("onTurnBegin", self.player1)
@@ -143,7 +135,6 @@ class Game(Entity):
 				card.destroy()
 
 	def onTurnBegin(self, player):
-		self.status = self.STATUS_TURN
 		self.turn += 1
 		logging.info("%s begins turn %i" % (player, self.turn))
 		if self.turn == self.MAX_TURNS:
@@ -157,6 +148,3 @@ class Game(Entity):
 		logging.info("%s ends turn" % (self.currentPlayer))
 		self.broadcast("onTurnEnd", self.currentPlayer)
 		self.broadcast("onTurnBegin", self.currentPlayer.opponent)
-
-	def onTurnEnd(self, player):
-		self.status = self.STATUS_END_TURN
