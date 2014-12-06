@@ -4,7 +4,7 @@ python:
   - 3.4
 script:
   - cd tests
-  - python main.py
+  - python test_main.py
 notifications:
   email:
     on_failure: always
