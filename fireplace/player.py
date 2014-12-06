@@ -130,6 +130,7 @@ class Player(Entity):
 	overloaded = _TAG(GameTag.RECALL_OWED, 0)
 	tempMana = _TAG(GameTag.TEMP_RESOURCES, 0)
 	usedMana = _TAG(GameTag.RESOURCES_USED, 0)
+	cardsPlayedThisTurn = _TAG(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
 
 	@property
 	def maxMana(self):
@@ -179,12 +180,10 @@ class Player(Entity):
 			logging.info("%s is overloaded for %i mana" % (self, self.overloaded))
 		self.summon(card)
 		# Card must already be on the field for action()
-		if self.combo:
-			card.action(target, combo=self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN])
-		else:
-			card.action(target, combo=None)
+		card.action(target)
+		if not self.combo:
 			self.combo = True
-		self.tags[GameTag.NUM_CARDS_PLAYED_THIS_TURN] += 1
+		self.cardsPlayedThisTurn += 1
 		self.game.broadcast("AFTER_CARD_PLAYED", self, card)
 
 	##

@@ -643,6 +643,22 @@ def test_mind_vision():
 	assert game.currentPlayer.hand[-1] == drawn[0]
 
 
+def test_defias():
+	game = prepare_game()
+
+	defias1 = game.currentPlayer.give("EX1_131")
+	defias1.play()
+	assert len(game.currentPlayer.field) == 1
+
+	game.endTurn()
+
+	# Coin-defias
+	game.currentPlayer.getById("GAME_005").play()
+	defias2 = game.currentPlayer.give("EX1_131")
+	defias2.play()
+	assert len(game.currentPlayer.field) == 2
+
+
 def test_doomsayer():
 	game = prepare_game()
 
@@ -980,6 +996,7 @@ def main():
 	test_mind_vision()
 	test_wild_pyromancer()
 	test_demolisher()
+	test_defias()
 	test_doomsayer()
 	test_doomhammer()
 	test_stoneskin_gargoyle()
