@@ -330,6 +330,10 @@ class Character(Card):
 class Hero(Character):
 	armor = _TAG(GameTag.ARMOR, 0)
 
+	@property
+	def entities(self):
+		return chain([self, self.power], self.slots)
+
 	def SELF_DAMAGE(self, source, amount):
 		if self.armor:
 			newAmount = max(0, amount - self.armor)
@@ -538,7 +542,7 @@ class Weapon(Card):
 class HeroPower(Card):
 	def play(self, target=None):
 		logging.info("%s plays hero power %r" % (self.controller, self))
-		assert not self.exhausted
+		assert self.isPlayable()
 		self.controller.usedMana += self.cost
 		self.action(target)
 		self.exhausted = True
