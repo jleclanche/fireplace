@@ -12,6 +12,7 @@ class Player(Entity):
 
 	def __init__(self, name, deck):
 		self.name = name
+		super().__init__()
 		self.deck = deck
 		self.deck.hero.controller = self
 		self.hand = CardList()
