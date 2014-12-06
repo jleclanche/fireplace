@@ -115,7 +115,7 @@ class NEW1_025(Card):
 	def action(self):
 		weapon = self.controller.opponent.hero.weapon
 		if self.controller.opponent.hero.weapon:
-			weapon.loseDurability(1)
+			weapon.durability -= 1
 
 
 # Master Swordsmith

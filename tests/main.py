@@ -837,6 +837,13 @@ def test_upgrade():
 	assert game.currentPlayer.opponent.hero.health == 23
 	assert game.currentPlayer.hero.weapon.durability == 1
 
+	# test Bloodsail Corsair
+	game.endTurn()
+	corsair = game.currentPlayer.give("NEW1_025")
+	corsair.play()
+	assert axe.zone == Zone.GRAVEYARD
+	assert not game.currentPlayer.opponent.hero.weapon
+
 
 CHEAT_MIRROR_ENTITY = True
 def test_mctech():

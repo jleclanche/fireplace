@@ -266,7 +266,7 @@ class Character(Card):
 		logging.info("%r attacks %r" % (self, target))
 		self.hit(target, self.atk)
 		if self.weapon:
-			self.weapon.loseDurability()
+			self.weapon.durability -= 1
 		if target.atk:
 			target.hit(self, target.atk)
 		if self.stealthed:
@@ -517,16 +517,11 @@ class Aura(Card):
 class Weapon(Card):
 	@property
 	def durability(self):
-		return self.tags[GameTag.DURABILITY]
+		return self.tags.get(GameTag.DURABILITY, 0)
 
-	def gainDurability(self, amount=1):
-		self.tags[GameTag.DURABILITY] += 1
-		logging.info("%r gains %i durability (now at %i)" % (self, amount, self.durability))
-
-	def loseDurability(self, amount=1):
-		assert self.durability
-		self.tags[GameTag.DURABILITY] -= 1
-		logging.info("%r loses %i durability (now at %i)" % (self, amount, self.durability))
+	@durability.setter
+	def durability(self, value):
+		self.setTag(GameTag.DURABILITY, value)
 		if self.durability == 0:
 			self.destroy()
 
