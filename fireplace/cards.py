@@ -43,10 +43,12 @@ class Card(Entity):
 		self.buffs = []
 
 	def __str__(self):
+		if not hasattr(self, "data"):
+			return self.id
 		return self.data.name
 
 	def __repr__(self):
-		return "<%s (%r)>" % (self.__class__.__name__, self.data.name)
+		return "<%s (%r)>" % (self.__class__.__name__, self.__str__())
 
 	def __eq__(self, other):
 		if isinstance(other, Card):

@@ -11,7 +11,6 @@ class Player(Entity):
 	MAX_MANA = 10
 
 	def __init__(self, name, deck):
-		super().__init__()
 		self.name = name
 		self.deck = deck
 		self.deck.hero.controller = self
@@ -22,6 +21,7 @@ class Player(Entity):
 		self.fatigueCounter = 0
 		# set to False after the player has finished his mulligan
 		self.canMulligan = True
+		super().__init__()
 
 	def __str__(self):
 		return self.name
