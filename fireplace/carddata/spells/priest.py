@@ -3,6 +3,16 @@ from ..card import *
 from fireplace.enums import CardType
 
 
+# Power Word: Shield
+class CS2_004(Card):
+	def action(self, target):
+		target.buff("CS2_004e")
+		self.controller.draw()
+
+class CS2_004e(Card):
+	Health = 2
+
+
 # Holy Nova
 class CS1_112(Card):
 	def action(self):

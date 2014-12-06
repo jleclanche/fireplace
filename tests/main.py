@@ -378,6 +378,22 @@ def test_combo():
 	game.currentPlayer.give("EX1_134").play()
 
 
+def test_power_word_shield():
+	game = prepare_game()
+	wisp = game.currentPlayer.give("CS2_231")
+	wisp.play()
+	assert wisp.health == 1
+	assert len(game.currentPlayer.hand) == 4
+
+	pwshield = game.currentPlayer.give("CS2_004")
+	pwshield.play(target=wisp)
+	assert wisp.health == 3
+	assert len(game.currentPlayer.hand) == 5
+
+	wisp.silence()
+	assert wisp.health == 1
+
+
 def test_kill_command():
 	game = prepare_game(HUNTER, HUNTER)
 	game.endTurn(); game.endTurn()
@@ -948,6 +964,7 @@ def main():
 	test_charge()
 	test_stealth_windfury()
 	test_tags()
+	test_power_word_shield()
 	test_kill_command()
 	test_arcane_explosion()
 	test_power_overwhelming()
