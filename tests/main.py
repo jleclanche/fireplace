@@ -90,9 +90,8 @@ def test_freeze():
 	assert not flameimp.frozen
 
 
-def test_mage_priest():
-	game = prepare_game(MAGE, PRIEST)
-	# With this seed, Mage starts
+def test_mage():
+	game = prepare_game(MAGE, MAGE)
 	assert game.currentPlayer.hero.id is MAGE
 	game.endTurn(); game.endTurn()
 
@@ -103,27 +102,44 @@ def test_mage_priest():
 	game.currentPlayer.hero.power.play(target=game.currentPlayer.opponent.hero)
 	assert game.currentPlayer.hero.health == 30
 	assert game.currentPlayer.opponent.hero.health == 29
+	assert not game.currentPlayer.hero.power.isPlayable()
 
-	game.endTurn()
 
+def test_priest():
+	game = prepare_game(PRIEST, PRIEST)
+	assert game.currentPlayer.hero.id is PRIEST
+	game.endTurn(); game.endTurn()
 	# Heal self
-	assert game.currentPlayer.hero.health == 29
+	assert game.currentPlayer.hero.health == 30
 	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
 	assert game.currentPlayer.hero.health == 30
 
+	game.endTurn(); game.endTurn()
+	# moonfire self
+	moonfire = game.currentPlayer.give("CS2_008").play(target=game.currentPlayer.hero)
+	assert game.currentPlayer.hero.health == 29
+	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
+	assert game.currentPlayer.hero.health == 30
+	assert not game.currentPlayer.hero.power.isPlayable()
 
-def test_paladin_shaman():
-	game = prepare_game(PALADIN, SHAMAN)
-	# With this seed, Shaman starts
+
+def test_shaman():
+	game = prepare_game(SHAMAN, SHAMAN)
 	assert game.currentPlayer.hero.id is SHAMAN
 	game.endTurn(); game.endTurn()
 	assert len(game.currentPlayer.hero.power.data.entourage) == 4
 	game.currentPlayer.hero.power.play()
-	assert game.currentPlayer.field[0].id == "CS2_051"
-	game.endTurn()
+	assert game.currentPlayer.field[0].id in ("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
+
+
+def test_paladin():
+	game = prepare_game(PALADIN, PALADIN)
+	assert game.currentPlayer.hero.id is PALADIN
+	game.endTurn(); game.endTurn()
 	game.currentPlayer.hero.power.play()
+	assert len(game.board) == 1
+	assert len(game.currentPlayer.field) == 1
 	assert game.currentPlayer.field[0].id == "CS2_101t"
-	game.endTurn()
 
 
 def test_deathrattle():
@@ -965,8 +981,10 @@ def test_warlock():
 
 def main():
 	random.seed(12345)
-	test_mage_priest()
-	test_paladin_shaman()
+	test_mage()
+	test_paladin()
+	test_priest()
+	test_shaman()
 	test_lightspawn()
 	test_positioning()
 	test_deathrattle()
