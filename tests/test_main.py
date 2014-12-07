@@ -761,6 +761,15 @@ def test_mind_vision():
 	assert game.currentPlayer.hand[-1] == drawn[0]
 
 
+def test_mirror_image():
+	game = prepare_game()
+	mirror = game.currentPlayer.give("CS2_027")
+	mirror.play()
+	assert len(game.currentPlayer.field) == 2
+	assert game.currentPlayer.field[0].id == "CS2_mirror"
+	assert game.currentPlayer.field[1].id == "CS2_mirror"
+
+
 def test_defias():
 	game = prepare_game()
 

@@ -27,6 +27,13 @@ class CS2_026(Card):
 			target.frozen = True
 
 
+# Mirror Image
+class CS2_027(Card):
+	def action(self):
+		self.controller.summon("CS2_mirror")
+		self.controller.summon("CS2_mirror")
+
+
 # Blizzard
 class CS2_028(Card):
 	def action(self):
