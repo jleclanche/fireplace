@@ -699,8 +699,6 @@ def test_voidcaller():
 	assert voidcaller.zone == Zone.GRAVEYARD
 	assert doomguard.zone == Zone.PLAY
 	assert doomguard.canAttack()
-	print(game.currentPlayer.hand)
-	print(game.currentPlayer.field)
 	assert len(game.currentPlayer.hand) == 3
 
 
