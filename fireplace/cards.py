@@ -316,9 +316,11 @@ class Character(Card):
 		self.buffs = []
 		tags = (
 			GameTag.CANT_ATTACK,
+			GameTag.DIVINE_SHIELD,
 			GameTag.FROZEN,
 			GameTag.POISONOUS,
 			GameTag.STEALTH,
+			GameTag.TAUNT,
 			GameTag.WINDFURY,
 		)
 		for tag in tags:
