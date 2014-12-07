@@ -427,6 +427,29 @@ def test_kill_command():
 	assert game.currentPlayer.opponent.hero.health == 22
 
 
+def test_alarmobot():
+	game = prepare_game()
+	bot = game.currentPlayer.give("EX1_006")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	bot.play()
+	game.currentPlayer.discardHand()
+	wisp = game.currentPlayer.give("CS2_231")
+	assert bot.zone == Zone.PLAY
+	assert wisp.zone == Zone.HAND
+	game.endTurn(); game.endTurn()
+	assert bot.zone == Zone.HAND
+	assert wisp.zone == Zone.PLAY
+	assert len(game.currentPlayer.field) == 1
+
+	# bot should not trigger if hand has no minions
+	bot.play()
+	game.currentPlayer.discardHand()
+	game.endTurn(); game.endTurn()
+	assert bot.zone == Zone.PLAY
+	assert len(game.currentPlayer.field) == 2
+
+
 def test_doomhammer():
 	game = prepare_game()
 	doomhammer = game.currentPlayer.give("EX1_567")
@@ -997,6 +1020,7 @@ def main():
 	test_bounce()
 	test_end_turn_heal()
 	test_auras()
+	test_alarmobot()
 	test_divine_shield()
 	test_poisonous()
 	test_warlock()

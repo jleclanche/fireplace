@@ -20,6 +20,14 @@ class EX1_004e(Card):
 	Health = 1
 
 
+# Alarm-o-Bot
+class EX1_006(Card):
+	def OWN_TURN_BEGIN(self):
+		minions = self.controller.hand.filterByType(CardType.MINION)
+		if minions:
+			self.bounce()
+			self.controller.summon(random.choice(minions))
+
 # Ancient Watcher
 class EX1_045(Card):
 	cantAttack = True
