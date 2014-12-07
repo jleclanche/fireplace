@@ -42,7 +42,8 @@ class Player(Entity):
 			ret += entity.entities
 		for entity in self.secrets:
 			ret += entity.entities
-		return chain([self], list(self.hero.entities), ret)
+		# Note: Board receives TURN_BEGIN before player
+		return chain(list(self.hero.entities), ret, [self])
 
 	@property
 	def opponent(self):
