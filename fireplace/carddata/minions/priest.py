@@ -29,3 +29,13 @@ class EX1_623(Card):
 
 class EX1_623e(Card):
 	Health = 3
+
+
+# Dark Cultist
+class FP1_023(Card):
+	def deathrattle(self):
+		if self.controller.field:
+			random.choice(self.controller.field).buff("FP1_023e")
+
+class FP1_023e(Card):
+	Health = 3
