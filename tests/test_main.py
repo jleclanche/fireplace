@@ -471,6 +471,41 @@ def test_doomhammer():
 	assert not game.currentPlayer.hero.canAttack()
 	assert game.currentPlayer.hero.weapon.durability == 6
 
+
+def test_sword_of_justice():
+	game = prepare_game(PALADIN, PALADIN)
+	sword = game.currentPlayer.give("EX1_366")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	sword.play()
+	assert sword.durability == 5
+	wisp = game.currentPlayer.give("CS2_231")
+	wisp.play()
+	assert wisp.atk == 2
+	assert wisp.health == 2
+	assert wisp.buffs
+	assert sword.durability == 4
+	game.endTurn()
+
+	game.currentPlayer.give("CS2_231").play()
+	assert sword.durability == 4
+	game.endTurn()
+
+	game.currentPlayer.hero.power.play()
+	assert sword.durability == 3
+
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give("CS2_231").play()
+	assert not game.currentPlayer.hero.weapon
+	wisp2 = game.currentPlayer.give("CS2_231")
+	wisp2.play()
+	assert wisp2.health == 1
+	assert wisp2.atk == 1
+	assert not wisp2.buffs
+
+
 def test_end_turn_heal():
 	game = prepare_game()
 
@@ -1041,6 +1076,7 @@ def main():
 	test_defias()
 	test_doomsayer()
 	test_doomhammer()
+	test_sword_of_justice()
 	test_stoneskin_gargoyle()
 	test_illidan()
 	test_leeroy()
