@@ -26,6 +26,9 @@ class CardList(list):
 				return i
 		raise ValueError
 
+	def filterByTag(self, tag):
+		return [card for card in self if card.tags.get(tag)]
+
 	def filterByType(self, type):
 		return [card for card in self if card.type == type]
 

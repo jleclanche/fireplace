@@ -1,4 +1,4 @@
-from fireplace.enums import Race
+from fireplace.enums import GameTag, Race
 from ...card import *
 
 
@@ -210,6 +210,14 @@ class FP1_002(Card):
 	def deathrattle(self):
 		self.controller.summon("FP1_002t")
 		self.controller.summon("FP1_002t")
+
+
+# Mad Scientist
+class FP1_004(Card):
+	def deathrattle(self):
+		secrets = self.controller.deck.filterByTag(GameTag.SECRET)
+		if secrets:
+			self.controller.summon(random.choice(secrets))
 
 
 # Unstable Ghoul
