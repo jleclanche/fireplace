@@ -290,6 +290,33 @@ def test_divine_shield():
 	assert not squire.divineShield
 
 
+def test_silence():
+	game = prepare_game()
+	silence = game.currentPlayer.give("EX1_332")
+	thrallmar = game.currentPlayer.give("EX1_021")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	thrallmar.play()
+	assert thrallmar.windfury
+	silence.play(target=thrallmar)
+	assert not thrallmar.windfury
+
+
+def test_earth_shock():
+	game = prepare_game()
+	crusader = game.currentPlayer.give("EX1_020")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	crusader.play()
+	assert crusader.divineShield
+	game.endTurn()
+	earthshock = game.currentPlayer.give("EX1_245")
+	earthshock.play(target=crusader)
+	assert crusader.zone == Zone.GRAVEYARD
+
+
 def test_stealth_windfury():
 	game = prepare_game(MAGE, MAGE)
 	worgen = game.currentPlayer.give("EX1_010")

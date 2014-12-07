@@ -19,6 +19,7 @@ def discard(count):
 
 bounceTarget = lambda self, target: target.bounce()
 destroyTarget = lambda self, target: target.destroy()
+silenceTarget = lambda self, target: target.silence()
 
 
 def healTarget(amount):

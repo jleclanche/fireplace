@@ -46,6 +46,11 @@ class DS1_233(Card):
 	action = damageEnemyHero(5)
 
 
+# Silence
+class EX1_332(Card):
+	action = silenceTarget
+
+
 # Mindgames
 class EX1_345(Card):
 	def action(self):

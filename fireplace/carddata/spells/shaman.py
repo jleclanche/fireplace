@@ -89,6 +89,13 @@ class EX1_251(Card):
 			self.hit(target, 2)
 
 
+# Earth Shock
+class EX1_245(Card):
+	def action(self, target):
+		target.silence()
+		self.hit(target, 1)
+
+
 # Lightning Storm
 class EX1_259(Card):
 	overload = 2
