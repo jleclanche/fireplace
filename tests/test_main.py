@@ -6,6 +6,10 @@ import random
 from fireplace.heroes import *
 from fireplace.enums import *
 
+
+MOONFIRE = "CS2_008"
+WISP = "CS2_231"
+
 logging.getLogger().setLevel(logging.DEBUG)
 
 
@@ -23,11 +27,11 @@ def prepare_game(hero1=MAGE, hero2=WARRIOR):
 
 def test_positioning():
 	game = prepare_game()
-	wisp1 = game.currentPlayer.give("CS2_231")
+	wisp1 = game.currentPlayer.give(WISP)
 	wisp1.play()
-	wisp2 = game.currentPlayer.give("CS2_231")
+	wisp2 = game.currentPlayer.give(WISP)
 	wisp2.play()
-	wisp3 = game.currentPlayer.give("CS2_231")
+	wisp3 = game.currentPlayer.give(WISP)
 	wisp3.play()
 
 	assert wisp1.adjacentMinions == (None, wisp2)
@@ -36,7 +40,7 @@ def test_positioning():
 	game.endTurn(); game.endTurn()
 	flametongue = game.currentPlayer.give("EX1_565")
 	flametongue.play()
-	wisp4 = game.currentPlayer.give("CS2_231")
+	wisp4 = game.currentPlayer.give(WISP)
 	wisp4.play()
 	assert flametongue.aura
 	assert wisp3.buffs, wisp3.buffs
@@ -116,7 +120,7 @@ def test_priest():
 
 	game.endTurn(); game.endTurn()
 	# moonfire self
-	moonfire = game.currentPlayer.give("CS2_008").play(target=game.currentPlayer.hero)
+	moonfire = game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
 	assert game.currentPlayer.hero.health == 29
 	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
 	assert game.currentPlayer.hero.health == 30
@@ -177,9 +181,9 @@ def test_cult_master():
 	game = prepare_game()
 	cultmaster = game.currentPlayer.give("EX1_595")
 
-	wisp1 = game.currentPlayer.give("CS2_231")
+	wisp1 = game.currentPlayer.give(WISP)
 	wisp1.play()
-	wisp2 = game.currentPlayer.give("CS2_231")
+	wisp2 = game.currentPlayer.give(WISP)
 	wisp2.play()
 
 	game.endTurn(); game.endTurn()
@@ -188,15 +192,15 @@ def test_cult_master():
 
 	cultmaster.play()
 	assert len(game.currentPlayer.hand) == 7
-	game.currentPlayer.give("CS2_008").play(target=wisp1)
+	game.currentPlayer.give(MOONFIRE).play(target=wisp1)
 	assert len(game.currentPlayer.hand) == 8
 
 	# Make sure cult master doesn't draw off itself
-	game.currentPlayer.give("CS2_008").play(target=cultmaster)
-	game.currentPlayer.give("CS2_008").play(target=cultmaster)
+	game.currentPlayer.give(MOONFIRE).play(target=cultmaster)
+	game.currentPlayer.give(MOONFIRE).play(target=cultmaster)
 	assert len(game.currentPlayer.hand) == 8
 
-	game.currentPlayer.give("CS2_008").play(target=wisp2)
+	game.currentPlayer.give(MOONFIRE).play(target=wisp2)
 	assert len(game.currentPlayer.hand) == 8
 
 
@@ -239,7 +243,7 @@ def test_overload():
 
 def test_charge():
 	game = prepare_game()
-	wisp = game.currentPlayer.give("CS2_231")
+	wisp = game.currentPlayer.give(WISP)
 	wisp.play()
 	assert not wisp.charge
 	assert not wisp.canAttack()
@@ -392,9 +396,9 @@ def test_deathwing():
 	game = prepare_game()
 	deathwing = game.currentPlayer.give("NEW1_030")
 	# play some wisps
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
 
 	# fast-forward to turn 10
 	for i in range(9 * 2):
@@ -423,7 +427,7 @@ def test_combo():
 
 def test_power_word_shield():
 	game = prepare_game()
-	wisp = game.currentPlayer.give("CS2_231")
+	wisp = game.currentPlayer.give(WISP)
 	wisp.play()
 	assert wisp.health == 1
 	assert len(game.currentPlayer.hand) == 4
@@ -461,7 +465,7 @@ def test_alarmobot():
 	game.endTurn(); game.endTurn()
 	bot.play()
 	game.currentPlayer.discardHand()
-	wisp = game.currentPlayer.give("CS2_231")
+	wisp = game.currentPlayer.give(WISP)
 	assert bot.zone == Zone.PLAY
 	assert wisp.zone == Zone.HAND
 	game.endTurn(); game.endTurn()
@@ -507,7 +511,7 @@ def test_sword_of_justice():
 
 	sword.play()
 	assert sword.durability == 5
-	wisp = game.currentPlayer.give("CS2_231")
+	wisp = game.currentPlayer.give(WISP)
 	wisp.play()
 	assert wisp.atk == 2
 	assert wisp.health == 2
@@ -515,18 +519,18 @@ def test_sword_of_justice():
 	assert sword.durability == 4
 	game.endTurn()
 
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
 	assert sword.durability == 4
 	game.endTurn()
 
 	game.currentPlayer.hero.power.play()
 	assert sword.durability == 3
 
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
 	assert not game.currentPlayer.hero.weapon
-	wisp2 = game.currentPlayer.give("CS2_231")
+	wisp2 = game.currentPlayer.give(WISP)
 	wisp2.play()
 	assert wisp2.health == 1
 	assert wisp2.atk == 1
@@ -563,7 +567,7 @@ def test_cruel_taskmaster():
 	taskmaster2 = game.currentPlayer.give("EX1_603")
 	game.endTurn(); game.endTurn()
 
-	wisp = game.currentPlayer.give("CS2_231")
+	wisp = game.currentPlayer.give(WISP)
 	wisp.play()
 	taskmaster1.play(target=wisp)
 	assert wisp.zone == Zone.GRAVEYARD
@@ -612,7 +616,7 @@ def test_imp_master():
 def test_auras():
 	game = prepare_game()
 
-	wisp1 = game.currentPlayer.give("CS2_231")
+	wisp1 = game.currentPlayer.give(WISP)
 	wisp1.play()
 	assert wisp1.atk == 1
 	game.endTurn()
@@ -630,7 +634,7 @@ def test_auras():
 	assert raidleader.atk == 2
 	assert wisp1.atk == 1
 	assert webspinner.atk == 2
-	wisp2 = game.currentPlayer.give("CS2_231")
+	wisp2 = game.currentPlayer.give(WISP)
 	wisp2.play()
 	assert webspinner.atk == 2
 
@@ -647,7 +651,7 @@ def test_auras():
 
 def test_bounce():
 	game = prepare_game()
-	wisp = game.currentPlayer.give("CS2_231")
+	wisp = game.currentPlayer.give(WISP)
 	wisp.play()
 	assert game.currentPlayer.field == [wisp]
 	game.endTurn(); game.endTurn()
@@ -662,7 +666,7 @@ def test_bounce():
 
 	# test for damage reset on bounce
 	brewmaster2 = game.currentPlayer.give("EX1_049")
-	moonfire = game.currentPlayer.give("CS2_008")
+	moonfire = game.currentPlayer.give(MOONFIRE)
 	moonfire.play(target=brewmaster)
 	assert brewmaster.health == 1
 	brewmaster2.play(target=brewmaster)
@@ -682,9 +686,9 @@ def test_bounce():
 def test_arcane_explosion():
 	game = prepare_game(MAGE, MAGE)
 	# play some wisps
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
 	game.endTurn()
 
 	arcanex = game.currentPlayer.give("CS2_025")
@@ -696,7 +700,7 @@ def test_arcane_explosion():
 def test_power_overwhelming():
 	game = prepare_game()
 	power = game.currentPlayer.give("EX1_316")
-	wisp = game.currentPlayer.give("CS2_231")
+	wisp = game.currentPlayer.give(WISP)
 	wisp.play()
 	power.play(target=wisp)
 	assert wisp.atk == 5
@@ -716,9 +720,9 @@ def test_voidcaller():
 
 	# give the player a Doomguard and a couple of wisps
 	doomguard = game.currentPlayer.give("EX1_310")
-	game.currentPlayer.give("CS2_231")
-	game.currentPlayer.give("CS2_231")
-	game.currentPlayer.give("CS2_231")
+	game.currentPlayer.give(WISP)
+	game.currentPlayer.give(WISP)
+	game.currentPlayer.give(WISP)
 	assert len(game.currentPlayer.hand) == 4
 
 	# sacrificial pact on the voidcaller, should summon the Doomguard w/o discards
@@ -790,12 +794,12 @@ def test_doomsayer():
 	game = prepare_game()
 
 	# play some wisps
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
 
 	game.endTurn();
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
 
 	assert len(game.board) == 4
 	doomsayer = game.currentPlayer.give("NEW1_021")
@@ -813,9 +817,9 @@ def test_gadgetzan_auctioneer():
 
 	game.currentPlayer.summon("EX1_095")
 	assert len(game.currentPlayer.hand) == 4
-	game.currentPlayer.give("CS2_008").play(target=game.currentPlayer.opponent.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.opponent.hero)
 	assert len(game.currentPlayer.hand) == 5
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
 	assert len(game.currentPlayer.hand) == 5
 
 
@@ -830,17 +834,17 @@ def test_illidan():
 	assert len(game.board) == 0
 	illidan.play()
 	assert len(game.board) == 1
-	game.currentPlayer.give("CS2_008").play(target=illidan)
+	game.currentPlayer.give(MOONFIRE).play(target=illidan)
 	assert len(game.board) == 2
-	game.currentPlayer.give("CS2_008").play(target=illidan)
+	game.currentPlayer.give(MOONFIRE).play(target=illidan)
 	assert len(game.board) == 3
-	game.currentPlayer.give("CS2_008").play(target=illidan)
+	game.currentPlayer.give(MOONFIRE).play(target=illidan)
 	assert len(game.board) == 4
-	game.currentPlayer.give("CS2_008").play(target=illidan)
+	game.currentPlayer.give(MOONFIRE).play(target=illidan)
 	assert len(game.board) == 5
 
 	# 5th moonfire kills illidan, but spawns another token before
-	game.currentPlayer.give("CS2_008").play(target=illidan)
+	game.currentPlayer.give(MOONFIRE).play(target=illidan)
 	assert len(game.board) == 5
 	assert illidan.zone == Zone.GRAVEYARD
 
@@ -889,7 +893,7 @@ def test_lightspawn():
 
 def test_wild_pyromancer():
 	game = prepare_game()
-	wisp = game.currentPlayer.give("CS2_231")
+	wisp = game.currentPlayer.give(WISP)
 	wisp.play()
 
 	game.endTurn(); game.endTurn()
@@ -900,7 +904,7 @@ def test_wild_pyromancer():
 	assert wisp.zone == Zone.PLAY
 
 	# play moonfire. wisp should die.
-	game.currentPlayer.give("CS2_008").play(target=game.currentPlayer.opponent.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.opponent.hero)
 	assert wisp.zone == Zone.GRAVEYARD
 	assert pyro.health == 1
 
@@ -946,8 +950,8 @@ def test_poisonous():
 def test_cleave():
 	game = prepare_game()
 	# play some wisps
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
 	game.endTurn()
 
 	# Play the coin
@@ -960,7 +964,7 @@ def test_cleave():
 	assert len(game.currentPlayer.opponent.field) == 0
 
 	# play another wisp
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
 
 	game.endTurn()
 	cleave2 = game.currentPlayer.give("CS2_114")
@@ -1005,9 +1009,9 @@ def test_mctech():
 	game.endTurn(); game.endTurn()
 	game.endTurn()
 	# play some wisps
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
-	game.currentPlayer.give("CS2_231").play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
 	# coin mirror entity
 	game.currentPlayer.getById("GAME_005").play()
 	if CHEAT_MIRROR_ENTITY:
@@ -1054,7 +1058,7 @@ def test_stoneskin_gargoyle():
 	gargoyle.play()
 	assert gargoyle.health == 4
 	# damage the gargoyle by 1
-	game.currentPlayer.give("CS2_008").play(target=gargoyle)
+	game.currentPlayer.give(MOONFIRE).play(target=gargoyle)
 	assert gargoyle.health == 3
 	game.endTurn(); game.endTurn()
 	assert gargoyle.health == 4
@@ -1064,7 +1068,7 @@ def test_stoneskin_gargoyle():
 	# soulpriest.play()
 	# game.endTurn(); game.endTurn()
 	# assert gargoyle.health == 4
-	# game.currentPlayer.give("CS2_008").play(target=gargoyle)
+	# game.currentPlayer.give(MOONFIRE).play(target=gargoyle)
 	# assert gargoyle.health == 3
 	# game.endTurn(); game.endTurn()
 	# assert gargoyle.health == 2
