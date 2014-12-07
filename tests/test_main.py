@@ -808,6 +808,17 @@ def test_doomsayer():
 	assert len(game.board) == 0
 
 
+def test_gadgetzan_auctioneer():
+	game = prepare_game()
+
+	game.currentPlayer.summon("EX1_095")
+	assert len(game.currentPlayer.hand) == 4
+	game.currentPlayer.give("CS2_008").play(target=game.currentPlayer.opponent.hero)
+	assert len(game.currentPlayer.hand) == 5
+	game.currentPlayer.give("CS2_231").play()
+	assert len(game.currentPlayer.hand) == 5
+
+
 def test_illidan():
 	game = prepare_game()
 	illidan = game.currentPlayer.give("EX1_614")

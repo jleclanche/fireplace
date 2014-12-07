@@ -28,6 +28,7 @@ class EX1_006(Card):
 			self.bounce()
 			self.controller.summon(random.choice(minions))
 
+
 # Ancient Watcher
 class EX1_045(Card):
 	cantAttack = True
@@ -63,6 +64,13 @@ class EX1_093e(Card):
 	Atk = 1
 	Health = 1
 	taunt = True
+
+
+# Gadgetzan Auctioneer
+class EX1_095(Card):
+	def OWN_CARD_PLAYED(self, card):
+		if card.type == CardType.SPELL:
+			self.controller.draw()
 
 
 # Abomination
