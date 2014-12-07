@@ -87,3 +87,28 @@ class NEW1_030(Card):
 			if target is not self:
 				target.destroy()
 		self.controller.discardHand()
+
+
+# Elite Tauren Chieftain
+class PRO_001(Card):
+	def action(self):
+		self.controller.give(random.choice(self.data.entourage))
+		self.controller.opponent.give(random.choice(self.data.entourage))
+
+# I Am Murloc
+class PRO_001a(Card):
+	def action(self):
+		for i in range(random.choice((3, 4, 5))):
+			self.controller.summon("PRO_001at")
+
+# Rogues Do It...
+class PRO_001b(Card):
+	def action(self, target):
+		target.damage(4)
+		self.controller.draw()
+
+
+# Power of the Horde
+class PRO_001c(Card):
+	def action(self):
+		self.controller.summon(random.choice(self.data.entourage))
