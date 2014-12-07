@@ -530,6 +530,25 @@ def test_end_turn_heal():
 	assert footman.health == 2
 
 
+def test_cruel_taskmaster():
+	game = prepare_game()
+	taskmaster1 = game.currentPlayer.give("EX1_603")
+	taskmaster2 = game.currentPlayer.give("EX1_603")
+	game.endTurn(); game.endTurn()
+
+	wisp = game.currentPlayer.give("CS2_231")
+	wisp.play()
+	taskmaster1.play(target=wisp)
+	assert wisp.zone == Zone.GRAVEYARD
+	game.endTurn(); game.endTurn()
+
+	assert taskmaster1.health == 2
+	assert taskmaster1.atk == 2
+	taskmaster2.play(target=taskmaster1)
+	assert taskmaster1.health == 1
+	assert taskmaster1.atk == 4
+
+
 def test_demolisher():
 	game = prepare_game()
 
@@ -1072,6 +1091,7 @@ def main():
 	test_mindgames()
 	test_mind_vision()
 	test_wild_pyromancer()
+	test_cruel_taskmaster()
 	test_demolisher()
 	test_defias()
 	test_doomsayer()
