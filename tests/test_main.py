@@ -774,6 +774,28 @@ def test_mirror_image():
 	assert game.currentPlayer.field[1].id == "CS2_mirror"
 
 
+def test_archmage_antonidas():
+	game = prepare_game()
+
+	antonidas = game.currentPlayer.give("EX1_559")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	antonidas.play()
+	game.currentPlayer.discardHand()
+	assert len(game.currentPlayer.hand) == 0
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.opponent.hero)
+	assert len(game.currentPlayer.hand) == 1
+	assert game.currentPlayer.hand[0].id == "CS2_029"
+	game.currentPlayer.give("GAME_005").play()
+	assert len(game.currentPlayer.hand) == 2
+	assert game.currentPlayer.hand[1].id == "CS2_029"
+
+
 def test_defias():
 	game = prepare_game()
 
