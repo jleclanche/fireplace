@@ -823,6 +823,26 @@ def test_gadgetzan_auctioneer():
 	assert len(game.currentPlayer.hand) == 5
 
 
+def test_hogger():
+	game = prepare_game()
+	hogger = game.currentPlayer.give("NEW1_040")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	hogger.play()
+	assert len(game.currentPlayer.field) == 1
+	game.endTurn()
+	assert len(game.currentPlayer.opponent.field) == 2
+	assert game.currentPlayer.opponent.field[1].id == "NEW1_040t"
+	game.endTurn()
+	assert len(game.currentPlayer.field) == 2
+	game.endTurn()
+	assert len(game.currentPlayer.opponent.field) == 3
+
+
 def test_illidan():
 	game = prepare_game()
 	illidan = game.currentPlayer.give("EX1_614")

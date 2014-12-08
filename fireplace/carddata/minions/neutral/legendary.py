@@ -89,6 +89,11 @@ class NEW1_030(Card):
 		self.controller.discardHand()
 
 
+# Hogger
+class NEW1_040(Card):
+	OWN_TURN_END = summonMinion("NEW1_040t")
+
+
 # Elite Tauren Chieftain
 class PRO_001(Card):
 	def action(self):
