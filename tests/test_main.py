@@ -92,6 +92,14 @@ def test_freeze():
 	assert not flameimp.canAttack()
 	game.endTurn()
 	assert not flameimp.frozen
+	game.endTurn()
+
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	wisp.frozen = True
+	assert wisp.frozen
+	game.endTurn()
+	assert not wisp.frozen
 
 
 def test_mage():
