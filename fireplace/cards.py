@@ -242,17 +242,17 @@ class Character(Card):
 
 	race = _TAG(GameTag.CARDRACE, Race.INVALID)
 	frozen = _TAG(GameTag.FROZEN, False)
+	numAttacks = _TAG(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 	poisonous = _TAG(GameTag.POISONOUS, False)
 	stealthed = _TAG(GameTag.STEALTH, False)
 
 	def canAttack(self):
 		if self.tags.get(GameTag.CANT_ATTACK, False):
 			return False
-		numAttacks = self.tags.get(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 		if self.windfury:
-			if numAttacks >= 2:
+			if self.numAttacks >= 2:
 				return False
-		elif numAttacks >= 1:
+		elif self.numAttacks >= 1:
 			return False
 		if self.atk == 0:
 			return False
@@ -271,9 +271,7 @@ class Character(Card):
 			target.hit(self, target.atk)
 		if self.stealthed:
 			self.stealthed = False
-		if GameTag.NUM_ATTACKS_THIS_TURN not in self.tags:
-			self.tags[GameTag.NUM_ATTACKS_THIS_TURN] = 0
-		self.tags[GameTag.NUM_ATTACKS_THIS_TURN] += 1
+		self.numAttacks += 1
 
 	@property
 	def damage(self):
@@ -292,11 +290,11 @@ class Character(Card):
 		self.setTag(GameTag.DAMAGE, amount)
 
 	def OWN_TURN_BEGIN(self):
-		self.setTag(GameTag.NUM_ATTACKS_THIS_TURN, 0)
+		self.numAttacks = 0
 		super().OWN_TURN_BEGIN()
 
 	def OWN_TURN_END(self):
-		if self.frozen and not self.tags[GameTag.NUM_ATTACKS_THIS_TURN]:
+		if self.frozen and not self.numAttacks:
 			self.frozen = False
 
 	def SELF_DAMAGE(self, source, amount):
