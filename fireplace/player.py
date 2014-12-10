@@ -94,17 +94,7 @@ class Player(Entity):
 		for card in self.hand[::-1]:
 			card.discard()
 
-	def insertToHand(self, card, pos):
-		# Same as addToHand but inserts (usually in place of a None)
-		# used for mulligan
-		logging.debug("%s: Inserting %r to hand" % (self, card))
-		card.controller = self
-		del self.hand[pos]
-		self.hand.insert(card, pos)
-		card.zone = Zone.HAND
-		return card
-
-	def draw(self, count=1, hold=False):
+	def draw(self, count=1):
 		drawn = []
 		while count:
 			count -= 1
@@ -115,8 +105,7 @@ class Player(Entity):
 			if len(self.hand) >= self.MAX_HAND:
 				logging.info("%s overdraws and loses %r!" % (self, card))
 				continue
-			if not hold:
-				self.addToHand(card)
+			self.addToHand(card)
 			drawn.append(card)
 		logging.info("%s draws: %r" % (self, drawn))
 		return drawn

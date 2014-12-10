@@ -108,15 +108,6 @@ class Game(Entity):
 		self.beginMulligan()
 		self.player1.setTag(GameTag.FIRST_PLAYER, True)
 
-	def onMulliganInput(self, player, cards):
-		assert player.canMulligan
-		logging.info("Received mulligan input from %r: %r" % (player, cards))
-		drawn = player.draw(len(cards), hold=True)
-		for i, index in enumerate(cards):
-			player.placeCardInDeck(player.cards[card])
-			player.insertToHand(drawn[i], index)
-		player.canMulligan = False
-
 	def beginMulligan(self):
 		logging.info("Entering mulligan phase")
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
