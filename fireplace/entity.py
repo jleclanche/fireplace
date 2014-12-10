@@ -1,3 +1,5 @@
+import logging
+
 class Entity(object):
 	def __init__(self):
 		self.tags = {}
@@ -19,6 +21,7 @@ class Entity(object):
 			self.broadcast("UPDATE")
 
 	def setTag(self, tag, value):
+		logging.debug("%r::%r %r -> %r" % (self, tag, self.tags.get(tag, None), value))
 		self.tags[tag] = value
 
 	def unsetTag(self, tag):
