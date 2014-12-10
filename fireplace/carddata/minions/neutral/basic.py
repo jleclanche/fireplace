@@ -108,6 +108,11 @@ class DS1_055(Card):
 			self.heal(target, 2)
 
 
+# Acolyte of Pain
+class EX1_007(Card):
+	SELF_DAMAGE = drawCard
+
+
 # Shattered Sun Cleric
 class EX1_019(Card):
 	action = buffTarget("EX1_019e")

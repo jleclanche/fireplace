@@ -1,11 +1,11 @@
 import random
 
 
-drawCard = lambda self: self.controller.draw()
+drawCard = lambda self, *args: self.controller.draw()
 
 
 def drawCards(amount):
-	return lambda self: self.controller.draw(amount)
+	return lambda self, *args: self.controller.draw(amount)
 
 
 def discard(count):

@@ -1007,6 +1007,24 @@ def test_wild_pyromancer():
 	assert pyro.health == 1
 
 
+def test_acolyte_of_pain():
+	game = prepare_game()
+	acolyte = game.currentPlayer.give("EX1_007")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert len(game.currentPlayer.hand) == 7
+	acolyte.play()
+	assert len(game.currentPlayer.hand) == 6
+	game.currentPlayer.give(MOONFIRE).play(target=acolyte)
+	assert len(game.currentPlayer.hand) == 7
+	game.currentPlayer.give(MOONFIRE).play(target=acolyte)
+	assert len(game.currentPlayer.hand) == 8
+	game.currentPlayer.give(MOONFIRE).play(target=acolyte)
+	assert len(game.currentPlayer.hand) == 9
+	assert acolyte.zone == Zone.GRAVEYARD
+
+
 def test_poisonous():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()
