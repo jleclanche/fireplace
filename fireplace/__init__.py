@@ -153,7 +153,7 @@ class Game(Entity):
 		player.broadcast("OWN_TURN_END")
 
 	def DAMAGE(self, source, target, amount):
-		source.controller.broadcast("OWN_DAMAGE", source, target, amount)
+		target.controller.broadcast("OWN_DAMAGE", source, target, amount)
 
 	def HEAL(self, source, target, amount):
 		source.controller.broadcast("OWN_HEAL", source, target, amount)
