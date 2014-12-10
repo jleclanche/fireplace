@@ -263,6 +263,7 @@ class Character(Card):
 		return True
 
 	def attack(self, target):
+		assert target.zone == Zone.PLAY
 		logging.info("%r attacks %r" % (self, target))
 		self.hit(target, self.atk)
 		if self.weapon:
