@@ -967,6 +967,24 @@ def test_lightspawn():
 	assert lightspawn.atk == 4, lightspawn.atk
 
 
+def test_lightwell():
+	game = prepare_game()
+	lightwell = game.currentPlayer.give("EX1_341")
+
+	game.endTurn(); game.endTurn()
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.opponent.hero)
+	lightwell.play()
+	assert game.currentPlayer.hero.health == 29
+	assert game.currentPlayer.opponent.hero.health == 29
+	game.endTurn()
+	assert game.currentPlayer.opponent.hero.health == 29
+	assert game.currentPlayer.hero.health == 29
+	game.endTurn()
+	assert game.currentPlayer.hero.health == 30
+	assert game.currentPlayer.opponent.hero.health == 29
+
+
 def test_wild_pyromancer():
 	game = prepare_game()
 	wisp = game.currentPlayer.give(WISP)

@@ -1,3 +1,4 @@
+import random
 from ..card import *
 
 
@@ -21,6 +22,13 @@ class EX1_335(Card):
 			# Incidentally, this means that Lightspawn's GameTag.ATK can go negative.
 			# Tell me, Blizzard, is it really such a coincidence its base attack is 0?
 			self.atk = self.health - self.extraAtk
+
+
+# Lightwell
+class EX1_341(Card):
+	def OWN_TURN_BEGIN(self):
+		targets = [t for t in self.controller.getTargets(TARGET_FRIENDLY_CHARACTERS) if t.damage]
+		self.heal(random.choice(targets), 3)
 
 
 # Temple Enforcer
