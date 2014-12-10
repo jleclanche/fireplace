@@ -804,6 +804,32 @@ def test_archmage_antonidas():
 	assert game.currentPlayer.hand[1].id == "CS2_029"
 
 
+def test_armorsmith():
+	game = prepare_game()
+	game.endTurn(); game.endTurn()
+
+	armorsmith1 = game.currentPlayer.give("EX1_402")
+	armorsmith1.play()
+	game.endTurn()
+	armorsmith2 = game.currentPlayer.give("EX1_402")
+	armorsmith2.play()
+	game.endTurn()
+
+	assert not game.currentPlayer.hero.armor
+	armorsmith1.attack(target=armorsmith2)
+	assert game.currentPlayer.hero.armor == 1
+	assert game.currentPlayer.opponent.hero.armor == 1
+
+	game.endTurn()
+	game.currentPlayer.give("EX1_402").play()
+	game.currentPlayer.give(WISP).play()
+
+	# Whirlwind. 1 armor on each hero, 2 armorsmiths in play for current player, 1 for opponent.
+	game.currentPlayer.give("EX1_400").play()
+	assert game.currentPlayer.hero.armor == 7
+	assert game.currentPlayer.opponent.hero.armor == 2
+
+
 def test_defias():
 	game = prepare_game()
 
