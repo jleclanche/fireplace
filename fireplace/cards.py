@@ -281,11 +281,11 @@ class Character(Card):
 	def damage(self, amount):
 		amount = max(0, amount)
 		if amount < self.damage:
-			logging.info("%r healed for %i health (now at %i health)" % (self, self.damage - amount, self.health))
+			logging.info("%r healed for %i health" % (self, self.damage - amount))
 		elif amount == self.damage:
-			logging.info("%r receives a no-op health change (now at %i health)" % (self, self.health))
+			logging.info("%r receives a no-op health change" % (self))
 		else:
-			logging.info("%r damaged for %i health (now at %i health)" % (self, amount - self.damage, self.health))
+			logging.info("%r damaged for %i health" % (self, amount - self.damage))
 
 		self.setTag(GameTag.DAMAGE, amount)
 
