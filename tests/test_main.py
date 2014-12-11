@@ -830,6 +830,39 @@ def test_armorsmith():
 	assert game.currentPlayer.opponent.hero.armor == 2
 
 
+def test_blood_knight():
+	game = prepare_game()
+	bloodknight1 = game.currentPlayer.give("EX1_590")
+	bloodknight2 = game.currentPlayer.give("EX1_590")
+	bloodknight3 = game.currentPlayer.give("EX1_590")
+	game.endTurn(); game.endTurn()
+	game.endTurn()
+
+	squire = game.currentPlayer.give("EX1_008")
+	squire.play()
+	assert squire.divineShield
+	game.endTurn()
+	bloodknight1.play()
+	assert not squire.divineShield
+	assert bloodknight1.atk == 6
+	assert bloodknight1.health == 6
+	game.endTurn()
+	game.currentPlayer.give("EX1_008").play()
+	game.currentPlayer.give("EX1_008").play()
+	# Play an argent protector on the squire
+	game.currentPlayer.give("EX1_362").play(target=squire)
+	assert squire.divineShield
+	game.endTurn()
+	bloodknight2.play()
+	assert not squire.divineShield
+	assert bloodknight2.atk == 12
+	assert bloodknight2.health == 12
+	game.endTurn(); game.endTurn()
+	bloodknight3.play()
+	assert bloodknight3.atk == 3
+	assert bloodknight3.health == 3
+
+
 def test_defias():
 	game = prepare_game()
 

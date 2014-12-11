@@ -18,6 +18,19 @@ class EX1_507e(Card):
 		return target.race == Race.MURLOC and target is not self.source
 
 
+# Blood Knight
+class EX1_590(Card):
+	def action(self):
+		for target in self.game.board:
+			if target.divineShield:
+				target.divineShield = False
+				self.buff("EX1_590e")
+
+class EX1_590e(Card):
+	Atk = 3
+	Health = 3
+
+
 # Hungry Crab
 class NEW1_017(Card):
 	def action(self, target):
