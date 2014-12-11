@@ -41,6 +41,14 @@ class EX1_050(Card):
 		self.controller.opponent.draw(2)
 
 
+# Sunfury Protector
+class EX1_058(Card):
+	def action(self):
+		for minion in self.adjacentMinions:
+			if minion:
+				minion.taunt = True
+
+
 # Mind Control Tech
 class EX1_085(Card):
 	def action(self):

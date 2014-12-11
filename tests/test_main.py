@@ -1290,6 +1290,20 @@ def test_stoneskin_gargoyle():
 	# assert gargoyle.zone == Zone.GRAVEYARD
 
 
+def test_sunfury_protector():
+	game = prepare_game()
+	sunfury = game.currentPlayer.give("EX1_058")
+	game.endTurn(); game.endTurn()
+
+	wisp1 = game.currentPlayer.give(WISP)
+	wisp1.play()
+	wisp2 = game.currentPlayer.give(WISP)
+	wisp2.play()
+	sunfury.play()
+	assert not wisp1.taunt
+	assert wisp2.taunt
+
+
 def test_flare():
 	game = prepare_game(HUNTER, HUNTER)
 	flare = game.currentPlayer.give("EX1_544")
