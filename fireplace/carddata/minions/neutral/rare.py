@@ -99,6 +99,11 @@ class EX1_103e(Card):
 	Health = 2
 
 
+# Azure Drake
+class EX1_284(Card):
+	action = drawCard
+
+
 # Ancient Mage
 class EX1_584(Card):
 	def action(self):
@@ -139,6 +144,12 @@ class FP1_016(Card):
 	def action(self):
 		for target in self.controller.field:
 			target.silence()
+
+
+# Knife Juggler
+class NEW1_019(Card):
+	def OWN_MINION_SUMMONED(self, minion):
+		self.hit(random.choice(self.controller.getTargets(TARGET_ALL_ENEMY_CHARACTERS)), 1)
 
 
 # Wild Pyromancer
