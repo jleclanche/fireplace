@@ -9,6 +9,7 @@ from fireplace.enums import *
 
 MOONFIRE = "CS2_008"
 WISP = "CS2_231"
+THE_COIN = "GAME_005"
 
 logging.getLogger().setLevel(logging.DEBUG)
 
@@ -222,7 +223,7 @@ def test_mana():
 	game.endTurn()
 
 	# Play the coin
-	coin = game.currentPlayer.getById("GAME_005")
+	coin = game.currentPlayer.getById(THE_COIN)
 	coin.play()
 	assert game.currentPlayer.mana == 2
 	assert game.currentPlayer.tempMana == 1
@@ -263,7 +264,7 @@ def test_charge():
 	wisp.attack(game.currentPlayer.opponent.hero)
 	assert not wisp.canAttack()
 	game.endTurn()
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 	wolfrider = game.currentPlayer.give("CS2_124")
 	wolfrider.play()
 	assert wolfrider.charge
@@ -295,7 +296,7 @@ def test_divine_shield():
 	archer.play(target=squire)
 	assert len(game.currentPlayer.field) == 1
 	assert not squire.divineShield
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 	archer2 = game.currentPlayer.give("CS2_189")
 	archer2.play(target=squire)
 	assert len(game.currentPlayer.opponent.field) == 0
@@ -339,7 +340,7 @@ def test_stealth_windfury():
 
 	archer = game.currentPlayer.give("CS2_189")
 	assert len(archer.targets) == 2  # Only the heroes
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 	assert len(game.currentPlayer.hero.power.targets) == 2
 	game.endTurn()
 
@@ -421,7 +422,7 @@ def test_combo():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()
 	game.endTurn()
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 	# SI:7 with combo
 	assert game.currentPlayer.tags[GameTag.COMBO_ACTIVE]
 	game.currentPlayer.give("EX1_134").play(target=game.currentPlayer.hero)
@@ -647,7 +648,7 @@ def test_auras():
 	assert webspinner.atk == 2
 
 	# Test the timber wolf (beast-only) too
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 	timberwolf = game.currentPlayer.give("DS1_175")
 	timberwolf.play()
 	assert timberwolf.atk == 2 # 1 (+1 from RL)
@@ -768,7 +769,7 @@ def test_mind_vision():
 
 	# opponent draws a card, coin mind vision should get that one card
 	drawn = game.currentPlayer.opponent.draw()
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 	game.currentPlayer.give("CS2_003").play()
 	assert game.currentPlayer.hand[-1] == drawn[0]
 
@@ -799,7 +800,7 @@ def test_archmage_antonidas():
 	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.opponent.hero)
 	assert len(game.currentPlayer.hand) == 1
 	assert game.currentPlayer.hand[0].id == "CS2_029"
-	game.currentPlayer.give("GAME_005").play()
+	game.currentPlayer.give(THE_COIN).play()
 	assert len(game.currentPlayer.hand) == 2
 	assert game.currentPlayer.hand[1].id == "CS2_029"
 
@@ -873,7 +874,7 @@ def test_defias():
 	game.endTurn()
 
 	# Coin-defias
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 	defias2 = game.currentPlayer.give("EX1_131")
 	defias2.play()
 	assert len(game.currentPlayer.field) == 2
@@ -1062,7 +1063,7 @@ def test_poisonous():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()
 	game.endTurn()
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 	cobra = game.currentPlayer.give("EX1_170")
 	cobra.play()
 	assert cobra.poisonous
@@ -1100,7 +1101,7 @@ def test_cleave():
 	game.endTurn()
 
 	# Play the coin
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 
 	cleave = game.currentPlayer.give("CS2_114")
 	assert cleave.data.minTargets == 2, cleave.data.minTargets
@@ -1158,7 +1159,7 @@ def test_mctech():
 	game.currentPlayer.give(WISP).play()
 	game.currentPlayer.give(WISP).play()
 	# coin mirror entity
-	game.currentPlayer.getById("GAME_005").play()
+	game.currentPlayer.getById(THE_COIN).play()
 	if CHEAT_MIRROR_ENTITY:
 		# TODO secrets
 		game.currentPlayer.give("EX1_294").play()
