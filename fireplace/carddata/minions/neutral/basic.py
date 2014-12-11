@@ -16,6 +16,21 @@ class CS2_122e(Card):
 		return target is not self.source
 
 
+# Frostwolf Warlord
+class CS2_226(Card):
+	def action(self):
+		for target in self.controller.field:
+			self.buff("CS2_226e")
+
+class CS2_226e(Card):
+	Atk = 1
+	Health = 1
+
+# RFG: Has +1/+1 for each other friendly minion on the battlefield.
+# class CS2_226o(Card):
+#	pass
+
+
 # Voodoo Doctor
 class EX1_011(Card):
 	action = healTarget(2)
@@ -30,6 +45,15 @@ class EX1_015(Card):
 class EX1_102(Card):
 	def OWN_TURN_BEGIN(self):
 		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 2)
+
+
+# Gurubashi Berserker
+class EX1_399(Card):
+	def SELF_DAMAGE(self, amount, source):
+		self.buff("EX1_399e")
+
+class EX1_399e(Card):
+	Atk = 3
 
 
 # Nightblade
@@ -253,3 +277,12 @@ class FP1_028e(Card):
 class FP1_029(Card):
 	def deathrattle(self):
 		self.controller.opponent.draw()
+
+
+# Flesheating Ghoul
+class tt_004(Card):
+	def MINION_DESTROYED(self):
+		self.buff("tt_004o")
+
+class tt_004o(Card):
+	Atk = 1
