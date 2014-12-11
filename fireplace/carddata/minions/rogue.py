@@ -12,6 +12,17 @@ class EX1_134(Card):
 	combo = damageTarget(2)
 
 
+# Edwin VanCleef
+class EX1_613(Card):
+	def combo(self):
+		for i in range(self.controller.cardsPlayedThisTurn):
+			self.buff("EX1_613e")
+
+class EX1_613e(Card):
+	Atk = 2
+	Health = 2
+
+
 # Anub'ar Ambusher
 class FP1_026(Card):
 	def deathrattle(self):

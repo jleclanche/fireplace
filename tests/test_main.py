@@ -1019,6 +1019,27 @@ def test_lightwell():
 	assert game.currentPlayer.opponent.hero.health == 29
 
 
+def test_vancleef():
+	game = prepare_game()
+	vancleef1 = game.currentPlayer.give("EX1_613")
+	vancleef2 = game.currentPlayer.give("EX1_613")
+	game.endTurn(); game.endTurn()
+
+	game.currentPlayer.give(THE_COIN).play()
+	game.currentPlayer.give(THE_COIN).play()
+	game.currentPlayer.give(THE_COIN).play()
+	game.currentPlayer.give(THE_COIN).play()
+	game.currentPlayer.give(THE_COIN).play()
+	vancleef1.play()
+	assert vancleef1.atk == 12
+	assert vancleef1.health == 12
+	game.endTurn(); game.endTurn()
+
+	vancleef2.play()
+	assert vancleef2.atk == 2
+	assert vancleef2.health == 2
+
+
 def test_wild_pyromancer():
 	game = prepare_game()
 	wisp = game.currentPlayer.give(WISP)
