@@ -742,6 +742,28 @@ def test_voidcaller():
 	assert len(game.currentPlayer.hand) == 3
 
 
+def test_mana_addict():
+	game = prepare_game()
+	manaaddict = game.currentPlayer.give("EX1_055")
+	game.endTurn(); game.endTurn()
+
+	manaaddict.play()
+	assert manaaddict.atk == 1
+	game.endTurn()
+
+	assert manaaddict.atk == 1
+	game.currentPlayer.give(THE_COIN).play()
+	assert manaaddict.atk == 1
+	game.endTurn()
+
+	game.currentPlayer.give(THE_COIN).play()
+	assert manaaddict.atk == 3
+	game.currentPlayer.give(THE_COIN).play()
+	assert manaaddict.atk == 5
+	game.endTurn()
+	assert manaaddict.atk == 1
+
+
 def test_mindgames():
 	game = prepare_game(PRIEST, PRIEST)
 	mindgames = game.currentPlayer.give("EX1_345")

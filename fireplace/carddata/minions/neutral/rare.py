@@ -41,6 +41,16 @@ class EX1_050(Card):
 		self.controller.opponent.draw(2)
 
 
+# Mana Addict
+class EX1_055(Card):
+	def OWN_CARD_PLAYED(self, card):
+		if card.type == CardType.SPELL:
+			self.buff("EX1_055o")
+
+class EX1_055o(Card):
+	Atk = 2
+
+
 # Sunfury Protector
 class EX1_058(Card):
 	def action(self):
