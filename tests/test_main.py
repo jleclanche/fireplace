@@ -1019,6 +1019,28 @@ def test_lightwell():
 	assert game.currentPlayer.opponent.hero.health == 29
 
 
+def test_ragnaros():
+	game = prepare_game()
+	ragnaros = game.currentPlayer.give("EX1_298")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	ragnaros.play()
+	assert not ragnaros.canAttack()
+	assert game.currentPlayer.opponent.hero.health == 30
+	game.endTurn()
+
+	assert game.currentPlayer.hero.health == 22
+	game.endTurn()
+
+	assert game.currentPlayer.opponent.hero.health == 22
+	assert not ragnaros.canAttack()
+
+
 def test_undertaker():
 	game = prepare_game()
 	undertaker = game.currentPlayer.give("FP1_028")

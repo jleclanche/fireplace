@@ -42,7 +42,7 @@ class EX1_249(Card):
 # Ragnaros the Firelord
 class EX1_298(Card):
 	cantAttack = True
-	def TURN_END(self, player):
+	def OWN_TURN_END(self):
 		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 8)
 
 
