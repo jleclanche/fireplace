@@ -71,6 +71,17 @@ class EX1_316e(Card):
 		self.owner.destroy()
 
 
+# Sense Demons
+class EX1_317(Card):
+	def action(self):
+		for i in range(2):
+			demons = self.controller.deck.filterByRace(Race.DEMON)
+			if demons:
+				self.controller.addToHand(random.choice(demons))
+			else:
+				self.controller.give("EX1_317t")
+
+
 # Bane of Doom
 class EX1_320(Card):
 	def action(self, target):

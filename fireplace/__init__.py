@@ -7,10 +7,10 @@ from .entity import Entity
 from .enums import CardType, GameTag, Zone
 from .exceptions import *
 from .player import Player
-from .utils import _TAG
+from .utils import _TAG, CardList
 
 
-class Deck(object):
+class Deck(CardList):
 	MAX_CARDS = 30
 	MAX_UNIQUE_CARDS = 2
 	MAX_UNIQUE_LEGENDARIES = 1
@@ -32,24 +32,24 @@ class Deck(object):
 		return Deck([Card(card) for card in deck], hero=heroCard)
 
 	def __init__(self, cards, hero, name=None):
-		self.cards = cards
+		super().__init__(cards)
 		self.hero = hero
 		if name is None:
 			name = "Custom %s" % (hero)
 		self.name = name
+		for card in cards:
+			# Don't use .zone directly as it would double-fill the deck
+			card.tags[GameTag.ZONE] = Zone.DECK
 
 	def __str__(self):
 		return self.name
 
 	def __repr__(self):
-		return "<%s (%i cards)>" % (self.hero, len(self.cards))
-
-	def __iter__(self):
-		return self.cards.__iter__()
+		return "<%s (%i cards)>" % (self.hero, len(self))
 
 	def shuffle(self):
 		logging.info("Shuffling %r..." % (self))
-		random.shuffle(self.cards)
+		random.shuffle(self)
 
 
 class Game(Entity):
@@ -96,15 +96,14 @@ class Game(Entity):
 
 	def start(self):
 		logging.info("Starting game: %r" % (self))
+		self.player1, self.player2 = self.tossCoin()
+		self.currentPlayer = self.player1
 		for player in self.players:
-			for card in player.deck:
-				card.controller = player
-				card.zone = Zone.DECK
 			player.summon(player.deck.hero)
 			player.deck.shuffle()
-			player.draw(3)
-		self.player1, self.player2 = self.tossCoin()
-		self.player2.draw()
+
+		self.player1.draw(3)
+		self.player2.draw(4)
 		self.beginMulligan()
 		self.player1.setTag(GameTag.FIRST_PLAYER, True)
 
@@ -122,12 +121,21 @@ class Game(Entity):
 	##
 	# Events
 
-	events = ["UPDATE", "TURN_BEGIN", "TURN_END", "DAMAGE", "HEAL", "CARD_DESTROYED", "MINION_DESTROYED"]
+	events = [
+		"UPDATE",
+		"CARD_DRAW",
+		"TURN_BEGIN", "TURN_END",
+		"DAMAGE", "HEAL",
+		"CARD_DESTROYED", "MINION_DESTROYED"
+	]
 
 	def UPDATE(self):
 		for card in self.board:
 			if card.health == 0:
 				card.destroy()
+
+	def CARD_DRAW(self, player, card):
+		player.broadcast("OWN_CARD_DRAW", card)
 
 	def TURN_BEGIN(self, player):
 		self.turn += 1

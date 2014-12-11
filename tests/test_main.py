@@ -752,7 +752,7 @@ def test_mindgames():
 	assert len(game.currentPlayer.field) == 0
 	mindgames.play()
 	assert len(game.currentPlayer.field) == 1
-	assert game.currentPlayer.field[0].id in game.currentPlayer.opponent.deck
+	assert game.currentPlayer.opponent.deck.contains(game.currentPlayer.field[0])
 
 
 def test_mind_vision():

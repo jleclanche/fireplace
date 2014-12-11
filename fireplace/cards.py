@@ -174,10 +174,14 @@ class Card(Entity):
 
 	def moveToZone(self, old, new):
 		logging.debug("%r moves from %r to %r" % (self, old, new))
-		if old == Zone.HAND:
-			self.controller.hand.remove(self)
-		if new == Zone.HAND:
-			self.controller.hand.append(self)
+		caches = {
+			Zone.HAND: self.controller.hand,
+			Zone.DECK: self.controller.deck,
+		}
+		if caches.get(old) is not None:
+			caches[old].remove(self)
+		if caches.get(new) is not None:
+			caches[new].append(self)
 
 	##
 	# Events

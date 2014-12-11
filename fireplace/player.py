@@ -14,6 +14,8 @@ class Player(Entity):
 	def __init__(self, name, deck):
 		self.name = name
 		self.deck = deck
+		for card in self.deck:
+			card.controller = self
 		self.deck.hero.controller = self
 		self.hand = CardList()
 		self.field = CardList()
@@ -54,7 +56,8 @@ class Player(Entity):
 	def give(self, id):
 		card = Card(id)
 		logging.debug("Giving %r to %s" % (card, self))
-		assert self.addToHand(card), "Hand is full!"
+		card.controller = self
+		card.zone = Zone.HAND
 		return card
 
 	def getTargets(self, t):
@@ -73,13 +76,6 @@ class Player(Entity):
 					ret += self.opponent.field
 		return ret
 
-	def addToHand(self, card):
-		if len(self.hand) >= self.MAX_HAND:
-			return
-		card.controller = self # Cards are not necessarily from the deck
-		card.zone = Zone.HAND
-		return card
-
 	def getById(self, id):
 		"Helper to get a card from the hand by its id"
 		for card in self.hand:
@@ -95,20 +91,20 @@ class Player(Entity):
 			card.discard()
 
 	def draw(self, count=1):
-		drawn = []
-		while count:
-			count -= 1
-			if not self.deck.cards:
-				self.fatigue()
-				continue
-			card = self.deck.cards.pop()
-			if len(self.hand) >= self.MAX_HAND:
-				logging.info("%s overdraws and loses %r!" % (self, card))
-				continue
-			self.addToHand(card)
-			drawn.append(card)
-		logging.info("%s draws: %r" % (self, drawn))
-		return drawn
+		if count == 1:
+			if not self.deck:
+				card = None
+			else:
+				card = self.deck[-1]
+			self.game.broadcast("CARD_DRAW", self, card)
+			logging.info("%s draws %r" % (self, card))
+			return [card]
+		else:
+			ret = []
+			while count:
+				ret.append(self.draw())
+				count -= 1
+			return ret
 
 	def fatigue(self):
 		self.fatigueCounter += 1
@@ -181,6 +177,7 @@ class Player(Entity):
 
 	events = [
 		"OWN_TURN_BEGIN", "TURN_END",
+		"OWN_CARD_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
 		"CARD_PLAYED", "AFTER_CARD_PLAYED",
 		"MINION_SUMMONED",
@@ -198,6 +195,16 @@ class Player(Entity):
 	def TURN_END(self, *args):
 		if self.tempMana:
 			self.tempMana = 0
+
+	def OWN_CARD_DRAW(self, card):
+		if not card:
+			self.fatigue()
+
+		if len(self.hand) > self.MAX_HAND:
+			logging.info("%s overdraws and loses %r!" % (self, card))
+			card.destroy()
+		else:
+			card.zone = Zone.HAND
 
 	def OWN_DAMAGE(self, source, target, amount):
 		target.broadcast("SELF_DAMAGE", source, amount)
