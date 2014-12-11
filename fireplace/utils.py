@@ -26,6 +26,13 @@ class CardList(list):
 				return i
 		raise ValueError
 
+	def remove(self, x):
+		for i, item in enumerate(self):
+			if x is item:
+				del self[i]
+				return
+		raise ValueError
+
 	def filterByTag(self, tag):
 		return [card for card in self if card.tags.get(tag)]
 
