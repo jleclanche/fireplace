@@ -81,6 +81,7 @@ class Card(Entity):
 	cost = _TAG(GameTag.COST, 0)
 	controller = _TAG(GameTag.CONTROLLER, None)
 	exhausted = _TAG(GameTag.EXHAUSTED, False)
+	overload = _TAG(GameTag.RECALL, 0)
 	windfury = _TAG(GameTag.WINDFURY, False)
 	hasCombo = _TAG(GameTag.COMBO, False)
 

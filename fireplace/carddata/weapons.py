@@ -9,7 +9,7 @@ class EX1_133(Card):
 
 # Doomhammer
 class EX1_567(Card):
-	overload = 2
+	Recall = 2
 
 
 # Sword of Justice

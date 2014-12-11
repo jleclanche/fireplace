@@ -9,7 +9,6 @@ _path = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.path.pardir,
 class XMLCard(object):
 	_tags = {
 		"charge": GameTag.CHARGE,
-		"overload": GameTag.RECALL,
 		"windfury": GameTag.WINDFURY,
 		"oneTurnEffect": GameTag.OneTurnEffect,
 		"hasDeathrattle": GameTag.DEATH_RATTLE,
@@ -20,6 +19,7 @@ class XMLCard(object):
 		"Health": GameTag.HEALTH,
 		"Charge": GameTag.CHARGE,
 		"Durability": GameTag.DURABILITY,
+		"Recall": GameTag.RECALL,
 	}
 
 	cantAttack = False

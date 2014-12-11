@@ -161,9 +161,6 @@ class Player(Entity):
 			cost -= self.tempMana
 			self.tempMana = max(0, self.tempMana - card.cost)
 		self.usedMana += cost
-		if card.data.overload:
-			self.overloaded += card.data.overload
-			logging.info("%s is overloaded for %i mana" % (self, self.overloaded))
 		self.summon(card)
 		# Card must already be on the field for action()
 		card.action(target)
@@ -179,7 +176,7 @@ class Player(Entity):
 		"OWN_TURN_BEGIN", "TURN_END",
 		"OWN_CARD_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
-		"CARD_PLAYED", "AFTER_CARD_PLAYED",
+		"OWN_CARD_PLAYED", "CARD_PLAYED", "AFTER_CARD_PLAYED",
 		"MINION_SUMMONED",
 	]
 
@@ -205,6 +202,11 @@ class Player(Entity):
 			card.destroy()
 		else:
 			card.zone = Zone.HAND
+
+	def OWN_CARD_PLAYED(self, card):
+		if card.overload:
+			logging.info("%s is overloaded for %i mana" % (self, self.overloaded))
+			self.overloaded += card.overload
 
 	def OWN_DAMAGE(self, source, target, amount):
 		target.broadcast("SELF_DAMAGE", source, amount)

@@ -57,7 +57,7 @@ class EX1_238(Card):
 
 # Lava Burst
 class EX1_241(Card):
-	overload = 2
+	Recall = 2
 	action = damageTarget(5)
 
 
@@ -74,7 +74,7 @@ class EX1_244e(Card):
 
 
 class EX1_248(Card):
-	overload = 2
+	Recall = 2
 	def action(self):
 		self.owner.summon("EX1_tk11")
 		self.owner.summon("EX1_tk11")
@@ -82,7 +82,7 @@ class EX1_248(Card):
 
 # Forked Lightning
 class EX1_251(Card):
-	overload = 2
+	Recall = 2
 	def action(self):
 		targets = random.sample(self.controller.opponent.field, 2)
 		for target in targets:
@@ -98,7 +98,7 @@ class EX1_245(Card):
 
 # Lightning Storm
 class EX1_259(Card):
-	overload = 2
+	Recall = 2
 	def action(self):
 		for target in self.controller.opponent.field:
 			self.hit(target, random.choice((2, 3)))

@@ -16,12 +16,12 @@ class CS2_042(Card):
 
 # Dust Devil
 class EX1_243(Card):
-	overload = 2
+	Recall = 2
 
 
 # Earth Elemental
 class EX1_250(Card):
-	overload = 3
+	Recall = 3
 
 
 # Flametongue Totem
