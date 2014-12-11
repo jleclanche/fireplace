@@ -384,7 +384,7 @@ class Minion(Character):
 
 	def bounce(self):
 		logging.info("%r is bounced back to %s's hand" % (self, self.controller))
-		if not self.controller.addToHand(self):
+		if len(self.controller.hand) == self.controller.MAX_HAND:
 			logging.info("%s's hand is full and bounce fails" % (self.controller))
 			self.destroy()
 		else:
