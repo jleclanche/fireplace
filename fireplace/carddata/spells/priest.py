@@ -51,6 +51,14 @@ class EX1_332(Card):
 	action = silenceTarget
 
 
+# Thoughtsteal
+class EX1_339(Card):
+	def action(self):
+		deck = self.controller.opponent.deck
+		for card in random.sample(deck, min(len(deck), 2)):
+			self.controller.give(card.id)
+
+
 # Mindgames
 class EX1_345(Card):
 	def action(self):

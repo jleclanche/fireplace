@@ -47,6 +47,12 @@ class EX1_102(Card):
 		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 2)
 
 
+# Arathi Weaponsmith
+class EX1_398(Card):
+	def action(self):
+		self.controller.summon("EX1_398t")
+
+
 # Gurubashi Berserker
 class EX1_399(Card):
 	def SELF_DAMAGE(self, amount, source):
