@@ -111,7 +111,7 @@ class Game(Entity):
 	def beginMulligan(self):
 		logging.info("Entering mulligan phase")
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
-		self.player2.addToHand(Card(THE_COIN))
+		self.player2.give(THE_COIN)
 		self.broadcast("TURN_BEGIN", self.player1)
 
 	def endTurn(self):
