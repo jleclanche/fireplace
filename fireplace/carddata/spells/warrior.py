@@ -22,7 +22,7 @@ class CS2_104e(Card):
 
 
 # Heroic Strike
-class CS2_105e(Card):
+class CS2_105(Card):
 	action = buffSelf("CS2_105e")
 
 class CS2_105e(Card):

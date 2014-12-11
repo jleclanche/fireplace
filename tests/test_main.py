@@ -764,6 +764,24 @@ def test_mana_addict():
 	assert manaaddict.atk == 1
 
 
+def test_heroic_strike():
+	game = prepare_game()
+	strike = game.currentPlayer.give("CS2_105")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	assert game.currentPlayer.hero.atk == 0
+	strike.play()
+	assert game.currentPlayer.hero.atk == 4
+	game.endTurn()
+	assert game.currentPlayer.hero.atk == 0
+	game.endTurn()
+	assert game.currentPlayer.hero.atk == 0
+
+	game.currentPlayer.give("CS2_105").play()
+	game.currentPlayer.give("CS2_106").play()
+	assert game.currentPlayer.hero.atk == 7
+
+
 def test_mindgames():
 	game = prepare_game(PRIEST, PRIEST)
 	mindgames = game.currentPlayer.give("EX1_345")
