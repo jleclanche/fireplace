@@ -1063,6 +1063,27 @@ def test_ragnaros():
 	assert not ragnaros.canAttack()
 
 
+def test_unbound_elemental():
+	game = prepare_game()
+	unbound = game.currentPlayer.give("EX1_258")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	unbound.play()
+	assert unbound.atk == 2
+	assert unbound.health == 4
+	game.currentPlayer.give(THE_COIN).play()
+	assert unbound.atk == 2
+	assert unbound.health == 4
+	# Lightning Bolt should trigger it
+	game.currentPlayer.give("EX1_238").play(target=game.currentPlayer.opponent.hero)
+	assert unbound.atk == 3
+	assert unbound.health == 5
+	game.endTurn()
+	game.currentPlayer.give("EX1_238").play(target=game.currentPlayer.opponent.hero)
+	assert unbound.atk == 3
+	assert unbound.health == 5
+
+
 def test_undertaker():
 	game = prepare_game()
 	undertaker = game.currentPlayer.give("FP1_028")

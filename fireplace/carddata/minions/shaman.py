@@ -24,6 +24,17 @@ class EX1_250(Card):
 	Recall = 3
 
 
+# Unbound Elemental
+class EX1_258(Card):
+	def OWN_CARD_PLAYED(self, card):
+		if card.overload:
+			self.buff("EX1_258e")
+
+class EX1_258e(Card):
+	Atk = 1
+	Health = 1
+
+
 # Flametongue Totem
 class EX1_565(Card):
 	aura = "EX1_565o"
