@@ -1019,6 +1019,31 @@ def test_lightwell():
 	assert game.currentPlayer.opponent.hero.health == 29
 
 
+def test_undertaker():
+	game = prepare_game()
+	undertaker = game.currentPlayer.give("FP1_028")
+	undertaker.play()
+	game.currentPlayer.give(WISP).play()
+	assert not undertaker.buffs
+	assert undertaker.atk == 1
+	assert undertaker.health == 2
+	game.endTurn()
+
+	# Play a leper gnome, should not trigger undertaker
+	game.currentPlayer.give("EX1_029").play()
+	assert undertaker.atk == 1
+	assert undertaker.health == 2
+	game.endTurn()
+
+	game.currentPlayer.give("EX1_029").play()
+	assert undertaker.atk == 2
+	assert undertaker.health == 3
+
+	game.currentPlayer.give("EX1_029").play()
+	assert undertaker.atk == 3
+	assert undertaker.health == 4
+
+
 def test_vancleef():
 	game = prepare_game()
 	vancleef1 = game.currentPlayer.give("EX1_613")

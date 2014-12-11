@@ -238,6 +238,17 @@ class FP1_027(Card):
 		self.heal(self, self.damage)
 
 
+# Undertaker
+class FP1_028(Card):
+	def OWN_MINION_SUMMONED(self, minion):
+		if minion.hasDeathrattle:
+			self.buff("FP1_028e")
+
+class FP1_028e(Card):
+	Atk = 1
+	Health = 1
+
+
 # Dancing Swords
 class FP1_029(Card):
 	def deathrattle(self):
