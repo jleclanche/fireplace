@@ -1015,6 +1015,30 @@ def test_leeroy():
 	assert game.currentPlayer.opponent.field[0] == game.currentPlayer.opponent.field[1]
 
 
+def test_lorewalker_cho():
+	game = prepare_game()
+	cho = game.currentPlayer.give("EX1_100")
+	game.endTurn(); game.endTurn()
+
+	cho.play()
+	game.currentPlayer.discardHand()
+	game.currentPlayer.opponent.discardHand()
+	assert len(game.currentPlayer.hand) == 0
+	assert len(game.currentPlayer.opponent.hand) == 0
+	game.currentPlayer.give(THE_COIN).play()
+	assert len(game.currentPlayer.hand) == 0
+	assert len(game.currentPlayer.opponent.hand) == 1
+	assert game.currentPlayer.opponent.hand[0].id == THE_COIN
+
+	game.endTurn()
+	game.currentPlayer.discardHand()
+	game.currentPlayer.give(THE_COIN).play()
+	assert len(game.currentPlayer.hand) == 0
+	assert len(game.currentPlayer.opponent.hand) == 1
+	assert game.currentPlayer.opponent.hand[0].id == THE_COIN
+	game.currentPlayer.give(THE_COIN).play()
+
+
 def test_lightspawn():
 	game = prepare_game()
 	lightspawn = game.currentPlayer.give("EX1_335")

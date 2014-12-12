@@ -1,4 +1,5 @@
 import random
+from fireplace.enums import CardType
 from ...card import *
 
 
@@ -17,6 +18,13 @@ class EX1_016(Card):
 	def deathrattle(self):
 		if self.controller.opponent.field:
 			self.controller.takeControl(random.choice(self.controller.opponent.field))
+
+
+# Lorewalker Cho
+class EX1_100(Card):
+	def CARD_PLAYED(self, player, card):
+		if card.type == CardType.SPELL:
+			player.opponent.give(card.id)
 
 
 # Cairne Bloodhoof
