@@ -114,6 +114,16 @@ class EX1_284(Card):
 	action = drawCard
 
 
+# Murloc Tidecaller
+class EX1_509(Card):
+	def MINION_SUMMONED(self, player, minion):
+		if minion.race == Race.MURLOC:
+			self.buff("EX1_509e")
+
+class EX1_509e(Card):
+	Atk = 1
+
+
 # Ancient Mage
 class EX1_584(Card):
 	def action(self):

@@ -1083,6 +1083,20 @@ def test_lightwell():
 	assert game.currentPlayer.opponent.hero.health == 29
 
 
+def test_murloc_tidecaller():
+	game = prepare_game()
+	tidecaller = game.currentPlayer.give("EX1_509")
+	tidecaller.play()
+	assert tidecaller.atk == 1
+	game.endTurn()
+	game.currentPlayer.give("CS2_168").play()
+	assert tidecaller.atk == 2
+	game.endTurn()
+	# Play a tidehunter. Summons two murlocs.
+	game.currentPlayer.give("EX1_506").play()
+	assert tidecaller.atk == 4
+
+
 def test_ragnaros():
 	game = prepare_game()
 	ragnaros = game.currentPlayer.give("EX1_298")
