@@ -17,3 +17,13 @@ class EX1_603(Card):
 
 class EX1_603e(Card):
 	Atk = 2
+
+
+# Frothing Berserker
+class EX1_604(Card):
+	def DAMAGE(self, source, target, amount):
+		if target.type == CardType.MINION:
+			self.buff("EX1_604o")
+
+class EX1_604o(Card):
+	Atk = 1

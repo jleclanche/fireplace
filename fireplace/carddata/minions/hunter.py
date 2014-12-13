@@ -27,6 +27,17 @@ class DS1_178e(Card):
 		return target.race == Race.BEAST
 
 
+# Scavenging Hyena
+class EX1_531(Card):
+	def OWN_MINION_DESTROYED(self, minion):
+		if minion.race == Race.BEAST:
+			self.buff("EX1_531e")
+
+class EX1_531e(Card):
+	Atk = 2
+	Health = 1
+
+
 # Savannah Highmane
 class EX1_534(Card):
 	def deathrattle(self):
