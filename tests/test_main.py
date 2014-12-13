@@ -9,6 +9,7 @@ from fireplace.enums import *
 
 MOONFIRE = "CS2_008"
 WISP = "CS2_231"
+SPELLBENDERT = "tt_010a"
 THE_COIN = "GAME_005"
 
 logging.getLogger().setLevel(logging.DEBUG)
@@ -762,6 +763,46 @@ def test_mana_addict():
 	assert manaaddict.atk == 5
 	game.endTurn()
 	assert manaaddict.atk == 1
+
+
+def test_betrayal():
+	game = prepare_game()
+	betrayal = game.currentPlayer.give("EX1_126")
+	game.endTurn(); game.endTurn()
+
+	wisp1 = game.currentPlayer.give(WISP)
+	wisp1.play()
+	wisp2 = game.currentPlayer.give(WISP)
+	wisp2.play()
+	wisp3 = game.currentPlayer.give(WISP)
+	wisp3.play()
+	assert len(game.currentPlayer.field) == 3
+	betrayal.play(target=wisp2)
+	assert len(game.currentPlayer.field) == 1
+	assert wisp1.zone == Zone.GRAVEYARD
+	assert wisp2.zone == Zone.PLAY
+	assert wisp3.zone == Zone.GRAVEYARD
+	game.endTurn(); game.endTurn()
+
+	bender = game.currentPlayer.give(SPELLBENDERT)
+	bender.play()
+	game.currentPlayer.give("EX1_126").play(target=wisp2)
+	assert wisp2.zone == Zone.PLAY
+	assert bender.zone == Zone.PLAY
+	assert bender.health == 2
+	bender.destroy(); wisp2.destroy()
+	assert not game.currentPlayer.field
+	game.endTurn(); game.endTurn()
+
+	# prepare the board: two War Golems and an Emperor Cobra in the middle
+	golem1 = game.currentPlayer.summon("CS2_186")
+	cobra = game.currentPlayer.summon("EX1_170")
+	golem2 = game.currentPlayer.summon("CS2_186")
+	game.currentPlayer.give("EX1_126").play(target=cobra)
+
+	assert golem1.zone == Zone.GRAVEYARD
+	assert cobra.zone == Zone.PLAY
+	assert golem2.zone == Zone.GRAVEYARD
 
 
 def test_heroic_strike():

@@ -51,6 +51,14 @@ class EX1_124(Card):
 	combo = damageTarget(4)
 
 
+# Betrayal
+class EX1_126(Card):
+	def action(self, target):
+		for minion in target.adjacentMinions:
+			if minion:
+				target.hit(minion, target.atk)
+
+
 # Fan of Knives
 class EX1_129(Card):
 	def action(self):
