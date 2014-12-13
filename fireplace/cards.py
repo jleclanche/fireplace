@@ -157,7 +157,9 @@ class Card(Entity):
 
 	def heal(self, target, amount):
 		logging.info("%r heals %r for %i" % (self, target, amount))
-		self.game.broadcast("HEAL", self, target, amount)
+		# Note that undamaged targets do not receive heals
+		if target.damage:
+			self.game.broadcast("HEAL", self, target, amount)
 
 	def hit(self, target, amount):
 		logging.info("%r hits %r for %i" % (self, target, amount))
