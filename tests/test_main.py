@@ -719,6 +719,24 @@ def test_power_overwhelming():
 	assert wisp not in game.board
 
 
+def test_questing_adventurer():
+	game = prepare_game()
+	adventurer = game.currentPlayer.give("EX1_044")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	adventurer.play()
+	assert adventurer.atk == 2
+	assert adventurer.health == 2
+	game.currentPlayer.give(THE_COIN).play()
+	assert adventurer.atk == 3
+	assert adventurer.health == 3
+	game.currentPlayer.give(THE_COIN).play()
+	game.currentPlayer.give(THE_COIN).play()
+	game.currentPlayer.give(THE_COIN).play()
+	assert adventurer.atk == 6
+	assert adventurer.health == 6
+
+
 def test_voidcaller():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()

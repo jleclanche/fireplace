@@ -29,6 +29,16 @@ class EX1_006(Card):
 			self.controller.summon(random.choice(minions))
 
 
+# Questing Adventurer
+class EX1_044(Card):
+	def OWN_CARD_PLAYED(self, card):
+		self.buff("EX1_044e")
+
+class EX1_044e(Card):
+	Atk = 1
+	Health = 1
+
+
 # Ancient Watcher
 class EX1_045(Card):
 	cantAttack = True
