@@ -1065,6 +1065,24 @@ def test_lightspawn():
 	assert lightspawn.atk == 4, lightspawn.atk
 
 
+def test_lightwarden():
+	game = prepare_game(PRIEST, PRIEST)
+	lightwarden = game.currentPlayer.give("EX1_001")
+	lightwarden.play()
+	assert lightwarden.atk == 1
+	game.endTurn(); game.endTurn();
+
+	# No-op heal should not do anything.
+	assert game.currentPlayer.hero.health == 30
+	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
+	assert game.currentPlayer.hero.health == 30
+	assert lightwarden.atk == 1
+	lightwarden.attack(target=game.currentPlayer.opponent.hero)
+	game.endTurn()
+	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
+	assert lightwarden.atk == 3
+
+
 def test_lightwell():
 	game = prepare_game()
 	lightwell = game.currentPlayer.give("EX1_341")

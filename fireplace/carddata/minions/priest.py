@@ -2,6 +2,15 @@ import random
 from ..card import *
 
 
+# Lightwarden
+class EX1_001(Card):
+	def HEAL(self, source, target, amount):
+		self.buff("EX1_001e")
+
+class EX1_001e(Card):
+	Atk = 2
+
+
 # Cabal Shadow Priest
 class EX1_091(Card):
 	def action(self, target):
