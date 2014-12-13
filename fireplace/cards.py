@@ -427,8 +427,8 @@ class Minion(Character):
 	def summon(self):
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return
-		self.controller.field.append(self)
 		self.game.broadcast("MINION_SUMMONED", self.controller, self)
+		self.controller.field.append(self)
 		self.exhausted = True
 		if self.data.cantAttack:
 			self.setTag(GameTag.CANT_ATTACK, True)
