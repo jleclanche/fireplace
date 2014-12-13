@@ -13,6 +13,21 @@ class EX1_012(Card):
 	deathrattle = drawCard
 
 
+# King Mukla
+class EX1_014(Card):
+	def action(self):
+		self.controller.opponent.give("EX1_014t")
+		self.controller.opponent.give("EX1_014t")
+
+# Bananas
+class EX1_014t(Card):
+	action = buffTarget("EX1_014te")
+
+class EX1_014te(Card):
+	Atk = 1
+	Health = 1
+
+
 # Sylvanas Windrunner
 class EX1_016(Card):
 	def deathrattle(self):
