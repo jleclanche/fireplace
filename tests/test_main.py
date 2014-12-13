@@ -1196,6 +1196,28 @@ def test_ragnaros():
 	assert not ragnaros.canAttack()
 
 
+def test_twilight_drake():
+	game = prepare_game()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	assert len(game.currentPlayer.hand) == 7
+	drake = game.currentPlayer.give("EX1_043")
+	drake.play()
+	assert len(game.currentPlayer.hand) == 7
+	assert drake.health == 1+7
+	assert drake.buffs
+
+	game.endTurn()
+	game.currentPlayer.discardHand()
+	drake2 = game.currentPlayer.give("EX1_043")
+	assert len(game.currentPlayer.hand) == 1
+	drake2.play()
+	assert not game.currentPlayer.hand
+	assert drake2.health == 1
+	assert not drake2.buffs
+
+
 def test_unbound_elemental():
 	game = prepare_game()
 	unbound = game.currentPlayer.give("EX1_258")

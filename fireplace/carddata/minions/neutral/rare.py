@@ -29,6 +29,16 @@ class EX1_006(Card):
 			self.controller.summon(random.choice(minions))
 
 
+# Twilight Drake
+class EX1_043(Card):
+	def action(self):
+		for card in self.controller.hand:
+			self.buff("EX1_043e")
+
+class EX1_043e(Card):
+	Health = 1
+
+
 # Questing Adventurer
 class EX1_044(Card):
 	def OWN_CARD_PLAYED(self, card):
