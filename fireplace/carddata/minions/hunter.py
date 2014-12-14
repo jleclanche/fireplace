@@ -3,6 +3,16 @@ from fireplace.enums import Race
 from ..card import *
 
 
+# Houndmaster
+class DS1_070(Card):
+	action = buffTarget("DS1_070o")
+
+class DS1_070o(Card):
+	Atk = 2
+	Health = 2
+	Taunt = True
+
+
 # Timber Wolf
 class DS1_175(Card):
 	aura = "DS1_175o"

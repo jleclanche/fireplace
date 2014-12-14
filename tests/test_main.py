@@ -1032,6 +1032,23 @@ def test_hogger():
 	assert len(game.currentPlayer.opponent.field) == 3
 
 
+def test_houndmaster():
+	game = prepare_game()
+	houndmaster = game.currentPlayer.give("DS1_070")
+	hound = game.currentPlayer.give("EX1_538t")
+	hound.play()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	assert hound.atk == 1
+	assert hound.health == 1
+	assert not hound.taunt
+	houndmaster.play(target=hound)
+	assert hound.atk == 3
+	assert hound.health == 3
+	assert hound.taunt
+
+
 def test_illidan():
 	game = prepare_game()
 	illidan = game.currentPlayer.give("EX1_614")
