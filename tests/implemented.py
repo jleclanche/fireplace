@@ -2,7 +2,7 @@
 import os
 import sys; sys.path.append("..")
 from fireplace import xmlcard
-from fireplace.cards import Card
+from fireplace.card import Card
 
 
 GREEN = "\033[92m"

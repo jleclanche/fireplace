@@ -2,7 +2,7 @@ import logging
 import random
 from itertools import chain
 from . import heroes
-from .cards import Card, cardsForHero, THE_COIN
+from .card import Card, cardsForHero, THE_COIN
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
 from .exceptions import *

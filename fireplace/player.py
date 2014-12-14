@@ -1,6 +1,6 @@
 import logging
 from itertools import chain
-from .cards import Card
+from .card import Card
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
 from .targeting import *
