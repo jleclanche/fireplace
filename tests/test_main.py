@@ -1387,7 +1387,6 @@ def test_cleave():
 	game.currentPlayer.getById(THE_COIN).play()
 
 	cleave = game.currentPlayer.give("CS2_114")
-	assert cleave.data.minTargets == 2, cleave.data.minTargets
 	assert cleave.isPlayable()
 	cleave.play()
 	assert len(game.currentPlayer.opponent.field) == 0

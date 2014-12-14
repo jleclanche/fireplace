@@ -2,12 +2,11 @@ import json
 import logging
 import uuid
 from itertools import chain
-from . import targeting
+from . import cards as CardDB, targeting
 from .exceptions import *
 from .entity import Entity
 from .enums import CardType, GameTag, PlayReq, Race, Zone
 from .utils import _PROPERTY, _TAG, CardList
-from .xmlcard import XMLCard
 
 
 
@@ -18,7 +17,7 @@ class Card(Entity):
 	def __new__(cls, id):
 		if cls is not Card:
 			return super().__new__(cls)
-		data = XMLCard.get(id)
+		data = getattr(CardDB, id)
 		type = {
 			CardType.HERO: Hero,
 			CardType.MINION: Minion,
@@ -26,8 +25,8 @@ class Card(Entity):
 			CardType.ENCHANTMENT: Enchantment,
 			CardType.WEAPON: Weapon,
 			CardType.HERO_POWER: HeroPower,
-		}[data.getTag(GameTag.CARDTYPE)]
-		if type is Spell and data.getTag(GameTag.SECRET):
+		}[data.tags[GameTag.CARDTYPE]]
+		if type is Spell and data.tags.get(GameTag.SECRET):
 			type = Secret
 		card = type(id)
 		# type(id) triggers __init__, so we can't rely on card.data existing
@@ -40,7 +39,7 @@ class Card(Entity):
 				if event not in card._eventListeners:
 					card._eventListeners[event] = []
 				# A bit of magic powder to pass the Card object as self to the Card defs
-				func = getattr(data.__class__, event)
+				func = getattr(data, event)
 				card._eventListeners[event].append(lambda *args: func(card, *args))
 		return card
 
@@ -54,7 +53,7 @@ class Card(Entity):
 	def __str__(self):
 		if not hasattr(self, "data"):
 			return self.id
-		return self.data.name
+		return self.data.tags[GameTag.CARDNAME]
 
 	def __repr__(self):
 		return "<%s (%r)>" % (self.__class__.__name__, self.__str__())
@@ -144,12 +143,14 @@ class Card(Entity):
 			if PlayReq.REQ_TARGET_FOR_COMBO in self.data.requirements:
 				kwargs["target"] = target
 			logging.info("Activating %r combo (%r)" % (self, kwargs))
-			func = self.data.__class__.combo
+			func = self.data.combo
 		else:
+			if not hasattr(self.data, "action"):
+				return
 			if self.hasTarget():
 				kwargs["target"] = target
 			logging.info("%r activates action(%r)" % (self, kwargs))
-			func = self.data.__class__.action
+			func = self.data.action
 		func(self, **kwargs)
 
 	def heal(self, target, amount):
@@ -167,7 +168,7 @@ class Card(Entity):
 		self.zone = Zone.GRAVEYARD
 		if self.hasDeathrattle:
 			logging.info("Triggering Deathrattle for %r" % (self))
-			self.data.__class__.deathrattle(self)
+			self.data.deathrattle(self)
 		for buff in self.buffs:
 			buff.destroy()
 		self.game.broadcast("CARD_DESTROYED", self)
@@ -209,9 +210,9 @@ class Card(Entity):
 		if PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements:
 			if not self.targets:
 				return False
-		if len(self.controller.opponent.field) < self.data.minTargets:
+		if len(self.controller.opponent.field) < self.data.requirements.get(PlayReq.REQ_MINIMUM_ENEMY_MINIONS, 0):
 			return False
-		if len(self.controller.game.board) < self.data.minMinions:
+		if len(self.controller.game.board) < self.data.requirements.get(PlayReq.REQ_MINIMUM_TOTAL_MINIONS, 0):
 			return False
 		if PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY in self.data.requirements:
 			entourage = list(self.data.entourage)
@@ -425,8 +426,6 @@ class Minion(Character):
 		self.game.broadcast("MINION_SUMMONED", self.controller, self)
 		self.controller.field.append(self)
 		self.exhausted = True
-		if self.data.cantAttack:
-			self.setTag(GameTag.CANT_ATTACK, True)
 		if self.hasAura:
 			self.aura = Aura(self.data.aura)
 			self.aura.source = self
@@ -467,7 +466,7 @@ class Enchantment(Card):
 		if self.hasDeathrattle:
 			# If we have a deathrattle, it means the deathrattle is on the owner.
 			logging.info("Triggering Enchantment Deathrattle for %r" % (self))
-			self.data.__class__.deathrattle(self)
+			self.data.deathrattle(self)
 
 	def TURN_END(self, *args):
 		if self.tags.get(GameTag.OneTurnEffect):
@@ -486,7 +485,7 @@ class Aura(Card):
 		Entity.__init__(self) # HACK
 		self._buffed = CardList()
 		self._buffs = []
-		self.data = XMLCard.get(id)
+		self.data = getattr(CardDB, id)
 		self.tags = self.data.tags
 
 	@property
@@ -504,8 +503,8 @@ class Aura(Card):
 				return False
 		if card not in self.targets:
 			return False
-		if hasattr(self.data.__class__, "isValidTarget"):
-			return self.data.__class__.isValidTarget(self, card)
+		if hasattr(self.data, "isValidTarget"):
+			return self.data.isValidTarget(self, card)
 		return True
 
 	def UPDATE(self):

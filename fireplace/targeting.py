@@ -53,19 +53,19 @@ def isValidTarget(self, target):
 			if not target.damage:
 				return False
 		elif req == PlayReq.REQ_TARGET_MAX_ATTACK:
-			if target.atk > self.data.targetMaxAttack:
+			if target.atk > self.data.requirements.get(req, 0):
 				return False
 		elif req == PlayReq.REQ_NONSELF_TARGET:
 			if target is self:
 				return False
 		elif req == PlayReq.REQ_TARGET_WITH_RACE:
-			if target.race != self.data.targetRace:
+			if target.race != self.data.requirements.get(req):
 				return False
 		elif req == PlayReq.REQ_HERO_TARGET:
 			if target.type != CardType.HERO:
 				return False
 		elif req == PlayReq.REQ_TARGET_MIN_ATTACK:
-			if target.atk < self.data.targetMinAttack:
+			if target.atk < self.data.requirements.get(req, 0):
 				return False
 		elif req == PlayReq.REQ_MUST_TARGET_TAUNTER:
 			if not target.taunt:
