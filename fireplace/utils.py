@@ -6,6 +6,15 @@ def _TAG(tag, default):
 	return _ret
 
 
+def _PROPERTY(tag, default):
+	func = property(lambda self: self.tags.get(tag, default) or
+	                any(slot.getBoolProperty(tag) for slot in self.slots))
+	@func.setter
+	def _ret(self, value):
+		self.setTag(tag, value)
+	return _ret
+
+
 class CardList(list):
 	def __contains__(self, x):
 		for item in self:

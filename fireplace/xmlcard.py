@@ -20,6 +20,7 @@ class XMLCard(object):
 		"Charge": GameTag.CHARGE,
 		"Durability": GameTag.DURABILITY,
 		"Recall": GameTag.RECALL,
+		"Taunt": GameTag.TAUNT,
 	}
 
 	cantAttack = False

@@ -6,7 +6,7 @@ from . import targeting
 from .exceptions import *
 from .entity import Entity
 from .enums import CardType, GameTag, PlayReq, Race, Zone
-from .utils import _TAG, CardList
+from .utils import _PROPERTY, _TAG, CardList
 from .xmlcard import XMLCard
 
 
@@ -372,16 +372,12 @@ class Hero(Character):
 
 
 class Minion(Character):
-	taunt = _TAG(GameTag.TAUNT, False)
 	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
 	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
 	hasAura = _TAG(GameTag.AURA, False)
 
-	@property
-	def charge(self):
-		if self.tags.get(GameTag.CHARGE, False):
-			return True
-		return any(slot.getBoolProperty(GameTag.CHARGE) for slot in self.slots)
+	charge = _PROPERTY(GameTag.CHARGE, False)
+	taunt = _PROPERTY(GameTag.TAUNT, False)
 
 	@property
 	def adjacentMinions(self):
