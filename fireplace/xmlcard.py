@@ -10,7 +10,6 @@ class XMLCard(object):
 	_tags = {
 		"charge": GameTag.CHARGE,
 		"windfury": GameTag.WINDFURY,
-		"oneTurnEffect": GameTag.OneTurnEffect,
 	}
 
 	_definitions = {

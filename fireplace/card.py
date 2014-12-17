@@ -470,7 +470,7 @@ class Enchantment(Card):
 			self.data.__class__.deathrattle(self)
 
 	def TURN_END(self, *args):
-		if self.data.oneTurnEffect:
+		if self.tags.get(GameTag.OneTurnEffect):
 			logging.info("Ending One-Turn effect: %r" % (self))
 			self.destroy()
 
