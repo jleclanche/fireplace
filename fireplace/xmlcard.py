@@ -11,7 +11,6 @@ class XMLCard(object):
 		"charge": GameTag.CHARGE,
 		"windfury": GameTag.WINDFURY,
 		"oneTurnEffect": GameTag.OneTurnEffect,
-		"hasDeathrattle": GameTag.DEATH_RATTLE,
 	}
 
 	_definitions = {
@@ -21,6 +20,7 @@ class XMLCard(object):
 		"Durability": GameTag.DURABILITY,
 		"Recall": GameTag.RECALL,
 		"Taunt": GameTag.TAUNT,
+		"Deathrattle": GameTag.DEATH_RATTLE,
 	}
 
 	cantAttack = False

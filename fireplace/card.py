@@ -84,6 +84,7 @@ class Card(Entity):
 	overload = _TAG(GameTag.RECALL, 0)
 	windfury = _TAG(GameTag.WINDFURY, False)
 	hasCombo = _TAG(GameTag.COMBO, False)
+	hasDeathrattle = _TAG(GameTag.DEATH_RATTLE, False)
 
 	@property
 	def zone(self):
@@ -116,10 +117,6 @@ class Card(Entity):
 	@property
 	def extraHealth(self):
 		return sum(slot.getIntProperty(GameTag.HEALTH) for slot in self.slots)
-
-	@property
-	def hasDeathrattle(self):
-		return hasattr(self.data, "deathrattle") or self.data.hasDeathrattle
 
 	@property
 	def targets(self):

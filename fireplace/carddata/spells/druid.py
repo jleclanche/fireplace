@@ -72,6 +72,7 @@ class EX1_158(Card):
 			target.buff("EX1_158e")
 
 class EX1_158e(Card):
+	Deathrattle = True
 	def deathrattle(self):
 		self.controller.summon("EX1_158t")
 
