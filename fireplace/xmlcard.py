@@ -94,7 +94,7 @@ class XMLCard(object):
 	@property
 	def requirements(self):
 		reqs = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
-		return {PlayReq(int(tag.attrib["reqID"])) for tag in reqs}
+		return {PlayReq(int(tag.attrib["reqID"])): tag.attrib["param"] for tag in reqs}
 
 	@property
 	def minMinions(self):
