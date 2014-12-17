@@ -22,7 +22,7 @@ class CS2_038e(Card):
 # Windfury
 class CS2_039(Card):
 	def action(self, target):
-		target.setTag(GameTag.WINDFURY, True)
+		target.windfury = True
 
 
 # Ancestral Healing

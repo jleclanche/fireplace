@@ -11,7 +11,7 @@ class CS2_088(Card):
 # Argent Protector
 class EX1_362(Card):
 	def action(self, target):
-		target.setTag(GameTag.DIVINE_SHIELD, True)
+		target.divineShield = True
 
 
 # Tirion Fordring
