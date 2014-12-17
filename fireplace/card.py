@@ -34,7 +34,7 @@ class Card(Entity):
 		# so instead we super __init__ here and initialize tags then.
 		super(Card, cls).__init__(card)
 		card.data = data
-		card.tags = data.tags
+		card.tags = data.tags.copy()
 		for event in card.events:
 			if hasattr(data, event):
 				if event not in card._eventListeners:
