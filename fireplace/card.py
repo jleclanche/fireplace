@@ -81,7 +81,7 @@ class Card(Entity):
 	controller = _TAG(GameTag.CONTROLLER, None)
 	exhausted = _TAG(GameTag.EXHAUSTED, False)
 	overload = _TAG(GameTag.RECALL, 0)
-	windfury = _TAG(GameTag.WINDFURY, False)
+	windfury = _PROPERTY(GameTag.WINDFURY, False)
 	hasCombo = _TAG(GameTag.COMBO, False)
 	hasDeathrattle = _TAG(GameTag.DEATH_RATTLE, False)
 
@@ -356,17 +356,6 @@ class Hero(Character):
 	def summon(self):
 		self.controller.hero = self
 		self.controller.summon(self.data.power)
-
-	@property
-	def windfury(self):
-		ret = self.tags.get(GameTag.WINDFURY, False)
-		if not ret and self.weapon:
-			# Heroes can inherit Windfury from weapons
-			return self.weapon.windfury
-
-	@windfury.setter
-	def windfury(self, value):
-		self.tags[GameTag.WINDFURY] = value
 
 
 class Minion(Character):
