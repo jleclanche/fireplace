@@ -15,7 +15,7 @@ class DS1_070o:
 
 # Timber Wolf
 class DS1_175:
-	aura = "DS1_175o"
+	Aura = "DS1_175o"
 
 # Furious Howl
 class DS1_175o:
@@ -27,7 +27,7 @@ class DS1_175o:
 
 # Tundra Rhino
 class DS1_178:
-	aura = "DS1_178e"
+	Aura = "DS1_178e"
 
 # Charge
 class DS1_178e:

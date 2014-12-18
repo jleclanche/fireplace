@@ -641,7 +641,7 @@ def test_auras():
 	webspinner.play()
 	raidleader = game.currentPlayer.give("CS2_122")
 	raidleader.play()
-	assert raidleader.hasAura
+	assert raidleader.aura
 	assert raidleader.atk == 2
 	assert wisp1.atk == 1
 	assert webspinner.atk == 2

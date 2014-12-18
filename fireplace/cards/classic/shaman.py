@@ -31,7 +31,7 @@ class EX1_258e:
 
 # Flametongue Totem
 class EX1_565:
-	aura = "EX1_565o"
+	Aura = "EX1_565o"
 
 class EX1_565o:
 	Atk = 2

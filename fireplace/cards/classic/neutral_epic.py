@@ -7,7 +7,7 @@ class EX1_005:
 
 # Murloc Warleader
 class EX1_507:
-	aura = "EX1_507e"
+	Aura = "EX1_507e"
 
 class EX1_507e:
 	Atk = 2
@@ -49,7 +49,7 @@ class NEW1_021:
 
 # Southsea Captain
 class NEW1_027:
-	aura = "NEW1_027e"
+	Aura = "NEW1_027e"
 
 class NEW1_027e:
 	Atk = 1

@@ -5,7 +5,7 @@ from ..utils import *
 
 # Raid Leader
 class CS2_122:
-	aura = "CS2_122e"
+	Aura = "CS2_122e"
 
 class CS2_122e:
 	Atk = 1
@@ -119,7 +119,7 @@ class CS2_196:
 
 # Stormwind Champion
 class CS2_222:
-	aura = "CS2_222o"
+	Aura = "CS2_222o"
 
 class CS2_222o:
 	Atk = 1
@@ -192,7 +192,7 @@ class EX1_096:
 
 # Dire Wolf Alpha
 class EX1_162:
-	aura = "EX1_162o"
+	Aura = "EX1_162o"
 
 class EX1_162o:
 	Atk = 1
@@ -212,7 +212,7 @@ class EX1_506:
 
 # Grimscale Oracle
 class EX1_508:
-	aura = "EX1_508o"
+	Aura = "EX1_508o"
 
 class EX1_508o:
 	targeting = TARGET_FRIENDLY_MINIONS

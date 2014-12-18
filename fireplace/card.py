@@ -46,7 +46,7 @@ class Card(Entity):
 	def __init__(self, id):
 		self.id = id
 		self.uuid = uuid.uuid4()
-		self.aura = None
+		self._aura = None
 		self.weapon = None
 		self.buffs = []
 
@@ -318,8 +318,8 @@ class Character(Card):
 
 	def silence(self):
 		logging.info("%r has been silenced" % (self))
-		if self.aura:
-			self.aura.destroy()
+		if self._aura:
+			self._aura.destroy()
 		self.buffs = []
 		tags = (
 			GameTag.CANT_ATTACK,
@@ -372,7 +372,7 @@ class Hero(Character):
 class Minion(Character):
 	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
 	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
-	hasAura = _TAG(GameTag.AURA, False)
+	aura = _TAG(GameTag.AURA, False)
 
 	charge = _PROPERTY(GameTag.CHARGE, False)
 	taunt = _PROPERTY(GameTag.TAUNT, False)
@@ -398,8 +398,8 @@ class Minion(Character):
 			logging.info("%r is removed from the field" % (self))
 			self.controller.field.remove(self)
 			# Remove any aura the minion gives
-			if self.aura:
-				self.aura.destroy()
+			if self._aura:
+				self._aura.destroy()
 			if self.damage:
 				self.damage = 0
 		super().moveToZone(old, new)
@@ -426,12 +426,12 @@ class Minion(Character):
 		self.controller.field.append(self)
 		self.game.broadcast("MINION_SUMMONED", self.controller, self)
 		self.exhausted = True
-		if self.hasAura:
-			self.aura = Aura(self.data.aura)
-			self.aura.source = self
-			self.aura.controller = self.controller
-			self.aura.summon()
-			logging.info("Aura %r suddenly appears" % (self.aura))
+		if self.aura:
+			self._aura = Aura(self.aura)
+			self._aura.source = self
+			self._aura.controller = self.controller
+			self._aura.summon()
+			logging.info("Aura %r suddenly appears" % (self._aura))
 
 
 class Spell(Card):

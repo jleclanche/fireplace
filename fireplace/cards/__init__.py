@@ -10,6 +10,7 @@ _PATH = os.path.join(os.path.dirname(__file__), os.path.pardir, os.path.pardir, 
 
 tagnames = {
 	"Atk": GameTag.ATK,
+	"Aura": GameTag.AURA,
 	"Charge": GameTag.CHARGE,
 	"Durability": GameTag.DURABILITY,
 	"Deathrattle": GameTag.DEATH_RATTLE,
