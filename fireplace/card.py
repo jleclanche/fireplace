@@ -561,7 +561,9 @@ class Enrage(Card):
 		return []
 
 	def destroy(self):
-		pass
+		# Bit hacky. Need a design where we don't duplicate this.
+		if self._aura:
+			self._aura.destroy()
 
 	def moveToZone(self, old, new):
 		pass

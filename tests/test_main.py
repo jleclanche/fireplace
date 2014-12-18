@@ -527,6 +527,34 @@ def test_raging_worgen():
 	assert not worgen.windfury
 
 
+def test_spiteful_smith():
+	game = prepare_game()
+	assert not game.currentPlayer.hero.atk
+	smith = game.currentPlayer.summon("CS2_221")
+	assert smith.health == 6
+	assert not game.currentPlayer.hero.atk
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	axe = game.currentPlayer.give("CS2_106")
+	axe.play()
+	assert axe.atk == 3
+	assert game.currentPlayer.hero.atk == 3
+	assert not game.currentPlayer.opponent.hero.atk
+	game.currentPlayer.give(MOONFIRE).play(target=smith)
+	assert smith.health == 5
+	assert axe.atk == 5
+	assert axe.buffs
+	assert game.currentPlayer.hero.atk == 5
+	assert not game.currentPlayer.opponent.hero.atk
+	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
+	assert axe.atk == 3
+	assert game.currentPlayer.hero.atk == 3
+	game.currentPlayer.give(MOONFIRE).play(target=smith)
+	assert smith.health == 5
+	assert axe.atk == 5
+	assert game.currentPlayer.hero.atk == 5
+
+
 def test_sword_of_justice():
 	game = prepare_game(PALADIN, PALADIN)
 	sword = game.currentPlayer.give("EX1_366")

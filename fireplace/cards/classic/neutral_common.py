@@ -117,6 +117,16 @@ class CS2_196:
 	action = summonMinion("CS2_boar")
 
 
+# Spiteful Smith
+class CS2_221:
+	class Enrage:
+		Aura = "CS2_221e"
+
+class CS2_221e:
+	Atk = 2
+	targeting = TARGET_FRIENDLY_WEAPON
+
+
 # Stormwind Champion
 class CS2_222:
 	Aura = "CS2_222o"
