@@ -496,7 +496,7 @@ class Aura(Card):
 		self._buffed = CardList()
 		self._buffs = []
 		self.data = getattr(CardDB, id)
-		self.tags = self.data.tags
+		self.tags = self.data.tags.copy()
 
 	@property
 	def targets(self):
