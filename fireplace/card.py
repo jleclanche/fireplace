@@ -131,12 +131,7 @@ class Card(Entity):
 
 	@property
 	def slots(self):
-		ret = []
-		if self.weapon:
-			assert self.type == CardType.HERO
-			ret.append(self.weapon)
-		ret += self.buffs
-		return ret
+		return self.buffs
 
 	def action(self, target=None):
 		kwargs = {}
@@ -275,8 +270,6 @@ class Character(Card):
 		assert target.zone == Zone.PLAY
 		logging.info("%r attacks %r" % (self, target))
 		self.hit(target, self.atk)
-		if self.weapon:
-			self.weapon.durability -= 1
 		if target.atk:
 			target.hit(self, target.atk)
 		if self.stealthed:
@@ -341,8 +334,21 @@ class Hero(Character):
 	armor = _TAG(GameTag.ARMOR, 0)
 
 	@property
+	def slots(self):
+		ret = super().slots[:]
+		if self.weapon:
+			ret.append(self.weapon)
+		return ret
+
+	@property
 	def entities(self):
 		return chain([self, self.power], self.slots)
+
+	def attack(self, target):
+		# TODO should be in Weapon.SELF_ATTACK or some such
+		super().attack(target)
+		if self.weapon:
+			self.weapon.durability -= 1
 
 	def SELF_DAMAGE(self, source, amount):
 		if self.armor:
