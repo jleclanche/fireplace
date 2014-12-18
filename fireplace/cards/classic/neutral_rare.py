@@ -135,7 +135,9 @@ class EX1_284:
 # Murloc Tidecaller
 class EX1_509:
 	def MINION_SUMMONED(self, player, minion):
-		if minion.race == Race.MURLOC:
+		if minion.race == Race.MURLOC and minion != self:
+			# NOTE: We have to check against ourselves here because the
+			# Battlecry happens when we are already in play
 			self.buff("EX1_509e")
 
 class EX1_509e:
