@@ -9,6 +9,7 @@ from fireplace.enums import *
 
 MOONFIRE = "CS2_008"
 WISP = "CS2_231"
+CIRCLE_OF_HEALING = "EX1_621"
 SPELLBENDERT = "tt_010a"
 THE_COIN = "GAME_005"
 
@@ -1191,6 +1192,27 @@ def test_murloc_tidecaller():
 	assert tidecaller.atk == 4
 
 
+def test_nortshire_cleric():
+	game = prepare_game(PRIEST, PRIEST)
+	cleric = game.currentPlayer.give("CS2_235")
+	cleric.play()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.currentPlayer.discardHand()
+	assert not game.currentPlayer.hand
+	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
+	assert not game.currentPlayer.hand
+	pyro = game.currentPlayer.give("NEW1_020")
+	pyro.play()
+	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
+	assert not game.currentPlayer.hand
+	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
+	assert len(game.currentPlayer.hand) == 2
+	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
+	assert len(game.currentPlayer.hand) == 4
+
+
 def test_ragnaros():
 	game = prepare_game()
 	ragnaros = game.currentPlayer.give("EX1_298")
@@ -1320,7 +1342,7 @@ def test_wild_pyromancer():
 	assert pyro.health == 1
 
 	# play circle of healing. pyro should go up to 2hp then back to 1.
-	game.currentPlayer.give("EX1_621").play()
+	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
 	assert pyro.health == 1
 
 
