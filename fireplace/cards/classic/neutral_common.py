@@ -199,6 +199,12 @@ class EX1_162o:
 	targeting = TARGET_FRIENDLY_MINIONS
 
 
+# Raging Worgen
+class EX1_412:
+	class Enrage:
+		Atk = 1
+		Windfury = True
+
 # Frost Elemental
 class EX1_283:
 	def action(self, target):

@@ -14,11 +14,23 @@ tagnames = {
 	"Charge": GameTag.CHARGE,
 	"Durability": GameTag.DURABILITY,
 	"Deathrattle": GameTag.DEATH_RATTLE,
+	"Enrage": GameTag.ENRAGED,
 	"Health": GameTag.HEALTH,
 	"Recall": GameTag.RECALL,
 	"Taunt": GameTag.TAUNT,
+	"Windfury": GameTag.WINDFURY,
 	"cantAttack": GameTag.CANT_ATTACK, # XXX
 }
+
+def _initTags(carddef, cls):
+	"""
+	Iterate over the class attributes, mapping them to the tags dict
+	Note that this only needs to be done once per class, hence why we
+	do it here instead of in Card.__new__()
+	"""
+	for attr, value in carddef.__dict__.items():
+		if attr in tagnames:
+			cls.tags[tagnames[attr]] = value
 
 def merge(xmlcard, carddef):
 	if not carddef:
@@ -27,9 +39,11 @@ def merge(xmlcard, carddef):
 		cls = type(xmlcard.id, (carddef, ), {})
 	cls.tags = xmlcard.tags
 	if carddef:
-		for attr, value in carddef.__dict__.items():
-			if attr in tagnames:
-				cls.tags[tagnames[attr]] = value
+		if hasattr(carddef, "Enrage"):
+			# Initialize the Enrage virtual card too
+			carddef.Enrage.tags = {}
+			_initTags(carddef.Enrage, carddef.Enrage)
+		_initTags(carddef, cls)
 	cls.requirements = xmlcard.requirements
 	cls.entourage = xmlcard.entourage
 	return cls

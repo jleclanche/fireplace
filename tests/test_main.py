@@ -514,6 +514,19 @@ def test_doomhammer():
 	assert game.currentPlayer.hero.weapon.durability == 6
 
 
+def test_raging_worgen():
+	game = prepare_game()
+	worgen = game.currentPlayer.summon("EX1_412")
+	assert worgen.health == 3
+	game.currentPlayer.give(MOONFIRE).play(target=worgen)
+	assert worgen.health == 2
+	assert worgen.atk == 4
+	assert worgen.windfury
+	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
+	assert worgen.atk == 3
+	assert not worgen.windfury
+
+
 def test_sword_of_justice():
 	game = prepare_game(PALADIN, PALADIN)
 	sword = game.currentPlayer.give("EX1_366")

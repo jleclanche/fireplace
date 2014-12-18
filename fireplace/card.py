@@ -47,6 +47,7 @@ class Card(Entity):
 		self.id = id
 		self.uuid = uuid.uuid4()
 		self._aura = None
+		self._enrage = None
 		self.weapon = None
 		self.buffs = []
 
@@ -362,6 +363,7 @@ class Minion(Character):
 	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
 	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
 	aura = _TAG(GameTag.AURA, False)
+	enrage = _TAG(GameTag.ENRAGED, False)
 
 	charge = _PROPERTY(GameTag.CHARGE, False)
 	taunt = _PROPERTY(GameTag.TAUNT, False)
@@ -373,6 +375,13 @@ class Minion(Character):
 		left = self.controller.field[:index]
 		right = self.controller.field[index+1:]
 		return (left and left[-1] or None, right and right[0] or None)
+
+	@property
+	def slots(self):
+		slots = super().slots[:]
+		if self._enrage:
+			slots.append(self._enrage)
+		return slots
 
 	def bounce(self):
 		logging.info("%r is bounced back to %s's hand" % (self, self.controller))
@@ -401,7 +410,19 @@ class Minion(Character):
 		if isinstance(source, Minion) and source.poisonous:
 			logging.info("%r is destroyed because of %r is poisonous" % (self, source))
 			self.destroy()
+
+		if self.enrage and not self._enrage:
+			self._enrage = Enrage(self.enrage)
+			self._enrage.controller = self.controller
+			self._enrage.summon()
+
 		super().SELF_DAMAGE(source, amount)
+
+	def SELF_HEAL(self, source, amount):
+		super().SELF_HEAL(source, amount)
+		if not self.damage and self._enrage:
+			self._enrage.destroy()
+			self._enrage = None
 
 	def isPlayable(self):
 		playable = super().isPlayable()
@@ -509,6 +530,32 @@ class Aura(Card):
 		self.update()
 		del self._buffed
 		self.game.auras.remove(self)
+
+
+class Enrage(Card):
+	"""
+	Virtual Card class for Enrage objects.
+	Enrage buffs behave like regular cards but do not actually have
+	ids or are present in the game files, so hackery.
+	"""
+	def __init__(self, cls):
+		super().__init__(id=None)
+		Entity.__init__(self)
+		self.data = cls()
+		self.tags = cls.tags.copy()
+
+	def __str__(self):
+		return "Enrage Buff"
+
+	@property
+	def slots(self):
+		return []
+
+	def destroy(self):
+		pass
+
+	def moveToZone(self, old, new):
+		pass
 
 
 class Weapon(Card):
