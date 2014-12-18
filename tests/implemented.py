@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import os
 import sys; sys.path.append("..")
-from fireplace import xmlcard
+from fireplace import cards
+from fireplace.cards import game, classic, naxxramas, removed
 from fireplace.card import Card
 
 
@@ -11,16 +12,17 @@ ENDC = "\033[0m"
 
 
 def main():
-	for card in sorted(os.listdir(xmlcard._path)):
-		id = os.path.splitext(card)[0]
-		card = Card(id)
-		unimplemented = card.data.__class__ is xmlcard.XMLCard
-		if unimplemented:
-			color = RED
+	for id in sorted(cards.__dict__):
+		cls = getattr(cards, id)
+		if not hasattr(cls, "tags"):
+			continue
+		for set in (game, classic, naxxramas, removed):
+			if hasattr(set, id):
+				color = GREEN
+				break
 		else:
-			color = GREEN
-
-		print(color + str(card) + ENDC + " (%s)" % (id))
+			color = RED
+		print(color + cls.tags[185] + ENDC + " (%s)" % (id))
 
 
 if __name__ == "__main__":
