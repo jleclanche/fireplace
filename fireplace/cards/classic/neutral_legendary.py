@@ -100,6 +100,17 @@ class EX1_614:
 		self.controller.summon("EX1_614t")
 
 
+# Captain Greenskin
+class NEW1_024:
+	def action(self):
+		if self.controller.hero.weapon:
+			self.controller.hero.weapon.buff("NEW1_024o")
+
+class NEW1_024o:
+	Atk = 1
+	Durability = 1
+
+
 # Deathwing
 class NEW1_030:
 	def action(self):

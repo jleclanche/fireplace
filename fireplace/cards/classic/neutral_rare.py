@@ -183,6 +183,13 @@ class NEW1_025:
 			weapon.durability -= 1
 
 
+# Violet Teacher
+class NEW1_026:
+	def OWN_CARD_PLAYED(self, card):
+		if card.type == CardType.SPELL:
+			self.controller.summon("NEW1_026t")
+
+
 # Master Swordsmith
 class NEW1_037:
 	def OWN_TURN_END(self):
