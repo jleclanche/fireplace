@@ -537,7 +537,6 @@ class Aura(Card):
 	def destroy(self):
 		for buff in self._buffs:
 			buff.destroy()
-		self.update()
 		del self._buffed
 		self.game.auras.remove(self)
 
