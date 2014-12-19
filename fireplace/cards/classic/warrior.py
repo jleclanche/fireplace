@@ -10,6 +10,12 @@ class EX1_402:
 			self.controller.hero.armor += 1
 
 
+# Grommash Hellscream
+class EX1_414:
+	class Enrage:
+		Atk = 6
+
+
 # Cruel Taskmaster
 class EX1_603:
 	def action(self, target):

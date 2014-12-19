@@ -45,6 +45,18 @@ class EX1_102:
 		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 2)
 
 
+# Tauren Warrior
+class EX1_390:
+	class Enrage:
+		Atk = 3
+
+
+# Amani Berserker
+class EX1_393:
+	class Enrage:
+		Atk = 3
+
+
 # Arathi Weaponsmith
 class EX1_398:
 	def action(self):
