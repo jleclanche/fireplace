@@ -85,6 +85,11 @@ class CS1_113:
 		self.controller.takeControl(target)
 
 
+# Holy Smite
+class CS1_130:
+	action = damageTarget(2)
+
+
 # Mind Vision
 class CS2_003:
 	def action(self):

@@ -78,6 +78,13 @@ class CS2_031:
 			target.frozen = True
 
 
+# Flamestrike
+class CS2_032:
+	def action(self):
+		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
+			self.hit(target, 4)
+
+
 # Cone of Cold
 class EX1_275:
 	def action(self, target):
