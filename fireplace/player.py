@@ -65,12 +65,18 @@ class Player(Entity):
 		if t & TARGET_FRIENDLY:
 			if t & TARGET_HERO:
 				ret.append(self.hero)
+			if t & TARGET_WEAPON:
+				if self.hero.weapon:
+					ret.append(self.hero.weapon)
 			if t & TARGET_MULTIPLE:
 				if t & TARGET_MINION:
 					ret += self.field
 		if t & TARGET_ENEMY:
 			if t & TARGET_HERO:
 				ret.append(self.opponent.hero)
+			if t & TARGET_WEAPON:
+				if self.opponent.hero.weapon:
+					ret.append(self.opponent.hero.weapon)
 			if t & TARGET_MULTIPLE:
 				if t & TARGET_MINION:
 					ret += self.opponent.field
