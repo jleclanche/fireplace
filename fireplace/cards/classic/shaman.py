@@ -83,6 +83,9 @@ class CS2_041:
 		self.heal(target, target.maxHealth)
 		target.buff("CS2_041e")
 
+class CS2_041e:
+	Taunt = True
+
 
 # Rockbiter Weapon
 class CS2_045:

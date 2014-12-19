@@ -469,6 +469,17 @@ def test_kill_command():
 	assert game.currentPlayer.opponent.hero.health == 22
 
 
+def test_ancestral_healing():
+	game = prepare_game()
+	ancestral = game.currentPlayer.give("CS2_041")
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	assert not wisp.taunt
+	ancestral.play(wisp)
+	assert wisp.health == 1
+	assert wisp.taunt
+
+
 def test_alarmobot():
 	game = prepare_game()
 	bot = game.currentPlayer.give("EX1_006")

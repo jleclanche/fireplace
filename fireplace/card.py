@@ -100,8 +100,12 @@ class Card(Entity):
 	# Properties affected by slots
 
 	@property
+	def maxHealth(self):
+		return self.getIntProperty(GameTag.HEALTH)
+
+	@property
 	def health(self):
-		return max(0, self.getIntProperty(GameTag.HEALTH) - self.damage)
+		return max(0, self.maxHealth - self.damage)
 
 	@property
 	def atk(self):
