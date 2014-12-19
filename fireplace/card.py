@@ -78,6 +78,7 @@ class Card(Entity):
 	# Tag properties
 
 	type = _TAG(GameTag.CARDTYPE, CardType.INVALID)
+	aura = _TAG(GameTag.AURA, False)
 	cost = _TAG(GameTag.COST, 0)
 	controller = _TAG(GameTag.CONTROLLER, None)
 	exhausted = _TAG(GameTag.EXHAUSTED, False)
@@ -227,7 +228,12 @@ class Card(Entity):
 		self.controller.play(self, target)
 
 	def summon(self):
-		pass
+		if self.aura:
+			self._aura = Aura(self.aura)
+			self._aura.source = self
+			self._aura.controller = self.controller
+			self._aura.summon()
+			logging.info("Aura %r suddenly appears" % (self._aura))
 
 	def buff(self, card):
 		"""
@@ -361,6 +367,7 @@ class Hero(Character):
 		raise GameOver("%s wins!" % (self.controller.opponent))
 
 	def summon(self):
+		super().summon()
 		self.controller.hero = self
 		self.controller.summon(self.data.power)
 
@@ -368,7 +375,6 @@ class Hero(Character):
 class Minion(Character):
 	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
 	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
-	aura = _TAG(GameTag.AURA, False)
 	enrage = _TAG(GameTag.ENRAGED, False)
 
 	charge = _PROPERTY(GameTag.CHARGE, False)
@@ -437,17 +443,12 @@ class Minion(Character):
 		return playable
 
 	def summon(self):
+		super().summon()
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return
 		self.controller.field.append(self)
 		self.game.broadcast("MINION_SUMMONED", self.controller, self)
 		self.exhausted = True
-		if self.aura:
-			self._aura = Aura(self.aura)
-			self._aura.source = self
-			self._aura.controller = self.controller
-			self._aura.summon()
-			logging.info("Aura %r suddenly appears" % (self._aura))
 
 
 class Spell(Card):
@@ -462,6 +463,7 @@ class Secret(Card):
 		return super().isPlayable()
 
 	def summon(self):
+		super().summon()
 		self.zone = Zone.SECRET
 
 	def moveToZone(self, old, new):
@@ -474,6 +476,7 @@ class Secret(Card):
 
 class Enchantment(Card):
 	def summon(self, target):
+		super().summon()
 		self.owner = target
 		target.buffs.append(self)
 
@@ -509,11 +512,12 @@ class Aura(Card):
 		return self.controller.getTargets(self.data.targeting)
 
 	def summon(self):
+		super().summon()
 		self.game.auras.append(self)
 		self.zone = Zone.PLAY
 
 	def isValidTarget(self, card):
-		if self.source.adjacentBuff:
+		if self.source.type == CardType.MINION and self.source.adjacentBuff:
 			adj = self.source.adjacentMinions
 			if card is not adj[0] and card is not adj[1]:
 				return False
@@ -580,6 +584,7 @@ class Weapon(Card):
 		super().destroy()
 
 	def summon(self):
+		super().summon()
 		if self.controller.hero.weapon:
 			self.controller.hero.weapon.destroy()
 		self.controller.hero.weapon = self
@@ -600,4 +605,5 @@ class HeroPower(Card):
 		return playable
 
 	def summon(self):
+		super().summon()
 		self.controller.hero.power = self
