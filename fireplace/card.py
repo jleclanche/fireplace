@@ -131,6 +131,8 @@ class Card(Entity):
 	isValidTarget = targeting.isValidTarget
 
 	def hasTarget(self):
+		if self.hasCombo and PlayReq.REQ_TARGET_FOR_COMBO in self.data.requirements and self.controller.combo:
+			return True
 		return PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements or \
 			PlayReq.REQ_TARGET_IF_AVAILABLE in self.data.requirements
 
@@ -140,17 +142,16 @@ class Card(Entity):
 
 	def action(self, target=None):
 		kwargs = {}
+		if self.hasTarget():
+			assert target
+			kwargs["target"] = target
 		if self.hasCombo and self.controller.combo:
-			if PlayReq.REQ_TARGET_FOR_COMBO in self.data.requirements:
-				kwargs["target"] = target
-			logging.info("Activating %r combo (%r)" % (self, kwargs))
+			logging.info("Activating %r combo targeting %r" % (self, target))
 			func = self.data.combo
 		else:
 			if not hasattr(self.data, "action"):
 				return
-			if self.hasTarget():
-				kwargs["target"] = target
-			logging.info("%r activates action(%r)" % (self, kwargs))
+			logging.info("Activating %r action targeting %r" % (self, target))
 			func = self.data.action
 		func(self, **kwargs)
 
