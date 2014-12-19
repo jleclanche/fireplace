@@ -876,6 +876,21 @@ def test_betrayal():
 	assert golem2.zone == Zone.GRAVEYARD
 
 
+def test_cold_blood():
+	game = prepare_game()
+	cb1 = game.currentPlayer.give("CS2_073")
+	cb2 = game.currentPlayer.give("CS2_073")
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	game.endTurn(); game.endTurn()
+
+	assert wisp.atk == 1
+	cb1.play(target=wisp)
+	assert wisp.atk == 1+2
+	cb2.play(target=wisp)
+	assert wisp.atk == 1+2+4
+
+
 def test_heroic_strike():
 	game = prepare_game()
 	strike = game.currentPlayer.give("CS2_105")

@@ -48,6 +48,12 @@ class CS2_073:
 	action = buffTarget("CS2_073e2")
 	combo = buffTarget("CS2_073e")
 
+class CS2_073e:
+	Atk = 4
+
+class CS2_073e2:
+	Atk = 2
+
 
 # Deadly Poison
 class CS2_074:
