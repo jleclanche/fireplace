@@ -239,7 +239,7 @@ class Card(Entity):
 		"""
 		Helper for Player.summon(buff, minion)
 		"""
-		ret = self.controller.summon(card, target=self)
+		return self.controller.summon(card, target=self)
 
 
 def cardsForHero(hero):
