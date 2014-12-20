@@ -42,8 +42,10 @@ class Player(Entity):
 		ret = []
 		for entity in self.field:
 			ret += entity.entities
-		for entity in self.secrets:
-			ret += entity.entities
+		# Secrets are only active on the opponent's turn
+		if not self.currentPlayer:
+			for entity in self.secrets:
+				ret += entity.entities
 		# Note: Board receives TURN_BEGIN before player
 		return chain(list(self.hero.entities), ret, [self])
 
