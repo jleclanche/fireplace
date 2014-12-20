@@ -995,6 +995,7 @@ def test_armorsmith():
 	# Whirlwind. 1 armor on each hero, 2 armorsmiths in play for current player, 1 for opponent.
 	game.currentPlayer.give("EX1_400").play()
 	assert game.currentPlayer.hero.armor == 7
+	assert game.currentPlayer.hero.health == 30
 	assert game.currentPlayer.opponent.hero.armor == 2
 
 
@@ -1555,7 +1556,14 @@ def test_ice_barrier():
 	game = prepare_game(MAGE, MAGE)
 	icebarrier = game.currentPlayer.give("EX1_289")
 	icebarrier2 = game.currentPlayer.give("EX1_289")
-	game.endTurn(); game.endTurn()
+	friendlywisp = game.currentPlayer.give(WISP)
+	friendlywisp.play()
+	game.endTurn()
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	wisp2 = game.currentPlayer.give(WISP)
+	wisp2.play()
+	game.endTurn()
 	game.endTurn(); game.endTurn()
 
 	assert icebarrier.isPlayable()
@@ -1563,8 +1571,26 @@ def test_ice_barrier():
 	assert not icebarrier2.isPlayable()
 	assert game.currentPlayer.secrets
 	assert icebarrier in game.currentPlayer.secrets
+	assert not game.currentPlayer.hero.armor
 	game.endTurn(); game.endTurn()
+
 	assert not icebarrier2.isPlayable()
+	friendlywisp.attack(target=game.currentPlayer.opponent.hero)
+	assert not game.currentPlayer.hero.armor
+	assert not game.currentPlayer.opponent.hero.armor
+	game.endTurn(); game.endTurn()
+
+	friendlywisp.attack(target=wisp2)
+	assert not game.currentPlayer.hero.armor
+	assert not game.currentPlayer.opponent.hero.armor
+	assert friendlywisp.zone == Zone.GRAVEYARD
+	assert wisp2.zone == Zone.GRAVEYARD
+	game.endTurn()
+
+	assert len(game.currentPlayer.opponent.secrets) == 1
+	wisp.attack(target=game.currentPlayer.opponent.hero)
+	assert not game.currentPlayer.opponent.secrets
+	assert game.currentPlayer.opponent.hero.armor == 7
 
 
 def test_stoneskin_gargoyle():

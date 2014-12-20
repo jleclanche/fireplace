@@ -98,3 +98,11 @@ class EX1_275:
 # Pyroblast
 class EX1_279:
 	action = damageTarget(10)
+
+
+# Ice Barrier
+class EX1_289:
+	def BEFORE_ATTACK(self, source, target):
+		if target == self.controller.hero:
+			self.controller.hero.armor += 8
+			self.reveal()
