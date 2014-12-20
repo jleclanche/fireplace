@@ -100,9 +100,20 @@ class EX1_279:
 	action = damageTarget(10)
 
 
+##
+# Secrets
+
 # Ice Barrier
 class EX1_289:
 	def BEFORE_ATTACK(self, source, target):
 		if target == self.controller.hero:
 			self.controller.hero.armor += 8
+			self.reveal()
+
+
+# Vaporize
+class EX1_594:
+	def BEFORE_ATTACK(self, source, target):
+		if target == self.controller.hero and source.type == CardType.MINION:
+			source.destroy()
 			self.reveal()

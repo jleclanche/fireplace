@@ -1593,6 +1593,30 @@ def test_ice_barrier():
 	assert game.currentPlayer.opponent.hero.armor == 7
 
 
+def test_vaporize():
+	game = prepare_game()
+	vaporize = game.currentPlayer.give("EX1_594")
+	game.endTurn()
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	game.endTurn()
+	game.endTurn(); game.endTurn()
+	vaporize.play()
+	assert game.currentPlayer.secrets[0] == vaporize
+	game.endTurn()
+	assert len(game.currentPlayer.opponent.secrets) == 1
+	# Play an axe and hit the hero ourselves
+	game.currentPlayer.give("CS2_106").play()
+	game.currentPlayer.hero.attack(target=game.currentPlayer.opponent.hero)
+	assert len(game.currentPlayer.opponent.secrets) == 1
+	assert game.currentPlayer.opponent.hero.health == 27
+	wisp.attack(target=game.currentPlayer.opponent.hero)
+	assert not game.currentPlayer.opponent.secrets
+	assert vaporize.zone == Zone.GRAVEYARD
+	assert wisp.zone == Zone.GRAVEYARD
+	assert game.currentPlayer.opponent.hero.health == 27
+
+
 def test_stoneskin_gargoyle():
 	game = prepare_game()
 	gargoyle = game.currentPlayer.give("FP1_027")
