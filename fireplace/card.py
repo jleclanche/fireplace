@@ -195,6 +195,7 @@ class Card(Entity):
 		"OWN_TURN_BEGIN", "OWN_TURN_END",
 		"MINION_SUMMONED", "OWN_MINION_SUMMONED", "OWN_MINION_DESTROYED",
 		"CARD_PLAYED", "OWN_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
+		"BEFORE_ATTACK",
 		"OWN_DAMAGE", "SELF_DAMAGE",
 		"HEAL", "OWN_HEAL", "SELF_HEAL"
 	]
@@ -279,6 +280,8 @@ class Character(Card):
 
 	def attack(self, target):
 		assert target.zone == Zone.PLAY
+		assert self.controller.currentPlayer
+		self.game.broadcast("BEFORE_ATTACK", self, target)
 		logging.info("%r attacks %r" % (self, target))
 		self.hit(target, self.atk)
 		if target.atk:
