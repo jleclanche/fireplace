@@ -281,8 +281,14 @@ class Character(Card):
 	def attack(self, target):
 		assert target.zone == Zone.PLAY
 		assert self.controller.currentPlayer
-		self.game.broadcast("BEFORE_ATTACK", self, target)
 		logging.info("%r attacks %r" % (self, target))
+		self.game.broadcast("BEFORE_ATTACK", self, target)
+		if self.zone != Zone.PLAY or target.zone != Zone.PLAY:
+			# Here the source or target of the attack may have disappeared from
+			# the board. So we interrupt the attack.
+			# This should be done using proposed attacker/defender tags...
+			logging.info("Attack has been interrupted.")
+			return
 		self.hit(target, self.atk)
 		if target.atk:
 			target.hit(self, target.atk)
