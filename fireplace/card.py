@@ -478,6 +478,11 @@ class Secret(Card):
 			self.controller.secrets.append(self)
 		super().moveToZone(old, new)
 
+	def reveal(self):
+		logging.info("Revealing secret %r" % (self))
+		self.game.broadcast("SECRET_REVEAL", self, self.controller)
+		self.destroy()
+
 
 class Enchantment(Card):
 	def summon(self, target):
