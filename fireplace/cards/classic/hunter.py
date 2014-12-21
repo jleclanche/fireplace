@@ -123,3 +123,13 @@ class EX1_617:
 class NEW1_031:
 	def action(self):
 		self.controller.summon(random.choice(self.entourage))
+
+# Leokk
+class NEW1_033:
+	Aura = "NEW1_033o"
+
+class NEW1_033o:
+	Atk = 1
+	targeting = TARGET_FRIENDLY_MINIONS
+	def isValidTarget(self, target):
+		return target is not self.source

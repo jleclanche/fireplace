@@ -15,6 +15,12 @@ class EX1_362:
 		target.divineShield = True
 
 
+# Aldor Peacekeeper
+class EX1_382:
+	def action(self, target):
+		target.buff("EX1_382e").setAtk(1)
+
+
 # Tirion Fordring
 class EX1_383:
 	action = equipWeapon("EX1_383t")

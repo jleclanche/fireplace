@@ -190,6 +190,11 @@ class EX1_046e:
 	Atk = 2
 
 
+# Spellbreaker
+class EX1_048:
+	action = silenceTarget
+
+
 # Youthful Brewmaster
 class EX1_049:
 	action = bounceTarget
