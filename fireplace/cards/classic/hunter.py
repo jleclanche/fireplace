@@ -58,6 +58,13 @@ class EX1_534:
 ##
 # Spells
 
+# Hunter's Mark
+class CS2_084:
+	def action(self, target):
+		target.damage = 0
+		target.buff("CS2_084e", health=-target.health+1)
+
+
 # Multi-Shot
 class DS1_183:
 	def action(self):

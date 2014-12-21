@@ -10,6 +10,7 @@ from fireplace.enums import *
 MOONFIRE = "CS2_008"
 WISP = "CS2_231"
 CIRCLE_OF_HEALING = "EX1_621"
+SILENCE = "EX1_332"
 SPELLBENDERT = "tt_010a"
 THE_COIN = "GAME_005"
 
@@ -307,7 +308,7 @@ def test_divine_shield():
 
 def test_silence():
 	game = prepare_game()
-	silence = game.currentPlayer.give("EX1_332")
+	silence = game.currentPlayer.give(SILENCE)
 	thrallmar = game.currentPlayer.give("EX1_021")
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
@@ -907,6 +908,20 @@ def test_heroic_strike():
 	game.currentPlayer.give("CS2_105").play()
 	game.currentPlayer.give("CS2_106").play()
 	assert game.currentPlayer.hero.atk == 7
+
+
+def test_hunters_mark():
+	game = prepare_game()
+	token = game.currentPlayer.give(SPELLBENDERT)
+	token.play()
+	assert token.health == 3
+	game.currentPlayer.give(MOONFIRE).play(target=token)
+	assert token.health == 2
+	mark = game.currentPlayer.give("CS2_084")
+	mark.play(target=token)
+	assert token.health == 1
+	game.currentPlayer.give(SILENCE).play(target=token)
+	assert token.health == 3
 
 
 def test_mindgames():
