@@ -92,6 +92,13 @@ class EX1_371:
 		target.shield = True
 
 
+# Equality
+class EX1_619:
+	def action(self):
+		for target in self.game.board:
+			target.buff("EX1_619e").setHealth(1)
+
+
 ##
 # Weapons
 

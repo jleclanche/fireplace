@@ -333,6 +333,26 @@ def test_earth_shock():
 	assert crusader.zone == Zone.GRAVEYARD
 
 
+def test_equality():
+	game = prepare_game()
+	equality = game.currentPlayer.give("EX1_619")
+	# summon a bunch of big dudes
+	game.currentPlayer.summon("CS2_186")
+	game.currentPlayer.summon("CS2_186")
+	game.currentPlayer.opponent.summon("CS2_186")
+	game.currentPlayer.opponent.summon("CS2_186")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	# And a violet teacher too, why not
+	game.currentPlayer.summon("NEW1_026")
+
+	pyro = game.currentPlayer.give("NEW1_020")
+	pyro.play()
+	assert len(game.board) == 6
+	equality.play()
+	assert not game.board
+
+
 def test_stealth_windfury():
 	game = prepare_game(MAGE, MAGE)
 	worgen = game.currentPlayer.give("EX1_010")
