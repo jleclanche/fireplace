@@ -245,11 +245,14 @@ class Card(Entity):
 			self._aura.summon()
 			logging.info("Aura %r suddenly appears" % (self._aura))
 
-	def buff(self, card):
+	def buff(self, card, **kwargs):
 		"""
 		Helper for Player.summon(buff, minion)
 		"""
-		return self.controller.summon(card, target=self)
+		ret = self.controller.summon(card, target=self)
+		for k, v in kwargs.items():
+			setattr(ret, k, v)
+		return ret
 
 
 def cardsForHero(hero):
