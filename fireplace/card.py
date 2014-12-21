@@ -107,6 +107,10 @@ class Card(Entity):
 	def health(self):
 		return max(0, self.maxHealth - self.damage)
 
+	@health.setter
+	def health(self, value):
+		self.tags[GameTag.HEALTH] = value
+
 	@property
 	def atk(self):
 		return self.getIntProperty(GameTag.ATK)
