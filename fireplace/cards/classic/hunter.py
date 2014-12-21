@@ -61,8 +61,7 @@ class EX1_534:
 # Hunter's Mark
 class CS2_084:
 	def action(self, target):
-		target.damage = 0
-		target.buff("CS2_084e", health=-target.health+1)
+		target.buff("CS2_084e").setHealth(1)
 
 
 # Multi-Shot

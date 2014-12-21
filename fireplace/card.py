@@ -513,6 +513,13 @@ class Enchantment(Card):
 			logging.info("Triggering Enchantment Deathrattle for %r" % (self))
 			self.data.deathrattle(self)
 
+	def setHealth(self, value):
+		"Helper to set a character's health to \a value through an Enchantment"
+		assert self.owner.health
+		logging.info("Setting %r's Health to %i through %r" % (self.owner, value, self))
+		self.owner.damage = 0
+		self.health = -self.owner.health + value
+
 	def TURN_END(self, *args):
 		if self.tags.get(GameTag.OneTurnEffect):
 			logging.info("Ending One-Turn effect: %r" % (self))
