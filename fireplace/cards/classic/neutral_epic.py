@@ -29,6 +29,14 @@ class EX1_590e:
 	Health = 3
 
 
+# Captain's Parrot
+class NEW1_016:
+	def action(self):
+		pirates = self.controller.deck.filterByRace(Race.PIRATE)
+		if pirates:
+			self.controller.draw(random.choice(pirates))
+
+
 # Hungry Crab
 class NEW1_017:
 	def action(self, target):

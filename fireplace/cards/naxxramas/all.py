@@ -25,6 +25,16 @@ class FP1_004:
 			self.controller.summon(random.choice(secrets))
 
 
+# Shade of Naxxramas
+class FP1_005:
+	def OWN_TURN_BEGIN(self):
+		self.buff("FP1_005e")
+
+class FP1_005e:
+	Atk = 1
+	Health = 1
+
+
 # Nerubian Egg
 class FP1_007:
 	deathrattle = summonMinion("FP1_007t")

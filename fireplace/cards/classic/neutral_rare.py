@@ -83,6 +83,17 @@ class EX1_058:
 				minion.taunt = True
 
 
+# Secretkeeper
+class EX1_080:
+	def CARD_PLAYED(self, card):
+		if card.tags.get(GameTag.SECRET):
+			self.buff("EX1_080e")
+
+class EX1_080o:
+	Atk = 1
+	Health = 1
+
+
 # Mind Control Tech
 class EX1_085:
 	def action(self):
