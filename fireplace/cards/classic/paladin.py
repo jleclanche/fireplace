@@ -73,6 +73,12 @@ class EX1_354:
 		self.controller.draw(3)
 
 
+# Humility
+class EX1_360:
+	def action(self, target):
+		target.buff("EX1_360e").setAtk(1)
+
+
 # Holy Wrath
 class EX1_365:
 	def action(self, target):

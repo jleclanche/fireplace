@@ -910,6 +910,32 @@ def test_heroic_strike():
 	assert game.currentPlayer.hero.atk == 7
 
 
+def test_humility():
+	game = prepare_game()
+	humility = game.currentPlayer.give("EX1_360")
+	humility2 = game.currentPlayer.give("EX1_360")
+	seargent = game.currentPlayer.give("CS2_188")
+	seargent2 = game.currentPlayer.give("CS2_188")
+	golem = game.currentPlayer.summon("CS2_186")
+	game.endTurn(); game.endTurn()
+
+	assert golem.atk == 7
+	humility.play(target=golem)
+	assert golem.atk == 1
+	seargent.play(target=golem)
+	assert golem.atk == 3
+	game.endTurn()
+	assert golem.atk == 1
+	game.endTurn()
+
+	seargent2.play(target=golem)
+	assert golem.atk == 3
+	humility2.play(target=golem)
+	assert golem.atk == 1
+	game.endTurn()
+	assert golem.atk == 1
+
+
 def test_hunters_mark():
 	game = prepare_game()
 	token = game.currentPlayer.give(SPELLBENDERT)

@@ -501,6 +501,8 @@ class Secret(Card):
 
 
 class Enchantment(Card):
+	oneTurnEffect = _TAG(GameTag.OneTurnEffect, False)
+
 	def summon(self, target):
 		super().summon()
 		self.owner = target
@@ -513,6 +515,19 @@ class Enchantment(Card):
 			logging.info("Triggering Enchantment Deathrattle for %r" % (self))
 			self.data.deathrattle(self)
 
+	def setAtk(self, value):
+		"Helper to set a character's atk to \a value through an Enchantment"
+		logging.info("Setting %r's Atk to %i through %r" % (self.owner, value, self))
+		for buff in self.owner.buffs:
+			# Nullify all OneTurnEffect atk buffs.
+			# This is needed because of things like Abusive Seargent + Humility
+			# which results in negative atk otherwise.
+			# @mischanix thinks this is handled through an internal "attack value
+			# this turn" tag. Who's right? Find out in Season 2.
+			if buff.oneTurnEffect and buff.atk:
+				buff.atk = 0
+		self.atk = -self.owner.atk + value
+
 	def setHealth(self, value):
 		"Helper to set a character's health to \a value through an Enchantment"
 		assert self.owner.health
@@ -521,7 +536,7 @@ class Enchantment(Card):
 		self.health = -self.owner.health + value
 
 	def TURN_END(self, *args):
-		if self.tags.get(GameTag.OneTurnEffect):
+		if self.oneTurnEffect:
 			logging.info("Ending One-Turn effect: %r" % (self))
 			self.destroy()
 
