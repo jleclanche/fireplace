@@ -148,3 +148,11 @@ class EX1_624:
 	def action(self, target):
 		self.hit(target, 5)
 		self.heal(self.controller.hero, 5)
+
+
+# Mass Dispel
+class EX1_626:
+	def action(self):
+		for target in self.controller.getTargets(TARGET_ALL_ENEMY_MINIONS):
+			target.silence()
+		self.controller.draw()
