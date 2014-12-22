@@ -84,6 +84,12 @@ class EX1_161:
 		self.controller.opponent.draw(2)
 
 
+# Innervate
+class EX1_169:
+	def action(self):
+		self.controller.tempMana += 2
+
+
 # Starfire
 class EX1_173:
 	def action(self, target):

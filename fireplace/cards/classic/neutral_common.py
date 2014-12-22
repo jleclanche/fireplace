@@ -265,6 +265,13 @@ class EX1_583:
 		self.heal(self.controller.hero, 4)
 
 
+# Bloodsail Raider
+class NEW1_018:
+	def action(self):
+		if self.controller.hero.weapon:
+			self.buff("NEW1_018e", atk=self.controller.hero.weapon.atk)
+
+
 # Flesheating Ghoul
 class tt_004:
 	def MINION_DESTROYED(self):
