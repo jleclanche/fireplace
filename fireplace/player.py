@@ -187,7 +187,7 @@ class Player(Entity):
 
 	def OWN_TURN_BEGIN(self):
 		self.combo = False
-		self.setTag(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
+		self.numCardsPlayedThisTurn = 0
 		self.maxMana += 1
 		self.usedMana = self.overloaded
 		if self.overloaded:
