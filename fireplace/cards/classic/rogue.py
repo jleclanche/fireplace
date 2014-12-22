@@ -98,8 +98,7 @@ class EX1_124:
 class EX1_126:
 	def action(self, target):
 		for minion in target.adjacentMinions:
-			if minion:
-				target.hit(minion, target.atk)
+			target.hit(minion, target.atk)
 
 
 # Fan of Knives

@@ -38,9 +38,9 @@ def test_positioning():
 	wisp3 = game.currentPlayer.give(WISP)
 	wisp3.play()
 
-	assert wisp1.adjacentMinions == (None, wisp2)
-	assert wisp2.adjacentMinions == (wisp1, wisp3)
-	assert wisp3.adjacentMinions == (wisp2, None)
+	assert wisp1.adjacentMinions == [wisp2]
+	assert wisp2.adjacentMinions == [wisp1, wisp3]
+	assert wisp3.adjacentMinions == [wisp2]
 	game.endTurn(); game.endTurn()
 	flametongue = game.currentPlayer.give("EX1_565")
 	flametongue.play()
@@ -53,7 +53,7 @@ def test_positioning():
 	assert wisp2.atk == 1
 	assert wisp3.atk == 3, wisp3.atk
 	assert flametongue.atk == 0, flametongue.atk
-	assert flametongue.adjacentMinions == (wisp3, wisp4)
+	assert flametongue.adjacentMinions == [wisp3, wisp4]
 	assert wisp4.atk == 3, wisp4.atk
 
 

@@ -408,10 +408,15 @@ class Minion(Character):
 	@property
 	def adjacentMinions(self):
 		assert self.zone is Zone.PLAY, self.zone
+		ret = CardList()
 		index = self.controller.field.index(self)
 		left = self.controller.field[:index]
 		right = self.controller.field[index+1:]
-		return (left and left[-1] or None, right and right[0] or None)
+		if left:
+			ret.append(left[-1])
+		if right:
+			ret.append(right[0])
+		return ret
 
 	@property
 	def slots(self):
@@ -570,8 +575,7 @@ class Aura(Card):
 
 	def isValidTarget(self, card):
 		if self.source.type == CardType.MINION and self.source.adjacentBuff:
-			adj = self.source.adjacentMinions
-			if card is not adj[0] and card is not adj[1]:
+			if card not in self.source.adjacentMinions:
 				return False
 		if card not in self.targets:
 			return False

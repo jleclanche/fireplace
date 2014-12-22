@@ -79,8 +79,7 @@ class EX1_055o:
 class EX1_058:
 	def action(self):
 		for minion in self.adjacentMinions:
-			if minion:
-				minion.taunt = True
+			minion.taunt = True
 
 
 # Secretkeeper
