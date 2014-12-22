@@ -24,6 +24,12 @@ destroyTarget = lambda self, target: target.destroy()
 silenceTarget = lambda self, target: target.silence()
 
 
+def gainArmor(amount):
+	def _gainArmor(self):
+		self.controller.hero.armor += amount
+	return _gainArmor
+
+
 def healTarget(amount):
 	def _healTarget(self, target):
 		self.heal(target, amount)

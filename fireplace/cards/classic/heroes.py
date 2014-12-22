@@ -11,8 +11,7 @@ class HERO_01:
 
 # Armor Up!
 class CS2_102:
-	def action(self):
-		self.controller.hero.armor += 2
+	action = gainArmor(2)
 
 
 # Thrall
