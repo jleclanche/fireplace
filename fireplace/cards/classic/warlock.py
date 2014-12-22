@@ -19,6 +19,19 @@ class EX1_301:
 		self.controller.maxMana -= 1
 
 
+# Void Terror
+class EX1_304:
+	def action(self):
+		if self.adjacentMinions:
+			atk = 0
+			health = 0
+			for minion in self.adjacentMinions:
+				atk += minion.atk
+				health += minion.health
+				minion.destroy()
+			self.buff("EX1_304e", atk=atk, health=health)
+
+
 # Succubus
 class EX1_306:
 	action = discard(1)

@@ -835,6 +835,36 @@ def test_voidcaller():
 	assert len(game.currentPlayer.hand) == 3
 
 
+def test_void_terror():
+	game = prepare_game()
+	terror1 = game.currentPlayer.give("EX1_304")
+	terror2 = game.currentPlayer.give("EX1_304")
+	terror3 = game.currentPlayer.give("EX1_304")
+	power = game.currentPlayer.give("EX1_316")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	terror1.play()
+	assert terror1.atk == 3
+	assert terror1.health == 3
+	game.endTurn(); game.endTurn()
+
+	terror2.play()
+	assert terror1.zone == Zone.GRAVEYARD
+	assert terror2.atk == 3+3
+	assert terror2.health == 3+3
+	game.endTurn(); game.endTurn()
+
+	power.play(target=terror2)
+	assert terror2.health == 3+3+4
+	assert terror2.atk == 3+3+4
+	terror3.play()
+	assert terror2.zone == Zone.GRAVEYARD
+	assert terror3.atk == 3+3+3+4
+	assert terror3.health == 3+3+3+4
+	game.endTurn(); game.endTurn()
+	assert terror3.zone == Zone.PLAY
+
+
 def test_mana_addict():
 	game = prepare_game()
 	manaaddict = game.currentPlayer.give("EX1_055")
