@@ -1432,6 +1432,31 @@ def test_ragnaros():
 	assert not ragnaros.canAttack()
 
 
+def test_truesilver_champion():
+	game = prepare_game()
+	truesilver = game.currentPlayer.give("CS2_097")
+	lightwarden = game.currentPlayer.give("EX1_001")
+	lightwarden.play()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	truesilver.play()
+	assert game.currentPlayer.hero.weapon is truesilver
+	assert game.currentPlayer.hero.atk == 4
+	assert game.currentPlayer.hero.health == 30
+	game.currentPlayer.hero.attack(target=game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.hero.health == 30
+	assert lightwarden.atk == 1
+	game.endTurn(); game.endTurn()
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	game.currentPlayer.hero.attack(target=game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.hero.health == 29
+	assert lightwarden.atk == 3
+
+
+
 def test_twilight_drake():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()

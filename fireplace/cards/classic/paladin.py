@@ -108,6 +108,12 @@ class EX1_619:
 ##
 # Weapons
 
+# Truesilver Champion
+class CS2_097:
+	def BEFORE_SELF_ATTACK(self, target):
+		self.heal(self.controller.hero, 2)
+
+
 # Sword of Justice
 class EX1_366:
 	def OWN_MINION_SUMMONED(self, minion):
