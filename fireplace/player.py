@@ -19,7 +19,6 @@ class Player(Entity):
 		self.deck.hero.controller = self
 		self.hand = CardList()
 		self.field = CardList()
-		self.buffs = CardList()
 		self.secrets = CardList()
 		self.fatigueCounter = 0
 		# set to False after the player has finished his mulligan
