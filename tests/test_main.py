@@ -1172,6 +1172,21 @@ def test_gadgetzan_auctioneer():
 	assert len(game.currentPlayer.hand) == 5
 
 
+def test_gruul():
+	game = prepare_game()
+	gruul = game.currentPlayer.summon("NEW1_038")
+	assert gruul.atk == 7
+	assert gruul.health == 7
+	assert not gruul.buffs
+	game.endTurn()
+	assert gruul.buffs
+	assert gruul.atk == 8
+	assert gruul.health == 8
+	game.endTurn()
+	assert gruul.atk == 9
+	assert gruul.health == 9
+
+
 def test_hogger():
 	game = prepare_game()
 	hogger = game.currentPlayer.give("NEW1_040")

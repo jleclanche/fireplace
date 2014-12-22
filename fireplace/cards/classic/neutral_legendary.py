@@ -121,6 +121,16 @@ class NEW1_030:
 		self.controller.discardHand()
 
 
+# Gruul
+class NEW1_038:
+	def TURN_END(self, player):
+		self.buff("NEW1_038o")
+
+class NEW1_038o:
+	Atk = 1
+	Health = 1
+
+
 # Hogger
 class NEW1_040:
 	OWN_TURN_END = summonMinion("NEW1_040t")
