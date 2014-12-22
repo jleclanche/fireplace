@@ -123,6 +123,7 @@ class Game(Entity):
 
 	events = [
 		"UPDATE",
+		"ATTACK",
 		"CARD_DRAW",
 		"TURN_BEGIN", "TURN_END",
 		"DAMAGE", "HEAL",
@@ -134,6 +135,9 @@ class Game(Entity):
 		for card in self.board:
 			if card.health == 0:
 				card.destroy()
+
+	def ATTACK(self, source, target):
+		source.controller.broadcast("OWN_ATTACK", source, target)
 
 	def CARD_DRAW(self, player, card):
 		player.broadcast("OWN_CARD_DRAW", card)

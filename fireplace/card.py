@@ -199,7 +199,7 @@ class Card(Entity):
 		"OWN_TURN_BEGIN", "OWN_TURN_END",
 		"MINION_SUMMONED", "OWN_MINION_SUMMONED", "OWN_MINION_DESTROYED",
 		"CARD_PLAYED", "OWN_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
-		"BEFORE_ATTACK",
+		"BEFORE_ATTACK", "SELF_ATTACK",
 		"OWN_DAMAGE", "SELF_DAMAGE",
 		"HEAL", "OWN_HEAL", "SELF_HEAL"
 	]
@@ -300,6 +300,7 @@ class Character(Card):
 			# This should be done using proposed attacker/defender tags...
 			logging.info("Attack has been interrupted.")
 			return
+		self.game.broadcast("ATTACK", self, target)
 		self.hit(target, self.atk)
 		if target.atk:
 			target.hit(self, target.atk)
@@ -374,12 +375,6 @@ class Hero(Character):
 	@property
 	def entities(self):
 		return chain([self, self.power], self.slots)
-
-	def attack(self, target):
-		# TODO should be in Weapon.SELF_ATTACK or some such
-		super().attack(target)
-		if self.weapon:
-			self.weapon.durability -= 1
 
 	def SELF_DAMAGE(self, source, amount):
 		if self.armor:
@@ -645,6 +640,9 @@ class Weapon(Card):
 		if self.controller.hero.weapon:
 			self.controller.hero.weapon.destroy()
 		self.controller.hero.weapon = self
+
+	def SELF_ATTACK(self, target):
+		self.durability -= 1
 
 
 class HeroPower(Card):

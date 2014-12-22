@@ -177,12 +177,16 @@ class Player(Entity):
 	# Events
 
 	events = [
+		"OWN_ATTACK",
 		"OWN_TURN_BEGIN", "TURN_END",
 		"OWN_CARD_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
 		"OWN_CARD_PLAYED", "CARD_PLAYED", "AFTER_CARD_PLAYED",
 		"MINION_SUMMONED",
 	]
+
+	def OWN_ATTACK(self, source, target):
+		source.broadcast("SELF_ATTACK", target)
 
 	def OWN_TURN_BEGIN(self):
 		self.combo = False
