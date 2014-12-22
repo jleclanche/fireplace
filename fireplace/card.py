@@ -247,9 +247,13 @@ class Card(Entity):
 
 	def buff(self, card, **kwargs):
 		"""
-		Helper for Player.summon(buff, minion)
+		Summon a buff and apply it to \a card
+		If keyword arguments are given, attempt to set the given
+		values to the buff. Example:
+		player.buff(target, health=random.randint(1, 5))
 		"""
-		ret = self.controller.summon(card, target=self)
+		ret = self.controller.summon(card)
+		ret.apply(self)
 		for k, v in kwargs.items():
 			setattr(ret, k, v)
 		return ret
@@ -503,8 +507,8 @@ class Secret(Card):
 class Enchantment(Card):
 	oneTurnEffect = _TAG(GameTag.OneTurnEffect, False)
 
-	def summon(self, target):
-		super().summon()
+	def apply(self, target):
+		self.summon()
 		self.owner = target
 		target.buffs.append(self)
 

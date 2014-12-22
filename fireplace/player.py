@@ -141,7 +141,7 @@ class Player(Entity):
 		self.field.append(minion)
 		minion.owner = self
 
-	def summon(self, card, target=None):
+	def summon(self, card):
 		"""
 		Puts \a card in the PLAY zone
 		"""
@@ -150,10 +150,7 @@ class Player(Entity):
 			card.controller = self
 		logging.debug("%s summons %r" % (self, card))
 		card.zone = Zone.PLAY
-		if target:
-			card.summon(target)
-		else:
-			card.summon()
+		card.summon()
 		return card
 
 	def play(self, card, target=None):
