@@ -680,6 +680,29 @@ def test_demolisher():
 	assert game.currentPlayer.opponent.hero.health == 28
 
 
+def test_dread_infernal():
+	game = prepare_game()
+	infernal =  game.currentPlayer.give("CS2_064")
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.endTurn()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	assert len(game.board) == 6
+	infernal.play()
+	assert len(game.board) == 1
+	assert game.currentPlayer.hero.health == 29
+	assert game.currentPlayer.opponent.hero.health == 29
+	assert infernal.health == 6
+
+
 def test_imp_master():
 	game = prepare_game()
 

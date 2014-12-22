@@ -13,6 +13,14 @@ class CS2_059o:
 	Health = 1
 
 
+# Dread Infernal
+class CS2_064:
+	def action(self):
+		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+			if target is not self:
+				self.hit(target, 1)
+
+
 # Felguard
 class EX1_301:
 	def action(self):
