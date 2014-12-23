@@ -273,7 +273,7 @@ class Character(Card):
 	frozen = _TAG(GameTag.FROZEN, False)
 	numAttacks = _TAG(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 	poisonous = _TAG(GameTag.POISONOUS, False)
-	stealthed = _TAG(GameTag.STEALTH, False)
+	stealthed = _PROPERTY(GameTag.STEALTH, False)
 
 	def canAttack(self):
 		if self.tags.get(GameTag.CANT_ATTACK, False):

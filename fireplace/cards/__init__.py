@@ -18,6 +18,7 @@ tagnames = {
 	"Enrage": GameTag.ENRAGED,
 	"Health": GameTag.HEALTH,
 	"Recall": GameTag.RECALL,
+	"Stealth": GameTag.STEALTH,
 	"Taunt": GameTag.TAUNT,
 	"Windfury": GameTag.WINDFURY,
 	"cantAttack": GameTag.CANT_ATTACK, # XXX
