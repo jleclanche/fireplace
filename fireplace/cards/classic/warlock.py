@@ -53,14 +53,12 @@ class EX1_310:
 
 # Pit Lord
 class EX1_313:
-	def action(self):
-		self.hit(self.controller.hero, 5)
+	action = damageHero(5)
 
 
 # Flame Imp
 class EX1_319:
-	def action(self):
-		self.hit(self.controller.hero, 3)
+	action = damageHero(3)
 
 
 # Lord Jaraxxus

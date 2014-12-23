@@ -1,1 +1,2 @@
-from .all import *
+from .bosses import *
+from .collectible import *

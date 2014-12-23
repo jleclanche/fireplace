@@ -42,6 +42,12 @@ def damageTarget(amount):
 	return _damageTarget
 
 
+def damageHero(amount):
+	def _damageHero(self):
+		self.hit(self.controller.hero, amount)
+	return _damageHero
+
+
 def damageEnemyHero(amount):
 	def _damageEnemyHero(self):
 		self.hit(self.controller.opponent.hero, amount)
