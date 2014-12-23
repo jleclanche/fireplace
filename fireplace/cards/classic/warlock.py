@@ -7,7 +7,8 @@ from ..utils import *
 class CS2_059:
 	def OWN_TURN_END(self):
 		if self.controller.field:
-			random.choice(self.controller.field).buff("CS2_059o")
+			target = random.choice(self.controller.field)
+			self.buff(target, "CS2_059o")
 
 class CS2_059o:
 	Health = 1
@@ -37,7 +38,7 @@ class EX1_304:
 				atk += minion.atk
 				health += minion.health
 				minion.destroy()
-			self.buff("EX1_304e", atk=atk, health=health)
+			self.buff(self, "EX1_304e", atk=atk, health=health)
 
 
 # Succubus
@@ -164,7 +165,7 @@ class EX1_320:
 class EX1_596:
 	def action(self, target):
 		if target.race == Race.DEMON and target.controller == self.controller:
-			target.buff("EX1_596e")
+			self.buff(target, "EX1_596e")
 		else:
 			self.hit(target, 2)
 

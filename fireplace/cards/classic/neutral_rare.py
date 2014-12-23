@@ -12,7 +12,8 @@ class EX1_004:
 	def OWN_TURN_END(self):
 		other_minions = [t for t in self.controller.field if t is not self]
 		if other_minions:
-			random.choice(other_minions).buff("EX1_004e")
+			target = random.choice(other_minions)
+			target.buff("EX1_004e")
 
 class EX1_004e:
 	Health = 1
@@ -37,7 +38,7 @@ class EX1_009:
 class EX1_043:
 	def action(self):
 		for card in self.controller.hand:
-			self.buff("EX1_043e")
+			self.buff(self, "EX1_043e")
 
 class EX1_043e:
 	Health = 1
@@ -46,7 +47,7 @@ class EX1_043e:
 # Questing Adventurer
 class EX1_044:
 	def OWN_CARD_PLAYED(self, card):
-		self.buff("EX1_044e")
+		self.buff(self, "EX1_044e")
 
 class EX1_044e:
 	Atk = 1
@@ -69,7 +70,7 @@ class EX1_050:
 class EX1_055:
 	def OWN_CARD_PLAYED(self, card):
 		if card.type == CardType.SPELL:
-			self.buff("EX1_055o")
+			self.buff(self, "EX1_055o")
 
 class EX1_055o:
 	Atk = 2
@@ -86,7 +87,7 @@ class EX1_058:
 class EX1_080:
 	def CARD_PLAYED(self, card):
 		if card.tags.get(GameTag.SECRET):
-			self.buff("EX1_080e")
+			self.buff(self, "EX1_080e")
 
 class EX1_080o:
 	Atk = 1
@@ -110,7 +111,7 @@ class EX1_089:
 class EX1_093:
 	def action(self):
 		for target in self.adjacentMinions:
-			target.buff("EX1_093e")
+			self.buff(target, "EX1_093e")
 
 class EX1_093e:
 	Atk = 1
@@ -137,7 +138,7 @@ class EX1_103:
 	def action(self):
 		for minion in self.controller.field:
 			if minion.race == Race.MURLOC:
-				minion.buff("EX1_103e")
+				self.buff(minion, "EX1_103e")
 
 class EX1_103e:
 	Health = 2
@@ -154,7 +155,7 @@ class EX1_509:
 		if minion.race == Race.MURLOC and minion != self:
 			# NOTE: We have to check against ourselves here because the
 			# Battlecry happens when we are already in play
-			self.buff("EX1_509e")
+			self.buff(self, "EX1_509e")
 
 class EX1_509e:
 	Atk = 1
@@ -164,7 +165,7 @@ class EX1_509e:
 class EX1_584:
 	def action(self):
 		for target in self.adjacentMinions:
-			target.buff("EX1_584e")
+			self.buff(target, "EX1_584e")
 
 class EX1_584e:
 	spellpower = 1
@@ -211,7 +212,8 @@ class NEW1_037:
 	def OWN_TURN_END(self):
 		other_minions = [t for t in self.controller.field if t is not self]
 		if other_minions:
-			random.choice(other_minions).buff("NEW1_037e")
+			target = random.choice(other_minions)
+			self.buff(target, "NEW1_037e")
 
 class NEW1_037e:
 	Atk = 1

@@ -37,7 +37,7 @@ class CS2_009e:
 class CS2_011:
 	def action(self):
 		for target in self.controller.getTargets(TARGET_FRIENDLY_CHARACTERS):
-			target.buff("CS2_011o")
+			self.buff(target, "CS2_011o")
 
 class CS2_011o:
 	Atk = 2
@@ -69,7 +69,7 @@ class CS2_013t:
 class EX1_158:
 	def action(self):
 		for target in self.controller.field:
-			target.buff("EX1_158e")
+			self.buff(target, "EX1_158e")
 
 class EX1_158e:
 	Deathrattle = True

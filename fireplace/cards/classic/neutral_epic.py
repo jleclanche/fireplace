@@ -22,7 +22,7 @@ class EX1_590:
 		for target in self.game.board:
 			if target.divineShield:
 				target.divineShield = False
-				self.buff("EX1_590e")
+				self.buff(self, "EX1_590e")
 
 class EX1_590e:
 	Atk = 3
@@ -41,7 +41,7 @@ class NEW1_016:
 class NEW1_017:
 	def action(self, target):
 		target.destroy()
-		self.buff("NEW1_017e")
+		self.buff(self, "NEW1_017e")
 
 class NEW1_017e:
 	Atk = 2

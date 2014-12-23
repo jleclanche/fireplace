@@ -17,7 +17,7 @@ class EX1_134:
 class EX1_613:
 	def combo(self):
 		for i in range(self.controller.cardsPlayedThisTurn):
-			self.buff("EX1_613e")
+			self.buff(self, "EX1_613e")
 
 class EX1_613e:
 	Atk = 2
@@ -58,7 +58,7 @@ class CS2_073e2:
 # Deadly Poison
 class CS2_074:
 	def action(self):
-		self.controller.hero.weapon.buff("CS2_074e")
+		self.buff(self.controller.hero.weapon, "CS2_074e")
 
 class CS2_074e:
 	Atk = 2

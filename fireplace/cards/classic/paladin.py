@@ -18,7 +18,7 @@ class EX1_362:
 # Aldor Peacekeeper
 class EX1_382:
 	def action(self, target):
-		target.buff("EX1_382e").setAtk(1)
+		self.buff(target, "EX1_382e").setAtk(1)
 
 
 # Tirion Fordring
@@ -82,7 +82,7 @@ class EX1_354:
 # Humility
 class EX1_360:
 	def action(self, target):
-		target.buff("EX1_360e").setAtk(1)
+		self.buff(target, "EX1_360e").setAtk(1)
 
 
 # Holy Wrath
@@ -102,7 +102,7 @@ class EX1_371:
 class EX1_619:
 	def action(self):
 		for target in self.game.board:
-			target.buff("EX1_619e").setHealth(1)
+			self.buff(target, "EX1_619e").setHealth(1)
 
 
 ##
@@ -117,7 +117,7 @@ class CS2_097:
 # Sword of Justice
 class EX1_366:
 	def OWN_MINION_SUMMONED(self, minion):
-		minion.buff("EX1_366e")
+		self.buff(minion, "EX1_366e")
 		self.durability -= 1
 
 class EX1_366e:

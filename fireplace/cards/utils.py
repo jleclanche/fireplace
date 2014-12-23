@@ -50,13 +50,13 @@ def damageEnemyHero(amount):
 
 def buffTarget(buff):
 	def _buffTarget(self, target):
-		target.buff(buff)
+		self.buff(target, buff)
 	return _buffTarget
 
 
 def buffSelf(buff):
 	def _buffSelf(self):
-		self.controller.hero.buff(buff)
+		self.buff(self.controller.hero, buff)
 	return _buffSelf
 
 

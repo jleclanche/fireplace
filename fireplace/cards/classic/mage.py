@@ -14,7 +14,7 @@ class EX1_559:
 class NEW1_012:
 	def OWN_CARD_PLAYED(self, card):
 		if card.type == CardType.SPELL:
-			self.buff("NEW1_012o")
+			self.buff(self, "NEW1_012o")
 
 class NEW1_012o:
 	Atk = 1

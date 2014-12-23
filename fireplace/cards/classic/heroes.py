@@ -70,8 +70,7 @@ class HERO_06:
 
 # Shapeshift
 class CS2_017:
-	def action(self):
-		self.controller.hero.buff("CS2_017o")
+	action = buffSelf("CS2_017o")
 
 # Claws
 class CS2_017o:

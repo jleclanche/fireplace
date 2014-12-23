@@ -28,7 +28,7 @@ class FP1_004:
 # Shade of Naxxramas
 class FP1_005:
 	def OWN_TURN_BEGIN(self):
-		self.buff("FP1_005e")
+		self.buff(self, "FP1_005e")
 
 class FP1_005e:
 	Atk = 1
@@ -78,7 +78,8 @@ class FP1_022:
 class FP1_023:
 	def deathrattle(self):
 		if self.controller.field:
-			random.choice(self.controller.field).buff("FP1_023e")
+			target = random.choice(self.controller.field)
+			self.buff(target, "FP1_023e")
 
 class FP1_023e:
 	Health = 3
@@ -108,7 +109,7 @@ class FP1_027:
 class FP1_028:
 	def OWN_MINION_SUMMONED(self, minion):
 		if minion.hasDeathrattle:
-			self.buff("FP1_028e")
+			self.buff(self, "FP1_028e")
 
 class FP1_028e:
 	Atk = 1

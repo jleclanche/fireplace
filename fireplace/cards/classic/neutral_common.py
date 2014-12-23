@@ -18,7 +18,7 @@ class CS2_122e:
 class CS2_226:
 	def action(self):
 		for target in self.controller.field:
-			self.buff("CS2_226e")
+			self.buff(self, "CS2_226e")
 
 class CS2_226e:
 	Atk = 1
@@ -66,7 +66,7 @@ class EX1_398:
 # Gurubashi Berserker
 class EX1_399:
 	def SELF_DAMAGE(self, amount, source):
-		self.buff("EX1_399e")
+		self.buff(self, "EX1_399e")
 
 class EX1_399e:
 	Atk = 3
@@ -269,13 +269,13 @@ class EX1_583:
 class NEW1_018:
 	def action(self):
 		if self.controller.hero.weapon:
-			self.buff("NEW1_018e", atk=self.controller.hero.weapon.atk)
+			self.buff(self, "NEW1_018e", atk=self.controller.hero.weapon.atk)
 
 
 # Flesheating Ghoul
 class tt_004:
 	def MINION_DESTROYED(self):
-		self.buff("tt_004o")
+		self.buff(self, "tt_004o")
 
 class tt_004o:
 	Atk = 1

@@ -22,7 +22,7 @@ class EX1_250:
 class EX1_258:
 	def OWN_CARD_PLAYED(self, card):
 		if card.overload:
-			self.buff("EX1_258e")
+			self.buff(self, "EX1_258e")
 
 class EX1_258e:
 	Atk = 1
@@ -81,7 +81,7 @@ class CS2_039:
 class CS2_041:
 	def action(self, target):
 		self.heal(target, target.maxHealth)
-		target.buff("CS2_041e")
+		self.buff(target, "CS2_041e")
 
 class CS2_041e:
 	Taunt = True
@@ -99,7 +99,7 @@ class CS2_045e:
 class CS2_046:
 	def action(self):
 		for target in self.controller.field:
-			target.buff("CS2_046e")
+			self.buff(target, "CS2_046e")
 
 class CS2_046e:
 	Atk = 3
@@ -121,7 +121,7 @@ class EX1_244:
 	def action(self):
 		for target in self.controller.field:
 			if target.race == Race.TOTEM:
-				target.buff("EX1_244e")
+				self.buff(target, "EX1_244e")
 
 
 class EX1_244e:

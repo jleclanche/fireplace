@@ -164,7 +164,7 @@ class XXX_053:
 class XXX_054:
 	def action(self):
 		if self.hero.weapon:
-			self.hero.weapon.buff("XXX_054e")
+			self.buff(self.hero.weapon, "XXX_054e")
 
 class XXX_054e:
 	Atk = 100

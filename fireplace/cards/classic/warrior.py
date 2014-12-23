@@ -19,7 +19,7 @@ class EX1_414:
 # Cruel Taskmaster
 class EX1_603:
 	def action(self, target):
-		target.buff("EX1_603e")
+		self.buff(target, "EX1_603e")
 		self.hit(target, 1)
 
 class EX1_603e:
@@ -30,7 +30,7 @@ class EX1_603e:
 class EX1_604:
 	def DAMAGE(self, source, target, amount):
 		if target.type == CardType.MINION:
-			self.buff("EX1_604o")
+			self.buff(self, "EX1_604o")
 
 class EX1_604o:
 	Atk = 1
@@ -119,7 +119,7 @@ class EX1_408:
 class EX1_409:
 	def action(self):
 		if self.controller.hero.weapon:
-			self.controller.hero.weapon.buff("EX1_409e")
+			self.buff(self.controller.hero.weapon, "EX1_409e")
 			self.controller.hero.weapon.durability += 1
 		else:
 			self.controller.summon("EX1_409t")
@@ -144,7 +144,7 @@ class EX1_606:
 # Inner Rage
 class EX1_607:
 	def action(self, target):
-		target.buff("EX1_607e")
+		self.buff(target, "EX1_607e")
 		self.hit(target, 1)
 
 class EX1_607e:

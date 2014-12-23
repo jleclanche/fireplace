@@ -9,7 +9,7 @@ from ..utils import *
 class CS2_083:
 	def action(self):
 		if self.hero.weapon:
-			self.hero.weapon.buff("CS2_083e")
+			self.buff(self.hero.weapon, "CS2_083e")
 		else:
 			self.hero.summon("CS2_082")
 

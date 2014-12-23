@@ -41,7 +41,7 @@ class DS1_178e:
 class EX1_531:
 	def OWN_MINION_DESTROYED(self, minion):
 		if minion.race == Race.BEAST:
-			self.buff("EX1_531e")
+			self.buff(self, "EX1_531e")
 
 class EX1_531e:
 	Atk = 2
@@ -61,7 +61,7 @@ class EX1_534:
 # Hunter's Mark
 class CS2_084:
 	def action(self, target):
-		target.buff("CS2_084e").setHealth(1)
+		self.buff(target, "CS2_084e").setHealth(1)
 
 
 # Multi-Shot

@@ -245,15 +245,17 @@ class Card(Entity):
 			self._aura.summon()
 			logging.info("Aura %r suddenly appears" % (self._aura))
 
-	def buff(self, card, **kwargs):
+	def buff(self, target, buff, **kwargs):
 		"""
-		Summon a buff and apply it to \a card
+		Summon \a buff and apply it to \a target
 		If keyword arguments are given, attempt to set the given
 		values to the buff. Example:
 		player.buff(target, health=random.randint(1, 5))
+		NOTE: Any Card can buff any other Card. The controller of the
+		Card that buffs the target becomes the controller of the buff.
 		"""
-		ret = self.controller.summon(card)
-		ret.apply(self)
+		ret = self.controller.summon(buff)
+		ret.apply(target)
 		for k, v in kwargs.items():
 			setattr(ret, k, v)
 		return ret
@@ -509,7 +511,7 @@ class Enchantment(Card):
 	owner = _TAG(GameTag.OWNER, None)
 
 	def apply(self, target):
-		self.summon()
+		logging.info("Applying %r to %r" % (self, target))
 		self.owner = target
 		target.buffs.append(self)
 
@@ -583,7 +585,7 @@ class Aura(Card):
 		for target in self.targets:
 			if self.isValidTarget(target):
 				if not target in self._buffed:
-					self._buffs.append(target.buff(self.id))
+					self._buffs.append(self.buff(target, self.id))
 					self._buffed.append(target)
 
 	def destroy(self):

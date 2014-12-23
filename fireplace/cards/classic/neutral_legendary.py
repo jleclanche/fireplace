@@ -104,7 +104,7 @@ class EX1_614:
 class NEW1_024:
 	def action(self):
 		if self.controller.hero.weapon:
-			self.controller.hero.weapon.buff("NEW1_024o")
+			self.buff(self.controller.hero.weapon, "NEW1_024o")
 
 class NEW1_024o:
 	Atk = 1
@@ -124,7 +124,7 @@ class NEW1_030:
 # Gruul
 class NEW1_038:
 	def TURN_END(self, player):
-		self.buff("NEW1_038o")
+		self.buff(self, "NEW1_038o")
 
 class NEW1_038o:
 	Atk = 1

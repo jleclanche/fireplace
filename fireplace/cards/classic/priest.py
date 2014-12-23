@@ -13,7 +13,7 @@ class CS2_235:
 # Lightwarden
 class EX1_001:
 	def HEAL(self, source, target, amount):
-		self.buff("EX1_001e")
+		self.buff(self, "EX1_001e")
 
 class EX1_001e:
 	Atk = 2
@@ -62,7 +62,7 @@ class EX1_623e:
 # Power Word: Shield
 class CS2_004:
 	def action(self, target):
-		target.buff("CS2_004e")
+		self.buff(target, "CS2_004e")
 		self.controller.draw()
 
 class CS2_004e:
