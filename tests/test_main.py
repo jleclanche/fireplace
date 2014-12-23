@@ -965,6 +965,43 @@ def test_cold_blood():
 	assert wisp.atk == 1+2+4
 
 
+def test_corruption():
+	game = prepare_game()
+	corruption1 = game.currentPlayer.give("CS2_063")
+	cabal = game.currentPlayer.give("EX1_091")
+	game.endTurn()
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	wisp2 = game.currentPlayer.give(WISP)
+	wisp2.play()
+	corruption2 = game.currentPlayer.give("CS2_063")
+	game.endTurn()
+
+	corruption1.play(target=wisp)
+	assert wisp.zone == Zone.PLAY
+	assert wisp.buffs
+	assert wisp.buffs[0].controller == game.currentPlayer
+	game.endTurn()
+	assert wisp.zone == Zone.PLAY
+	game.endTurn()
+
+	assert wisp.zone == Zone.GRAVEYARD
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn()
+
+	# corrupt our own wisp. next turn opponent MCs it.
+	corruption2.play(target=wisp2)
+	assert wisp2.zone == Zone.PLAY
+	game.endTurn()
+
+	assert wisp2.zone == Zone.PLAY
+	cabal.play(target=wisp2)
+	assert wisp2.zone == Zone.PLAY
+	game.endTurn()
+	assert wisp2.zone == Zone.GRAVEYARD
+
+
 def test_heroic_strike():
 	game = prepare_game()
 	strike = game.currentPlayer.give("CS2_105")

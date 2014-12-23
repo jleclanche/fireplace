@@ -88,6 +88,19 @@ class CS2_062:
 			self.hit(target, 3)
 
 
+# Corruption
+class CS2_063:
+	action = buffTarget("CS2_063e")
+
+class CS2_063e:
+	def TURN_BEGIN(self, player):
+		# NOTE: We do not use OWN_TURN_BEGIN here because our controller
+		# is not necessarily the same as the owner's controller and we
+		# want it to be the original corrupting player's turn.
+		if player is self.controller:
+			self.owner.destroy()
+
+
 # Shadow Bolt
 class CS2_057:
 	action = damageTarget(4)
