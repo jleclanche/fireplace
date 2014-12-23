@@ -514,6 +514,8 @@ class Enchantment(Card):
 		logging.info("Applying %r to %r" % (self, target))
 		self.owner = target
 		target.buffs.append(self)
+		if hasattr(self.data, "apply"):
+			self.data.apply(self, target)
 
 	def destroy(self):
 		self.owner.buffs.remove(self)

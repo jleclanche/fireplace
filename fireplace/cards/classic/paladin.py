@@ -17,8 +17,11 @@ class EX1_362:
 
 # Aldor Peacekeeper
 class EX1_382:
-	def action(self, target):
-		self.buff(target, "EX1_382e").setAtk(1)
+	action = buffTarget("EX1_382e")
+
+class EX1_382e:
+	def apply(self, target):
+		self.setAtk(1)
 
 
 # Tirion Fordring
@@ -81,8 +84,11 @@ class EX1_354:
 
 # Humility
 class EX1_360:
-	def action(self, target):
-		self.buff(target, "EX1_360e").setAtk(1)
+	action = buffTarget("EX1_360e")
+
+class EX1_360e:
+	def apply(self, target):
+		self.setAtk(1)
 
 
 # Holy Wrath
