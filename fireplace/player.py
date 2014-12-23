@@ -138,7 +138,7 @@ class Player(Entity):
 		logging.info("%s takes control of %r" % (self, minion))
 		self.opponent.field.remove(minion)
 		self.field.append(minion)
-		minion.owner = self
+		minion.controller = self
 
 	def summon(self, card):
 		"""

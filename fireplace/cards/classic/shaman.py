@@ -131,8 +131,8 @@ class EX1_244e:
 class EX1_248:
 	Recall = 2
 	def action(self):
-		self.owner.summon("EX1_tk11")
-		self.owner.summon("EX1_tk11")
+		self.controller.summon("EX1_tk11")
+		self.controller.summon("EX1_tk11")
 
 
 # Forked Lightning
