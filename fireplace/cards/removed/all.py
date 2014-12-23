@@ -17,6 +17,11 @@ class CS2_083e:
 	Atk = 1
 
 
+# Repairs! (Antique Healbot)
+class GVG_069a:
+	Health = 4
+
+
 # Adrenaline Rush
 class NEW1_006:
 	action = drawCard

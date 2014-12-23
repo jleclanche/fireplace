@@ -261,8 +261,7 @@ class EX1_556:
 
 # Priestess of Elune
 class EX1_583:
-	def action(self):
-		self.heal(self.controller.hero, 4)
+	action = healHero(4)
 
 
 # Bloodsail Raider

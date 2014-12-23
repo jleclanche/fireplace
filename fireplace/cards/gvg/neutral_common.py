@@ -24,6 +24,11 @@ class GVG_068a:
 	Atk = 2
 
 
+# Antique Healbot
+class GVG_069:
+	action = healHero(8)
+
+
 # Ship's Cannon
 class GVG_075:
 	def OWN_MINION_SUMMONED(self, minion):
@@ -37,6 +42,13 @@ class GVG_076:
 	def deathrattle(self):
 		for target in self.game.board:
 			self.hit(target, 2)
+
+
+# Mechanical Yeti
+class GVG_078:
+	def deathrattle(self):
+		for player in self.game.players:
+			player.give(random.choice(self.data.entourage))
 
 
 # Clockwork Gnome

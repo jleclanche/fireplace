@@ -31,6 +31,12 @@ def gainArmor(amount):
 	return _gainArmor
 
 
+def healHero(amount):
+	def _healHero(self):
+		self.heal(hero, amount)
+	return _healHero
+
+
 def healTarget(amount):
 	def _healTarget(self, target):
 		self.heal(target, amount)
