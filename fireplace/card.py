@@ -506,6 +506,7 @@ class Secret(Card):
 
 class Enchantment(Card):
 	oneTurnEffect = _TAG(GameTag.OneTurnEffect, False)
+	owner = _TAG(GameTag.OWNER, None)
 
 	def apply(self, target):
 		self.summon()
