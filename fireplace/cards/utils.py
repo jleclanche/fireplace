@@ -22,6 +22,7 @@ def discard(count):
 bounceTarget = lambda self, target: target.bounce()
 destroyTarget = lambda self, target: target.destroy()
 silenceTarget = lambda self, target: target.silence()
+giveSparePart = lambda self: self.controller.give(random.choice(self.data.entourage))
 
 
 def gainArmor(amount):
