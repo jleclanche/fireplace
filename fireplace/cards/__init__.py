@@ -2,6 +2,7 @@ import os
 from ..enums import GameTag
 from .game import *
 from .classic import *
+from .gvg import *
 from .naxxramas import *
 from . import cardxml
 
