@@ -645,6 +645,19 @@ def test_end_turn_heal():
 	assert footman.health == 2
 
 
+def test_crazed_alchemist():
+	game = prepare_game()
+	alchemist = game.currentPlayer.give("EX1_059")
+	warden = game.currentPlayer.summon("EX1_396")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert warden.atk == 1
+	assert warden.health == 7
+	alchemist.play(target=warden)
+	assert warden.atk == 7
+	assert warden.health == 1
+
 def test_cruel_taskmaster():
 	game = prepare_game()
 	taskmaster1 = game.currentPlayer.give("EX1_603")

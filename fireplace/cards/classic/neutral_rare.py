@@ -83,6 +83,17 @@ class EX1_058:
 			minion.taunt = True
 
 
+# Crazed Alchemist
+class EX1_059:
+	action = buffTarget("EX1_059e")
+
+class EX1_059e:
+	def apply(self, target):
+		atk = target.atk
+		self.setAtk(target.health)
+		self.setHealth(atk)
+
+
 # Secretkeeper
 class EX1_080:
 	def CARD_PLAYED(self, card):
