@@ -21,6 +21,7 @@ tagnames = {
 	"Stealth": GameTag.STEALTH,
 	"Taunt": GameTag.TAUNT,
 	"Windfury": GameTag.WINDFURY,
+	"OneTurnEffect": GameTag.OneTurnEffect,
 	"cantAttack": GameTag.CANT_ATTACK, # XXX
 }
 
