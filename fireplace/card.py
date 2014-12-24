@@ -273,7 +273,6 @@ class Character(Card):
 	frozen = _TAG(GameTag.FROZEN, False)
 	numAttacks = _TAG(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 	poisonous = _TAG(GameTag.POISONOUS, False)
-	stealthed = _PROPERTY(GameTag.STEALTH, False)
 
 	def canAttack(self):
 		if self.tags.get(GameTag.CANT_ATTACK, False):
@@ -306,8 +305,6 @@ class Character(Card):
 		self.hit(target, self.atk)
 		if target.atk:
 			target.hit(self, target.atk)
-		if self.stealthed:
-			self.stealthed = False
 		self.numAttacks += 1
 
 	@property
@@ -404,6 +401,7 @@ class Minion(Character):
 	enrage = _TAG(GameTag.ENRAGED, False)
 
 	charge = _PROPERTY(GameTag.CHARGE, False)
+	stealthed = _PROPERTY(GameTag.STEALTH, False)
 	taunt = _PROPERTY(GameTag.TAUNT, False)
 
 	@property
@@ -433,6 +431,11 @@ class Minion(Character):
 			self.destroy()
 		else:
 			self.zone = Zone.HAND
+
+	def hit(self, target, amount):
+		super().hit(target, amount)
+		if self.stealthed:
+			self.stealthed = False
 
 	def moveToZone(self, old, new):
 		if old == Zone.PLAY:

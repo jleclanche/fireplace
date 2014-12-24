@@ -2,7 +2,7 @@
 Targeting logic
 """
 
-from .enums import PlayReq
+from .enums import CardType, PlayReq
 
 
 ##
@@ -41,8 +41,9 @@ TARGET_ALL_CHARACTERS = TARGET_ALL_MINIONS | TARGET_ANY_HERO
 
 # Requirements-based targeting
 def isValidTarget(self, target):
-	if target.stealthed and self.controller != target.controller:
-		return False
+	if target.type == CardType.MINION:
+		if target.stealthed and self.controller != target.controller:
+			return False
 	for req in self.data.requirements:
 		if req == PlayReq.REQ_MINION_TARGET:
 			if target.type != CardType.MINION:
