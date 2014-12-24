@@ -112,6 +112,19 @@ class EX1_332:
 	action = silenceTarget
 
 
+# Shadow Madness
+class EX1_334:
+	action = buffTarget("EX1_334e")
+
+class EX1_334e:
+	OneTurnEffect = True
+	def apply(self, target):
+		self.controller.takeControl(target)
+
+	def destroy(self):
+		self.controller.opponent.takeControl(self.owner)
+
+
 # Thoughtsteal
 class EX1_339:
 	def action(self):

@@ -527,6 +527,8 @@ class Enchantment(Card):
 			# If we have a deathrattle, it means the deathrattle is on the owner.
 			logging.info("Triggering Enchantment Deathrattle for %r" % (self))
 			self.data.deathrattle(self)
+		if hasattr(self.data, "destroy"):
+			self.data.destroy(self)
 
 	def setAtk(self, value):
 		"Helper to set a character's atk to \a value through an Enchantment"

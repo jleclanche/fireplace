@@ -1627,6 +1627,46 @@ def test_wild_pyromancer():
 	assert pyro.zone == Zone.PLAY
 
 
+def test_shadow_madness_wild_pyro():
+	game = prepare_game()
+	pyro = game.currentPlayer.give("NEW1_020")
+	game.endTurn(); game.endTurn()
+
+	pyro.play()
+	game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert pyro.controller == game.player1
+	assert pyro in game.player1.field
+	assert pyro.health == 2
+	shadowmadness = game.currentPlayer.give("EX1_334")
+	shadowmadness.play(target=pyro)
+	assert pyro.controller == game.player2
+	assert pyro in game.player2.field
+	assert pyro.health == 1
+	game.endTurn()
+	assert pyro.controller == game.player1
+	assert pyro in game.player1.field
+
+
+def test_shadow_madness_silence():
+	game = prepare_game()
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn()
+
+	assert wisp.controller == game.player1
+	shadowmadness = game.currentPlayer.give("EX1_334")
+	shadowmadness.play(target=wisp)
+	assert wisp.controller == game.player2
+	game.currentPlayer.give(SILENCE).play(target=wisp)
+	assert wisp.controller == game.player1
+	game.endTurn()
+	assert wisp.controller == game.player1
+
+
 def test_acolyte_of_pain():
 	game = prepare_game()
 	acolyte = game.currentPlayer.give("EX1_007")
