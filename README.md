@@ -7,6 +7,15 @@ A Hearthstone simulator and implementation, written in Python.
 
 * Python 3.4+
 
+### Documentation
+
+The [Fireplace Wiki](https://github.com/jleclanche/fireplace/wiki) is the best
+source of documentation, along with the actual code.
+
+### License
+
+Fireplace is licensed GPLv3. This may change in the future.
+
 ### IRC
 
 Join us on `#hearthsim` on [Freenode](https://freenode.net)
