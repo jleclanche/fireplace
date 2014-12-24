@@ -3,6 +3,13 @@ from ..utils import *
 ##
 # Minions
 
+# Starving Buzzard
+class CS2_237:
+	def OWN_MINION_SUMMONED(self, minion):
+		if minion.race == Race.BEAST:
+			self.controller.draw()
+
+
 # Houndmaster
 class DS1_070:
 	action = buffTarget("DS1_070o")
