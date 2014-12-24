@@ -1373,20 +1373,24 @@ def test_lightspawn():
 
 	lightspawn.play()
 	assert lightspawn.health == 5
-	assert lightspawn.atk == 5, lightspawn.atk
+	assert lightspawn.atk == 5
 
 	game.endTurn()
 	# play archer on lightspawn, goes to 4 health
 	game.currentPlayer.give("CS2_189").play(target=lightspawn)
 	assert lightspawn.health == 4
-	assert lightspawn.atk == 4, lightspawn.atk
+	assert lightspawn.atk == 4
 	assert not lightspawn.buffs
 	game.endTurn(); game.endTurn()
 	flametongue.play()
 
 	assert lightspawn.health == 4
 	assert lightspawn.buffs
-	assert lightspawn.atk == 4, lightspawn.atk
+	assert lightspawn.atk == 4
+
+	game.currentPlayer.give(SILENCE).play(target=lightspawn)
+	# 2 attack from the flametongue
+	assert lightspawn.atk == 2
 
 
 def test_lightwarden():
@@ -1600,10 +1604,9 @@ def test_wild_pyromancer():
 	game = prepare_game()
 	wisp = game.currentPlayer.give(WISP)
 	wisp.play()
-
+	pyro = game.currentPlayer.give("NEW1_020")
 	game.endTurn(); game.endTurn()
 
-	pyro = game.currentPlayer.give("NEW1_020")
 	pyro.play()
 	assert pyro.health == 2
 	assert wisp.zone == Zone.PLAY
@@ -1616,6 +1619,12 @@ def test_wild_pyromancer():
 	# play circle of healing. pyro should go up to 2hp then back to 1.
 	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
 	assert pyro.health == 1
+	assert pyro.zone == Zone.PLAY
+
+	# Silence the pyromancer. It should not trigger.
+	game.currentPlayer.give(SILENCE).play(target=pyro)
+	assert pyro.health == 1
+	assert pyro.zone == Zone.PLAY
 
 
 def test_acolyte_of_pain():

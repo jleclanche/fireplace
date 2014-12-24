@@ -363,6 +363,9 @@ class Character(Card):
 				logging.info("Silencing tag %r on %r" % (tag, self))
 				del self.tags[tag]
 
+		# Wipe the event listeners and keep only those of the card itself
+		self._registerEvents()
+
 
 class Hero(Character):
 	armor = _TAG(GameTag.ARMOR, 0)

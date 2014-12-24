@@ -3,9 +3,12 @@ import logging
 class Entity(object):
 	def __init__(self):
 		self.tags = {}
-		self._eventListeners = {}
 
 		# Register the events
+		self._registerEvents()
+
+	def _registerEvents(self):
+		self._eventListeners = {}
 		for name in self.events:
 			func = getattr(self, name, None)
 			# TODO multiple defs for same event
