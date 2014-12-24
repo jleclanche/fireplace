@@ -348,7 +348,8 @@ class Character(Card):
 		logging.info("%r has been silenced" % (self))
 		if self._aura:
 			self._aura.destroy()
-		self.buffs = []
+		for buff in self.buffs:
+			buff.destroy()
 		tags = (
 			GameTag.CANT_ATTACK,
 			GameTag.DIVINE_SHIELD,
