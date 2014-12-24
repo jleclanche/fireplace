@@ -50,6 +50,7 @@ def merge(xmlcard, carddef):
 		_initTags(carddef, cls)
 	cls.requirements = xmlcard.requirements
 	cls.entourage = xmlcard.entourage
+	cls.id = xmlcard.id
 	return cls
 
 
