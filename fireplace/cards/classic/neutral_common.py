@@ -87,7 +87,7 @@ class EX1_593:
 
 # Cult Master
 class EX1_595:
-	def OWN_MINION_DESTROYED(self, minion):
+	def OWN_MINION_DESTROY(self, minion):
 		self.controller.draw()
 
 
@@ -286,7 +286,7 @@ class NEW1_023:
 
 # Flesheating Ghoul
 class tt_004:
-	def MINION_DESTROYED(self):
+	def MINION_DESTROY(self):
 		self.buff(self, "tt_004o")
 
 class tt_004o:

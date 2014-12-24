@@ -111,7 +111,7 @@ class Game(Entity):
 		"CARD_DRAW",
 		"TURN_BEGIN", "TURN_END",
 		"DAMAGE", "HEAL",
-		"CARD_DESTROYED", "MINION_DESTROYED",
+		"CARD_DESTROYED", "MINION_DESTROY",
 		"SECRET_REVEAL",
 	]
 
@@ -149,13 +149,13 @@ class Game(Entity):
 	def HEAL(self, source, target, amount):
 		source.controller.broadcast("OWN_HEAL", source, target, amount)
 
-	def MINION_DESTROYED(self, minion):
-		minion.controller.broadcast("OWN_MINION_DESTROYED", minion)
+	def MINION_DESTROY(self, minion):
+		minion.controller.broadcast("OWN_MINION_DESTROY", minion)
 
 	def CARD_DESTROYED(self, card):
 		card.controller.broadcast("OWN_CARD_DESTROYED", card)
 		if card.type == CardType.MINION:
-			self.broadcast("MINION_DESTROYED", card)
+			self.broadcast("MINION_DESTROY", card)
 
 	def SECRET_REVEAL(self, secret, player):
 		assert secret.tags[GameTag.SECRET]

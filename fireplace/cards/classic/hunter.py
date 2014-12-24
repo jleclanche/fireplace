@@ -46,7 +46,7 @@ class DS1_178e:
 
 # Scavenging Hyena
 class EX1_531:
-	def OWN_MINION_DESTROYED(self, minion):
+	def OWN_MINION_DESTROY(self, minion):
 		if minion.race == Race.BEAST:
 			self.buff(self, "EX1_531e")
 
