@@ -59,8 +59,11 @@ def merge(xmlcard, carddef):
 # it exists.
 # This code is only ran once, at initial import.
 
-with open(_PATH, "r") as f:
-	db = cardxml.load(_PATH)
-	for id, card in db.items():
-		carddef = globals().get(id)
-		globals()[id] = merge(card, carddef)
+if "cardlist" not in globals():
+	with open(_PATH, "r") as f:
+		db = cardxml.load(_PATH)
+		cardlist = []
+		for id, card in db.items():
+			carddef = globals().get(id)
+			globals()[id] = merge(card, carddef)
+			cardlist.append(id)
