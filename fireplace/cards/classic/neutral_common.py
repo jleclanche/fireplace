@@ -39,6 +39,14 @@ class EX1_015:
 	action = drawCard
 
 
+# Mad Bomber
+class EX1_082:
+	def action(self):
+		for i in range(3):
+			target = random.choice(self.controller.getTargets(TARGET_ALL_CHARACTERS))
+			self.hit(target, 1)
+
+
 # Demolisher
 class EX1_102:
 	def OWN_TURN_BEGIN(self):

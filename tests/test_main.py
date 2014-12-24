@@ -817,6 +817,13 @@ def test_arcane_explosion():
 	assert len(game.currentPlayer.opponent.field) == 0
 
 
+def test_arcane_missiles():
+	game = prepare_game()
+	missiles = game.currentPlayer.give("EX1_277")
+	missiles.play()
+	assert game.currentPlayer.opponent.hero.health == 27
+
+
 def test_power_overwhelming():
 	game = prepare_game()
 	power = game.currentPlayer.give("EX1_316")

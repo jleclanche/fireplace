@@ -104,6 +104,14 @@ class EX1_371:
 		target.shield = True
 
 
+# Avenging Wrath
+class EX1_384:
+	def action(self):
+		for i in range(8):
+			target = random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS))
+			self.hit(target, 1)
+
+
 # Equality
 class EX1_619:
 	def action(self):

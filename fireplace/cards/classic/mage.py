@@ -95,6 +95,14 @@ class EX1_275:
 		target.frozen = True
 
 
+# Arcane Missiles
+class EX1_277:
+	def action(self):
+		for i in range(3):
+			target = random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS))
+			self.hit(target, 1)
+
+
 # Pyroblast
 class EX1_279:
 	action = damageTarget(10)
