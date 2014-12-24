@@ -239,6 +239,9 @@ class Card(Entity):
 
 	def summon(self):
 		if self.aura:
+			if self.aura == 1:
+				logging.warning("Undefined aura for %r", self)
+				return
 			self._aura = Aura(self.aura)
 			self._aura.source = self
 			self._aura.controller = self.controller
