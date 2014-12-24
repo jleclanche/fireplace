@@ -173,8 +173,11 @@ class Card(Entity):
 		logging.info("%r dies" % (self))
 		self.zone = Zone.GRAVEYARD
 		if self.hasDeathrattle:
-			logging.info("Triggering Deathrattle for %r" % (self))
-			self.data.deathrattle(self)
+			if not hasattr(self.data, "deathrattle"):
+				logging.warning("Undefined deathrattle for %r", self)
+			else:
+				logging.info("Triggering Deathrattle for %r" % (self))
+				self.data.deathrattle(self)
 		for buff in self.buffs:
 			buff.destroy()
 		self.game.broadcast("CARD_DESTROYED", self)
