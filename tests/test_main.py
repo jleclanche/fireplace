@@ -1917,6 +1917,24 @@ def test_sunfury_protector():
 	assert wisp2.taunt
 
 
+def test_faerie_dragon():
+	game = prepare_game(MAGE, MAGE)
+	dragon = game.currentPlayer.give("NEW1_023")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	dragon.play()
+	moonfire = game.currentPlayer.give(MOONFIRE)
+	assert dragon not in moonfire.targets
+	assert dragon not in game.currentPlayer.hero.power.targets
+	game.endTurn()
+
+	assert dragon not in game.currentPlayer.hero.power.targets
+	archer = game.currentPlayer.give("CS2_189")
+	assert dragon in archer.targets
+
+
+
 def test_flare():
 	game = prepare_game(HUNTER, HUNTER)
 	flare = game.currentPlayer.give("EX1_544")

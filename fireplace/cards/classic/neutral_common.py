@@ -279,6 +279,11 @@ class NEW1_018:
 			self.buff(self, "NEW1_018e", atk=self.controller.hero.weapon.atk)
 
 
+# Faerie Dragon
+class NEW1_023:
+	Chromatic = True
+
+
 # Flesheating Ghoul
 class tt_004:
 	def MINION_DESTROYED(self):
