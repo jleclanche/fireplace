@@ -104,12 +104,12 @@ class GameTag(IntEnum):
 	CARD_SET = 183
 	CLASS = 199
 	RARITY = 203
+	Collectible = 321
 
 	# unused
 	SUMMONED = 205
 	AttackVisualType = 251
 	DevState = 268
-	Collectible = 321
 	ENCHANTMENT_BIRTH_VISUAL = 330
 	ENCHANTMENT_IDLE_VISUAL = 331
 	InvisibleDeathrattle = 335  # Hack for Bigglesworth/Worshipper
