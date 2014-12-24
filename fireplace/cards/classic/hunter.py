@@ -5,7 +5,7 @@ from ..utils import *
 
 # Starving Buzzard
 class CS2_237:
-	def OWN_MINION_SUMMONED(self, minion):
+	def OWN_MINION_SUMMON(self, minion):
 		if minion.race == Race.BEAST:
 			self.controller.draw()
 

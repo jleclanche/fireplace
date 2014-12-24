@@ -112,7 +112,7 @@ class FP1_027:
 
 # Undertaker
 class FP1_028:
-	def OWN_MINION_SUMMONED(self, minion):
+	def OWN_MINION_SUMMON(self, minion):
 		if minion.hasDeathrattle:
 			self.buff(self, "FP1_028e")
 

@@ -200,7 +200,7 @@ class Card(Entity):
 		"UPDATE",
 		"TURN_BEGIN", "TURN_END",
 		"OWN_TURN_BEGIN", "OWN_TURN_END",
-		"MINION_SUMMONED", "OWN_MINION_SUMMONED",
+		"MINION_SUMMON", "OWN_MINION_SUMMON",
 		"MINION_DESTROYED", "OWN_MINION_DESTROYED",
 		"CARD_PLAYED", "OWN_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
 		"BEFORE_ATTACK", "BEFORE_SELF_ATTACK", "SELF_ATTACK",
@@ -485,7 +485,7 @@ class Minion(Character):
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return
 		self.controller.field.append(self)
-		self.game.broadcast("MINION_SUMMONED", self.controller, self)
+		self.game.broadcast("MINION_SUMMON", self.controller, self)
 		self.exhausted = True
 
 

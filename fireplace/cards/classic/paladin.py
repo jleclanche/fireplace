@@ -130,7 +130,7 @@ class CS2_097:
 
 # Sword of Justice
 class EX1_366:
-	def OWN_MINION_SUMMONED(self, minion):
+	def OWN_MINION_SUMMON(self, minion):
 		self.buff(minion, "EX1_366e")
 		self.durability -= 1
 

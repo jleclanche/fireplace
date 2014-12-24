@@ -182,7 +182,7 @@ class Player(Entity):
 		"OWN_CARD_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
 		"OWN_CARD_PLAYED", "CARD_PLAYED", "AFTER_CARD_PLAYED",
-		"MINION_SUMMONED",
+		"MINION_SUMMON",
 	]
 
 	def BEFORE_OWN_ATTACK(self, source, target):
@@ -233,6 +233,6 @@ class Player(Entity):
 		if player is self:
 			card.controller.broadcast("AFTER_OWN_CARD_PLAYED", card)
 
-	def MINION_SUMMONED(self, player, minion):
+	def MINION_SUMMON(self, player, minion):
 		if player is self:
-			minion.controller.broadcast("OWN_MINION_SUMMONED", minion)
+			minion.controller.broadcast("OWN_MINION_SUMMON", minion)

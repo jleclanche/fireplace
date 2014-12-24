@@ -31,7 +31,7 @@ class GVG_069:
 
 # Ship's Cannon
 class GVG_075:
-	def OWN_MINION_SUMMONED(self, minion):
+	def OWN_MINION_SUMMON(self, minion):
 		if minion.race == Race.PIRATE:
 			targets = self.controller.getTargets(TARGET_ENEMY_CHARACTERS)
 			self.hit(random.choice(targets), 2)

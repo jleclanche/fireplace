@@ -162,7 +162,7 @@ class EX1_284:
 
 # Murloc Tidecaller
 class EX1_509:
-	def MINION_SUMMONED(self, player, minion):
+	def MINION_SUMMON(self, player, minion):
 		if minion.race == Race.MURLOC and minion != self:
 			# NOTE: We have to check against ourselves here because the
 			# Battlecry happens when we are already in play
@@ -191,7 +191,7 @@ class EX1_597:
 
 # Knife Juggler
 class NEW1_019:
-	def OWN_MINION_SUMMONED(self, minion):
+	def OWN_MINION_SUMMON(self, minion):
 		self.hit(random.choice(self.controller.getTargets(TARGET_ALL_ENEMY_CHARACTERS)), 1)
 
 
