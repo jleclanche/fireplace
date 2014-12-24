@@ -5,6 +5,7 @@ import logging
 import random
 from fireplace.heroes import *
 from fireplace.enums import *
+from fireplace.utils import randomDraft
 
 
 MOONFIRE = "CS2_008"
@@ -19,8 +20,8 @@ logging.getLogger().setLevel(logging.DEBUG)
 
 def prepare_game(hero1=MAGE, hero2=WARRIOR):
 	print("Initializing a new game")
-	deck1 = fireplace.Deck.randomDraft(hero=hero1)
-	deck2 = fireplace.Deck.randomDraft(hero=hero2)
+	deck1 = randomDraft(hero=hero1)
+	deck2 = randomDraft(hero=hero2)
 	player1 = fireplace.Player(name="Player1", deck=deck1)
 	player2 = fireplace.Player(name="Player2", deck=deck2)
 	game = fireplace.Game(players=(player1, player2))

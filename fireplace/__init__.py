@@ -2,7 +2,7 @@ import logging
 import random
 from itertools import chain
 from . import heroes
-from .card import Card, cardsForHero, THE_COIN
+from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
 from .exceptions import *
@@ -14,22 +14,6 @@ class Deck(CardList):
 	MAX_CARDS = 30
 	MAX_UNIQUE_CARDS = 2
 	MAX_UNIQUE_LEGENDARIES = 1
-
-	@classmethod
-	def randomDraft(cls, hero):
-		"""
-		Return a deck of 30 random cards from the \a hero's collection
-		"""
-		deck = []
-		logging.info("Drafting a random deck for %r" % (hero))
-		collection = cardsForHero(hero)
-		heroCard = Card(hero)
-		while len(deck) < cls.MAX_CARDS:
-			card = random.choice(collection)
-			if deck.count(card) < cls.MAX_UNIQUE_CARDS:
-				# todo legendary check too
-				deck.append(card)
-		return Deck([Card(card) for card in deck], hero=heroCard)
 
 	def __init__(self, cards, hero, name=None):
 		super().__init__(cards)

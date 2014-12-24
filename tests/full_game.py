@@ -2,13 +2,14 @@
 import sys; sys.path.append("..")
 import fireplace
 import logging
+from fireplace.utils import randomDraft
 
 logging.getLogger().setLevel(logging.DEBUG)
 
 
 def main():
-	deck1 = fireplace.Deck.randomDraft(hero=fireplace.heroes.MAGE)
-	deck2 = fireplace.Deck.randomDraft(hero=fireplace.heroes.WARRIOR)
+	deck1 = randomDraft(hero=fireplace.heroes.MAGE)
+	deck2 = randomDraft(hero=fireplace.heroes.WARRIOR)
 	player1 = fireplace.Player(name="Player1", deck=deck1)
 	player2 = fireplace.Player(name="Player2", deck=deck2)
 

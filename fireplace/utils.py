@@ -50,3 +50,33 @@ class CardList(list):
 
 	def filterByRace(self, race):
 		return [card for card in self if card.race == race]
+
+
+def randomDraft(hero):
+	"""
+	Return a deck of 30 random cards from the \a hero's collection
+	"""
+	import random
+	from fireplace import Card, cards, Deck
+	from fireplace.enums import GameTag
+	deck = []
+	collection = []
+	hero = Card(hero)
+
+	for card in cards.cardlist:
+		cls = getattr(cards, card)
+		if not cls.tags.get(GameTag.Collectible):
+			continue
+		if cls.tags.get(GameTag.CLASS, hero.tags[GameTag.CLASS]) != hero.tags[GameTag.CLASS]:
+			continue
+		collection.append(cls)
+
+	while len(deck) < Deck.MAX_CARDS:
+		card = random.choice(collection)
+		if card.tags.get(GameTag.RARITY) == 5 and deck.count(card.id):
+			continue
+		if deck.count(card.id) < Deck.MAX_UNIQUE_CARDS:
+			deck.append(card.id)
+
+	return Deck([Card(card) for card in deck], hero=hero)
+
