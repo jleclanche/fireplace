@@ -18,6 +18,7 @@ tagnames = {
 	"Durability": GameTag.DURABILITY,
 	"Deathrattle": GameTag.DEATH_RATTLE,
 	"Enrage": GameTag.ENRAGED,
+	"ExtraDeathrattles": GameTag.EXTRA_DEATHRATTLES,
 	"Health": GameTag.HEALTH,
 	"Recall": GameTag.RECALL,
 	"Stealth": GameTag.STEALTH,

@@ -408,6 +408,7 @@ class Minion(Character):
 
 	charge = _PROPERTY(GameTag.CHARGE, False)
 	chromatic = _PROPERTY(GameTag.CANT_BE_TARGETED_BY_ABILITIES, False)
+	extraDeathrattles = _PROPERTY(GameTag.EXTRA_DEATHRATTLES, False)
 	stealthed = _PROPERTY(GameTag.STEALTH, False)
 	taunt = _PROPERTY(GameTag.TAUNT, False)
 
