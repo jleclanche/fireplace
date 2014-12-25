@@ -1,5 +1,5 @@
 import random
-from ..enums import CardType, Race, Zone
+from ..enums import CardType, GameTag, Race, Zone
 from ..targeting import *
 
 
