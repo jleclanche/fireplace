@@ -171,8 +171,10 @@ class Card(Entity):
 
 	def destroy(self):
 		logging.info("%r dies" % (self))
+		inPlay = self.zone == Zone.PLAY
 		self.zone = Zone.GRAVEYARD
-		if self.hasDeathrattle:
+		if inPlay and self.hasDeathrattle:
+			# Should this be in an event?
 			if not hasattr(self.data, "deathrattle"):
 				logging.warning("Undefined deathrattle for %r", self)
 			else:
