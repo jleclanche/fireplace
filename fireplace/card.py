@@ -685,4 +685,6 @@ class HeroPower(Card):
 
 	def summon(self):
 		super().summon()
+		if hasattr(self.controller.hero, "power"):
+			self.controller.hero.power.destroy()
 		self.controller.hero.power = self
