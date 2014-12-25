@@ -58,7 +58,7 @@ def randomDraft(hero):
 	"""
 	import random
 	from fireplace import Card, cards, Deck
-	from fireplace.enums import GameTag
+	from fireplace.enums import CardType, GameTag
 	deck = []
 	collection = []
 	hero = Card(hero)
@@ -66,6 +66,9 @@ def randomDraft(hero):
 	for card in cards.cardlist:
 		cls = getattr(cards, card)
 		if not cls.tags.get(GameTag.Collectible):
+			continue
+		if cls.tags[GameTag.CARDTYPE] == CardType.HERO:
+			# Heroes are collectible...
 			continue
 		if cls.tags.get(GameTag.CLASS, hero.tags[GameTag.CLASS]) != hero.tags[GameTag.CLASS]:
 			continue
