@@ -101,6 +101,18 @@ class EX1_126:
 			target.hit(minion, target.atk)
 
 
+# Conceal
+class EX1_128:
+	def action(self):
+		for target in self.controller.field:
+			self.buff(target, "EX1_128e")
+
+class EX1_128e:
+	Stealth = True
+	def OWN_TURN_BEGIN(self):
+		self.destroy()
+
+
 # Fan of Knives
 class EX1_129:
 	def action(self):

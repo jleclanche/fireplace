@@ -659,6 +659,25 @@ def test_crazed_alchemist():
 	assert warden.atk == 7
 	assert warden.health == 1
 
+
+def test_conceal():
+	game = prepare_game()
+	conceal = game.currentPlayer.give("EX1_128")
+	wisp1 = game.currentPlayer.give(WISP)
+	wisp1.play()
+	wisp2 = game.currentPlayer.give(WISP)
+	wisp2.play()
+	conceal.play()
+	assert wisp1.stealthed
+	assert wisp2.stealthed
+	game.endTurn()
+	assert wisp1.stealthed
+	assert wisp2.stealthed
+	game.endTurn()
+	assert not wisp1.stealthed
+	assert not wisp2.stealthed
+
+
 def test_cruel_taskmaster():
 	game = prepare_game()
 	taskmaster1 = game.currentPlayer.give("EX1_603")
