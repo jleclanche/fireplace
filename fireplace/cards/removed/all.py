@@ -17,6 +17,12 @@ class CS2_083e:
 	Atk = 1
 
 
+# Blessing of Wisdom (Owner draws)
+class EX1_363e2:
+	def SELF_ATTACK(self, target):
+		self.owner.controller.draw()
+
+
 # Repairs! (Antique Healbot)
 class GVG_069a:
 	Health = 4

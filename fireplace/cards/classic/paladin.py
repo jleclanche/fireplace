@@ -91,6 +91,15 @@ class EX1_360e:
 		self.setAtk(1)
 
 
+# Blessing of Wisdom
+class EX1_363:
+	action = buffTarget("EX1_363e")
+
+class EX1_363e:
+	def SELF_ATTACK(self, target):
+		self.controller.draw()
+
+
 # Holy Wrath
 class EX1_365:
 	def action(self, target):

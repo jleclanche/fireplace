@@ -1226,6 +1226,29 @@ def test_armorsmith():
 	assert game.currentPlayer.opponent.hero.armor == 2
 
 
+def test_blessing_of_wisdom():
+	game = prepare_game()
+	blessing = game.currentPlayer.give("EX1_363")
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	blessing.play(target=wisp)
+	game.endTurn(); game.endTurn()
+
+	game.currentPlayer.discardHand()
+	wisp.attack(target=game.currentPlayer.opponent.hero)
+	assert len(game.currentPlayer.hand) == 1
+	game.endTurn(); game.endTurn()
+	game.endTurn()
+
+	shadowmadness = game.currentPlayer.give("EX1_334")
+	shadowmadness.play(target=wisp)
+	assert len(game.currentPlayer.opponent.hand) == 2
+	game.currentPlayer.discardHand()
+	wisp.attack(target=game.currentPlayer.opponent.hero)
+	assert len(game.currentPlayer.opponent.hand) == 3
+	assert not game.currentPlayer.hand
+
+
 def test_blood_knight():
 	game = prepare_game()
 	bloodknight1 = game.currentPlayer.give("EX1_590")
