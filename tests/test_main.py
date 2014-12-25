@@ -1868,6 +1868,21 @@ def test_mctech():
 	assert len(game.currentPlayer.opponent.field) == 3
 
 
+def test_inner_fire():
+	game = prepare_game()
+	innerfire = game.currentPlayer.give("CS1_129")
+	seargent = game.currentPlayer.give("CS2_188")
+	gurubashi = game.currentPlayer.summon("EX1_399")
+	game.endTurn(); game.endTurn()
+	assert gurubashi.atk == 2
+	seargent.play(target=gurubashi)
+	assert gurubashi.atk == 4
+	innerfire.play(target=gurubashi)
+	assert gurubashi.atk == 7
+	game.endTurn(); game.endTurn()
+	assert gurubashi.atk == 7
+
+
 def test_ice_barrier():
 	game = prepare_game(MAGE, MAGE)
 	icebarrier = game.currentPlayer.give("EX1_289")

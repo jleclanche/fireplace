@@ -85,6 +85,15 @@ class CS1_113:
 		self.controller.takeControl(target)
 
 
+# Inner Fire
+class CS1_129:
+	action = buffTarget("CS1_129e")
+
+class CS1_129e:
+	def apply(self, target):
+		self.setAtk(target.health)
+
+
 # Holy Smite
 class CS1_130:
 	action = damageTarget(2)
