@@ -181,6 +181,25 @@ class EX1_624:
 		self.heal(self.controller.hero, 5)
 
 
+# Shadowform
+class EX1_625:
+	def action(self):
+		if self.controller.hero.power.id == "EX1_625t":
+			self.controller.summon("EX1_625t2")
+		elif self.controller.hero.power.id == "EX1_625t2":
+			pass
+		else:
+			self.controller.summon("EX1_625t")
+
+# Mind Spike
+class EX1_625t:
+	action = damageTarget(2)
+
+# Mind Shatter
+class EX1_625t2:
+	action = damageTarget(3)
+
+
 # Mass Dispel
 class EX1_626:
 	def action(self):

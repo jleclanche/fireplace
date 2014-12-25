@@ -1730,6 +1730,44 @@ def test_shadow_madness_silence():
 	assert wisp.controller == game.player1
 
 
+def test_shadowform():
+	game = prepare_game(PRIEST, PRIEST)
+	shadowform1 = game.currentPlayer.give("EX1_625")
+	shadowform2 = game.currentPlayer.give("EX1_625")
+	shadowform3 = game.currentPlayer.give("EX1_625")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	# Hero Power should reset
+	assert game.currentPlayer.hero.power.id == "CS1h_001"
+	assert game.currentPlayer.hero.power.isPlayable()
+	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
+	assert not game.currentPlayer.hero.power.isPlayable()
+	assert shadowform1.isPlayable()
+	shadowform1.play()
+	assert game.currentPlayer.hero.power.id == "EX1_625t"
+	assert game.currentPlayer.hero.power.isPlayable()
+	game.currentPlayer.hero.power.play(target=game.currentPlayer.opponent.hero)
+	assert not game.currentPlayer.hero.power.isPlayable()
+	assert game.currentPlayer.opponent.hero.health == 28
+	game.endTurn(); game.endTurn()
+
+	shadowform2.play()
+	assert game.currentPlayer.hero.power.id == "EX1_625t2"
+	assert game.currentPlayer.hero.power.isPlayable()
+	game.currentPlayer.hero.power.play(target=game.currentPlayer.opponent.hero)
+	assert not game.currentPlayer.hero.power.isPlayable()
+	assert game.currentPlayer.opponent.hero.health == 25
+
+	shadowform3.play()
+	assert game.currentPlayer.hero.power.id == "EX1_625t2"
+	assert not game.currentPlayer.hero.power.isPlayable()
+
+
 def test_acolyte_of_pain():
 	game = prepare_game()
 	acolyte = game.currentPlayer.give("EX1_007")
