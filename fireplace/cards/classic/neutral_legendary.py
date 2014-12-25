@@ -88,6 +88,35 @@ class EX1_563:
 	spellpower = 5
 
 
+# Ysera
+class EX1_572:
+	def OWN_TURN_END(self):
+		self.controller.give(random.choice(self.data.entourage))
+
+# Laughing Sister
+class DREAM_01:
+	Chromatic = True
+
+# Ysera Awakens
+class DREAM_02:
+	def action(self):
+		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+			if target.id != "EX1_572":
+				self.hit(target, 5)
+
+# Dream
+class DREAM_04:
+	action = bounceTarget
+
+# Nightmare
+class DREAM_05:
+	action = buffTarget("DREAM_05e")
+
+class DREAM_05e:
+	def OWN_TURN_BEGIN(self):
+		self.owner.destroy()
+
+
 # The Beast
 class EX1_577:
 	def deathrattle(self):
