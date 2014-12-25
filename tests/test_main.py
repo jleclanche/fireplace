@@ -14,6 +14,7 @@ CIRCLE_OF_HEALING = "EX1_621"
 SILENCE = "EX1_332"
 SPELLBENDERT = "tt_010a"
 THE_COIN = "GAME_005"
+RESTORE_1 = "XXX_003"
 
 logging.getLogger().setLevel(logging.DEBUG)
 
@@ -105,6 +106,35 @@ def test_freeze():
 	assert wisp.frozen
 	game.endTurn()
 	assert not wisp.frozen
+
+
+def test_spell_power():
+	game = prepare_game(HUNTER, HUNTER)
+	game.endTurn(); game.endTurn()
+
+	expectedHealth = 30
+	assert game.player2.hero.health == expectedHealth
+	game.currentPlayer.give(MOONFIRE).play(target=game.player2.hero); expectedHealth -= 1
+	assert game.player2.hero.health == expectedHealth
+	# Play a kobold
+	game.currentPlayer.give("CS2_142").play()
+	game.currentPlayer.give(MOONFIRE).play(target=game.player2.hero); expectedHealth -= 1+1
+	assert game.player2.hero.health == expectedHealth
+	# Summon Malygos
+	malygos = game.currentPlayer.summon("EX1_563")
+	game.currentPlayer.give(MOONFIRE).play(target=game.player2.hero); expectedHealth -= 1+1+5
+	assert game.player2.hero.health == expectedHealth
+	# Test heals are not affected
+	game.currentPlayer.give(RESTORE_1).play(target=game.player2.hero); expectedHealth += 1
+	assert game.player2.hero.health == expectedHealth
+	game.endTurn(); game.endTurn()
+
+	# Check hero power is unaffected
+	game.currentPlayer.hero.power.play(); expectedHealth -= 2
+	assert game.player2.hero.health == expectedHealth
+	# Check battlecries are unaffected
+	game.currentPlayer.give("CS2_189").play(target=game.player2.hero); expectedHealth -= 1
+	assert game.player2.hero.health == expectedHealth
 
 
 def test_mage():

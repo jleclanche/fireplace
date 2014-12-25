@@ -402,6 +402,7 @@ class Minion(Character):
 	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
 	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
 	enrage = _TAG(GameTag.ENRAGED, False)
+	spellPower = _TAG(GameTag.SPELLPOWER, 0)
 
 	charge = _PROPERTY(GameTag.CHARGE, False)
 	chromatic = _PROPERTY(GameTag.CANT_BE_TARGETED_BY_ABILITIES, False)
@@ -490,7 +491,9 @@ class Minion(Character):
 
 
 class Spell(Card):
-	pass
+	def hit(self, target, amount):
+		amount += self.controller.spellPower
+		super().hit(target, amount)
 
 
 class Secret(Card):
