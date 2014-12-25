@@ -111,6 +111,15 @@ class CS2_234:
 	action = destroyTarget
 
 
+# Divine Spirit
+class CS2_236:
+	action = buffTarget("CS2_236e")
+
+class CS2_236e:
+	def apply(self, target):
+		self.setHealth(target.health * 2)
+
+
 # Mind Blast
 class DS1_233:
 	action = damageEnemyHero(5)

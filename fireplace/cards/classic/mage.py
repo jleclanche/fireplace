@@ -3,6 +3,17 @@ from ..utils import *
 ##
 # Minions
 
+# Ethereal Arcanist
+class EX1_274:
+	def OWN_TURN_END(self):
+		if self.controller.secrets:
+			self.buff("EX1_274e")
+
+class EX1_274e:
+	Atk = 2
+	Health = 2
+
+
 # Archmage Antonidas
 class EX1_559:
 	def OWN_CARD_PLAYED(self, card):
