@@ -41,11 +41,6 @@ class CardXML(object):
 	def tags(self):
 		return {GameTag(int(e.attrib["enumID"])): self._getTag(e) for e in self.xml.findall("./Tag")}
 
-	@property
-	def spellpower(self):
-		# Game treats as a bool. We default to 1 if present.
-		return int(getTag("Spellpower"))
-
 	##
 	# Requirement properties
 
