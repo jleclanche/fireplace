@@ -39,11 +39,17 @@ def _initTags(carddef, cls):
 		if attr in tagnames:
 			cls.tags[tagnames[attr]] = value
 
-def merge(xmlcard, carddef):
+def merge(id):
+	"""
+	Find the xmlcard and the card definition of \a id
+	Then return a merged class of the two
+	"""
+	xmlcard = db[id]
+	carddef = globals().get(id)
 	if not carddef:
-		cls = type(xmlcard.id, (), {})
+		cls = type(id, (), {})
 	else:
-		cls = type(xmlcard.id, (carddef, ), {})
+		cls = type(id, (carddef, ), {})
 	cls.tags = xmlcard.tags
 	if carddef:
 		if hasattr(carddef, "Enrage"):
@@ -53,7 +59,7 @@ def merge(xmlcard, carddef):
 		_initTags(carddef, cls)
 	cls.requirements = xmlcard.requirements
 	cls.entourage = xmlcard.entourage
-	cls.id = xmlcard.id
+	cls.id = id
 	return cls
 
 
@@ -66,7 +72,6 @@ if "cardlist" not in globals():
 	with open(_PATH, "r") as f:
 		db = cardxml.load(_PATH)
 		cardlist = []
-		for id, card in db.items():
-			carddef = globals().get(id)
-			globals()[id] = merge(card, carddef)
+		for id in db:
+			globals()[id] = merge(id)
 			cardlist.append(id)
