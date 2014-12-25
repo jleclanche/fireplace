@@ -179,7 +179,7 @@ class EX1_584:
 			self.buff(target, "EX1_584e")
 
 class EX1_584e:
-	spellpower = 1
+	Spellpower = 1
 
 
 # Imp Master

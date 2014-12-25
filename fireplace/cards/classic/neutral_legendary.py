@@ -85,7 +85,7 @@ class EX1_558:
 
 # Malygos
 class EX1_563:
-	spellpower = 5
+	Spellpower = 5
 
 
 # Ysera
