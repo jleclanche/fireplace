@@ -98,7 +98,7 @@ class EX1_275:
 # Arcane Missiles
 class EX1_277:
 	def action(self):
-		for i in range(3):
+		for i in range(3 + self.controller.spellPower):
 			target = random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS))
 			self.hit(target, 1)
 

@@ -491,8 +491,11 @@ class Minion(Character):
 
 
 class Spell(Card):
+	immuneToSpellpower = _TAG(GameTag.ImmuneToSpellpower, False)
+
 	def hit(self, target, amount):
-		amount += self.controller.spellPower
+		if not self.immuneToSpellpower:
+			amount += self.controller.spellPower
 		super().hit(target, amount)
 
 

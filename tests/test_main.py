@@ -136,6 +136,12 @@ def test_spell_power():
 	game.currentPlayer.give("CS2_189").play(target=game.player2.hero); expectedHealth -= 1
 	assert game.player2.hero.health == expectedHealth
 
+	game.endTurn(); game.endTurn()
+	malygos.destroy()
+	# Check arcane missiles doesn't wreck everything
+	game.currentPlayer.give("EX1_277").play(); expectedHealth -= 3+1
+	assert game.player2.hero.health == expectedHealth
+
 
 def test_mage():
 	game = prepare_game(MAGE, MAGE)

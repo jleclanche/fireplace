@@ -107,7 +107,7 @@ class EX1_371:
 # Avenging Wrath
 class EX1_384:
 	def action(self):
-		for i in range(8):
+		for i in range(8 + self.controller.spellPower):
 			target = random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS))
 			self.hit(target, 1)
 
