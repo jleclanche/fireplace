@@ -20,6 +20,7 @@ tagnames = {
 	"Health": GameTag.HEALTH,
 	"Recall": GameTag.RECALL,
 	"Stealth": GameTag.STEALTH,
+	"Spellpower": GameTag.SPELLPOWER,
 	"Taunt": GameTag.TAUNT,
 	"Windfury": GameTag.WINDFURY,
 	"OneTurnEffect": GameTag.OneTurnEffect,
