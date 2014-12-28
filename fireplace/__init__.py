@@ -71,6 +71,7 @@ class Game(Entity):
 	turn = _TAG(GameTag.TURN, 0)
 	proposedAttacker = _TAG(GameTag.PROPOSED_ATTACKER, None)
 	proposedDefender = _TAG(GameTag.PROPOSED_DEFENDER, None)
+	minionsKilledThisTurn = _TAG(GameTag.NUM_MINIONS_KILLED_THIS_TURN, 0)
 
 	def attack(self, source, target):
 		"""
@@ -170,6 +171,7 @@ class Game(Entity):
 			self.currentPlayer.currentPlayer = False
 		self.currentPlayer = player
 		self.currentPlayer.currentPlayer = True
+		self.minionsKilledThisTurn = 0
 		player.broadcast("OWN_TURN_BEGIN")
 
 	def TURN_END(self, player):
@@ -183,6 +185,10 @@ class Game(Entity):
 
 	def MINION_DESTROY(self, minion):
 		minion.controller.broadcast("OWN_MINION_DESTROY", minion)
+		self.minionsKilledThisTurn += 1
+		# NOTE: We should rely on the source here instead. An opponent can in fact
+		# destroy minions during the player's turn (eg. Vaporize).
+		minion.controller.opponent.minionsKilledThisTurn += 1
 
 	def CARD_DESTROYED(self, card):
 		card.controller.broadcast("OWN_CARD_DESTROYED", card)

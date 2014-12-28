@@ -128,6 +128,7 @@ class Player(Entity):
 	tempMana = _TAG(GameTag.TEMP_RESOURCES, 0)
 	usedMana = _TAG(GameTag.RESOURCES_USED, 0)
 	cardsPlayedThisTurn = _TAG(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
+	minionsKilledThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYER_KILLED_THIS_TURN, 0)
 
 	@property
 	def maxMana(self):
@@ -186,6 +187,7 @@ class Player(Entity):
 		"OWN_DAMAGE", "OWN_HEAL",
 		"OWN_CARD_PLAYED", "CARD_PLAYED",
 		"AFTER_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
+		"OWN_MINION_DESTROY",
 		"MINION_SUMMON",
 	]
 
