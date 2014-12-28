@@ -50,8 +50,6 @@ class BaseCard(Entity):
 				self._eventListeners[event].append(lambda *args: func(self, *args))
 
 	def __str__(self):
-		if not hasattr(self, "data"):
-			return self.id
 		return self.data.tags[GameTag.CARDNAME]
 
 	def __repr__(self):
