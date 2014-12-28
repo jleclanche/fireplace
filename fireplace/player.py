@@ -174,7 +174,6 @@ class Player(Entity):
 		card.action(target)
 		if not self.combo:
 			self.combo = True
-		self.cardsPlayedThisTurn += 1
 		self.game.broadcast("AFTER_CARD_PLAYED", self, card)
 
 	##
@@ -185,7 +184,8 @@ class Player(Entity):
 		"OWN_TURN_BEGIN", "TURN_END",
 		"OWN_CARD_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
-		"OWN_CARD_PLAYED", "CARD_PLAYED", "AFTER_CARD_PLAYED",
+		"OWN_CARD_PLAYED", "CARD_PLAYED",
+		"AFTER_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
 		"MINION_SUMMON",
 	]
 
@@ -197,7 +197,7 @@ class Player(Entity):
 
 	def OWN_TURN_BEGIN(self):
 		self.combo = False
-		self.numCardsPlayedThisTurn = 0
+		self.cardsPlayedThisTurn = 0
 		self.maxMana += 1
 		self.usedMana = self.overloaded
 		if self.overloaded:
@@ -236,6 +236,9 @@ class Player(Entity):
 	def AFTER_CARD_PLAYED(self, player, card):
 		if player is self:
 			card.controller.broadcast("AFTER_OWN_CARD_PLAYED", card)
+
+	def AFTER_OWN_CARD_PLAYED(self, card):
+		self.cardsPlayedThisTurn += 1
 
 	def MINION_SUMMON(self, player, minion):
 		if player is self:

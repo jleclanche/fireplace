@@ -1697,17 +1697,22 @@ def test_vancleef():
 	vancleef2 = game.currentPlayer.give("EX1_613")
 	game.endTurn(); game.endTurn()
 
+	assert not game.currentPlayer.cardsPlayedThisTurn
 	game.currentPlayer.give(THE_COIN).play()
 	game.currentPlayer.give(THE_COIN).play()
 	game.currentPlayer.give(THE_COIN).play()
 	game.currentPlayer.give(THE_COIN).play()
 	game.currentPlayer.give(THE_COIN).play()
+	assert game.currentPlayer.cardsPlayedThisTurn == 5
 	vancleef1.play()
+	assert game.currentPlayer.cardsPlayedThisTurn == 6
 	assert vancleef1.atk == 12
 	assert vancleef1.health == 12
 	game.endTurn(); game.endTurn()
 
+	assert not game.currentPlayer.cardsPlayedThisTurn
 	vancleef2.play()
+	assert game.currentPlayer.cardsPlayedThisTurn == 1
 	assert vancleef2.atk == 2
 	assert vancleef2.health == 2
 
