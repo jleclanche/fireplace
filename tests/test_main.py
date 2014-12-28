@@ -202,28 +202,25 @@ def test_deathrattle():
 	loothoarder = game.currentPlayer.give("EX1_096")
 	loothoarder.play()
 	cardcount = len(game.currentPlayer.hand)
-
 	game.endTurn()
+
 	archer = game.currentPlayer.give("CS2_189")
 	archer.play(target=loothoarder)
 	assert loothoarder.zone == Zone.GRAVEYARD
 	assert loothoarder.damage == 0
-
 	assert len(game.currentPlayer.opponent.hand) == cardcount + 1
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
 
 	# test soul of the forest: deathrattle in slots
-	game.endTurn(); game.endTurn()
-	game.endTurn(); game.endTurn()
-
+	assert not archer.hasDeathrattle
 	sotf = game.currentPlayer.give("EX1_158")
 	sotf.play()
 	assert len(archer.slots) == 1
-	game.endTurn()
-
-	archer2 = game.currentPlayer.give("CS2_189")
-	archer2.play(target=archer)
-
-	assert len(game.currentPlayer.opponent.field) == 1
+	assert len(game.currentPlayer.field) == 1
+	game.currentPlayer.give(MOONFIRE).play(target=archer)
+	assert archer.zone == Zone.GRAVEYARD
+	assert len(game.currentPlayer.field) == 1
 
 
 def test_cult_master():

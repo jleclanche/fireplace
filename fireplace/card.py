@@ -83,7 +83,7 @@ class BaseCard(Entity):
 	overload = _TAG(GameTag.RECALL, 0)
 	windfury = _PROPERTY(GameTag.WINDFURY, False)
 	hasCombo = _TAG(GameTag.COMBO, False)
-	hasDeathrattle = _TAG(GameTag.DEATH_RATTLE, False)
+	hasDeathrattle = _PROPERTY(GameTag.DEATH_RATTLE, False)
 
 	@property
 	def zone(self):
@@ -167,17 +167,27 @@ class BaseCard(Entity):
 		logging.info("%r hits %r for %i" % (self, target, amount))
 		self.game.broadcast("DAMAGE", self, target, amount)
 
+	@property
+	def deathrattles(self):
+		ret = []
+		if not self.hasDeathrattle:
+			return ret
+		if hasattr(self.data, "deathrattle"):
+			ret.append(self.data.deathrattle)
+		for buff in self.buffs:
+			if buff.hasDeathrattle and hasattr(buff.data, "deathrattle"):
+				ret.append(buff.data.deathrattle)
+		return ret
+
 	def destroy(self):
 		logging.info("%r dies" % (self))
 		inPlay = self.zone == Zone.PLAY
 		self.zone = Zone.GRAVEYARD
-		if inPlay and self.hasDeathrattle:
-			# Should this be in an event?
-			if not hasattr(self.data, "deathrattle"):
-				logging.warning("Undefined deathrattle for %r", self)
-			else:
-				logging.info("Triggering Deathrattle for %r" % (self))
-				self.data.deathrattle(self)
+		if not inPlay:
+			return
+		for deathrattle in self.deathrattles:
+			logging.info("Triggering Deathrattle for %r" % (self))
+			deathrattle(self)
 		for buff in self.buffs[:]:
 			buff.destroy()
 		self.game.broadcast("CARD_DESTROYED", self)
@@ -533,11 +543,8 @@ class Enchantment(BaseCard):
 			self.data.apply(self, target)
 
 	def destroy(self):
+		logging.info("Destroying buff %r from %r" % (self, self.owner))
 		self.owner.buffs.remove(self)
-		if self.hasDeathrattle:
-			# If we have a deathrattle, it means the deathrattle is on the owner.
-			logging.info("Triggering Enchantment Deathrattle for %r" % (self))
-			self.data.deathrattle(self)
 		if hasattr(self.data, "destroy"):
 			self.data.destroy(self)
 
