@@ -50,7 +50,7 @@ def test_positioning():
 	wisp4.play()
 	assert flametongue.aura
 	assert wisp3.buffs, wisp3.buffs
-	assert flametongue.aura in wisp3.buffs, wisp3.buffs
+	assert wisp3.buffs.contains(flametongue.aura)
 	assert wisp1.atk == 1, wisp1.atk
 	assert wisp2.atk == 1
 	assert wisp3.atk == 3, wisp3.atk

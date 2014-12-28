@@ -38,7 +38,7 @@ class BaseCard(Entity):
 		self._aura = None
 		self._enrage = None
 		self.weapon = None
-		self.buffs = []
+		self.buffs = CardList()
 		self.data = data
 		self.tags = data.tags.copy()
 		for event in self.events:
@@ -576,7 +576,7 @@ class Aura(BaseCard):
 	def __init__(self, id, data):
 		super().__init__(id, data)
 		self._buffed = CardList()
-		self._buffs = []
+		self._buffs = CardList()
 
 	@property
 	def targets(self):
@@ -603,8 +603,18 @@ class Aura(BaseCard):
 				if not target in self._buffed:
 					self._buffs.append(self.buff(target, self.id))
 					self._buffed.append(target)
+		for target in self._buffed:
+			# Remove auras no longer valid
+			if not self.isValidTarget(target):
+				for buff in self._buffs:
+					if buff in target.buffs:
+						buff.destroy()
+						self._buffs.remove(buff)
+						self._buffed.remove(target)
+						break
 
 	def destroy(self):
+		logging.info("Removing %r affecting %r" % (self, self._buffed))
 		for buff in self._buffs:
 			buff.destroy()
 		del self._buffed
