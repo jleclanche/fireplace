@@ -246,7 +246,7 @@ class BaseCard(Entity):
 			if self.aura == 1:
 				logging.warning("Undefined aura for %r", self)
 				return
-			self._aura = Aura(self.aura)
+			self._aura = Aura(id=self.data.Aura.id, data=self.data.Aura)
 			self._aura.source = self
 			self._aura.controller = self.controller
 			self._aura.summon()
@@ -573,8 +573,8 @@ class Aura(BaseCard):
 	targets affected by an aura. It is only internal.
 	"""
 
-	def __init__(self, id):
-		super().__init__(id, data=getattr(CardDB, id))
+	def __init__(self, id, data):
+		super().__init__(id, data)
 		self._buffed = CardList()
 		self._buffs = []
 

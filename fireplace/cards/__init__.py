@@ -39,6 +39,11 @@ def _initTags(carddef, cls):
 	for attr, value in carddef.__dict__.items():
 		if attr in tagnames:
 			cls.tags[tagnames[attr]] = value
+	if hasattr(carddef, "Aura"):
+		# The Aura can be a string to another class. Replace by a class.
+		# much recursive. wow.
+		carddef.Aura = merge(carddef.Aura)
+
 
 def merge(id):
 	"""
@@ -50,6 +55,9 @@ def merge(id):
 	if not carddef:
 		cls = type(id, (), {})
 	else:
+		if hasattr(carddef, "id"):
+			# This basically means the card has already been merged...
+			return carddef
 		cls = type(id, (carddef, ), {})
 	cls.tags = xmlcard.tags
 	if carddef:
