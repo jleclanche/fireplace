@@ -1246,6 +1246,35 @@ def test_blessing_of_wisdom():
 	assert not game.currentPlayer.hand
 
 
+def test_baron_rivendare():
+	game = prepare_game()
+	gnome = game.currentPlayer.give("EX1_029")
+	gnome.play()
+	assert not gnome.extraDeathrattles
+	rivendare = game.currentPlayer.summon("FP1_031")
+	assert gnome.extraDeathrattles
+	game.currentPlayer.give(MOONFIRE).play(target=gnome)
+	assert game.currentPlayer.opponent.hero.health == 26
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	assert not wisp.hasDeathrattle
+	sotf = game.currentPlayer.give("EX1_158")
+	sotf.play()
+	assert len(wisp.slots) == 2
+	assert len(game.currentPlayer.field) == 2
+	game.currentPlayer.give(MOONFIRE).play(target=wisp)
+	assert wisp.zone == Zone.GRAVEYARD
+	assert rivendare.zone == Zone.PLAY
+	assert len(game.currentPlayer.field) == 3 # Rivendare and two treants
+	rivendare.destroy()
+	assert len(game.currentPlayer.field) == 3 # Only one treant spawns
+
+
 def test_blood_knight():
 	game = prepare_game()
 	bloodknight1 = game.currentPlayer.give("EX1_590")

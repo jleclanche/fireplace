@@ -177,6 +177,8 @@ class BaseCard(Entity):
 		for buff in self.buffs:
 			if buff.hasDeathrattle and hasattr(buff.data, "deathrattle"):
 				ret.append(buff.data.deathrattle)
+		if self.extraDeathrattles:
+			ret = ret + ret
 		return ret
 
 	def destroy(self):

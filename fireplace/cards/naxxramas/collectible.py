@@ -127,6 +127,16 @@ class FP1_029:
 		self.controller.opponent.draw()
 
 
+# Baron Rivendare
+class FP1_031:
+	class Aura:
+		Name = "Rivendare Virtual Aura"
+		targeting = TARGET_FRIENDLY_MINIONS
+		ExtraDeathrattles = True
+		def isValidTarget(self, target):
+			return target is not self.source
+
+
 ##
 # Spells
 
