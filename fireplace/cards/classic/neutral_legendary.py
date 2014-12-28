@@ -79,8 +79,8 @@ class EX1_558:
 	def action(self):
 		weapon = self.controller.opponent.hero.weapon
 		if weapon:
-			weapon.destroy()
 			self.controller.draw(weapon.durability)
+			weapon.destroy()
 
 
 # Malygos
