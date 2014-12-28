@@ -214,6 +214,7 @@ class BaseCard(Entity):
 		"MINION_DESTROY", "OWN_MINION_DESTROY",
 		"CARD_PLAYED", "OWN_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
 		"BEFORE_ATTACK", "BEFORE_SELF_ATTACK", "SELF_ATTACK",
+		"ATTACK",
 		"OWN_DAMAGE", "SELF_DAMAGE",
 		"HEAL", "OWN_HEAL", "SELF_HEAL"
 	]
@@ -283,6 +284,9 @@ class Character(BaseCard):
 	frozen = _TAG(GameTag.FROZEN, False)
 	numAttacks = _TAG(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 	poisonous = _TAG(GameTag.POISONOUS, False)
+	attacking = _TAG(GameTag.ATTACKING, False)
+	defending = _TAG(GameTag.DEFENDING, False)
+	shouldExitCombat = _TAG(GameTag.SHOULDEXITCOMBAT, False)
 
 	def canAttack(self):
 		if self.tags.get(GameTag.CANT_ATTACK, False):
@@ -303,19 +307,12 @@ class Character(BaseCard):
 	def attack(self, target):
 		assert target.zone == Zone.PLAY
 		assert self.controller.currentPlayer
-		logging.info("%r attacks %r" % (self, target))
-		self.game.broadcast("BEFORE_ATTACK", self, target)
-		if self.zone != Zone.PLAY or target.zone != Zone.PLAY:
-			# Here the source or target of the attack may have disappeared from
-			# the board. So we interrupt the attack.
-			# This should be done using proposed attacker/defender tags...
-			logging.info("Attack has been interrupted.")
-			return
-		self.game.broadcast("ATTACK", self, target)
-		self.hit(target, self.atk)
-		if target.atk:
-			target.hit(self, target.atk)
-		self.numAttacks += 1
+		self.game.attack(self, target)
+
+	def destroy(self):
+		if self.attacking:
+			self.shouldExitCombat = True
+		super().destroy()
 
 	@property
 	def damage(self):

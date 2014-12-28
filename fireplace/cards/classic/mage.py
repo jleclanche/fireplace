@@ -132,7 +132,7 @@ class EX1_289:
 
 # Vaporize
 class EX1_594:
-	def BEFORE_ATTACK(self, source, target):
+	def ATTACK(self, source, target):
 		if target == self.controller.hero and source.type == CardType.MINION:
 			source.destroy()
 			self.reveal()

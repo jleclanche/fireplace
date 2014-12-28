@@ -69,6 +69,38 @@ class Game(Entity):
 		return chain([self], self.auras, self.player1.entities, self.player2.entities)
 
 	turn = _TAG(GameTag.TURN, 0)
+	proposedAttacker = _TAG(GameTag.PROPOSED_ATTACKER, None)
+	proposedDefender = _TAG(GameTag.PROPOSED_DEFENDER, None)
+
+	def attack(self, source, target):
+		"""
+		Process an attack between \a source and \a target
+		"""
+		logging.info("%r attacks %r" % (source, target))
+		# See https://github.com/jleclanche/fireplace/wiki/Combat
+		# for information on how attacking works
+		self.proposedAttacker = source
+		self.proposedDefender = target
+		self.broadcast("BEFORE_ATTACK", source, target)
+		attacker = self.proposedAttacker
+		defender = self.proposedDefender
+		self.proposedAttacker = None
+		self.proposedDefender = None
+		attacker.attacking = True
+		defender.defending = True
+		self.broadcast("ATTACK", attacker, defender)
+		if attacker.shouldExitCombat:
+			logging.info("Attack has been interrupted.")
+			attacker.shouldExitCombat = False
+			attacker.attacking = False
+			defender.defending = False
+			return
+		attacker.hit(defender, attacker.atk)
+		if defender.atk:
+			defender.hit(attacker, defender.atk)
+		attacker.attacking = False
+		defender.defending = False
+		attacker.numAttacks += 1
 
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
