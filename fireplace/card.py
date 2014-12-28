@@ -178,7 +178,7 @@ class BaseCard(Entity):
 			else:
 				logging.info("Triggering Deathrattle for %r" % (self))
 				self.data.deathrattle(self)
-		for buff in self.buffs:
+		for buff in self.buffs[:]:
 			buff.destroy()
 		self.game.broadcast("CARD_DESTROYED", self)
 
@@ -345,7 +345,7 @@ class Character(BaseCard):
 		logging.info("%r has been silenced" % (self))
 		if self._aura:
 			self._aura.destroy()
-		for buff in self.buffs:
+		for buff in self.buffs[:]:
 			buff.destroy()
 		tags = (
 			GameTag.CANT_ATTACK,
