@@ -13,43 +13,41 @@ from .utils import _PROPERTY, _TAG, CardList
 THE_COIN = "GAME_005"
 
 
-class Card(Entity):
-	def __new__(cls, id):
-		if cls is not Card:
-			return super().__new__(cls)
+def Card(id, data=None):
+	if data is None:
 		data = getattr(CardDB, id)
-		type = {
-			CardType.HERO: Hero,
-			CardType.MINION: Minion,
-			CardType.SPELL: Spell,
-			CardType.ENCHANTMENT: Enchantment,
-			CardType.WEAPON: Weapon,
-			CardType.HERO_POWER: HeroPower,
-		}[data.tags[GameTag.CARDTYPE]]
-		if type is Spell and data.tags.get(GameTag.SECRET):
-			type = Secret
-		card = type(id)
-		# type(id) triggers __init__, so we can't rely on card.data existing
-		# so instead we super __init__ here and initialize tags then.
-		super(Card, cls).__init__(card)
-		card.data = data
-		card.tags = data.tags.copy()
-		for event in card.events:
-			if hasattr(data, event):
-				if event not in card._eventListeners:
-					card._eventListeners[event] = []
-				# A bit of magic powder to pass the Card object as self to the Card defs
-				func = getattr(data, event)
-				card._eventListeners[event].append(lambda *args: func(card, *args))
-		return card
+	subclass = {
+		CardType.HERO: Hero,
+		CardType.MINION: Minion,
+		CardType.SPELL: Spell,
+		CardType.ENCHANTMENT: Enchantment,
+		CardType.WEAPON: Weapon,
+		CardType.HERO_POWER: HeroPower,
+	}[data.tags[GameTag.CARDTYPE]]
+	if subclass is Spell and data.tags.get(GameTag.SECRET):
+		subclass = Secret
+	return subclass(id, data)
 
-	def __init__(self, id):
+
+class BaseCard(Entity):
+	def __init__(self, id, data):
+		assert data
+		super().__init__()
 		self.id = id
 		self.uuid = uuid.uuid4()
 		self._aura = None
 		self._enrage = None
 		self.weapon = None
 		self.buffs = []
+		self.data = data
+		self.tags = data.tags.copy()
+		for event in self.events:
+			if hasattr(data, event):
+				if event not in self._eventListeners:
+					self._eventListeners[event] = []
+				# A bit of magic powder to pass the Card object as self to the Card defs
+				func = getattr(data, event)
+				self._eventListeners[event].append(lambda *args: func(self, *args))
 
 	def __str__(self):
 		if not hasattr(self, "data"):
@@ -60,7 +58,7 @@ class Card(Entity):
 		return "<%s (%r)>" % (self.__class__.__name__, self.__str__())
 
 	def __eq__(self, other):
-		if isinstance(other, Card):
+		if isinstance(other, BaseCard):
 			return self.id.__eq__(other.id)
 		elif isinstance(other, str):
 			return self.id.__eq__(other)
@@ -270,10 +268,7 @@ class Card(Entity):
 		return ret
 
 
-class Character(Card):
-	def __init__(self, id):
-		super().__init__(id)
-
+class Character(BaseCard):
 	race = _TAG(GameTag.CARDRACE, Race.INVALID)
 	frozen = _TAG(GameTag.FROZEN, False)
 	numAttacks = _TAG(GameTag.NUM_ATTACKS_THIS_TURN, 0)
@@ -466,7 +461,7 @@ class Minion(Character):
 			self.destroy()
 
 		if self.enrage and not self._enrage:
-			self._enrage = Enrage(self.enrage)
+			self._enrage = Enrage(id=None, data=self.enrage)
 			self._enrage.controller = self.controller
 			self._enrage.summon()
 
@@ -493,7 +488,7 @@ class Minion(Character):
 		self.exhausted = True
 
 
-class Spell(Card):
+class Spell(BaseCard):
 	immuneToSpellpower = _TAG(GameTag.ImmuneToSpellpower, False)
 
 	def hit(self, target, amount):
@@ -502,7 +497,7 @@ class Spell(Card):
 		super().hit(target, amount)
 
 
-class Secret(Card):
+class Secret(BaseCard):
 	def isPlayable(self):
 		# secrets are all unique
 		if self.controller.secrets.contains(self):
@@ -526,7 +521,7 @@ class Secret(Card):
 		self.destroy()
 
 
-class Enchantment(Card):
+class Enchantment(BaseCard):
 	oneTurnEffect = _TAG(GameTag.OneTurnEffect, False)
 	owner = _TAG(GameTag.OWNER, None)
 
@@ -572,19 +567,16 @@ class Enchantment(Card):
 			self.destroy()
 
 
-class Aura(Card):
+class Aura(BaseCard):
 	"""
 	A virtual Card class which is only for the source of the Enchantment buff on
 	targets affected by an aura. It is only internal.
 	"""
 
 	def __init__(self, id):
-		super().__init__(id)
-		Entity.__init__(self) # HACK
+		super().__init__(id, data=getattr(CardDB, id))
 		self._buffed = CardList()
 		self._buffs = []
-		self.data = getattr(CardDB, id)
-		self.tags = self.data.tags.copy()
 
 	@property
 	def targets(self):
@@ -619,18 +611,12 @@ class Aura(Card):
 		self.game.auras.remove(self)
 
 
-class Enrage(Card):
+class Enrage(BaseCard):
 	"""
 	Virtual Card class for Enrage objects.
 	Enrage buffs behave like regular cards but do not actually have
 	ids or are present in the game files, so hackery.
 	"""
-	def __init__(self, cls):
-		super().__init__(id=None)
-		Entity.__init__(self)
-		self.data = cls()
-		self.tags = cls.tags.copy()
-
 	def __str__(self):
 		return "Enrage Buff"
 
@@ -647,7 +633,7 @@ class Enrage(Card):
 		pass
 
 
-class Weapon(Card):
+class Weapon(BaseCard):
 	@property
 	def durability(self):
 		return self.tags.get(GameTag.DURABILITY, 0)
@@ -672,7 +658,7 @@ class Weapon(Card):
 		self.durability -= 1
 
 
-class HeroPower(Card):
+class HeroPower(BaseCard):
 	def play(self, target=None):
 		logging.info("%s plays hero power %r" % (self.controller, self))
 		assert self.isPlayable()
