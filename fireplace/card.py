@@ -604,12 +604,21 @@ class Aura(BaseCard):
 			return self.data.isValidTarget(self, card)
 		return True
 
+	def _buff(self, target):
+		if self.id:
+			buff = self.buff(target, self.id)
+		else:
+			virtual = Card(id=None, data=self.data)
+			virtual.controller = self.controller
+			buff = self.buff(target, virtual)
+		self._buffs.append(buff)
+		self._buffed.append(target)
+
 	def UPDATE(self):
 		for target in self.targets:
 			if self.isValidTarget(target):
 				if not target in self._buffed:
-					self._buffs.append(self.buff(target, self.id))
-					self._buffed.append(target)
+					self._buff(target)
 		for target in self._buffed:
 			# Remove auras no longer valid
 			if not self.isValidTarget(target):
