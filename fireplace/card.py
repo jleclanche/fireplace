@@ -530,7 +530,7 @@ class Secret(BaseCard):
 
 class Enchantment(BaseCard):
 	oneTurnEffect = _TAG(GameTag.OneTurnEffect, False)
-	owner = _TAG(GameTag.OWNER, None)
+	owner = _TAG(GameTag.ATTACHED, None)
 
 	def apply(self, target):
 		logging.info("Applying %r to %r" % (self, target))
