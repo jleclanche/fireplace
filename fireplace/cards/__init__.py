@@ -16,7 +16,7 @@ tagnames = {
 	"Charge": GameTag.CHARGE,
 	"Chromatic": GameTag.CANT_BE_TARGETED_BY_ABILITIES, # XXX
 	"Durability": GameTag.DURABILITY,
-	"Deathrattle": GameTag.DEATH_RATTLE,
+	"Deathrattle": GameTag.DEATHRATTLE,
 	"Enrage": GameTag.ENRAGED,
 	"ExtraDeathrattles": GameTag.EXTRA_DEATHRATTLES,
 	"Health": GameTag.HEALTH,

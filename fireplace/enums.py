@@ -78,7 +78,7 @@ class GameTag(IntEnum):
 	FREEZE = 208
 	ENRAGED = 212
 	RECALL = 215
-	DEATH_RATTLE = 217
+	DEATHRATTLE = 217
 	BATTLECRY = 218
 	SECRET = 219
 	COMBO = 220
@@ -134,6 +134,9 @@ class GameTag(IntEnum):
 	FLAVORTEXT = 351
 	HOW_TO_EARN = 364
 	HOW_TO_EARN_GOLDEN = 365
+
+	# Renamed
+	DEATH_RATTLE = 217
 
 
 class PlayReq(IntEnum):

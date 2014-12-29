@@ -81,7 +81,7 @@ class BaseCard(Entity):
 	overload = _TAG(GameTag.RECALL, 0)
 	windfury = _PROPERTY(GameTag.WINDFURY, False)
 	hasCombo = _TAG(GameTag.COMBO, False)
-	hasDeathrattle = _PROPERTY(GameTag.DEATH_RATTLE, False)
+	hasDeathrattle = _PROPERTY(GameTag.DEATHRATTLE, False)
 
 	@property
 	def zone(self):
