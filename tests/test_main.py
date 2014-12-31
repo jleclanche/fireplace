@@ -11,6 +11,7 @@ from fireplace.utils import randomDraft
 MOONFIRE = "CS2_008"
 WISP = "CS2_231"
 CIRCLE_OF_HEALING = "EX1_621"
+DREAM = "DREAM_04"
 SILENCE = "EX1_332"
 SPELLBENDERT = "tt_010a"
 THE_COIN = "GAME_005"
@@ -1306,6 +1307,33 @@ def test_blood_knight():
 	bloodknight3.play()
 	assert bloodknight3.atk == 3
 	assert bloodknight3.health == 3
+
+
+def test_bolvar_fordragon():
+	game = prepare_game()
+	bolvar = game.currentPlayer.give("GVG_063")
+	assert bolvar.atk == 1
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	game.currentPlayer.give(MOONFIRE).play(target=wisp)
+	assert bolvar.atk == 2
+	assert bolvar.buffs
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	game.currentPlayer.give(MOONFIRE).play(target=wisp)
+	assert bolvar.atk == 3
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	assert bolvar.atk == 3
+	assert bolvar.buffs
+	bolvar.play()
+	assert bolvar.atk == 3
+	assert bolvar.buffs
+	# game.currentPlayer.give(DREAM).play(target=bolvar)
+	# assert bolvar.atk == 1
+	# assert not bolvar.buffs
 
 
 def test_defias():
