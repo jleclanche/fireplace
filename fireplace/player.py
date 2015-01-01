@@ -191,6 +191,14 @@ class Player(Entity):
 		"MINION_SUMMON",
 	]
 
+	def broadcast(self, event, *args):
+		# Broadcast things to the hand if requested
+		for entity in self.hand:
+			for f in entity._eventListeners.get(event, []):
+				if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
+					f(*args)
+		super().broadcast(event, *args)
+
 	def BEFORE_OWN_ATTACK(self, source, target):
 		source.broadcast("BEFORE_SELF_ATTACK", target)
 

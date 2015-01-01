@@ -1,4 +1,5 @@
 import logging
+from .enums import Zone
 
 class Entity(object):
 	def __init__(self):
@@ -11,14 +12,13 @@ class Entity(object):
 		self._eventListeners = {}
 		for name in self.events:
 			func = getattr(self, name, None)
-			# TODO multiple defs for same event
 			if func:
 				self._eventListeners[name] = [func]
 
 	def broadcast(self, event, *args):
 		for entity in self.entities:
-			if event in entity._eventListeners:
-				for f in entity._eventListeners[event]:
+			for f in entity._eventListeners.get(event, []):
+				if getattr(f, "zone", Zone.PLAY) == Zone.PLAY:
 					f(*args)
 		if event != "UPDATE":
 			self.broadcast("UPDATE")

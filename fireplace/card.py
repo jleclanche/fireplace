@@ -47,7 +47,10 @@ class BaseCard(Entity):
 					self._eventListeners[event] = []
 				# A bit of magic powder to pass the Card object as self to the Card defs
 				func = getattr(data, event)
-				self._eventListeners[event].append(lambda *args: func(self, *args))
+				zone = getattr(func, "zone", Zone.PLAY)
+				_func = lambda *args: func(self, *args)
+				_func.zone = getattr(func, "zone", Zone.PLAY)
+				self._eventListeners[event].append(_func)
 
 	def __str__(self):
 		return self.data.tags[GameTag.CARDNAME]
