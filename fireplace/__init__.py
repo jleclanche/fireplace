@@ -149,6 +149,15 @@ class Game(Entity):
 		"SECRET_REVEAL",
 	]
 
+	def broadcast(self, event, *args):
+		# Broadcast things to the players' hands if requested
+		for player in self.players:
+			for entity in player.hand:
+				for f in entity._eventListeners.get(event, []):
+					if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
+						f(*args)
+		super().broadcast(event, *args)
+
 	def UPDATE(self):
 		for card in self.board:
 			if card.health == 0:
