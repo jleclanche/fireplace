@@ -1597,6 +1597,28 @@ def test_mountain_giant():
 	assert mountain.cost == 12 - len(game.currentPlayer.hand) + 1
 
 
+def test_sea_giant():
+	game = prepare_game()
+	seagiant = game.currentPlayer.give("EX1_586")
+	assert seagiant.baseCost == 10
+	assert seagiant.cost == 10
+	game.currentPlayer.give(WISP).play()
+	assert seagiant.cost == 9
+	game.currentPlayer.give(WISP).play()
+	assert seagiant.cost == 8
+	game.currentPlayer.give(WISP).play()
+	assert seagiant.cost == 7
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	game.currentPlayer.give(WISP).play()
+	assert seagiant.cost == 3
+	game.endTurn()
+	for i in range(7):
+		game.currentPlayer.give(WISP).play()
+	assert seagiant.cost == 0
+
+
 def test_murloc_tidecaller():
 	game = prepare_game()
 	tidecaller = game.currentPlayer.give("EX1_509")

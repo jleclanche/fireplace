@@ -23,6 +23,13 @@ class EX1_507e:
 		return target.race == Race.MURLOC and target is not self.source
 
 
+# Sea Giant
+class EX1_586:
+	@hand
+	def UPDATE(self):
+		self.cost = self.baseCost - len(self.game.board)
+
+
 # Blood Knight
 class EX1_590:
 	def action(self):
