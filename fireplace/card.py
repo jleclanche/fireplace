@@ -106,6 +106,9 @@ class BaseCard(Entity):
 		if caches.get(value) is not None:
 			caches[value].append(self)
 		self.setTag(GameTag.ZONE, value)
+		# Broadcast HAND_UPDATE if the hand has changed
+		if Zone.HAND in (old, value):
+			self.game.broadcast("HAND_UPDATE", self.controller)
 
 	@property
 	def baseCost(self):
@@ -216,6 +219,7 @@ class BaseCard(Entity):
 
 	events = [
 		"UPDATE",
+		"OWN_HAND_UPDATE",
 		"TURN_BEGIN", "TURN_END",
 		"OWN_TURN_BEGIN", "OWN_TURN_END",
 		"MINION_SUMMON", "OWN_MINION_SUMMON",
