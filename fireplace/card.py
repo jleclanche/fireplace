@@ -78,7 +78,6 @@ class BaseCard(Entity):
 
 	type = _TAG(GameTag.CARDTYPE, CardType.INVALID)
 	aura = _TAG(GameTag.AURA, False)
-	cost = _TAG(GameTag.COST, 0)
 	controller = _TAG(GameTag.CONTROLLER, None)
 	exhausted = _TAG(GameTag.EXHAUSTED, False)
 	overload = _TAG(GameTag.RECALL, 0)
@@ -113,6 +112,14 @@ class BaseCard(Entity):
 	@property
 	def baseCost(self):
 		return self.data.tags.get(GameTag.COST, 0)
+
+	@property
+	def cost(self):
+		return max(0, self.tags.get(GameTag.COST, 0))
+
+	@cost.setter
+	def cost(self, value):
+		self.setTag(GameTag.COST, value)
 
 	##
 	# Properties affected by slots
