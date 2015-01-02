@@ -5,6 +5,13 @@ class EX1_005:
 	action = destroyTarget
 
 
+# Mountain Giant
+class EX1_105:
+	@hand
+	def OWN_HAND_UPDATE(self):
+		self.cost = self.baseCost - (len(self.controller.hand) - 1)
+
+
 # Murloc Warleader
 class EX1_507:
 	Aura = "EX1_507e"

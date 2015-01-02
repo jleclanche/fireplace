@@ -1586,6 +1586,17 @@ def test_molten_giant():
 	assert molten2.cost == 20
 
 
+def test_mountain_giant():
+	game = prepare_game()
+	mountain = game.currentPlayer.give("EX1_105")
+	assert mountain.baseCost == 12
+	assert mountain.cost == 12 - len(game.currentPlayer.hand) + 1
+	game.endTurn(); game.endTurn()
+	assert mountain.cost == 12 - len(game.currentPlayer.hand) + 1
+	game.endTurn(); game.endTurn()
+	assert mountain.cost == 12 - len(game.currentPlayer.hand) + 1
+
+
 def test_murloc_tidecaller():
 	game = prepare_game()
 	tidecaller = game.currentPlayer.give("EX1_509")
