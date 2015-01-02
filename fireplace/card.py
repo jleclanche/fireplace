@@ -93,7 +93,7 @@ class BaseCard(Entity):
 	@zone.setter
 	def zone(self, value):
 		self.moveToZone(self.zone, value)
-		self.tags[GameTag.ZONE] = value
+		self.setTag(GameTag.ZONE, value)
 
 	@property
 	def baseCost(self):
