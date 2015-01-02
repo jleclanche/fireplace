@@ -29,6 +29,13 @@ class EX1_590e:
 	Health = 3
 
 
+# Molten Giant
+class EX1_620:
+	@hand
+	def UPDATE(self):
+		self.cost = self.baseCost - self.controller.hero.damage
+
+
 # Captain's Parrot
 class NEW1_016:
 	def action(self):

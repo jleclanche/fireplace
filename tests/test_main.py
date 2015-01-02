@@ -1569,6 +1569,23 @@ def test_lightwell():
 	assert game.currentPlayer.opponent.hero.health == 29
 
 
+def test_molten_giant():
+	game = prepare_game()
+	molten = game.currentPlayer.give("EX1_620")
+	assert molten.cost == 20
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	assert molten.cost == 19
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	assert molten.cost == 18
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	assert molten.cost == 17
+	game.endTurn()
+
+	assert molten.cost == 17
+	molten2 = game.currentPlayer.give("EX1_620")
+	assert molten2.cost == 20
+
+
 def test_murloc_tidecaller():
 	game = prepare_game()
 	tidecaller = game.currentPlayer.give("EX1_509")
