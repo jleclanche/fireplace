@@ -92,7 +92,19 @@ class BaseCard(Entity):
 
 	@zone.setter
 	def zone(self, value):
-		self.moveToZone(self.zone, value)
+		self._setZone(value)
+
+	def _setZone(self, value):
+		old = self.zone
+		logging.debug("%r moves from %r to %r" % (self, old, value))
+		caches = {
+			Zone.HAND: self.controller.hand,
+			Zone.DECK: self.controller.deck,
+		}
+		if caches.get(old) is not None:
+			caches[old].remove(self)
+		if caches.get(value) is not None:
+			caches[value].append(self)
 		self.setTag(GameTag.ZONE, value)
 
 	@property
@@ -198,17 +210,6 @@ class BaseCard(Entity):
 		for buff in self.buffs[:]:
 			buff.destroy()
 		self.game.broadcast("CARD_DESTROYED", self)
-
-	def moveToZone(self, old, new):
-		logging.debug("%r moves from %r to %r" % (self, old, new))
-		caches = {
-			Zone.HAND: self.controller.hand,
-			Zone.DECK: self.controller.deck,
-		}
-		if caches.get(old) is not None:
-			caches[old].remove(self)
-		if caches.get(new) is not None:
-			caches[new].append(self)
 
 	##
 	# Events
@@ -441,6 +442,17 @@ class Minion(Character):
 			slots.append(self._enrage)
 		return slots
 
+	def _setZone(self, value):
+		if self.zone == Zone.PLAY:
+			logging.info("%r is removed from the field" % (self))
+			self.controller.field.remove(self)
+			# Remove any aura the minion gives
+			if self._aura:
+				self._aura.destroy()
+			if self.damage:
+				self.damage = 0
+		super()._setZone(value)
+
 	def bounce(self):
 		logging.info("%r is bounced back to %s's hand" % (self, self.controller))
 		if len(self.controller.hand) == self.controller.MAX_HAND:
@@ -453,17 +465,6 @@ class Minion(Character):
 		super().hit(target, amount)
 		if self.stealthed:
 			self.stealthed = False
-
-	def moveToZone(self, old, new):
-		if old == Zone.PLAY:
-			logging.info("%r is removed from the field" % (self))
-			self.controller.field.remove(self)
-			# Remove any aura the minion gives
-			if self._aura:
-				self._aura.destroy()
-			if self.damage:
-				self.damage = 0
-		super().moveToZone(old, new)
 
 	def SELF_DAMAGE(self, source, amount):
 		if self.divineShield:
@@ -512,6 +513,13 @@ class Spell(BaseCard):
 
 
 class Secret(BaseCard):
+	def _setZone(self, value):
+		if self.zone == Zone.SECRET:
+			self.controller.secrets.remove(self)
+		if value == Zone.SECRET:
+			self.controller.secrets.append(self)
+		super()._setZone(value)
+
 	def isPlayable(self):
 		# secrets are all unique
 		if self.controller.secrets.contains(self):
@@ -521,13 +529,6 @@ class Secret(BaseCard):
 	def summon(self):
 		super().summon()
 		self.zone = Zone.SECRET
-
-	def moveToZone(self, old, new):
-		if old == Zone.SECRET:
-			self.controller.secrets.remove(self)
-		if new == Zone.SECRET:
-			self.controller.secrets.append(self)
-		super().moveToZone(old, new)
 
 	def reveal(self):
 		logging.info("Revealing secret %r" % (self))
@@ -658,9 +659,6 @@ class Enrage(BaseCard):
 		# Bit hacky. Need a design where we don't duplicate this.
 		if self._aura:
 			self._aura.destroy()
-
-	def moveToZone(self, old, new):
-		pass
 
 
 class Weapon(BaseCard):
