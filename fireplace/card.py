@@ -95,6 +95,10 @@ class BaseCard(Entity):
 		self.moveToZone(self.zone, value)
 		self.tags[GameTag.ZONE] = value
 
+	@property
+	def baseCost(self):
+		return self.data.tags.get(GameTag.COST, 0)
+
 	##
 	# Properties affected by slots
 
