@@ -1,4 +1,5 @@
 # https://travis-ci.org/#!/jleclanche/fireplace
+sudo: false
 language: python
 python:
   - 3.4
