@@ -33,7 +33,11 @@ class Entity(object):
 	def getIntProperty(self, tag):
 		ret = self.tags.get(tag, 0)
 		for slot in self.slots:
-			ret += slot.getIntProperty(tag)
+			_ret = slot.getIntProperty(tag)
+			if isinstance(_ret, int):
+				ret += _ret
+			else:
+				ret = _ret(ret)
 		return ret
 
 	def getBoolProperty(self, tag):
