@@ -14,6 +14,16 @@ class GVG_048e:
 	Atk = 2
 
 
+# Gahz'rilla
+class GVG_049:
+	def SELF_DAMAGE(self, source, amount):
+		self.buff(self, "GVG_049e")
+
+
+class GVG_049e:
+	Atk = lambda i: i*2
+
+
 ##
 # Spells
 

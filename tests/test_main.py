@@ -1385,6 +1385,21 @@ def test_gadgetzan_auctioneer():
 	assert len(game.currentPlayer.hand) == 5
 
 
+def test_gahzrilla():
+	game = prepare_game()
+	gahz = game.currentPlayer.summon("GVG_049")
+	assert gahz.atk == 6
+	game.currentPlayer.give(MOONFIRE).play(target=gahz)
+	assert gahz.atk == 6*2
+	timberwolf = game.currentPlayer.give("DS1_175")
+	timberwolf.play()
+	assert gahz.atk == (6*2) + 1
+	# TODO: Buffs are always taken into account at the end
+	# game.currentPlayer.give(MOONFIRE).play(target=gahz)
+	# assert gahz.atk == (6*2*2) + 1
+
+
+
 def test_gruul():
 	game = prepare_game()
 	gruul = game.currentPlayer.summon("NEW1_038")
