@@ -33,7 +33,6 @@ class BaseCard(Entity):
 	def __init__(self, id, data):
 		assert data
 		super().__init__()
-		self.id = id
 		self.uuid = uuid.uuid4()
 		self._aura = None
 		self._enrage = None
@@ -41,6 +40,7 @@ class BaseCard(Entity):
 		self.buffs = CardList()
 		self.data = data
 		self.tags = data.tags.copy()
+		self.id = id
 		for event in self.events:
 			if hasattr(data, event):
 				if event not in self._eventListeners:
@@ -76,6 +76,7 @@ class BaseCard(Entity):
 	##
 	# Tag properties
 
+	id = _TAG(GameTag.CARD_ID, None)
 	type = _TAG(GameTag.CARDTYPE, CardType.INVALID)
 	aura = _TAG(GameTag.AURA, False)
 	controller = _TAG(GameTag.CONTROLLER, None)
