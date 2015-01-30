@@ -478,6 +478,14 @@ class Minion(Character):
 		if self.stealthed:
 			self.stealthed = False
 
+	def morph(self, id):
+		into = Card(id)
+		into.controller = self.controller
+		for buff in self.buffs:
+			# TODO: buff.setAside() instead
+			buff.destroy()
+		self.tags = into.tags.copy()
+
 	def SELF_DAMAGE(self, source, amount):
 		if self.divineShield:
 			self.divineShield = False
