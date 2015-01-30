@@ -770,6 +770,31 @@ def test_dread_infernal():
 	assert infernal.health == 6
 
 
+def test_druid_of_the_fang():
+	game = prepare_game()
+	druid = game.currentPlayer.give("GVG_080")
+	druid2 = game.currentPlayer.give("GVG_080")
+	assert druid.id == druid2.id == "GVG_080"
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	druid.play()
+	assert druid.id == "GVG_080"
+	assert druid.atk == 4
+	assert druid.health == 4
+
+	game.endTurn(); game.endTurn()
+	webspinner = game.currentPlayer.give("FP1_011")
+	webspinner.play()
+	druid2.play()
+	assert druid2.id == "GVG_080t"
+	assert druid2.atk == 7
+	assert druid2.health == 7
+	assert druid2.race == Race.BEAST
+
+
 def test_imp_master():
 	game = prepare_game()
 
