@@ -1159,6 +1159,36 @@ def test_hunters_mark():
 	assert token.health == 3
 
 
+def test_mark_of_nature():
+	game = prepare_game()
+	mark1 = game.currentPlayer.give("EX1_155")
+	mark2 = game.currentPlayer.give("EX1_155")
+	wisp1 = game.currentPlayer.give(WISP)
+	wisp2 = game.currentPlayer.give(WISP)
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	wisp1 = game.currentPlayer.give(WISP)
+	wisp1.play()
+	assert wisp1.atk == 1
+	assert wisp1.health == 1
+	assert not wisp1.taunt
+	mark1.play(target=wisp1, choose="EX1_155a")
+	assert wisp1.atk == 1 + 4
+	assert wisp1.health == 1
+	assert not wisp1.taunt
+	game.endTurn(); game.endTurn()
+
+	wisp2.play()
+	assert wisp2.atk == 1
+	assert wisp2.health == 1
+	assert not wisp2.taunt
+	mark2.play(target=wisp2, choose="EX1_155b")
+	assert wisp2.atk == 1
+	assert wisp2.health == 1 + 4
+	assert wisp2.taunt
+
+
 def test_mindgames():
 	game = prepare_game(PRIEST, PRIEST)
 	mindgames = game.currentPlayer.give("EX1_345")

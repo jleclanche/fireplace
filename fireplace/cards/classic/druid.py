@@ -65,6 +65,24 @@ class CS2_013t:
 	action = drawCard
 
 
+# Mark of Nature
+class EX1_155:
+	ChooseOne = ("EX1_155a", "EX1_155b")
+
+class EX1_155a:
+	action = buffTarget("EX1_155ae")
+
+class EX1_155ae:
+	Atk = 4
+
+class EX1_155b:
+	action = buffTarget("EX1_155be")
+
+class EX1_155be:
+	Health = 4
+	Taunt = True
+
+
 # Soul of the Forest
 class EX1_158:
 	def action(self):
