@@ -81,6 +81,19 @@ class CS2_013t:
 	action = drawCard
 
 
+# Wrath
+class EX1_154:
+	ChooseOne = ("EX1_154a", "EX1_154b")
+
+class EX1_154a:
+	action = damageTarget(3)
+
+class EX1_154b:
+	def action(self, target):
+		self.hit(target, 1)
+		self.controller.draw()
+
+
 # Mark of Nature
 class EX1_155:
 	ChooseOne = ("EX1_155a", "EX1_155b")
@@ -173,3 +186,16 @@ class EX1_tk9:
 class EX1_578:
 	def action(self, target):
 		self.hit(target, self.controller.hero.atk)
+
+
+# Starfall
+class NEW1_007:
+	ChooseOne = ("NEW1_007a", "NEW1_007b")
+
+class NEW1_007a:
+	def action(self):
+		for target in self.controller.opponent.field:
+			self.hit(target, 2)
+
+class NEW1_007b:
+	action = damageTarget(5)
