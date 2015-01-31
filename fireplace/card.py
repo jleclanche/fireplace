@@ -265,12 +265,12 @@ class BaseCard(Entity):
 				return False
 		return True
 
-	def play(self, target=None):
+	def play(self, target=None, choose=None):
 		"""
 		Helper for Player.play(card)
 		"""
 		assert self.zone != Zone.PLAY
-		self.controller.play(self, target)
+		self.controller.play(self, target, choose)
 
 	def summon(self):
 		if self.aura:

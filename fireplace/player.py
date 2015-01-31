@@ -157,7 +157,7 @@ class Player(Entity):
 		card.summon()
 		return card
 
-	def play(self, card, target=None):
+	def play(self, card, target=None, choose=None):
 		"""
 		Plays \a card from the player's hand
 		"""
@@ -172,7 +172,16 @@ class Player(Entity):
 		self.usedMana += cost
 		self.summon(card)
 		# Card must already be on the field for action()
-		card.action(target)
+		if choose:
+			# Choose One cards replace the action on the played card
+			assert choose in card.data.ChooseOne
+			chosen = Card(choose)
+			chosen.controller = self
+			logging.info("Choose One from %r: %r", card, chosen)
+			card.action = chosen.action
+			chosen.action(target)
+		else:
+			card.action(target)
 		if not self.combo:
 			self.combo = True
 		self.game.broadcast("AFTER_CARD_PLAYED", self, card)
