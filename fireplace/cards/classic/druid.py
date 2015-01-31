@@ -1,6 +1,22 @@
 from ..utils import *
 
 ##
+# Minions
+
+# Druid of the Claw
+class EX1_165:
+	ChooseOne = ("EX1_165a", "EX1_165b")
+
+class EX1_165a:
+	def action(self):
+		self.morph("EX1_165t1")
+
+class EX1_165b:
+	def action(self):
+		self.morph("EX1_165t2")
+
+
+##
 # Spells
 
 # Claw
@@ -93,6 +109,23 @@ class EX1_158e:
 	Deathrattle = True
 	def deathrattle(self):
 		self.controller.summon("EX1_158t")
+
+
+# Power of the Wild
+class EX1_160:
+	ChooseOne = ("EX1_160a", "EX1_160b")
+
+class EX1_160a:
+	action = summonMinion("EX1_160t")
+
+class EX1_160b:
+	def action(self):
+		for target in self.controller.field:
+			target.buff("EX1_160be")
+
+class EX1_160be:
+	Atk = 1
+	Health = 1
 
 
 # Naturalize
