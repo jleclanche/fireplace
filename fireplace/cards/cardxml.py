@@ -29,6 +29,9 @@ class CardXML(object):
 	def description(self):
 		return self.getTag(GameTag.CARDTEXT_INHAND) or ""
 
+	def _findTag(self, id):
+		return self.xml.findall('./Tag[@enumID="%i"]' % (id))
+
 	def _getTag(self, element):
 		type = element.attrib["type"]
 		if type == "String":
@@ -40,7 +43,7 @@ class CardXML(object):
 		return value
 
 	def getTag(self, id):
-		element = self.xml.findall('./Tag[@enumID="%i"]' % (id))
+		element = self._findTag(id)
 		if not element:
 			return 0
 		return self._getTag(element[0])
