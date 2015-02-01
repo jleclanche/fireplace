@@ -118,7 +118,7 @@ class FP1_028:
 
 class FP1_028e:
 	Atk = 1
-	Health = 1
+	# Health = 1  # RIP you creepy bastard
 
 
 # Dancing Swords

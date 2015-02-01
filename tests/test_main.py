@@ -1832,11 +1832,11 @@ def test_undertaker():
 
 	game.currentPlayer.give("EX1_029").play()
 	assert undertaker.atk == 2
-	assert undertaker.health == 3
+	assert undertaker.health == 2
 
 	game.currentPlayer.give("EX1_029").play()
 	assert undertaker.atk == 3
-	assert undertaker.health == 4
+	assert undertaker.health == 2
 
 
 def test_vancleef():
