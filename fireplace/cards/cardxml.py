@@ -21,6 +21,14 @@ class CardXML(object):
 		reqs = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
 		return {PlayReq(int(tag.attrib["reqID"])): int(tag.attrib["param"] or 0) for tag in reqs}
 
+	@property
+	def name(self):
+		return self.getTag(GameTag.CARDNAME)
+
+	@property
+	def description(self):
+		return self.getTag(GameTag.CARDTEXT_INHAND) or ""
+
 	def _getTag(self, element):
 		type = element.attrib["type"]
 		if type == "String":
