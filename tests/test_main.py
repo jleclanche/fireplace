@@ -1470,6 +1470,45 @@ def test_gruul():
 	assert gruul.health == 9
 
 
+def test_hobgoblin():
+	game = prepare_game()
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	assert wisp.atk == 1
+	assert wisp.health == 1
+	hobgoblin = game.currentPlayer.summon("GVG_104")
+	wolf1 = game.currentPlayer.give("DS1_175")
+	wolf1.play()
+	assert wolf1.atk == 3
+	assert wolf1.health == 3
+	game.currentPlayer.give(THE_COIN).play()
+	wolf2 = game.currentPlayer.give("DS1_175")
+	wolf2.play()
+	assert wolf1.atk == 4
+	assert wolf1.health == 3
+	assert wolf2.atk == 4
+	assert wolf2.health == 3
+	game.endTurn(); game.endTurn()
+
+	loothoarder = game.currentPlayer.give("EX1_096")
+	loothoarder.play()
+	assert not loothoarder.buffs
+	assert loothoarder.atk == 2
+	assert loothoarder.health == 1
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	# TODO: Test faceless-hobgoblin interaction
+	# assert wisp.health == 1
+	# assert wisp.atk == 1
+	# faceless = game.currentPlayer.give("EX1_564")
+	# faceless.play(target=wisp)
+	# assert not faceless.buffs
+	# assert faceless.atk == 1
+	# assert faceless.health == 1
+
+
 def test_hogger():
 	game = prepare_game()
 	hogger = game.currentPlayer.give("NEW1_040")
