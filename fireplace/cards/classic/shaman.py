@@ -123,11 +123,16 @@ class EX1_244:
 			if target.race == Race.TOTEM:
 				self.buff(target, "EX1_244e")
 
-
 class EX1_244e:
 	Health = 2
 
 
+# Hex
+class EX1_246:
+	action = morphTarget("hexfrog")
+
+
+# Feral Spirit
 class EX1_248:
 	Recall = 2
 	def action(self):

@@ -34,6 +34,10 @@ class NEW1_012o:
 ##
 # Spells
 
+# Polymorph
+class CS2_022:
+	action = morphTarget("CS2_tk1")
+
 # Arcane Intellect
 class CS2_023:
 	action = drawCards(2)

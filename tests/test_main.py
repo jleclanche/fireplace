@@ -492,6 +492,33 @@ def test_combo():
 	game.currentPlayer.give("EX1_134").play()
 
 
+def test_polymorph_hex():
+	game = prepare_game()
+	polymorph = game.currentPlayer.give("CS2_022")
+	hex = game.currentPlayer.give("EX1_246")
+	game.endTurn()
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	# Summon a starving buzzard
+	game.currentPlayer.summon("CS2_237")
+	game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert len(game.currentPlayer.opponent.hand) == 8
+	assert wisp.id == WISP
+	hex.play(target=wisp)
+	assert wisp.id == "hexfrog"
+	# Test that buzzard no longer draws on poly/hex (fixed in GVG)
+	assert len(game.currentPlayer.opponent.hand) == 8
+	game.endTurn(); game.endTurn()
+
+	assert len(game.currentPlayer.opponent.hand) == 9
+	assert wisp.id == "hexfrog"
+	polymorph.play(target=wisp)
+	assert wisp.id == "CS2_tk1"
+	assert len(game.currentPlayer.opponent.hand) == 9
+
+
 def test_power_word_shield():
 	game = prepare_game()
 	wisp = game.currentPlayer.give(WISP)

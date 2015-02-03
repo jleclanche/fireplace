@@ -69,6 +69,12 @@ def damageEnemyHero(amount):
 	return _damageEnemyHero
 
 
+def morphTarget(id):
+	def _morphTarget(self, target):
+		target.morph(id)
+	return _morphTarget
+
+
 def buffTarget(buff):
 	def _buffTarget(self, target):
 		self.buff(target, buff)
