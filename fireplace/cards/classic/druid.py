@@ -3,14 +3,12 @@ from ..utils import *
 ##
 # Minions
 
-# Druid of the Claw
-class EX1_165:
-	ChooseOne = ("EX1_165a", "EX1_165b")
-
+# Cat Form (Druid of the Claw)
 class EX1_165a:
 	def action(self):
 		self.morph("EX1_165t1")
 
+# Bear Form (Druid of the Claw)
 class EX1_165b:
 	def action(self):
 		self.morph("EX1_165t2")
@@ -81,29 +79,25 @@ class CS2_013t:
 	action = drawCard
 
 
-# Wrath
-class EX1_154:
-	ChooseOne = ("EX1_154a", "EX1_154b")
-
+# Wrath (3 Damage)
 class EX1_154a:
 	action = damageTarget(3)
 
+# Wrath (1 Damage)
 class EX1_154b:
 	def action(self, target):
 		self.hit(target, 1)
 		self.controller.draw()
 
 
-# Mark of Nature
-class EX1_155:
-	ChooseOne = ("EX1_155a", "EX1_155b")
-
+# Mark of Nature (Attack)
 class EX1_155a:
 	action = buffTarget("EX1_155ae")
 
 class EX1_155ae:
 	Atk = 4
 
+# Mark of Nature (Health)
 class EX1_155b:
 	action = buffTarget("EX1_155be")
 
@@ -124,13 +118,11 @@ class EX1_158e:
 		self.controller.summon("EX1_158t")
 
 
-# Power of the Wild
-class EX1_160:
-	ChooseOne = ("EX1_160a", "EX1_160b")
-
+# Summon a Panther (Power of the Wild)
 class EX1_160a:
 	action = summonMinion("EX1_160t")
 
+# Leader of the Pack (Power of the Wild)
 class EX1_160b:
 	def action(self):
 		for target in self.controller.field:
@@ -188,14 +180,12 @@ class EX1_578:
 		self.hit(target, self.controller.hero.atk)
 
 
-# Starfall
-class NEW1_007:
-	ChooseOne = ("NEW1_007a", "NEW1_007b")
-
+# Starfall (2 Damage to All)
 class NEW1_007a:
 	def action(self):
 		for target in self.controller.opponent.field:
 			self.hit(target, 2)
 
+# Starfall (5 Damage to One)
 class NEW1_007b:
 	action = damageTarget(5)

@@ -174,7 +174,7 @@ class Player(Entity):
 		# Card must already be on the field for action()
 		if choose:
 			# Choose One cards replace the action on the played card
-			assert choose in card.data.ChooseOne
+			assert choose in card.data.chooseCards
 			chosen = Card(choose)
 			chosen.controller = self
 			logging.info("Choose One from %r: %r", card, chosen)

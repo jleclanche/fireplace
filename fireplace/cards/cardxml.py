@@ -12,6 +12,11 @@ class CardXML(object):
 		return self.xml.attrib["CardID"]
 
 	@property
+	def chooseCards(self):
+		cards = self.xml.findall("ChooseCard")
+		return [tag.attrib["cardID"] for tag in cards]
+
+	@property
 	def entourage(self):
 		cards = self.xml.findall("EntourageCard")
 		return [tag.attrib["cardID"] for tag in cards]

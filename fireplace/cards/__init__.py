@@ -75,6 +75,7 @@ def merge(id):
 		_initTags(carddef, cls)
 	cls.requirements = xmlcard.requirements
 	cls.entourage = xmlcard.entourage
+	cls.chooseCards = xmlcard.chooseCards
 	cls.id = id
 	return cls
 
