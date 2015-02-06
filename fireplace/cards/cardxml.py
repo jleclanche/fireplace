@@ -91,4 +91,4 @@ def load(path):
 		for carddata in xml.findall("Entity"):
 			card = CardXML(carddata)
 			db[card.id] = card
-	return db
+	return db, xml

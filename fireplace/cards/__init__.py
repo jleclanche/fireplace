@@ -86,7 +86,7 @@ def merge(id):
 
 if "cardlist" not in globals():
 	with open(_PATH, "r") as f:
-		db = cardxml.load(_PATH)
+		db, xml = cardxml.load(_PATH)
 		cardlist = []
 		for id in db:
 			globals()[id] = merge(id)
