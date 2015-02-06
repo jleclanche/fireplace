@@ -8,16 +8,6 @@ class CS2_042:
 	action = damageTarget(3)
 
 
-# Dust Devil
-class EX1_243:
-	Recall = 2
-
-
-# Earth Elemental
-class EX1_250:
-	Recall = 3
-
-
 # Unbound Elemental
 class EX1_258:
 	def OWN_CARD_PLAYED(self, card):
@@ -112,7 +102,6 @@ class EX1_238:
 
 # Lava Burst
 class EX1_241:
-	Recall = 2
 	action = damageTarget(5)
 
 
@@ -134,7 +123,6 @@ class EX1_246:
 
 # Feral Spirit
 class EX1_248:
-	Recall = 2
 	def action(self):
 		self.controller.summon("EX1_tk11")
 		self.controller.summon("EX1_tk11")
@@ -142,7 +130,6 @@ class EX1_248:
 
 # Forked Lightning
 class EX1_251:
-	Recall = 2
 	def action(self):
 		targets = random.sample(self.controller.opponent.field, 2)
 		for target in targets:
@@ -158,15 +145,6 @@ class EX1_245:
 
 # Lightning Storm
 class EX1_259:
-	Recall = 2
 	def action(self):
 		for target in self.controller.opponent.field:
 			self.hit(target, random.choice((2, 3)))
-
-
-##
-# Weapons
-
-# Doomhammer
-class EX1_567:
-	Recall = 2
