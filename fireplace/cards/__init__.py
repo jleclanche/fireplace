@@ -8,7 +8,7 @@ from .naxxramas import *
 from . import cardxml
 
 
-_PATH = os.path.join(os.path.dirname(__file__), os.path.pardir, os.path.pardir, "data", "TextAsset", "enUS.txt")
+_PATH = os.path.join(os.path.dirname(__file__), os.path.pardir, os.path.pardir, "data", "enUS.xml")
 
 tagnames = {
 	"Atk": GameTag.ATK,

@@ -33,7 +33,7 @@ class CardXML(object):
 		return self.xml.findall('./Tag[@enumID="%i"]' % (id))
 
 	def _getTag(self, element):
-		type = element.attrib["type"]
+		type = element.attrib.get("type", "Int")
 		if type == "String":
 			return element.text
 
