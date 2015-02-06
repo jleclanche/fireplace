@@ -4,6 +4,7 @@ language: python
 python:
   - 3.4
 script:
+  - ./data/extras/enhance.py
   - cd tests
   - python test_main.py
 notifications:
