@@ -178,10 +178,6 @@ class EX1_584:
 		for target in self.adjacentMinions:
 			self.buff(target, "EX1_584e")
 
-class EX1_584e:
-	Spellpower = 1
-
-
 # Imp Master
 class EX1_597:
 	def OWN_TURN_END(self):

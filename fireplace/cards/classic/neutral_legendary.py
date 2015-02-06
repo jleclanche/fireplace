@@ -83,11 +83,6 @@ class EX1_558:
 			weapon.destroy()
 
 
-# Malygos
-class EX1_563:
-	Spellpower = 5
-
-
 # Ysera
 class EX1_572:
 	def OWN_TURN_END(self):
