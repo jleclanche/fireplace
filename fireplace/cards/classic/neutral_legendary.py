@@ -62,7 +62,6 @@ class EX1_249:
 
 # Ragnaros the Firelord
 class EX1_298:
-	cantAttack = True
 	def OWN_TURN_END(self):
 		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 8)
 

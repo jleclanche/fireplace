@@ -28,7 +28,6 @@ tagnames = {
 	"Taunt": GameTag.TAUNT,
 	"Windfury": GameTag.WINDFURY,
 	"OneTurnEffect": GameTag.OneTurnEffect,
-	"cantAttack": GameTag.CANT_ATTACK, # XXX
 }
 
 def _initTags(carddef, cls):

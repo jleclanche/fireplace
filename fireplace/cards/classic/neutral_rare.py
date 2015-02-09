@@ -54,11 +54,6 @@ class EX1_044e:
 	Health = 1
 
 
-# Ancient Watcher
-class EX1_045:
-	cantAttack = True
-
-
 # Coldlight Oracle
 class EX1_050:
 	def action(self):
