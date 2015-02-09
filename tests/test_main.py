@@ -1418,6 +1418,31 @@ def test_bolvar_fordragon():
 	# assert not bolvar.buffs
 
 
+def test_bomb_lobber():
+	game = prepare_game()
+	lobber1 = game.currentPlayer.give("GVG_099")
+	lobber2 = game.currentPlayer.give("GVG_099")
+	game.endTurn()
+
+	wisp = game.currentPlayer.give(WISP)
+	warden = game.currentPlayer.give("EX1_396")
+	game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	lobber1.play()
+	assert game.currentPlayer.opponent.hero.health == 30
+	game.endTurn()
+
+	wisp.play()
+	warden.play()
+	game.endTurn()
+
+	lobber2.play()
+	assert wisp.zone == Zone.GRAVEYARD or warden.health == 7-4
+
+
 def test_defias():
 	game = prepare_game()
 
