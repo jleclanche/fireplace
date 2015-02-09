@@ -1,3 +1,4 @@
+import logging
 import os
 from ..enums import CardType, GameTag
 from .game import *
@@ -8,7 +9,7 @@ from .naxxramas import *
 from . import cardxml
 
 
-_PATH = os.path.join(os.path.dirname(__file__), os.path.pardir, os.path.pardir, "data", "enUS.xml")
+_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "enUS.xml")
 
 tagnames = {
 	"Atk": GameTag.ATK,
@@ -86,6 +87,10 @@ def merge(id):
 # This code is only ran once, at initial import.
 
 if "cardlist" not in globals():
+	if not os.path.exists(_PATH):
+		logging.warn("%r does not exist, should generate it...", _PATH)
+		_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "TextAsset", "enUS.txt")
+
 	with open(_PATH, "r") as f:
 		db, xml = cardxml.load(_PATH)
 		cardlist = []
