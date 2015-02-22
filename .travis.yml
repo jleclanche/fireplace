@@ -9,7 +9,7 @@ cache:
     - $HOME/virtualenv/python3.4
 script:
   - pip install --download-cache $HOME/.pip-cache coveralls
-  - ./data/extras/enhance.py
+  - ./bootstrap.sh
   - coverage run tests/test_main.py
 after_script:
   - coveralls

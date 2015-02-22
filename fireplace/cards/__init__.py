@@ -1,5 +1,6 @@
 import logging
 import os
+from pkg_resources import Requirement, resource_filename
 from ..enums import CardType, GameTag
 from .game import *
 from .classic import *
@@ -8,8 +9,6 @@ from .gvg import *
 from .naxxramas import *
 from .. import cardxml
 
-
-_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "enUS.xml")
 
 tagnames = {
 	"Atk": GameTag.ATK,
@@ -86,11 +85,12 @@ def merge(id):
 # This code is only ran once, at initial import.
 
 if "cardlist" not in globals():
-	if not os.path.exists(_PATH):
-		raise RuntimeError("%r does not exist - generate it!" % (_PATH))
+	xmlfile = resource_filename(__name__, "enUS.xml")
+	if not os.path.exists(xmlfile):
+		raise RuntimeError("%r does not exist - generate it!" % (xmlfile))
 
-	with open(_PATH, "r") as f:
-		db, xml = cardxml.load(_PATH)
+	with open(xmlfile, "r") as f:
+		db, xml = cardxml.load(xmlfile)
 		cardlist = []
 		for id in db:
 			globals()[id] = merge(id)

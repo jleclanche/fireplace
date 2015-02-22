@@ -7,6 +7,10 @@ A Hearthstone simulator and implementation, written in Python.
 
 * Python 3.4+
 
+### Installation
+
+Run `bootstrap.sh` to download and process the Hearthstone data files.
+
 ### Documentation
 
 The [Fireplace Wiki](https://github.com/jleclanche/fireplace/wiki) is the best
