@@ -10,6 +10,11 @@ from .player import Player
 from .utils import _TAG, CardList
 
 
+__author__ = "Jerome Leclanche"
+__email__ = "jerome@leclan.ch"
+__version__ = "0.1"
+
+
 class Deck(CardList):
 	MAX_CARDS = 30
 	MAX_UNIQUE_CARDS = 2
