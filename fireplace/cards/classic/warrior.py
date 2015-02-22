@@ -149,3 +149,13 @@ class EX1_607:
 
 class EX1_607e:
 	Atk = 2
+
+
+# Commanding Shout
+class NEW1_036:
+	def action(self):
+		for target in self.controller.field:
+			self.buff(target, "NEW1_036e")
+
+class NEW1_036e:
+	HealthMinimum = 1

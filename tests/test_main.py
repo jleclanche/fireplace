@@ -722,6 +722,40 @@ def test_crazed_alchemist():
 	assert warden.health == 1
 
 
+def test_commanding_shout():
+	game = prepare_game()
+	shout = game.currentPlayer.give("NEW1_036")
+	wisp1 = game.currentPlayer.give(WISP)
+	wisp1.play()
+	wisp2 = game.currentPlayer.give(WISP)
+	bender = game.currentPlayer.give(SPELLBENDERT)
+	bender.play()
+	giant = game.currentPlayer.opponent.summon("EX1_620")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	assert wisp1.health == 1
+	assert bender.health == 3
+	assert not wisp1.minHealth
+	assert not bender.minHealth
+	shout.play()
+	assert wisp1.minHealth == 1
+	assert bender.minHealth == 1
+	wisp1.attack(target=giant)
+	assert giant.health == 7
+	assert wisp1.health == 1
+	assert not wisp1.damage
+	assert wisp1.zone == Zone.PLAY
+	game.currentPlayer.give(MOONFIRE).play(target=bender)
+	assert bender.health == 2
+	assert bender.damage == 1
+	bender.attack(target=giant)
+	assert bender.health == 1
+	assert bender.damage == 2
+	assert bender.zone == Zone.PLAY
+
+	# TODO test that minions played afterwards still get commanding shout buff
+
+
 def test_conceal():
 	game = prepare_game()
 	conceal = game.currentPlayer.give("EX1_128")
