@@ -16,3 +16,7 @@ notifications:
       - "chat.freenode.net#hearthsim"
     use_notice: true
     skip_join: true
+    on_failure: always
+    on_success: change
+    template:
+      - "(%{branch} @ %{commit} : %{author}): %{message} %{build_url}"
