@@ -87,8 +87,7 @@ def merge(id):
 
 if "cardlist" not in globals():
 	if not os.path.exists(_PATH):
-		logging.warn("%r does not exist, should generate it...", _PATH)
-		_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "TextAsset", "enUS.txt")
+		raise RuntimeError("%r does not exist - generate it!" % (_PATH))
 
 	with open(_PATH, "r") as f:
 		db, xml = cardxml.load(_PATH)
