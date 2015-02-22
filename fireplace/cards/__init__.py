@@ -20,6 +20,7 @@ tagnames = {
 	"Enrage": GameTag.ENRAGED,
 	"ExtraDeathrattles": GameTag.EXTRA_DEATHRATTLES,
 	"Health": GameTag.HEALTH,
+	"HealthMinimum": GameTag.HEALTH_MINIMUM,
 	"Name": GameTag.CARDNAME,
 	"Recall": GameTag.RECALL,
 	"Stealth": GameTag.STEALTH,

@@ -302,6 +302,7 @@ class BaseCard(Entity):
 class Character(BaseCard):
 	race = _TAG(GameTag.CARDRACE, Race.INVALID)
 	frozen = _TAG(GameTag.FROZEN, False)
+	minHealth = _PROPERTY(GameTag.HEALTH_MINIMUM, 0)
 	numAttacks = _TAG(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 	poisonous = _TAG(GameTag.POISONOUS, False)
 	attacking = _TAG(GameTag.ATTACKING, False)
@@ -347,6 +348,10 @@ class Character(BaseCard):
 			logging.info("%r receives a no-op health change" % (self))
 		else:
 			logging.info("%r damaged for %i health" % (self, amount - self.damage))
+
+		if self.minHealth:
+			logging.info("%r has HEALTH_MINIMUM of %i", self, self.minHealth)
+			amount = min(amount, self.maxHealth - self.minHealth)
 
 		self.setTag(GameTag.DAMAGE, amount)
 
