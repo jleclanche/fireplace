@@ -6,7 +6,7 @@ from .classic import *
 from .debug import *
 from .gvg import *
 from .naxxramas import *
-from . import cardxml
+from .. import cardxml
 
 
 _PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "enUS.xml")
