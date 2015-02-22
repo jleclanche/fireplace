@@ -57,8 +57,11 @@ def randomDraft(hero):
 	Return a deck of 30 random cards from the \a hero's collection
 	"""
 	import random
-	from fireplace import Card, cards, Deck
-	from fireplace.enums import CardType, GameTag
+	from . import cards
+	from .deck import Deck
+	from .card import Card
+	from .enums import CardType, GameTag
+
 	deck = []
 	collection = []
 	hero = Card(hero)

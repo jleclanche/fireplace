@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import sys; sys.path.append("..")
-import fireplace
 import logging
 import random
 from fireplace.heroes import *
 from fireplace.enums import *
+from fireplace.game import Game
+from fireplace.player import Player
 from fireplace.utils import randomDraft
 
 
@@ -24,9 +25,9 @@ def prepare_game(hero1=MAGE, hero2=WARRIOR):
 	print("Initializing a new game")
 	deck1 = randomDraft(hero=hero1)
 	deck2 = randomDraft(hero=hero2)
-	player1 = fireplace.Player(name="Player1", deck=deck1)
-	player2 = fireplace.Player(name="Player2", deck=deck2)
-	game = fireplace.Game(players=(player1, player2))
+	player1 = Player(name="Player1", deck=deck1)
+	player2 = Player(name="Player2", deck=deck2)
+	game = Game(players=(player1, player2))
 	game.start()
 
 	return game
