@@ -587,6 +587,24 @@ def test_alarmobot():
 	assert len(game.currentPlayer.field) == 2
 
 
+def test_avenging_wrath():
+	game = prepare_game()
+	game.currentPlayer.give("EX1_384")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.currentPlayer.give("EX1_384").play()
+	assert game.currentPlayer.opponent.hero.health == 30 - 8
+
+	game.endTurn()
+	# Summon Malygos and test that spellpower only increases dmg by 5
+	game.currentPlayer.summon("EX1_563")
+	game.currentPlayer.give("EX1_384").play()
+	assert game.currentPlayer.opponent.hero.health == 30 - (8+5)
+
+
 def test_doomhammer():
 	game = prepare_game()
 	doomhammer = game.currentPlayer.give("EX1_567")
