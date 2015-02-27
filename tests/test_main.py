@@ -369,6 +369,34 @@ def test_earth_shock():
 	assert crusader.zone == Zone.GRAVEYARD
 
 
+def test_eaglehorn_bow():
+	game = prepare_game()
+	bow = game.player1.give("EX1_536")
+	icebarrier = game.player1.give("EX1_289")
+	wisp = game.player2.give(WISP)
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	bow.play()
+	assert bow.durability == 2
+	game.endTurn()
+
+	wisp.play()
+	game.endTurn()
+
+	icebarrier.play()
+	assert bow.durability == 2
+	game.endTurn()
+
+	assert game.currentPlayer.opponent.secrets
+	wisp.attack(target=game.player1.hero)
+	assert not game.currentPlayer.opponent.secrets
+	assert game.player1.hero.health == 30
+	assert game.player1.hero.armor == 7
+	assert bow.buffs
+	assert bow.durability == 3
+
+
 def test_equality():
 	game = prepare_game()
 	equality = game.currentPlayer.give("EX1_619")

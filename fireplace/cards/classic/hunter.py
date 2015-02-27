@@ -143,3 +143,16 @@ class NEW1_033o:
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target is not self.source
+
+
+##
+# Weapons
+
+# Eaglehorn Bow
+class EX1_536:
+	def OWN_SECRET_REVEAL(self, secret):
+		self.buff(self, "EX1_536e")
+
+
+class EX1_536e:
+	Durability = 1
