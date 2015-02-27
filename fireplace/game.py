@@ -182,4 +182,4 @@ class Game(Entity):
 
 	def SECRET_REVEAL(self, secret, player):
 		assert secret.tags[GameTag.SECRET]
-		player.broadcast("OWN_SECRET_REVEAL")
+		player.broadcast("OWN_SECRET_REVEAL", secret)
