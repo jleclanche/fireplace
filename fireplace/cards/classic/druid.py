@@ -31,6 +31,15 @@ class EX1_178be:
 	Atk = 5
 
 
+# Ancient Teachings (Ancient of Lore)
+class NEW1_008a:
+	action = drawCards(2)
+
+# Ancient Secrets (Ancient of Lore)
+class NEW1_008b:
+	action = healTarget(5)
+
+
 ##
 # Spells
 

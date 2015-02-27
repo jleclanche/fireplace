@@ -564,6 +564,45 @@ def test_ancestral_healing():
 	assert wisp.taunt
 
 
+def test_ancient_of_lore():
+	game = prepare_game()
+	ancient1 = game.currentPlayer.give("NEW1_008")
+	ancient2 = game.currentPlayer.give("NEW1_008")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	game.currentPlayer.discardHand()
+	# damage the hero with 6 moonfires
+
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	assert game.currentPlayer.hero.health == 30 - 6
+
+	ancient1 = game.currentPlayer.give("NEW1_008")
+	assert len(game.currentPlayer.hand) == 1
+	assert ancient1.cost == 7
+	# Play to draw 2 cards
+	ancient1.play(choose="NEW1_008a")
+	assert len(game.currentPlayer.hand) == 2
+	assert game.currentPlayer.hero.health == 30 - 6
+	game.endTurn(); game.endTurn()
+
+	game.currentPlayer.discardHand()
+	ancient2 = game.currentPlayer.give("NEW1_008")
+	# Play to heal hero by 5
+	ancient2.play(target=game.currentPlayer.hero, choose="NEW1_008b")
+	assert not game.currentPlayer.hand
+	assert game.currentPlayer.hero.health == 30 - 6 + 5
+
+
 def test_alarmobot():
 	game = prepare_game()
 	bot = game.currentPlayer.give("EX1_006")
