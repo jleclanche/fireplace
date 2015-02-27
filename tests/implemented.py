@@ -2,7 +2,7 @@
 import os
 import sys; sys.path.append("..")
 from fireplace import cards
-from fireplace.cards import debug, game, classic, naxxramas, removed
+from fireplace.cards import debug, game, classic, naxxramas, gvg, removed
 from fireplace.card import Card
 
 
@@ -16,7 +16,7 @@ def main():
 		cls = getattr(cards, id)
 		if not hasattr(cls, "tags"):
 			continue
-		for set in (debug, game, classic, naxxramas, removed):
+		for set in (debug, game, classic, naxxramas, gvg, removed):
 			if hasattr(set, id):
 				color = GREEN
 				break
