@@ -4,6 +4,7 @@ import sys; sys.path.append("..")
 from fireplace import cards
 from fireplace.cards import debug, game, classic, naxxramas, gvg, removed
 from fireplace.card import Card
+from fireplace.enums import GameTag
 
 
 GREEN = "\033[92m"
@@ -18,6 +19,10 @@ def main():
 			continue
 		for set in (debug, game, classic, naxxramas, gvg, removed):
 			if hasattr(set, id):
+				color = GREEN
+				break
+			elif not Card(id).tags.get(GameTag.CARDTEXT_INHAND):
+				# Minions without card text are implemented
 				color = GREEN
 				break
 		else:
