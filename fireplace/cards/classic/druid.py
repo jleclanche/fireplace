@@ -14,6 +14,23 @@ class EX1_165b:
 		self.morph("EX1_165t2")
 
 
+# Rooted (Ancient of War)
+class EX1_178a:
+	action = buffSelf("EX1_178ae")
+
+class EX1_178ae:
+	Health = 5
+	Taunt = True
+
+
+# Uproot (Ancient of War)
+class EX1_178b:
+	action = buffSelf("EX1_178be")
+
+class EX1_178be:
+	Atk = 5
+
+
 ##
 # Spells
 
