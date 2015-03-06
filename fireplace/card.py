@@ -5,7 +5,7 @@ from itertools import chain
 from . import cards as CardDB, targeting
 from .exceptions import *
 from .entity import Entity
-from .enums import CardType, GameTag, PlayReq, Race, Zone
+from .enums import CardType, GameTag, PlayReq, Race, Rarity, Zone
 from .utils import _PROPERTY, _TAG, CardList
 
 
@@ -30,6 +30,8 @@ def Card(id, data=None):
 
 
 class BaseCard(Entity):
+	rarity = _TAG(GameTag.RARITY, Rarity.INVALID)
+
 	def __init__(self, id, data):
 		assert data
 		super().__init__()

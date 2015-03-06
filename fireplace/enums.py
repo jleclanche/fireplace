@@ -196,6 +196,15 @@ class PlayReq(IntEnum):
 	REQ_DRAG_TO_PLAY = 51
 
 
+class Rarity(IntEnum):
+	INVALID = 0
+	FREE = 1
+	COMMON = 2
+	RARE = 3
+	EPIC = 4
+	LEGENDARY = 5
+
+
 class SpellZoneTag(IntEnum):
 	NONE = 0
 	PLAY = 1
