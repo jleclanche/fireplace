@@ -52,7 +52,7 @@ class CardList(list):
 		return [card for card in self if card.race == race]
 
 
-def randomDraft(hero):
+def randomDraft(hero, exclude=[]):
 	"""
 	Return a deck of 30 random cards from the \a hero's collection
 	"""
@@ -67,6 +67,8 @@ def randomDraft(hero):
 	hero = Card(hero)
 
 	for card in cards.cardlist:
+		if card in exclude:
+			continue
 		cls = getattr(cards, card)
 		if not cls.tags.get(GameTag.Collectible):
 			continue

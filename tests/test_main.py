@@ -21,10 +21,10 @@ RESTORE_1 = "XXX_003"
 logging.getLogger().setLevel(logging.DEBUG)
 
 
-def prepare_game(hero1=MAGE, hero2=WARRIOR):
+def prepare_game(hero1=MAGE, hero2=WARRIOR, exclude=[]):
 	print("Initializing a new game")
-	deck1 = randomDraft(hero=hero1)
-	deck2 = randomDraft(hero=hero2)
+	deck1 = randomDraft(hero=hero1, exclude=exclude)
+	deck2 = randomDraft(hero=hero2, exclude=exclude)
 	player1 = Player(name="Player1", deck=deck1)
 	player2 = Player(name="Player2", deck=deck2)
 	game = Game(players=(player1, player2))
