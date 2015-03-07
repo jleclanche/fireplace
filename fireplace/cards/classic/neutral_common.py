@@ -242,6 +242,8 @@ class EX1_412:
 
 # Frost Elemental
 class EX1_283:
+	# The Freeze tag is for Water Elem/Snowchugger
+	Freeze = False
 	def action(self, target):
 		target.frozen = True
 

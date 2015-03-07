@@ -2100,6 +2100,21 @@ def test_vancleef():
 	assert vancleef2.health == 2
 
 
+def test_water_elemental():
+	game = prepare_game()
+	elem = game.currentPlayer.give("CS2_033")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	elem.play()
+	game.endTurn(); game.endTurn()
+
+	assert not game.currentPlayer.opponent.hero.frozen
+	elem.attack(target=game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.opponent.hero.frozen
+
+
 def test_wild_pyromancer():
 	game = prepare_game()
 	wisp = game.currentPlayer.give(WISP)

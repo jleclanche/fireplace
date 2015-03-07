@@ -31,6 +31,7 @@ def Card(id, data=None):
 
 class BaseCard(Entity):
 	rarity = _TAG(GameTag.RARITY, Rarity.INVALID)
+	freeze = _TAG(GameTag.FREEZE, False)
 
 	def __init__(self, id, data):
 		assert data
@@ -368,6 +369,10 @@ class Character(BaseCard):
 
 	def SELF_DAMAGE(self, source, amount):
 		self.damage += amount
+
+		if source.freeze:
+			logging.info("%r is frozen by %r" % (self, source))
+			self.frozen = True
 
 		# FIXME this should happen in a separate tick
 		if not self.health:

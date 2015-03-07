@@ -49,7 +49,6 @@ class EX1_587e:
 class CS2_037:
 	def action(self, target):
 		self.hit(target, 1)
-		target.frozen = True
 
 
 # Ancestral Spirit

@@ -47,7 +47,6 @@ class CS2_023:
 class CS2_024:
 	def action(self, target):
 		self.hit(target, 3)
-		target.frozen = True
 
 
 # Arcane Explosion
@@ -76,7 +75,6 @@ class CS2_028:
 	def action(self):
 		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
 			self.hit(target, 2)
-			target.frozen = True
 
 
 # Fireball
@@ -87,10 +85,7 @@ class CS2_029:
 # Ice Lance
 class CS2_031:
 	def action(self, target):
-		if target.frozen:
-			self.hit(target, 4)
-		else:
-			target.frozen = True
+		self.hit(target, 4)
 
 
 # Flamestrike
@@ -105,9 +100,7 @@ class EX1_275:
 	def action(self, target):
 		for minion in target.adjacentMinions:
 			self.hit(minion, 1)
-			minion.frozen = True
 		self.hit(target, 1)
-		target.frozen = True
 
 
 # Arcane Missiles
