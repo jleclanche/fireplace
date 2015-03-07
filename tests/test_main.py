@@ -1449,6 +1449,30 @@ def test_blessing_of_wisdom():
 	assert not game.currentPlayer.hand
 
 
+def test_blizzard():
+	game = prepare_game()
+	blizzard = game.currentPlayer.give("CS2_028")
+	game.endTurn()
+
+	game.currentPlayer.give(SPELLBENDERT).play()
+	game.currentPlayer.give(SPELLBENDERT).play()
+	game.currentPlayer.give(SPELLBENDERT).play()
+	game.currentPlayer.give(SPELLBENDERT).play()
+	game.currentPlayer.give(SPELLBENDERT).play()
+	game.currentPlayer.give(SPELLBENDERT).play()
+	game.endTurn()
+
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	blizzard.play()
+	for spellbendert in game.currentPlayer.opponent.field:
+		assert spellbendert.health == 1
+		assert spellbendert.frozen
+
+
 def test_baron_rivendare():
 	game = prepare_game()
 	gnome = game.currentPlayer.give("EX1_029")
