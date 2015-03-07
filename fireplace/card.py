@@ -691,7 +691,7 @@ class Enrage(BaseCard):
 class Weapon(BaseCard):
 	@property
 	def durability(self):
-		return self.tags.get(GameTag.DURABILITY, 0)
+		return self.getIntProperty(GameTag.DURABILITY)
 
 	@durability.setter
 	def durability(self, value):
