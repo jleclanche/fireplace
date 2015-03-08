@@ -1248,6 +1248,29 @@ def test_corruption():
 	assert wisp2.zone == Zone.GRAVEYARD
 
 
+def test_headcrack():
+	game = prepare_game(exclude=["EX1_137"])
+	headcrack1 = game.player1.give("EX1_137")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert game.player1.hand.contains("EX1_137")
+	headcrack1.play()
+	assert not game.player1.hand.contains("EX1_137")
+	game.endTurn(); game.endTurn()
+
+	assert not game.player1.hand.contains("EX1_137")
+	headcrack2 = game.player1.give("EX1_137")
+	game.player1.give(THE_COIN).play()
+	headcrack2.play()
+	assert not game.player1.hand.contains("EX1_137")
+	game.endTurn()
+	assert game.player1.hand.contains("EX1_137")
+	game.player1.discardHand()
+	game.endTurn(); game.endTurn()
+	assert not game.player1.hand.contains("EX1_137")
+
+
 def test_heroic_strike():
 	game = prepare_game()
 	strike = game.currentPlayer.give("CS2_105")

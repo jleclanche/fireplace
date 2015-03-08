@@ -121,6 +121,17 @@ class EX1_129:
 		self.controller.draw()
 
 
+# Headcrack
+class EX1_137:
+	action = damageEnemyHero(2)
+
+	def combo(self):
+		self.hit(self.controller.opponent.hero, 2)
+		self.game.register("TURN_END",
+			lambda *args: self.controller.give("EX1_137"),
+		once=True)
+
+
 # Shiv
 class EX1_278:
 	def action(self, target):
