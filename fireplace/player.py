@@ -251,10 +251,12 @@ class Player(Entity):
 	def CARD_PLAYED(self, player, card):
 		if player is self:
 			card.controller.broadcast("OWN_CARD_PLAYED", card)
+		card.broadcast("SELF_CARD_PLAYED")
 
 	def AFTER_CARD_PLAYED(self, player, card):
 		if player is self:
 			card.controller.broadcast("AFTER_OWN_CARD_PLAYED", card)
+		card.broadcast("AFTER_SELF_CARD_PLAYED")
 
 	def AFTER_OWN_CARD_PLAYED(self, card):
 		self.cardsPlayedThisTurn += 1
