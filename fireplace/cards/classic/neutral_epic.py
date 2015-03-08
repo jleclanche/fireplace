@@ -79,6 +79,7 @@ class NEW1_021:
 # Southsea Captain
 class NEW1_027:
 	Aura = "NEW1_027e"
+	targeting = TARGET_FRIENDLY_MINIONS
 
 class NEW1_027e:
 	Atk = 1
