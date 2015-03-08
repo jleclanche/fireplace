@@ -2535,6 +2535,37 @@ def test_flare():
 	assert not worgen.stealthed
 
 
+def test_freezing_trap():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.endTurn(); game.endTurn()
+	game.endTurn()
+
+	trap = game.player2.give("EX1_611")
+	trap.play()
+	assert game.player2.secrets
+	game.endTurn()
+
+	assert wisp.cost == 0
+	assert not wisp.buffs
+	assert wisp.zone == Zone.PLAY
+	assert game.player2.hero.health == 30
+	wisp.attack(target=game.player2.hero)
+	assert not game.player2.secrets
+	assert trap.zone == Zone.GRAVEYARD
+	assert game.player2.hero.health == 30
+	assert wisp.zone == Zone.HAND
+	assert wisp in game.player1.hand
+	assert wisp.buffs
+	assert wisp.cost == 2
+	assert wisp.zone == Zone.HAND
+	wisp.play()
+	assert game.player1.usedMana == 2
+	assert not wisp.buffs
+	assert wisp.cost == 0
+
+
 def test_warlock():
 	game = prepare_game(WARLOCK, WARLOCK)
 	sacpact = game.currentPlayer.give("NEW1_003")

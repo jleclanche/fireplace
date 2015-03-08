@@ -123,6 +123,22 @@ class EX1_544:
 		self.controller.draw()
 
 
+# Freezing Trap
+class EX1_611:
+	def ATTACK(self, source, target):
+		if source.controller is self.controller.opponent and source.type == CardType.MINION:
+			source.bounce()
+			self.buff(source, "EX1_611e")
+			self.reveal()
+
+class EX1_611e:
+	Cost = 2
+
+	# Remove the buff when the card is played
+	def AFTER_SELF_CARD_PLAYED(self):
+		self.destroy()
+
+
 # Deadly Shot
 class EX1_617:
 	def action(self):
