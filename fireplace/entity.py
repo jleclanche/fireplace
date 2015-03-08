@@ -10,18 +10,36 @@ class Entity(object):
 
 	def _registerEvents(self):
 		self._eventListeners = {}
-		for name in self.events:
-			func = getattr(self, name, None)
+		for event in self.events:
+			func = getattr(self, event, None)
 			if func:
-				self._eventListeners[name] = [func]
+				self.register(event, func)
 
 	def broadcast(self, event, *args):
 		for entity in self.entities:
 			for f in entity._eventListeners.get(event, []):
 				if getattr(f, "zone", Zone.PLAY) == Zone.PLAY:
 					f(*args)
+
+				# clear out one-shot events
+				if getattr(f, "once", False):
+					entity._eventListeners[event].remove(f)
+
 		if event != "UPDATE":
 			self.broadcast("UPDATE")
+
+	def register(self, event, callback, once=False):
+		"""
+		Register \a callback with \a event.
+		If \a once is True, the callback will unregister when fired.
+		"""
+		if not event in self._eventListeners:
+			self._eventListeners[event] = []
+
+		if once:
+			callback.once = True
+
+		self._eventListeners[event].append(callback)
 
 	def setTag(self, tag, value):
 		logging.debug("%r::%r %r -> %r" % (self, tag, self.tags.get(tag, None), value))
