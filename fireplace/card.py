@@ -212,6 +212,12 @@ class BaseCard(Entity):
 			ret = ret + ret
 		return ret
 
+	def clearBuffs(self):
+		if self.buffs:
+			logging.info("Clearing buffs from %r" % (self))
+			for buff in self.buffs[:]:
+				buff.destroy()
+
 	def destroy(self):
 		logging.info("%r dies" % (self))
 		inPlay = self.zone == Zone.PLAY
@@ -221,8 +227,7 @@ class BaseCard(Entity):
 		for deathrattle in self.deathrattles:
 			logging.info("Triggering Deathrattle for %r" % (self))
 			deathrattle(self)
-		for buff in self.buffs[:]:
-			buff.destroy()
+		self.clearBuffs()
 		self.game.broadcast("CARD_DESTROYED", self)
 
 	##
@@ -385,8 +390,7 @@ class Character(BaseCard):
 		logging.info("%r has been silenced" % (self))
 		if self._aura:
 			self._aura.destroy()
-		for buff in self.buffs[:]:
-			buff.destroy()
+		self.clearBuffs()
 		tags = (
 			GameTag.CANT_ATTACK,
 			GameTag.DIVINE_SHIELD,
