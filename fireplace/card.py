@@ -484,6 +484,8 @@ class Minion(Character):
 			logging.info("%s's hand is full and bounce fails" % (self.controller))
 			self.destroy()
 		else:
+			if self.attacking:
+				self.shouldExitCombat = True
 			self.zone = Zone.HAND
 
 	def hit(self, target, amount):
