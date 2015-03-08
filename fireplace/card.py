@@ -119,7 +119,7 @@ class BaseCard(Entity):
 
 	@property
 	def cost(self):
-		return max(0, self.tags.get(GameTag.COST, 0))
+		return max(0, self.getIntProperty(GameTag.COST))
 
 	@cost.setter
 	def cost(self, value):
