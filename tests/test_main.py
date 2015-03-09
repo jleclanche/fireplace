@@ -1080,6 +1080,28 @@ def test_questing_adventurer():
 	assert adventurer.health == 6
 
 
+def test_venture_co():
+	game = prepare_game()
+	ventureco = game.currentPlayer.give("CS2_227")
+	fireball = game.currentPlayer.give("CS2_029")
+	wisp = game.currentPlayer.give(WISP)
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	assert wisp.cost == 0
+	assert fireball.cost == 4
+	ventureco.play()
+	assert wisp.cost == 0 + 3
+	assert fireball.cost == 4
+	ventureco2 = game.currentPlayer.summon("CS2_227")
+	assert wisp.cost == 0 + 3 + 3
+	assert fireball.cost == 4
+	game.currentPlayer.give(SILENCE).play(target=ventureco)
+	assert wisp.cost == 0 + 3
+	assert fireball.cost == 4
+
+
 def test_voidcaller():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()

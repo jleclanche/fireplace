@@ -14,6 +14,16 @@ class CS2_122e:
 		return target is not self.source
 
 
+# Venture Co. Mercenary
+class CS2_227:
+	class Aura:
+		Name = "Venture Co. Virtual Aura"
+		targeting = TARGET_FRIENDLY_HAND
+		Cost = 3
+		def isValidTarget(self, target):
+			return target.type == CardType.MINION
+
+
 # Frostwolf Warlord
 class CS2_226:
 	def action(self):
