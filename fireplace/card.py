@@ -664,7 +664,8 @@ class Aura(BaseCard):
 			if self.isValidTarget(target):
 				if not target in self._buffed:
 					self._buff(target)
-		for target in self._buffed:
+		# Make sure to copy the list as it can change during iteration
+		for target in self._buffed[:]:
 			# Remove auras no longer valid
 			if not self.isValidTarget(target):
 				for buff in self._buffs:
