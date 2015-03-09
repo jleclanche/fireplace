@@ -1178,6 +1178,38 @@ def test_mana_addict():
 	assert manaaddict.atk == 1
 
 
+def test_pint_sized_summoner():
+	game = prepare_game()
+	goldshire1 = game.currentPlayer.give("CS1_042")
+	goldshire2 = game.currentPlayer.give("CS1_042")
+	wisp = game.currentPlayer.give(WISP)
+	assert goldshire1.cost == 1
+	assert goldshire2.cost == 1
+	assert wisp.cost == 0
+
+	# summon it directly, minions played still at 0
+	summoner = game.currentPlayer.summon("EX1_076")
+	assert goldshire1.buffs
+	assert goldshire1.cost == 0
+	assert goldshire2.buffs
+	assert goldshire2.cost == 0
+	assert wisp.buffs
+	assert wisp.cost == 0
+
+	goldshire1.play()
+	assert game.currentPlayer.minionsPlayedThisTurn == 1
+	assert not wisp.buffs
+	assert not goldshire2.buffs
+	assert goldshire2.cost == 1
+	assert wisp.cost == 0
+	game.endTurn()
+
+	assert not game.currentPlayer.minionsPlayedThisTurn == 1
+	assert goldshire1.cost == 1
+	assert goldshire2.cost == 1
+	assert wisp.cost == 0
+
+
 def test_betrayal():
 	game = prepare_game()
 	betrayal = game.currentPlayer.give("EX1_126")

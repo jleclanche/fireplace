@@ -89,6 +89,16 @@ class EX1_059e:
 		self.setHealth(atk)
 
 
+# Pint-Sized Summoner
+class EX1_076:
+	class Aura:
+		Name = "Pint-Sized Summoner Virtual Aura"
+		targeting = TARGET_FRIENDLY_HAND
+		Cost = -1
+		def isValidTarget(self, target):
+			return not self.controller.minionsPlayedThisTurn
+
+
 # Secretkeeper
 class EX1_080:
 	def CARD_PLAYED(self, card):
