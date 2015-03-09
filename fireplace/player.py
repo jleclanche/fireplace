@@ -132,6 +132,7 @@ class Player(Entity):
 	tempMana = _TAG(GameTag.TEMP_RESOURCES, 0)
 	usedMana = _TAG(GameTag.RESOURCES_USED, 0)
 	cardsPlayedThisTurn = _TAG(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
+	minionsPlayedThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYED_THIS_TURN, 0)
 	minionsKilledThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYER_KILLED_THIS_TURN, 0)
 
 	@property
@@ -221,6 +222,7 @@ class Player(Entity):
 	def OWN_TURN_BEGIN(self):
 		self.combo = False
 		self.cardsPlayedThisTurn = 0
+		self.minionsPlayedThisTurn = 0
 		self.maxMana += 1
 		self.usedMana = self.overloaded
 		if self.overloaded:
@@ -264,6 +266,8 @@ class Player(Entity):
 
 	def AFTER_OWN_CARD_PLAYED(self, card):
 		self.cardsPlayedThisTurn += 1
+		if card.type == CardType.MINION:
+			self.minionsPlayedThisTurn += 1
 
 	def MINION_SUMMON(self, player, minion):
 		if player is self:
