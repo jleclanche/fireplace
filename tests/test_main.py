@@ -1210,6 +1210,38 @@ def test_pint_sized_summoner():
 	assert wisp.cost == 0
 
 
+def test_mana_wraith():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP)
+	goldshire1 = game.player1.give("CS1_042")
+	wisp2 = game.player2.give(WISP)
+	goldshire2 = game.player2.give("CS1_042")
+	fireball1 = game.player1.give("CS2_029")
+	fireball2 = game.player2.give("CS2_029")
+	axe1 = game.player1.give("CS2_106")
+	axe2 = game.player2.give("CS2_106")
+	assert wisp1.cost == wisp2.cost == 0
+	assert goldshire1.cost == goldshire2.cost == 1
+	assert fireball1.cost == fireball2.cost == 4
+	assert axe1.cost == axe2.cost == 2
+	assert game.player1.hero.power.cost == game.player2.hero.power.cost == 2
+	game.endTurn(); game.endTurn()
+
+	wraith = game.currentPlayer.give("EX1_616")
+	wraith.play()
+	assert wisp1.cost == wisp2.cost == 0 + 1
+	assert goldshire1.cost == goldshire2.cost == 1 + 1
+	assert fireball1.cost == fireball2.cost == 4
+	assert axe1.cost == axe2.cost == 2
+	assert game.player1.hero.power.cost == game.player2.hero.power.cost == 2
+	wraith.destroy()
+	assert wisp1.cost == wisp2.cost == 0
+	assert goldshire1.cost == goldshire2.cost == 1
+	assert fireball1.cost == fireball2.cost == 4
+	assert axe1.cost == axe2.cost == 2
+	assert game.player1.hero.power.cost == game.player2.hero.power.cost == 2
+
+
 def test_betrayal():
 	game = prepare_game()
 	betrayal = game.currentPlayer.give("EX1_126")

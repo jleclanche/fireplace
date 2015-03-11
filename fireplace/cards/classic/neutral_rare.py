@@ -183,11 +183,22 @@ class EX1_584:
 		for target in self.adjacentMinions:
 			self.buff(target, "EX1_584e")
 
+
 # Imp Master
 class EX1_597:
 	def OWN_TURN_END(self):
 		self.hit(self, 1)
 		self.controller.summon("EX1_598")
+
+
+# Mana Wraith
+class EX1_616:
+	class Aura:
+		Name = "Mana Wraith Virtual Aura"
+		targeting = TARGET_ANY_HAND
+		Cost = 1
+		def isValidTarget(self, target):
+			return target.type == CardType.MINION
 
 
 # Knife Juggler
