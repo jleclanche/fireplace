@@ -120,12 +120,12 @@ class EX1_409:
 	def action(self):
 		if self.controller.hero.weapon:
 			self.buff(self.controller.hero.weapon, "EX1_409e")
-			self.controller.hero.weapon.durability += 1
 		else:
 			self.controller.summon("EX1_409t")
 
 class EX1_409e:
 	Atk = 1
+	Durability = 1
 
 
 # Shield Slam
