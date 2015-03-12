@@ -87,10 +87,6 @@ class EX1_572:
 	def OWN_TURN_END(self):
 		self.controller.give(random.choice(self.data.entourage))
 
-# Laughing Sister
-class DREAM_01:
-	Chromatic = True
-
 # Ysera Awakens
 class DREAM_02:
 	def action(self):

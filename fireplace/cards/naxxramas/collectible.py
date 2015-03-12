@@ -40,11 +40,6 @@ class FP1_007:
 	deathrattle = summonMinion("FP1_007t")
 
 
-# Spectral Knight
-class FP1_008:
-	Chromatic = True
-
-
 # Deathlord
 class FP1_009:
 	def deathrattle(self):
