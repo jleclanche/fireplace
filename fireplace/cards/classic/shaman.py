@@ -36,10 +36,8 @@ class EX1_575:
 
 # Windspeaker
 class EX1_587:
-	action = buffTarget("EX1_587e")
-
-class EX1_587e:
-	windfury = True
+	def action(self, target):
+		target.windfury = True
 
 
 ##
