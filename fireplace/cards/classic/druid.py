@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -18,18 +19,10 @@ class EX1_165b:
 class EX1_178a:
 	action = buffSelf("EX1_178ae")
 
-class EX1_178ae:
-	Health = 5
-	Taunt = True
-
 
 # Uproot (Ancient of War)
 class EX1_178b:
 	action = buffSelf("EX1_178be")
-
-class EX1_178be:
-	Atk = 5
-
 
 # Ancient Teachings (Ancient of Lore)
 class NEW1_008a:
@@ -49,9 +42,6 @@ class CS2_005:
 		buffSelf(self, "CS2_005o")
 		self.controller.hero.armor += 2
 
-class CS2_005o:
-	Atk = 2
-
 
 # Healing Touch
 class CS2_007:
@@ -67,20 +57,12 @@ class CS2_008:
 class CS2_009:
 	action = buffTarget("CS2_009e")
 
-class CS2_009e:
-	Atk = 2
-	Health = 2
-	taunt = True
-
 
 # Savage Roar
 class CS2_011:
 	def action(self):
 		for target in self.controller.getTargets(TARGET_FRIENDLY_CHARACTERS):
 			self.buff(target, "CS2_011o")
-
-class CS2_011o:
-	Atk = 2
 
 
 # Swipe
@@ -120,16 +102,9 @@ class EX1_154b:
 class EX1_155a:
 	action = buffTarget("EX1_155ae")
 
-class EX1_155ae:
-	Atk = 4
-
 # Mark of Nature (Health)
 class EX1_155b:
 	action = buffTarget("EX1_155be")
-
-class EX1_155be:
-	Health = 4
-	Taunt = True
 
 
 # Soul of the Forest
@@ -153,10 +128,6 @@ class EX1_160b:
 	def action(self):
 		for target in self.controller.field:
 			target.buff("EX1_160be")
-
-class EX1_160be:
-	Atk = 1
-	Health = 1
 
 
 # Naturalize
@@ -184,9 +155,6 @@ class EX1_570:
 	def action(self):
 		buffSelf(self, "EX1_570e")
 		self.controller.hero.armor += 4
-
-class EX1_570e:
-	Atk = 4
 
 
 # Force of Nature

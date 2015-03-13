@@ -9,9 +9,6 @@ from ..utils import *
 class PART_001:
 	action = buffTarget("PART_001e")
 
-class PART_001e:
-	Health = 1
-
 
 # Time Rewinder
 class PART_002:
@@ -29,7 +26,6 @@ class PART_004:
 	action = buffTarget("PART_004e")
 
 class PART_004e:
-	Stealth = True
 	def OWN_TURN_BEGIN(self):
 		self.destroy()
 
@@ -54,6 +50,3 @@ class PART_006a:
 # Whirling Blades
 class PART_007:
 	action = buffTarget("PART_007e")
-
-class PART_007e:
-	Atk = 1

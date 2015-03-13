@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -18,10 +19,6 @@ class EX1_613:
 	def combo(self):
 		for i in range(self.controller.cardsPlayedThisTurn):
 			self.buff(self, "EX1_613e")
-
-class EX1_613e:
-	Atk = 2
-	Health = 2
 
 
 # Kidnapper
@@ -45,23 +42,14 @@ class CS2_072:
 
 # Cold Blood
 class CS2_073:
-	action = buffTarget("CS2_073e2")
-	combo = buffTarget("CS2_073e")
-
-class CS2_073e:
-	Atk = 4
-
-class CS2_073e2:
-	Atk = 2
+	action = buffTarget("CS2_073e")
+	combo = buffTarget("CS2_073e2")
 
 
 # Deadly Poison
 class CS2_074:
 	def action(self):
 		self.buff(self.controller.hero.weapon, "CS2_074e")
-
-class CS2_074e:
-	Atk = 2
 
 
 # Sinister Strike
@@ -108,7 +96,6 @@ class EX1_128:
 			self.buff(target, "EX1_128e")
 
 class EX1_128e:
-	Stealth = True
 	def OWN_TURN_BEGIN(self):
 		self.destroy()
 

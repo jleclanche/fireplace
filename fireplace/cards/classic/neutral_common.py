@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Free basic minions
 
@@ -8,7 +9,6 @@ class CS2_122:
 	Aura = "CS2_122e"
 
 class CS2_122e:
-	Atk = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target is not self.source
@@ -29,10 +29,6 @@ class CS2_226:
 	def action(self):
 		for target in self.controller.field:
 			self.buff(self, "CS2_226e")
-
-class CS2_226e:
-	Atk = 1
-	Health = 1
 
 # RFG: Has +1/+1 for each other friendly minion on the battlefield.
 # class CS2_226o:
@@ -86,9 +82,6 @@ class EX1_399:
 	def SELF_DAMAGE(self, amount, source):
 		self.buff(self, "EX1_399e")
 
-class EX1_399e:
-	Atk = 3
-
 
 # Nightblade
 class EX1_593:
@@ -138,9 +131,6 @@ class CS2_189:
 class CS2_188:
 	action = buffTarget("CS2_188o")
 
-class CS2_188o:
-	Atk = 2
-
 
 # Razorfen Hunter
 class CS2_196:
@@ -153,7 +143,6 @@ class CS2_221:
 		Aura = "CS2_221e"
 
 class CS2_221e:
-	Atk = 2
 	targeting = TARGET_FRIENDLY_WEAPON
 
 
@@ -162,8 +151,6 @@ class CS2_222:
 	Aura = "CS2_222o"
 
 class CS2_222o:
-	Atk = 1
-	Health = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target is not self.source
@@ -185,10 +172,6 @@ class EX1_007:
 class EX1_019:
 	action = buffTarget("EX1_019e")
 
-class EX1_019e:
-	Atk = 1
-	Health = 1
-
 
 # Dragonling Mechanic
 class EX1_025:
@@ -203,9 +186,6 @@ class EX1_029:
 # Dark Iron Dwarf
 class EX1_046:
 	action = buffTarget("EX1_046e")
-
-class EX1_046e:
-	Atk = 2
 
 
 # Spellbreaker
@@ -240,7 +220,6 @@ class EX1_162:
 	Aura = "EX1_162o"
 
 class EX1_162o:
-	Atk = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 
 
@@ -252,8 +231,6 @@ class EX1_412:
 
 # Frost Elemental
 class EX1_283:
-	# The Freeze tag is for Water Elem/Snowchugger
-	Freeze = False
 	def action(self, target):
 		target.frozen = True
 
@@ -269,7 +246,6 @@ class EX1_508:
 
 class EX1_508o:
 	targeting = TARGET_FRIENDLY_MINIONS
-	Atk = 1
 	def isValidTarget(self, target):
 		return target.race == Race.MURLOC and target is not self.source
 
@@ -295,6 +271,3 @@ class NEW1_018:
 class tt_004:
 	def MINION_DESTROY(self):
 		self.buff(self, "tt_004o")
-
-class tt_004o:
-	Atk = 1

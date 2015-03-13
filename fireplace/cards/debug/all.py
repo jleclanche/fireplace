@@ -166,18 +166,10 @@ class XXX_054:
 		if self.hero.weapon:
 			self.buff(self.hero.weapon, "XXX_054e")
 
-class XXX_054e:
-	Atk = 100
-	Durability = 100
-
 
 # 1000 Stats
 class XXX_055:
 	action = buffTarget("XXX_055e")
-
-class XXX_055e:
-	Atk = 1000
-	Health = 1000
 
 
 # Silence Destroy

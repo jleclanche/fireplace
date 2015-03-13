@@ -15,9 +15,6 @@ class EX1_004:
 			target = random.choice(other_minions)
 			target.buff("EX1_004e")
 
-class EX1_004e:
-	Health = 1
-
 
 # Alarm-o-Bot
 class EX1_006:
@@ -40,18 +37,11 @@ class EX1_043:
 		for card in self.controller.hand:
 			self.buff(self, "EX1_043e")
 
-class EX1_043e:
-	Health = 1
-
 
 # Questing Adventurer
 class EX1_044:
 	def OWN_CARD_PLAYED(self, card):
 		self.buff(self, "EX1_044e")
-
-class EX1_044e:
-	Atk = 1
-	Health = 1
 
 
 # Coldlight Oracle
@@ -66,9 +56,6 @@ class EX1_055:
 	def OWN_CARD_PLAYED(self, card):
 		if card.type == CardType.SPELL:
 			self.buff(self, "EX1_055o")
-
-class EX1_055o:
-	Atk = 2
 
 
 # Sunfury Protector
@@ -105,10 +92,6 @@ class EX1_080:
 		if card.tags.get(GameTag.SECRET):
 			self.buff(self, "EX1_080e")
 
-class EX1_080o:
-	Atk = 1
-	Health = 1
-
 
 # Mind Control Tech
 class EX1_085:
@@ -128,11 +111,6 @@ class EX1_093:
 	def action(self):
 		for target in self.adjacentMinions:
 			self.buff(target, "EX1_093e")
-
-class EX1_093e:
-	Atk = 1
-	Health = 1
-	taunt = True
 
 
 # Gadgetzan Auctioneer
@@ -156,9 +134,6 @@ class EX1_103:
 			if minion.race == Race.MURLOC:
 				self.buff(minion, "EX1_103e")
 
-class EX1_103e:
-	Health = 2
-
 
 # Azure Drake
 class EX1_284:
@@ -172,9 +147,6 @@ class EX1_509:
 			# NOTE: We have to check against ourselves here because the
 			# Battlecry happens when we are already in play
 			self.buff(self, "EX1_509e")
-
-class EX1_509e:
-	Atk = 1
 
 
 # Ancient Mage
@@ -237,9 +209,6 @@ class NEW1_037:
 		if other_minions:
 			target = random.choice(other_minions)
 			self.buff(target, "NEW1_037e")
-
-class NEW1_037e:
-	Atk = 1
 
 
 # Stampeding Kodo

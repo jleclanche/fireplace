@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 # Big Game Hunter
 class EX1_005:
 	action = destroyTarget
@@ -17,8 +18,6 @@ class EX1_507:
 	Aura = "EX1_507e"
 
 class EX1_507e:
-	Atk = 2
-	Health = 1
 	def isValidTarget(self, target):
 		return target.race == Race.MURLOC and target is not self.source
 
@@ -37,10 +36,6 @@ class EX1_590:
 			if target.divineShield:
 				target.divineShield = False
 				self.buff(self, "EX1_590e")
-
-class EX1_590e:
-	Atk = 3
-	Health = 3
 
 
 # Molten Giant
@@ -64,10 +59,6 @@ class NEW1_017:
 		target.destroy()
 		self.buff(self, "NEW1_017e")
 
-class NEW1_017e:
-	Atk = 2
-	Health = 2
-
 
 # Doomsayer
 class NEW1_021:
@@ -82,7 +73,5 @@ class NEW1_027:
 	targeting = TARGET_FRIENDLY_MINIONS
 
 class NEW1_027e:
-	Atk = 1
-	Health = 1
 	def isValidTarget(self, target):
 		return target.race == Race.PIRATE and target is not self.source

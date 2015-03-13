@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -14,9 +15,6 @@ class CS2_235:
 class EX1_001:
 	def HEAL(self, source, target, amount):
 		self.buff(self, "EX1_001e")
-
-class EX1_001e:
-	Atk = 2
 
 
 # Cabal Shadow Priest
@@ -52,9 +50,6 @@ class EX1_341:
 class EX1_623:
 	action = buffTarget("EX1_623e")
 
-class EX1_623e:
-	Health = 3
-
 
 ##
 # Spells
@@ -64,9 +59,6 @@ class CS2_004:
 	def action(self, target):
 		self.buff(target, "CS2_004e")
 		self.controller.draw()
-
-class CS2_004e:
-	Health = 2
 
 
 # Holy Nova
@@ -135,7 +127,6 @@ class EX1_334:
 	action = buffTarget("EX1_334e")
 
 class EX1_334e:
-	OneTurnEffect = True
 	def apply(self, target):
 		self.controller.takeControl(target)
 

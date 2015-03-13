@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -14,17 +15,12 @@ class EX1_258:
 		if card.overload:
 			self.buff(self, "EX1_258e")
 
-class EX1_258e:
-	Atk = 1
-	Health = 1
-
 
 # Flametongue Totem
 class EX1_565:
 	Aura = "EX1_565o"
 
 class EX1_565o:
-	Atk = 2
 	targeting = TARGET_FRIENDLY_MINIONS
 
 
@@ -70,16 +66,10 @@ class CS2_041:
 		self.heal(target, target.maxHealth)
 		self.buff(target, "CS2_041e")
 
-class CS2_041e:
-	Taunt = True
-
 
 # Rockbiter Weapon
 class CS2_045:
 	action = buffTarget("CS2_045e")
-
-class CS2_045e:
-	Atk = 3
 
 
 # Bloodlust
@@ -87,9 +77,6 @@ class CS2_046:
 	def action(self):
 		for target in self.controller.field:
 			self.buff(target, "CS2_046e")
-
-class CS2_046e:
-	Atk = 3
 
 
 # Lightning Bolt
@@ -108,9 +95,6 @@ class EX1_244:
 		for target in self.controller.field:
 			if target.race == Race.TOTEM:
 				self.buff(target, "EX1_244e")
-
-class EX1_244e:
-	Health = 2
 
 
 # Hex

@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -22,18 +23,12 @@ class EX1_603:
 		self.buff(target, "EX1_603e")
 		self.hit(target, 1)
 
-class EX1_603e:
-	Atk = 2
-
 
 # Frothing Berserker
 class EX1_604:
 	def DAMAGE(self, source, target, amount):
 		if target.type == CardType.MINION:
 			self.buff(self, "EX1_604o")
-
-class EX1_604o:
-	Atk = 1
 
 
 ##
@@ -43,26 +38,15 @@ class EX1_604o:
 class CS2_103:
 	action = buffTarget("CS2_103e2")
 
-class CS2_103e2:
-	Atk = 2
-	Charge = True
-
 
 # Rampage
 class CS2_104:
 	action = buffTarget("CS2_104e")
 
-class CS2_104e:
-	Atk = 3
-	Health = 3
-
 
 # Heroic Strike
 class CS2_105:
 	action = buffSelf("CS2_105e")
-
-class CS2_105e:
-	Atk = 4
 
 
 # Execute
@@ -123,10 +107,6 @@ class EX1_409:
 		else:
 			self.controller.summon("EX1_409t")
 
-class EX1_409e:
-	Atk = 1
-	Durability = 1
-
 
 # Shield Slam
 class EX1_410:
@@ -147,15 +127,9 @@ class EX1_607:
 		self.buff(target, "EX1_607e")
 		self.hit(target, 1)
 
-class EX1_607e:
-	Atk = 2
-
 
 # Commanding Shout
 class NEW1_036:
 	def action(self):
 		for target in self.controller.field:
 			self.buff(target, "NEW1_036e")
-
-class NEW1_036e:
-	HealthMinimum = 1

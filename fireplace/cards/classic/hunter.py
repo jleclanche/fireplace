@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -14,19 +15,12 @@ class CS2_237:
 class DS1_070:
 	action = buffTarget("DS1_070o")
 
-class DS1_070o:
-	Atk = 2
-	Health = 2
-	Taunt = True
-
 
 # Timber Wolf
 class DS1_175:
 	Aura = "DS1_175o"
 
-# Furious Howl
 class DS1_175o:
-	Atk = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target.race == Race.BEAST and target is not self.source
@@ -36,9 +30,7 @@ class DS1_175o:
 class DS1_178:
 	Aura = "DS1_178e"
 
-# Charge
 class DS1_178e:
-	Charge = True
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target.race == Race.BEAST
@@ -49,10 +41,6 @@ class EX1_531:
 	def OWN_MINION_DESTROY(self, minion):
 		if minion.race == Race.BEAST:
 			self.buff(self, "EX1_531e")
-
-class EX1_531e:
-	Atk = 2
-	Health = 1
 
 
 # Savannah Highmane
@@ -72,7 +60,6 @@ class CS2_084:
 class CS2_084e:
 	def apply(self, target):
 		self.setHealth(1)
-
 
 # Multi-Shot
 class DS1_183:
@@ -132,8 +119,6 @@ class EX1_611:
 			self.reveal()
 
 class EX1_611e:
-	Cost = 2
-
 	# Remove the buff when the card is played
 	def AFTER_SELF_CARD_PLAYED(self):
 		self.destroy()
@@ -155,7 +140,6 @@ class NEW1_033:
 	Aura = "NEW1_033o"
 
 class NEW1_033o:
-	Atk = 1
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target is not self.source
@@ -168,7 +152,3 @@ class NEW1_033o:
 class EX1_536:
 	def OWN_SECRET_REVEAL(self, secret):
 		self.buff(self, "EX1_536e")
-
-
-class EX1_536e:
-	Durability = 1

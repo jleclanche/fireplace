@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -36,9 +37,6 @@ class EX1_383:
 class CS2_087:
 	action = buffTarget("CS2_087e")
 
-class CS2_087e:
-	Atk = 3
-
 
 # Holy Light
 class CS2_089:
@@ -48,10 +46,6 @@ class CS2_089:
 # Blessing of Kings
 class CS2_092:
 	action = buffTarget("CS2_092e")
-
-class CS2_092e:
-	Atk = 4
-	Health = 4
 
 
 # Consecration
@@ -142,7 +136,3 @@ class EX1_366:
 	def OWN_MINION_SUMMON(self, minion):
 		self.buff(minion, "EX1_366e")
 		self.durability -= 1
-
-class EX1_366e:
-	Atk = 1
-	Health = 1

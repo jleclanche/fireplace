@@ -10,18 +10,12 @@ class GVG_067:
 		if player is not self.controller and card.type == CardType.SPELL:
 			self.buff("GVG_067a")
 
-class GVG_067a:
-	Atk = 1
-
 
 # Burly Rockjaw Trogg
 class GVG_068:
 	def CARD_PLAYED(self, player, card):
 		if player is not self.controller and card.type == CardType.SPELL:
 			self.buff("GVG_068a")
-
-class GVG_068a:
-	Atk = 2
 
 
 # Antique Healbot
@@ -61,7 +55,3 @@ class GVG_103:
 	def TURN_BEGIN(self, player):
 		# That card ID is not a mistake
 		self.buff(self, "GVG_076a")
-
-# Pistons
-class GVG_076a:
-	Atk = 1

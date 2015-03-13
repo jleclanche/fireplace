@@ -72,10 +72,6 @@ class HERO_06:
 class CS2_017:
 	action = buffSelf("CS2_017o")
 
-# Claws
-class CS2_017o:
-	attack = 1
-
 
 # Gul'dan
 class HERO_07:

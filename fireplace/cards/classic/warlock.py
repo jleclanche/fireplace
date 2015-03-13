@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -9,9 +10,6 @@ class CS2_059:
 		if self.controller.field:
 			target = random.choice(self.controller.field)
 			self.buff(target, "CS2_059o")
-
-class CS2_059o:
-	Health = 1
 
 
 # Dread Infernal
@@ -147,8 +145,6 @@ class EX1_316:
 	action = buffTarget("EX1_316e")
 
 class EX1_316e:
-	Atk = 4
-	Health = 4
 	def TURN_END(self, player):
 		self.owner.destroy()
 
@@ -179,10 +175,6 @@ class EX1_596:
 			self.buff(target, "EX1_596e")
 		else:
 			self.hit(target, 2)
-
-class EX1_596e:
-	Atk = 2
-	Health = 2
 
 
 # Sacrificial Pact

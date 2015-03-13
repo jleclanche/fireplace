@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -8,10 +9,6 @@ class EX1_274:
 	def OWN_TURN_END(self):
 		if self.controller.secrets:
 			self.buff("EX1_274e")
-
-class EX1_274e:
-	Atk = 2
-	Health = 2
 
 
 # Archmage Antonidas
@@ -27,9 +24,6 @@ class NEW1_012:
 		if card.type == CardType.SPELL:
 			self.buff(self, "NEW1_012o")
 
-class NEW1_012o:
-	Atk = 1
-
 
 ##
 # Spells
@@ -37,6 +31,7 @@ class NEW1_012o:
 # Polymorph
 class CS2_022:
 	action = morphTarget("CS2_tk1")
+
 
 # Arcane Intellect
 class CS2_023:

@@ -30,10 +30,6 @@ class FP1_005:
 	def OWN_TURN_BEGIN(self):
 		self.buff(self, "FP1_005e")
 
-class FP1_005e:
-	Atk = 1
-	Health = 1
-
 
 # Nerubian Egg
 class FP1_007:
@@ -81,9 +77,6 @@ class FP1_023:
 			target = random.choice(self.controller.field)
 			self.buff(target, "FP1_023e")
 
-class FP1_023e:
-	Health = 3
-
 
 # Unstable Ghoul
 class FP1_024:
@@ -110,10 +103,6 @@ class FP1_028:
 	def OWN_MINION_SUMMON(self, minion):
 		if minion.hasDeathrattle:
 			self.buff(self, "FP1_028e")
-
-class FP1_028e:
-	Atk = 1
-	# Health = 1  # RIP you creepy bastard
 
 
 # Dancing Swords

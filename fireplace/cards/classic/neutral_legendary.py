@@ -21,10 +21,6 @@ class EX1_014:
 class EX1_014t:
 	action = buffTarget("EX1_014te")
 
-class EX1_014te:
-	Atk = 1
-	Health = 1
-
 
 # Sylvanas Windrunner
 class EX1_016:
@@ -125,10 +121,6 @@ class NEW1_024:
 		if self.controller.hero.weapon:
 			self.buff(self.controller.hero.weapon, "NEW1_024o")
 
-class NEW1_024o:
-	Atk = 1
-	Durability = 1
-
 
 # Deathwing
 class NEW1_030:
@@ -144,10 +136,6 @@ class NEW1_030:
 class NEW1_038:
 	def TURN_END(self, player):
 		self.buff(self, "NEW1_038o")
-
-class NEW1_038o:
-	Atk = 1
-	Health = 1
 
 
 # Hogger
