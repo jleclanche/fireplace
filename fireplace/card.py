@@ -584,6 +584,14 @@ class Enchantment(BaseCard):
 		logging.info("Applying %r to %r" % (self, target))
 		self.owner = target
 		target.buffs.append(self)
+		if target.type == CardType.WEAPON:
+			# HACK
+			# We don't want to have a full-fledged damage system for durability.
+			# However, we want to be able to specify durability in buffs.
+			# This should be done elsewhere, preferably in the Weapon class.
+			durability = self.tags.get(GameTag.DURABILITY, 0)
+			if durability:
+				target.durability += durability
 		if hasattr(self.data, "apply"):
 			self.data.apply(self, target)
 
@@ -703,9 +711,7 @@ class Enrage(BaseCard):
 
 
 class Weapon(BaseCard):
-	@property
-	def durability(self):
-		return self.getIntProperty(GameTag.DURABILITY)
+	durability = _TAG(GameTag.DURABILITY, 0)
 
 	@durability.setter
 	def durability(self, value):
