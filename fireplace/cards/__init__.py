@@ -78,6 +78,8 @@ def merge(id):
 	cls.entourage = xmlcard.entourage
 	cls.chooseCards = xmlcard.chooseCards
 	cls.id = id
+	if xmlcard.auraID:
+		cls.Aura = merge(xmlcard.auraID)
 	return cls
 
 

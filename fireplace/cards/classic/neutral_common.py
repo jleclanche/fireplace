@@ -4,10 +4,8 @@ from ..utils import *
 ##
 # Free basic minions
 
-# Raid Leader
-class CS2_122:
-	Aura = "CS2_122e"
 
+# Enhanced (Raid Leader)
 class CS2_122e:
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
@@ -146,10 +144,7 @@ class CS2_221e:
 	targeting = TARGET_FRIENDLY_WEAPON
 
 
-# Stormwind Champion
-class CS2_222:
-	Aura = "CS2_222o"
-
+# Might of Stormwind (Stormwind Champion)
 class CS2_222o:
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
@@ -215,10 +210,7 @@ class EX1_096:
 	deathrattle = drawCard
 
 
-# Dire Wolf Alpha
-class EX1_162:
-	Aura = "EX1_162o"
-
+# Strength of the Pack (Dire Wolf Alpha)
 class EX1_162o:
 	targeting = TARGET_FRIENDLY_MINIONS
 
@@ -240,10 +232,7 @@ class EX1_506:
 	action = summonMinion("EX1_506a")
 
 
-# Grimscale Oracle
-class EX1_508:
-	Aura = "EX1_508o"
-
+# Mlarggragllabl! (Grimscale Oracle)
 class EX1_508o:
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):

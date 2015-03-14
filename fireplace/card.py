@@ -284,9 +284,6 @@ class BaseCard(Entity):
 
 	def summon(self):
 		if self.aura:
-			if self.aura == 1:
-				logging.warning("Undefined aura for %r", self)
-				return
 			self._aura = Aura(id=self.data.Aura.id, data=self.data.Aura)
 			self._aura.source = self
 			self._aura.controller = self.controller

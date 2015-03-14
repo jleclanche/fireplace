@@ -16,20 +16,14 @@ class DS1_070:
 	action = buffTarget("DS1_070o")
 
 
-# Timber Wolf
-class DS1_175:
-	Aura = "DS1_175o"
-
+# Furious Howl (Timber Wolf)
 class DS1_175o:
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target.race == Race.BEAST and target is not self.source
 
 
-# Tundra Rhino
-class DS1_178:
-	Aura = "DS1_178e"
-
+# Charge (Tundra Rhino)
 class DS1_178e:
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
@@ -135,10 +129,8 @@ class NEW1_031:
 	def action(self):
 		self.controller.summon(random.choice(self.entourage))
 
-# Leokk
-class NEW1_033:
-	Aura = "NEW1_033o"
 
+# Eye in the Sky (Leokk)
 class NEW1_033o:
 	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):

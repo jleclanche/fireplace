@@ -17,9 +17,6 @@ class EX1_258:
 
 
 # Flametongue Totem
-class EX1_565:
-	Aura = "EX1_565o"
-
 class EX1_565o:
 	targeting = TARGET_FRIENDLY_MINIONS
 

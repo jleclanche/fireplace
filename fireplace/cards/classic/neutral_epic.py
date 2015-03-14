@@ -13,10 +13,7 @@ class EX1_105:
 		self.cost = self.baseCost - (len(self.controller.hand) - 1)
 
 
-# Murloc Warleader
-class EX1_507:
-	Aura = "EX1_507e"
-
+# Mrgglaargl! (Murloc Warleader)
 class EX1_507e:
 	def isValidTarget(self, target):
 		return target.race == Race.MURLOC and target is not self.source
@@ -67,11 +64,8 @@ class NEW1_021:
 			target.destroy()
 
 
-# Southsea Captain
-class NEW1_027:
-	Aura = "NEW1_027e"
-	targeting = TARGET_FRIENDLY_MINIONS
-
+# Yarrr! (Southsea Captain)
 class NEW1_027e:
+	targeting = TARGET_FRIENDLY_MINIONS
 	def isValidTarget(self, target):
 		return target.race == Race.PIRATE and target is not self.source
