@@ -78,8 +78,8 @@ def merge(id):
 	cls.entourage = xmlcard.entourage
 	cls.chooseCards = xmlcard.chooseCards
 	cls.id = id
-	if xmlcard.auraID:
-		cls.Aura = merge(xmlcard.auraID)
+	if isinstance(xmlcard.tags.get(GameTag.AURA), str):
+		cls.Aura = merge(xmlcard.tags[GameTag.AURA])
 	return cls
 
 
