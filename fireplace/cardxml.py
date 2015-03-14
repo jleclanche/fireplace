@@ -12,6 +12,13 @@ class CardXML(object):
 		return self.xml.attrib["CardID"]
 
 	@property
+	def auraID(self):
+		e = self._findTag(GameTag.AURA)
+		if not e:
+			return
+		return e[0].attrib.get("cardID")
+
+	@property
 	def chooseCards(self):
 		cards = self.xml.findall("ChooseCard")
 		return [tag.attrib["cardID"] for tag in cards]
