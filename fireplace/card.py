@@ -634,7 +634,9 @@ class Aura(BaseCard):
 	targets affected by an aura. It is only internal.
 	"""
 
-	def __init__(self, id, data):
+	def __init__(self, id, data=None):
+		if data is None:
+			data = getattr(CardDB, id)
 		super().__init__(id, data)
 		self._buffed = CardList()
 		self._buffs = CardList()
@@ -717,8 +719,7 @@ class Enrage(Entity):
 
 	def summon(self):
 		if self.aura:
-			_buffcard = Card(self.aura) # HACK
-			self._aura = Aura(id=self.aura, data=_buffcard.data)
+			self._aura = Aura(id=self.aura)
 			self._aura.source = self
 			self._aura.controller = self.controller
 			self._aura.summon()
