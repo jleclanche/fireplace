@@ -15,19 +15,9 @@ tagnames = {
 	"Aura": GameTag.AURA,
 	"Charge": GameTag.CHARGE,
 	"Cost": GameTag.COST,
-	"Durability": GameTag.DURABILITY,
 	"Deathrattle": GameTag.DEATHRATTLE,
 	"ExtraDeathrattles": GameTag.EXTRA_DEATHRATTLES,
-	"Freeze": GameTag.FREEZE,
-	"Health": GameTag.HEALTH,
-	"HealthMinimum": GameTag.HEALTH_MINIMUM,
 	"Name": GameTag.CARDNAME,
-	"Recall": GameTag.RECALL,
-	"Stealth": GameTag.STEALTH,
-	"Spellpower": GameTag.SPELLPOWER,
-	"Taunt": GameTag.TAUNT,
-	"Windfury": GameTag.WINDFURY,
-	"OneTurnEffect": GameTag.OneTurnEffect,
 }
 
 def _initTags(carddef, cls):
@@ -39,17 +29,13 @@ def _initTags(carddef, cls):
 	for attr, value in carddef.__dict__.items():
 		if attr in tagnames:
 			cls.tags[tagnames[attr]] = value
+
 	if hasattr(carddef, "Aura"):
-		# The Aura can be a string to another class, or a class.
-		if isinstance(carddef.Aura, str):
-			# If it's a string, it's an id to an actual Card
-			carddef.Aura = merge(carddef.Aura) # much recursive. wow.
-		else:
-			# Otherwise, it's a virtual card. Init its tags.
-			carddef.Aura.tags = {}
-			carddef.Aura.id = None
-			_initTags(carddef.Aura, carddef.Aura)
-			carddef.Aura.tags[GameTag.CARDTYPE] = CardType.ENCHANTMENT
+		# Virtual card. Init its tags.
+		carddef.Aura.tags = {}
+		carddef.Aura.id = None
+		_initTags(carddef.Aura, carddef.Aura)
+		carddef.Aura.tags[GameTag.CARDTYPE] = CardType.ENCHANTMENT
 
 
 def merge(id):
