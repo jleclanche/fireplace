@@ -25,12 +25,6 @@ class EX1_006:
 			self.controller.summon(random.choice(minions))
 
 
-# Angry Chicken
-class EX1_009:
-	class Enrage:
-		Atk = 5
-
-
 # Twilight Drake
 class EX1_043:
 	def action(self):

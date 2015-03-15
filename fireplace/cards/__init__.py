@@ -17,7 +17,6 @@ tagnames = {
 	"Cost": GameTag.COST,
 	"Durability": GameTag.DURABILITY,
 	"Deathrattle": GameTag.DEATHRATTLE,
-	"Enrage": GameTag.ENRAGED,
 	"ExtraDeathrattles": GameTag.EXTRA_DEATHRATTLES,
 	"Freeze": GameTag.FREEZE,
 	"Health": GameTag.HEALTH,

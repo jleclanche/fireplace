@@ -57,18 +57,6 @@ class EX1_102:
 		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 2)
 
 
-# Tauren Warrior
-class EX1_390:
-	class Enrage:
-		Atk = 3
-
-
-# Amani Berserker
-class EX1_393:
-	class Enrage:
-		Atk = 3
-
-
 # Arathi Weaponsmith
 class EX1_398:
 	def action(self):
@@ -135,11 +123,7 @@ class CS2_196:
 	action = summonMinion("CS2_boar")
 
 
-# Spiteful Smith
-class CS2_221:
-	class Enrage:
-		Aura = "CS2_221e"
-
+# Sharp! (Spiteful Smith)
 class CS2_221e:
 	targeting = TARGET_FRIENDLY_WEAPON
 
@@ -214,12 +198,6 @@ class EX1_096:
 class EX1_162o:
 	targeting = TARGET_FRIENDLY_MINIONS
 
-
-# Raging Worgen
-class EX1_412:
-	class Enrage:
-		Atk = 1
-		Windfury = True
 
 # Frost Elemental
 class EX1_283:
