@@ -465,9 +465,13 @@ class Minion(Character):
 	@property
 	def slots(self):
 		slots = super().slots[:]
-		if self._enrage:
+		if self.enraged:
 			slots.append(self._enrage)
 		return slots
+
+	@property
+	def enraged(self):
+		return self.enrage and self.damage
 
 	def _setZone(self, value):
 		if self.zone == Zone.PLAY:
@@ -513,7 +517,7 @@ class Minion(Character):
 			self.destroy()
 
 		if self.enrage and not self._enrage:
-			self._enrage = Enrage(id=None, data=self.enrage)
+			self._enrage = Enrage(self.data.enrageTags)
 			self._enrage.controller = self.controller
 			self._enrage.summon()
 
@@ -521,7 +525,7 @@ class Minion(Character):
 
 	def SELF_HEAL(self, source, amount):
 		super().SELF_HEAL(source, amount)
-		if not self.damage and self._enrage:
+		if self._enrage and not self.enraged:
 			self._enrage.destroy()
 			self._enrage = None
 
