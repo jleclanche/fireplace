@@ -61,6 +61,10 @@ class CardXML(object):
 	def tags(self):
 		return {GameTag(int(e.attrib["enumID"])): self._getTag(e) for e in self.xml.findall("./Tag")}
 
+	@property
+	def enrageTags(self):
+		return {GameTag(int(e.attrib["enumID"])): self._getTag(e) for e in self.xml.findall("./EnrageDefinition/Tag")}
+
 	##
 	# Requirement properties
 
