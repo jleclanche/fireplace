@@ -692,18 +692,37 @@ class Aura(BaseCard):
 		self.game.auras.remove(self)
 
 
-class Enrage(BaseCard):
+class Enrage(Entity):
 	"""
 	Virtual Card class for Enrage objects.
 	Enrage buffs behave like regular cards but do not actually have
 	ids or are present in the game files, so hackery.
 	"""
+
+	aura = _TAG(GameTag.AURA, False)
+	type = None
+	events = []
+
+	def __init__(self, tags):
+		super().__init__()
+		self._aura = None
+		self.tags = tags.copy()
+
 	def __str__(self):
 		return "Enrage Buff"
 
 	@property
 	def slots(self):
 		return []
+
+	def summon(self):
+		if self.aura:
+			_buffcard = Card(self.aura) # HACK
+			self._aura = Aura(id=self.aura, data=_buffcard.data)
+			self._aura.source = self
+			self._aura.controller = self.controller
+			self._aura.summon()
+			logging.info("Aura %r suddenly appears" % (self._aura))
 
 	def destroy(self):
 		# Bit hacky. Need a design where we don't duplicate this.

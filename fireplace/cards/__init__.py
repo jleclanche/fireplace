@@ -68,6 +68,7 @@ def merge(id):
 			return carddef
 		cls = type(id, (carddef, ), {})
 	cls.tags = xmlcard.tags
+	cls.enrageTags = xmlcard.enrageTags
 	if carddef:
 		if hasattr(carddef, "Enrage"):
 			# Initialize the Enrage virtual card too
