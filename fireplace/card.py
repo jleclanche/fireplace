@@ -604,6 +604,8 @@ class Enchantment(BaseCard):
 		self.owner.buffs.remove(self)
 		if hasattr(self.data, "destroy"):
 			self.data.destroy(self)
+		if self._aura:
+			self._aura.destroy()
 
 	def setAtk(self, value):
 		"Helper to set a character's atk to \a value through an Enchantment"
