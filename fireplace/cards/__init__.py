@@ -10,16 +10,6 @@ from .naxxramas import *
 from .. import cardxml
 
 
-tagnames = {
-	"Atk": GameTag.ATK,
-	"Aura": GameTag.AURA,
-	"Charge": GameTag.CHARGE,
-	"Cost": GameTag.COST,
-	"Deathrattle": GameTag.DEATHRATTLE,
-	"ExtraDeathrattles": GameTag.EXTRA_DEATHRATTLES,
-	"Name": GameTag.CARDNAME,
-}
-
 def _initTags(carddef, cls):
 	"""
 	Iterate over the class attributes, mapping them to the tags dict
@@ -27,8 +17,8 @@ def _initTags(carddef, cls):
 	do it here instead of in Card.__new__()
 	"""
 	for attr, value in carddef.__dict__.items():
-		if attr in tagnames:
-			cls.tags[tagnames[attr]] = value
+		if attr.isupper() and hasattr(GameTag, attr):
+			cls.tags[getattr(GameTag, attr)] = value
 
 	if hasattr(carddef, "Aura"):
 		# Virtual card. Init its tags.

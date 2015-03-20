@@ -73,9 +73,9 @@ class EX1_059e:
 # Pint-Sized Summoner
 class EX1_076:
 	class Aura:
-		Name = "Pint-Sized Summoner Virtual Aura"
+		CARDNAME = "Pint-Sized Summoner Virtual Aura"
+		COST = -1
 		targeting = TARGET_FRIENDLY_HAND
-		Cost = -1
 		def isValidTarget(self, target):
 			return not self.controller.minionsPlayedThisTurn
 
@@ -160,9 +160,9 @@ class EX1_597:
 # Mana Wraith
 class EX1_616:
 	class Aura:
-		Name = "Mana Wraith Virtual Aura"
+		CARDNAME = "Mana Wraith Virtual Aura"
+		COST = 1
 		targeting = TARGET_ANY_HAND
-		Cost = 1
 		def isValidTarget(self, target):
 			return target.type == CardType.MINION
 

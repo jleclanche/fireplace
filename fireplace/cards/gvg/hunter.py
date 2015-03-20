@@ -18,7 +18,7 @@ class GVG_049:
 
 
 class GVG_049e:
-	Atk = lambda i: i*2
+	ATK = lambda i: i*2
 
 
 ##

@@ -114,9 +114,9 @@ class FP1_029:
 # Baron Rivendare
 class FP1_031:
 	class Aura:
-		Name = "Rivendare Virtual Aura"
+		CARDNAME = "Rivendare Virtual Aura"
+		EXTRA_DEATHRATTLES = True
 		targeting = TARGET_FRIENDLY_MINIONS
-		ExtraDeathrattles = True
 		def isValidTarget(self, target):
 			return target is not self.source
 

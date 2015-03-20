@@ -114,7 +114,7 @@ class EX1_158:
 			self.buff(target, "EX1_158e")
 
 class EX1_158e:
-	Deathrattle = True
+	DEATHRATTLE = True
 	def deathrattle(self):
 		self.controller.summon("EX1_158t")
 

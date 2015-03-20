@@ -15,9 +15,9 @@ class CS2_122e:
 # Venture Co. Mercenary
 class CS2_227:
 	class Aura:
-		Name = "Venture Co. Virtual Aura"
+		CARDNAME = "Venture Co. Virtual Aura"
+		COST = 3
 		targeting = TARGET_FRIENDLY_HAND
-		Cost = 3
 		def isValidTarget(self, target):
 			return target.type == CardType.MINION
 
