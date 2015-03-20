@@ -475,6 +475,11 @@ class Minion(Character):
 			slots.append(self._enrage)
 		return slots
 
+	def attributeScript(self, attr, value):
+		if self.silenced:
+			return value
+		return super().attributeScript(attr, value)
+
 	@property
 	def enraged(self):
 		return self.enrage and self.damage
