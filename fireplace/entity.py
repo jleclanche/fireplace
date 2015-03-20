@@ -65,3 +65,12 @@ class Entity(object):
 			if slot.getBoolProperty(tag):
 				return True
 		return
+
+	def attributeScript(self, attr, value):
+		"""
+		Some values support a script that overrides/complements the attributes without
+		requiring a special buff. (Molten Giant, Lightspawn...)
+		"""
+		if hasattr(self.data, attr):
+			value = getattr(self.data, attr)(self, value)
+		return value
