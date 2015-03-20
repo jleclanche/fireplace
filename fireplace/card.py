@@ -408,6 +408,7 @@ class Character(BaseCard):
 
 		# Wipe the event listeners and keep only those of the card itself
 		self._registerEvents()
+		self.silenced = True
 
 
 class Hero(Character):
@@ -444,6 +445,7 @@ class Minion(Character):
 	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
 	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
 	enrage = _TAG(GameTag.ENRAGED, False)
+	silenced = _TAG(GameTag.SILENCED, False)
 	spellPower = _TAG(GameTag.SPELLPOWER, 0)
 
 	charge = _PROPERTY(GameTag.CHARGE, False)

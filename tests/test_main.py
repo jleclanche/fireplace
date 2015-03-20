@@ -350,8 +350,10 @@ def test_silence():
 	game.endTurn(); game.endTurn()
 
 	thrallmar.play()
+	assert not thrallmar.silenced
 	assert thrallmar.windfury
 	silence.play(target=thrallmar)
+	assert thrallmar.silenced
 	assert not thrallmar.windfury
 
 
