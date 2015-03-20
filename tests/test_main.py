@@ -2019,6 +2019,42 @@ def test_lightwell():
 	assert game.currentPlayer.opponent.hero.health == 29
 
 
+def test_loatheb():
+	game = prepare_game(WARRIOR, MAGE)
+	game.player1.discardHand()
+	game.player2.discardHand()
+	loatheb = game.player1.give("FP1_030")
+	fireballPlayer1 = game.player1.give("CS2_029")
+	fireball1 = game.player2.give("CS2_029")
+	fireball2 = game.player2.give("CS2_029")
+	moonfire = game.player2.give(MOONFIRE)
+	game.endTurn()
+
+	assert fireball1.cost == 4
+	assert fireball2.cost == 4
+	assert moonfire.cost == 0
+	assert fireballPlayer1.cost == 4
+	loatheb.play()
+	# costs do not change right away
+	assert not fireball1.buffs
+	assert fireball1.cost == 4
+	assert fireball2.cost == 4
+	assert moonfire.cost == 0
+	assert fireballPlayer1.cost == 4
+	game.endTurn()
+
+	assert fireball1.cost == 4 + 5
+	assert fireball2.cost == 4 + 5
+	assert moonfire.cost == 0 + 5
+	assert fireballPlayer1.cost == 4
+	game.endTurn()
+
+	assert fireball1.cost == 4
+	assert fireball2.cost == 4
+	assert moonfire.cost == 0
+	assert fireballPlayer1.cost == 4
+
+
 def test_millhouse_manastorm():
 	game = prepare_game(WARRIOR, MAGE)
 	game.player1.discardHand()

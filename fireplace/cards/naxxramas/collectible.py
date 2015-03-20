@@ -111,6 +111,26 @@ class FP1_029:
 		self.controller.opponent.draw()
 
 
+# Loatheb
+class FP1_030:
+	def action(self):
+		self.buff(self.controller.opponent.hero, "FP1_030e")
+
+class FP1_030e:
+	AURA = True
+	class Aura:
+		CARDNAME = "Necrotic Aura (Loatheb Aura)"
+		COST = lambda i: i+5
+		targeting = TARGET_ENEMY_HAND
+		def isValidTarget(self, target):
+			return target.type == CardType.SPELL and self.controller.currentPlayer
+
+	def TURN_END(self, player):
+		# Remove the buff at the end of the other player's turn
+		if player is not self.owner.controller:
+			self.destroy()
+
+
 # Baron Rivendare
 class FP1_031:
 	class Aura:
