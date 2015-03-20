@@ -941,6 +941,18 @@ def test_dread_infernal():
 	assert infernal.health == 6
 
 
+def test_dread_corsair():
+	game = prepare_game()
+	corsair = game.currentPlayer.give("NEW1_022")
+	assert corsair.cost == 4
+	game.currentPlayer.give(THE_COIN).play()
+	axe = game.player1.give("CS2_106")
+	axe.play()
+	assert corsair.cost == 4 - 3
+	axe.destroy()
+	assert corsair.cost == 4
+
+
 def test_druid_of_the_fang():
 	game = prepare_game()
 	druid = game.currentPlayer.give("GVG_080")

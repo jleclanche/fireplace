@@ -234,6 +234,14 @@ class NEW1_018:
 			self.buff(self, "NEW1_018e", atk=self.controller.hero.weapon.atk)
 
 
+# Dread Corsair
+class NEW1_022:
+	def cost(self, value):
+		if self.controller.hero.weapon:
+			value -= self.controller.hero.weapon.atk
+		return value
+
+
 # Flesheating Ghoul
 class tt_004:
 	def MINION_DESTROY(self):
