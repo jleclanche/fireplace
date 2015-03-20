@@ -21,8 +21,7 @@ class EX1_382:
 	action = buffTarget("EX1_382e")
 
 class EX1_382e:
-	def apply(self, target):
-		self.setAtk(1)
+	ATK = lambda i: 1
 
 
 # Tirion Fordring
@@ -81,8 +80,7 @@ class EX1_360:
 	action = buffTarget("EX1_360e")
 
 class EX1_360e:
-	def apply(self, target):
-		self.setAtk(1)
+	ATK = lambda i: 1
 
 
 # Blessing of Wisdom
