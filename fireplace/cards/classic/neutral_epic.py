@@ -8,9 +8,8 @@ class EX1_005:
 
 # Mountain Giant
 class EX1_105:
-	@hand
-	def OWN_HAND_UPDATE(self):
-		self.cost = self.baseCost - (len(self.controller.hand) - 1)
+	def cost(self, value):
+		return value - (len(self.controller.hand) - 1)
 
 
 # Mrgglaargl! (Murloc Warleader)
@@ -21,9 +20,8 @@ class EX1_507e:
 
 # Sea Giant
 class EX1_586:
-	@hand
-	def UPDATE(self):
-		self.cost = self.baseCost - len(self.game.board)
+	def cost(self, value):
+		return value - len(self.game.board)
 
 
 # Blood Knight
@@ -37,9 +35,8 @@ class EX1_590:
 
 # Molten Giant
 class EX1_620:
-	@hand
-	def UPDATE(self):
-		self.cost = self.baseCost - self.controller.hero.damage
+	def cost(self, value):
+		return value - self.controller.hero.damage
 
 
 # Captain's Parrot
