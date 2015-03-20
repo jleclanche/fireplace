@@ -122,6 +122,26 @@ class NEW1_024:
 			self.buff(self.controller.hero.weapon, "NEW1_024o")
 
 
+# Millhouse Manastorm
+class NEW1_029:
+	def action(self):
+		self.buff(self.controller.opponent.hero, "NEW1_029t")
+
+class NEW1_029t:
+	AURA = True
+	class Aura:
+		CARDNAME = "Kill Millhouse! (Aura)"
+		COST = lambda i: 0
+		targeting = TARGET_ENEMY_HAND
+		def isValidTarget(self, target):
+			return target.type == CardType.SPELL
+
+	def TURN_END(self, player):
+		# Remove the buff at the end of the other player's turn
+		if player is not self.owner.controller:
+			self.destroy()
+
+
 # Deathwing
 class NEW1_030:
 	def action(self):
