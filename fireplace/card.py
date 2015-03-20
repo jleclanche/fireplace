@@ -144,7 +144,9 @@ class BaseCard(Entity):
 
 	@property
 	def atk(self):
-		return self.getIntProperty(GameTag.ATK)
+		ret = self.getIntProperty(GameTag.ATK)
+		ret = self.attributeScript("atk", ret)
+		return max(0, ret)
 
 	@atk.setter
 	def atk(self, value):
