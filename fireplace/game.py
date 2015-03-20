@@ -68,9 +68,13 @@ class Game(Entity):
 			attacker.attacking = False
 			defender.defending = False
 			return
-		attacker.hit(defender, attacker.atk)
-		if defender.atk:
-			defender.hit(attacker, defender.atk)
+		# Save the attacker/defender atk values in case they change during the attack
+		# (eg. in case of Enrage)
+		attAtk = attacker.atk
+		defAtk = defender.atk
+		attacker.hit(defender, attAtk)
+		if defAtk:
+			defender.hit(attacker, defAtk)
 		attacker.attacking = False
 		defender.defending = False
 		attacker.numAttacks += 1

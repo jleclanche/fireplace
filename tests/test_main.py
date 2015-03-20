@@ -707,6 +707,30 @@ def test_raging_worgen():
 	assert not worgen.windfury
 
 
+def test_amani_berserker():
+	game = prepare_game()
+	amani1 = game.player1.give("EX1_393")
+	amani2 = game.player2.give("EX1_393")
+	game.endTurn(); game.endTurn()
+
+	amani1.play()
+	game.endTurn()
+
+	amani2.play()
+	game.endTurn()
+
+	assert amani1.atk == amani2.atk == 2
+	assert amani1.extraAtk == amani2.extraAtk == 0
+	amani1.attack(amani2)
+	# check both minions are still alive, that the enrage didn't trigger too early
+	assert amani1.zone == amani2.zone == Zone.PLAY
+	assert amani1 in game.player1.field
+	assert amani2 in game.player2.field
+	assert amani1.damage == amani2.damage == 2
+	assert amani1.atk == amani2.atk == 2 + 3
+	assert amani1.extraAtk == amani2.extraAtk == 3
+
+
 def test_spiteful_smith():
 	game = prepare_game()
 	assert not game.currentPlayer.hero.atk
