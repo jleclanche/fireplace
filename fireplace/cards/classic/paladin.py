@@ -75,6 +75,14 @@ class EX1_354:
 		self.controller.draw(3)
 
 
+# Blessed Champion
+class EX1_355:
+	action = buffTarget("EX1_355e")
+
+class EX1_355e:
+	ATK = lambda i: i*2
+
+
 # Humility
 class EX1_360:
 	action = buffTarget("EX1_360e")
