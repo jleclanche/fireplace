@@ -90,6 +90,10 @@ class BaseCard(Entity):
 	hasDeathrattle = _PROPERTY(GameTag.DEATHRATTLE, False)
 
 	@property
+	def hasBattlecry(self):
+		return hasattr(self.data, "action")
+
+	@property
 	def zone(self):
 		return self.tags.get(GameTag.ZONE)
 
@@ -185,11 +189,11 @@ class BaseCard(Entity):
 		if self.hasCombo and self.controller.combo:
 			logging.info("Activating %r combo targeting %r" % (self, target))
 			func = self.data.combo
-		else:
-			if not hasattr(self.data, "action"):
-				return
+		elif self.hasBattlecry:
 			logging.info("Activating %r action targeting %r" % (self, target))
 			func = self.data.action
+		else:
+			return
 		func(self, **kwargs)
 
 	def heal(self, target, amount):
