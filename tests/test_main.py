@@ -2716,6 +2716,16 @@ def test_faerie_dragon():
 	assert dragon in archer.targets
 
 
+def test_far_sight():
+	game = prepare_game()
+	game.endTurn(); game.endTurn()
+	game.currentPlayer.discardHand()
+	farsight = game.currentPlayer.give("CS2_053")
+	farsight.play()
+	assert len(game.currentPlayer.hand) == 1
+	assert game.currentPlayer.hand[0].buffs
+	assert game.currentPlayer.hand[0].cost >= 0
+
 
 def test_flare():
 	game = prepare_game(HUNTER, HUNTER)

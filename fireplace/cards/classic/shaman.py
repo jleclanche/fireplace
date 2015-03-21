@@ -76,6 +76,16 @@ class CS2_046:
 			self.buff(target, "CS2_046e")
 
 
+# Far Sight
+class CS2_053:
+	def action(self):
+		card = self.controller.draw()
+		self.buff(card, "CS2_053e")
+
+class CS2_053e:
+	COST = -3
+
+
 # Lightning Bolt
 class EX1_238:
 	action = damageTarget(3)
