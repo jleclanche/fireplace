@@ -1216,6 +1216,27 @@ def test_mana_addict():
 	assert manaaddict.atk == 1
 
 
+def test_old_murkeye():
+	game = prepare_game()
+	murkeye = game.player1.give("EX1_062")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	murloc = game.player1.summon("CS2_168")
+	murkeye.play()
+	assert murkeye.charge
+	assert murkeye.canAttack()
+	assert murkeye.atk == 2 + 1
+	game.player2.summon("CS2_168")
+	assert murkeye.atk == 2 + 2
+	game.player2.summon("CS2_168")
+	assert murkeye.atk == 2 + 3
+	murloc.destroy()
+	assert murkeye.atk == 2 + 2
+	murkeye2 = game.player2.summon("EX1_062")
+	assert murkeye.atk == murkeye2.atk == 2 + 3
+
+
 def test_pint_sized_summoner():
 	game = prepare_game()
 	goldshire1 = game.currentPlayer.give("CS1_042")

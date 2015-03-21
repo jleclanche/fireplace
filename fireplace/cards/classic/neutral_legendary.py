@@ -29,6 +29,13 @@ class EX1_016:
 			self.controller.takeControl(random.choice(self.controller.opponent.field))
 
 
+# Old Murk-Eye
+class EX1_062:
+	def atk(self, value):
+		murlocs = [t for t in self.game.board if t.race == Race.MURLOC and t is not self]
+		return value + len(murlocs)
+
+
 # Lorewalker Cho
 class EX1_100:
 	def CARD_PLAYED(self, player, card):
