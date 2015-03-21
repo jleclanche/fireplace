@@ -62,6 +62,17 @@ class FP1_016:
 			target.silence()
 
 
+# Nerub'ar Weblord
+class FP1_017:
+	class Aura:
+		CARDNAME = "Nerub'ar Weblord Virtual Aura"
+		COST = +2
+		targeting = TARGET_ANY_HAND
+		def isValidTarget(self, target):
+			return target.type == CardType.MINION and target.hasBattlecry
+
+
+
 # Voidcaller
 class FP1_022:
 	def deathrattle(self):

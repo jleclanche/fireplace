@@ -18,6 +18,16 @@ class EX1_559:
 			self.controller.give("CS2_029")
 
 
+# Sorcerer's Apprentice
+class EX1_608:
+	class Aura:
+		CARDNAME = "Sorcerer's Apprentice Virtual Aura"
+		COST = -1
+		targeting = TARGET_FRIENDLY_HAND
+		def isValidTarget(self, target):
+			return target.type == CardType.SPELL
+
+
 # Mana Wyrm
 class NEW1_012:
 	def OWN_CARD_PLAYED(self, card):
