@@ -685,21 +685,26 @@ class Aura(BaseCard):
 		self._buffs.append(buff)
 		self._buffed.append(target)
 
+	def _entityBuff(self, target):
+		"Returns the buff created by this aura on \a target"
+		for buff in target.buffs:
+			if buff.creator is self:
+				return buff
+
 	def UPDATE(self):
 		for target in self.targets:
 			if self.isValidTarget(target):
-				if not target in self._buffed:
+				if not self._entityBuff(target):
 					self._buff(target)
 		# Make sure to copy the list as it can change during iteration
 		for target in self._buffed[:]:
 			# Remove auras no longer valid
 			if not self.isValidTarget(target):
-				for buff in self._buffs:
-					if buff in target.buffs:
-						buff.destroy()
-						self._buffs.remove(buff)
-						self._buffed.remove(target)
-						break
+				buff = self._entityBuff(target)
+				if buff:
+					buff.destroy()
+					self._buffs.remove(buff)
+					self._buffed.remove(target)
 
 	def destroy(self):
 		logging.info("Removing %r affecting %r" % (self, self._buffed))

@@ -1981,6 +1981,7 @@ def test_lightspawn():
 	assert lightspawn.atk == 4
 
 	game.currentPlayer.give(SILENCE).play(target=lightspawn)
+	assert lightspawn.buffs
 	# 2 attack from the flametongue
 	assert lightspawn.atk == 2
 
