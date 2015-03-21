@@ -113,7 +113,7 @@ class Player(Entity):
 				card = self.deck[-1]
 			self.game.broadcast("CARD_DRAW", self, card)
 			logging.info("%s draws %r" % (self, card))
-			return [card]
+			return card
 		else:
 			ret = []
 			while count:

@@ -1509,10 +1509,10 @@ def test_mind_vision():
 	assert len(game.currentPlayer.hand) == 6
 
 	# opponent draws a card, coin mind vision should get that one card
-	drawn = game.currentPlayer.opponent.draw()
+	card = game.currentPlayer.opponent.draw()
 	game.currentPlayer.getById(THE_COIN).play()
 	game.currentPlayer.give("CS2_003").play()
-	assert game.currentPlayer.hand[-1] == drawn[0]
+	assert game.currentPlayer.hand[-1] == card
 
 
 def test_mirror_image():
