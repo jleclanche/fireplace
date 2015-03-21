@@ -591,6 +591,7 @@ class Secret(BaseCard):
 class Enchantment(BaseCard):
 	oneTurnEffect = _TAG(GameTag.OneTurnEffect, False)
 	owner = _TAG(GameTag.ATTACHED, None)
+	creator = _TAG(GameTag.CREATOR, None)
 
 	def apply(self, target):
 		logging.info("Applying %r to %r" % (self, target))
@@ -680,6 +681,7 @@ class Aura(BaseCard):
 			virtual = Card(id=None, data=self.data)
 			virtual.controller = self.controller
 			buff = self.buff(target, virtual)
+		buff.creator = self
 		self._buffs.append(buff)
 		self._buffed.append(target)
 
