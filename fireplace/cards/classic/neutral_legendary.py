@@ -36,6 +36,14 @@ class EX1_062:
 		return value + len(murlocs)
 
 
+# Tinkmaster Overspark
+class EX1_083:
+	def action(self):
+		targets = self.game.board
+		if targets:
+			random.choice(targets).morph(random.choice(("EX1_tk28", "EX1_tk29")))
+
+
 # Lorewalker Cho
 class EX1_100:
 	def CARD_PLAYED(self, player, card):
