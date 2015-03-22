@@ -453,11 +453,19 @@ class Minion(Character):
 	silenced = _TAG(GameTag.SILENCED, False)
 	spellPower = _TAG(GameTag.SPELLPOWER, 0)
 
-	charge = _PROPERTY(GameTag.CHARGE, False)
 	chromatic = _PROPERTY(GameTag.CANT_BE_TARGETED_BY_ABILITIES, False)
 	extraDeathrattles = _PROPERTY(GameTag.EXTRA_DEATHRATTLES, False)
 	stealthed = _PROPERTY(GameTag.STEALTH, False)
 	taunt = _PROPERTY(GameTag.TAUNT, False)
+
+	@property
+	def charge(self):
+		ret = self.getBoolProperty(GameTag.CHARGE)
+		return ret or self.attributeScript("charge", ret)
+
+	@charge.setter
+	def charge(self, value):
+		self.setTag(GameTag.CHARGE, value)
 
 	@property
 	def adjacentMinions(self):
