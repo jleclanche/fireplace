@@ -54,6 +54,16 @@ class EX1_313:
 	action = damageHero(5)
 
 
+# Summoning Portal
+class EX1_315:
+	class Aura:
+		CARDNAME = "Summoning Portal Virtual Aura"
+		COST = lambda i: min(i, max(1, i-2))
+		targeting = TARGET_FRIENDLY_HAND
+		def isValidTarget(self, target):
+			return target.type == CardType.MINION
+
+
 # Flame Imp
 class EX1_319:
 	action = damageHero(3)

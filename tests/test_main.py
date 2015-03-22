@@ -2739,6 +2739,35 @@ def test_stoneskin_gargoyle():
 	# assert gargoyle.zone == Zone.GRAVEYARD
 
 
+def test_summoning_portal():
+	game = prepare_game()
+	game.currentPlayer.discardHand()
+	wisp = game.currentPlayer.give(WISP)
+	assert wisp.cost == 0
+	axe = game.currentPlayer.give("CS2_106")
+	assert axe.cost == 2
+	molten = game.currentPlayer.give("EX1_620")
+	assert molten.cost == 20
+	goldshire = game.currentPlayer.give("CS1_042")
+	assert goldshire.cost == 1
+	frostwolf = game.currentPlayer.give("CS2_121")
+	assert frostwolf.cost == 2
+
+	portal = game.currentPlayer.summon("EX1_315")
+	assert wisp.cost == 0
+	assert axe.cost == 2
+	assert molten.cost == 18
+	assert goldshire.cost == 1
+	assert frostwolf.cost == 1
+	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	assert molten.cost == 17
+	portal2 = game.currentPlayer.summon("EX1_315")
+	assert wisp.cost == 0
+	assert molten.cost == 20 - 2 - 1 - 2
+	assert goldshire.cost == 1
+	assert frostwolf.cost == 1
+
+
 def test_sunfury_protector():
 	game = prepare_game()
 	sunfury = game.currentPlayer.give("EX1_058")
