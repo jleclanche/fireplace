@@ -48,6 +48,35 @@ class EX1_110:
 	deathrattle = summonMinion("EX1_110t")
 
 
+# Gelbin Mekkatorque
+class EX1_112:
+	def action(self):
+		self.controller.summon(random.choice(self.data.entourage))
+
+# Homing Chicken
+class Mekka1:
+	def OWN_TURN_BEGIN(self):
+		self.destroy()
+		self.controller.draw(3)
+
+# Repair Bot
+class Mekka2:
+	def OWN_TURN_END(self):
+		targets = self.controller.getTargets(TARGET_ANY_CHARACTER)
+		targets = [target for target in targets if target.damage]
+		self.heal(random.choice(targets), 6)
+
+# Emboldener 3000
+class Mekka3:
+	def OWN_TURN_END(self):
+		self.buff(random.choice(self.controller.field), "Mekka3e")
+
+# Poultryizer
+class Mekka4:
+	def OWN_TURN_BEGIN(self):
+		random.choice(self.game.board).morph("Mekka4t")
+
+
 # Leeroy Jenkins
 class EX1_116:
 	def action(self):
