@@ -733,6 +733,39 @@ def test_amani_berserker():
 	assert amani1.extraAtk == amani2.extraAtk == 3
 
 
+def test_southsea_deckhand():
+	game = prepare_game(ROGUE, ROGUE)
+	deckhand = game.currentPlayer.give("CS2_146")
+	deckhand.play()
+	assert not deckhand.charge
+	game.endTurn(); game.endTurn()
+
+	# Play rogue hero power (gives a weapon)
+	game.currentPlayer.hero.power.play()
+	assert deckhand.charge
+	game.endTurn(); game.endTurn()
+
+	assert deckhand.charge
+	axe = game.currentPlayer.give("CS2_106")
+	axe.play()
+	assert deckhand.charge
+	axe.destroy()
+	assert not deckhand.charge
+
+	game.endTurn(); game.endTurn()
+	# play charge
+	game.currentPlayer.give("CS2_103").play(target=deckhand)
+	assert deckhand.charge
+	game.endTurn(); game.endTurn()
+
+	assert deckhand.charge
+	game.currentPlayer.hero.power.play()
+	assert deckhand.charge
+	game.currentPlayer.hero.weapon.destroy()
+	# No longer have weapon, but still have the charge buff from earlier
+	assert deckhand.charge
+
+
 def test_spiteful_smith():
 	game = prepare_game()
 	assert not game.currentPlayer.hero.atk

@@ -93,6 +93,12 @@ class CS2_141:
 	action = damageTarget(1)
 
 
+# Southsea Deckhand
+class CS2_146:
+	def charge(self, value):
+		return bool(self.controller.hero.weapon)
+
+
 # Gnomish Inventor
 class CS2_147:
 	action = drawCard
