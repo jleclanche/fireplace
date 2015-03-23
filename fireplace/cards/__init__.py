@@ -59,6 +59,28 @@ def merge(id):
 	return cls
 
 
+def filter(**kwargs):
+	"""
+	Returns a list of card IDs matching the given filters. Each filter, if not
+	None, is matched against the registered card database.
+	cards.
+	\a collectible: Whether the card is collectible or not.
+	\a type: The type of the card (fireplace.enums.CardType)
+	\a race: The race (tribe) of the card (fireplace.enums.Race)
+	\a rarity: The rarity of the card (fireplace.enums.Rarity)
+	\a cost: The mana cost of the card
+	"""
+	cards = db.values()
+
+	for attr, value in kwargs.items():
+		if value is not None:
+			# What? this doesn't work?
+			# cards = __builtins__["filter"](lambda c: getattr(c, attr) == value, cards)
+			cards = [card for card in cards if getattr(card, attr) == value]
+
+	return [card.id for card in cards]
+
+
 # Here we import every card from every set and load the cardxml database.
 # For every card, we will "merge" the class with its Python definition if
 # it exists.
