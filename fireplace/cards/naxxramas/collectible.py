@@ -47,7 +47,7 @@ class FP1_009:
 # Webspinner
 class FP1_011:
 	def deathrattle(self):
-		self.controller.give(random.choice(self.data.entourage))
+		self.controller.give(randomCollectible(type=CardType.MINION, race=Race.BEAST))
 
 
 # Sludge Belcher

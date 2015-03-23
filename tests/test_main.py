@@ -2390,6 +2390,17 @@ def test_water_elemental():
 	assert game.currentPlayer.opponent.hero.frozen
 
 
+def test_webspinner():
+	game = prepare_game()
+	game.currentPlayer.discardHand()
+	webspinner = game.currentPlayer.give("FP1_011")
+	webspinner.play()
+	game.currentPlayer.give(MOONFIRE).play(target=webspinner)
+	assert len(game.currentPlayer.hand) == 1
+	assert game.currentPlayer.hand[0].race == Race.BEAST
+	assert game.currentPlayer.hand[0].type == CardType.MINION
+
+
 def test_wild_pyromancer():
 	game = prepare_game()
 	wisp = game.currentPlayer.give(WISP)
