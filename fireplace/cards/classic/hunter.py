@@ -104,6 +104,11 @@ class EX1_544:
 		self.controller.draw()
 
 
+# Bestial Wrath
+class EX1_549:
+	action = buffTarget("EX1_549o")
+
+
 # Freezing Trap
 class EX1_611:
 	def ATTACK(self, source, target):

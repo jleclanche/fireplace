@@ -1334,6 +1334,36 @@ def test_mana_wraith():
 	assert game.player1.hero.power.cost == game.player2.hero.power.cost == 2
 
 
+def test_bestial_wrath():
+	game = prepare_game()
+	wolf = game.currentPlayer.give("DS1_175")
+	wolf.play()
+	bestial = game.currentPlayer.give("EX1_549")
+	wisp1 = game.currentPlayer.give(WISP)
+	wisp1.play()
+	game.endTurn()
+
+	wisp2 = game.currentPlayer.summon(WISP)
+	game.endTurn()
+
+	assert wolf.atk == 1
+	assert not wolf.immune
+	assert wolf in bestial.targets
+	assert wisp1 not in bestial.targets
+	assert wisp2 not in bestial.targets
+	bestial.play(target=wolf)
+	assert wolf.atk == 3
+	assert wolf.immune
+	wolf.attack(target=wisp2)
+	assert wolf.health == 1
+	assert wolf.zone == Zone.PLAY
+	assert wisp2.zone == Zone.GRAVEYARD
+	game.endTurn()
+
+	assert wolf.atk == 1
+	assert not wolf.immune
+
+
 def test_betrayal():
 	game = prepare_game()
 	betrayal = game.currentPlayer.give("EX1_126")
