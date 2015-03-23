@@ -203,6 +203,9 @@ class BaseCard(Entity):
 			self.game.broadcast("HEAL", self, target, amount)
 
 	def hit(self, target, amount):
+		if target.immune:
+			logging.info("%r is immune to %i damage from %r" % (target, amount, self))
+			return
 		logging.info("%r hits %r for %i" % (self, target, amount))
 		self.game.broadcast("DAMAGE", self, target, amount)
 
@@ -317,6 +320,7 @@ class BaseCard(Entity):
 class Character(BaseCard):
 	race = _TAG(GameTag.CARDRACE, Race.INVALID)
 	frozen = _TAG(GameTag.FROZEN, False)
+	immune = _PROPERTY(GameTag.CANT_BE_DAMAGED, False)
 	minHealth = _PROPERTY(GameTag.HEALTH_MINIMUM, 0)
 	numAttacks = _TAG(GameTag.NUM_ATTACKS_THIS_TURN, 0)
 	poisonous = _TAG(GameTag.POISONOUS, False)
