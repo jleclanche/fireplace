@@ -200,8 +200,8 @@ class PlayReq(IntEnum):
 
 class Rarity(IntEnum):
 	INVALID = 0
-	FREE = 1
-	COMMON = 2
+	COMMON = 1
+	FREE = 2
 	RARE = 3
 	EPIC = 4
 	LEGENDARY = 5
