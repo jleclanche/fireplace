@@ -119,6 +119,13 @@ class EX1_137:
 		once=True)
 
 
+# Shadowstep
+class EX1_144:
+	def action(self, target):
+		target.bounce()
+		self.buff(target, "EX1_144e")
+
+
 # Shiv
 class EX1_278:
 	def action(self, target):

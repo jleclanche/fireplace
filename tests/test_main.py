@@ -2506,6 +2506,18 @@ def test_shadowform():
 	assert not game.currentPlayer.hero.power.isPlayable()
 
 
+def test_shadowstep():
+	game = prepare_game()
+	shadowstep = game.currentPlayer.give("EX1_144")
+	deathwing = game.currentPlayer.summon("NEW1_030")
+	assert deathwing.zone == Zone.PLAY
+	assert deathwing.cost == 10
+	shadowstep.play(target=deathwing)
+	assert deathwing.zone == Zone.HAND
+	assert deathwing in game.currentPlayer.hand
+	assert deathwing.cost == 8
+
+
 def test_acolyte_of_pain():
 	game = prepare_game()
 	acolyte = game.currentPlayer.give("EX1_007")
