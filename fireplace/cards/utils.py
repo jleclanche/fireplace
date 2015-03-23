@@ -1,4 +1,5 @@
 import random
+import fireplace.cards
 from ..enums import CardType, GameTag, Race, Zone
 from ..targeting import *
 
@@ -25,6 +26,10 @@ def discard(count):
 		for card in discard:
 			card.discard()
 	return _discard
+
+
+def randomCollectible(**kwargs):
+	return random.choice(fireplace.cards.filter(collectible=True, **kwargs))
 
 
 bounceTarget = lambda self, target: target.bounce()
