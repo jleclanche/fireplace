@@ -10,6 +10,13 @@ class GVG_001:
 		self.hit(random.choice(self.controller.opponent.field), 4)
 
 
+# Unstable Portal
+class GVG_003:
+	def action(self):
+		card = self.controller.give(randomCollectible(type=CardType.MINION))
+		self.buff(card, "GVG_003e")
+
+
 # Echo of Medivh
 class GVG_005:
 	def action(self):
