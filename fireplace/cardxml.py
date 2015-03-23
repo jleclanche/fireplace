@@ -1,6 +1,6 @@
 import os
 from xml.etree import ElementTree
-from fireplace.enums import CardType, GameTag, PlayReq, Rarity
+from fireplace.enums import CardType, GameTag, PlayReq, Race, Rarity
 
 
 class CardXML(object):
@@ -47,6 +47,10 @@ class CardXML(object):
 	@property
 	def cost(self):
 		return self.getTag(GameTag.COST)
+
+	@property
+	def race(self):
+		return Race(self.getTag(GameTag.CARDRACE))
 
 	@property
 	def rarity(self):
