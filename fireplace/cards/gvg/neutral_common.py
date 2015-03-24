@@ -4,6 +4,16 @@ from ..utils import *
 ##
 # Minions
 
+# Mechwarper
+class GVG_006:
+	class Aura:
+		CARDNAME = "Mechwarper Virtual Aura"
+		COST = -1
+		targeting = TARGET_FRIENDLY_HAND
+		def isValidTarget(self, target):
+			return target.type == CardType.MINION and target.race == Race.MECHANICAL
+
+
 # Stonesplinter Trogg
 class GVG_067:
 	def CARD_PLAYED(self, player, card):

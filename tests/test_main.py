@@ -1334,6 +1334,23 @@ def test_mana_wraith():
 	assert game.player1.hero.power.cost == game.player2.hero.power.cost == 2
 
 
+def test_mechwarper():
+	game = prepare_game()
+	mechwarper = game.currentPlayer.give("GVG_006")
+	goldshire = game.currentPlayer.give("CS1_042")
+	harvest = game.currentPlayer.give("EX1_556")
+	game.endTurn(); game.endTurn()
+
+	assert harvest.cost == 3
+	assert goldshire.cost == 1
+	mechwarper.play()
+	assert harvest.cost == 3 - 1
+	assert goldshire.cost == 1
+	mechwarper.destroy()
+	assert harvest.cost == 3
+	assert goldshire.cost == 1
+
+
 def test_bestial_wrath():
 	game = prepare_game()
 	wolf = game.currentPlayer.give("DS1_175")
