@@ -35,7 +35,6 @@ class BaseCard(Entity):
 		super().__init__()
 		self.uuid = uuid.uuid4()
 		self._aura = None
-		self._enrage = None
 		self.weapon = None
 		self.data = data
 		self.tags = data.tags.copy()
@@ -466,6 +465,10 @@ class Minion(Character):
 	extraDeathrattles = _PROPERTY(GameTag.EXTRA_DEATHRATTLES, False)
 	stealthed = _PROPERTY(GameTag.STEALTH, False)
 	taunt = _PROPERTY(GameTag.TAUNT, False)
+
+	def __init__(self, id, data):
+		super().__init__(id, data)
+		self._enrage = None
 
 	@property
 	def charge(self):
