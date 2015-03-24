@@ -60,6 +60,11 @@ class CardXML(object):
 		reqs = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
 		return {PlayReq(int(tag.attrib["reqID"])): int(tag.attrib["param"] or 0) for tag in reqs}
 
+	@property
+	def powerUpRequirements(self):
+		reqs = self.xml.findall("PowerUpRequirement")
+		return [Race(int(tag.attrib["param"])) for tag in reqs]
+
 	def _findTag(self, id):
 		return self.xml.findall('./Tag[@enumID="%i"]' % (id))
 

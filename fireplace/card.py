@@ -230,6 +230,19 @@ class PlayableCard(BaseCard):
 		return hasattr(self.data, "action")
 
 	@property
+	def poweredUp(self):
+		"""
+		Returns True whether the card is "powered up".
+		Currently, this only applies to some cards which require a minion with a
+		specific race on the field.
+		"""
+		for req in self.data.powerUpRequirements:
+			for minion in self.controller.field:
+				if minion.race == req:
+					return True
+		return False
+
+	@property
 	def entities(self):
 		return chain([self], self.slots)
 
