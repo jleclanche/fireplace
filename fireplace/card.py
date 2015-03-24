@@ -30,9 +30,6 @@ def Card(id, data=None):
 
 
 class BaseCard(Entity):
-	rarity = _TAG(GameTag.RARITY, Rarity.INVALID)
-	freeze = _TAG(GameTag.FREEZE, False)
-
 	def __init__(self, id, data):
 		assert data
 		super().__init__()
@@ -79,19 +76,30 @@ class BaseCard(Entity):
 	##
 	# Tag properties
 
+	@property
+	def maxHealth(self):
+		return self.getIntProperty(GameTag.HEALTH)
+
+	@property
+	def health(self):
+		return max(0, self.maxHealth - self.damage)
+
+	@health.setter
+	def health(self, value):
+		self.tags[GameTag.HEALTH] = value
+
+	@property
+	def extraHealth(self):
+		return sum(slot.getIntProperty(GameTag.HEALTH) for slot in self.slots)
+
 	id = _TAG(GameTag.CARD_ID, None)
 	type = _TAG(GameTag.CARDTYPE, CardType.INVALID)
 	aura = _TAG(GameTag.AURA, False)
 	controller = _TAG(GameTag.CONTROLLER, None)
 	exhausted = _TAG(GameTag.EXHAUSTED, False)
-	overload = _TAG(GameTag.RECALL, 0)
-	windfury = _PROPERTY(GameTag.WINDFURY, False)
-	hasCombo = _TAG(GameTag.COMBO, False)
 	hasDeathrattle = _PROPERTY(GameTag.DEATHRATTLE, False)
 
-	@property
-	def hasBattlecry(self):
-		return hasattr(self.data, "action")
+	isValidTarget = targeting.isValidTarget
 
 	@property
 	def zone(self):
@@ -117,34 +125,12 @@ class BaseCard(Entity):
 		if Zone.HAND in (old, value):
 			self.game.broadcast("HAND_UPDATE", self.controller)
 
-	@property
-	def baseCost(self):
-		return self.data.tags.get(GameTag.COST, 0)
-
-	@property
-	def cost(self):
-		ret = self.getIntProperty(GameTag.COST)
-		ret = self.attributeScript("cost", ret)
-		return max(0, ret)
-
-	@cost.setter
-	def cost(self, value):
-		self.setTag(GameTag.COST, value)
-
 	##
 	# Properties affected by slots
 
 	@property
-	def maxHealth(self):
-		return self.getIntProperty(GameTag.HEALTH)
-
-	@property
-	def health(self):
-		return max(0, self.maxHealth - self.damage)
-
-	@health.setter
-	def health(self, value):
-		self.tags[GameTag.HEALTH] = value
+	def extraAtk(self):
+		return sum(slot.getIntProperty(GameTag.ATK) for slot in self.slots)
 
 	@property
 	def atk(self):
@@ -157,57 +143,8 @@ class BaseCard(Entity):
 		self.tags[GameTag.ATK] = value
 
 	@property
-	def extraAtk(self):
-		return sum(slot.getIntProperty(GameTag.ATK) for slot in self.slots)
-
-	@property
-	def extraHealth(self):
-		return sum(slot.getIntProperty(GameTag.HEALTH) for slot in self.slots)
-
-	@property
-	def targets(self):
-		full_board = self.game.board + [self.controller.hero, self.controller.opponent.hero]
-		return [card for card in full_board if self.isValidTarget(card)]
-
-	isValidTarget = targeting.isValidTarget
-
-	def hasTarget(self):
-		if self.hasCombo and PlayReq.REQ_TARGET_FOR_COMBO in self.data.requirements and self.controller.combo:
-			return True
-		return PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements or \
-			PlayReq.REQ_TARGET_IF_AVAILABLE in self.data.requirements
-
-	@property
 	def slots(self):
 		return self.buffs
-
-	def action(self, target=None):
-		kwargs = {}
-		if self.hasTarget():
-			assert target
-			kwargs["target"] = target
-		if self.hasCombo and self.controller.combo:
-			logging.info("Activating %r combo targeting %r" % (self, target))
-			func = self.data.combo
-		elif self.hasBattlecry:
-			logging.info("Activating %r action targeting %r" % (self, target))
-			func = self.data.action
-		else:
-			return
-		func(self, **kwargs)
-
-	def heal(self, target, amount):
-		logging.info("%r heals %r for %i" % (self, target, amount))
-		# Note that undamaged targets do not receive heals
-		if target.damage:
-			self.game.broadcast("HEAL", self, target, amount)
-
-	def hit(self, target, amount):
-		if target.immune:
-			logging.info("%r is immune to %i damage from %r" % (target, amount, self))
-			return
-		logging.info("%r hits %r for %i" % (self, target, amount))
-		self.game.broadcast("DAMAGE", self, target, amount)
 
 	@property
 	def deathrattles(self):
@@ -222,12 +159,6 @@ class BaseCard(Entity):
 		if self.extraDeathrattles:
 			ret = ret + ret
 		return ret
-
-	def clearBuffs(self):
-		if self.buffs:
-			logging.info("Clearing buffs from %r" % (self))
-			for buff in self.buffs[:]:
-				buff.destroy()
 
 	def destroy(self):
 		logging.info("%r dies" % (self))
@@ -260,12 +191,92 @@ class BaseCard(Entity):
 		"OWN_SECRET_REVEAL",
 	]
 
-	def OWN_TURN_BEGIN(self):
-		self.exhausted = False
+	def summon(self):
+		if self.aura:
+			self._aura = Aura(id=self.data.Aura.id, data=self.data.Aura)
+			self._aura.source = self
+			self._aura.controller = self.controller
+			self._aura.summon()
+			logging.info("Aura %r suddenly appears" % (self._aura))
+
+	def buff(self, target, buff, **kwargs):
+		"""
+		Summon \a buff and apply it to \a target
+		If keyword arguments are given, attempt to set the given
+		values to the buff. Example:
+		player.buff(target, health=random.randint(1, 5))
+		NOTE: Any Card can buff any other Card. The controller of the
+		Card that buffs the target becomes the controller of the buff.
+		"""
+		ret = self.controller.summon(buff)
+		ret.apply(target)
+		for k, v in kwargs.items():
+			setattr(ret, k, v)
+		return ret
+
+
+class PlayableCard(BaseCard):
+	freeze = _TAG(GameTag.FREEZE, False)
+	hasCombo = _TAG(GameTag.COMBO, False)
+	rarity = _TAG(GameTag.RARITY, Rarity.INVALID)
+	overload = _TAG(GameTag.RECALL, 0)
+	windfury = _PROPERTY(GameTag.WINDFURY, False)
+
+	@property
+	def baseCost(self):
+		return self.data.tags.get(GameTag.COST, 0)
+
+	@property
+	def cost(self):
+		ret = self.getIntProperty(GameTag.COST)
+		ret = self.attributeScript("cost", ret)
+		return max(0, ret)
+
+	@cost.setter
+	def cost(self, value):
+		self.setTag(GameTag.COST, value)
+
+	@property
+	def hasBattlecry(self):
+		return hasattr(self.data, "action")
+
+	def action(self, target=None):
+		kwargs = {}
+		if self.hasTarget():
+			assert target
+			kwargs["target"] = target
+		if self.hasCombo and self.controller.combo:
+			logging.info("Activating %r combo targeting %r" % (self, target))
+			func = self.data.combo
+		elif self.hasBattlecry:
+			logging.info("Activating %r action targeting %r" % (self, target))
+			func = self.data.action
+		else:
+			return
+		func(self, **kwargs)
+
+	def clearBuffs(self):
+		if self.buffs:
+			logging.info("Clearing buffs from %r" % (self))
+			for buff in self.buffs[:]:
+				buff.destroy()
 
 	def discard(self):
 		logging.info("Discarding %r" % (self))
 		self.zone = Zone.GRAVEYARD
+
+	def heal(self, target, amount):
+		logging.info("%r heals %r for %i" % (self, target, amount))
+		# Note that undamaged targets do not receive heals
+		if target.damage:
+			self.game.broadcast("HEAL", self, target, amount)
+
+	def hit(self, target, amount):
+		if target.immune:
+			logging.info("%r is immune to %i damage from %r" % (target, amount, self))
+			return
+		logging.info("%r hits %r for %i" % (self, target, amount))
+		self.game.broadcast("DAMAGE", self, target, amount)
 
 	def isPlayable(self):
 		if self.controller.mana < self.cost:
@@ -293,31 +304,22 @@ class BaseCard(Entity):
 		assert self.zone != Zone.PLAY
 		self.controller.play(self, target, choose)
 
-	def summon(self):
-		if self.aura:
-			self._aura = Aura(id=self.data.Aura.id, data=self.data.Aura)
-			self._aura.source = self
-			self._aura.controller = self.controller
-			self._aura.summon()
-			logging.info("Aura %r suddenly appears" % (self._aura))
+	def hasTarget(self):
+		if self.hasCombo and PlayReq.REQ_TARGET_FOR_COMBO in self.data.requirements and self.controller.combo:
+			return True
+		return PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements or \
+			PlayReq.REQ_TARGET_IF_AVAILABLE in self.data.requirements
 
-	def buff(self, target, buff, **kwargs):
-		"""
-		Summon \a buff and apply it to \a target
-		If keyword arguments are given, attempt to set the given
-		values to the buff. Example:
-		player.buff(target, health=random.randint(1, 5))
-		NOTE: Any Card can buff any other Card. The controller of the
-		Card that buffs the target becomes the controller of the buff.
-		"""
-		ret = self.controller.summon(buff)
-		ret.apply(target)
-		for k, v in kwargs.items():
-			setattr(ret, k, v)
-		return ret
+	@property
+	def targets(self):
+		full_board = self.game.board + [self.controller.hero, self.controller.opponent.hero]
+		return [card for card in full_board if self.isValidTarget(card)]
+
+	def OWN_TURN_BEGIN(self):
+		self.exhausted = False
 
 
-class Character(BaseCard):
+class Character(PlayableCard):
 	race = _TAG(GameTag.CARDRACE, Race.INVALID)
 	frozen = _TAG(GameTag.FROZEN, False)
 	immune = _PROPERTY(GameTag.CANT_BE_DAMAGED, False)
@@ -571,7 +573,7 @@ class Minion(Character):
 		self.exhausted = True
 
 
-class Spell(BaseCard):
+class Spell(PlayableCard):
 	immuneToSpellpower = _TAG(GameTag.ImmuneToSpellpower, False)
 
 	def hit(self, target, amount):
@@ -767,7 +769,7 @@ class Enrage(Entity):
 			self._aura.destroy()
 
 
-class Weapon(BaseCard):
+class Weapon(PlayableCard):
 	durability = _TAG(GameTag.DURABILITY, 0)
 
 	@durability.setter
@@ -790,7 +792,7 @@ class Weapon(BaseCard):
 		self.durability -= 1
 
 
-class HeroPower(BaseCard):
+class HeroPower(PlayableCard):
 	def play(self, target=None):
 		logging.info("%s plays hero power %r" % (self.controller, self))
 		assert self.isPlayable()
