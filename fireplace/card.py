@@ -37,7 +37,6 @@ class BaseCard(Entity):
 		self._aura = None
 		self._enrage = None
 		self.weapon = None
-		self.buffs = CardList()
 		self.data = data
 		self.tags = data.tags.copy()
 		self.id = id
@@ -64,10 +63,6 @@ class BaseCard(Entity):
 		elif isinstance(other, str):
 			return self.id.__eq__(other)
 		return super().__eq__(other)
-
-	@property
-	def entities(self):
-		return chain([self], self.slots)
 
 	@property
 	def game(self):
@@ -129,10 +124,6 @@ class BaseCard(Entity):
 	# Properties affected by slots
 
 	@property
-	def extraAtk(self):
-		return sum(slot.getIntProperty(GameTag.ATK) for slot in self.slots)
-
-	@property
 	def atk(self):
 		ret = self.getIntProperty(GameTag.ATK)
 		ret = self.attributeScript("atk", ret)
@@ -141,10 +132,6 @@ class BaseCard(Entity):
 	@atk.setter
 	def atk(self, value):
 		self.tags[GameTag.ATK] = value
-
-	@property
-	def slots(self):
-		return self.buffs
 
 	@property
 	def deathrattles(self):
@@ -222,6 +209,10 @@ class PlayableCard(BaseCard):
 	overload = _TAG(GameTag.RECALL, 0)
 	windfury = _PROPERTY(GameTag.WINDFURY, False)
 
+	def __init__(self, id, data):
+		super().__init__(id, data)
+		self.buffs = CardList()
+
 	@property
 	def baseCost(self):
 		return self.data.tags.get(GameTag.COST, 0)
@@ -239,6 +230,14 @@ class PlayableCard(BaseCard):
 	@property
 	def hasBattlecry(self):
 		return hasattr(self.data, "action")
+
+	@property
+	def entities(self):
+		return chain([self], self.slots)
+
+	@property
+	def slots(self):
+		return self.buffs
 
 	def action(self, target=None):
 		kwargs = {}
@@ -375,6 +374,10 @@ class Character(PlayableCard):
 			amount = min(amount, self.maxHealth - self.minHealth)
 
 		self.setTag(GameTag.DAMAGE, amount)
+
+	@property
+	def extraAtk(self):
+		return sum(slot.getIntProperty(GameTag.ATK) for slot in self.slots)
 
 	def OWN_TURN_BEGIN(self):
 		self.numAttacks = 0
@@ -610,6 +613,10 @@ class Enchantment(BaseCard):
 	oneTurnEffect = _TAG(GameTag.OneTurnEffect, False)
 	owner = _TAG(GameTag.ATTACHED, None)
 	creator = _TAG(GameTag.CREATOR, None)
+
+	@property
+	def slots(self):
+		return []
 
 	def apply(self, target):
 		logging.info("Applying %r to %r" % (self, target))
