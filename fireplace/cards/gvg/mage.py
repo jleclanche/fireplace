@@ -2,6 +2,18 @@ from ..utils import *
 
 
 ##
+# Minions
+
+# Goblin Blastmage
+class GVG_004:
+	def action(self):
+		if self.poweredUp:
+			for i in range(4):
+				target = random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS))
+				self.hit(target, 1)
+
+
+##
 # Spells
 
 # Flamecannon

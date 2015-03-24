@@ -1867,6 +1867,30 @@ def test_gadgetzan_auctioneer():
 	assert len(game.currentPlayer.hand) == 5
 
 
+def test_goblin_blastmage():
+	game = prepare_game()
+	blastmage1 = game.currentPlayer.give("GVG_004")
+	blastmage2 = game.currentPlayer.give("GVG_004")
+	clockwork = game.currentPlayer.give("GVG_082")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert not blastmage1.poweredUp
+	assert game.currentPlayer.hero.health == 30
+	blastmage1.play()
+	assert game.currentPlayer.hero.health == 30
+	game.endTurn(); game.endTurn()
+
+	assert not blastmage2.poweredUp
+	clockwork.play()
+	assert clockwork.race == Race.MECHANICAL
+	assert blastmage2.poweredUp
+	blastmage2.play()
+	assert game.currentPlayer.opponent.hero.health == 30 - 4
+	game.endTurn(); game.endTurn()
+
+
 def test_gahzrilla():
 	game = prepare_game()
 	gahz = game.currentPlayer.summon("GVG_049")
