@@ -87,10 +87,10 @@ class EX1_538:
 # Kill Command
 class EX1_539:
 	def action(self, target):
-		for minion in self.controller.field:
-			if minion.race == Race.BEAST:
-				return self.hit(target, 5)
-		self.hit(target, 3)
+		if self.poweredUp:
+			self.hit(target, 5)
+		else:
+			self.hit(target, 3)
 
 
 # Flare
