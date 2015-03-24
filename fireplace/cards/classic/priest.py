@@ -73,7 +73,8 @@ class CS1_129:
 
 class CS1_129e:
 	def apply(self, target):
-		self.setAtk(target.health)
+		health = target.health
+		self.atk = lambda i: health
 
 
 # Holy Smite

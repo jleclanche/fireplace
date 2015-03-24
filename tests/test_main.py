@@ -2740,6 +2740,10 @@ def test_inner_fire():
 	assert gurubashi.atk == 7
 	game.endTurn(); game.endTurn()
 	assert gurubashi.atk == 7
+	equality = game.currentPlayer.give("EX1_619")
+	equality.play()
+	assert gurubashi.health == 1
+	assert gurubashi.atk == 7
 
 
 def test_ice_barrier():
