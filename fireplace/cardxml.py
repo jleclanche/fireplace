@@ -18,21 +18,6 @@ class CardXML(object):
 		return self.xml.attrib["CardID"]
 
 	@property
-	def chooseCards(self):
-		cards = self.xml.findall("ChooseCard")
-		return [tag.attrib["cardID"] for tag in cards]
-
-	@property
-	def entourage(self):
-		cards = self.xml.findall("EntourageCard")
-		return [tag.attrib["cardID"] for tag in cards]
-
-	@property
-	def requirements(self):
-		reqs = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
-		return {PlayReq(int(tag.attrib["reqID"])): int(tag.attrib["param"] or 0) for tag in reqs}
-
-	@property
 	def name(self):
 		return self.getTag(GameTag.CARDNAME)
 
@@ -59,6 +44,21 @@ class CardXML(object):
 	@property
 	def type(self):
 		return CardType(self.getTag(GameTag.CARDTYPE))
+
+	@property
+	def chooseCards(self):
+		cards = self.xml.findall("ChooseCard")
+		return [tag.attrib["cardID"] for tag in cards]
+
+	@property
+	def entourage(self):
+		cards = self.xml.findall("EntourageCard")
+		return [tag.attrib["cardID"] for tag in cards]
+
+	@property
+	def requirements(self):
+		reqs = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
+		return {PlayReq(int(tag.attrib["reqID"])): int(tag.attrib["param"] or 0) for tag in reqs}
 
 	def _findTag(self, id):
 		return self.xml.findall('./Tag[@enumID="%i"]' % (id))
