@@ -8,8 +8,8 @@ from .utils import CardList, _TAG
 
 
 class Player(Entity):
-	MAX_HAND = 10
-	MAX_MANA = 10
+	maxHandSize = _TAG(GameTag.MAXHANDSIZE, 10)
+	maxResources = _TAG(GameTag.MAXRESOURCES, 10)
 
 	def __init__(self, name, deck):
 		self.name = name
@@ -141,7 +141,7 @@ class Player(Entity):
 
 	@maxMana.setter
 	def maxMana(self, amount):
-		self.tags[GameTag.RESOURCES] = min(self.MAX_MANA, max(0, amount))
+		self.tags[GameTag.RESOURCES] = min(self.maxResources, max(0, amount))
 		logging.info("%s is now at %i mana crystals" % (self, amount))
 
 	def takeControl(self, minion):
@@ -237,7 +237,7 @@ class Player(Entity):
 		if not card:
 			self.fatigue()
 
-		if len(self.hand) > self.MAX_HAND:
+		if len(self.hand) > self.maxHandSize:
 			logging.info("%s overdraws and loses %r!" % (self, card))
 			card.destroy()
 		else:

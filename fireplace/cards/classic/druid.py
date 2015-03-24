@@ -78,7 +78,7 @@ class CS2_012:
 # Wild Growth
 class CS2_013:
 	def action(self):
-		if self.controller.maxMana < self.controller.MAX_MANA:
+		if self.controller.maxMana < self.controller.maxResources:
 			self.controller.maxMana += 1
 		else:
 			self.controller.give("CS2_013t")
