@@ -35,7 +35,6 @@ class BaseCard(Entity):
 		super().__init__()
 		self.uuid = uuid.uuid4()
 		self._aura = None
-		self.weapon = None
 		self.data = data
 		self.tags = data.tags.copy()
 		self.id = id
@@ -426,6 +425,10 @@ class Character(PlayableCard):
 
 class Hero(Character):
 	armor = _TAG(GameTag.ARMOR, 0)
+
+	def __init__(self, id, data):
+		super().__init__(id, data)
+		self.weapon = None
 
 	@property
 	def slots(self):
