@@ -580,7 +580,7 @@ class Spell(BaseCard):
 		super().hit(target, amount)
 
 
-class Secret(BaseCard):
+class Secret(Spell):
 	def _setZone(self, value):
 		if self.zone == Zone.SECRET:
 			self.controller.secrets.remove(self)
