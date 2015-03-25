@@ -226,6 +226,10 @@ class PlayableCard(BaseCard):
 		self.setTag(GameTag.COST, value)
 
 	@property
+	def dead(self):
+		return self.zone == Zone.GRAVEYARD
+
+	@property
 	def hasBattlecry(self):
 		return hasattr(self.data, "action")
 

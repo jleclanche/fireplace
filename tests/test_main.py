@@ -208,7 +208,7 @@ def test_deathrattle():
 
 	archer = game.currentPlayer.give("CS2_189")
 	archer.play(target=loothoarder)
-	assert loothoarder.zone == Zone.GRAVEYARD
+	assert loothoarder.dead
 	assert loothoarder.damage == 0
 	assert len(game.currentPlayer.opponent.hand) == cardcount + 1
 	game.endTurn(); game.endTurn()
@@ -221,7 +221,7 @@ def test_deathrattle():
 	assert len(archer.slots) == 1
 	assert len(game.currentPlayer.field) == 1
 	game.currentPlayer.give(MOONFIRE).play(target=archer)
-	assert archer.zone == Zone.GRAVEYARD
+	assert archer.dead
 	assert len(game.currentPlayer.field) == 1
 
 
@@ -368,7 +368,7 @@ def test_earth_shock():
 	game.endTurn()
 	earthshock = game.currentPlayer.give("EX1_245")
 	earthshock.play(target=crusader)
-	assert crusader.zone == Zone.GRAVEYARD
+	assert crusader.dead
 
 
 def test_eaglehorn_bow():
@@ -927,7 +927,7 @@ def test_cruel_taskmaster():
 	wisp = game.currentPlayer.give(WISP)
 	wisp.play()
 	taskmaster1.play(target=wisp)
-	assert wisp.zone == Zone.GRAVEYARD
+	assert wisp.dead
 	game.endTurn(); game.endTurn()
 
 	assert taskmaster1.health == 2
@@ -1191,7 +1191,7 @@ def test_voidcaller():
 
 	# sacrificial pact on the voidcaller, should summon the Doomguard w/o discards
 	game.currentPlayer.give("NEW1_003").play(target=voidcaller)
-	assert voidcaller.zone == Zone.GRAVEYARD
+	assert voidcaller.dead
 	assert doomguard.zone == Zone.PLAY
 	assert doomguard.canAttack()
 	assert len(game.currentPlayer.hand) == 3
@@ -1211,7 +1211,7 @@ def test_void_terror():
 	game.endTurn(); game.endTurn()
 
 	terror2.play()
-	assert terror1.zone == Zone.GRAVEYARD
+	assert terror1.dead
 	assert terror2.atk == 3+3
 	assert terror2.health == 3+3
 	game.endTurn(); game.endTurn()
@@ -1220,7 +1220,7 @@ def test_void_terror():
 	assert terror2.health == 3+3+4
 	assert terror2.atk == 3+3+4
 	terror3.play()
-	assert terror2.zone == Zone.GRAVEYARD
+	assert terror2.dead
 	assert terror3.atk == 3+3+3+4
 	assert terror3.health == 3+3+3+4
 	game.endTurn(); game.endTurn()
@@ -1374,7 +1374,7 @@ def test_bestial_wrath():
 	wolf.attack(target=wisp2)
 	assert wolf.health == 1
 	assert wolf.zone == Zone.PLAY
-	assert wisp2.zone == Zone.GRAVEYARD
+	assert wisp2.dead
 	game.endTurn()
 
 	assert wolf.atk == 1
@@ -1395,9 +1395,9 @@ def test_betrayal():
 	assert len(game.currentPlayer.field) == 3
 	betrayal.play(target=wisp2)
 	assert len(game.currentPlayer.field) == 1
-	assert wisp1.zone == Zone.GRAVEYARD
+	assert wisp1.dead
 	assert wisp2.zone == Zone.PLAY
-	assert wisp3.zone == Zone.GRAVEYARD
+	assert wisp3.dead
 	game.endTurn(); game.endTurn()
 
 	bender = game.currentPlayer.give(SPELLBENDERT)
@@ -1416,9 +1416,9 @@ def test_betrayal():
 	golem2 = game.currentPlayer.summon("CS2_186")
 	game.currentPlayer.give("EX1_126").play(target=cobra)
 
-	assert golem1.zone == Zone.GRAVEYARD
+	assert golem1.dead
 	assert cobra.zone == Zone.PLAY
-	assert golem2.zone == Zone.GRAVEYARD
+	assert golem2.dead
 
 
 def test_cold_blood():
@@ -1456,7 +1456,7 @@ def test_corruption():
 	assert wisp.zone == Zone.PLAY
 	game.endTurn()
 
-	assert wisp.zone == Zone.GRAVEYARD
+	assert wisp.dead
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 	game.endTurn()
@@ -1470,7 +1470,7 @@ def test_corruption():
 	cabal.play(target=wisp2)
 	assert wisp2.zone == Zone.PLAY
 	game.endTurn()
-	assert wisp2.zone == Zone.GRAVEYARD
+	assert wisp2.dead
 
 
 def test_headcrack():
@@ -1743,7 +1743,7 @@ def test_baron_rivendare():
 	assert len(wisp.slots) == 2
 	assert len(game.currentPlayer.field) == 2
 	game.currentPlayer.give(MOONFIRE).play(target=wisp)
-	assert wisp.zone == Zone.GRAVEYARD
+	assert wisp.dead
 	assert rivendare.zone == Zone.PLAY
 	assert len(game.currentPlayer.field) == 3 # Rivendare and two treants
 	rivendare.destroy()
@@ -1832,7 +1832,7 @@ def test_bomb_lobber():
 	game.endTurn()
 
 	lobber2.play()
-	assert wisp.zone == Zone.GRAVEYARD or warden.health == 7-4
+	assert wisp.dead or warden.health == 7-4
 
 
 def test_defias():
@@ -2037,7 +2037,7 @@ def test_illidan():
 	# 5th moonfire kills illidan, but spawns another token before
 	game.currentPlayer.give(MOONFIRE).play(target=illidan)
 	assert len(game.board) == 5
-	assert illidan.zone == Zone.GRAVEYARD
+	assert illidan.dead
 
 
 def test_leeroy():
@@ -2485,7 +2485,7 @@ def test_wild_pyromancer():
 
 	# play moonfire. wisp should die.
 	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.opponent.hero)
-	assert wisp.zone == Zone.GRAVEYARD
+	assert wisp.dead
 	assert pyro.health == 1
 
 	# play circle of healing. pyro should go up to 2hp then back to 1.
@@ -2604,7 +2604,7 @@ def test_acolyte_of_pain():
 	assert len(game.currentPlayer.hand) == 8
 	game.currentPlayer.give(MOONFIRE).play(target=acolyte)
 	assert len(game.currentPlayer.hand) == 9
-	assert acolyte.zone == Zone.GRAVEYARD
+	assert acolyte.dead
 
 
 def test_poisonous():
@@ -2623,10 +2623,10 @@ def test_poisonous():
 	game.endTurn()
 	cobra.attack(target=zchow)
 	assert zchow not in game.currentPlayer.opponent.field
-	assert zchow.zone == Zone.GRAVEYARD
+	assert zchow.dead
 	game.endTurn()
 	zchow2.attack(target=cobra)
-	assert zchow2.zone == Zone.GRAVEYARD
+	assert zchow2.dead
 
 	# test silencing the cobra
 	zchow3 = game.currentPlayer.give("FP1_001")
@@ -2692,7 +2692,7 @@ def test_upgrade():
 	game.endTurn()
 	corsair = game.currentPlayer.give("NEW1_025")
 	corsair.play()
-	assert axe.zone == Zone.GRAVEYARD
+	assert axe.dead
 	assert not game.currentPlayer.opponent.hero.weapon
 
 
@@ -2777,8 +2777,8 @@ def test_ice_barrier():
 	friendlywisp.attack(target=wisp2)
 	assert not game.currentPlayer.hero.armor
 	assert not game.currentPlayer.opponent.hero.armor
-	assert friendlywisp.zone == Zone.GRAVEYARD
-	assert wisp2.zone == Zone.GRAVEYARD
+	assert friendlywisp.dead
+	assert wisp2.dead
 	game.endTurn()
 
 	assert len(game.currentPlayer.opponent.secrets) == 1
@@ -2806,8 +2806,8 @@ def test_vaporize():
 	assert game.currentPlayer.opponent.hero.health == 27
 	wisp.attack(target=game.currentPlayer.opponent.hero)
 	assert not game.currentPlayer.opponent.secrets
-	assert vaporize.zone == Zone.GRAVEYARD
-	assert wisp.zone == Zone.GRAVEYARD
+	assert vaporize.dead
+	assert wisp.dead
 	assert game.currentPlayer.opponent.hero.health == 27
 
 
@@ -2834,7 +2834,7 @@ def test_stoneskin_gargoyle():
 	# game.endTurn(); game.endTurn()
 	# assert gargoyle.health == 2
 	# game.endTurn(); game.endTurn()
-	# assert gargoyle.zone == Zone.GRAVEYARD
+	# assert gargoyle.dead
 
 
 def test_summoning_portal():
@@ -2942,7 +2942,7 @@ def test_freezing_trap():
 	assert game.player2.hero.health == 30
 	wisp.attack(target=game.player2.hero)
 	assert not game.player2.secrets
-	assert trap.zone == Zone.GRAVEYARD
+	assert trap.dead
 	assert game.player2.hero.health == 30
 	assert wisp.zone == Zone.HAND
 	assert wisp in game.player1.hand
