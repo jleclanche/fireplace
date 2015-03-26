@@ -111,7 +111,7 @@ class Player(Entity):
 				card = None
 			else:
 				card = self.deck[-1]
-			self.game.broadcast("CARD_DRAW", self, card)
+			self.game.broadcast("DRAW", self, card)
 			logging.info("%s draws %r" % (self, card))
 			return card
 		else:
@@ -197,7 +197,7 @@ class Player(Entity):
 	events = [
 		"BEFORE_OWN_ATTACK", "OWN_ATTACK",
 		"OWN_TURN_BEGIN", "TURN_END",
-		"OWN_CARD_DRAW",
+		"OWN_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
 		"OWN_CARD_PLAYED", "CARD_PLAYED",
 		"AFTER_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
@@ -233,7 +233,7 @@ class Player(Entity):
 		if self.tempMana:
 			self.tempMana = 0
 
-	def OWN_CARD_DRAW(self, card):
+	def OWN_DRAW(self, card):
 		if not card:
 			self.fatigue()
 			return

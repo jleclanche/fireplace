@@ -118,7 +118,7 @@ class Game(Entity):
 		"UPDATE",
 		"HAND_UPDATE",
 		"BEFORE_ATTACK", "ATTACK",
-		"CARD_DRAW",
+		"DRAW",
 		"TURN_BEGIN", "TURN_END",
 		"DAMAGE", "HEAL",
 		"CARD_DESTROYED", "MINION_DESTROY",
@@ -148,8 +148,8 @@ class Game(Entity):
 	def ATTACK(self, source, target):
 		source.controller.broadcast("OWN_ATTACK", source, target)
 
-	def CARD_DRAW(self, player, card):
-		player.broadcast("OWN_CARD_DRAW", card)
+	def DRAW(self, player, card):
+		player.broadcast("OWN_DRAW", card)
 
 	def TURN_BEGIN(self, player):
 		self.turn += 1
