@@ -121,6 +121,22 @@ class Player(Entity):
 				count -= 1
 			return ret
 
+	def mill(self, count=1):
+		if count == 1:
+			if not self.deck:
+				return
+			else:
+				card = self.deck[-1]
+			self.game.broadcast("MILL", self, card)
+			logging.info("%s mills %r" % (self, card))
+			return card
+		else:
+			ret = []
+			while count:
+				ret.append(self.mill())
+				count -= 1
+			return ret
+
 	def fatigue(self):
 		self.fatigueCounter += 1
 		logging.info("%s takes %i fatigue damage" % (self, self.fatigueCounter))

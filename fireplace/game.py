@@ -118,7 +118,7 @@ class Game(Entity):
 		"UPDATE",
 		"HAND_UPDATE",
 		"BEFORE_ATTACK", "ATTACK",
-		"DRAW",
+		"DRAW", "MILL",
 		"TURN_BEGIN", "TURN_END",
 		"DAMAGE", "HEAL",
 		"CARD_DESTROYED", "MINION_DESTROY",
@@ -150,6 +150,9 @@ class Game(Entity):
 
 	def DRAW(self, player, card):
 		player.broadcast("OWN_DRAW", card)
+
+	def MILL(self, player, card):
+		card.destroy()
 
 	def TURN_BEGIN(self, player):
 		self.turn += 1
