@@ -236,6 +236,7 @@ class Player(Entity):
 	def OWN_CARD_DRAW(self, card):
 		if not card:
 			self.fatigue()
+			return
 
 		if len(self.hand) > self.maxHandSize:
 			logging.info("%s overdraws and loses %r!" % (self, card))
