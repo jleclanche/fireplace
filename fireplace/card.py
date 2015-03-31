@@ -5,7 +5,7 @@ from itertools import chain
 from . import cards as CardDB, targeting
 from .exceptions import *
 from .entity import Entity
-from .enums import CardType, GameTag, PlayReq, Race, Rarity, Zone
+from .enums import CardClass, CardType, GameTag, PlayReq, Race, Rarity, Zone
 from .utils import _PROPERTY, _TAG, CardList
 
 
@@ -86,6 +86,7 @@ class BaseCard(Entity):
 		return sum(slot.getIntProperty(GameTag.HEALTH) for slot in self.slots)
 
 	id = _TAG(GameTag.CARD_ID, None)
+	cardClass = _TAG(GameTag.CLASS, CardClass.INVALID)
 	type = _TAG(GameTag.CARDTYPE, CardType.INVALID)
 	aura = _TAG(GameTag.AURA, False)
 	controller = _TAG(GameTag.CONTROLLER, None)
