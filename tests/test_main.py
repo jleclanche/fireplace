@@ -2499,6 +2499,16 @@ def test_wild_pyromancer():
 	assert pyro.zone == Zone.PLAY
 
 
+def test_ysera():
+	game = prepare_game()
+	ysera = game.currentPlayer.summon("EX1_572")
+	game.currentPlayer.discardHand()
+	assert len(game.player1.hand) == 0
+	game.endTurn()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].cardClass == CardClass.DREAM
+
+
 def test_shadow_madness_wild_pyro():
 	game = prepare_game()
 	pyro = game.currentPlayer.give("NEW1_020")
