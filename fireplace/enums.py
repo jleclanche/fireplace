@@ -114,8 +114,11 @@ class GameTag(IntEnum):
 	AFFECTED_BY_SPELL_POWER = 370
 	EXTRA_DEATHRATTLES = 371
 	TOPDECK = 377
+	SHOWN_HERO_POWER = 380
 	POWERED_UP = 386
 	FORGETFUL = 389
+	EVIL_GLOW = 401
+	HIDE_COST = 402
 
 	# flavor
 	ELITE = 114
@@ -147,6 +150,7 @@ class GameTag(IntEnum):
 
 	# Renamed
 	DEATH_RATTLE = 217
+	OVERKILL = 380
 
 
 class PlayReq(IntEnum):
