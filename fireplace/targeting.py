@@ -100,4 +100,7 @@ def isValidTarget(self, target):
 		elif req == PlayReq.REQ_TARGET_HAS_BATTLECRY:
 			if not target.hasBattlecry:
 				return False
+		elif req == PlayReq.REQ_SOURCE_IS_ENRAGED:
+			if not self.enraged:
+				return False
 	return True
