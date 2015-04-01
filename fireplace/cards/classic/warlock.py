@@ -59,9 +59,11 @@ class EX1_315:
 	class Aura:
 		CARDNAME = "Summoning Portal Virtual Aura"
 		COST = lambda i: min(i, max(1, i-2))
-		targeting = TARGET_FRIENDLY_HAND
-		def isValidTarget(self, target):
-			return target.type == CardType.MINION
+		zone = Zone.HAND
+		requirements = {
+			PlayReq.REQ_FRIENDLY_TARGET: True,
+			PlayReq.REQ_MINION_TARGET: True,
+		}
 
 
 # Flame Imp

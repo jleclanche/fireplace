@@ -23,9 +23,11 @@ class EX1_608:
 	class Aura:
 		CARDNAME = "Sorcerer's Apprentice Virtual Aura"
 		COST = -1
-		targeting = TARGET_FRIENDLY_HAND
-		def isValidTarget(self, target):
-			return target.type == CardType.SPELL
+		zone = Zone.HAND
+		requirements = {
+			PlayReq.REQ_FRIENDLY_TARGET: True,
+			PlayReq.REQ_SPELL_TARGET: True,
+		}
 
 
 # Mana Wyrm

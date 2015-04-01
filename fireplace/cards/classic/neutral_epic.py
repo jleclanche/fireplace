@@ -14,8 +14,10 @@ class EX1_105:
 
 # Mrgglaargl! (Murloc Warleader)
 class EX1_507e:
-	def isValidTarget(self, target):
-		return target.race == Race.MURLOC and target is not self.source
+	requirements = {
+		PlayReq.REQ_NONSELF_TARGET: True,
+		PlayReq.REQ_TARGET_WITH_RACE: Race.MURLOC,
+	}
 
 
 # Sea Giant
@@ -63,6 +65,8 @@ class NEW1_021:
 
 # Yarrr! (Southsea Captain)
 class NEW1_027e:
-	targeting = TARGET_FRIENDLY_MINIONS
-	def isValidTarget(self, target):
-		return target.race == Race.PIRATE and target is not self.source
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: True,
+		PlayReq.REQ_NONSELF_TARGET: True,
+		PlayReq.REQ_TARGET_WITH_RACE: Race.PIRATE,
+	}

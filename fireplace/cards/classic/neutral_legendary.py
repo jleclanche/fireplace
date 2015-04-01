@@ -176,9 +176,11 @@ class NEW1_029t:
 	class Aura:
 		CARDNAME = "Kill Millhouse! (Aura)"
 		COST = lambda i: 0
-		targeting = TARGET_ENEMY_HAND
-		def isValidTarget(self, target):
-			return target.type == CardType.SPELL
+		zone = Zone.HAND
+		requirements = {
+			PlayReq.REQ_ENEMY_TARGET: True,
+			PlayReq.REQ_SPELL_TARGET: True,
+		}
 
 	def TURN_END(self, player):
 		# Remove the buff at the end of the other player's turn

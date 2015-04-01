@@ -18,16 +18,19 @@ class DS1_070:
 
 # Furious Howl (Timber Wolf)
 class DS1_175o:
-	targeting = TARGET_FRIENDLY_MINIONS
-	def isValidTarget(self, target):
-		return target.race == Race.BEAST and target is not self.source
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: True,
+		PlayReq.REQ_NONSELF_TARGET: True,
+		PlayReq.REQ_TARGET_WITH_RACE: Race.BEAST,
+	}
 
 
 # Charge (Tundra Rhino)
 class DS1_178e:
-	targeting = TARGET_FRIENDLY_MINIONS
-	def isValidTarget(self, target):
-		return target.race == Race.BEAST
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: True,
+		PlayReq.REQ_TARGET_WITH_RACE: Race.BEAST,
+	}
 
 
 # Scavenging Hyena
@@ -137,9 +140,10 @@ class NEW1_031:
 
 # Eye in the Sky (Leokk)
 class NEW1_033o:
-	targeting = TARGET_FRIENDLY_MINIONS
-	def isValidTarget(self, target):
-		return target is not self.source
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: True,
+		PlayReq.REQ_NONSELF_TARGET: True,
+	}
 
 
 ##

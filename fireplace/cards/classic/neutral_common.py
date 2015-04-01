@@ -7,9 +7,10 @@ from ..utils import *
 
 # Enhanced (Raid Leader)
 class CS2_122e:
-	targeting = TARGET_FRIENDLY_MINIONS
-	def isValidTarget(self, target):
-		return target is not self.source
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: True,
+		PlayReq.REQ_NONSELF_TARGET: True,
+	}
 
 
 # Venture Co. Mercenary
@@ -17,9 +18,9 @@ class CS2_227:
 	class Aura:
 		CARDNAME = "Venture Co. Virtual Aura"
 		COST = 3
-		targeting = TARGET_FRIENDLY_HAND
-		def isValidTarget(self, target):
-			return target.type == CardType.MINION
+		requirements = {
+			PlayReq.REQ_MINION_TARGET: True,
+		}
 
 
 # Frostwolf Warlord
@@ -131,14 +132,17 @@ class CS2_196:
 
 # Sharp! (Spiteful Smith)
 class CS2_221e:
-	targeting = TARGET_FRIENDLY_WEAPON
+	requirements = {
+		PlayReq.REQ_WEAPON_TARGET: True,
+	}
 
 
 # Might of Stormwind (Stormwind Champion)
 class CS2_222o:
-	targeting = TARGET_FRIENDLY_MINIONS
-	def isValidTarget(self, target):
-		return target is not self.source
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: True,
+		PlayReq.REQ_NONSELF_TARGET: True,
+	}
 
 
 # Darkscale Healer
@@ -200,11 +204,6 @@ class EX1_096:
 	deathrattle = drawCard
 
 
-# Strength of the Pack (Dire Wolf Alpha)
-class EX1_162o:
-	targeting = TARGET_FRIENDLY_MINIONS
-
-
 # Frost Elemental
 class EX1_283:
 	def action(self, target):
@@ -218,9 +217,10 @@ class EX1_506:
 
 # Mlarggragllabl! (Grimscale Oracle)
 class EX1_508o:
-	targeting = TARGET_FRIENDLY_MINIONS
-	def isValidTarget(self, target):
-		return target.race == Race.MURLOC and target is not self.source
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: True,
+		PlayReq.REQ_TARGET_WITH_RACE: Race.MURLOC,
+	}
 
 
 # Harvest Golem

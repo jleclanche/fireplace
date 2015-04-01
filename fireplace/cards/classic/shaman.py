@@ -16,11 +16,6 @@ class EX1_258:
 			self.buff(self, "EX1_258e")
 
 
-# Flametongue Totem
-class EX1_565o:
-	targeting = TARGET_FRIENDLY_MINIONS
-
-
 # Mana Tide Totem
 class EX1_575:
 	def OWN_TURN_END(self):

@@ -75,9 +75,11 @@ class EX1_076:
 	class Aura:
 		CARDNAME = "Pint-Sized Summoner Virtual Aura"
 		COST = -1
-		targeting = TARGET_FRIENDLY_HAND
-		def isValidTarget(self, target):
-			return not self.controller.minionsPlayedThisTurn
+		zone = Zone.HAND
+		requirements = {
+			PlayReq.REQ_FRIENDLY_TARGET: True,
+			PlayReq.REQ_NO_MINIONS_PLAYED_THIS_TURN: True,
+		}
 
 
 # Secretkeeper
@@ -162,9 +164,10 @@ class EX1_616:
 	class Aura:
 		CARDNAME = "Mana Wraith Virtual Aura"
 		COST = 1
-		targeting = TARGET_ANY_HAND
-		def isValidTarget(self, target):
-			return target.type == CardType.MINION
+		zone = Zone.HAND
+		requirements = {
+			PlayReq.REQ_MINION_TARGET: True,
+		}
 
 
 # Knife Juggler

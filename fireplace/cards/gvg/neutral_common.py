@@ -9,9 +9,12 @@ class GVG_006:
 	class Aura:
 		CARDNAME = "Mechwarper Virtual Aura"
 		COST = -1
-		targeting = TARGET_FRIENDLY_HAND
-		def isValidTarget(self, target):
-			return target.type == CardType.MINION and target.race == Race.MECHANICAL
+		zone = Zone.HAND
+		requirements = {
+			PlayReq.REQ_MINION_TARGET: True,
+			PlayReq.REQ_FRIENDLY_TARGET: True,
+			PlayReq.REQ_TARGET_WITH_RACE: Race.MECHANICAL,
+		}
 
 
 # Stonesplinter Trogg

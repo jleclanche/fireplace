@@ -67,10 +67,11 @@ class FP1_017:
 	class Aura:
 		CARDNAME = "Nerub'ar Weblord Virtual Aura"
 		COST = +2
-		targeting = TARGET_ANY_HAND
-		def isValidTarget(self, target):
-			return target.type == CardType.MINION and target.hasBattlecry
-
+		zone = Zone.HAND
+		requirements = {
+			PlayReq.REQ_MINION_TARGET: True,
+			PlayReq.REQ_TARGET_HAS_BATTLECRY: True,
+		}
 
 
 # Voidcaller
@@ -132,9 +133,10 @@ class FP1_030e:
 	class Aura:
 		CARDNAME = "Necrotic Aura (Loatheb Aura)"
 		COST = lambda i: i+5
-		targeting = TARGET_ENEMY_HAND
-		def isValidTarget(self, target):
-			return target.type == CardType.SPELL and self.controller.currentPlayer
+		requirements = {
+			PlayReq.REQ_ENEMY_TARGET: True,
+			PlayReq.REQ_SPELL_TARGET: True,
+		}
 
 	def TURN_END(self, player):
 		# Remove the buff at the end of the other player's turn
@@ -147,9 +149,10 @@ class FP1_031:
 	class Aura:
 		CARDNAME = "Rivendare Virtual Aura"
 		EXTRA_DEATHRATTLES = True
-		targeting = TARGET_FRIENDLY_MINIONS
-		def isValidTarget(self, target):
-			return target is not self.source
+		requirements = {
+			PlayReq.REQ_FRIENDLY_TARGET: True,
+			PlayReq.REQ_NONSELF_TARGET: True,
+		}
 
 
 ##
