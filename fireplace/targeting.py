@@ -48,10 +48,9 @@ def isValidTarget(self, target):
 	if target.type == CardType.MINION:
 		if target.stealthed and self.controller != target.controller:
 			return False
-		if self.type in (CardType.SPELL, CardType.HERO_POWER) and target.chromatic:
+		if target.immune and self.controller != target.controller:
 			return False
-	if target.immune:
-		if target.controller != self.controller:
+		if self.type in (CardType.SPELL, CardType.HERO_POWER) and target.chromatic:
 			return False
 	for req in self.data.requirements:
 		if req == PlayReq.REQ_MINION_TARGET:
