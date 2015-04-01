@@ -86,4 +86,18 @@ def isValidTarget(self, target):
 		elif req == PlayReq.REQ_UNDAMAGED_TARGET:
 			if target.damage:
 				return False
+
+		# fireplace reqs
+		elif req == PlayReq.REQ_SPELL_TARGET:
+			if target.type != CardType.SPELL:
+				return False
+		elif req == PlayReq.REQ_WEAPON_TARGET:
+			if target.type != CardType.WEAPON:
+				return False
+		elif req == PlayReq.REQ_NO_MINIONS_PLAYED_THIS_TURN:
+			if self.controller.minionsPlayedThisTurn:
+				return False
+		elif req == PlayReq.REQ_TARGET_HAS_BATTLECRY:
+			if not target.hasBattlecry:
+				return False
 	return True
