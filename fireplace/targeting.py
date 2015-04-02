@@ -52,7 +52,7 @@ def isValidTarget(self, target):
 			return False
 		if self.type in (CardType.SPELL, CardType.HERO_POWER) and target.chromatic:
 			return False
-	for req in self.data.requirements:
+	for req in self.requirements:
 		if req == PlayReq.REQ_MINION_TARGET:
 			if target.type != CardType.MINION:
 				return False
@@ -66,19 +66,19 @@ def isValidTarget(self, target):
 			if not target.damage:
 				return False
 		elif req == PlayReq.REQ_TARGET_MAX_ATTACK:
-			if target.atk > self.data.requirements.get(req, 0):
+			if target.atk > self.requirements.get(req, 0):
 				return False
 		elif req == PlayReq.REQ_NONSELF_TARGET:
 			if target is self:
 				return False
 		elif req == PlayReq.REQ_TARGET_WITH_RACE:
-			if target.race != self.data.requirements.get(req):
+			if target.race != self.requirements.get(req):
 				return False
 		elif req == PlayReq.REQ_HERO_TARGET:
 			if target.type != CardType.HERO:
 				return False
 		elif req == PlayReq.REQ_TARGET_MIN_ATTACK:
-			if target.atk < self.data.requirements.get(req, 0):
+			if target.atk < self.requirements.get(req, 0):
 				return False
 		elif req == PlayReq.REQ_MUST_TARGET_TAUNTER:
 			if not target.taunt:

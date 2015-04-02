@@ -36,6 +36,7 @@ class BaseCard(Entity):
 		self.uuid = uuid.uuid4()
 		self._aura = None
 		self.data = data
+		self.requirements = data.requirements.copy()
 		self.tags = data.tags.copy()
 		self.id = id
 		for event in self.events:
