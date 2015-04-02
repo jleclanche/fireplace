@@ -1,6 +1,6 @@
 import os
 from xml.etree import ElementTree
-from fireplace.enums import CardType, GameTag, PlayReq, Race, Rarity
+from fireplace.enums import CardType, GameTag, PlayReq, Race, Rarity, Zone
 
 
 class CardXML(object):
@@ -12,6 +12,9 @@ class CardXML(object):
 
 	def __repr__(self):
 		return "<%s: %r>" % (self.id, self.name)
+
+	def _getRequirements(self, reqs):
+		return {PlayReq(int(tag.attrib["reqID"])): int(tag.attrib["param"] or 0) for tag in reqs}
 
 	@property
 	def id(self):
@@ -46,6 +49,17 @@ class CardXML(object):
 		return CardType(self.getTag(GameTag.CARDTYPE))
 
 	@property
+	def auras(self):
+		cards = self.xml.findall("Aura")
+		ret = []
+		for tag in cards:
+			aura = {"id": tag.attrib["cardID"]}
+			aura["requirements"] = self._getRequirements(tag.findall("ActiveRequirement"))
+			aura["zone"] = Zone(int(tag.attrib.get("zone", Zone.PLAY)))
+			ret.append(aura)
+		return ret
+
+	@property
 	def chooseCards(self):
 		cards = self.xml.findall("ChooseCard")
 		return [tag.attrib["cardID"] for tag in cards]
@@ -58,7 +72,7 @@ class CardXML(object):
 	@property
 	def requirements(self):
 		reqs = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
-		return {PlayReq(int(tag.attrib["reqID"])): int(tag.attrib["param"] or 0) for tag in reqs}
+		return self._getRequirements(reqs)
 
 	@property
 	def powerUpRequirements(self):
