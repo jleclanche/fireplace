@@ -46,6 +46,8 @@ TARGET_ALL_CHARACTERS = TARGET_ALL_MINIONS | TARGET_ANY_HERO
 # Requirements-based targeting
 def isValidTarget(self, target, requirements=None):
 	if target.type == CardType.MINION:
+		if target.dead:
+			return False
 		if target.stealthed and self.controller != target.controller:
 			return False
 		if target.immune and self.controller != target.controller:
