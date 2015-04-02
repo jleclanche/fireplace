@@ -44,7 +44,7 @@ TARGET_ALL_CHARACTERS = TARGET_ALL_MINIONS | TARGET_ANY_HERO
 
 
 # Requirements-based targeting
-def isValidTarget(self, target):
+def isValidTarget(self, target, requirements=None):
 	if target.type == CardType.MINION:
 		if target.stealthed and self.controller != target.controller:
 			return False
@@ -52,7 +52,11 @@ def isValidTarget(self, target):
 			return False
 		if self.type in (CardType.SPELL, CardType.HERO_POWER) and target.chromatic:
 			return False
-	for req, param in self.requirements.items():
+
+	if requirements is None:
+		requirements = self.requirements
+
+	for req, param in requirements.items():
 		if req == PlayReq.REQ_MINION_TARGET:
 			if target.type != CardType.MINION:
 				return False
