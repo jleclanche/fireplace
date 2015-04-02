@@ -114,7 +114,9 @@ class FP1_029:
 # Loatheb
 class FP1_030:
 	def action(self):
-		self.buff(self.controller.opponent.hero, "FP1_030e")
+		self.game.register("TURN_END",
+			lambda *args: self.buff(self.controller.opponent.hero, "FP1_030e"),
+		once=True)
 
 class FP1_030e:
 	def TURN_END(self, player):
