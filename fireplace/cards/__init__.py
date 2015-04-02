@@ -20,13 +20,6 @@ def _initTags(carddef, cls):
 		if attr.isupper() and hasattr(GameTag, attr):
 			cls.tags[getattr(GameTag, attr)] = value
 
-	if hasattr(carddef, "Aura"):
-		# Virtual card. Init its tags.
-		carddef.Aura.tags = {}
-		carddef.Aura.id = None
-		_initTags(carddef.Aura, carddef.Aura)
-		carddef.Aura.tags[GameTag.CARDTYPE] = CardType.ENCHANTMENT
-
 
 def merge(id):
 	"""
@@ -55,8 +48,6 @@ def merge(id):
 	cls.entourage = xmlcard.entourage
 	cls.chooseCards = xmlcard.chooseCards
 	cls.id = id
-	if isinstance(xmlcard.tags.get(GameTag.AURA), str):
-		cls.Aura = merge(xmlcard.tags[GameTag.AURA])
 	return cls
 
 

@@ -571,14 +571,12 @@ class Minion(Character):
 		if self.enrage and not self._enrage:
 			self._enrage = Enrage(self.data.enrageTags)
 			self._enrage.controller = self.controller
-			self._enrage.summon()
 
 		super().SELF_DAMAGE(source, amount)
 
 	def SELF_HEAL(self, source, amount):
 		super().SELF_HEAL(source, amount)
 		if self._enrage and not self.enraged:
-			self._enrage.destroy()
 			self._enrage = None
 
 	def isPlayable(self):
@@ -766,13 +764,11 @@ class Enrage(Entity):
 	ids or are present in the game files, so hackery.
 	"""
 
-	aura = _TAG(GameTag.AURA, False)
 	type = None
 	events = []
 
 	def __init__(self, tags):
 		super().__init__()
-		self._aura = None
 		self.tags = tags.copy()
 
 	def __str__(self):
@@ -781,19 +777,6 @@ class Enrage(Entity):
 	@property
 	def slots(self):
 		return []
-
-	def summon(self):
-		if self.aura:
-			self._aura = Aura(id=self.aura)
-			self._aura.source = self
-			self._aura.controller = self.controller
-			self._aura.summon()
-			logging.info("Aura %r suddenly appears" % (self._aura))
-
-	def destroy(self):
-		# Bit hacky. Need a design where we don't duplicate this.
-		if self._aura:
-			self._aura.destroy()
 
 
 class Weapon(PlayableCard):
