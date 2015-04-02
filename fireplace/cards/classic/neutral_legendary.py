@@ -172,20 +172,15 @@ class NEW1_029:
 		self.buff(self.controller.opponent.hero, "NEW1_029t")
 
 class NEW1_029t:
-	AURA = True
-	class Aura:
-		CARDNAME = "Kill Millhouse! (Aura)"
-		COST = lambda i: 0
-		zone = Zone.HAND
-		requirements = {
-			PlayReq.REQ_ENEMY_TARGET: True,
-			PlayReq.REQ_SPELL_TARGET: True,
-		}
+	COST = lambda i: 0
 
 	def TURN_END(self, player):
 		# Remove the buff at the end of the other player's turn
 		if player is not self.owner.controller:
 			self.destroy()
+
+class NEW1_029ta:
+	COST = lambda i: 0
 
 
 # Deathwing

@@ -5,24 +5,6 @@ from ..utils import *
 # Free basic minions
 
 
-# Enhanced (Raid Leader)
-class CS2_122e:
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: True,
-		PlayReq.REQ_NONSELF_TARGET: True,
-	}
-
-
-# Venture Co. Mercenary
-class CS2_227:
-	class Aura:
-		CARDNAME = "Venture Co. Virtual Aura"
-		COST = 3
-		requirements = {
-			PlayReq.REQ_MINION_TARGET: True,
-		}
-
-
 # Frostwolf Warlord
 class CS2_226:
 	def action(self):
@@ -130,21 +112,6 @@ class CS2_196:
 	action = summonMinion("CS2_boar")
 
 
-# Sharp! (Spiteful Smith)
-class CS2_221e:
-	requirements = {
-		PlayReq.REQ_WEAPON_TARGET: True,
-	}
-
-
-# Might of Stormwind (Stormwind Champion)
-class CS2_222o:
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: True,
-		PlayReq.REQ_NONSELF_TARGET: True,
-	}
-
-
 # Darkscale Healer
 class DS1_055:
 	def action(self):
@@ -213,14 +180,6 @@ class EX1_283:
 # Murloc Tidehunter
 class EX1_506:
 	action = summonMinion("EX1_506a")
-
-
-# Mlarggragllabl! (Grimscale Oracle)
-class EX1_508o:
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: True,
-		PlayReq.REQ_TARGET_WITH_RACE: Race.MURLOC,
-	}
 
 
 # Harvest Golem

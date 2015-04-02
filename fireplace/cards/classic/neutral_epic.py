@@ -12,14 +12,6 @@ class EX1_105:
 		return value - (len(self.controller.hand) - 1)
 
 
-# Mrgglaargl! (Murloc Warleader)
-class EX1_507e:
-	requirements = {
-		PlayReq.REQ_NONSELF_TARGET: True,
-		PlayReq.REQ_TARGET_WITH_RACE: Race.MURLOC,
-	}
-
-
 # Sea Giant
 class EX1_586:
 	def cost(self, value):
@@ -61,12 +53,3 @@ class NEW1_021:
 	def OWN_TURN_BEGIN(self):
 		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
 			target.destroy()
-
-
-# Yarrr! (Southsea Captain)
-class NEW1_027e:
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: True,
-		PlayReq.REQ_NONSELF_TARGET: True,
-		PlayReq.REQ_TARGET_WITH_RACE: Race.PIRATE,
-	}

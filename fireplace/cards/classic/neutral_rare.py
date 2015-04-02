@@ -70,18 +70,6 @@ class EX1_059e:
 		self.setHealth(atk)
 
 
-# Pint-Sized Summoner
-class EX1_076:
-	class Aura:
-		CARDNAME = "Pint-Sized Summoner Virtual Aura"
-		COST = -1
-		zone = Zone.HAND
-		requirements = {
-			PlayReq.REQ_FRIENDLY_TARGET: True,
-			PlayReq.REQ_NO_MINIONS_PLAYED_THIS_TURN: True,
-		}
-
-
 # Secretkeeper
 class EX1_080:
 	def CARD_PLAYED(self, card):
@@ -157,17 +145,6 @@ class EX1_597:
 	def OWN_TURN_END(self):
 		self.hit(self, 1)
 		self.controller.summon("EX1_598")
-
-
-# Mana Wraith
-class EX1_616:
-	class Aura:
-		CARDNAME = "Mana Wraith Virtual Aura"
-		COST = 1
-		zone = Zone.HAND
-		requirements = {
-			PlayReq.REQ_MINION_TARGET: True,
-		}
 
 
 # Knife Juggler

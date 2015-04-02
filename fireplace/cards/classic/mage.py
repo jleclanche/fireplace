@@ -18,18 +18,6 @@ class EX1_559:
 			self.controller.give("CS2_029")
 
 
-# Sorcerer's Apprentice
-class EX1_608:
-	class Aura:
-		CARDNAME = "Sorcerer's Apprentice Virtual Aura"
-		COST = -1
-		zone = Zone.HAND
-		requirements = {
-			PlayReq.REQ_FRIENDLY_TARGET: True,
-			PlayReq.REQ_SPELL_TARGET: True,
-		}
-
-
 # Mana Wyrm
 class NEW1_012:
 	def OWN_CARD_PLAYED(self, card):

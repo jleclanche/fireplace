@@ -62,18 +62,6 @@ class FP1_016:
 			target.silence()
 
 
-# Nerub'ar Weblord
-class FP1_017:
-	class Aura:
-		CARDNAME = "Nerub'ar Weblord Virtual Aura"
-		COST = +2
-		zone = Zone.HAND
-		requirements = {
-			PlayReq.REQ_MINION_TARGET: True,
-			PlayReq.REQ_TARGET_HAS_BATTLECRY: True,
-		}
-
-
 # Voidcaller
 class FP1_022:
 	def deathrattle(self):
@@ -129,30 +117,13 @@ class FP1_030:
 		self.buff(self.controller.opponent.hero, "FP1_030e")
 
 class FP1_030e:
-	AURA = True
-	class Aura:
-		CARDNAME = "Necrotic Aura (Loatheb Aura)"
-		COST = lambda i: i+5
-		requirements = {
-			PlayReq.REQ_ENEMY_TARGET: True,
-			PlayReq.REQ_SPELL_TARGET: True,
-		}
-
 	def TURN_END(self, player):
 		# Remove the buff at the end of the other player's turn
 		if player is not self.owner.controller:
 			self.destroy()
 
-
-# Baron Rivendare
-class FP1_031:
-	class Aura:
-		CARDNAME = "Rivendare Virtual Aura"
-		EXTRA_DEATHRATTLES = True
-		requirements = {
-			PlayReq.REQ_FRIENDLY_TARGET: True,
-			PlayReq.REQ_NONSELF_TARGET: True,
-		}
+class FP1_030ea:
+	COST = lambda i: i+5
 
 
 ##

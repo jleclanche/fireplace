@@ -54,16 +54,9 @@ class EX1_313:
 	action = damageHero(5)
 
 
-# Summoning Portal
-class EX1_315:
-	class Aura:
-		CARDNAME = "Summoning Portal Virtual Aura"
-		COST = lambda i: min(i, max(1, i-2))
-		zone = Zone.HAND
-		requirements = {
-			PlayReq.REQ_FRIENDLY_TARGET: True,
-			PlayReq.REQ_MINION_TARGET: True,
-		}
+# Summoning Portal (Virtual Aura)
+class EX1_315a:
+	COST = lambda i: min(i, max(1, i-2))
 
 
 # Flame Imp

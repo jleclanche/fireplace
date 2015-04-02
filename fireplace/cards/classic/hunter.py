@@ -16,23 +16,6 @@ class DS1_070:
 	action = buffTarget("DS1_070o")
 
 
-# Furious Howl (Timber Wolf)
-class DS1_175o:
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: True,
-		PlayReq.REQ_NONSELF_TARGET: True,
-		PlayReq.REQ_TARGET_WITH_RACE: Race.BEAST,
-	}
-
-
-# Charge (Tundra Rhino)
-class DS1_178e:
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: True,
-		PlayReq.REQ_TARGET_WITH_RACE: Race.BEAST,
-	}
-
-
 # Scavenging Hyena
 class EX1_531:
 	def OWN_MINION_DESTROY(self, minion):
@@ -136,14 +119,6 @@ class EX1_617:
 class NEW1_031:
 	def action(self):
 		self.controller.summon(random.choice(self.entourage))
-
-
-# Eye in the Sky (Leokk)
-class NEW1_033o:
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: True,
-		PlayReq.REQ_NONSELF_TARGET: True,
-	}
 
 
 ##
