@@ -768,12 +768,12 @@ class Aura(BaseCard):
 class Enrage(Entity):
 	"""
 	Virtual Card class for Enrage objects.
-	Enrage buffs behave like regular cards but do not actually have
-	ids or are present in the game files, so hackery.
+	Enrage buffs are just a collection of tags for the enraged Minion's slots.
 	"""
 
 	type = None
 	events = []
+	slots = []
 
 	def __init__(self, tags):
 		super().__init__()
@@ -781,10 +781,6 @@ class Enrage(Entity):
 
 	def __str__(self):
 		return "Enrage Buff"
-
-	@property
-	def slots(self):
-		return []
 
 
 class Weapon(PlayableCard):
