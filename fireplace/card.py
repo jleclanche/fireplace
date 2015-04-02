@@ -34,7 +34,7 @@ class BaseCard(Entity):
 		assert data
 		super().__init__()
 		self.uuid = uuid.uuid4()
-		self._aura = None
+		self._auras = []
 		self.data = data
 		self.requirements = data.requirements.copy()
 		self.tags = data.tags.copy()
@@ -175,12 +175,13 @@ class BaseCard(Entity):
 	]
 
 	def summon(self):
-		if self.aura:
-			self._aura = Aura(id=self.data.Aura.id, data=self.data.Aura)
-			self._aura.source = self
-			self._aura.controller = self.controller
-			self._aura.summon()
-			logging.info("Aura %r suddenly appears" % (self._aura))
+		for aura in self.data.auras:
+			aura = Aura(aura)
+			aura.source = self
+			aura.controller = self.controller
+			aura.summon()
+			logging.info("Aura %r suddenly appears" % (aura))
+			self._auras.append(aura)
 
 	def buff(self, target, buff, **kwargs):
 		"""
@@ -416,8 +417,8 @@ class Character(PlayableCard):
 
 	def silence(self):
 		logging.info("%r has been silenced" % (self))
-		if self._aura:
-			self._aura.destroy()
+		for aura in self._auras:
+			aura.destroy()
 		self.clearBuffs()
 		tags = (
 			GameTag.CANT_ATTACK,
@@ -531,8 +532,8 @@ class Minion(Character):
 			logging.info("%r is removed from the field" % (self))
 			self.controller.field.remove(self)
 			# Remove any aura the minion gives
-			if self._aura:
-				self._aura.destroy()
+			for aura in self._auras:
+				aura.destroy()
 			if self.damage:
 				self.damage = 0
 		super()._setZone(value)
@@ -657,8 +658,8 @@ class Enchantment(BaseCard):
 		self.owner.buffs.remove(self)
 		if hasattr(self.data, "destroy"):
 			self.data.destroy(self)
-		if self._aura:
-			self._aura.destroy()
+		for aura in self._auras:
+			aura.destroy()
 
 	def setAtk(self, value):
 		"Helper to set a character's atk to \a value through an Enchantment"
@@ -692,31 +693,33 @@ class Aura(BaseCard):
 	targets affected by an aura. It is only internal.
 	"""
 
-	def __init__(self, id, data=None):
-		if data is None:
-			data = getattr(CardDB, id)
-		super().__init__(id, data)
+	def __init__(self, obj):
+		id = obj["id"]
+		super().__init__(id, getattr(CardDB, id))
+		self.requirements = obj["requirements"].copy()
 		self._buffed = CardList()
 		self._buffs = CardList()
+		self._zone = obj["zone"]
+
+	def isValidTarget(self, target):
+		return self.source.isValidTarget(target, requirements=self.requirements)
 
 	@property
 	def targets(self):
-		return self.controller.getTargets(self.data.targeting)
+		if self.source.type == CardType.MINION and self.source.adjacentBuff:
+			return self.source.adjacentMinions
+		if self.zone == Zone.HAND:
+			return self.controller.hand + self.controller.opponent.hand
+		# XXX The targets are right but we need to get them a cleaner way.
+		ret = self.game.player1.field + self.game.player2.field
+		if self.controller.hero.weapon:
+			ret.append(self.controller.hero.weapon)
+		return ret
 
 	def summon(self):
 		super().summon()
 		self.game.auras.append(self)
-		self.zone = Zone.PLAY
-
-	def isValidTarget(self, card):
-		if self.source.type == CardType.MINION and self.source.adjacentBuff:
-			if card not in self.source.adjacentMinions:
-				return False
-		if card not in self.targets:
-			return False
-		if hasattr(self.data, "isValidTarget"):
-			return self.data.isValidTarget(self, card)
-		return True
+		self.zone = self._zone
 
 	def _buff(self, target):
 		if self.id:
@@ -737,6 +740,10 @@ class Aura(BaseCard):
 
 	def UPDATE(self):
 		for target in self.targets:
+			if target.type == CardType.ENCHANTMENT:
+				# HACKY: self.targets currently relies on hero entities
+				# This includes enchantments so we need to filter them out.
+				continue
 			if self.isValidTarget(target):
 				if not self._entityBuff(target):
 					self._buff(target)
@@ -748,7 +755,7 @@ class Aura(BaseCard):
 				if buff:
 					buff.destroy()
 					self._buffs.remove(buff)
-					self._buffed.remove(target)
+				self._buffed.remove(target)
 
 	def destroy(self):
 		logging.info("Removing %r affecting %r" % (self, self._buffed))
