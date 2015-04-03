@@ -148,6 +148,7 @@ class Player(Entity):
 	tempMana = _TAG(GameTag.TEMP_RESOURCES, 0)
 	usedMana = _TAG(GameTag.RESOURCES_USED, 0)
 	cardsPlayedThisTurn = _TAG(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
+	lastCardPlayed = _TAG(GameTag.LAST_CARD_PLAYED, None)
 	minionsPlayedThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYED_THIS_TURN, 0)
 	minionsKilledThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYER_KILLED_THIS_TURN, 0)
 
@@ -215,6 +216,7 @@ class Player(Entity):
 		self.game.broadcast("AFTER_CARD_PLAYED", self, card)
 		if card.target:
 			card.target = None
+		self.lastCardPlayed = card
 
 	##
 	# Events

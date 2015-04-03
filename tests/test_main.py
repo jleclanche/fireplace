@@ -170,7 +170,9 @@ def test_priest():
 
 	game.endTurn(); game.endTurn()
 	# moonfire self
-	moonfire = game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
+	moonfire = game.currentPlayer.give(MOONFIRE)
+	moonfire.play(target=game.currentPlayer.hero)
+	assert game.currentPlayer.lastCardPlayed == moonfire
 	assert game.currentPlayer.hero.health == 29
 	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
 	assert game.currentPlayer.hero.health == 30
