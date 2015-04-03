@@ -204,6 +204,7 @@ class PlayableCard(BaseCard):
 	hasCombo = _TAG(GameTag.COMBO, False)
 	rarity = _TAG(GameTag.RARITY, Rarity.INVALID)
 	overload = _TAG(GameTag.RECALL, 0)
+	target = _TAG(GameTag.CARD_TARGET, None)
 	windfury = _PROPERTY(GameTag.WINDFURY, False)
 
 	def __init__(self, id, data):
@@ -253,16 +254,15 @@ class PlayableCard(BaseCard):
 	def slots(self):
 		return self.buffs
 
-	def action(self, target=None):
+	def action(self):
 		kwargs = {}
-		if self.hasTarget():
-			assert target
-			kwargs["target"] = target
+		if self.target:
+			kwargs["target"] = self.target
 		if self.hasCombo and self.controller.combo:
-			logging.info("Activating %r combo targeting %r" % (self, target))
+			logging.info("Activating %r combo targeting %r" % (self, self.target))
 			func = self.data.combo
 		elif self.hasBattlecry:
-			logging.info("Activating %r action targeting %r" % (self, target))
+			logging.info("Activating %r action targeting %r" % (self, self.target))
 			func = self.data.action
 		else:
 			return
@@ -811,9 +811,14 @@ class HeroPower(PlayableCard):
 	def play(self, target=None):
 		logging.info("%s plays hero power %r" % (self.controller, self))
 		assert self.isPlayable()
+		if self.hasTarget():
+			assert target
+			self.target = target
 		self.controller.usedMana += self.cost
-		self.action(target)
+		self.action()
 		self.exhausted = True
+		if self.target:
+			self.target = None
 
 	def isPlayable(self):
 		playable = super().isPlayable()
