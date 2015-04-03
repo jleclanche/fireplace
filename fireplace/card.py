@@ -320,8 +320,9 @@ class PlayableCard(BaseCard):
 	def hasTarget(self):
 		if self.hasCombo and PlayReq.REQ_TARGET_FOR_COMBO in self.data.requirements and self.controller.combo:
 			return True
-		return PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements or \
-			PlayReq.REQ_TARGET_IF_AVAILABLE in self.data.requirements
+		if PlayReq.REQ_TARGET_IF_AVAILABLE in self.data.requirements:
+			return bool(self.targets)
+		return PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements
 
 	@property
 	def targets(self):
