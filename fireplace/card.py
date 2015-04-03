@@ -822,6 +822,7 @@ class HeroPower(PlayableCard):
 		self.exhausted = True
 		if self.target:
 			self.target = None
+		self.controller.timesHeroPowerUsedThisGame += 1
 
 	def isPlayable(self):
 		playable = super().isPlayable()

@@ -151,11 +151,13 @@ def test_mage():
 
 	assert game.currentPlayer.hero.health == 30
 	assert game.currentPlayer.opponent.hero.health == 30
+	assert game.currentPlayer.timesHeroPowerUsedThisGame == 0
 
 	# Fireblast the opponent hero
 	game.currentPlayer.hero.power.play(target=game.currentPlayer.opponent.hero)
 	assert game.currentPlayer.hero.health == 30
 	assert game.currentPlayer.opponent.hero.health == 29
+	assert game.currentPlayer.timesHeroPowerUsedThisGame == 1
 	assert not game.currentPlayer.hero.power.isPlayable()
 
 
