@@ -2598,6 +2598,25 @@ def test_shadowstep():
 	assert deathwing.cost == 8
 
 
+def test_shattered_sun_cleric():
+	game = prepare_game()
+	cleric = game.player1.give("EX1_019")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert not cleric.targets
+	cleric.play()
+	assert cleric.atk == 3
+	assert cleric.health == 2
+	game.endTurn(); game.endTurn()
+
+	cleric2 = game.player1.give("EX1_019")
+	assert cleric in cleric2.targets
+	cleric2.play(target=cleric)
+	assert cleric.atk == 3+1
+	assert cleric.health == 2+1
+
+
 def test_acolyte_of_pain():
 	game = prepare_game()
 	acolyte = game.currentPlayer.give("EX1_007")
