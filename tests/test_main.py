@@ -475,15 +475,17 @@ def test_tags():
 def test_card_draw():
 	game = prepare_game()
 	# pass turn 1
-	game.endTurn()
-	game.endTurn()
+	game.endTurn(); game.endTurn()
 
+	assert game.currentPlayer.cardsDrawnThisTurn == 1
+	assert len(game.currentPlayer.hand) == 5
+	novice = game.currentPlayer.give("EX1_015")
+	assert len(game.currentPlayer.hand) == 6
 	# novice should draw 1 card
-	card = game.currentPlayer.give("EX1_015")
-	handlength = len(game.currentPlayer.hand)
-	card.play()
-	# hand should be 1 card played, 1 card drawn; same length
-	assert len(game.currentPlayer.hand) == handlength
+	novice.play()
+	# hand should be 1 card played, 1 card drawn; same size
+	assert len(game.currentPlayer.hand) == 6
+	assert game.currentPlayer.cardsDrawnThisTurn == 2
 	game.endTurn()
 
 	# succubus should discard 1 card

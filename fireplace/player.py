@@ -147,6 +147,7 @@ class Player(Entity):
 	overloaded = _TAG(GameTag.RECALL_OWED, 0)
 	tempMana = _TAG(GameTag.TEMP_RESOURCES, 0)
 	usedMana = _TAG(GameTag.RESOURCES_USED, 0)
+	cardsDrawnThisTurn = _TAG(GameTag.NUM_CARDS_DRAWN_THIS_TURN, 0)
 	cardsPlayedThisTurn = _TAG(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
 	lastCardPlayed = _TAG(GameTag.LAST_CARD_PLAYED, None)
 	minionsPlayedThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYED_THIS_TURN, 0)
@@ -249,6 +250,7 @@ class Player(Entity):
 
 	def OWN_TURN_BEGIN(self):
 		self.combo = False
+		self.cardsDrawnThisTurn = 0
 		self.cardsPlayedThisTurn = 0
 		self.minionsPlayedThisTurn = 0
 		self.maxMana += 1
@@ -271,6 +273,7 @@ class Player(Entity):
 			card.destroy()
 		else:
 			card.zone = Zone.HAND
+			self.cardsDrawnThisTurn += 1 # TODO: Is this increased on fatigue/mill?
 
 	def OWN_CARD_PLAYED(self, card):
 		if card.overload:
