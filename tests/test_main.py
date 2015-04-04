@@ -9,6 +9,7 @@ from fireplace.player import Player
 from fireplace.utils import randomDraft
 
 
+GOLDSHIRE_FOOTMAN = "CS1_042"
 MOONFIRE = "CS2_008"
 WISP = "CS2_231"
 CIRCLE_OF_HEALING = "EX1_621"
@@ -257,7 +258,7 @@ def test_cult_master():
 
 def test_mana():
 	game = prepare_game()
-	footman = game.currentPlayer.give("CS1_042")
+	footman = game.currentPlayer.give(GOLDSHIRE_FOOTMAN)
 	assert footman.cost == 1
 	footman.play()
 	assert footman.atk == 1
@@ -836,7 +837,7 @@ def test_sword_of_justice():
 def test_end_turn_heal():
 	game = prepare_game()
 
-	footman = game.currentPlayer.give("CS1_042")
+	footman = game.currentPlayer.give(GOLDSHIRE_FOOTMAN)
 	footman.play()
 	assert footman.health == 2
 	game.endTurn()
@@ -1277,8 +1278,8 @@ def test_old_murkeye():
 
 def test_pint_sized_summoner():
 	game = prepare_game()
-	goldshire1 = game.currentPlayer.give("CS1_042")
-	goldshire2 = game.currentPlayer.give("CS1_042")
+	goldshire1 = game.currentPlayer.give(GOLDSHIRE_FOOTMAN)
+	goldshire2 = game.currentPlayer.give(GOLDSHIRE_FOOTMAN)
 	wisp = game.currentPlayer.give(WISP)
 	assert goldshire1.cost == 1
 	assert goldshire2.cost == 1
@@ -1310,9 +1311,9 @@ def test_pint_sized_summoner():
 def test_mana_wraith():
 	game = prepare_game()
 	wisp1 = game.player1.give(WISP)
-	goldshire1 = game.player1.give("CS1_042")
+	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
 	wisp2 = game.player2.give(WISP)
-	goldshire2 = game.player2.give("CS1_042")
+	goldshire2 = game.player2.give(GOLDSHIRE_FOOTMAN)
 	fireball1 = game.player1.give("CS2_029")
 	fireball2 = game.player2.give("CS2_029")
 	axe1 = game.player1.give("CS2_106")
@@ -1342,7 +1343,7 @@ def test_mana_wraith():
 def test_mechwarper():
 	game = prepare_game()
 	mechwarper = game.currentPlayer.give("GVG_006")
-	goldshire = game.currentPlayer.give("CS1_042")
+	goldshire = game.currentPlayer.give(GOLDSHIRE_FOOTMAN)
 	harvest = game.currentPlayer.give("EX1_556")
 	game.endTurn(); game.endTurn()
 
@@ -2880,7 +2881,7 @@ def test_summoning_portal():
 	assert axe.cost == 2
 	molten = game.currentPlayer.give("EX1_620")
 	assert molten.cost == 20
-	goldshire = game.currentPlayer.give("CS1_042")
+	goldshire = game.currentPlayer.give(GOLDSHIRE_FOOTMAN)
 	assert goldshire.cost == 1
 	frostwolf = game.currentPlayer.give("CS2_121")
 	assert frostwolf.cost == 2
