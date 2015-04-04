@@ -347,6 +347,25 @@ class Character(PlayableCard):
 	defending = _TAG(GameTag.DEFENDING, False)
 	shouldExitCombat = _TAG(GameTag.SHOULDEXITCOMBAT, False)
 
+	@property
+	def attackable(self):
+		return not self.immune
+
+	@property
+	def attackTargets(self):
+		targets = [self.controller.opponent.hero] + self.controller.opponent.field
+		taunts = []
+		for target in self.controller.opponent.field:
+			if target.taunt:
+				taunts.append(target)
+		ret = []
+		for target in (taunts if taunts else self.controller.opponent.field):
+			if target.attackable:
+				ret.append(target)
+		if not taunts and self.controller.opponent.hero.attackable:
+			ret.append(self.controller.opponent.hero)
+		return ret
+
 	def canAttack(self):
 		if self.tags.get(GameTag.CANT_ATTACK, False):
 			return False
@@ -396,6 +415,12 @@ class Character(PlayableCard):
 	@property
 	def extraAtk(self):
 		return sum(slot.getIntProperty(GameTag.ATK) for slot in self.slots)
+
+	@property
+	def targets(self):
+		if self.zone == Zone.PLAY:
+			return self.attackTargets
+		return super().targets
 
 	def OWN_TURN_BEGIN(self):
 		self.numAttacks = 0
@@ -492,6 +517,12 @@ class Minion(Character):
 	def __init__(self, id, data):
 		super().__init__(id, data)
 		self._enrage = None
+
+	@property
+	def attackable(self):
+		if self.stealthed:
+			return False
+		return super().attackable
 
 	@property
 	def charge(self):

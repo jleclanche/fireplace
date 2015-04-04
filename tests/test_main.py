@@ -473,6 +473,28 @@ def test_tags():
 	assert alakir.windfury
 
 
+def test_taunt():
+	game = prepare_game()
+	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
+	wisp1 = game.player1.summon(WISP)
+	goldshire2 = game.player2.give(GOLDSHIRE_FOOTMAN)
+	wisp2 = game.player2.summon(WISP)
+	game.endTurn(); game.endTurn()
+
+	assert wisp1.canAttack()
+	assert wisp1.targets == [wisp2, game.player2.hero]
+	game.endTurn()
+
+	goldshire2.play()
+	game.endTurn()
+
+	assert wisp1.targets == [goldshire2]
+	goldshire1.play()
+	game.endTurn()
+
+	assert wisp2.targets == [goldshire1]
+
+
 def test_card_draw():
 	game = prepare_game()
 	# pass turn 1
