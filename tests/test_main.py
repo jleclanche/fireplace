@@ -2028,11 +2028,15 @@ def test_hogger():
 def test_houndmaster():
 	game = prepare_game()
 	houndmaster = game.currentPlayer.give("DS1_070")
-	hound = game.currentPlayer.give("EX1_538t")
-	hound.play()
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
+
+	assert not houndmaster.targets
+	assert not houndmaster.poweredUp
+	hound = game.currentPlayer.summon("EX1_538t")
+	assert houndmaster.targets == [hound]
+	assert houndmaster.poweredUp
 	assert hound.atk == 1
 	assert hound.health == 1
 	assert not hound.taunt
