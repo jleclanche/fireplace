@@ -10,6 +10,7 @@ from .utils import CardList, _TAG
 class Player(Entity):
 	maxHandSize = _TAG(GameTag.MAXHANDSIZE, 10)
 	maxResources = _TAG(GameTag.MAXRESOURCES, 10)
+	type = _TAG(GameTag.CARDTYPE, CardType.PLAYER)
 
 	def __init__(self, name, deck):
 		self.name = name
