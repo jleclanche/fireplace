@@ -2324,6 +2324,29 @@ def test_murloc_tidecaller():
 	assert tidecaller.atk == 4
 
 
+def test_nerubar_weblord():
+	game = prepare_game()
+	game.player1.discardHand()
+	game.player2.discardHand()
+	moonfire1 = game.player1.give(MOONFIRE)
+	moonfire2 = game.player2.give(MOONFIRE)
+	footman1 = game.player1.give(GOLDSHIRE_FOOTMAN)
+	footman2 = game.player2.give(GOLDSHIRE_FOOTMAN)
+	archer1 = game.player1.give("CS2_189")
+	archer2 = game.player2.give("CS2_189")
+	perdition1 = game.player1.give("EX1_133")
+	perdition2 = game.player2.give("EX1_133")
+	assert moonfire1.cost == moonfire2.cost == 0
+	assert footman1.cost == footman2.cost == 1
+	assert archer1.cost == archer2.cost == 1
+	assert perdition1.cost == perdition2.cost == 3
+	nerubar = game.player1.summon("FP1_017")
+	assert moonfire1.cost == moonfire2.cost == 0
+	assert footman1.cost == footman2.cost == 1
+	assert archer1.cost == archer2.cost == 1 + 2
+	assert perdition1.cost == perdition2.cost == 3
+
+
 def test_nortshire_cleric():
 	game = prepare_game(PRIEST, PRIEST)
 	cleric = game.currentPlayer.give("CS2_235")
