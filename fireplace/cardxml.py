@@ -55,6 +55,7 @@ class CardXML(object):
 		for tag in cards:
 			aura = {"id": tag.attrib["cardID"]}
 			aura["requirements"] = self._getRequirements(tag.findall("ActiveRequirement"))
+			aura["player"] = tag.attrib.get("player", False)
 			aura["zone"] = Zone(int(tag.attrib.get("zone", Zone.PLAY)))
 			ret.append(aura)
 		return ret

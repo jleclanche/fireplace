@@ -735,12 +735,17 @@ class Aura(BaseCard):
 		self._buffed = CardList()
 		self._buffs = CardList()
 		self._zone = obj["zone"]
+		self._player = obj["player"]
 
 	def isValidTarget(self, target):
+		if self._player:
+			return target == self.controller
 		return self.source.isValidTarget(target, requirements=self.requirements)
 
 	@property
 	def targets(self):
+		if self._player:
+			return [self.controller]
 		if self.source.type == CardType.MINION and self.source.adjacentBuff:
 			return self.source.adjacentMinions
 		if self.zone == Zone.HAND:

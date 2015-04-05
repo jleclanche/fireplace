@@ -4,7 +4,7 @@ from .card import Card
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
 from .targeting import *
-from .utils import CardList, _TAG
+from .utils import CardList, _TAG, _PROPERTY
 
 
 class Player(Entity):
@@ -24,6 +24,7 @@ class Player(Entity):
 		self.fatigueCounter = 0
 		# set to False after the player has finished his mulligan
 		self.canMulligan = True
+		self.buffs = []
 		super().__init__()
 
 	def __str__(self):
@@ -31,6 +32,10 @@ class Player(Entity):
 
 	def __repr__(self):
 		return "%s(name=%r, deck=%r)" % (self.__class__.__name__, self.name, self.deck)
+
+	@property
+	def slots(self):
+		return self.buffs
 
 	@property
 	def mana(self):
