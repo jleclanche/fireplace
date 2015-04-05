@@ -283,8 +283,11 @@ class PlayableCard(BaseCard):
 
 	def heal(self, target, amount):
 		logging.info("%r heals %r for %i" % (self, target, amount))
-		# Note that undamaged targets do not receive heals
-		if target.damage:
+		if self.controller.outgoingHealingAdjustment:
+			# "healing as damage" (hack-ish)
+			return self.hit(target, amount)
+		elif target.damage:
+			# Note that undamaged targets do not receive heals
 			self.game.broadcast("HEAL", self, target, amount)
 
 	def hit(self, target, amount):

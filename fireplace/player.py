@@ -158,6 +158,7 @@ class Player(Entity):
 	lastCardPlayed = _TAG(GameTag.LAST_CARD_PLAYED, None)
 	minionsPlayedThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYED_THIS_TURN, 0)
 	minionsKilledThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYER_KILLED_THIS_TURN, 0)
+	outgoingHealingAdjustment = _PROPERTY(GameTag.OUTGOING_HEALING_ADJUSTMENT, 0)
 	timesHeroPowerUsedThisGame = _TAG(GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME, 0)
 
 	@property

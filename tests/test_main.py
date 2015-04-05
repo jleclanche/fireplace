@@ -1710,6 +1710,16 @@ def test_armorsmith():
 	assert game.currentPlayer.opponent.hero.armor == 2
 
 
+def test_auchenai_soulpriest():
+	game = prepare_game(PRIEST, PRIEST)
+	game.endTurn(); game.endTurn()
+	auchenai = game.player1.summon("EX1_591")
+	game.player1.hero.power.play(target=game.player2.hero)
+	assert game.player2.hero.health == 28
+	game.player1.give(CIRCLE_OF_HEALING).play()
+	assert auchenai.health == 1
+
+
 def test_blessing_of_wisdom():
 	game = prepare_game()
 	blessing = game.currentPlayer.give("EX1_363")
