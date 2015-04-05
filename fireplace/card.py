@@ -276,6 +276,9 @@ class PlayableCard(BaseCard):
 			logging.info("Clearing buffs from %r" % (self))
 			for buff in self.buffs[:]:
 				buff.destroy()
+				if buff.creator:
+					# Clean up the buff from its source auras
+					buff.creator._buffs.remove(buff)
 
 	def discard(self):
 		logging.info("Discarding %r" % (self))
@@ -796,6 +799,7 @@ class Aura(BaseCard):
 		logging.info("Removing %r affecting %r" % (self, self._buffed))
 		for buff in self._buffs:
 			buff.destroy()
+		del self._buffs
 		del self._buffed
 		self.game.auras.remove(self)
 

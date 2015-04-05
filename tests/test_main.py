@@ -1093,6 +1093,14 @@ def test_auras():
 	assert webspinner.atk == 3 # 1 (+1 from RL, +1 from TW)
 	assert wisp2.atk == 2 # 1 (+1 from TW)
 
+	timberwolf2 = game.currentPlayer.give("DS1_175")
+	timberwolf2.play()
+	assert timberwolf.atk == 3
+	assert timberwolf2.atk == 3
+	game.currentPlayer.give(MOONFIRE).play(target=timberwolf)
+	timberwolf2.atk == 2
+	game.currentPlayer.give(MOONFIRE).play(target=timberwolf2)
+
 
 def test_bounce():
 	game = prepare_game()
