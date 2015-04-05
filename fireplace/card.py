@@ -201,6 +201,7 @@ class BaseCard(Entity):
 
 class PlayableCard(BaseCard):
 	freeze = _TAG(GameTag.FREEZE, False)
+	hasBattlecry = _TAG(GameTag.BATTLECRY, False)
 	hasCombo = _TAG(GameTag.COMBO, False)
 	rarity = _TAG(GameTag.RARITY, Rarity.INVALID)
 	overload = _TAG(GameTag.RECALL, 0)
@@ -228,10 +229,6 @@ class PlayableCard(BaseCard):
 	@property
 	def dead(self):
 		return self.zone == Zone.GRAVEYARD
-
-	@property
-	def hasBattlecry(self):
-		return hasattr(self.data, "action")
 
 	@property
 	def poweredUp(self):
@@ -264,7 +261,7 @@ class PlayableCard(BaseCard):
 		if self.hasCombo and self.controller.combo:
 			logging.info("Activating %r combo targeting %r" % (self, self.target))
 			func = self.data.combo
-		elif self.hasBattlecry:
+		elif hasattr(self.data, "action"):
 			logging.info("Activating %r action targeting %r" % (self, self.target))
 			func = self.data.action
 		else:
