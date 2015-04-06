@@ -1,5 +1,3 @@
-import logging
-import random
 from .card import Card
 from .enums import GameTag, Zone
 from .utils import CardList
@@ -23,7 +21,3 @@ class Deck(CardList):
 
 	def __repr__(self):
 		return "<Deck(hero=%r, count=%i)>" % (self.hero, len(self))
-
-	def shuffle(self):
-		logging.info("Shuffling %r..." % (self))
-		random.shuffle(self)

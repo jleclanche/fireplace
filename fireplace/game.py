@@ -93,7 +93,7 @@ class Game(Entity):
 		self.currentPlayer = self.player1
 		for player in self.players:
 			player.summon(player.deck.hero)
-			player.deck.shuffle()
+			player.shuffleDeck()
 
 		self.player1.draw(3)
 		self.player2.draw(4)

@@ -1,4 +1,5 @@
 import logging
+import random
 from itertools import chain
 from .card import Card
 from .entity import Entity
@@ -176,6 +177,10 @@ class Player(Entity):
 		self.opponent.field.remove(minion)
 		self.field.append(minion)
 		minion.controller = self
+
+	def shuffleDeck(self):
+		logging.info("%r shuffles their deck", self)
+		random.shuffle(self.deck)
 
 	def summon(self, card):
 		"""
