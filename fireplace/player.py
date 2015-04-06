@@ -150,6 +150,7 @@ class Player(Entity):
 
 	currentPlayer = _TAG(GameTag.CURRENT_PLAYER, False)
 	combo = _TAG(GameTag.COMBO_ACTIVE, False)
+	hero = _TAG(GameTag.HERO_ENTITY, None)
 	overloaded = _TAG(GameTag.RECALL_OWED, 0)
 	tempMana = _TAG(GameTag.TEMP_RESOURCES, 0)
 	usedMana = _TAG(GameTag.RESOURCES_USED, 0)
