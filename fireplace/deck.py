@@ -14,21 +14,15 @@ class Deck(CardList):
 	def fromList(cls, cards, hero):
 		return cls([Card(card) for card in cards], Card(hero))
 
-	def __init__(self, cards, hero, name=None):
+	def __init__(self, cards, hero):
 		super().__init__(cards)
 		self.hero = hero
-		if name is None:
-			name = "Custom %s" % (hero)
-		self.name = name
 		for card in cards:
 			# Don't use .zone directly as it would double-fill the deck
 			card.tags[GameTag.ZONE] = Zone.DECK
 
-	def __str__(self):
-		return self.name
-
 	def __repr__(self):
-		return "<%s (%i cards)>" % (self.hero, len(self))
+		return "<Deck(hero=%r, count=%i)>" % (self.hero, len(self))
 
 	def shuffle(self):
 		logging.info("Shuffling %r..." % (self))
