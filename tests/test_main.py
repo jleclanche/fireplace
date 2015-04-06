@@ -761,6 +761,21 @@ def test_amani_berserker():
 	assert amani1.extraAtk == amani2.extraAtk == 3
 
 
+def test_secretkeeper():
+	game = prepare_game()
+	secretkeeper = game.player1.give("EX1_080")
+	secretkeeper.play()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert secretkeeper.atk == 1
+	assert secretkeeper.health == 2
+	icebarrier = game.currentPlayer.give("EX1_289")
+	icebarrier.play()
+	assert secretkeeper.atk == 2
+	assert secretkeeper.health == 3
+
+
 def test_southsea_deckhand():
 	game = prepare_game(ROGUE, ROGUE)
 	deckhand = game.currentPlayer.give("CS2_146")

@@ -72,9 +72,9 @@ class EX1_059e:
 
 # Secretkeeper
 class EX1_080:
-	def CARD_PLAYED(self, card):
+	def CARD_PLAYED(self, player, card):
 		if card.tags.get(GameTag.SECRET):
-			self.buff(self, "EX1_080e")
+			self.buff(self, "EX1_080o")
 
 
 # Mind Control Tech
