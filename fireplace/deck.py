@@ -1,5 +1,6 @@
 import logging
 import random
+from .card import Card
 from .enums import GameTag, Zone
 from .utils import CardList
 
@@ -8,6 +9,10 @@ class Deck(CardList):
 	MAX_CARDS = 30
 	MAX_UNIQUE_CARDS = 2
 	MAX_UNIQUE_LEGENDARIES = 1
+
+	@classmethod
+	def fromList(cls, cards, hero):
+		return cls([Card(card) for card in cards], Card(hero))
 
 	def __init__(self, cards, hero, name=None):
 		super().__init__(cards)
