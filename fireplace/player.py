@@ -238,7 +238,7 @@ class Player(Entity):
 
 	events = [
 		"BEFORE_OWN_ATTACK", "OWN_ATTACK",
-		"OWN_TURN_BEGIN", "TURN_END",
+		"TURN_BEGIN", "TURN_END",
 		"OWN_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
 		"OWN_CARD_PLAYED", "CARD_PLAYED",
@@ -261,16 +261,18 @@ class Player(Entity):
 	def OWN_ATTACK(self, source, target):
 		source.broadcast("SELF_ATTACK", target)
 
-	def OWN_TURN_BEGIN(self):
-		self.combo = False
+	def TURN_BEGIN(self, player):
 		self.cardsDrawnThisTurn = 0
 		self.cardsPlayedThisTurn = 0
-		self.minionsPlayedThisTurn = 0
-		self.maxMana += 1
-		self.usedMana = self.overloaded
-		if self.overloaded:
-			self.overloaded = 0
-		self.draw()
+		self.minionsKilledThisTurn = 0
+		if player is self:
+			self.minionsPlayedThisTurn = 0
+			self.combo = False
+			self.maxMana += 1
+			self.usedMana = self.overloaded
+			if self.overloaded:
+				self.overloaded = 0
+			self.draw()
 
 	def TURN_END(self, *args):
 		if self.tempMana:
