@@ -15,13 +15,13 @@ class Player(Entity):
 	type = _TAG(GameTag.CARDTYPE, CardType.PLAYER)
 
 	def __init__(self, name):
+		super().__init__()
 		self.name = name
 		self.deck = Deck()
 		self.hand = CardList()
 		self.field = CardList()
 		self.secrets = CardList()
 		self.buffs = []
-		super().__init__()
 
 	def __str__(self):
 		return self.name
