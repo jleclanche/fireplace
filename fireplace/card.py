@@ -91,7 +91,6 @@ class BaseCard(Entity):
 	type = _TAG(GameTag.CARDTYPE, CardType.INVALID)
 	aura = _TAG(GameTag.AURA, False)
 	controller = _TAG(GameTag.CONTROLLER, None)
-	exhausted = _TAG(GameTag.EXHAUSTED, False)
 	hasDeathrattle = _PROPERTY(GameTag.DEATHRATTLE, False)
 
 	isValidTarget = targeting.isValidTarget
@@ -200,6 +199,7 @@ class BaseCard(Entity):
 
 
 class PlayableCard(BaseCard):
+	exhausted = _TAG(GameTag.EXHAUSTED, False)
 	freeze = _TAG(GameTag.FREEZE, False)
 	hasBattlecry = _TAG(GameTag.BATTLECRY, False)
 	hasCombo = _TAG(GameTag.COMBO, False)
