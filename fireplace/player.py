@@ -21,8 +21,6 @@ class Player(Entity):
 		self.field = CardList()
 		self.secrets = CardList()
 		self.fatigueCounter = 0
-		# set to False after the player has finished his mulligan
-		self.canMulligan = True
 		self.buffs = []
 		super().__init__()
 
