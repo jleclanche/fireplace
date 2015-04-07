@@ -4,8 +4,7 @@ from itertools import chain
 from .card import THE_COIN
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
-from .utils import _TAG
-
+from .managers import GameManager
 
 
 class Game(Entity):
@@ -23,6 +22,7 @@ class Game(Entity):
 		self.turn = 0
 		self.currentPlayer = None
 		self.auras = []
+		self.tags = GameManager(self)
 
 	def __repr__(self):
 		return "<%s %s>" % (self.__class__.__name__, self)
@@ -39,11 +39,6 @@ class Game(Entity):
 	@property
 	def entities(self):
 		return chain([self], self.auras, self.player1.entities, self.player2.entities)
-
-	turn = _TAG(GameTag.TURN, 0)
-	proposedAttacker = _TAG(GameTag.PROPOSED_ATTACKER, None)
-	proposedDefender = _TAG(GameTag.PROPOSED_DEFENDER, None)
-	minionsKilledThisTurn = _TAG(GameTag.NUM_MINIONS_KILLED_THIS_TURN, 0)
 
 	def attack(self, source, target):
 		"""
