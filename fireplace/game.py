@@ -172,9 +172,6 @@ class Game(Entity):
 	def MINION_DESTROY(self, minion):
 		minion.controller.broadcast("OWN_MINION_DESTROY", minion)
 		self.minionsKilledThisTurn += 1
-		# NOTE: We should rely on the source here instead. An opponent can in fact
-		# destroy minions during the player's turn (eg. Vaporize).
-		minion.controller.opponent.minionsKilledThisTurn += 1
 
 	def CARD_DESTROYED(self, card):
 		card.controller.broadcast("OWN_CARD_DESTROYED", card)

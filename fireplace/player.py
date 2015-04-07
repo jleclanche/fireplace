@@ -314,6 +314,9 @@ class Player(Entity):
 		if card.type == CardType.MINION:
 			self.minionsPlayedThisTurn += 1
 
+	def OWN_MINION_DESTROY(self, minion):
+		self.minionsKilledThisTurn += 1
+
 	def MINION_SUMMON(self, player, minion):
 		if player is self:
 			minion.controller.broadcast("OWN_MINION_SUMMON", minion)
