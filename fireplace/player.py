@@ -20,7 +20,6 @@ class Player(Entity):
 		self.hand = CardList()
 		self.field = CardList()
 		self.secrets = CardList()
-		self.fatigueCounter = 0
 		self.buffs = []
 		super().__init__()
 
@@ -151,6 +150,7 @@ class Player(Entity):
 
 	currentPlayer = _TAG(GameTag.CURRENT_PLAYER, False)
 	combo = _TAG(GameTag.COMBO_ACTIVE, False)
+	fatigueCounter = _TAG(GameTag.FATIGUE, 0)
 	hero = _TAG(GameTag.HERO_ENTITY, None)
 	overloaded = _TAG(GameTag.RECALL_OWED, 0)
 	tempMana = _TAG(GameTag.TEMP_RESOURCES, 0)
