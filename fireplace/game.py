@@ -34,7 +34,7 @@ class Game(Entity):
 
 	@property
 	def board(self):
-		return self.currentPlayer.field + self.currentPlayer.opponent.field
+		return self.player1.field + self.player2.field
 
 	@property
 	def entities(self):
