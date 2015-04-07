@@ -92,7 +92,10 @@ class Game(Entity):
 		self.player1, self.player2 = self.tossCoin()
 		self.currentPlayer = self.player1
 		for player in self.players:
-			player.summon(player.deck.hero)
+			player.summon(player.originalDeck.hero)
+			for card in player.originalDeck:
+				card.controller = player
+				card.zone = Zone.DECK
 			player.shuffleDeck()
 
 		self.player1.draw(3)

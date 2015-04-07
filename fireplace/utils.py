@@ -86,4 +86,4 @@ def randomDraft(hero, exclude=[]):
 		if deck.count(card.id) < Deck.MAX_UNIQUE_CARDS:
 			deck.append(card.id)
 
-	return Deck.fromList(deck, hero=hero.id)
+	return deck

@@ -2,6 +2,7 @@ import logging
 import random
 from itertools import chain
 from .card import Card
+from .deck import Deck
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
 from .targeting import *
@@ -13,12 +14,9 @@ class Player(Entity):
 	maxResources = _TAG(GameTag.MAXRESOURCES, 10)
 	type = _TAG(GameTag.CARDTYPE, CardType.PLAYER)
 
-	def __init__(self, name, deck):
+	def __init__(self, name):
 		self.name = name
-		self.deck = deck
-		for card in self.deck:
-			card.controller = self
-		self.deck.hero.controller = self
+		self.deck = Deck()
 		self.hand = CardList()
 		self.field = CardList()
 		self.secrets = CardList()
@@ -104,6 +102,10 @@ class Player(Entity):
 			if card.id == id:
 				return card
 		raise ValueError
+
+	def prepareDeck(self, cards, hero):
+		self.originalDeck = Deck.fromList(cards)
+		self.originalDeck.hero = hero
 
 	def discardHand(self):
 		logging.info("%r discards his entire hand!" % (self))

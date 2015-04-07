@@ -1,5 +1,4 @@
 from .card import Card
-from .enums import GameTag, Zone
 from .utils import CardList
 
 
@@ -9,15 +8,12 @@ class Deck(CardList):
 	MAX_UNIQUE_LEGENDARIES = 1
 
 	@classmethod
-	def fromList(cls, cards, hero):
-		return cls([Card(card) for card in cards], Card(hero))
+	def fromList(cls, cards):
+		return cls([Card(card) for card in cards])
 
-	def __init__(self, cards, hero):
-		super().__init__(cards)
-		self.hero = hero
-		for card in cards:
-			# Don't use .zone directly as it would double-fill the deck
-			card.tags[GameTag.ZONE] = Zone.DECK
+	def __init__(self, cards=None):
+		super().__init__(cards or [])
+		self.hero = None
 
 	def __repr__(self):
-		return "<Deck(hero=%r, count=%i)>" % (self.hero, len(self))
+		return "<Deck (%i cards)>" % (len(self))

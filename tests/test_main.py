@@ -26,8 +26,10 @@ def prepare_game(hero1=MAGE, hero2=WARRIOR, exclude=[]):
 	print("Initializing a new game")
 	deck1 = randomDraft(hero=hero1, exclude=exclude)
 	deck2 = randomDraft(hero=hero2, exclude=exclude)
-	player1 = Player(name="Player1", deck=deck1)
-	player2 = Player(name="Player2", deck=deck2)
+	player1 = Player(name="Player1")
+	player1.prepareDeck(deck1, hero1)
+	player2 = Player(name="Player2")
+	player2.prepareDeck(deck2, hero2)
 	game = Game(players=(player1, player2))
 	game.start()
 
