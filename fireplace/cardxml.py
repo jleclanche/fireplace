@@ -71,6 +71,12 @@ class CardXML(object):
 		return [tag.attrib["cardID"] for tag in cards]
 
 	@property
+	def heroPower(self):
+		e = self.xml.findall("HeroPower")
+		if e:
+			return e[0].attrib["cardID"]
+
+	@property
 	def requirements(self):
 		reqs = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
 		return self._getRequirements(reqs)

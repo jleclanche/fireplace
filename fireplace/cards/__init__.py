@@ -47,6 +47,7 @@ def merge(id):
 	cls.powerUpRequirements = xmlcard.powerUpRequirements
 	cls.entourage = xmlcard.entourage
 	cls.chooseCards = xmlcard.chooseCards
+	cls.heroPower = xmlcard.heroPower
 	cls.auras = xmlcard.auras
 	cls.id = id
 	return cls
