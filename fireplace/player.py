@@ -32,7 +32,7 @@ class Player(Entity):
 		return self.name
 
 	def __repr__(self):
-		return "%s(name=%r, deck=%r)" % (self.__class__.__name__, self.name, self.deck)
+		return "%s(name=%r, hero=%r)" % (self.__class__.__name__, self.name, self.hero)
 
 	@property
 	def slots(self):
