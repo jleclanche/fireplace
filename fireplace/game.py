@@ -86,6 +86,9 @@ class Game(Entity):
 		logging.info("Starting game: %r" % (self))
 		self.player1, self.player2 = self.tossCoin()
 		self.currentPlayer = self.player1
+		# XXX: Mulligan events should handle the following, but unimplemented for now
+		self.player1.cardsDrawnThisTurn = 0
+		self.player2.cardsDrawnThisTurn = 0
 		for player in self.players:
 			player.summon(player.originalDeck.hero)
 			for card in player.originalDeck:
@@ -96,7 +99,8 @@ class Game(Entity):
 		self.player1.draw(3)
 		self.player2.draw(4)
 		self.beginMulligan()
-		self.player1.setTag(GameTag.FIRST_PLAYER, True)
+		self.player1.firstPlayer = True
+		self.player2.firstPlayer = False
 
 	def beginMulligan(self):
 		logging.info("Entering mulligan phase")

@@ -543,13 +543,13 @@ def test_combo():
 	game.endTurn()
 	game.currentPlayer.getById(THE_COIN).play()
 	# SI:7 with combo
-	assert game.currentPlayer.tags[GameTag.COMBO_ACTIVE]
+	assert game.currentPlayer.combo
 	game.currentPlayer.give("EX1_134").play(target=game.currentPlayer.hero)
 	assert game.currentPlayer.hero.health == 28
 	game.endTurn()
 
 	# Without combo should not have a target
-	assert not game.currentPlayer.tags[GameTag.COMBO_ACTIVE]
+	assert not game.currentPlayer.combo
 	game.currentPlayer.give("EX1_134").play()
 
 
@@ -1360,6 +1360,7 @@ def test_pint_sized_summoner():
 
 	# summon it directly, minions played still at 0
 	summoner = game.currentPlayer.summon("EX1_076")
+	assert game.currentPlayer.minionsPlayedThisTurn == 0
 	assert goldshire1.buffs
 	assert goldshire1.cost == 0
 	assert goldshire2.buffs
@@ -1375,7 +1376,7 @@ def test_pint_sized_summoner():
 	assert wisp.cost == 0
 	game.endTurn()
 
-	assert not game.currentPlayer.minionsPlayedThisTurn == 1
+	assert game.currentPlayer.minionsPlayedThisTurn == 0
 	assert goldshire1.cost == 1
 	assert goldshire2.cost == 1
 	assert wisp.cost == 0

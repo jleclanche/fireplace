@@ -5,15 +5,12 @@ from .card import Card
 from .deck import Deck
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
+from .managers import PlayerManager
 from .targeting import *
-from .utils import CardList, _TAG, _PROPERTY
+from .utils import CardList, _PROPERTY
 
 
 class Player(Entity):
-	maxHandSize = _TAG(GameTag.MAXHANDSIZE, 10)
-	maxResources = _TAG(GameTag.MAXRESOURCES, 10)
-	type = _TAG(GameTag.CARDTYPE, CardType.PLAYER)
-
 	def __init__(self, name):
 		super().__init__()
 		self.name = name
@@ -22,6 +19,18 @@ class Player(Entity):
 		self.field = CardList()
 		self.secrets = CardList()
 		self.buffs = []
+		self.type = CardType.PLAYER
+		self.maxHandSize = 10
+		self.maxResources = 10
+		self.currentPlayer = False
+		self.fatigueCounter = 0
+		self.hero = None
+		self.lastCardPlayed = None
+		self.overloaded = 0
+		self.maxMana = 0
+		self.tempMana = 0
+		self.timesHeroPowerUsedThisGame = 0
+		self.tags = PlayerManager(self)
 
 	def __str__(self):
 		return self.name
@@ -58,6 +67,10 @@ class Player(Entity):
 	def opponent(self):
 		# Hacky.
 		return [p for p in self.game.players if p != self][0]
+
+	@property
+	def outgoingHealingAdjustment(self):
+		return any(slot.getBoolProperty(GameTag.OUTGOING_HEALING_ADJUSTMENT) for slot in self.slots)
 
 	# for debugging
 	def give(self, id):
@@ -148,28 +161,13 @@ class Player(Entity):
 		logging.info("%s takes %i fatigue damage" % (self, self.fatigueCounter))
 		self.hero.hit(self.hero, self.fatigueCounter)
 
-	currentPlayer = _TAG(GameTag.CURRENT_PLAYER, False)
-	combo = _TAG(GameTag.COMBO_ACTIVE, False)
-	fatigueCounter = _TAG(GameTag.FATIGUE, 0)
-	hero = _TAG(GameTag.HERO_ENTITY, None)
-	overloaded = _TAG(GameTag.RECALL_OWED, 0)
-	tempMana = _TAG(GameTag.TEMP_RESOURCES, 0)
-	usedMana = _TAG(GameTag.RESOURCES_USED, 0)
-	cardsDrawnThisTurn = _TAG(GameTag.NUM_CARDS_DRAWN_THIS_TURN, 0)
-	cardsPlayedThisTurn = _TAG(GameTag.NUM_CARDS_PLAYED_THIS_TURN, 0)
-	lastCardPlayed = _TAG(GameTag.LAST_CARD_PLAYED, None)
-	minionsPlayedThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYED_THIS_TURN, 0)
-	minionsKilledThisTurn = _TAG(GameTag.NUM_MINIONS_PLAYER_KILLED_THIS_TURN, 0)
-	outgoingHealingAdjustment = _PROPERTY(GameTag.OUTGOING_HEALING_ADJUSTMENT, 0)
-	timesHeroPowerUsedThisGame = _TAG(GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME, 0)
-
 	@property
 	def maxMana(self):
-		return self.tags.get(GameTag.RESOURCES, 0)
+		return self._maxMana
 
 	@maxMana.setter
 	def maxMana(self, amount):
-		self.tags[GameTag.RESOURCES] = min(self.maxResources, max(0, amount))
+		self._maxMana = min(self.maxResources, max(0, amount))
 		logging.info("%s is now at %i mana crystals" % (self, amount))
 
 	def takeControl(self, minion):
