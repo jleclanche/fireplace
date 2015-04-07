@@ -1,24 +1,16 @@
 """
-Heroes and their Hero Powers
+Hero Power definitions
 """
 
 from ..utils import *
 
 
-# Garrosh Hellscream
-class HERO_01:
-	power = "CS2_102"
-
-# Armor Up!
+# Armor Up! (Garrosh Hellscream)
 class CS2_102:
 	action = gainArmor(2)
 
 
-# Thrall
-class HERO_02:
-	power = "CS2_049"
-
-# Totemic Call
+# Totemic Call (Thrall)
 class CS2_049:
 	def action(self):
 		entourage = self.data.entourage
@@ -35,77 +27,44 @@ class NEW1_009:
 			self.heal(target, 1)
 
 
-
-# Valeera Sanguinar
-class HERO_03:
-	power = "CS2_083b"
-
-# Dagger Mastery
+# Dagger Mastery (Valeera Sanguinar)
 class CS2_083b:
 	def action(self):
 		self.controller.summon("CS2_082")
 
 
-# Uther Lightbringer
-class HERO_04:
-	power = "CS2_101"
-
-# Reinforce
+# Reinforce (Uther Lightbringer)
 class CS2_101:
 	action = summonMinion("CS2_101t")
 
 
-# Rexxar
-class HERO_05:
-	power = "DS1h_292"
-
-# Steady Shot
+# Steady Shot (Rexxar)
 class DS1h_292:
 	action = damageEnemyHero(2)
 
 
-# Malfurion Stormrage
-class HERO_06:
-	power = "CS2_017"
-
-# Shapeshift
+# Shapeshift (Malfurion Stormrage)
 class CS2_017:
 	action = buffSelf("CS2_017o")
 
 
-# Gul'dan
-class HERO_07:
-	power = "CS2_056"
-
-# Life Tap
+# Life Tap (Gul'dan)
 class CS2_056:
 	def action(self):
 		self.hit(self.controller.hero, 2)
 		self.controller.draw()
 
 
-# Jaina Proudmoore
-class HERO_08:
-	power = "CS2_034"
-
-# Fireblast
+# Fireblast (Jaina Proudmoore)
 class CS2_034:
 	action = damageTarget(1)
 
 
-# Anduin Wrynn
-class HERO_09:
-	power = "CS1h_001"
-
-# Lesser Heal
+# Lesser Heal (Anduin Wrynn)
 class CS1h_001:
 	action = healTarget(2)
 
 
-# Lord Jaraxxus
-class EX1_323h:
-	power = "EX1_tk33"
-
-# INFERNO!
+# INFERNO! (Lord Jaraxxus)
 class EX1_tk33:
 	action = summonMinion("EX1_tk34")
