@@ -481,13 +481,16 @@ class Hero(Character):
 	@property
 	def slots(self):
 		ret = super().slots[:]
-		if self.weapon:
+		if self.weapon and not self.weapon.exhausted:
 			ret.append(self.weapon)
 		return ret
 
 	@property
 	def entities(self):
-		return chain([self, self.power], self.slots)
+		ret = [self, self.power]
+		if self.weapon:
+			ret.append(self.weapon)
+		return chain(ret, self.buffs)
 
 	def SELF_DAMAGE(self, source, amount):
 		if self.armor:
@@ -848,6 +851,9 @@ class Weapon(PlayableCard):
 
 	def SELF_ATTACK(self, target):
 		self.durability -= 1
+
+	def OWN_TURN_END(self):
+		self.exhausted = True
 
 
 class HeroPower(PlayableCard):

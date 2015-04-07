@@ -1153,6 +1153,32 @@ def test_bounce():
 	assert brewmaster not in game.currentPlayer.opponent.hand
 
 
+def test_weapon_sheathing():
+	game = prepare_game()
+	axe = game.player1.give("CS2_106")
+	game.endTurn(); game.endTurn()
+
+	axe.play()
+	assert not axe.exhausted
+	assert game.player1.hero.atk == 3
+	assert game.player1.hero.canAttack()
+	game.player1.hero.attack(target=game.player2.hero)
+	assert not axe.exhausted
+	assert game.player1.hero.atk == 3
+	game.endTurn()
+
+	assert axe.exhausted
+	assert game.player1.hero.atk == 0
+	assert game.player2.hero.health == 27
+	game.player2.give("CS2_106").play()
+	game.player2.hero.attack(target=game.player1.hero)
+	assert game.player1.hero.health == 27
+	assert game.player2.hero.health == 27
+	game.endTurn()
+
+	assert not axe.exhausted
+
+
 def test_arcane_explosion():
 	game = prepare_game(MAGE, MAGE)
 	# play some wisps
