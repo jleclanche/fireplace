@@ -48,8 +48,8 @@ class Player(Entity):
 		return mana
 
 	@property
-	def spellPower(self):
-		return sum(minion.spellPower for minion in self.field)
+	def spellpower(self):
+		return sum(minion.spellpower for minion in self.field)
 
 	@property
 	def entities(self):

@@ -509,7 +509,7 @@ class Minion(Character):
 	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
 	enrage = _TAG(GameTag.ENRAGED, False)
 	silenced = _TAG(GameTag.SILENCED, False)
-	spellPower = _TAG(GameTag.SPELLPOWER, 0)
+	spellpower = _TAG(GameTag.SPELLPOWER, 0)
 
 	chromatic = _PROPERTY(GameTag.CANT_BE_TARGETED_BY_ABILITIES, False)
 	extraDeathrattles = _PROPERTY(GameTag.EXTRA_DEATHRATTLES, False)
@@ -638,7 +638,7 @@ class Spell(PlayableCard):
 
 	def hit(self, target, amount):
 		if not self.immuneToSpellpower:
-			amount += self.controller.spellPower
+			amount += self.controller.spellpower
 		super().hit(target, amount)
 
 
