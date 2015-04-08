@@ -29,6 +29,10 @@ class CardXML(object):
 		return self.getTag(GameTag.CARDTEXT_INHAND) or ""
 
 	@property
+	def cardClass(self):
+		return self.getTag(GameTag.CLASS)
+
+	@property
 	def collectible(self):
 		return bool(self.getTag(GameTag.Collectible))
 
