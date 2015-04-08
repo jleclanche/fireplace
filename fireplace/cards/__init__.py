@@ -17,7 +17,8 @@ def _initTags(carddef, cls):
 	do it here instead of in Card.__new__()
 	"""
 	for attr, value in carddef.__dict__.items():
-		if attr.isupper() and hasattr(GameTag, attr):
+		# GameTag.DAMAGE is unused and conflicts with the DAMAGE event
+		if attr.isupper() and hasattr(GameTag, attr) and attr is not "DAMAGE":
 			cls.tags[getattr(GameTag, attr)] = value
 
 
