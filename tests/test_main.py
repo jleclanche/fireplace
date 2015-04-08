@@ -2334,7 +2334,6 @@ def test_molten_giant():
 def test_mountain_giant():
 	game = prepare_game()
 	mountain = game.currentPlayer.give("EX1_105")
-	assert mountain.baseCost == 12
 	assert mountain.cost == 12 - len(game.currentPlayer.hand) + 1
 	game.endTurn(); game.endTurn()
 	assert mountain.cost == 12 - len(game.currentPlayer.hand) + 1
@@ -2345,7 +2344,6 @@ def test_mountain_giant():
 def test_sea_giant():
 	game = prepare_game()
 	seagiant = game.currentPlayer.give("EX1_586")
-	assert seagiant.baseCost == 10
 	assert seagiant.cost == 10
 	game.currentPlayer.give(WISP).play()
 	assert seagiant.cost == 9

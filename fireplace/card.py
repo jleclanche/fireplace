@@ -213,10 +213,6 @@ class PlayableCard(BaseCard):
 		self.buffs = CardList()
 
 	@property
-	def baseCost(self):
-		return self.data.tags.get(GameTag.COST, 0)
-
-	@property
 	def cost(self):
 		ret = self.getIntProperty(GameTag.COST)
 		ret = self.attributeScript("cost", ret)
