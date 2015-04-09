@@ -141,4 +141,4 @@ class CS2_097:
 class EX1_366:
 	def OWN_MINION_SUMMON(self, minion):
 		self.buff(minion, "EX1_366e")
-		self.durability -= 1
+		self.loseDurability()

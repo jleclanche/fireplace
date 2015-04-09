@@ -140,7 +140,7 @@ class XXX_041:
 class XXX_048:
 	def action(self, target):
 		if target.controller.hero.weapon:
-			target.controller.hero.weapon.durability -= 1
+			target.controller.hero.weapon.loseDurability()
 
 
 # Destroy All Mana

@@ -166,7 +166,7 @@ class NEW1_025:
 	def action(self):
 		weapon = self.controller.opponent.hero.weapon
 		if self.controller.opponent.hero.weapon:
-			weapon.durability -= 1
+			weapon.loseDurability()
 
 
 # Violet Teacher

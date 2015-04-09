@@ -835,6 +835,12 @@ class Weapon(PlayableCard):
 		self.controller.hero.weapon = None
 		super().destroy()
 
+	def loseDurability(self):
+		logging.info("%r loses 1 point of durability", self)
+		self.durability -= 1
+		if self.durability == 0:
+			self.destroy()
+
 	def summon(self):
 		super().summon()
 		if self.controller.hero.weapon:
@@ -842,7 +848,7 @@ class Weapon(PlayableCard):
 		self.controller.hero.weapon = self
 
 	def SELF_ATTACK(self, target):
-		self.durability -= 1
+		self.loseDurability()
 
 	def OWN_TURN_END(self):
 		self.exhausted = True
