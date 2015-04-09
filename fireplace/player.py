@@ -1,5 +1,6 @@
 import logging
 import random
+from datetime import datetime
 from itertools import chain
 from .card import Card
 from .deck import Deck
@@ -31,6 +32,7 @@ class Player(Entity):
 		self.overloaded = 0
 		self.maxMana = 0
 		self.tempMana = 0
+		self.timeout = 75
 		self.timesHeroPowerUsedThisGame = 0
 
 	def __str__(self):
@@ -263,6 +265,7 @@ class Player(Entity):
 		self.cardsDrawnThisTurn = 0
 		self.cardsPlayedThisTurn = 0
 		self.minionsKilledThisTurn = 0
+		self.turnStart = int(datetime.now().strftime("%s"))
 		if player is self:
 			self.minionsPlayedThisTurn = 0
 			self.combo = False

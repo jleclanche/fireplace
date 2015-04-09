@@ -8,7 +8,6 @@ from .managers import GameManager
 
 
 class Game(Entity):
-	TIMEOUT_TURN = 75
 	TIMEOUT_MULLIGAN = 85
 	MAX_MINIONS_ON_FIELD = 8
 	# Game draws after 50 full turns (100 game turns)

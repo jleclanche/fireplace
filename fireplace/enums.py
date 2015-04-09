@@ -63,6 +63,8 @@ class Race(IntEnum):
 
 
 class GameTag(IntEnum):
+	TIMEOUT = 7
+	TURN_START = 8
 	TURN = 20
 	FATIGUE = 22
 	CURRENT_PLAYER = 23

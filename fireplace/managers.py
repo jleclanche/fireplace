@@ -46,6 +46,8 @@ class PlayerManager(Manager):
 		GameTag.RECALL_OWED: "overloaded",
 		GameTag.RESOURCES_USED: "usedMana",
 		GameTag.TEMP_RESOURCES: "tempMana",
+		GameTag.TIMEOUT: "timeout",
+		GameTag.TURN_START: "turnStart",
 	}
 
 
