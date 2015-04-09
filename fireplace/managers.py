@@ -42,6 +42,7 @@ class PlayerManager(Manager):
 		GameTag.NUM_MINIONS_PLAYER_KILLED_THIS_TURN: "minionsKilledThisTurn",
 		GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME: "timesHeroPowerUsedThisGame",
 		GameTag.OUTGOING_HEALING_ADJUSTMENT: "outgoingHealingAdjustment",
+		GameTag.CURRENT_SPELLPOWER: "spellpower",
 		GameTag.RECALL_OWED: "overloaded",
 		GameTag.RESOURCES_USED: "usedMana",
 		GameTag.TEMP_RESOURCES: "tempMana",

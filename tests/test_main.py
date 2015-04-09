@@ -121,11 +121,14 @@ def test_spell_power():
 	game.currentPlayer.give(MOONFIRE).play(target=game.player2.hero); expectedHealth -= 1
 	assert game.player2.hero.health == expectedHealth
 	# Play a kobold
+	assert game.currentPlayer.spellpower == 0
 	game.currentPlayer.give("CS2_142").play()
+	assert game.currentPlayer.spellpower == 1
 	game.currentPlayer.give(MOONFIRE).play(target=game.player2.hero); expectedHealth -= 1+1
 	assert game.player2.hero.health == expectedHealth
 	# Summon Malygos
 	malygos = game.currentPlayer.summon("EX1_563")
+	assert game.currentPlayer.spellpower == 1 + 5
 	game.currentPlayer.give(MOONFIRE).play(target=game.player2.hero); expectedHealth -= 1+1+5
 	assert game.player2.hero.health == expectedHealth
 	# Test heals are not affected
