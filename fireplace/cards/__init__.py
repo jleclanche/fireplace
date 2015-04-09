@@ -10,18 +10,6 @@ from .naxxramas import *
 from .. import cardxml
 
 
-def _initTags(carddef, cls):
-	"""
-	Iterate over the class attributes, mapping them to the tags dict
-	Note that this only needs to be done once per class, hence why we
-	do it here instead of in Card.__new__()
-	"""
-	for attr, value in carddef.__dict__.items():
-		# GameTag.DAMAGE is unused and conflicts with the DAMAGE event
-		if attr.isupper() and hasattr(GameTag, attr) and attr is not "DAMAGE":
-			cls.tags[getattr(GameTag, attr)] = value
-
-
 def merge(id):
 	"""
 	Find the xmlcard and the card definition of \a id
@@ -38,12 +26,6 @@ def merge(id):
 		cls = type(id, (carddef, ), {})
 	cls.tags = xmlcard.tags
 	cls.enrageTags = xmlcard.enrageTags
-	if carddef:
-		if hasattr(carddef, "Enrage"):
-			# Initialize the Enrage virtual card too
-			carddef.Enrage.tags = {}
-			_initTags(carddef.Enrage, carddef.Enrage)
-		_initTags(carddef, cls)
 	cls.requirements = xmlcard.requirements
 	cls.powerUpRequirements = xmlcard.powerUpRequirements
 	cls.entourage = xmlcard.entourage

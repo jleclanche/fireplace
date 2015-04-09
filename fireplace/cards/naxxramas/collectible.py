@@ -125,7 +125,7 @@ class FP1_030e:
 			self.destroy()
 
 class FP1_030ea:
-	COST = lambda i: i+5
+	cost = lambda self, i: i+5
 
 
 ##

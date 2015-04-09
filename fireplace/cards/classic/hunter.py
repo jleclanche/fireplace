@@ -38,8 +38,7 @@ class CS2_084:
 	action = buffTarget("CS2_084e")
 
 class CS2_084e:
-	def apply(self, target):
-		self.setHealth(1)
+	maxHealth = lambda self, i: 1
 
 # Multi-Shot
 class DS1_183:

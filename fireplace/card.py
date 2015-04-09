@@ -4,10 +4,11 @@ import uuid
 from itertools import chain
 from . import cards as CardDB, targeting
 from .exceptions import *
-from .entity import Entity
+from .entity import Entity, booleanProperty, intProperty
 from .enums import CardClass, CardType, GameTag, PlayReq, Race, Rarity, Zone
-from .utils import _PROPERTY, _TAG, CardList
-
+from .managers import (CardManager, PlayableCardManager, CharacterManager,
+	MinionManager, SpellManager, WeaponManager, EnchantmentManager)
+from .utils import CardList
 
 
 THE_COIN = "GAME_005"
@@ -30,6 +31,12 @@ def Card(id, data=None):
 
 
 class BaseCard(Entity):
+	Manager = CardManager
+	hasDeathrattle = booleanProperty("hasDeathrattle")
+	atk = intProperty("atk")
+	maxHealth = intProperty("maxHealth")
+	cost = intProperty("cost")
+
 	def __init__(self, id, data):
 		assert data
 		super().__init__()
@@ -37,8 +44,13 @@ class BaseCard(Entity):
 		self._auras = []
 		self.data = data
 		self.requirements = data.requirements.copy()
-		self.tags = data.tags.copy()
 		self.id = id
+		self.controller = None
+		self.aura = False
+		self.silenced = False
+		self.spellpower = 0
+		self.tags.update(data.tags)
+
 		for event in self.events:
 			if hasattr(data, event):
 				if event not in self._eventListeners:
@@ -51,7 +63,7 @@ class BaseCard(Entity):
 				self._eventListeners[event].append(_func)
 
 	def __str__(self):
-		return self.data.tags[GameTag.CARDNAME]
+		return self.name
 
 	def __repr__(self):
 		return "<%s (%r)>" % (self.__class__.__name__, self.__str__())
@@ -67,37 +79,11 @@ class BaseCard(Entity):
 	def game(self):
 		return self.controller.game
 
-	##
-	# Tag properties
-
-	@property
-	def maxHealth(self):
-		return self.getIntProperty(GameTag.HEALTH)
-
-	@property
-	def health(self):
-		return max(0, self.maxHealth - self.damage)
-
-	@health.setter
-	def health(self, value):
-		self.tags[GameTag.HEALTH] = value
-
-	@property
-	def extraHealth(self):
-		return sum(slot.getIntProperty(GameTag.HEALTH) for slot in self.slots)
-
-	id = _TAG(GameTag.CARD_ID, None)
-	cardClass = _TAG(GameTag.CLASS, CardClass.INVALID)
-	type = _TAG(GameTag.CARDTYPE, CardType.INVALID)
-	aura = _TAG(GameTag.AURA, False)
-	controller = _TAG(GameTag.CONTROLLER, None)
-	hasDeathrattle = _PROPERTY(GameTag.DEATHRATTLE, False)
-
 	isValidTarget = targeting.isValidTarget
 
 	@property
 	def zone(self):
-		return self.tags.get(GameTag.ZONE)
+		return getattr(self, "_zone", Zone.INVALID)
 
 	@zone.setter
 	def zone(self, value):
@@ -114,7 +100,7 @@ class BaseCard(Entity):
 			caches[old].remove(self)
 		if caches.get(value) is not None:
 			caches[value].append(self)
-		self.setTag(GameTag.ZONE, value)
+		self._zone = value
 
 		if value == Zone.PLAY:
 			for aura in self.data.auras:
@@ -126,16 +112,6 @@ class BaseCard(Entity):
 
 	##
 	# Properties affected by slots
-
-	@property
-	def atk(self):
-		ret = self.getIntProperty(GameTag.ATK)
-		ret = self.attributeScript("atk", ret)
-		return max(0, ret)
-
-	@atk.setter
-	def atk(self, value):
-		self.tags[GameTag.ATK] = value
 
 	@property
 	def deathrattles(self):
@@ -200,30 +176,19 @@ class BaseCard(Entity):
 			setattr(ret, k, v)
 		return ret
 
-
 class PlayableCard(BaseCard):
-	exhausted = _TAG(GameTag.EXHAUSTED, False)
-	freeze = _TAG(GameTag.FREEZE, False)
-	hasBattlecry = _TAG(GameTag.BATTLECRY, False)
-	hasCombo = _TAG(GameTag.COMBO, False)
-	rarity = _TAG(GameTag.RARITY, Rarity.INVALID)
-	overload = _TAG(GameTag.RECALL, 0)
-	target = _TAG(GameTag.CARD_TARGET, None)
-	windfury = _PROPERTY(GameTag.WINDFURY, False)
+	Manager = PlayableCardManager
+	windfury = booleanProperty("windfury")
 
 	def __init__(self, id, data):
-		super().__init__(id, data)
 		self.buffs = CardList()
-
-	@property
-	def cost(self):
-		ret = self.getIntProperty(GameTag.COST)
-		ret = self.attributeScript("cost", ret)
-		return max(0, ret)
-
-	@cost.setter
-	def cost(self, value):
-		self.setTag(GameTag.COST, value)
+		self.exhausted = False
+		self.freeze = False
+		self.hasBattlecry = False
+		self.hasCombo = False
+		self.overload = 0
+		self.target = None
+		super().__init__(id, data)
 
 	@property
 	def dead(self):
@@ -339,15 +304,25 @@ class PlayableCard(BaseCard):
 
 
 class Character(PlayableCard):
-	race = _TAG(GameTag.CARDRACE, Race.INVALID)
-	frozen = _TAG(GameTag.FROZEN, False)
-	immune = _PROPERTY(GameTag.CANT_BE_DAMAGED, False)
-	minHealth = _PROPERTY(GameTag.HEALTH_MINIMUM, 0)
-	numAttacks = _TAG(GameTag.NUM_ATTACKS_THIS_TURN, 0)
-	poisonous = _TAG(GameTag.POISONOUS, False)
-	attacking = _TAG(GameTag.ATTACKING, False)
-	defending = _TAG(GameTag.DEFENDING, False)
-	shouldExitCombat = _TAG(GameTag.SHOULDEXITCOMBAT, False)
+	Manager = CharacterManager
+	minHealth = booleanProperty("minHealth")
+	immune = booleanProperty("immune")
+
+	silenceableAttributes = (
+		"aura", "cantAttack", "cantBeTargetedByAbilities", "cantBeTargetedByHeroPowers",
+		"charge", "divineShield", "enrage", "frozen", "poisonous", "stealthed", "taunt",
+		"windfury",
+	)
+
+	def __init__(self, *args):
+		self.attacking = False
+		self.frozen = False
+		self.cantAttack = False
+		self.cantBeTargetedByAbilities = False
+		self.cantBeTargetedByHeroPowers = False
+		self.race = Race.INVALID
+		self.shouldExitCombat = False
+		super().__init__(*args)
 
 	@property
 	def attackable(self):
@@ -369,7 +344,7 @@ class Character(PlayableCard):
 		return ret
 
 	def canAttack(self):
-		if self.tags.get(GameTag.CANT_ATTACK, False):
+		if self.cantAttack:
 			return False
 		if self.windfury:
 			if self.numAttacks >= 2:
@@ -400,23 +375,28 @@ class Character(PlayableCard):
 
 	@property
 	def damage(self):
-		return self.tags.get(GameTag.DAMAGE, 0)
+		return getattr(self, "_damage", 0)
 
 	@damage.setter
 	def damage(self, amount):
 		amount = max(0, amount)
-		if amount < self.damage:
-			logging.info("%r healed for %i health" % (self, self.damage - amount))
-		elif amount == self.damage:
+		dmg = self.damage
+		if amount < dmg:
+			logging.info("%r healed for %i health" % (self, dmg - amount))
+		elif amount == dmg:
 			logging.info("%r receives a no-op health change" % (self))
 		else:
-			logging.info("%r damaged for %i health" % (self, amount - self.damage))
+			logging.info("%r damaged for %i health" % (self, amount - dmg))
 
 		if self.minHealth:
 			logging.info("%r has HEALTH_MINIMUM of %i", self, self.minHealth)
 			amount = min(amount, self.maxHealth - self.minHealth)
 
-		self.setTag(GameTag.DAMAGE, amount)
+		self._damage = amount
+
+	@property
+	def health(self):
+		return max(0, self.maxHealth - self.damage)
 
 	@property
 	def targets(self):
@@ -451,19 +431,10 @@ class Character(PlayableCard):
 		for aura in self._auras:
 			aura.destroy()
 		self.clearBuffs()
-		tags = (
-			GameTag.CANT_ATTACK,
-			GameTag.DIVINE_SHIELD,
-			GameTag.FROZEN,
-			GameTag.POISONOUS,
-			GameTag.STEALTH,
-			GameTag.TAUNT,
-			GameTag.WINDFURY,
-		)
-		for tag in tags:
-			if tag in self.tags:
-				logging.info("Silencing tag %r on %r" % (tag, self))
-				del self.tags[tag]
+
+		for attr in self.silenceableAttributes:
+			if getattr(self, attr):
+				setattr(self, attr, False)
 
 		# Wipe the event listeners and keep only those of the card itself
 		self._registerEvents()
@@ -471,11 +442,10 @@ class Character(PlayableCard):
 
 
 class Hero(Character):
-	armor = _TAG(GameTag.ARMOR, 0)
-
 	def __init__(self, id, data):
-		super().__init__(id, data)
+		self.armor = 0
 		self.weapon = None
+		super().__init__(id, data)
 
 	@property
 	def slots(self):
@@ -508,35 +478,19 @@ class Hero(Character):
 
 
 class Minion(Character):
-	divineShield = _TAG(GameTag.DIVINE_SHIELD, False)
-	adjacentBuff = _TAG(GameTag.ADJACENT_BUFF, False)
-	enrage = _TAG(GameTag.ENRAGED, False)
-	silenced = _TAG(GameTag.SILENCED, False)
-	spellpower = _TAG(GameTag.SPELLPOWER, 0)
-
-	chromatic = _PROPERTY(GameTag.CANT_BE_TARGETED_BY_ABILITIES, False)
-	extraDeathrattles = _PROPERTY(GameTag.EXTRA_DEATHRATTLES, False)
-	stealthed = _PROPERTY(GameTag.STEALTH, False)
-	taunt = _PROPERTY(GameTag.TAUNT, False)
+	Manager = MinionManager
+	charge = booleanProperty("charge")
+	extraDeathrattles = booleanProperty("extraDeathrattles")
+	stealthed = booleanProperty("stealthed")
+	taunt = booleanProperty("taunt")
 
 	def __init__(self, id, data):
-		super().__init__(id, data)
 		self._enrage = None
-
-	@property
-	def attackable(self):
-		if self.stealthed:
-			return False
-		return super().attackable
-
-	@property
-	def charge(self):
-		ret = self.getBoolProperty(GameTag.CHARGE)
-		return ret or self.attributeScript("charge", ret)
-
-	@charge.setter
-	def charge(self, value):
-		self.setTag(GameTag.CHARGE, value)
+		self.adjacentBuff = False
+		self.divineShield = False
+		self.enrage = False
+		self.poisonous = False
+		super().__init__(id, data)
 
 	@property
 	def adjacentMinions(self):
@@ -550,6 +504,12 @@ class Minion(Character):
 		if right:
 			ret.append(right[0])
 		return ret
+
+	@property
+	def attackable(self):
+		if self.stealthed:
+			return False
+		return super().attackable
 
 	@property
 	def slots(self):
@@ -599,11 +559,15 @@ class Minion(Character):
 
 	def morph(self, id):
 		into = Card(id)
-		into.controller = self.controller
+		logging.info("Morphing %r into %r", self, into)
 		for buff in self.buffs:
 			# TODO: buff.setAside() instead
 			buff.destroy()
-		self.tags = into.tags.copy()
+		self.zone = Zone.REMOVEDFROMGAME
+		into.controller = self.controller
+		into.zone = Zone.PLAY
+		into.linkedCard = self
+		return into
 
 	def SELF_DAMAGE(self, source, amount):
 		if self.divineShield:
@@ -640,7 +604,11 @@ class Minion(Character):
 
 
 class Spell(PlayableCard):
-	immuneToSpellpower = _TAG(GameTag.ImmuneToSpellpower, False)
+	Manager = SpellManager
+
+	def __init__(self, *args):
+		self.immuneToSpellpower = False
+		super().__init__(*args)
 
 	def hit(self, target, amount):
 		if not self.immuneToSpellpower:
@@ -673,9 +641,12 @@ class Secret(Spell):
 
 
 class Enchantment(BaseCard):
-	oneTurnEffect = _TAG(GameTag.OneTurnEffect, False)
-	owner = _TAG(GameTag.ATTACHED, None)
-	creator = _TAG(GameTag.CREATOR, None)
+	Manager = EnchantmentManager
+
+	def __init__(self, *args):
+		self.creator = None
+		self.oneTurnEffect = False
+		super().__init__(*args)
 
 	@property
 	def slots(self):
@@ -684,17 +655,15 @@ class Enchantment(BaseCard):
 	def apply(self, target):
 		logging.info("Applying %r to %r" % (self, target))
 		self.owner = target
-		target.buffs.append(self)
-		if target.type == CardType.WEAPON:
-			# HACK
-			# We don't want to have a full-fledged damage system for durability.
-			# However, we want to be able to specify durability in buffs.
-			# This should be done elsewhere, preferably in the Weapon class.
-			durability = self.tags.get(GameTag.DURABILITY, 0)
-			if durability:
-				target.durability += durability
 		if hasattr(self.data, "apply"):
 			self.data.apply(self, target)
+		if hasattr(self.data, "maxHealth"):
+			logging.info("%r removes all damage from %r", self, target)
+			target.damage = 0
+		if target.type == CardType.WEAPON and getattr(self, "durability", 0):
+			logging.info("%r increases %r durability by %i", self, target, self.durability)
+			target.durability += self.durability
+		target.buffs.append(self)
 
 	def destroy(self):
 		logging.info("Destroying buff %r from %r" % (self, self.owner))
@@ -703,26 +672,6 @@ class Enchantment(BaseCard):
 			self.data.destroy(self)
 		for aura in self._auras:
 			aura.destroy()
-
-	def setAtk(self, value):
-		"Helper to set a character's atk to \a value through an Enchantment"
-		logging.info("Setting %r's Atk to %i through %r" % (self.owner, value, self))
-		for buff in self.owner.buffs:
-			# Nullify all OneTurnEffect atk buffs.
-			# This is needed because of things like Abusive Seargent + Humility
-			# which results in negative atk otherwise.
-			# @mischanix thinks this is handled through an internal "attack value
-			# this turn" tag. Who's right? Find out in Season 2.
-			if buff.oneTurnEffect and buff.atk:
-				buff.atk = 0
-		self.atk = -self.owner.atk + value
-
-	def setHealth(self, value):
-		"Helper to set a character's health to \a value through an Enchantment"
-		assert self.owner.health
-		logging.info("Setting %r's Health to %i through %r" % (self.owner, value, self))
-		self.owner.damage = 0
-		self.health = -self.owner.health + value
 
 	def TURN_END(self, *args):
 		if self.oneTurnEffect:
@@ -735,6 +684,8 @@ class Aura(BaseCard):
 	A virtual Card class which is only for the source of the Enchantment buff on
 	targets affected by an aura. It is only internal.
 	"""
+
+	Manager = EnchantmentManager
 
 	def __init__(self, obj):
 		id = obj["id"]
@@ -814,7 +765,7 @@ class Aura(BaseCard):
 		self.game.auras.remove(self)
 
 
-class Enrage(Entity):
+class Enrage(object):
 	"""
 	Virtual Card class for Enrage objects.
 	Enrage buffs are just a collection of tags for the enraged Minion's slots.
@@ -823,23 +774,20 @@ class Enrage(Entity):
 	type = None
 	events = []
 	slots = []
+	_eventListeners = {}
 
 	def __init__(self, tags):
-		super().__init__()
-		self.tags = tags.copy()
+		MinionManager(self).update(tags)
 
 	def __str__(self):
 		return "Enrage Buff"
 
+	def _getattr(self, attr, i):
+		return i + getattr(self, attr, 0)
+
 
 class Weapon(PlayableCard):
-	durability = _TAG(GameTag.DURABILITY, 0)
-
-	@durability.setter
-	def durability(self, value):
-		self.setTag(GameTag.DURABILITY, value)
-		if self.durability == 0:
-			self.destroy()
+	Manager = WeaponManager
 
 	def destroy(self):
 		self.controller.hero.weapon = None

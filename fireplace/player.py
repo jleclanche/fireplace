@@ -7,10 +7,12 @@ from .entity import Entity
 from .enums import CardType, GameTag, Zone
 from .managers import PlayerManager
 from .targeting import *
-from .utils import CardList, _PROPERTY
+from .utils import CardList
 
 
 class Player(Entity):
+	Manager = PlayerManager
+
 	def __init__(self, name):
 		super().__init__()
 		self.name = name
@@ -30,7 +32,6 @@ class Player(Entity):
 		self.maxMana = 0
 		self.tempMana = 0
 		self.timesHeroPowerUsedThisGame = 0
-		self.tags = PlayerManager(self)
 
 	def __str__(self):
 		return self.name
@@ -70,7 +71,7 @@ class Player(Entity):
 
 	@property
 	def outgoingHealingAdjustment(self):
-		return any(slot.getBoolProperty(GameTag.OUTGOING_HEALING_ADJUSTMENT) for slot in self.slots)
+		return any(slot.outgoingHealingAdjustment for slot in self.slots)
 
 	# for debugging
 	def give(self, id):

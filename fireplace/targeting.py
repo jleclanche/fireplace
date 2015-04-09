@@ -52,7 +52,9 @@ def isValidTarget(self, target, requirements=None):
 			return False
 		if target.immune and self.controller != target.controller:
 			return False
-		if self.type in (CardType.SPELL, CardType.HERO_POWER) and target.chromatic:
+		if self.type == CardType.SPELL and target.cantBeTargetedByAbilities:
+			return False
+		if self.type == CardType.HERO_POWER and target.cantBeTargetedByHeroPowers:
 			return False
 
 	if requirements is None:

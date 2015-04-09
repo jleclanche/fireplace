@@ -25,8 +25,7 @@ class EX1_091:
 
 # Lightspawn
 class EX1_335:
-	def atk(self, value):
-		return self.health
+	atk = lambda self, i: self.health
 
 
 # Lightwell
@@ -72,9 +71,9 @@ class CS1_129:
 	action = buffTarget("CS1_129e")
 
 class CS1_129e:
+	atk = lambda self, i: self._xatk
 	def apply(self, target):
-		health = target.health
-		self.atk = lambda i: health
+		self._xatk = target.health
 
 
 # Holy Smite

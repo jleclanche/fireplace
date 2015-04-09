@@ -13,6 +13,7 @@ class Game(Entity):
 	MAX_MINIONS_ON_FIELD = 8
 	# Game draws after 50 full turns (100 game turns)
 	MAX_TURNS = 100
+	Manager = GameManager
 
 	def __init__(self, players):
 		super().__init__()
@@ -22,7 +23,6 @@ class Game(Entity):
 		self.turn = 0
 		self.currentPlayer = None
 		self.auras = []
-		self.tags = GameManager(self)
 
 	def __repr__(self):
 		return "<%s %s>" % (self.__class__.__name__, self)

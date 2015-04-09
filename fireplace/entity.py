@@ -3,10 +3,9 @@ from .enums import Zone
 
 class Entity(object):
 	def __init__(self):
-		self.tags = {}
-
 		# Register the events
 		self._registerEvents()
+		self.tags = self.Manager(self)
 
 	def _registerEvents(self):
 		self._eventListeners = {}
@@ -41,36 +40,36 @@ class Entity(object):
 
 		self._eventListeners[event].append(callback)
 
-	def setTag(self, tag, value):
-		logging.debug("%r::%r %r -> %r" % (self, tag, self.tags.get(tag, None), value))
-		self.tags[tag] = value
-
-	def unsetTag(self, tag):
-		del self.tags[tag]
-
-	def getIntProperty(self, tag):
-		ret = self.tags.get(tag, 0)
+	def _getattr(self, attr, i):
+		i += getattr(self, "_" + attr, 0)
 		for slot in self.slots:
-			_ret = slot.getIntProperty(tag)
-			if isinstance(_ret, int):
-				ret += _ret
-			else:
-				ret = _ret(ret)
-		return ret
+			i = slot._getattr(attr, i)
+		if self.silenced:
+			return i
+		return getattr(self.data, attr, lambda s, x: x)(self, i)
 
-	def getBoolProperty(self, tag):
-		if self.tags.get(tag, False):
-			return True
-		for slot in self.slots:
-			if slot.getBoolProperty(tag):
-				return True
-		return
 
-	def attributeScript(self, attr, value):
-		"""
-		Some values support a script that overrides/complements the attributes without
-		requiring a special buff. (Molten Giant, Lightspawn...)
-		"""
-		if hasattr(self.data, attr):
-			value = getattr(self.data, attr)(self, value)
-		return value
+def booleanProperty(attr):
+	@property
+	def func(self):
+		return getattr(self, "_" + attr, False) \
+			or any(getattr(slot, attr, False) for slot in self.slots) \
+			or getattr(self.data, attr, lambda s, x: x)(self, False)
+
+	@func.setter
+	def func(self, value):
+		setattr(self, "_" + attr, value)
+
+	return func
+
+def intProperty(attr):
+	@property
+	def func(self):
+		ret = self._getattr(attr, 0)
+		return max(0, ret)
+
+	@func.setter
+	def func(self, value):
+		setattr(self, "_" + attr, value)
+
+	return func

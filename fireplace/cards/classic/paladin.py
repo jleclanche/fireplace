@@ -21,7 +21,7 @@ class EX1_382:
 	action = buffTarget("EX1_382e")
 
 class EX1_382e:
-	ATK = lambda i: 1
+	atk = lambda self, i: 1
 
 
 # Tirion Fordring
@@ -80,7 +80,7 @@ class EX1_355:
 	action = buffTarget("EX1_355e")
 
 class EX1_355e:
-	ATK = lambda i: i*2
+	atk = lambda self, i: i*2
 
 
 # Humility
@@ -88,7 +88,7 @@ class EX1_360:
 	action = buffTarget("EX1_360e")
 
 class EX1_360e:
-	ATK = lambda i: 1
+	atk = lambda self, i: 1
 
 
 # Blessing of Wisdom
@@ -125,7 +125,10 @@ class EX1_384:
 class EX1_619:
 	def action(self):
 		for target in self.game.board:
-			self.buff(target, "EX1_619e").setHealth(1)
+			self.buff(target, "EX1_619e")
+
+class EX1_619e:
+	maxHealth = lambda self, i: 1
 
 
 ##

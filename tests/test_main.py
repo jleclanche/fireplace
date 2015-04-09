@@ -901,6 +901,8 @@ def test_crazed_alchemist():
 	game.endTurn(); game.endTurn()
 
 	assert warden.atk == 1
+	assert not warden.damage
+	assert warden.maxHealth == 7
 	assert warden.health == 7
 	alchemist.play(target=warden)
 	assert warden.atk == 7

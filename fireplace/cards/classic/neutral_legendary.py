@@ -172,7 +172,7 @@ class NEW1_029:
 		self.buff(self.controller.opponent.hero, "NEW1_029t")
 
 class NEW1_029t:
-	COST = lambda i: 0
+	cost = lambda self, i: 0
 
 	def TURN_END(self, player):
 		# Remove the buff at the end of the other player's turn
@@ -180,7 +180,7 @@ class NEW1_029t:
 			self.destroy()
 
 class NEW1_029ta:
-	COST = lambda i: 0
+	cost = lambda self, i: 0
 
 
 # Deathwing

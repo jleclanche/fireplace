@@ -64,16 +64,18 @@ class EX1_059:
 	action = buffTarget("EX1_059e")
 
 class EX1_059e:
+	atk = lambda self, i: self._xatk
+	maxHealth = lambda self, i: self._xhealth
+
 	def apply(self, target):
-		atk = target.atk
-		self.setAtk(target.health)
-		self.setHealth(atk)
+		self._xhealth = target.atk
+		self._xatk = target.health
 
 
 # Secretkeeper
 class EX1_080:
 	def CARD_PLAYED(self, player, card):
-		if card.tags.get(GameTag.SECRET):
+		if card.secret:
 			self.buff(self, "EX1_080o")
 
 
