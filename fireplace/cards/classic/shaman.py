@@ -77,9 +77,6 @@ class CS2_053:
 		card = self.controller.draw()
 		self.buff(card, "CS2_053e")
 
-class CS2_053e:
-	COST = -3
-
 
 # Lightning Bolt
 class EX1_238:
