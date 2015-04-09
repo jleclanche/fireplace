@@ -29,3 +29,11 @@ class GVG_008:
 # Velen's Chosen
 class GVG_010:
 	action = buffTarget("GVG_010b")
+
+
+# Light of the Naaru
+class GVG_012:
+	def action(self, target):
+		self.heal(target, 3)
+		if target.damage:
+			self.controller.summon("EX1_001")

@@ -2179,6 +2179,34 @@ def test_lorewalker_cho():
 	game.currentPlayer.give(THE_COIN).play()
 
 
+def test_light_of_the_naaru():
+	game = prepare_game()
+	naaru1 = game.player1.give("GVG_012")
+	naaru2 = game.player1.give("GVG_012")
+	naaru3 = game.player1.give("GVG_012")
+	assert game.player1.hero.health == 30
+	naaru1.play(target=game.player1.hero)
+	assert not game.player1.field
+	assert game.player1.hero.health == 30
+	game.endTurn(); game.endTurn()
+
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 29
+	naaru2.play(target=game.player1.hero)
+	assert not game.player1.field
+	assert game.player1.hero.health == 30
+
+	for i in range(5):
+		game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 25
+	naaru3.play(target=game.player1.hero)
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "EX1_001"
+	assert game.player1.hero.health == 28
+
+
+	# TODO Auchenai kill test
+
 def test_lightspawn():
 	game = prepare_game()
 	lightspawn = game.currentPlayer.give("EX1_335")
