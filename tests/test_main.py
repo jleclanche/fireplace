@@ -224,7 +224,9 @@ def test_deathrattle():
 	assert not archer.hasDeathrattle
 	sotf = game.currentPlayer.give("EX1_158")
 	sotf.play()
-	assert len(archer.slots) == 1
+	assert len(archer.buffs) == 1
+	assert archer.buffs[0].hasDeathrattle
+	assert archer.hasDeathrattle
 	assert len(game.currentPlayer.field) == 1
 	game.currentPlayer.give(MOONFIRE).play(target=archer)
 	assert archer.dead
