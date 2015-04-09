@@ -1225,6 +1225,18 @@ def test_demolisher():
 	assert game.currentPlayer.opponent.hero.health == 28
 
 
+def test_dire_wolf_alpha():
+	game = prepare_game()
+	direwolf1 = game.player2.summon("EX1_162")
+	assert direwolf1.atk == 2
+	direwolf2 = game.player2.summon("EX1_162")
+	assert direwolf1.atk == 3
+	assert direwolf2.atk == 3
+	frostwolf = game.currentPlayer.summon("CS2_121")
+	game.endTurn(); game.endTurn();
+	frostwolf.attack(direwolf2)
+
+
 def test_dread_infernal():
 	game = prepare_game()
 	infernal =  game.currentPlayer.give("CS2_064")
@@ -3676,4 +3688,5 @@ def main():
 
 
 if __name__ == "__main__":
+	test_dire_wolf_alpha()
 	main()
