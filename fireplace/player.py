@@ -188,7 +188,6 @@ class Player(Entity):
 			card = Card(card)
 			card.controller = self
 		logging.debug("%s summons %r" % (self, card))
-		card.zone = Zone.PLAY
 		card.summon()
 		return card
 

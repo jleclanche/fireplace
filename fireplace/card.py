@@ -116,6 +116,14 @@ class BaseCard(Entity):
 			caches[value].append(self)
 		self.setTag(GameTag.ZONE, value)
 
+		if value == Zone.PLAY:
+			for aura in self.data.auras:
+				aura = Aura(aura)
+				aura.source = self
+				aura.controller = self.controller
+				aura.summon()
+				self._auras.append(aura)
+
 	##
 	# Properties affected by slots
 
@@ -155,6 +163,10 @@ class BaseCard(Entity):
 		self.clearBuffs()
 		self.game.broadcast("CARD_DESTROYED", self)
 
+	def summon(self):
+		logging.info("Summoning %r", self)
+		self.zone = Zone.PLAY
+
 	##
 	# Events
 
@@ -172,15 +184,6 @@ class BaseCard(Entity):
 		"HEAL", "OWN_HEAL", "SELF_HEAL",
 		"OWN_SECRET_REVEAL",
 	]
-
-	def summon(self):
-		for aura in self.data.auras:
-			aura = Aura(aura)
-			aura.source = self
-			aura.controller = self.controller
-			aura.summon()
-			logging.info("Aura %r suddenly appears" % (aura))
-			self._auras.append(aura)
 
 	def buff(self, target, buff, **kwargs):
 		"""
@@ -391,6 +394,10 @@ class Character(PlayableCard):
 			self.shouldExitCombat = True
 		super().destroy()
 
+	def summon(self):
+		super().summon()
+		self.numAttacks = 0
+
 	@property
 	def damage(self):
 		return self.tags.get(GameTag.DAMAGE, 0)
@@ -561,6 +568,9 @@ class Minion(Character):
 		return self.enrage and self.damage
 
 	def _setZone(self, value):
+		if value == Zone.PLAY:
+			self.controller.field.append(self)
+
 		if self.zone == Zone.PLAY:
 			logging.info("%r is removed from the field" % (self))
 			self.controller.field.remove(self)
@@ -569,6 +579,7 @@ class Minion(Character):
 				aura.destroy()
 			if self.damage:
 				self.damage = 0
+
 		super()._setZone(value)
 
 	def bounce(self):
@@ -621,10 +632,9 @@ class Minion(Character):
 		return playable
 
 	def summon(self):
-		super().summon()
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return
-		self.controller.field.append(self)
+		super().summon()
 		self.game.broadcast("MINION_SUMMON", self.controller, self)
 		self.exhausted = True
 
@@ -732,7 +742,7 @@ class Aura(BaseCard):
 		self.requirements = obj["requirements"].copy()
 		self._buffed = CardList()
 		self._buffs = CardList()
-		self._zone = obj["zone"]
+		self._auraZone = obj["zone"]
 		self._player = obj["player"]
 
 	def isValidTarget(self, target):
@@ -755,9 +765,9 @@ class Aura(BaseCard):
 		return ret
 
 	def summon(self):
-		super().summon()
+		logging.info("Aura %r suddenly appears", self)
 		self.game.auras.append(self)
-		self.zone = self._zone
+		self.zone = self._auraZone
 
 	def _buff(self, target):
 		if self.id:
