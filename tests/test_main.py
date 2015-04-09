@@ -1035,23 +1035,27 @@ def test_dread_corsair():
 
 def test_druid_of_the_fang():
 	game = prepare_game()
-	druid = game.currentPlayer.give("GVG_080")
-	druid2 = game.currentPlayer.give("GVG_080")
-	assert druid.id == druid2.id == "GVG_080"
+	fang = game.currentPlayer.give("GVG_080")
+	fang2 = game.currentPlayer.give("GVG_080")
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 
-	druid.play()
+	fang.play()
+	assert not fang.poweredUp
+	druid = game.currentPlayer.field[0]
 	assert druid.id == "GVG_080"
 	assert druid.atk == 4
 	assert druid.health == 4
 
 	game.endTurn(); game.endTurn()
+	assert not fang2.poweredUp
 	webspinner = game.currentPlayer.give("FP1_011")
 	webspinner.play()
-	druid2.play()
+	assert fang2.poweredUp
+	fang2.play()
+	druid2 = game.currentPlayer.field[-1]
 	assert druid2.id == "GVG_080t"
 	assert druid2.atk == 7
 	assert druid2.health == 7
