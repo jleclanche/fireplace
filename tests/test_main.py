@@ -555,30 +555,26 @@ def test_combo():
 	game.currentPlayer.give("EX1_134").play()
 
 
-def test_polymorph_hex():
+def test_morph():
 	game = prepare_game()
-	polymorph = game.currentPlayer.give("CS2_022")
-	hex = game.currentPlayer.give("EX1_246")
-	game.endTurn()
-	wisp = game.currentPlayer.give(WISP)
-	wisp.play()
-	# Summon a starving buzzard
-	game.currentPlayer.summon("CS2_237")
-	game.endTurn()
+	polymorph = game.player1.give("CS2_022")
+	hex = game.player1.give("EX1_246")
+	buzzard = game.player2.summon("CS2_237")
+	wisp = game.player2.summon(WISP)
+	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 
-	assert len(game.currentPlayer.opponent.hand) == 8
-	assert wisp.id == WISP
+	assert len(game.player2.hand) == 8
 	hex.play(target=wisp)
-	assert wisp.id == "hexfrog"
+	assert not game.player2.field.contains(WISP)
+	assert game.player2.field.contains("hexfrog")
 	# Test that buzzard no longer draws on poly/hex (fixed in GVG)
-	assert len(game.currentPlayer.opponent.hand) == 8
+	assert len(game.player2.hand) == 8
 	game.endTurn(); game.endTurn()
 
-	assert len(game.currentPlayer.opponent.hand) == 9
-	assert wisp.id == "hexfrog"
-	polymorph.play(target=wisp)
-	assert wisp.id == "CS2_tk1"
+	assert len(game.player2.hand) == 9
+	polymorph.play(target=game.player2.field[-1])
+	assert game.player2.field[-1].id == "CS2_tk1"
 	assert len(game.currentPlayer.opponent.hand) == 9
 
 
