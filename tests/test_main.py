@@ -750,7 +750,6 @@ def test_amani_berserker():
 	game.endTurn()
 
 	assert amani1.atk == amani2.atk == 2
-	assert amani1.extraAtk == amani2.extraAtk == 0
 	amani1.attack(amani2)
 	# check both minions are still alive, that the enrage didn't trigger too early
 	assert amani1.zone == amani2.zone == Zone.PLAY
@@ -758,7 +757,6 @@ def test_amani_berserker():
 	assert amani2 in game.player2.field
 	assert amani1.damage == amani2.damage == 2
 	assert amani1.atk == amani2.atk == 2 + 3
-	assert amani1.extraAtk == amani2.extraAtk == 3
 
 
 def test_secretkeeper():

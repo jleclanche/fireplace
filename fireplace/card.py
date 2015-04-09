@@ -412,10 +412,6 @@ class Character(PlayableCard):
 		self.setTag(GameTag.DAMAGE, amount)
 
 	@property
-	def extraAtk(self):
-		return sum(slot.getIntProperty(GameTag.ATK) for slot in self.slots)
-
-	@property
 	def targets(self):
 		if self.zone == Zone.PLAY:
 			return self.attackTargets
