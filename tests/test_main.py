@@ -353,6 +353,29 @@ def test_divine_shield():
 	assert not squire.divineShield
 
 
+def test_divine_spirit():
+	game = prepare_game()
+	wisp = game.currentPlayer.give(WISP)
+	assert wisp.health == 1
+	wisp.play()
+	game.endTurn()
+
+	game.currentPlayer.give("CS2_236").play(target=wisp)
+	assert wisp.health == 1 * 2
+	game.endTurn()
+
+	game.currentPlayer.give("CS2_236").play(target=wisp)
+	assert wisp.health == 1 * 2 * 2
+	game.endTurn()
+
+	equality = game.currentPlayer.give("EX1_619")
+	equality.play()
+	assert wisp.health == 1
+	game.currentPlayer.give("CS2_236").play(target=wisp)
+	assert wisp.health == 1 * 2
+	game.endTurn()
+
+
 def test_silence():
 	game = prepare_game()
 	silence = game.currentPlayer.give(SILENCE)
