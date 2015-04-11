@@ -558,7 +558,7 @@ class Minion(Character):
 			self.stealthed = False
 
 	def morph(self, id):
-		into = Card(id)
+		into = self.game.card(id)
 		logging.info("Morphing %r into %r", self, into)
 		for buff in self.buffs:
 			# TODO: buff.setAside() instead

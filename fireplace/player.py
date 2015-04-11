@@ -76,7 +76,7 @@ class Player(Entity):
 
 	# for debugging
 	def give(self, id):
-		card = Card(id)
+		card = self.game.card(id)
 		logging.debug("Giving %r to %s" % (card, self))
 		card.controller = self
 		card.zone = Zone.HAND
@@ -187,7 +187,7 @@ class Player(Entity):
 		Puts \a card in the PLAY zone
 		"""
 		if isinstance(card, str):
-			card = Card(card)
+			card = self.game.card(card)
 			card.controller = self
 		logging.debug("%s summons %r" % (self, card))
 		card.summon()

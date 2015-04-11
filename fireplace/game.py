@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .card import THE_COIN
+from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
 from .managers import GameManager
@@ -38,6 +38,10 @@ class Game(Entity):
 	@property
 	def entities(self):
 		return chain([self], self.auras, self.player1.entities, self.player2.entities)
+
+	def card(self, id):
+		card = Card(id)
+		return card
 
 	def attack(self, source, target):
 		"""
