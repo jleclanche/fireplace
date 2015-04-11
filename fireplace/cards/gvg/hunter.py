@@ -17,13 +17,20 @@ class GVG_049:
 	def SELF_DAMAGE(self, source, amount):
 		self.buff(self, "GVG_049e")
 
-
 class GVG_049e:
 	atk = lambda self, i: i*2
 
 
 ##
 # Spells
+
+# Call Pet
+class GVG_017:
+	def action(self):
+		card = self.controller.draw()
+		if card.type == CardType.MINION and card.race == Race.BEAST:
+			self.buff(card, "GVG_017e")
+
 
 # Cobra Shot
 class GVG_073:
