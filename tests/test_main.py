@@ -10,6 +10,7 @@ from fireplace.utils import randomDraft
 
 
 GOLDSHIRE_FOOTMAN = "CS1_042"
+TARGET_DUMMY = "GVG_093"
 MOONFIRE = "CS2_008"
 WISP = "CS2_231"
 CIRCLE_OF_HEALING = "EX1_621"
@@ -1473,6 +1474,23 @@ def test_mechwarper():
 	mechwarper.destroy()
 	assert harvest.cost == 3
 	assert goldshire.cost == 1
+
+
+def test_metaltooth_leaper():
+	game = prepare_game()
+	wisp = game.currentPlayer.give(WISP)
+	wisp.play()
+	dummy = game.currentPlayer.give(TARGET_DUMMY)
+	dummy.play()
+	metaltooth = game.currentPlayer.give("GVG_048")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	metaltooth.play()
+	assert metaltooth.atk == 3
+	assert metaltooth.health == 3
+	assert wisp.atk == 1
+	assert dummy.atk == 0 + 2
 
 
 def test_bestial_wrath():

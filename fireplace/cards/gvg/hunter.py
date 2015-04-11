@@ -8,7 +8,8 @@ from ..utils import *
 class GVG_048:
 	def action(self):
 		for target in self.controller.field:
-			self.buff(target, "GVG_048e")
+			if target.race == Race.MECHANICAL and target is not self:
+				self.buff(target, "GVG_048e")
 
 
 # Gahz'rilla
