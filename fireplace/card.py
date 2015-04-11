@@ -720,11 +720,11 @@ class Aura(BaseCard):
 
 	def _buff(self, target):
 		if self.id:
-			buff = self.buff(target, self.id)
+			buff = self.source.buff(target, self.id)
 		else:
 			virtual = Card(id=None, data=self.data)
 			virtual.controller = self.controller
-			buff = self.buff(target, virtual)
+			buff = self.source.buff(target, virtual)
 		buff.creator = self
 		self._buffs.append(buff)
 		self._buffed.append(target)
