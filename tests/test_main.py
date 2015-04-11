@@ -254,6 +254,19 @@ def test_cogmaster():
 	assert cogmaster.atk == 1
 
 
+def test_cogmasters_wrench():
+	game = prepare_game()
+	wrench = game.currentPlayer.summon("GVG_024")
+	assert wrench.atk == game.currentPlayer.hero.atk == 1
+	game.endTurn(); game.endTurn()
+
+	dummy = game.currentPlayer.give(TARGET_DUMMY)
+	dummy.play()
+	assert wrench.atk == game.currentPlayer.hero.atk == 3
+	dummy.destroy()
+	assert wrench.atk == game.currentPlayer.hero.atk == 1
+
+
 def test_cult_master():
 	game = prepare_game()
 	cultmaster = game.currentPlayer.give("EX1_595")
