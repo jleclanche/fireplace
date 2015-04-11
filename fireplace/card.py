@@ -735,7 +735,7 @@ class Aura(BaseCard):
 			if buff.creator is self:
 				return buff
 
-	def UPDATE(self):
+	def update(self):
 		for target in self.targets:
 			if target.type == CardType.ENCHANTMENT:
 				# HACKY: self.targets currently relies on hero entities

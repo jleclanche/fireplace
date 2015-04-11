@@ -37,7 +37,7 @@ class Game(Entity):
 
 	@property
 	def entities(self):
-		return chain([self], self.auras, self.player1.entities, self.player2.entities)
+		return chain([self], self.player1.entities, self.player2.entities)
 
 	def card(self, id):
 		card = Card(id)
@@ -143,6 +143,8 @@ class Game(Entity):
 		for card in self.board:
 			if card.health == 0:
 				card.destroy()
+		for aura in self.auras:
+			aura.update()
 
 	def BEFORE_ATTACK(self, source, target):
 		source.controller.broadcast("BEFORE_OWN_ATTACK", source, target)
