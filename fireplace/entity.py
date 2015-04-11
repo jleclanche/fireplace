@@ -49,6 +49,13 @@ class Entity(object):
 		return getattr(self.data, attr, lambda s, x: x)(self, i)
 
 
+def slotProperty(attr):
+	@property
+	def func(self):
+		return any(getattr(slot, attr, False) for slot in self.slots)
+	return func
+
+
 def booleanProperty(attr):
 	@property
 	def func(self):

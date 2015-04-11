@@ -6,6 +6,7 @@ from .card import Card
 from .deck import Deck
 from .entity import Entity
 from .enums import CardType, GameTag, Zone
+from .entity import slotProperty
 from .managers import PlayerManager
 from .targeting import *
 from .utils import CardList
@@ -13,6 +14,7 @@ from .utils import CardList
 
 class Player(Entity):
 	Manager = PlayerManager
+	outgoingHealingAdjustment = slotProperty("outgoingHealingAdjustment")
 
 	def __init__(self, name):
 		super().__init__()
@@ -70,10 +72,6 @@ class Player(Entity):
 	def opponent(self):
 		# Hacky.
 		return [p for p in self.game.players if p != self][0]
-
-	@property
-	def outgoingHealingAdjustment(self):
-		return any(slot.outgoingHealingAdjustment for slot in self.slots)
 
 	# for debugging
 	def give(self, id):
