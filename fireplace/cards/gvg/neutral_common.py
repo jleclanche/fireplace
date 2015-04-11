@@ -4,6 +4,14 @@ from ..utils import *
 ##
 # Minions
 
+# Cogmaster
+class GVG_013:
+	def atk(self, i):
+		if self.controller.field.filterByRace(Race.MECHANICAL):
+			return i + 2
+		return i
+
+
 # Stonesplinter Trogg
 class GVG_067:
 	def CARD_PLAYED(self, player, card):

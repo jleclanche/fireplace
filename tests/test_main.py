@@ -237,6 +237,23 @@ def test_deathrattle():
 	assert len(game.currentPlayer.field) == 1
 
 
+def test_cogmaster():
+	game = prepare_game()
+	cogmaster = game.currentPlayer.give("GVG_013")
+	cogmaster.play()
+	assert cogmaster.atk == 1
+	game.endTurn(); game.endTurn()
+
+	dummy = game.currentPlayer.give(TARGET_DUMMY)
+	dummy.play()
+	assert cogmaster.atk == 3
+	humility = game.currentPlayer.give("EX1_360")
+	humility.play(target=cogmaster)
+	assert cogmaster.atk == 3
+	dummy.destroy()
+	assert cogmaster.atk == 1
+
+
 def test_cult_master():
 	game = prepare_game()
 	cultmaster = game.currentPlayer.give("EX1_595")
