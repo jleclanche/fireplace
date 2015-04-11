@@ -3,6 +3,7 @@ from .hunter import *
 from .mage import *
 from .paladin import *
 from .priest import *
+from .rogue import *
 from .warlock import *
 from .neutral_common import *
 from .neutral_epic import *
