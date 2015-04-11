@@ -145,7 +145,7 @@ class EX1_169:
 # Starfire
 class EX1_173:
 	def action(self, target):
-		self.hit(character, 5)
+		self.hit(target, 5)
 		self.controller.draw()
 
 
