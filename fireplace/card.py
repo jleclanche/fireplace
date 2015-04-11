@@ -105,9 +105,7 @@ class BaseCard(Entity):
 
 		if value == Zone.PLAY:
 			for aura in self.data.auras:
-				aura = Aura(aura)
-				aura.source = self
-				aura.controller = self.controller
+				aura = Aura(aura, source=self)
 				aura.summon()
 				self._auras.append(aura)
 
@@ -679,21 +677,24 @@ class Enchantment(BaseCard):
 			self.destroy()
 
 
-class Aura(BaseCard):
+class Aura(object):
 	"""
 	A virtual Card class which is only for the source of the Enchantment buff on
 	targets affected by an aura. It is only internal.
 	"""
 
-	Manager = EnchantmentManager
-
-	def __init__(self, obj):
-		id = obj["id"]
-		super().__init__(id, getattr(CardDB, id))
+	def __init__(self, obj, source):
+		self.id = obj["id"]
+		self.source = source
+		self.controller = source.controller
 		self.requirements = obj["requirements"].copy()
 		self._buffed = CardList()
 		self._buffs = CardList()
 		self._auraType = obj["type"]
+
+	@property
+	def game(self):
+		return self.source.game
 
 	def isValidTarget(self, target):
 		if self._auraType == AuraType.PLAYER_AURA:
@@ -715,7 +716,7 @@ class Aura(BaseCard):
 		return ret
 
 	def summon(self):
-		super().summon()
+		logging.info("Summoning Aura %r", self)
 		self.game.auras.append(self)
 
 	def _buff(self, target):
