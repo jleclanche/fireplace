@@ -1368,6 +1368,37 @@ def test_void_terror():
 	assert terror3.zone == Zone.PLAY
 
 
+def test_voljin():
+	game = prepare_game()
+	voljin = game.player1.give("GVG_014")
+	deathwing = game.player1.summon("NEW1_030")
+	assert voljin.health == 2
+	assert deathwing.health == 12
+	for i in range(5):
+		game.endTurn(); game.endTurn()
+
+	voljin.play(target=deathwing)
+	assert voljin.health == 12
+	assert deathwing.health == 2
+
+
+def test_voljin_stealth():
+	game = prepare_game()
+	voljin = game.player1.give("GVG_014")
+	tiger = game.player2.give("EX1_028")
+	for i in range(5):
+		game.endTurn(); game.endTurn()
+
+	tiger.play()
+	game.endTurn()
+
+	assert not voljin.targets
+	voljin.play()
+	assert not voljin.dead
+	assert voljin.health == 2
+	assert tiger.health == 5
+
+
 def test_mana_addict():
 	game = prepare_game()
 	manaaddict = game.currentPlayer.give("EX1_055")

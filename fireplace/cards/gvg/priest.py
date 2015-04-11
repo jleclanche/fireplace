@@ -16,6 +16,17 @@ class GVG_011:
 	action = buffTarget("GVG_011a")
 
 
+# Vol'jin
+class GVG_014:
+	def action(self, target):
+		health = target.health
+		self.buff(target, "GVG_014a", health=self.health)
+		self.buff(self, "GVG_014a", health=health)
+
+class GVG_014a:
+	maxHealth = lambda self, i: self.health
+
+
 ##
 # Spells
 
