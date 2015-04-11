@@ -39,7 +39,7 @@ class NEW1_008b:
 # Claw
 class CS2_005:
 	def action(self):
-		buffSelf(self, "CS2_005o")
+		self.buff(self, "CS2_005o")
 		self.controller.hero.armor += 2
 
 
@@ -152,7 +152,7 @@ class EX1_173:
 # Bite
 class EX1_570:
 	def action(self):
-		buffSelf(self, "EX1_570e")
+		self.buff(self, "EX1_570e")
 		self.controller.hero.armor += 4
 
 
