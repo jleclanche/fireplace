@@ -46,7 +46,7 @@ def gainArmor(amount):
 
 def healHero(amount):
 	def _healHero(self):
-		self.heal(hero, amount)
+		self.heal(self.controller.hero, amount)
 	return _healHero
 
 
