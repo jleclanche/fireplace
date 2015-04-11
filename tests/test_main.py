@@ -935,6 +935,18 @@ def test_crazed_alchemist():
 	assert warden.health == 1
 
 
+def test_reversing_switch():
+	game = prepare_game()
+	switch = game.player1.give("PART_006")
+	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire.play()
+	game.endTurn(); game.endTurn()
+
+	switch.play(goldshire)
+	assert goldshire.atk == 2
+	print(goldshire.atk)
+
+
 def test_commanding_shout():
 	game = prepare_game()
 	shout = game.currentPlayer.give("NEW1_036")

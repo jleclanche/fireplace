@@ -41,12 +41,12 @@ class PART_006:
 	action = buffTarget("PART_006a")
 
 class PART_006a:
-	atk = lambda self, i: self.atk
-	health = lambda self, i: self.health
+	atk = lambda self, i: self._xatk
+	maxHealth = lambda self, i: self._xhealth
 
 	def apply(self, target):
-		self.health = target.atk
-		self.atk = target.health
+		self._xhealth = target.atk
+		self._xatk = target.health
 
 
 # Whirling Blades
