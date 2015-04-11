@@ -5,7 +5,8 @@ class Entity(object):
 	def __init__(self):
 		# Register the events
 		self._registerEvents()
-		self.tags = self.Manager(self)
+		self.manager = self.Manager(self)
+		self.tags = self.manager
 
 	def _registerEvents(self):
 		self._eventListeners = {}

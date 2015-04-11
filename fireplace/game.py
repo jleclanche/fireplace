@@ -41,6 +41,7 @@ class Game(Entity):
 
 	def card(self, id):
 		card = Card(id)
+		self.manager.new_entity(card)
 		return card
 
 	def attack(self, source, target):

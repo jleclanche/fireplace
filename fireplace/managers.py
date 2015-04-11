@@ -29,6 +29,10 @@ class GameManager(Manager):
 		GameTag.TURN: "turn",
 	}
 
+	def new_entity(self, entity):
+		for observer in self.observers:
+			observer.new_entity(entity)
+
 
 class PlayerManager(Manager):
 	map = {
