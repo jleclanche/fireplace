@@ -798,6 +798,10 @@ def test_secretkeeper():
 	icebarrier.play()
 	assert secretkeeper.atk == 2
 	assert secretkeeper.health == 3
+	game.currentPlayer.give(THE_COIN).play()
+	game.currentPlayer.give(WISP).play()
+	assert secretkeeper.atk == 2
+	assert secretkeeper.health == 3
 
 
 def test_southsea_deckhand():

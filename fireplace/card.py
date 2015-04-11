@@ -48,6 +48,7 @@ class BaseCard(Entity):
 		self.controller = None
 		self.aura = False
 		self.silenced = False
+		self.secret = False
 		self.spellpower = 0
 		self.tags.update(data.tags)
 
