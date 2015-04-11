@@ -244,6 +244,12 @@ class PlayReq(IntEnum):
 	REQ_SOURCE_IS_ENRAGED = -5
 
 
+class AuraType(IntEnum):
+	PLAY_AURA = 1
+	HAND_AURA = 2
+	PLAYER_AURA = 3
+
+
 class Rarity(IntEnum):
 	INVALID = 0
 	COMMON = 1

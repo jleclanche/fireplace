@@ -5,7 +5,7 @@ from itertools import chain
 from . import cards as CardDB, targeting
 from .exceptions import *
 from .entity import Entity, booleanProperty, intProperty
-from .enums import CardClass, CardType, GameTag, PlayReq, Race, Rarity, Zone
+from .enums import AuraType, CardClass, CardType, GameTag, PlayReq, Race, Rarity, Zone
 from .managers import (CardManager, PlayableCardManager, CharacterManager,
 	MinionManager, SpellManager, WeaponManager, EnchantmentManager)
 from .utils import CardList
@@ -693,22 +693,21 @@ class Aura(BaseCard):
 		self.requirements = obj["requirements"].copy()
 		self._buffed = CardList()
 		self._buffs = CardList()
-		self._auraZone = obj["zone"]
-		self._player = obj["player"]
+		self._auraType = obj["type"]
 
 	def isValidTarget(self, target):
-		if self._player:
+		if self._auraType == AuraType.PLAYER_AURA:
 			return target == self.controller
 		return self.source.isValidTarget(target, requirements=self.requirements)
 
 	@property
 	def targets(self):
-		if self._player:
+		if self._auraType == AuraType.PLAYER_AURA:
 			return [self.controller]
+		elif self._auraType == AuraType.HAND_AURA:
+			return self.controller.hand + self.controller.opponent.hand
 		if self.source.type == CardType.MINION and self.source.adjacentBuff:
 			return self.source.adjacentMinions
-		if self.zone == Zone.HAND:
-			return self.controller.hand + self.controller.opponent.hand
 		# XXX The targets are right but we need to get them a cleaner way.
 		ret = self.game.player1.field + self.game.player2.field
 		if self.controller.hero.weapon:
@@ -716,9 +715,8 @@ class Aura(BaseCard):
 		return ret
 
 	def summon(self):
-		logging.info("Aura %r suddenly appears", self)
+		super().summon()
 		self.game.auras.append(self)
-		self.zone = self._auraZone
 
 	def _buff(self, target):
 		if self.id:

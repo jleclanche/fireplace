@@ -1,6 +1,6 @@
 import os
 from xml.etree import ElementTree
-from fireplace.enums import CardType, GameTag, PlayReq, Race, Rarity, Zone
+from fireplace.enums import AuraType, CardType, GameTag, PlayReq, Race, Rarity, Zone
 
 
 class CardXML(object):
@@ -59,8 +59,7 @@ class CardXML(object):
 		for tag in cards:
 			aura = {"id": tag.attrib["cardID"]}
 			aura["requirements"] = self._getRequirements(tag.findall("ActiveRequirement"))
-			aura["player"] = tag.attrib.get("player", False)
-			aura["zone"] = Zone(int(tag.attrib.get("zone", Zone.PLAY)))
+			aura["type"] = AuraType(int(tag.attrib["type"]))
 			ret.append(aura)
 		return ret
 
