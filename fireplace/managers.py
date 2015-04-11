@@ -4,12 +4,16 @@ from .enums import CardClass, CardType, GameTag, Race, Rarity
 class Manager(object):
 	def __init__(self, obj):
 		self.obj = obj
+		self.observers = []
 
 	def __getitem__(self, tag):
 		return getattr(self.obj, self.map[tag])
 
 	def __setitem__(self, tag, value):
 		setattr(self.obj, self.map[tag], value)
+
+	def register(self, observer):
+		self.observers.append(observer)
 
 	def update(self, tags):
 		for k, v in tags.items():
