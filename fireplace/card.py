@@ -123,7 +123,7 @@ class BaseCard(Entity):
 		for buff in self.buffs:
 			if buff.hasDeathrattle and hasattr(buff.data, "deathrattle"):
 				ret.append(buff.data.deathrattle)
-		if self.extraDeathrattles:
+		if self.controller.extraDeathrattles:
 			ret = ret + ret
 		return ret
 
@@ -480,7 +480,6 @@ class Hero(Character):
 class Minion(Character):
 	Manager = MinionManager
 	charge = booleanProperty("charge")
-	extraDeathrattles = booleanProperty("extraDeathrattles")
 	stealthed = booleanProperty("stealthed")
 	taunt = booleanProperty("taunt")
 

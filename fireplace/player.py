@@ -14,6 +14,7 @@ from .utils import CardList
 
 class Player(Entity):
 	Manager = PlayerManager
+	extraDeathrattles = slotProperty("extraDeathrattles")
 	outgoingHealingAdjustment = slotProperty("outgoingHealingAdjustment")
 
 	def __init__(self, name):

@@ -1843,9 +1843,9 @@ def test_baron_rivendare():
 	game = prepare_game()
 	gnome = game.currentPlayer.give("EX1_029")
 	gnome.play()
-	assert not gnome.extraDeathrattles
+	assert not game.currentPlayer.extraDeathrattles
 	rivendare = game.currentPlayer.summon("FP1_031")
-	assert gnome.extraDeathrattles
+	assert game.currentPlayer.extraDeathrattles
 	game.currentPlayer.give(MOONFIRE).play(target=gnome)
 	assert game.currentPlayer.opponent.hero.health == 26
 	game.endTurn(); game.endTurn()
@@ -1858,7 +1858,6 @@ def test_baron_rivendare():
 	assert not wisp.hasDeathrattle
 	sotf = game.currentPlayer.give("EX1_158")
 	sotf.play()
-	assert len(wisp.slots) == 2
 	assert len(game.currentPlayer.field) == 2
 	game.currentPlayer.give(MOONFIRE).play(target=wisp)
 	assert wisp.dead
