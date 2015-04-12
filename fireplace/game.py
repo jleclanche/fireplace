@@ -89,6 +89,8 @@ class Game(Entity):
 	def start(self):
 		logging.info("Starting game: %r" % (self))
 		self.player1, self.player2 = self.tossCoin()
+		self.manager.new_entity(self.player1)
+		self.manager.new_entity(self.player2)
 		self.currentPlayer = self.player1
 		# XXX: Mulligan events should handle the following, but unimplemented for now
 		self.player1.cardsDrawnThisTurn = 0
