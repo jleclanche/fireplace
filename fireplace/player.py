@@ -2,7 +2,6 @@ import logging
 import random
 from datetime import datetime
 from itertools import chain
-from .card import Card
 from .deck import Deck
 from .entity import Entity
 from .enums import CardType, PowSubType, Zone
@@ -217,7 +216,7 @@ class Player(Entity):
 		if choose:
 			# Choose One cards replace the action on the played card
 			assert choose in card.data.chooseCards
-			chosen = Card(choose)
+			chosen = self.game.card(choose)
 			chosen.controller = self
 			logging.info("Choose One from %r: %r", card, chosen)
 			card.action = chosen.action
