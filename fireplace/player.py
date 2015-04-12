@@ -5,7 +5,7 @@ from itertools import chain
 from .card import Card
 from .deck import Deck
 from .entity import Entity
-from .enums import CardType, Zone
+from .enums import CardType, PowSubType, Zone
 from .entity import slotProperty
 from .managers import PlayerManager
 from .targeting import *
@@ -194,6 +194,9 @@ class Player(Entity):
 		return card
 
 	def play(self, card, target=None, choose=None):
+		self.game.action(PowSubType.PLAY, self, card, target, choose)
+
+	def _play(self, card, target, choose):
 		"""
 		Plays \a card from the player's hand
 		"""
