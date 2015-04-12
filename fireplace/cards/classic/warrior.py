@@ -60,7 +60,7 @@ class CS2_114:
 class EX1_391:
 	def action(self, target):
 		self.hit(target, 2)
-		if target.zone == Zone.PLAY:
+		if not target.dead:
 			self.controller.draw()
 
 

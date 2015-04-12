@@ -111,7 +111,7 @@ class CS2_057:
 class EX1_302:
 	def action(self, target):
 		self.hit(target, 1)
-		if target.zone == Zone.GRAVEYARD:
+		if target.dead:
 			self.controller.draw()
 
 
@@ -169,7 +169,7 @@ class EX1_317:
 class EX1_320:
 	def action(self, target):
 		self.hit(target, 2)
-		if target.zone == Zone.GRAVEYARD:
+		if target.dead:
 			self.controller.summon(random.choice(self.data.entourage))
 
 
