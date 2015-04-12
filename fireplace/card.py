@@ -23,7 +23,7 @@ def Card(id, data=None):
 		CardType.ENCHANTMENT: Enchantment,
 		CardType.WEAPON: Weapon,
 		CardType.HERO_POWER: HeroPower,
-	}[data.tags[GameTag.CARDTYPE]]
+	}[data.type]
 	if subclass is Spell and data.tags.get(GameTag.SECRET):
 		subclass = Secret
 	return subclass(id, data)
@@ -51,11 +51,11 @@ class BaseCard(Entity):
 		self.tags.update(data.tags)
 
 		for event in self.events:
-			if hasattr(data, event):
+			if hasattr(data.scripts, event):
 				if event not in self._eventListeners:
 					self._eventListeners[event] = []
 				# A bit of magic powder to pass the Card object as self to the Card defs
-				func = getattr(data, event)
+				func = getattr(data.scripts, event)
 				zone = getattr(func, "zone", Zone.PLAY)
 				_func = lambda *args: func(self, *args)
 				_func.zone = getattr(func, "zone", Zone.PLAY)
@@ -115,11 +115,11 @@ class BaseCard(Entity):
 		ret = []
 		if not self.hasDeathrattle:
 			return ret
-		if hasattr(self.data, "deathrattle"):
-			ret.append(self.data.deathrattle)
+		if hasattr(self.data.scripts, "deathrattle"):
+			ret.append(self.data.scripts.deathrattle)
 		for buff in self.buffs:
-			if buff.hasDeathrattle and hasattr(buff.data, "deathrattle"):
-				ret.append(buff.data.deathrattle)
+			if buff.hasDeathrattle and hasattr(buff.data.scripts, "deathrattle"):
+				ret.append(buff.data.scripts.deathrattle)
 		if self.controller.extraDeathrattles:
 			ret = ret + ret
 		return ret
@@ -221,10 +221,10 @@ class PlayableCard(BaseCard):
 			return
 		if self.hasCombo and self.controller.combo:
 			logging.info("Activating %r combo targeting %r" % (self, self.target))
-			func = self.data.combo
-		elif hasattr(self.data, "action"):
+			func = self.data.scripts.combo
+		elif hasattr(self.data.scripts, "action"):
 			logging.info("Activating %r action targeting %r" % (self, self.target))
-			func = self.data.action
+			func = self.data.scripts.action
 		else:
 			return
 		func(self, **kwargs)
@@ -646,9 +646,9 @@ class Enchantment(BaseCard):
 	def apply(self, target):
 		logging.info("Applying %r to %r" % (self, target))
 		self.owner = target
-		if hasattr(self.data, "apply"):
-			self.data.apply(self, target)
-		if hasattr(self.data, "maxHealth"):
+		if hasattr(self.data.scripts, "apply"):
+			self.data.scripts.apply(self, target)
+		if hasattr(self.data.scripts, "maxHealth"):
 			logging.info("%r removes all damage from %r", self, target)
 			target.damage = 0
 		if target.type == CardType.WEAPON and getattr(self, "durability", 0):
@@ -659,8 +659,8 @@ class Enchantment(BaseCard):
 	def destroy(self):
 		logging.info("Destroying buff %r from %r" % (self, self.owner))
 		self.owner.buffs.remove(self)
-		if hasattr(self.data, "destroy"):
-			self.data.destroy(self)
+		if hasattr(self.data.scripts, "destroy"):
+			self.data.scripts.destroy(self)
 		for aura in self._auras:
 			aura.destroy()
 

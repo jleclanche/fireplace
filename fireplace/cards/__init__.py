@@ -15,25 +15,17 @@ def merge(id):
 	Find the xmlcard and the card definition of \a id
 	Then return a merged class of the two
 	"""
-	xmlcard = db[id]
+	card = db[id]
 	carddef = globals().get(id)
 	if not carddef:
 		cls = type(id, (), {})
 	else:
-		if hasattr(carddef, "id"):
+		if hasattr(carddef, "scripts"):
 			# This basically means the card has already been merged...
-			return carddef
+			return card
 		cls = type(id, (carddef, ), {})
-	cls.tags = xmlcard.tags
-	cls.enrageTags = xmlcard.enrageTags
-	cls.requirements = xmlcard.requirements
-	cls.powerUpRequirements = xmlcard.powerUpRequirements
-	cls.entourage = xmlcard.entourage
-	cls.chooseCards = xmlcard.chooseCards
-	cls.heroPower = xmlcard.heroPower
-	cls.auras = xmlcard.auras
-	cls.id = id
-	return cls
+	card.scripts = cls
+	return card
 
 
 def filter(**kwargs):

@@ -49,7 +49,7 @@ class Entity(object):
 			i = slot._getattr(attr, i)
 		if self.silenced:
 			return i
-		return getattr(self.data, attr, lambda s, x: x)(self, i)
+		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
 
 
 def slotProperty(attr):
@@ -64,7 +64,7 @@ def booleanProperty(attr):
 	def func(self):
 		return getattr(self, "_" + attr, False) \
 			or any(getattr(slot, attr, False) for slot in self.slots) \
-			or getattr(self.data, attr, lambda s, x: x)(self, False)
+			or getattr(self.data.scripts, attr, lambda s, x: x)(self, False)
 
 	@func.setter
 	def func(self, value):
