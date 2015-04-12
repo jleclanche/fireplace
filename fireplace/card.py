@@ -1,6 +1,5 @@
 import json
 import logging
-import uuid
 from itertools import chain
 from . import cards as CardDB, targeting
 from .exceptions import *
@@ -40,7 +39,6 @@ class BaseCard(Entity):
 	def __init__(self, id, data):
 		assert data
 		super().__init__()
-		self.uuid = uuid.uuid4()
 		self._auras = []
 		self.data = data
 		self.requirements = data.requirements.copy()

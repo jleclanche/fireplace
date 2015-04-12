@@ -1,3 +1,4 @@
+import uuid
 import logging
 from .enums import Zone
 
@@ -7,6 +8,7 @@ class Entity(object):
 		self._registerEvents()
 		self.manager = self.Manager(self)
 		self.tags = self.manager
+		self.uuid = uuid.uuid4()
 
 	def _registerEvents(self):
 		self._eventListeners = {}
