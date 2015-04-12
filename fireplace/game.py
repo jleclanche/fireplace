@@ -5,6 +5,7 @@ from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, Zone
 from .managers import GameManager
+from .utils import CardList
 
 
 class Game(Entity):
@@ -33,7 +34,7 @@ class Game(Entity):
 
 	@property
 	def board(self):
-		return self.player1.field + self.player2.field
+		return CardList(self.player1.field + self.player2.field)
 
 	@property
 	def entities(self):
