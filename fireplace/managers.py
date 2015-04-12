@@ -31,9 +31,16 @@ class GameManager(Manager):
 		GameTag.TURN: "turn",
 	}
 
+	def __init__(self, *args):
+		super().__init__(*args)
+		self.id = 1
+		self.counter = self.id + 1
+
 	def new_entity(self, entity):
 		for observer in self.observers:
 			observer.new_entity(entity)
+		entity.manager.id = self.counter
+		self.counter += 1
 
 
 class PlayerManager(Manager):
