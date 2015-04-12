@@ -91,9 +91,8 @@ class EX1_241:
 # Totemic Might
 class EX1_244:
 	def action(self):
-		for target in self.controller.field:
-			if target.race == Race.TOTEM:
-				self.buff(target, "EX1_244e")
+		for totem in self.controller.field.filter(race=Race.TOTEM):
+			self.buff(target, "EX1_244e")
 
 
 # Hex

@@ -32,7 +32,7 @@ class EX1_016:
 # Old Murk-Eye
 class EX1_062:
 	def atk(self, value):
-		murlocs = [t for t in self.game.board if t.race == Race.MURLOC and t is not self]
+		murlocs = self.game.board.filter(race=Race.MURLOC).exclude(self)
 		return value + len(murlocs)
 
 

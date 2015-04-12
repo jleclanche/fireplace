@@ -14,7 +14,7 @@ class GVG_018:
 # Fel Cannon
 class GVG_020:
 	def OWN_TURN_END(self):
-		targets = [t for t in self.game.board if minion.race != Race.MECHANICAL]
+		targets = self.game.board.exclude(race=Race.MECHANICAL)
 		if targets:
 			self.hit(random.choice(targets))
 

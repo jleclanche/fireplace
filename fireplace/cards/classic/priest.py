@@ -135,7 +135,7 @@ class EX1_339:
 # Mindgames
 class EX1_345:
 	def action(self):
-		creatures = [c for c in self.controller.opponent.deck if c.type == CardType.MINION]
+		creatures = self.controller.opponent.deck.filter(type=CardType.MINION)
 		if creatures:
 			creature = random.choice(creatures).id
 		else:

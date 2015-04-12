@@ -7,9 +7,9 @@ from ..utils import *
 # Metaltooth Leaper
 class GVG_048:
 	def action(self):
-		for target in self.controller.field:
-			if target.race == Race.MECHANICAL and target is not self:
-				self.buff(target, "GVG_048e")
+		targets = self.controller.field.filter(race=Race.MECHANICAL).exclude(self)
+		for target in targets:
+			self.buff(target, "GVG_048e")
 
 
 # Gahz'rilla
