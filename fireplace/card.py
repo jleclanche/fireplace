@@ -118,8 +118,6 @@ class BaseCard(Entity):
 		for buff in self.buffs:
 			if buff.hasDeathrattle and hasattr(buff.data.scripts, "deathrattle"):
 				ret.append(buff.data.scripts.deathrattle)
-		if self.controller.extraDeathrattles:
-			ret = ret + ret
 		return ret
 
 	def destroy(self):
@@ -128,9 +126,13 @@ class BaseCard(Entity):
 		self.zone = Zone.GRAVEYARD
 		if not inPlay:
 			return
-		for deathrattle in self.deathrattles:
-			logging.info("Triggering Deathrattle for %r" % (self))
-			deathrattle(self)
+		if self.hasDeathrattle:
+			for deathrattle in self.deathrattles:
+				logging.info("Triggering Deathrattle for %r" % (self))
+				deathrattle(self)
+				if self.controller.extraDeathrattles:
+					logging.info("Triggering Deathrattle for %r again", self)
+					deathrattle(self)
 		self.clearBuffs()
 		self.game.broadcast("CARD_DESTROYED", self)
 
