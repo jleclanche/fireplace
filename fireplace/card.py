@@ -111,14 +111,6 @@ class BaseCard(Entity):
 		self.zone = Zone.GRAVEYARD
 		if not inPlay:
 			return
-		if self.hasDeathrattle:
-			for deathrattle in self.deathrattles:
-				logging.info("Triggering Deathrattle for %r" % (self))
-				deathrattle(self)
-				if self.controller.extraDeathrattles:
-					logging.info("Triggering Deathrattle for %r again", self)
-					deathrattle(self)
-		self.clearBuffs()
 		self.game.broadcast("CARD_DESTROYED", self)
 
 	def summon(self):
@@ -293,6 +285,15 @@ class PlayableCard(BaseCard):
 	def targets(self):
 		full_board = self.game.board + [self.controller.hero, self.controller.opponent.hero]
 		return [card for card in full_board if targeting.isValidTarget(self, card)]
+
+	def SELF_CARD_DESTROYED(self):
+		for deathrattle in self.deathrattles:
+			logging.info("Triggering Deathrattle for %r" % (self))
+			deathrattle(self)
+			if self.controller.extraDeathrattles:
+				logging.info("Triggering Deathrattle for %r again", self)
+				deathrattle(self)
+		self.clearBuffs()
 
 	def OWN_TURN_BEGIN(self):
 		self.exhausted = False
