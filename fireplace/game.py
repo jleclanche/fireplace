@@ -188,6 +188,7 @@ class Game(Entity):
 
 	def CARD_DESTROYED(self, card):
 		card.controller.broadcast("OWN_CARD_DESTROYED", card)
+		card.broadcast("SELF_CARD_DESTROYED")
 		if card.type == CardType.MINION:
 			self.broadcast("MINION_DESTROY", card)
 
