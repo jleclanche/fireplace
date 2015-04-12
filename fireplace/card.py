@@ -78,8 +78,6 @@ class BaseCard(Entity):
 	def game(self):
 		return self.controller.game
 
-	isValidTarget = targeting.isValidTarget
-
 	@property
 	def zone(self):
 		return getattr(self, "_zone", Zone.INVALID)
@@ -294,7 +292,7 @@ class PlayableCard(BaseCard):
 	@property
 	def targets(self):
 		full_board = self.game.board + [self.controller.hero, self.controller.opponent.hero]
-		return [card for card in full_board if self.isValidTarget(card)]
+		return [card for card in full_board if targeting.isValidTarget(self, card)]
 
 	def OWN_TURN_BEGIN(self):
 		self.exhausted = False
@@ -692,7 +690,7 @@ class Aura(object):
 	def isValidTarget(self, target):
 		if self._auraType == AuraType.PLAYER_AURA:
 			return target == self.controller
-		return self.source.isValidTarget(target, requirements=self.requirements)
+		return targeting.isValidTarget(self.source, target, requirements=self.requirements)
 
 	@property
 	def targets(self):
