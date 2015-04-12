@@ -35,9 +35,11 @@ class Manager(object):
 
 class GameManager(Manager):
 	map = {
+		GameTag.NEXT_STEP: "nextStep",
 		GameTag.NUM_MINIONS_KILLED_THIS_TURN: "minionsKilledThisTurn",
 		GameTag.PROPOSED_ATTACKER: "proposedAttacker",
 		GameTag.PROPOSED_DEFENDER: "proposedDefender",
+		GameTag.STEP: "step",
 		GameTag.TURN: "turn",
 	}
 

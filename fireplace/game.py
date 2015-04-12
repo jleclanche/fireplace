@@ -3,7 +3,7 @@ import random
 from itertools import chain
 from .card import Card, THE_COIN
 from .entity import Entity
-from .enums import CardType, PowSubType, Zone
+from .enums import CardType, PowSubType, Step, Zone
 from .managers import GameManager
 from .utils import CardList
 
@@ -20,6 +20,7 @@ class Game(Entity):
 		self.players = players
 		for player in players:
 			player.game = self
+		self.step = Step.BEGIN_FIRST
 		self.turn = 0
 		self.currentPlayer = None
 		self.auras = []
@@ -124,13 +125,17 @@ class Game(Entity):
 
 	def beginMulligan(self):
 		logging.info("Entering mulligan phase")
+		self.step = Step.BEGIN_MULLIGAN
+		self.nextStep = Step.MAIN_READY
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
 		self.player2.give(THE_COIN)
 		self.broadcast("TURN_BEGIN", self.player1)
 
 	def endTurn(self):
 		logging.info("%s ends turn" % (self.currentPlayer))
+		self.step, self.nextStep = self.nextStep, Step.MAIN_CLEANUP
 		self.broadcast("TURN_END", self.currentPlayer)
+		self.step, self.nextStep = self.nextStep, Step.MAIN_NEXT
 		self.broadcast("TURN_BEGIN", self.currentPlayer.opponent)
 
 	##
@@ -175,12 +180,15 @@ class Game(Entity):
 		card.destroy()
 
 	def TURN_BEGIN(self, player):
+		self.step, self.nextStep = self.nextStep, Step.MAIN_START_TRIGGERS
+		self.step, self.nextStep = self.nextStep, Step.MAIN_START
 		self.turn += 1
 		logging.info("%s begins turn %i" % (player, self.turn))
 		if self.turn == self.MAX_TURNS:
 			raise GameOver("It's a draw!")
 		if self.currentPlayer:
 			self.currentPlayer.currentPlayer = False
+		self.step, self.nextStep = self.nextStep, Step.MAIN_ACTION
 		self.currentPlayer = player
 		self.currentPlayer.currentPlayer = True
 		self.minionsKilledThisTurn = 0
