@@ -4,7 +4,7 @@ from itertools import chain
 from . import cards as CardDB, targeting
 from .exceptions import *
 from .entity import Entity, booleanProperty, intProperty
-from .enums import AuraType, CardClass, CardType, GameTag, PlayReq, Race, Rarity, Zone
+from .enums import AuraType, CardClass, CardType, PlayReq, Race, Rarity, Zone
 from .managers import (CardManager, PlayableCardManager, CharacterManager,
 	MinionManager, SpellManager, WeaponManager, EnchantmentManager)
 from .utils import CardList
@@ -24,7 +24,7 @@ def Card(id, data=None):
 		CardType.WEAPON: Weapon,
 		CardType.HERO_POWER: HeroPower,
 	}[data.type]
-	if subclass is Spell and data.tags.get(GameTag.SECRET):
+	if subclass is Spell and data.secret:
 		subclass = Secret
 	return subclass(id, data)
 
@@ -46,7 +46,7 @@ class BaseCard(Entity):
 		self.controller = None
 		self.aura = False
 		self.silenced = False
-		self.secret = False
+		self.secret = data.secret
 		self.spellpower = 0
 		self.tags.update(data.tags)
 

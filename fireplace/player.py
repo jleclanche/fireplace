@@ -5,7 +5,7 @@ from itertools import chain
 from .card import Card
 from .deck import Deck
 from .entity import Entity
-from .enums import CardType, GameTag, Zone
+from .enums import CardType, Zone
 from .entity import slotProperty
 from .managers import PlayerManager
 from .targeting import *

@@ -3,7 +3,7 @@ import random
 from itertools import chain
 from .card import Card, THE_COIN
 from .entity import Entity
-from .enums import CardType, GameTag, Zone
+from .enums import CardType, Zone
 from .managers import GameManager
 
 
@@ -191,5 +191,5 @@ class Game(Entity):
 			self.broadcast("MINION_DESTROY", card)
 
 	def SECRET_REVEAL(self, secret, player):
-		assert secret.tags[GameTag.SECRET]
+		assert secret.secret
 		player.broadcast("OWN_SECRET_REVEAL", secret)
