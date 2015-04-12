@@ -754,20 +754,14 @@ class Aura(object):
 
 class Enrage(object):
 	"""
-	Virtual Card class for Enrage objects.
+	Enrage class for Minion.enrageTags
 	Enrage buffs are just a collection of tags for the enraged Minion's slots.
 	"""
 
-	type = None
-	events = []
-	slots = []
 	_eventListeners = {}
 
 	def __init__(self, tags):
 		MinionManager(self).update(tags)
-
-	def __str__(self):
-		return "Enrage Buff"
 
 	def _getattr(self, attr, i):
 		return i + getattr(self, attr, 0)
