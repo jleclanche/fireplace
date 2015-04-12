@@ -105,21 +105,6 @@ class BaseCard(Entity):
 				aura.summon()
 				self._auras.append(aura)
 
-	##
-	# Properties affected by slots
-
-	@property
-	def deathrattles(self):
-		ret = []
-		if not self.hasDeathrattle:
-			return ret
-		if hasattr(self.data.scripts, "deathrattle"):
-			ret.append(self.data.scripts.deathrattle)
-		for buff in self.buffs:
-			if buff.hasDeathrattle and hasattr(buff.data.scripts, "deathrattle"):
-				ret.append(buff.data.scripts.deathrattle)
-		return ret
-
 	def destroy(self):
 		logging.info("%r dies" % (self))
 		inPlay = self.zone == Zone.PLAY
@@ -191,6 +176,18 @@ class PlayableCard(BaseCard):
 	@property
 	def dead(self):
 		return self.zone == Zone.GRAVEYARD
+
+	@property
+	def deathrattles(self):
+		ret = []
+		if not self.hasDeathrattle:
+			return ret
+		if hasattr(self.data.scripts, "deathrattle"):
+			ret.append(self.data.scripts.deathrattle)
+		for buff in self.buffs:
+			if buff.hasDeathrattle and hasattr(buff.data.scripts, "deathrattle"):
+				ret.append(buff.data.scripts.deathrattle)
+		return ret
 
 	@property
 	def poweredUp(self):
