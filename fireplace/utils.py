@@ -26,7 +26,7 @@ class CardList(list):
 		raise ValueError
 
 	def filter(self, **kwargs):
-		return [e for k, v in kwargs.items() for e in self if getattr(e, k) == v]
+		return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k) == v)
 
 
 def randomDraft(hero, exclude=[]):
