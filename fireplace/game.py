@@ -47,6 +47,8 @@ class Game(Entity):
 			self._attack(*args)
 		elif type == PowSubType.PLAY:
 			args[0]._play(*args[1:])
+		elif type == PowSubType.DEATHS:
+			self._processDeaths()
 		else:
 			raise NotImplementedError
 		self.manager.action_end(type, *args)
@@ -92,6 +94,14 @@ class Game(Entity):
 		card = Card(id)
 		self.manager.new_entity(card)
 		return card
+
+	def processDeaths(self):
+		return self.action(PowSubType.DEATHS)
+
+	def _processDeaths(self):
+		for card in self.board:
+			if card.health == 0:
+				card.destroy()
 
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
@@ -161,11 +171,9 @@ class Game(Entity):
 		super().broadcast(event, *args)
 
 	def UPDATE(self):
-		for card in self.board:
-			if card.health == 0:
-				card.destroy()
 		for aura in self.auras:
 			aura.update()
+		self.processDeaths()
 
 	def BEFORE_ATTACK(self, source, target):
 		source.controller.broadcast("BEFORE_OWN_ATTACK", source, target)
