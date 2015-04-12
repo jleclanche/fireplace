@@ -42,31 +42,30 @@ def randomDraft(hero, exclude=[]):
 	import random
 	from . import cards
 	from .deck import Deck
-	from .card import Card
-	from .enums import CardType, GameTag
+	from .enums import CardType, Rarity
 
 	deck = []
 	collection = []
-	hero = Card(hero)
+	hero = getattr(cards, hero)
 
 	for card in cards.cardlist:
 		if card in exclude:
 			continue
 		cls = getattr(cards, card)
-		if not cls.tags.get(GameTag.Collectible):
+		if not cls.collectible:
 			continue
-		if cls.tags[GameTag.CARDTYPE] == CardType.HERO:
+		if cls.type == CardType.HERO:
 			# Heroes are collectible...
 			continue
-		if cls.tags.get(GameTag.CLASS, hero.tags[GameTag.CLASS]) != hero.tags[GameTag.CLASS]:
+		if cls.cardClass and cls.cardClass != hero.cardClass:
 			continue
 		collection.append(cls)
 
 	while len(deck) < Deck.MAX_CARDS:
 		card = random.choice(collection)
-		if card.tags.get(GameTag.RARITY) == 5 and deck.count(card.id):
+		if card.rarity == Rarity.LEGENDARY and card.id in deck:
 			continue
-		if deck.count(card.id) < Deck.MAX_UNIQUE_CARDS:
+		elif deck.count(card.id) < Deck.MAX_UNIQUE_CARDS:
 			deck.append(card.id)
 
 	return deck
