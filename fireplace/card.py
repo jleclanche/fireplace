@@ -251,14 +251,14 @@ class PlayableCard(BaseCard):
 	def isPlayable(self):
 		if self.controller.mana < self.cost:
 			return False
-		if PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements:
+		if PlayReq.REQ_TARGET_TO_PLAY in self.requirements:
 			if not self.targets:
 				return False
-		if len(self.controller.opponent.field) < self.data.requirements.get(PlayReq.REQ_MINIMUM_ENEMY_MINIONS, 0):
+		if len(self.controller.opponent.field) < self.requirements.get(PlayReq.REQ_MINIMUM_ENEMY_MINIONS, 0):
 			return False
-		if len(self.controller.game.board) < self.data.requirements.get(PlayReq.REQ_MINIMUM_TOTAL_MINIONS, 0):
+		if len(self.controller.game.board) < self.requirements.get(PlayReq.REQ_MINIMUM_TOTAL_MINIONS, 0):
 			return False
-		if PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY in self.data.requirements:
+		if PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY in self.requirements:
 			entourage = list(self.data.entourage)
 			for minion in self.controller.field:
 				if minion.id in entourage:
@@ -275,11 +275,11 @@ class PlayableCard(BaseCard):
 		self.controller.play(self, target, choose)
 
 	def hasTarget(self):
-		if self.hasCombo and PlayReq.REQ_TARGET_FOR_COMBO in self.data.requirements and self.controller.combo:
+		if self.hasCombo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements and self.controller.combo:
 			return True
-		if PlayReq.REQ_TARGET_IF_AVAILABLE in self.data.requirements:
+		if PlayReq.REQ_TARGET_IF_AVAILABLE in self.requirements:
 			return bool(self.targets)
-		return PlayReq.REQ_TARGET_TO_PLAY in self.data.requirements
+		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
 	@property
 	def targets(self):
