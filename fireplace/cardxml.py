@@ -94,6 +94,9 @@ class CardXML(object):
 	def type(self):
 		return CardType(self.tags.get(GameTag.CARDTYPE, 0))
 
+	@property
+	def secret(self):
+		return bool(self.tags.get(GameTag.SECRET, False))
 
 def load(path):
 	db = {}
