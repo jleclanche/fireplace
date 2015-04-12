@@ -91,6 +91,7 @@ class CardManager(Manager):
 		GameTag.EXHAUSTED: "exhausted",
 		GameTag.RARITY: "rarity",
 		GameTag.SPELLPOWER: "spellpower",
+		GameTag.ZONE: "zone",
 		GameTag.ARTISTNAME: None,
 		GameTag.AttackVisualType: None,
 		GameTag.CARD_SET: None,
