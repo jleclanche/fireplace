@@ -1,93 +1,41 @@
 import os
 from xml.etree import ElementTree
-from fireplace.enums import AuraType, CardType, GameTag, PlayReq, Race, Rarity, Zone
+from fireplace.enums import AuraType, CardClass, CardType, GameTag, PlayReq, Race, Rarity, Zone
 
 
 class CardXML(object):
 	def __init__(self, xml):
 		self.xml = xml
+		e = self.xml.findall("./Tag")
+		self.tags = {GameTag(int(tag.attrib["enumID"])): self._getTag(tag) for tag in e}
+
+		e = self.xml.findall("HeroPower")
+		self.heroPower = e and e[0].attrib["cardID"]
+
+		e = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
+		self.requirements = self._getRequirements(e)
+
+		e = self.xml.findall("PowerUpRequirement")
+		self.powerUpRequirements = [Race(int(tag.attrib["param"])) for tag in e]
+
+		e = self.xml.findall("./EnrageDefinition/Tag")
+		self.enrageTags = {GameTag(int(tag.attrib["enumID"])): self._getTag(tag) for tag in e}
+
+		e = self.xml.findall("Aura")
+		self.auras = [{
+			"id": tag.attrib["cardID"],
+			"requirements": self._getRequirements(tag.findall("ActiveRequirement")),
+			"type": AuraType(int(tag.attrib["type"])),
+		} for tag in e]
+
+		self.chooseCards = [tag.attrib["cardID"] for tag in xml.findall("ChooseCard")]
+		self.entourage = [tag.attrib["cardID"] for tag in xml.findall("EntourageCard")]
 
 	def __str__(self):
 		return self.name
 
 	def __repr__(self):
 		return "<%s: %r>" % (self.id, self.name)
-
-	def _getRequirements(self, reqs):
-		return {PlayReq(int(tag.attrib["reqID"])): int(tag.attrib["param"] or 0) for tag in reqs}
-
-	@property
-	def id(self):
-		return self.xml.attrib["CardID"]
-
-	@property
-	def name(self):
-		return self.getTag(GameTag.CARDNAME)
-
-	@property
-	def description(self):
-		return self.getTag(GameTag.CARDTEXT_INHAND) or ""
-
-	@property
-	def cardClass(self):
-		return self.getTag(GameTag.CLASS)
-
-	@property
-	def collectible(self):
-		return bool(self.getTag(GameTag.Collectible))
-
-	@property
-	def cost(self):
-		return self.getTag(GameTag.COST)
-
-	@property
-	def race(self):
-		return Race(self.getTag(GameTag.CARDRACE))
-
-	@property
-	def rarity(self):
-		return Rarity(self.getTag(GameTag.RARITY))
-
-	@property
-	def type(self):
-		return CardType(self.getTag(GameTag.CARDTYPE))
-
-	@property
-	def auras(self):
-		cards = self.xml.findall("Aura")
-		ret = []
-		for tag in cards:
-			aura = {"id": tag.attrib["cardID"]}
-			aura["requirements"] = self._getRequirements(tag.findall("ActiveRequirement"))
-			aura["type"] = AuraType(int(tag.attrib["type"]))
-			ret.append(aura)
-		return ret
-
-	@property
-	def chooseCards(self):
-		cards = self.xml.findall("ChooseCard")
-		return [tag.attrib["cardID"] for tag in cards]
-
-	@property
-	def entourage(self):
-		cards = self.xml.findall("EntourageCard")
-		return [tag.attrib["cardID"] for tag in cards]
-
-	@property
-	def heroPower(self):
-		e = self.xml.findall("HeroPower")
-		if e:
-			return e[0].attrib["cardID"]
-
-	@property
-	def requirements(self):
-		reqs = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
-		return self._getRequirements(reqs)
-
-	@property
-	def powerUpRequirements(self):
-		reqs = self.xml.findall("PowerUpRequirement")
-		return [Race(int(tag.attrib["param"])) for tag in reqs]
 
 	def _findTag(self, id):
 		return self.xml.findall('./Tag[@enumID="%i"]' % (id))
@@ -104,21 +52,47 @@ class CardXML(object):
 		value = int(element.attrib["value"])
 		if type == "Bool":
 			return bool(value)
+
 		return value
 
-	def getTag(self, id):
-		element = self._findTag(id)
-		if not element:
-			return 0
-		return self._getTag(element[0])
+	def _getRequirements(self, reqs):
+		return {PlayReq(int(tag.attrib["reqID"])): int(tag.attrib["param"] or 0) for tag in reqs}
 
 	@property
-	def tags(self):
-		return {GameTag(int(e.attrib["enumID"])): self._getTag(e) for e in self.xml.findall("./Tag")}
+	def id(self):
+		return self.xml.attrib["CardID"]
 
 	@property
-	def enrageTags(self):
-		return {GameTag(int(e.attrib["enumID"])): self._getTag(e) for e in self.xml.findall("./EnrageDefinition/Tag")}
+	def name(self):
+		return self.tags[GameTag.CARDNAME]
+
+	@property
+	def description(self):
+		return self.tags.get(GameTag.CARDTEXT_INHAND, "")
+
+	@property
+	def cardClass(self):
+		return CardClass(self.tags.get(GameTag.CLASS, 0))
+
+	@property
+	def collectible(self):
+		return bool(self.tags.get(GameTag.Collectible, False))
+
+	@property
+	def cost(self):
+		return self.tags.get(GameTag.COST, 0)
+
+	@property
+	def race(self):
+		return Race(self.tags.get(GameTag.CARDRACE, 0))
+
+	@property
+	def rarity(self):
+		return Rarity(self.tags.get(GameTag.RARITY, 0))
+
+	@property
+	def type(self):
+		return CardType(self.tags.get(GameTag.CARDTYPE, 0))
 
 
 def load(path):
