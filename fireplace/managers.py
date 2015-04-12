@@ -50,6 +50,10 @@ class GameManager(Manager):
 		for observer in self.observers:
 			observer.action(type, args)
 
+	def action_end(self, type, *args):
+		for observer in self.observers:
+			observer.action_end(type, args)
+
 	def new_entity(self, entity):
 		for observer in self.observers:
 			observer.new_entity(entity)

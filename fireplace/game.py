@@ -48,6 +48,7 @@ class Game(Entity):
 			args[0]._play(*args[1:])
 		else:
 			raise NotImplementedError
+		self.manager.action_end(type, *args)
 
 	def attack(self, source, target):
 		return self.action(PowSubType.ATTACK, source, target)
