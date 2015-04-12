@@ -7,7 +7,9 @@ class Manager(object):
 		self.observers = []
 
 	def __getitem__(self, tag):
-		return getattr(self.obj, self.map[tag])
+		if self.map.get(tag):
+			return getattr(self.obj, self.map[tag], 0)
+		raise KeyError
 
 	def __setitem__(self, tag, value):
 		setattr(self.obj, self.map[tag], value)
