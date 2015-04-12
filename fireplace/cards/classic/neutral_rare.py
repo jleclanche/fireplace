@@ -19,7 +19,7 @@ class EX1_004:
 # Alarm-o-Bot
 class EX1_006:
 	def OWN_TURN_BEGIN(self):
-		minions = self.controller.hand.filterByType(CardType.MINION)
+		minions = self.controller.hand.filter(type=CardType.MINION)
 		if minions:
 			self.bounce()
 			self.controller.summon(random.choice(minions))

@@ -20,7 +20,7 @@ class FP1_002:
 # Mad Scientist
 class FP1_004:
 	def deathrattle(self):
-		secrets = self.controller.deck.filterByTag(GameTag.SECRET)
+		secrets = self.controller.deck.filter(secret=True)
 		if secrets:
 			self.controller.summon(random.choice(secrets))
 
@@ -39,7 +39,7 @@ class FP1_007:
 # Deathlord
 class FP1_009:
 	def deathrattle(self):
-		minions = self.controller.opponent.deck.filterByType(CardType.MINION)
+		minions = self.controller.opponent.deck.filter(type=CardType.MINION)
 		if minions:
 			self.controller.opponent.summon(random.choice(minions))
 
@@ -65,7 +65,7 @@ class FP1_016:
 # Voidcaller
 class FP1_022:
 	def deathrattle(self):
-		demons = self.controller.hand.filterByRace(Race.DEMON)
+		demons = self.controller.hand.filter(race=Race.DEMON)
 		if demons:
 			self.controller.summon(random.choice(demons))
 

@@ -1,7 +1,6 @@
 import logging
 import os
 from pkg_resources import Requirement, resource_filename
-from ..enums import CardType, GameTag
 from .game import *
 from .classic import *
 from .debug import *

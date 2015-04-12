@@ -58,7 +58,7 @@ class XXX_010:
 # Summon a random secret
 class XXX_011:
 	def action(self):
-		secrets = self.controller.deck.filterByTag(GameTag.SECRET)
+		secrets = self.controller.deck.filter(secret=True)
 		if secrets:
 			self.controller.summon(random.choice(secrets))
 

@@ -158,7 +158,7 @@ class EX1_316e:
 class EX1_317:
 	def action(self):
 		for i in range(2):
-			demons = self.controller.deck.filterByRace(Race.DEMON)
+			demons = self.controller.deck.filter(race=Race.DEMON)
 			if demons:
 				self.controller.addToHand(random.choice(demons))
 			else:

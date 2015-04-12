@@ -7,7 +7,7 @@ from ..utils import *
 # Cogmaster
 class GVG_013:
 	def atk(self, i):
-		if self.controller.field.filterByRace(Race.MECHANICAL):
+		if self.controller.field.filter(race=Race.MECHANICAL):
 			return i + 2
 		return i
 

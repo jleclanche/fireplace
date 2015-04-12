@@ -36,7 +36,7 @@ class EX1_620:
 # Captain's Parrot
 class NEW1_016:
 	def action(self):
-		pirates = self.controller.deck.filterByRace(Race.PIRATE)
+		pirates = self.controller.deck.filter(race=Race.PIRATE)
 		if pirates:
 			self.controller.draw(random.choice(pirates))
 

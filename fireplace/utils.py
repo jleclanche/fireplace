@@ -25,14 +25,8 @@ class CardList(list):
 				return
 		raise ValueError
 
-	def filterByTag(self, tag):
-		return [card for card in self if card.tags.get(tag)]
-
-	def filterByType(self, type):
-		return [card for card in self if card.type == type]
-
-	def filterByRace(self, race):
-		return [card for card in self if card.race == race]
+	def filter(self, **kwargs):
+		return [e for k, v in kwargs.items() for e in self if getattr(e, k) == v]
 
 
 def randomDraft(hero, exclude=[]):
