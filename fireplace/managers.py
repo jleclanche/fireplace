@@ -14,6 +14,16 @@ class Manager(object):
 	def __setitem__(self, tag, value):
 		setattr(self.obj, self.map[tag], value)
 
+	def __iter__(self):
+		for k in self.map:
+			if self.map[k]:
+				yield k
+
+	def items(self):
+		for k, v in self.map.items():
+			if v is not None:
+				yield k, self[k]
+
 	def register(self, observer):
 		self.observers.append(observer)
 
