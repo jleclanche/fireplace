@@ -25,6 +25,12 @@ class CardList(list):
 				return
 		raise ValueError
 
+	def exclude(self, *args, **kwargs):
+		if args:
+			return self.__class__(e for e in self for arg in args if e is not arg)
+		else:
+			return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k) != v)
+
 	def filter(self, **kwargs):
 		return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k) == v)
 
