@@ -23,10 +23,18 @@ RESTORE_1 = "XXX_003"
 logging.getLogger().setLevel(logging.DEBUG)
 
 
-def prepare_game(hero1=MAGE, hero2=WARRIOR, exclude=[]):
+_draftcache = {}
+def _draft(hero, exclude):
+	# randomDraft() is fairly slow, this caches the drafts
+	if (hero, exclude) not in _draftcache:
+		_draftcache[(hero, exclude)] = randomDraft(hero, exclude)
+	return _draftcache[(hero, exclude)]
+
+
+def prepare_game(hero1=MAGE, hero2=WARRIOR, exclude=()):
 	print("Initializing a new game")
-	deck1 = randomDraft(hero=hero1, exclude=exclude)
-	deck2 = randomDraft(hero=hero2, exclude=exclude)
+	deck1 = _draft(hero=hero1, exclude=exclude)
+	deck2 = _draft(hero=hero2, exclude=exclude)
 	player1 = Player(name="Player1")
 	player1.prepareDeck(deck1, hero1)
 	player2 = Player(name="Player2")
@@ -1677,7 +1685,7 @@ def test_corruption():
 
 
 def test_headcrack():
-	game = prepare_game(exclude=["EX1_137"])
+	game = prepare_game(exclude=("EX1_137", ))
 	headcrack1 = game.player1.give("EX1_137")
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
