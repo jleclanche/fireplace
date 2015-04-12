@@ -400,6 +400,10 @@ class Character(PlayableCard):
 			return self.attackTargets
 		return super().targets
 
+	@property
+	def toBeDestroyed(self):
+		return self.health == 0
+
 	def OWN_TURN_BEGIN(self):
 		self.numAttacks = 0
 		super().OWN_TURN_BEGIN()

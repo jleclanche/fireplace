@@ -100,7 +100,7 @@ class Game(Entity):
 
 	def _processDeaths(self):
 		for card in self.board:
-			if card.health == 0:
+			if card.toBeDestroyed:
 				card.destroy()
 
 	def tossCoin(self):
