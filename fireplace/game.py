@@ -41,6 +41,7 @@ class Game(Entity):
 		return chain([self], self.player1.entities, self.player2.entities)
 
 	def action(self, type, *args):
+		self.manager.action(type, *args)
 		if type == PowSubType.ATTACK:
 			self._attack(*args)
 		elif type == PowSubType.PLAY:
