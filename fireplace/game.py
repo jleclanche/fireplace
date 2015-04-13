@@ -41,6 +41,10 @@ class Game(Entity):
 	def entities(self):
 		return chain([self], self.player1.entities, self.player2.entities)
 
+	@property
+	def liveEntities(self):
+		return chain(self.player1.liveEntities, self.player2.liveEntities)
+
 	def action(self, type, *args):
 		self.manager.action(type, *args)
 		if type == PowSubType.ATTACK:

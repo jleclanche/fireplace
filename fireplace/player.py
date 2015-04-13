@@ -69,6 +69,13 @@ class Player(Entity):
 		return chain(list(self.hero.entities), ret, [self])
 
 	@property
+	def liveEntities(self):
+		ret = self.field[:]
+		if self.hero.weapon:
+			ret.append(self.hero.weapon)
+		return ret
+
+	@property
 	def opponent(self):
 		# Hacky.
 		return [p for p in self.game.players if p != self][0]
