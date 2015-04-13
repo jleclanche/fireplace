@@ -136,7 +136,7 @@ class EX1_619e:
 
 # Truesilver Champion
 class CS2_097:
-	def BEFORE_SELF_ATTACK(self, target):
+	def SELF_ATTACK(self, target):
 		self.heal(self.controller.hero, 2)
 
 
