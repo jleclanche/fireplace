@@ -1970,6 +1970,23 @@ def test_baron_rivendare():
 	assert len(game.currentPlayer.field) == 3 # Only one treant spawns
 
 
+def test_blood_imp():
+	game = prepare_game()
+	wisp = game.currentPlayer.give(WISP)
+	imp = game.currentPlayer.give("CS2_059")
+	imp.play()
+	assert imp.health == 1
+	game.endTurn(); game.endTurn()
+
+	assert imp.health == 1
+	wisp.play()
+	assert wisp.health == 1
+	game.endTurn()
+	assert imp.health == 1
+	assert wisp.atk == 1
+	assert wisp.health == 2
+
+
 def test_blood_knight():
 	game = prepare_game()
 	bloodknight1 = game.currentPlayer.give("EX1_590")

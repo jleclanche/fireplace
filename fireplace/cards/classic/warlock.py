@@ -7,9 +7,9 @@ from ..utils import *
 # Blood Imp
 class CS2_059:
 	def OWN_TURN_END(self):
-		if self.controller.field:
-			target = random.choice(self.controller.field)
-			self.buff(target, "CS2_059o")
+		targets = self.controller.field.exclude(self)
+		if targets:
+			self.buff(random.choice(targets), "CS2_059o")
 
 
 # Dread Infernal
