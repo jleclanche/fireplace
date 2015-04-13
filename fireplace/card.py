@@ -773,6 +773,10 @@ class Enrage(object):
 class Weapon(PlayableCard):
 	Manager = WeaponManager
 
+	@property
+	def toBeDestroyed(self):
+		return self.durability == 0
+
 	def destroy(self):
 		self.controller.hero.weapon = None
 		super().destroy()
@@ -780,8 +784,6 @@ class Weapon(PlayableCard):
 	def loseDurability(self):
 		logging.info("%r loses 1 point of durability", self)
 		self.durability -= 1
-		if self.durability == 0:
-			self.destroy()
 
 	def summon(self):
 		super().summon()

@@ -103,7 +103,7 @@ class Game(Entity):
 		return self.action(PowSubType.DEATHS)
 
 	def _processDeaths(self):
-		for card in self.board:
+		for card in self.liveEntities:
 			if card.toBeDestroyed:
 				card.destroy()
 
