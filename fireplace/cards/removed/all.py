@@ -8,10 +8,10 @@ from ..utils import *
 # Dagger Mastery
 class CS2_083:
 	def action(self):
-		if self.hero.weapon:
-			self.buff(self.hero.weapon, "CS2_083e")
+		if self.controller.weapon:
+			self.buff(self.controller.weapon, "CS2_083e")
 		else:
-			self.hero.summon("CS2_082")
+			self.controller.summon("CS2_082")
 
 class CS2_083e:
 	Atk = 1

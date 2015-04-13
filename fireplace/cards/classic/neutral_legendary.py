@@ -116,7 +116,7 @@ class EX1_557:
 # Harrison Jones
 class EX1_558:
 	def action(self):
-		weapon = self.controller.opponent.hero.weapon
+		weapon = self.controller.opponent.weapon
 		if weapon:
 			self.controller.draw(weapon.durability)
 			weapon.destroy()
@@ -162,8 +162,8 @@ class EX1_614:
 # Captain Greenskin
 class NEW1_024:
 	def action(self):
-		if self.controller.hero.weapon:
-			self.buff(self.controller.hero.weapon, "NEW1_024o")
+		if self.controller.weapon:
+			self.buff(self.controller.weapon, "NEW1_024o")
 
 
 # Millhouse Manastorm

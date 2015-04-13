@@ -78,8 +78,7 @@ class CS2_141:
 
 # Southsea Deckhand
 class CS2_146:
-	def charge(self, value):
-		return bool(self.controller.hero.weapon)
+	charge = lambda self, i: i or bool(self.controller.weapon)
 
 
 # Gnomish Inventor
@@ -162,8 +161,8 @@ class EX1_057:
 # Acidic Swamp Ooze
 class EX1_066:
 	def action(self):
-		if self.controller.opponent.hero.weapon:
-			self.controller.opponent.hero.weapon.destroy()
+		if self.controller.opponent.weapon:
+			self.controller.opponent.weapon.destroy()
 
 
 # Loot Hoarder
@@ -195,15 +194,15 @@ class EX1_583:
 # Bloodsail Raider
 class NEW1_018:
 	def action(self):
-		if self.controller.hero.weapon:
-			self.buff(self, "NEW1_018e", atk=self.controller.hero.weapon.atk)
+		if self.controller.weapon:
+			self.buff(self, "NEW1_018e", atk=self.controller.weapon.atk)
 
 
 # Dread Corsair
 class NEW1_022:
 	def cost(self, value):
-		if self.controller.hero.weapon:
-			value -= self.controller.hero.weapon.atk
+		if self.controller.weapon:
+			value -= self.controller.weapon.atk
 		return value
 
 

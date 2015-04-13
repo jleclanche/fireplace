@@ -94,8 +94,8 @@ def buffSelf(buff):
 
 def buffWeapon(buff):
 	def _buffWeapon(self):
-		if self.controller.hero.weapon:
-			self.buff(self.controller.hero.weapon, buff)
+		if self.controller.weapon:
+			self.buff(self.controller.weapon, buff)
 	return _buffWeapon
 
 

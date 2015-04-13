@@ -49,7 +49,7 @@ class CS2_073:
 # Deadly Poison
 class CS2_074:
 	def action(self):
-		self.buff(self.controller.hero.weapon, "CS2_074e")
+		self.buff(self.controller.weapon, "CS2_074e")
 
 
 # Sinister Strike
@@ -70,10 +70,9 @@ class CS2_077:
 # Blade Flurry
 class CS2_233:
 	def action(self):
-		damage = self.controller.hero.weapon.atk
-		self.controller.hero.weapon.destroy()
 		for target in self.controller.opponent.field:
-			self.hit(target, damage)
+			self.hit(target, self.controller.weapon.atk)
+		self.controller.weapon.destroy()
 
 
 # Eviscerate

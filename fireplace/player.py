@@ -36,6 +36,7 @@ class Player(Entity):
 		self.tempMana = 0
 		self.timeout = 75
 		self.timesHeroPowerUsedThisGame = 0
+		self.weapon = None
 
 	def __str__(self):
 		return self.name
@@ -71,8 +72,8 @@ class Player(Entity):
 	@property
 	def liveEntities(self):
 		ret = self.field[:]
-		if self.hero.weapon:
-			ret.append(self.hero.weapon)
+		if self.weapon:
+			ret.append(self.weapon)
 		return ret
 
 	@property
@@ -96,8 +97,8 @@ class Player(Entity):
 			if t & TARGET_HERO:
 				ret.append(self.hero)
 			if t & TARGET_WEAPON:
-				if self.hero.weapon:
-					ret.append(self.hero.weapon)
+				if self.weapon:
+					ret.append(self.weapon)
 			if t & TARGET_MINION:
 				if t & TARGET_MULTIPLE:
 					ret += self.field
@@ -107,8 +108,8 @@ class Player(Entity):
 			if t & TARGET_HERO:
 				ret.append(self.opponent.hero)
 			if t & TARGET_WEAPON:
-				if self.opponent.hero.weapon:
-					ret.append(self.opponent.hero.weapon)
+				if self.opponent.weapon:
+					ret.append(self.opponent.weapon)
 			if t & TARGET_MINION:
 				if t & TARGET_MULTIPLE:
 					ret += self.opponent.field

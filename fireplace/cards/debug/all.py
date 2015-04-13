@@ -139,8 +139,8 @@ class XXX_041:
 # -1 Durability
 class XXX_048:
 	def action(self, target):
-		if target.controller.hero.weapon:
-			target.controller.hero.weapon.loseDurability()
+		if target.controller.weapon:
+			target.controller.weapon.loseDurability()
 
 
 # Destroy All Mana
@@ -163,8 +163,8 @@ class XXX_053:
 # Weapon Buff
 class XXX_054:
 	def action(self):
-		if self.hero.weapon:
-			self.buff(self.hero.weapon, "XXX_054e")
+		if self.controller.weapon:
+			self.buff(self.controller.weapon, "XXX_054e")
 
 
 # 1000 Stats

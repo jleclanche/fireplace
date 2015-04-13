@@ -443,21 +443,20 @@ class Character(PlayableCard):
 class Hero(Character):
 	def __init__(self, id, data):
 		self.armor = 0
-		self.weapon = None
 		super().__init__(id, data)
 
 	@property
 	def slots(self):
 		ret = super().slots[:]
-		if self.weapon and not self.weapon.exhausted:
-			ret.append(self.weapon)
+		if self.controller.weapon and not self.controller.weapon.exhausted:
+			ret.append(self.controller.weapon)
 		return ret
 
 	@property
 	def entities(self):
 		ret = [self, self.power]
-		if self.weapon:
-			ret.append(self.weapon)
+		if self.controller.weapon:
+			ret.append(self.controller.weapon)
 		return chain(ret, self.buffs)
 
 	def SELF_DAMAGE(self, source, amount):
@@ -706,8 +705,8 @@ class Aura(object):
 			return self.source.adjacentMinions
 		# XXX The targets are right but we need to get them a cleaner way.
 		ret = self.game.player1.field + self.game.player2.field
-		if self.controller.hero.weapon:
-			ret.append(self.controller.hero.weapon)
+		if self.controller.weapon:
+			ret.append(self.controller.weapon)
 		return ret
 
 	def summon(self):
@@ -777,7 +776,7 @@ class Weapon(PlayableCard):
 		return self.durability == 0
 
 	def destroy(self):
-		self.controller.hero.weapon = None
+		self.controller.weapon = None
 		super().destroy()
 
 	def loseDurability(self):
@@ -786,9 +785,9 @@ class Weapon(PlayableCard):
 
 	def summon(self):
 		super().summon()
-		if self.controller.hero.weapon:
-			self.controller.hero.weapon.destroy()
-		self.controller.hero.weapon = self
+		if self.controller.weapon:
+			self.controller.weapon.destroy()
+		self.controller.weapon = self
 
 	def SELF_ATTACK(self, target):
 		self.loseDurability()

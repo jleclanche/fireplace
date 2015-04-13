@@ -96,8 +96,8 @@ class EX1_408:
 # Upgrade!
 class EX1_409:
 	def action(self):
-		if self.controller.hero.weapon:
-			self.buff(self.controller.hero.weapon, "EX1_409e")
+		if self.controller.weapon:
+			self.buff(self.controller.weapon, "EX1_409e")
 		else:
 			self.controller.summon("EX1_409t")
 

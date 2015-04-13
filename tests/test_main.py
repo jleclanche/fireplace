@@ -88,7 +88,7 @@ def test_armor():
 	game.endTurn()
 	axe = game.currentPlayer.give("CS2_106")
 	axe.play()
-	assert axe is game.currentPlayer.hero.weapon
+	assert axe is game.currentPlayer.weapon
 	assert axe in game.currentPlayer.hero.slots
 	assert game.currentPlayer.hero.atk == 3
 	game.currentPlayer.hero.attack(game.currentPlayer.opponent.hero)
@@ -781,12 +781,12 @@ def test_doomhammer():
 	doomhammer.play()
 	assert game.currentPlayer.hero.atk == 2
 	assert game.currentPlayer.hero.windfury
-	assert game.currentPlayer.hero.weapon.durability == 8
+	assert game.currentPlayer.weapon.durability == 8
 	game.currentPlayer.hero.attack(target=game.currentPlayer.opponent.hero)
 	assert game.currentPlayer.hero.canAttack()
 	game.currentPlayer.hero.attack(target=game.currentPlayer.opponent.hero)
 	assert not game.currentPlayer.hero.canAttack()
-	assert game.currentPlayer.hero.weapon.durability == 6
+	assert game.currentPlayer.weapon.durability == 6
 
 
 def test_raging_worgen():
@@ -871,7 +871,7 @@ def test_southsea_deckhand():
 	assert deckhand.charge
 	game.currentPlayer.hero.power.play()
 	assert deckhand.charge
-	game.currentPlayer.hero.weapon.destroy()
+	game.currentPlayer.weapon.destroy()
 	# No longer have weapon, but still have the charge buff from earlier
 	assert deckhand.charge
 
@@ -930,7 +930,7 @@ def test_sword_of_justice():
 	game.currentPlayer.give(WISP).play()
 	game.currentPlayer.give(WISP).play()
 	game.currentPlayer.give(WISP).play()
-	assert not game.currentPlayer.hero.weapon
+	assert not game.currentPlayer.weapon
 	wisp2 = game.currentPlayer.give(WISP)
 	wisp2.play()
 	assert wisp2.health == 1
@@ -2608,21 +2608,23 @@ def test_truesilver_champion():
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
+
 	truesilver.play()
-	assert game.currentPlayer.hero.weapon is truesilver
+	assert game.currentPlayer.weapon is truesilver
 	assert game.currentPlayer.hero.atk == 4
 	assert game.currentPlayer.hero.health == 30
 	game.currentPlayer.hero.attack(target=game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.opponent.hero.health == 26
 	assert game.currentPlayer.hero.health == 30
 	assert lightwarden.atk == 1
 	game.endTurn(); game.endTurn()
+
 	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
 	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
 	game.currentPlayer.give(MOONFIRE).play(target=game.currentPlayer.hero)
 	game.currentPlayer.hero.attack(target=game.currentPlayer.opponent.hero)
 	assert game.currentPlayer.hero.health == 29
 	assert lightwarden.atk == 3
-
 
 
 def test_twilight_drake():
@@ -2979,23 +2981,23 @@ def test_upgrade():
 	upgrade2 = game.currentPlayer.give("EX1_409")
 	upgrade2.play()
 	assert game.currentPlayer.hero.atk == 1
-	assert game.currentPlayer.hero.weapon.atk == 1
+	assert game.currentPlayer.weapon.atk == 1
 	game.endTurn()
-	assert game.currentPlayer.hero.weapon.atk == 3
-	assert game.currentPlayer.hero.weapon.durability == 1
+	assert game.currentPlayer.weapon.atk == 3
+	assert game.currentPlayer.weapon.durability == 1
 	upgrade.play()
-	assert game.currentPlayer.hero.weapon.atk == 4
-	assert game.currentPlayer.hero.weapon.durability == 2
+	assert game.currentPlayer.weapon.atk == 4
+	assert game.currentPlayer.weapon.durability == 2
 	game.currentPlayer.hero.attack(game.currentPlayer.opponent.hero)
 	assert game.currentPlayer.opponent.hero.health == 23
-	assert game.currentPlayer.hero.weapon.durability == 1
+	assert game.currentPlayer.weapon.durability == 1
 
 	# test Bloodsail Corsair
 	game.endTurn()
 	corsair = game.currentPlayer.give("NEW1_025")
 	corsair.play()
 	assert axe.dead
-	assert not game.currentPlayer.opponent.hero.weapon
+	assert not game.currentPlayer.opponent.weapon
 
 
 CHEAT_MIRROR_ENTITY = True
