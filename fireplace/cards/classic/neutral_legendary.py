@@ -77,7 +77,7 @@ class Mekka2:
 # Emboldener 3000
 class Mekka3:
 	def OWN_TURN_END(self):
-		self.buff(random.choice(self.controller.field), "Mekka3e")
+		self.buff(random.choice(self.game.board), "Mekka3e")
 
 # Poultryizer
 class Mekka4:
@@ -95,7 +95,7 @@ class EX1_116:
 # Baron Geddon
 class EX1_249:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
 			if target is not self:
 				self.hit(target, 2)
 
