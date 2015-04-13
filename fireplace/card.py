@@ -418,10 +418,6 @@ class Character(PlayableCard):
 			logging.info("%r is frozen by %r" % (self, source))
 			self.frozen = True
 
-		# FIXME this should happen in a separate tick
-		if not self.health:
-			self.destroy()
-
 	def SELF_HEAL(self, source, amount):
 		self.damage -= amount
 
