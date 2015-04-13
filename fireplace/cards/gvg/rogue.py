@@ -9,6 +9,34 @@ class GVG_023:
 	action = buffWeapon("GVG_023a")
 
 
+# One-eyed Cheat
+class GVG_025:
+	def OWN_MINION_SUMMON(self, player, minion):
+		if minion.race == Race.PIRATE and minion != self:
+			self.stealth = True
+
+
+# Iron Sensei
+class GVG_027:
+	def OWN_TURN_END(self):
+		mechs = self.controller.field.filter(race=Race.MECHANICAL).exclude(self)
+		if mechs:
+			self.buff(random.choice(mechs), "GVG_027e")
+
+
+# Trade Prince Gallywix
+class GVG_028:
+	def CARD_PLAYED(self, player, card):
+		if player is not self.controller and card.type == CardType.SPELL:
+			if card.id != "GVG_028t":
+				player.opponent.give(card.id)
+				player.give("GVG_028t")
+
+class GVG_028t:
+	def action(self):
+		self.controller.tempMana += 1
+
+
 ##
 # Spells
 
