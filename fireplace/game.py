@@ -56,6 +56,7 @@ class Game(Entity):
 		else:
 			raise NotImplementedError
 		self.manager.action_end(type, *args)
+		self._processDeaths()
 
 	def attack(self, source, target):
 		return self.action(PowSubType.ATTACK, source, target)
@@ -177,7 +178,6 @@ class Game(Entity):
 	def UPDATE(self):
 		for aura in self.auras:
 			aura.update()
-		self.processDeaths()
 
 	def BEFORE_ATTACK(self, source, target):
 		source.controller.broadcast("BEFORE_OWN_ATTACK", source, target)
