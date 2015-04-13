@@ -121,7 +121,6 @@ class BaseCard(Entity):
 	# Events
 
 	events = [
-		"UPDATE",
 		"TURN_BEGIN", "TURN_END",
 		"OWN_TURN_BEGIN", "OWN_TURN_END",
 		"SELF_CARD_DESTROYED",
