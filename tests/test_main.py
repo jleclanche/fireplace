@@ -676,6 +676,24 @@ def test_kill_command():
 	assert game.currentPlayer.opponent.hero.health == 22
 
 
+def test_ancestors_call():
+	game = prepare_game()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	game.player1.discardHand()
+	game.player2.discardHand()
+	novice = game.player1.give("EX1_015")
+	wisp = game.player2.give(WISP)
+	call = game.currentPlayer.give("GVG_029")
+	call.play()
+	assert novice in game.player1.field
+	assert wisp in game.player2.field
+	assert not game.player1.hand
+	assert not game.player2.hand
+
+
 def test_ancestral_healing():
 	game = prepare_game()
 	ancestral = game.currentPlayer.give("CS2_041")
