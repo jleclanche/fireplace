@@ -32,3 +32,13 @@ class GVG_080:
 	def action(self):
 		if self.poweredUp:
 			self.morph("GVG_080t")
+
+
+##
+# Spells
+
+# Tree of Life
+class GVG_033:
+	def action(self):
+		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+			self.heal(target, target.maxHealth)

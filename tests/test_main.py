@@ -2635,6 +2635,30 @@ def test_ragnaros():
 	assert not ragnaros.canAttack()
 
 
+def test_tree_of_life():
+	game = prepare_game()
+	token1 = game.player1.give(SPELLBENDERT)
+	token1.play()
+	tree = game.player1.give("GVG_033")
+	game.endTurn()
+
+	token2 = game.player2.give(SPELLBENDERT)
+	token2.play()
+	game.endTurn()
+
+	targets = (game.player1.hero, game.player2.hero, token1, token2)
+	for target in targets:
+		game.player1.give(MOONFIRE).play(target=target)
+	for i in range(7):
+		game.endTurn(); game.endTurn()
+
+	assert token1.health == token2.health == 3 - 1
+	assert game.player1.hero.health == game.player2.hero.health == 30 - 1
+	tree.play()
+	assert token1.health == token2.health == 3
+	assert game.player1.hero.health == game.player2.hero.health == 30
+
+
 def test_truesilver_champion():
 	game = prepare_game()
 	truesilver = game.currentPlayer.give("CS2_097")
