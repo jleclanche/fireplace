@@ -2,6 +2,7 @@ import logging
 import random
 from datetime import datetime
 from itertools import chain
+from .card import BaseCard
 from .deck import Deck
 from .entity import Entity
 from .enums import CardType, PowSubType, Zone
@@ -134,20 +135,27 @@ class Player(Entity):
 			card.discard()
 
 	def draw(self, count=1):
-		if count == 1:
-			if not self.deck:
-				card = None
-			else:
-				card = self.deck[-1]
-			self.game.broadcast("DRAW", self, card)
-			logging.info("%s draws %r" % (self, card))
-			return card
-		else:
+		"""
+		Draws \a count card.
+		If \a count is a BaseCard instance, draw that specific card.
+		"""
+		if isinstance(count, BaseCard):
+			card = count
+		elif count > 1:
 			ret = []
 			while count:
 				ret.append(self.draw())
 				count -= 1
 			return ret
+		else:
+			if not self.deck:
+				card = None
+			else:
+				card = self.deck[-1]
+
+		self.game.broadcast("DRAW", self, card)
+		logging.info("%s draws %r" % (self, card))
+		return card
 
 	def mill(self, count=1):
 		if count == 1:
