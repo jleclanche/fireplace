@@ -18,6 +18,7 @@ DREAM = "DREAM_04"
 SILENCE = "EX1_332"
 SPELLBENDERT = "tt_010a"
 THE_COIN = "GAME_005"
+TIME_REWINDER = "PART_002"
 RESTORE_1 = "XXX_003"
 
 logging.getLogger().setLevel(logging.DEBUG)
@@ -2192,6 +2193,24 @@ def test_gahzrilla():
 	# game.currentPlayer.give(MOONFIRE).play(target=gahz)
 	# assert gahz.atk == (6*2*2) + 1
 
+
+def test_grimscale_oracle():
+	game = prepare_game()
+	grimscale = game.player1.give("EX1_508")
+	murloc1 = game.player1.summon("CS2_168")
+	murloc2 = game.player2.summon("CS2_168")
+	assert murloc1.atk == 2
+	assert murloc2.atk == 2
+	grimscale.play()
+	assert murloc1.atk == 2 + 1
+	assert murloc2.atk == 2 + 1
+	assert grimscale.atk == 1
+
+	game.endTurn(); game.endTurn()
+	rewinder = game.player1.give(TIME_REWINDER)
+	rewinder.play(target=grimscale)
+	assert murloc1.atk == 2
+	assert murloc2.atk == 2
 
 
 def test_gruul():
