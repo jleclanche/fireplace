@@ -219,7 +219,7 @@ class PRO_001a:
 # Rogues Do It...
 class PRO_001b:
 	def action(self, target):
-		target.damage(4)
+		self.hit(target, 4)
 		self.controller.draw()
 
 
