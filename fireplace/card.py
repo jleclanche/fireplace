@@ -264,6 +264,9 @@ class PlayableCard(BaseCard):
 					entourage.remove(minion.id)
 			if not entourage:
 				return False
+		if PlayReq.REQ_WEAPON_EQUIPPED in self.requirements:
+			if not self.controller.weapon:
+				return False
 		return True
 
 	def play(self, target=None, choose=None):

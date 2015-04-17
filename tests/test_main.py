@@ -587,6 +587,22 @@ def test_card_draw():
 	assert len(game.currentPlayer.hand) == handlength - 2
 
 
+def test_deadly_poison():
+	game = prepare_game(ROGUE, ROGUE)
+	poison = game.currentPlayer.give("CS2_074")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert not poison.isPlayable()
+	game.currentPlayer.hero.power.play()
+	assert game.currentPlayer.weapon.atk == 1
+	assert game.currentPlayer.hero.atk == 1
+	assert poison.isPlayable()
+	poison.play()
+	assert game.currentPlayer.weapon.atk == 3
+	assert game.currentPlayer.hero.atk == 3
+
+
 def test_deathwing():
 	game = prepare_game()
 	deathwing = game.currentPlayer.give("NEW1_030")
