@@ -10,10 +10,9 @@ class CS2_181:
 # Young Priestess
 class EX1_004:
 	def OWN_TURN_END(self):
-		other_minions = [t for t in self.controller.field if t is not self]
-		if other_minions:
-			target = random.choice(other_minions)
-			target.buff("EX1_004e")
+		targets = self.controller.field.exclude(self)
+		if targets:
+			self.buff(random.choice(targets), "EX1_004e")
 
 
 # Alarm-o-Bot
