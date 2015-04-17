@@ -31,6 +31,13 @@ class CardType(IntEnum):
 	HERO_POWER = 10
 
 
+class Faction(IntEnum):
+	INVALID = 0
+	HORDE = 1
+	ALLIANCE = 2
+	NEUTRAL = 3
+
+
 class Race(IntEnum):
 	INVALID = 0
 	BLOODELF = 1
