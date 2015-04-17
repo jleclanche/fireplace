@@ -11,7 +11,7 @@ class GVG_023:
 
 # One-eyed Cheat
 class GVG_025:
-	def OWN_MINION_SUMMON(self, player, minion):
+	def OWN_MINION_SUMMON(self, minion):
 		if minion.race == Race.PIRATE and minion != self:
 			self.stealth = True
 
