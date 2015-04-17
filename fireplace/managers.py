@@ -107,6 +107,7 @@ class CardManager(Manager):
 		GameTag.CARD_SET: None,
 		GameTag.CARDTEXT_INHAND: None,
 		GameTag.CardTextInPlay: None,
+		GameTag.Collectible: None,
 		GameTag.DevState: None,
 		GameTag.ENCHANTMENT_IDLE_VISUAL: None,
 		GameTag.ENCHANTMENT_BIRTH_VISUAL: None,
@@ -124,7 +125,6 @@ class PlayableCardManager(Manager):
 	map = CardManager.map.copy()
 	map.update({
 		GameTag.BATTLECRY: "hasBattlecry",
-		GameTag.Collectible: "collectible",
 		GameTag.CARD_TARGET: "target",
 		GameTag.COMBO: "hasCombo",
 		GameTag.DEFENDING: "defending",
