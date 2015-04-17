@@ -184,6 +184,6 @@ class EX1_625t2:
 # Mass Dispel
 class EX1_626:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_ENEMY_MINIONS):
+		for target in self.controller.opponent.field:
 			target.silence()
 		self.controller.draw()
