@@ -1,6 +1,6 @@
 import os
 from xml.etree import ElementTree
-from fireplace.enums import AuraType, CardClass, CardType, GameTag, PlayReq, Race, Rarity, Zone
+from fireplace.enums import AuraType, CardClass, CardType, Faction, GameTag, PlayReq, Race, Rarity, Zone
 
 
 class CardXML(object):
@@ -81,6 +81,10 @@ class CardXML(object):
 	@property
 	def cost(self):
 		return self.tags.get(GameTag.COST, 0)
+
+	@property
+	def faction(self):
+		return Faction(self.tags.get(GameTag.FACTION, 0))
 
 	@property
 	def race(self):
