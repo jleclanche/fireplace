@@ -16,14 +16,14 @@ class GVG_013:
 class GVG_067:
 	def CARD_PLAYED(self, player, card):
 		if player is not self.controller and card.type == CardType.SPELL:
-			self.buff("GVG_067a")
+			self.buff(self, "GVG_067a")
 
 
 # Burly Rockjaw Trogg
 class GVG_068:
 	def CARD_PLAYED(self, player, card):
 		if player is not self.controller and card.type == CardType.SPELL:
-			self.buff("GVG_068a")
+			self.buff(self, "GVG_068a")
 
 
 # Antique Healbot
