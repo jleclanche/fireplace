@@ -22,8 +22,7 @@ class CS2_049:
 # Healing Totem
 class NEW1_009:
 	def OWN_TURN_END(self):
-		targets = self.controller.getTargets(TARGET_FRIENDLY_MINIONS)
-		for target in targets:
+		for target in self.controller.field:
 			self.heal(target, 1)
 
 

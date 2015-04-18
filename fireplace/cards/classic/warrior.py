@@ -75,15 +75,15 @@ class EX1_392:
 # Whirlwind
 class EX1_400:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+		for target in self.game.board:
 			self.hit(target, 1)
 
 
 # Brawl
 class EX1_407:
 	def action(self):
-		board = self.controller.getTargets(TARGET_ALL_MINIONS)
-		for minion in random.sample(board, len(board) - 1):
+		winner = random.choice(self.game.board)
+		for minion in self.game.board.exclude(winner):
 			minion.destroy()
 
 

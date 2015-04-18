@@ -47,14 +47,14 @@ class CS2_024:
 # Arcane Explosion
 class CS2_025:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
+		for target in self.controller.opponent.field:
 			self.hit(target, 1)
 
 
 # Frost Nova
 class CS2_026:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
+		for target in self.controller.opponent.field:
 			target.frozen = True
 
 
@@ -68,7 +68,7 @@ class CS2_027:
 # Blizzard
 class CS2_028:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
+		for target in self.controller.opponent.field:
 			self.hit(target, 2)
 
 
@@ -86,7 +86,7 @@ class CS2_031:
 # Flamestrike
 class CS2_032:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ENEMY_MINIONS):
+		for target in self.controller.opponent.field:
 			self.hit(target, 4)
 
 

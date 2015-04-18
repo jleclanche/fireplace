@@ -51,5 +51,5 @@ class NEW1_017:
 # Doomsayer
 class NEW1_021:
 	def OWN_TURN_BEGIN(self):
-		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+		for target in self.game.board:
 			target.destroy()

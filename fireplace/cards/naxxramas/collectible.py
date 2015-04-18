@@ -81,7 +81,7 @@ class FP1_023:
 # Unstable Ghoul
 class FP1_024:
 	def deathrattle(self):
-		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+		for target in self.game.board:
 			self.hit(target, 1)
 
 

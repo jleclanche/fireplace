@@ -140,7 +140,7 @@ class EX1_581:
 # Vanish
 class NEW1_004:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+		for target in self.game.board:
 			target.bounce()
 
 

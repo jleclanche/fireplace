@@ -141,7 +141,7 @@ class EX1_309:
 # Twisting Nether
 class EX1_312:
 	def action(self):
-		for minion in self.controller.getTargets(TARGET_ALL_MINIONS):
+		for target in self.game.board:
 			target.destroy()
 
 

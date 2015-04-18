@@ -81,7 +81,7 @@ class EX1_539:
 # Flare
 class EX1_544:
 	def action(self):
-		for minion in self.controller.getTargets(TARGET_ALL_MINIONS):
+		for minion in self.game.board:
 			if minion.stealthed:
 				minion.stealthed = False
 		for secret in self.controller.opponent.secrets:

@@ -146,7 +146,7 @@ class EX1_345:
 # Circle of Healing
 class EX1_621:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+		for target in self.game.board:
 			self.heal(target, 4)
 
 

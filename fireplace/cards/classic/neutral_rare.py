@@ -158,7 +158,7 @@ class NEW1_019:
 class NEW1_020:
 	def AFTER_OWN_CARD_PLAYED(self, card):
 		if card.type == CardType.SPELL:
-			for target in self.controller.getTargets(TARGET_ALL_MINIONS):
+			for target in self.game.board:
 				self.hit(target, 1)
 
 

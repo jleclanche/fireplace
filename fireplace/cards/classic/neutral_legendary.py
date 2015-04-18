@@ -186,10 +186,8 @@ class NEW1_029ta:
 # Deathwing
 class NEW1_030:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_MINIONS):
-			# Let's not kill ourselves in the process
-			if target is not self:
-				target.destroy()
+		for target in self.game.board.exclude(self):
+			target.destroy()
 		self.controller.discardHand()
 
 
