@@ -32,7 +32,8 @@ class EX1_335:
 class EX1_341:
 	def OWN_TURN_BEGIN(self):
 		targets = [t for t in self.controller.characters if t.damage]
-		self.heal(random.choice(targets), 3)
+		if targets:
+			self.heal(random.choice(targets), 3)
 
 
 # Temple Enforcer

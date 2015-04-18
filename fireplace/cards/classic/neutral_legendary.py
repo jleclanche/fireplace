@@ -71,7 +71,8 @@ class Mekka1:
 class Mekka2:
 	def OWN_TURN_END(self):
 		targets = [target for target in self.game.characters if target.damage]
-		self.heal(random.choice(targets), 6)
+		if targets:
+			self.heal(random.choice(targets), 6)
 
 # Emboldener 3000
 class Mekka3:
