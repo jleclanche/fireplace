@@ -61,14 +61,14 @@ class CS2_009:
 # Savage Roar
 class CS2_011:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_FRIENDLY_CHARACTERS):
+		for target in self.controller.characters:
 			self.buff(target, "CS2_011o")
 
 
 # Swipe
 class CS2_012:
 	def action(self, target):
-		for character in self.controller.getTargets(TARGET_ENEMY_CHARACTERS):
+		for character in self.controller.opponent.characters:
 			if character is target:
 				self.hit(character, 4)
 			else:

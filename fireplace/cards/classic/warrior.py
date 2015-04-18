@@ -67,7 +67,7 @@ class EX1_391:
 # Battle Rage
 class EX1_392:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_FRIENDLY_CHARACTERS):
+		for target in self.controller.characters:
 			if target.damage:
 				self.controller.draw()
 

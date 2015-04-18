@@ -35,8 +35,7 @@ class GVG_069:
 class GVG_075:
 	def OWN_MINION_SUMMON(self, minion):
 		if minion.race == Race.PIRATE:
-			targets = self.controller.getTargets(TARGET_ENEMY_CHARACTERS)
-			self.hit(random.choice(targets), 2)
+			self.hit(random.choice(self.controller.opponent.characters), 2)
 
 
 # Explosive Sheep

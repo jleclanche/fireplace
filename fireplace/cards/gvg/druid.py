@@ -40,5 +40,5 @@ class GVG_080:
 # Tree of Life
 class GVG_033:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+		for target in self.game.characters:
 			self.heal(target, target.maxHealth)

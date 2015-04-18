@@ -70,8 +70,7 @@ class Mekka1:
 # Repair Bot
 class Mekka2:
 	def OWN_TURN_END(self):
-		targets = self.controller.getTargets(TARGET_ANY_CHARACTER)
-		targets = [target for target in targets if target.damage]
+		targets = [target for target in self.game.characters if target.damage]
 		self.heal(random.choice(targets), 6)
 
 # Emboldener 3000
@@ -95,7 +94,7 @@ class EX1_116:
 # Baron Geddon
 class EX1_249:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+		for target in self.game.characters:
 			if target is not self:
 				self.hit(target, 2)
 
@@ -103,7 +102,7 @@ class EX1_249:
 # Ragnaros the Firelord
 class EX1_298:
 	def OWN_TURN_END(self):
-		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 8)
+		self.hit(random.choice(self.controller.opponent.characters), 8)
 
 
 # Nat Pagle
@@ -130,7 +129,7 @@ class EX1_572:
 # Ysera Awakens
 class DREAM_02:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+		for target in self.game.characters:
 			if target.id != "EX1_572":
 				self.hit(target, 5)
 

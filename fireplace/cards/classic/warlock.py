@@ -15,7 +15,7 @@ class CS2_059:
 # Dread Infernal
 class CS2_064:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+		for target in self.game.characters:
 			if target is not self:
 				self.hit(target, 1)
 
@@ -85,7 +85,7 @@ class CS2_061:
 # Hellfire
 class CS2_062:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+		for target in self.game.characters:
 			self.hit(target, 3)
 
 

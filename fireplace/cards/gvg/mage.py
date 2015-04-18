@@ -9,8 +9,7 @@ class GVG_004:
 	def action(self):
 		if self.poweredUp:
 			for i in range(4):
-				target = random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS))
-				self.hit(target, 1)
+				self.hit(random.choice(self.controller.opponent.characters), 1)
 
 
 ##

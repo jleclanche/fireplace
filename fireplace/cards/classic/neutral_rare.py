@@ -108,7 +108,7 @@ class EX1_095:
 # Abomination
 class EX1_097:
 	def deathrattle(self):
-		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+		for target in self.game.characters:
 			self.hit(target, 2)
 
 
@@ -151,7 +151,7 @@ class EX1_597:
 # Knife Juggler
 class NEW1_019:
 	def OWN_MINION_SUMMON(self, minion):
-		self.hit(random.choice(self.controller.getTargets(TARGET_ALL_ENEMY_CHARACTERS)), 1)
+		self.hit(random.choice(self.controller.opponent.characters), 1)
 
 
 # Wild Pyromancer

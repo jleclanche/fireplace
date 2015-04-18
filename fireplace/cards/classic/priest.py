@@ -31,7 +31,7 @@ class EX1_335:
 # Lightwell
 class EX1_341:
 	def OWN_TURN_BEGIN(self):
-		targets = [t for t in self.controller.getTargets(TARGET_FRIENDLY_CHARACTERS) if t.damage]
+		targets = [t for t in self.controller.characters if t.damage]
 		self.heal(random.choice(targets), 3)
 
 
@@ -53,7 +53,7 @@ class CS2_004:
 # Holy Nova
 class CS1_112:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ALL_CHARACTERS):
+		for target in self.game.characters:
 			if target.controller == self.controller:
 				self.heal(target, 2)
 			else:

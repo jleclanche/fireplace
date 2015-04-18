@@ -50,7 +50,7 @@ class CS2_092:
 # Consecration
 class CS2_093:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_ENEMY_CHARACTERS):
+		for target in self.controller.opponent.characters:
 			self.hit(target, 2)
 
 
@@ -117,8 +117,7 @@ class EX1_371:
 class EX1_384:
 	def action(self):
 		for i in range(8 + self.controller.spellpower):
-			target = random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS))
-			self.hit(target, 1)
+			self.hit(random.choice(self.controller.opponent.characters), 1)
 
 
 # Equality

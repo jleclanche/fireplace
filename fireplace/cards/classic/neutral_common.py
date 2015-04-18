@@ -30,14 +30,13 @@ class EX1_015:
 class EX1_082:
 	def action(self):
 		for i in range(3):
-			target = random.choice(self.controller.getTargets(TARGET_ALL_CHARACTERS))
-			self.hit(target, 1)
+			self.hit(random.choice(self.game.characters), 1)
 
 
 # Demolisher
 class EX1_102:
 	def OWN_TURN_BEGIN(self):
-		self.hit(random.choice(self.controller.getTargets(TARGET_ENEMY_CHARACTERS)), 2)
+		self.hit(random.choice(self.controller.opponent.characters), 2)
 
 
 # Arathi Weaponsmith
@@ -114,7 +113,7 @@ class CS2_196:
 # Darkscale Healer
 class DS1_055:
 	def action(self):
-		for target in self.controller.getTargets(TARGET_FRIENDLY_CHARACTERS):
+		for target in self.controller.characters:
 			self.heal(target, 2)
 
 
