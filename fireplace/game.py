@@ -38,6 +38,10 @@ class Game(Entity):
 		return CardList(self.player1.field + self.player2.field)
 
 	@property
+	def characters(self):
+		return chain(self.player1.characters, self.player2.characters)
+
+	@property
 	def entities(self):
 		return chain([self], self.player1.entities, self.player2.entities)
 

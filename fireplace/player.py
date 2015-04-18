@@ -59,6 +59,10 @@ class Player(Entity):
 		return sum(minion.spellpower for minion in self.field)
 
 	@property
+	def characters(self):
+		return [self.hero] + self.field
+
+	@property
 	def entities(self):
 		ret = []
 		for entity in self.field:
