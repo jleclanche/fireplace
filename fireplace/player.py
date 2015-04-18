@@ -16,6 +16,7 @@ class Player(Entity):
 	Manager = PlayerManager
 	extraDeathrattles = slotProperty("extraDeathrattles")
 	outgoingHealingAdjustment = slotProperty("outgoingHealingAdjustment")
+	type = CardType.PLAYER
 
 	def __init__(self, name):
 		super().__init__()
@@ -25,7 +26,6 @@ class Player(Entity):
 		self.field = CardList()
 		self.secrets = CardList()
 		self.buffs = []
-		self.type = CardType.PLAYER
 		self.maxHandSize = 10
 		self.maxResources = 10
 		self.currentPlayer = False
