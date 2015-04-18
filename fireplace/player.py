@@ -93,8 +93,6 @@ class Player(Entity):
 	def getTargets(self, t):
 		ret = []
 		if t & TARGET_FRIENDLY:
-			if t & TARGET_HAND:
-				ret += self.hand
 			if t & TARGET_HERO:
 				ret.append(self.hero)
 			if t & TARGET_WEAPON:
@@ -104,8 +102,6 @@ class Player(Entity):
 				if t & TARGET_MULTIPLE:
 					ret += self.field
 		if t & TARGET_ENEMY:
-			if t & TARGET_HAND:
-				ret += self.opponent.hand
 			if t & TARGET_HERO:
 				ret.append(self.opponent.hero)
 			if t & TARGET_WEAPON:
