@@ -117,7 +117,7 @@ class EX1_617:
 # Animal Companion
 class NEW1_031:
 	def action(self):
-		self.controller.summon(random.choice(self.entourage))
+		self.controller.summon(random.choice(self.data.entourage))
 
 
 ##

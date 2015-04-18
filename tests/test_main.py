@@ -693,6 +693,17 @@ def test_kill_command():
 	assert game.currentPlayer.opponent.hero.health == 22
 
 
+def test_animal_companion():
+	game = prepare_game()
+	companion = game.player1.give("NEW1_031")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	companion.play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id in ("NEW1_032", "NEW1_033", "NEW1_034")
+
+
 def test_ancestors_call():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()
