@@ -9,6 +9,7 @@ from .utils import CardList
 
 
 class Game(Entity):
+	type = CardType.GAME
 	MAX_MINIONS_ON_FIELD = 8
 	Manager = GameManager
 
