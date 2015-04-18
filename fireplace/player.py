@@ -94,28 +94,6 @@ class Player(Entity):
 		card.zone = Zone.HAND
 		return card
 
-	def getTargets(self, t):
-		ret = []
-		if t & TARGET_FRIENDLY:
-			if t & TARGET_HERO:
-				ret.append(self.hero)
-			if t & TARGET_WEAPON:
-				if self.weapon:
-					ret.append(self.weapon)
-			if t & TARGET_MINION:
-				if t & TARGET_MULTIPLE:
-					ret += self.field
-		if t & TARGET_ENEMY:
-			if t & TARGET_HERO:
-				ret.append(self.opponent.hero)
-			if t & TARGET_WEAPON:
-				if self.opponent.weapon:
-					ret.append(self.opponent.weapon)
-			if t & TARGET_MINION:
-				if t & TARGET_MULTIPLE:
-					ret += self.opponent.field
-		return ret
-
 	def getById(self, id):
 		"Helper to get a card from the hand by its id"
 		for card in self.hand:
