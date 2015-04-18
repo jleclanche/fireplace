@@ -181,6 +181,7 @@ class WeaponManager(Manager):
 	map = PlayableCardManager.map.copy()
 	map.update({
 		GameTag.ATK: "atk",
+		GameTag.DAMAGE: "damage",
 		GameTag.DURABILITY: "durability",
 	})
 

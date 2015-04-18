@@ -651,9 +651,6 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "maxHealth"):
 			logging.info("%r removes all damage from %r", self, target)
 			target.damage = 0
-		if target.type == CardType.WEAPON and getattr(self, "durability", 0):
-			logging.info("%r increases %r durability by %i", self, target, self.durability)
-			target.durability += self.durability
 		target.buffs.append(self)
 
 	def destroy(self):
@@ -770,6 +767,21 @@ class Enrage(object):
 class Weapon(PlayableCard):
 	Manager = WeaponManager
 
+	def __init__(self, *args):
+		super().__init__(*args)
+		self.damage = 0
+
+	@property
+	def durability(self):
+		ret = getattr(self, "_durability", 0)
+		for slot in self.slots:
+			ret += getattr(slot, "durability", 0)
+		return max(0, ret - self.damage)
+
+	@durability.setter
+	def durability(self, value):
+		self._durability = value
+
 	@property
 	def toBeDestroyed(self):
 		return self.durability == 0
@@ -778,9 +790,9 @@ class Weapon(PlayableCard):
 		self.controller.weapon = None
 		super().destroy()
 
-	def loseDurability(self):
-		logging.info("%r loses 1 point of durability", self)
-		self.durability -= 1
+	def loseDurability(self, count=1):
+		logging.info("%r loses %r durability", self, count)
+		self.damage += count
 
 	def summon(self):
 		super().summon()

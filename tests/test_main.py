@@ -3079,7 +3079,11 @@ def test_upgrade():
 	upgrade = game.currentPlayer.give("EX1_409")
 	game.endTurn(); game.endTurn()
 	axe.play()
+	assert game.currentPlayer.weapon.atk == 3
+	assert game.currentPlayer.weapon.durability == 2
 	game.currentPlayer.hero.attack(game.currentPlayer.opponent.hero)
+	assert game.currentPlayer.weapon.atk == 3
+	assert game.currentPlayer.weapon.durability == 1
 	assert game.currentPlayer.opponent.hero.health == 27
 
 	game.endTurn()
