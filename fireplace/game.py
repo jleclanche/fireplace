@@ -10,8 +10,6 @@ from .utils import CardList
 
 class Game(Entity):
 	MAX_MINIONS_ON_FIELD = 8
-	# Game draws after 50 full turns (100 game turns)
-	MAX_TURNS = 100
 	Manager = GameManager
 
 	def __init__(self, players):
@@ -199,8 +197,6 @@ class Game(Entity):
 		self.step, self.nextStep = self.nextStep, Step.MAIN_START
 		self.turn += 1
 		logging.info("%s begins turn %i" % (player, self.turn))
-		if self.turn == self.MAX_TURNS:
-			raise GameOver("It's a draw!")
 		if self.currentPlayer:
 			self.currentPlayer.currentPlayer = False
 		self.step, self.nextStep = self.nextStep, Step.MAIN_ACTION
