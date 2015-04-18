@@ -9,7 +9,6 @@ from .utils import CardList
 
 
 class Game(Entity):
-	TIMEOUT_MULLIGAN = 85
 	MAX_MINIONS_ON_FIELD = 8
 	# Game draws after 50 full turns (100 game turns)
 	MAX_TURNS = 100
