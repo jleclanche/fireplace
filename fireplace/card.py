@@ -166,7 +166,7 @@ class PlayableCard(BaseCard):
 
 	@property
 	def dead(self):
-		return self.zone == Zone.GRAVEYARD
+		return self.zone == Zone.GRAVEYARD or self.toBeDestroyed
 
 	@property
 	def deathrattles(self):
