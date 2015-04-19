@@ -1730,6 +1730,33 @@ def test_corruption():
 	assert wisp2.dead
 
 
+def test_harrison_jones():
+	game = prepare_game()
+	game.endTurn()
+
+	lightsjustice = game.player2.give("CS2_091")
+	lightsjustice.play()
+	game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	game.player1.discardHand()
+	assert not game.player1.hand
+	assert lightsjustice.durability == 4
+	jones = game.player1.give("EX1_558")
+	jones.play()
+	assert len(game.player1.hand) == 4
+	assert lightsjustice.dead
+	game.endTurn()
+
+	game.player2.discardHand()
+	jones2 = game.player2.give("EX1_558")
+	jones2.play()
+	assert not game.player2.hand
+
+
 def test_headcrack():
 	game = prepare_game(exclude=("EX1_137", ))
 	headcrack1 = game.player1.give("EX1_137")
