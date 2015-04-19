@@ -170,7 +170,7 @@ class EX1_320:
 	def action(self, target):
 		self.hit(target, 2)
 		if target.dead:
-			self.controller.summon(random.choice(self.data.entourage))
+			self.controller.summon(randomCollectible(type=CardType.MINION, race=Race.DEMON))
 
 
 # Demonfire
