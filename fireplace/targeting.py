@@ -130,10 +130,10 @@ class Selector:
 		result.program += [Selector._not, Selector._and, Selector.BreakLabel]
 		return result
 
-	def eval(self, entities):
-		return [e for e in entities if self.test(e)]
+	def eval(self, entities, source):
+		return [e for e in entities if self.test(e, source)]
 
-	def test(self, entity):
+	def test(self, entity, source):
 		stack = []
 		self.pc = 0
 		while self.pc < len(self.program):
@@ -142,7 +142,7 @@ class Selector:
 			if callable(op):
 				op(self, stack)
 			else:
-				val = type(op).test(op, entity)
+				val = type(op).test(op, entity, source)
 				stack.append(val)
 		return stack[-1]
 

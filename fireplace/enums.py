@@ -30,7 +30,7 @@ class CardType(IntEnum):
 	TOKEN = 9
 	HERO_POWER = 10
 
-	def test(self, entity):
+	def test(self, entity, *args):
 		return self == entity.type
 
 
@@ -71,7 +71,7 @@ class Race(IntEnum):
 	# Alias for PET
 	BEAST = 20
 
-	def test(self, entity):
+	def test(self, entity, *args):
 		return self == getattr(entity, "race", Race.INVALID)
 
 
