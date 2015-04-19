@@ -46,6 +46,10 @@ class Player(Entity):
 		return "%s(name=%r, hero=%r)" % (self.__class__.__name__, self.name, self.hero)
 
 	@property
+	def controller(self):
+		return self
+
+	@property
 	def slots(self):
 		return self.buffs
 
