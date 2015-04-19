@@ -6,19 +6,17 @@ from ..utils import *
 
 # Guardian of Kings
 class CS2_088:
-	def action(self):
-		self.heal(self.controller.hero, 6)
+	action = [Heal(FRIENDLY_HERO, 6)]
 
 
 # Argent Protector
 class EX1_362:
-	def action(self, target):
-		target.divineShield = True
+	action = [GiveDivineShield(TARGET)]
 
 
 # Aldor Peacekeeper
 class EX1_382:
-	action = buffTarget("EX1_382e")
+	action = [Buff(TARGET, "EX1_382e")]
 
 class EX1_382e:
 	atk = lambda self, i: 1
@@ -26,7 +24,7 @@ class EX1_382e:
 
 # Tirion Fordring
 class EX1_383:
-	deathrattle = equipWeapon("EX1_383t")
+	deathrattle = [Summon(CONTROLLER, "EX1_383t")]
 
 
 ##
@@ -34,50 +32,44 @@ class EX1_383:
 
 # Blessing of Might
 class CS2_087:
-	action = buffTarget("CS2_087e")
+	action = [Buff(TARGET, "CS2_087e")]
 
 
 # Holy Light
 class CS2_089:
-	action = healTarget(6)
+	action = [Heal(TARGET, 6)]
 
 
 # Blessing of Kings
 class CS2_092:
-	action = buffTarget("CS2_092e")
+	action = [Buff(TARGET, "CS2_092e")]
 
 
 # Consecration
 class CS2_093:
-	def action(self):
-		for target in self.controller.opponent.characters:
-			self.hit(target, 2)
+	action = [Hit(ENEMY_CHARACTERS, 2)]
 
 
 # Hammer of Wrath
 class CS2_094:
-	def action(self, target):
-		self.hit(target, 3)
-		self.controller.draw()
+	action = [Hit(TARGET, 3), Draw(CONTROLLER, 1)]
 
 
 # Divine Favor
 class EX1_349:
 	def action(self):
 		diff = len(self.controller.opponent.hand) - len(self.controller.hand)
-		self.controller.draw(max(0, diff))
+		return [Draw(CONTROLLER, max(0, diff))]
 
 
 # Lay on Hands
 class EX1_354:
-	def action(self, target):
-		self.heal(target, 8)
-		self.controller.draw(3)
+	action = [Heal(TARGET, 8), Draw(CONTROLLER, 3)]
 
 
 # Blessed Champion
 class EX1_355:
-	action = buffTarget("EX1_355e")
+	action = [Buff(TARGET, "EX1_355e")]
 
 class EX1_355e:
 	atk = lambda self, i: i*2
@@ -85,7 +77,7 @@ class EX1_355e:
 
 # Humility
 class EX1_360:
-	action = buffTarget("EX1_360e")
+	action = [Buff(TARGET, "EX1_360e")]
 
 class EX1_360e:
 	atk = lambda self, i: 1
@@ -93,15 +85,15 @@ class EX1_360e:
 
 # Blessing of Wisdom
 class EX1_363:
-	action = buffTarget("EX1_363e")
+	action = [Buff(TARGET, "EX1_363e")]
 
 class EX1_363e:
-	def SELF_ATTACK(self, target):
-		self.controller.draw()
+	SELF_ATTACK = [Draw(CONTROLLER, 1)]
 
 
 # Holy Wrath
 class EX1_365:
+	# TODO
 	def action(self, target):
 		drawn = self.controller.draw()
 		self.hit(target, drawn[0].cost)
@@ -109,22 +101,19 @@ class EX1_365:
 
 # Hand of Protection
 class EX1_371:
-	def action(self, target):
-		target.shield = True
+	action = [GiveDivineShield(TARGET)]
 
 
 # Avenging Wrath
 class EX1_384:
 	def action(self):
-		for i in range(8 + self.controller.spellpower):
-			self.hit(random.choice(self.controller.opponent.characters), 1)
+		count = 8 + self.controller.spellpower
+		return [Hit(RANDOM_ENEMY_CHARACTER, 1) * count]
 
 
 # Equality
 class EX1_619:
-	def action(self):
-		for target in self.game.board:
-			self.buff(target, "EX1_619e")
+	action = [Buff(ALL_MINIONS, "EX1_619e")]
 
 class EX1_619e:
 	maxHealth = lambda self, i: 1
@@ -135,12 +124,10 @@ class EX1_619e:
 
 # Truesilver Champion
 class CS2_097:
-	def SELF_ATTACK(self, target):
-		self.heal(self.controller.hero, 2)
+	SELF_ATTACK = [Heal(FRIENDLY_HERO, 2)]
 
 
 # Sword of Justice
 class EX1_366:
 	def OWN_MINION_SUMMON(self, minion):
-		self.buff(minion, "EX1_366e")
-		self.loseDurability()
+		return [Buff(minion, "EX1_366e"), Hit(SELF, 1)]

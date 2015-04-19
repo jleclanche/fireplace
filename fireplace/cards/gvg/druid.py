@@ -6,32 +6,27 @@ from ..utils import *
 
 # Attack Mode (Anodized Robo Cub)
 class GVG_030a:
-	action = buffSelf("GVG_030ae")
+	action = [Buff(SELF, "GVG_030ae")]
 
 # Tank Mode (Anodized Robo Cub)
 class GVG_030b:
-	action = buffSelf("GVG_030be")
+	action = [Buff(SELF, "GVG_030be")]
 
 
 # Gift of Mana (Grove Tender)
 class GVG_032a:
-	def action(self):
-		for player in self.game.players:
-			player.maxMana += 1
-			player.usedMana -= 1
+	action = [GiveMana(ALL_PLAYERS, 1), FillMana(ALL_PLAYERS, 1)]
 
 # Gift of Cards (Grove Tender)
 class GVG_032b:
-	def action(self):
-		for player in self.game.players:
-			player.draw()
+	action = [Draw(ALL_PLAYERS, 1)]
 
 
 # Druid of the Fang
 class GVG_080:
 	def action(self):
 		if self.poweredUp:
-			self.morph("GVG_080t")
+			return [Morph(SELF, "GVG_080t")]
 
 
 ##
@@ -39,6 +34,4 @@ class GVG_080:
 
 # Tree of Life
 class GVG_033:
-	def action(self):
-		for target in self.game.characters:
-			self.heal(target, target.maxHealth)
+	action = [FullHeal(ALL_CHARACTERS)]

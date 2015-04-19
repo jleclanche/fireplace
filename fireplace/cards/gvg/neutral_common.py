@@ -16,49 +16,44 @@ class GVG_013:
 class GVG_067:
 	def CARD_PLAYED(self, player, card):
 		if player is not self.controller and card.type == CardType.SPELL:
-			self.buff(self, "GVG_067a")
+			return [Buff(SELF, "GVG_067a")]
 
 
 # Burly Rockjaw Trogg
 class GVG_068:
 	def CARD_PLAYED(self, player, card):
 		if player is not self.controller and card.type == CardType.SPELL:
-			self.buff(self, "GVG_068a")
+			return [Buff(SELF, "GVG_068a")]
 
 
 # Antique Healbot
 class GVG_069:
-	action = healHero(8)
+	action = [Heal(FRIENDLY_HERO, 8)]
 
 
 # Ship's Cannon
 class GVG_075:
 	def OWN_MINION_SUMMON(self, minion):
 		if minion.race == Race.PIRATE:
-			self.hit(random.choice(self.controller.opponent.characters), 2)
+			return [Hit(RANDOM_ENEMY_CHARACTER, 2)]
 
 
 # Explosive Sheep
 class GVG_076:
-	def deathrattle(self):
-		for target in self.game.board:
-			self.hit(target, 2)
+	deathrattle = [Hit(ALL_MINIONS, 2)]
 
 
 # Mechanical Yeti
 class GVG_078:
-	def deathrattle(self):
-		for player in self.game.players:
-			player.give(random.choice(self.data.entourage))
+	deathrattle = [GiveSparePart(ALL_PLAYERS)]
 
 
 # Clockwork Gnome
 class GVG_082:
-	deathrattle = giveSparePart
+	deathrattle = [GiveSparePart(CONTROLLER)]
 
 
 # Micro Machine
 class GVG_103:
-	def TURN_BEGIN(self, player):
-		# That card ID is not a mistake
-		self.buff(self, "GVG_076a")
+	# That card ID is not a mistake
+	TURN_BEGIN = [Buff(SELF, "GVG_076a")]

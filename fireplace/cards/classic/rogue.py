@@ -6,30 +6,29 @@ from ..utils import *
 
 # Defias Ringleader
 class EX1_131:
-	combo = summonMinion("EX1_131t")
+	combo = [Summon(CONTROLLER, "EX1_131t")]
 
 
 # SI:7 Agent
 class EX1_134:
-	combo = damageTarget(2)
+	combo = [Hit(TARGET, 2)]
 
 
 # Edwin VanCleef
 class EX1_613:
 	def combo(self):
-		for i in range(self.controller.cardsPlayedThisTurn):
-			self.buff(self, "EX1_613e")
+		count = self.controller.cardsPlayedThisTurn
+		return [Buff(self, "EX1_613e") * count]
 
 
 # Kidnapper
 class NEW1_005:
-	combo = bounceTarget
+	combo = [Bounce(TARGET)]
 
 
 # Master of Disguise
 class NEW1_014:
-	def battlecry(self, target):
-		target.stealthed = True
+	action = [GiveStealth(TARGET)]
 
 
 ##
@@ -37,52 +36,50 @@ class NEW1_014:
 
 # Backstab
 class CS2_072:
-	action = damageTarget(2)
+	action = [Hit(TARGET, 2)]
 
 
 # Cold Blood
 class CS2_073:
-	action = buffTarget("CS2_073e")
-	combo = buffTarget("CS2_073e2")
+	action = [Buff(TARGET, "CS2_073e")]
+	combo = [Buff(TARGET, "CS2_073e2")]
 
 
 # Deadly Poison
 class CS2_074:
-	def action(self):
-		self.buff(self.controller.weapon, "CS2_074e")
+	action = [Buff(FRIENDLY_WEAPON, "CS2_074e")]
 
 
 # Sinister Strike
 class CS2_075:
-	action = damageEnemyHero(3)
+	action = [Hit(ENEMY_HERO, 3)]
 
 
 # Assassinate
 class CS2_076:
-	action = destroyTarget
+	action = [Destroy(TARGET)]
 
 
 # Sprint
 class CS2_077:
-	action = drawCards(4)
+	action = [Draw(CONTROLLER, 4)]
 
 
 # Blade Flurry
 class CS2_233:
 	def action(self):
-		for target in self.controller.opponent.field:
-			self.hit(target, self.controller.weapon.atk)
-		self.controller.weapon.destroy()
+		return [Hit(ENEMY_CHARACTERS, self.controller.weapon.atk), Destroy(FRIENDLY_WEAPON)]
 
 
 # Eviscerate
 class EX1_124:
-	action = damageTarget(2)
-	combo = damageTarget(4)
+	action = [Hit(TARGET, 2)]
+	combo = [Hit(TARGET, 4)]
 
 
 # Betrayal
 class EX1_126:
+	# TODO
 	def action(self, target):
 		for minion in target.adjacentMinions:
 			target.hit(minion, target.atk)
@@ -90,58 +87,46 @@ class EX1_126:
 
 # Conceal
 class EX1_128:
-	def action(self):
-		for target in self.controller.field:
-			self.buff(target, "EX1_128e")
+	action = [Buff(FRIENDLY_MINIONS, "EX1_128e")]
 
 class EX1_128e:
-	def OWN_TURN_BEGIN(self):
-		self.destroy()
+	OWN_TURN_BEGIN = [Destroy(SELF)]
 
 
 # Fan of Knives
 class EX1_129:
-	def action(self):
-		for target in self.controller.opponent.field:
-			self.hit(target, 1)
-		self.controller.draw()
+	action = [Hit(ENEMY_MINIONS, 1), Draw(CONTROLLER, 1)]
 
 
 # Headcrack
 class EX1_137:
-	action = damageEnemyHero(2)
+	action = [Hit(ENEMY_HERO, 2)]
 
 	def combo(self):
-		self.hit(self.controller.opponent.hero, 2)
 		self.game.register("TURN_END",
 			lambda *args: self.controller.give("EX1_137"),
 		once=True)
+		return [Hit(ENEMY_HERO, 2)]
 
 
 # Shadowstep
 class EX1_144:
-	def action(self, target):
-		target.bounce()
-		self.buff(target, "EX1_144e")
+	action = [Bounce(TARGET), Buff(TARGET, "EX1_144e")]
 
 
 # Shiv
 class EX1_278:
-	def action(self, target):
-		self.hit(target, 1)
-		self.controller.draw()
+	action = [Hit(TARGET, 1), Draw(CONTROLLER, 1)]
 
 
 # Sap
 class EX1_581:
-	action = bounceTarget
+	action = [Bounce(TARGET)]
 
 
 # Vanish
 class NEW1_004:
-	def action(self):
-		for target in self.game.board:
-			target.bounce()
+	action = [Bounce(ALL_MINIONS)]
 
 
 ##
@@ -149,5 +134,5 @@ class NEW1_004:
 
 # Perdition's Blace
 class EX1_133:
-	action = damageTarget(1)
-	combo = damageTarget(2)
+	action = [Hit(TARGET, 1)]
+	combo = [Hit(TARGET, 2)]

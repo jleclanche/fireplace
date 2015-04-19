@@ -8,26 +8,24 @@ from ..utils import *
 class CS2_237:
 	def OWN_MINION_SUMMON(self, minion):
 		if minion.race == Race.BEAST:
-			self.controller.draw()
+			return [Draw(CONTROLLER, 1)]
 
 
 # Houndmaster
 class DS1_070:
-	action = buffTarget("DS1_070o")
+	action = [Buff(TARGET, "DS1_070o")]
 
 
 # Scavenging Hyena
 class EX1_531:
 	def OWN_MINION_DESTROY(self, minion):
 		if minion.race == Race.BEAST:
-			self.buff(self, "EX1_531e")
+			return [Buff(SELF, "EX1_531e")]
 
 
 # Savannah Highmane
 class EX1_534:
-	def deathrattle(self):
-		self.controller.summon("EX1_534t")
-		self.controller.summon("EX1_534t")
+	deathrattle = [Summon(CONTROLLER, "EX1_534t") * 2]
 
 
 ##
@@ -35,89 +33,70 @@ class EX1_534:
 
 # Hunter's Mark
 class CS2_084:
-	action = buffTarget("CS2_084e")
+	action = [Buff(TARGET, "CS2_084e")]
 
 class CS2_084e:
 	maxHealth = lambda self, i: 1
 
 # Multi-Shot
 class DS1_183:
-	def action(self):
-		targets = random.sample(self.controller.opponent.field, 2)
-		for target in targets:
-			self.hit(target, 3)
+	action = [Hit(RANDOM_ENEMY_MINION * 2, 3)]
 
 
 # Arcane Shot
 class DS1_185:
-	def action(self, target):
-		self.hit(target, 3)
+	action = [Hit(TARGET, 2)]
 
 
 # Explosive Shot
 class EX1_537:
-	def action(self, target):
-		for minion in target.adjacentMinions:
-			self.hit(minion, 2)
-		self.hit(target, 5)
+	action = [Hit(TARGET, 5), Hit(TARGET_ADJACENT, 2)]
 
 
 # Unleash the Hounds
 class EX1_538:
 	def action(self):
-		for i in range(len(self.controller.opponent.field)):
-			self.controller.summon("EX1_538t")
+		count = len(self.controller.opponent.field)
+		return [Summon(CONTROLLER, "EX1_538t") * count]
 
 
 # Kill Command
 class EX1_539:
 	def action(self, target):
-		if self.poweredUp:
-			self.hit(target, 5)
-		else:
-			self.hit(target, 3)
+		return [Hit(TARGET, 5 if self.poweredUp else 3)]
 
 
 # Flare
 class EX1_544:
-	def action(self):
-		for minion in self.game.board:
-			if minion.stealthed:
-				minion.stealthed = False
-		for secret in self.controller.opponent.secrets:
-			secret.destroy()
-		self.controller.draw()
+	action = [Unstealth(ALL_MINIONS), Destroy(ENEMY_SECRETS), Draw(CONTROLLER, 1)]
 
 
 # Bestial Wrath
 class EX1_549:
-	action = buffTarget("EX1_549o")
+	action = [Buff(TARGET, "EX1_549o")]
 
 
 # Freezing Trap
 class EX1_611:
 	def ATTACK(self, source, target):
 		if source.controller is self.controller.opponent and source.type == CardType.MINION:
-			source.bounce()
-			self.buff(source, "EX1_611e")
-			self.reveal()
+			return [Bounce(source), Buff(source, "EX1_611e"), Reveal(SELF)]
 
 class EX1_611e:
 	# Remove the buff when the card is played
-	def AFTER_SELF_CARD_PLAYED(self):
-		self.destroy()
+	AFTER_SELF_CARD_PLAYED = [Destroy(SELF)]
 
 
 # Deadly Shot
 class EX1_617:
-	def action(self):
-		random.choice(self.controller.opponent.field).destroy()
+	action = [Destroy(RANDOM_ENEMY_MINION)]
 
 
 # Animal Companion
 class NEW1_031:
 	def action(self):
-		self.controller.summon(random.choice(self.data.entourage))
+		huffer = random.choice(self.data.entourage)
+		return [Summon(CONTROLLER, huffer)]
 
 
 ##
@@ -125,5 +104,4 @@ class NEW1_031:
 
 # Eaglehorn Bow
 class EX1_536:
-	def OWN_SECRET_REVEAL(self, secret):
-		self.buff(self, "EX1_536e")
+	OWN_SECRET_REVEAL = [Buff(SELF, "EX1_536e")]

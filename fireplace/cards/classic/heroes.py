@@ -7,7 +7,7 @@ from ..utils import *
 
 # Armor Up! (Garrosh Hellscream)
 class CS2_102:
-	action = gainArmor(2)
+	action = [GainArmor(FRIENDLY_HERO, 2)]
 
 
 # Totemic Call (Thrall)
@@ -17,53 +17,48 @@ class CS2_049:
 		for minion in self.controller.field:
 			if minion.id in entourage:
 				entourage.remove(minion.id)
-		self.controller.summon(random.choice(entourage))
+		return [Summon(CONTROLLER, random.choice(entourage))]
 
 # Healing Totem
 class NEW1_009:
-	def OWN_TURN_END(self):
-		for target in self.controller.field:
-			self.heal(target, 1)
+	OWN_TURN_END = [Heal(FRIENDLY_MINIONS, 1)]
 
 
 # Dagger Mastery (Valeera Sanguinar)
 class CS2_083b:
-	def action(self):
-		self.controller.summon("CS2_082")
+	action = [Summon(CONTROLLER, "CS2_082")]
 
 
 # Reinforce (Uther Lightbringer)
 class CS2_101:
-	action = summonMinion("CS2_101t")
+	action = [Summon(CONTROLLER, "CS2_101t")]
 
 
 # Steady Shot (Rexxar)
 class DS1h_292:
-	action = damageEnemyHero(2)
+	action = [Hit(ENEMY_HERO, 2)]
 
 
 # Shapeshift (Malfurion Stormrage)
 class CS2_017:
-	action = buffSelf("CS2_017o")
+	action = [Buff(FRIENDLY_HERO, "CS2_017o"), GainArmor(FRIENDLY_HERO, 1)]
 
 
 # Life Tap (Gul'dan)
 class CS2_056:
-	def action(self):
-		self.hit(self.controller.hero, 2)
-		self.controller.draw()
+	action = [Hit(FRIENDLY_HERO, 2), Draw(CONTROLLER, 1)]
 
 
 # Fireblast (Jaina Proudmoore)
 class CS2_034:
-	action = damageTarget(1)
+	action = [Hit(TARGET, 1)]
 
 
 # Lesser Heal (Anduin Wrynn)
 class CS1h_001:
-	action = healTarget(2)
+	action = [Heal(TARGET, 2)]
 
 
 # INFERNO! (Lord Jaraxxus)
 class EX1_tk33:
-	action = summonMinion("EX1_tk34")
+	action = [Summon(CONTROLLER, "EX1_tk34")]

@@ -7,38 +7,35 @@ from ..utils import *
 
 # Armor Plating
 class PART_001:
-	action = buffTarget("PART_001e")
+	action = [Buff(TARGET, "PART_001e")]
 
 
 # Time Rewinder
 class PART_002:
-	action = bounceTarget
+	action = [Bounce(TARGET)]
 
 
 # Rusty Horn
 class PART_003:
-	def action(self, target):
-		target.taunt = True
+	action = [GiveTaunt(TARGET)]
 
 
 # Finicky Cloakfield
 class PART_004:
-	action = buffTarget("PART_004e")
+	action = [Buff(TARGET, "PART_004e")]
 
 class PART_004e:
-	def OWN_TURN_BEGIN(self):
-		self.destroy()
+	OWN_TURN_BEGIN = [Destroy(SELF)]
 
 
 # Emergency Coolant
 class PART_005:
-	def action(self, target):
-		target.frozen = True
+	action = [Freeze(TARGET)]
 
 
 # Reversing Switch
 class PART_006:
-	action = buffTarget("PART_006a")
+	action = [Buff(TARGET, "PART_006a")]
 
 class PART_006a:
 	atk = lambda self, i: self._xatk
@@ -51,4 +48,4 @@ class PART_006a:
 
 # Whirling Blades
 class PART_007:
-	action = buffTarget("PART_007e")
+	action = [Buff(TARGET, "PART_007e")]

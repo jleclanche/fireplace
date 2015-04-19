@@ -6,7 +6,7 @@ from ..utils import *
 
 # Dragon's Breath
 class DragonsBreath:
-	action = damageTarget(4)
+	action = [Hit(TARGET, 4)]
 
 	def cost(self, value):
 		return value - self.game.minionsKilledThisTurn

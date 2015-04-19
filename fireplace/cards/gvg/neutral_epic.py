@@ -8,4 +8,4 @@ from ..utils import *
 class GVG_104:
 	def OWN_MINION_SUMMON(self, minion):
 		if minion.atk == 1:
-			self.buff(minion, "GVG_104a")
+			return [Buff(minion, "GVG_104a")]

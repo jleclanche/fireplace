@@ -6,28 +6,22 @@ from ..utils import *
 
 # Blood Imp
 class CS2_059:
-	def OWN_TURN_END(self):
-		targets = self.controller.field.exclude(self)
-		if targets:
-			self.buff(random.choice(targets), "CS2_059o")
+	OWN_TURN_END = [Buff(FRIENDLY_MINIONS - SELF, "CS2_059o")]
 
 
 # Dread Infernal
 class CS2_064:
-	def action(self):
-		for target in self.game.characters:
-			if target is not self:
-				self.hit(target, 1)
+	action = [Hit(ALL_CHARACTERS - SELF, 1)]
 
 
 # Felguard
 class EX1_301:
-	def action(self):
-		self.controller.maxMana -= 1
+	action = [GiveMana(CONTROLLER, -1)]
 
 
 # Void Terror
 class EX1_304:
+	# TODO
 	def action(self):
 		if self.adjacentMinions:
 			atk = 0
@@ -41,17 +35,17 @@ class EX1_304:
 
 # Succubus
 class EX1_306:
-	action = discard(1)
+	action = [Discard(RANDOM(CONTROLLER_HAND))]
 
 
 # Doomguard
 class EX1_310:
-	action = discard(2)
+	action = [Discard(RANDOM(CONTROLLER_HAND) * 2)]
 
 
 # Pit Lord
 class EX1_313:
-	action = damageHero(5)
+	action = [Hit(FRIENDLY_HERO, 5)]
 
 
 # Summoning Portal (Virtual Aura)
@@ -61,11 +55,12 @@ class EX1_315a:
 
 # Flame Imp
 class EX1_319:
-	action = damageHero(3)
+	action = [Hit(FRIENDLY_HERO, 3)]
 
 
 # Lord Jaraxxus
 class EX1_323:
+	# TODO
 	def action(self):
 		self.removeFromField()
 		self.controller.summon("EX1_323h")
@@ -77,21 +72,17 @@ class EX1_323:
 
 # Drain Life
 class CS2_061:
-	def action(self, target):
-		self.hit(target, 2)
-		self.heal(self.controller.hero, 2)
+	action = [Hit(TARGET, 2), Heal(FRIENDLY_HERO, 2)]
 
 
 # Hellfire
 class CS2_062:
-	def action(self):
-		for target in self.game.characters:
-			self.hit(target, 3)
+	action = [Hit(ALL_CHARACTERS, 3)]
 
 
 # Corruption
 class CS2_063:
-	action = buffTarget("CS2_063e")
+	action = [Buff(TARGET, "CS2_063e")]
 
 class CS2_063e:
 	def TURN_BEGIN(self, player):
@@ -99,59 +90,50 @@ class CS2_063e:
 		# is not necessarily the same as the owner's controller and we
 		# want it to be the original corrupting player's turn.
 		if player is self.controller:
-			self.owner.destroy()
+			return [Destroy(self.owner)]
 
 
 # Shadow Bolt
 class CS2_057:
-	action = damageTarget(4)
+	action = [Hit(TARGET, 4)]
 
 
 # Mortal Coil
 class EX1_302:
 	def action(self, target):
-		self.hit(target, 1)
+		yield Hit(TARGET, 1)
 		if target.dead:
-			self.controller.draw()
+			yield Draw(CONTROLLER, 1)
 
 
 # Shadowflame
 class EX1_303:
 	def action(self, target):
-		for minion in self.controller.opponent.field:
-			self.hit(minion, target.atk)
-		target.destroy()
+		return [Hit(ENEMY_MINIONS, target.atk), Destroy(TARGET)]
 
 
 # Soulfire
 class EX1_308:
-	def action(self, target):
-		self.hit(target, 4)
-		if self.controller.hand:
-			random.choice(self.controller.hand).discard()
+	action = [Hit(TARGET, 4), Discard(RANDOM(CONTROLLER_HAND))]
 
 
 # Siphon Soul
 class EX1_309:
-	def action(self, target):
-		self.heal(self.controller.hero, 3)
-		target.destroy()
+	action = [Destroy(TARGET), Heal(FRIENDLY_HERO, 3)]
 
 
 # Twisting Nether
 class EX1_312:
-	def action(self):
-		for target in self.game.board:
-			target.destroy()
+	action = [Destroy(ALL_MINIONS)]
 
 
 # Power Overwhelming
 class EX1_316:
-	action = buffTarget("EX1_316e")
+	action = [Buff(TARGET, "EX1_316e")]
 
 class EX1_316e:
 	def TURN_END(self, player):
-		self.owner.destroy()
+		return [Destroy(self.owner)]
 
 
 # Sense Demons
@@ -160,30 +142,30 @@ class EX1_317:
 		for i in range(2):
 			demons = self.controller.deck.filter(race=Race.DEMON)
 			if demons:
-				self.controller.addToHand(random.choice(demons))
+				yield Draw(CONTROLLER, random.choice(demons))
 			else:
-				self.controller.give("EX1_317t")
+				yield Draw(CONTROLLER, "EX1_317t")
 
 
 # Bane of Doom
 class EX1_320:
 	def action(self, target):
-		self.hit(target, 2)
+		yield Hit(TARGET, 2)
 		if target.dead:
-			self.controller.summon(randomCollectible(type=CardType.MINION, race=Race.DEMON))
+			choice = randomCollectible(type=CardType.MINION, race=Race.DEMON)
+			yield Summon(CONTROLLER, choice)
+			yield Draw(CONTROLLER, 1)
 
 
 # Demonfire
 class EX1_596:
 	def action(self, target):
 		if target.race == Race.DEMON and target.controller == self.controller:
-			self.buff(target, "EX1_596e")
+			return [Buff(TARGET, "EX1_596e")]
 		else:
-			self.hit(target, 2)
+			return [Hit(TARGET, 2)]
 
 
 # Sacrificial Pact
 class NEW1_003:
-	def action(self, target):
-		target.destroy()
-		self.heal(self.controller.hero, 5)
+	action = [Destroy(TARGET), Heal(FRIENDLY_HERO, 5)]

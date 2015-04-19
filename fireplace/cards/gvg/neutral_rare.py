@@ -14,7 +14,4 @@ class GVG_095:
 
 # Bomb Lobber
 class GVG_099:
-	def action(self):
-		targets = self.controller.opponent.field
-		if targets:
-			self.hit(random.choice(targets), 4)
+	action = [Hit(RANDOM_ENEMY_MINION, 4)]

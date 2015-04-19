@@ -8,19 +8,17 @@ from ..utils import *
 class CS2_235:
 	def HEAL(self, source, target, amount):
 		if target.type == CardType.MINION:
-			self.controller.draw()
+			return [Draw(CONTROLLER, 1)]
 
 
 # Lightwarden
 class EX1_001:
-	def HEAL(self, source, target, amount):
-		self.buff(self, "EX1_001e")
+	HEAL = [Buff(SELF, "EX1_001e")]
 
 
 # Cabal Shadow Priest
 class EX1_091:
-	def action(self, target):
-		self.controller.takeControl(target)
+	action = [TakeControl(TARGET)]
 
 
 # Lightspawn
@@ -30,15 +28,12 @@ class EX1_335:
 
 # Lightwell
 class EX1_341:
-	def OWN_TURN_BEGIN(self):
-		targets = [t for t in self.controller.characters if t.damage]
-		if targets:
-			self.heal(random.choice(targets), 3)
+	OWN_TURN_BEGIN = [Heal(RANDOM(FRIENDLY + DAMAGED_CHARACTERS), 3)]
 
 
 # Temple Enforcer
 class EX1_623:
-	action = buffTarget("EX1_623e")
+	action = [Buff(TARGET, "EX1_623e")]
 
 
 ##
@@ -46,30 +41,22 @@ class EX1_623:
 
 # Power Word: Shield
 class CS2_004:
-	def action(self, target):
-		self.buff(target, "CS2_004e")
-		self.controller.draw()
+	action = [Buff(TARGET, "CS2_004e"), Draw(CONTROLLER, 1)]
 
 
 # Holy Nova
 class CS1_112:
-	def action(self):
-		for target in self.game.characters:
-			if target.controller == self.controller:
-				self.heal(target, 2)
-			else:
-				self.hit(target, 2)
+	action = [Hit(ENEMY_CHARACTERS, 2), Heal(FRIENDLY_CHARACTERS, 2)]
 
 
 # Mind Control
 class CS1_113:
-	def action(self, target):
-		self.controller.takeControl(target)
+	action = [TakeControl(TARGET)]
 
 
 # Inner Fire
 class CS1_129:
-	action = buffTarget("CS1_129e")
+	action = [Buff(TARGET, "CS1_129e")]
 
 class CS1_129e:
 	atk = lambda self, i: self._xatk
@@ -79,24 +66,25 @@ class CS1_129e:
 
 # Holy Smite
 class CS1_130:
-	action = damageTarget(2)
+	action = [Hit(TARGET, 2)]
 
 
 # Mind Vision
 class CS2_003:
 	def action(self):
 		if self.controller.opponent.hand:
-			self.controller.give(random.choice(self.controller.opponent.hand).id)
+			choice = random.choice(self.controller.opponent.hand).id
+			return [Give(CONTROLLER, choice)]
 
 
 # Shadow Word: Pain
 class CS2_234:
-	action = destroyTarget
+	action = [Destroy(TARGET)]
 
 
 # Divine Spirit
 class CS2_236:
-	action = buffTarget("CS2_236e")
+	action = [Buff(TARGET, "CS2_236e")]
 
 class CS2_236e:
 	def apply(self, target):
@@ -105,17 +93,17 @@ class CS2_236e:
 
 # Mind Blast
 class DS1_233:
-	action = damageEnemyHero(5)
+	action = [Hit(ENEMY_HERO, 5)]
 
 
 # Silence
 class EX1_332:
-	action = silenceTarget
+	action = [Silence(TARGET)]
 
 
 # Shadow Madness
 class EX1_334:
-	action = buffTarget("EX1_334e")
+	action = [Buff(TARGET, "EX1_334e")]
 
 class EX1_334e:
 	def apply(self, target):
@@ -129,8 +117,8 @@ class EX1_334e:
 class EX1_339:
 	def action(self):
 		deck = self.controller.opponent.deck
-		for card in random.sample(deck, min(len(deck), 2)):
-			self.controller.give(card.id)
+		cards = random.sample(deck, min(len(deck), 2))
+		return [Give(CONTROLLER, card.id) for card in cards]
 
 
 # Mindgames
@@ -141,50 +129,43 @@ class EX1_345:
 			creature = random.choice(creatures).id
 		else:
 			creature = "EX1_345t"
-		self.controller.summon(creature)
+		return [Summon(CONTROLLER, creature)]
 
 
 # Circle of Healing
 class EX1_621:
-	def action(self):
-		for target in self.game.board:
-			self.heal(target, 4)
+	action = [Heal(ALL_MINIONS, 4)]
 
 
 # Shadow Word: Death
 class EX1_622:
-	action = destroyTarget
+	action = [Destroy(TARGET)]
 
 
 # Holy Fire
 class EX1_624:
-	def action(self, target):
-		self.hit(target, 5)
-		self.heal(self.controller.hero, 5)
+	action = [Hit(TARGET, 5), Heal(FRIENDLY_HERO, 5)]
 
 
 # Shadowform
 class EX1_625:
 	def action(self):
 		if self.controller.hero.power.id == "EX1_625t":
-			self.controller.summon("EX1_625t2")
+			return [Summon(CONTROLLER, "EX1_625t2")]
 		elif self.controller.hero.power.id == "EX1_625t2":
 			pass
 		else:
-			self.controller.summon("EX1_625t")
+			return [Summon(CONTROLLER, "EX1_625t")]
 
 # Mind Spike
 class EX1_625t:
-	action = damageTarget(2)
+	action = [Hit(TARGET, 2)]
 
 # Mind Shatter
 class EX1_625t2:
-	action = damageTarget(3)
+	action = [Hit(TARGET, 3)]
 
 
 # Mass Dispel
 class EX1_626:
-	def action(self):
-		for target in self.controller.opponent.field:
-			target.silence()
-		self.controller.draw()
+	action = [Silence(ENEMY_MINIONS), Draw(CONTROLLER, 1)]

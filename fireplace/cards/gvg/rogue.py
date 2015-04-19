@@ -6,22 +6,19 @@ from ..utils import *
 
 # Goblin Auto-Barber
 class GVG_023:
-	action = buffWeapon("GVG_023a")
+	action = [Buff(FRIENDLY_WEAPON, "GVG_023a")]
 
 
 # One-eyed Cheat
 class GVG_025:
 	def OWN_MINION_SUMMON(self, minion):
 		if minion.race == Race.PIRATE and minion != self:
-			self.stealth = True
+			return [GiveStealth(SELF)]
 
 
 # Iron Sensei
 class GVG_027:
-	def OWN_TURN_END(self):
-		mechs = self.controller.field.filter(race=Race.MECHANICAL).exclude(self)
-		if mechs:
-			self.buff(random.choice(mechs), "GVG_027e")
+	OWN_TURN_END = [Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_027e")]
 
 
 # Trade Prince Gallywix
@@ -29,12 +26,10 @@ class GVG_028:
 	def CARD_PLAYED(self, player, card):
 		if player is not self.controller and card.type == CardType.SPELL:
 			if card.id != "GVG_028t":
-				player.opponent.give(card.id)
-				player.give("GVG_028t")
+				return [Give(player.opponent, card.id), Give(player, "GVG_028t")]
 
 class GVG_028t:
-	def action(self):
-		self.controller.tempMana += 1
+	action = [ManaThisTurn(CONTROLLER, 1)]
 
 
 ##
@@ -42,13 +37,8 @@ class GVG_028t:
 
 # Tinker's Sharpsword Oil
 class GVG_022:
-	action = buffWeapon("GVG_022a")
-
-	def action(self):
-		if self.controller.weapon:
-			self.buff(self.controller.weapon, "GVG_022a")
-		if self.controller.field:
-			self.buff(random.choice(self.controller.field), "GVG_022b")
+	action = [Buff(FRIENDLY_WEAPON, "GVG_022a")]
+	combo = [Buff(FRIENDLY_WEAPON, "GVG_022a"), Buff(RANDOM_FRIENDLY_CHARACTER, "GVG_022b")]
 
 
 ##

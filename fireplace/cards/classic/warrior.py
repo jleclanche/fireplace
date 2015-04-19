@@ -8,21 +8,19 @@ from ..utils import *
 class EX1_402:
 	def OWN_DAMAGE(self, source, target, amount):
 		if target.type == CardType.MINION:
-			self.controller.hero.armor += 1
+			return [GainArmor(FRIENDLY_HERO, 1)]
 
 
 # Cruel Taskmaster
 class EX1_603:
-	def action(self, target):
-		self.buff(target, "EX1_603e")
-		self.hit(target, 1)
+	action = [Buff(TARGET, "EX1_603e"), Hit(TARGET, 1)]
 
 
 # Frothing Berserker
 class EX1_604:
 	def DAMAGE(self, source, target, amount):
 		if target.type == CardType.MINION:
-			self.buff(self, "EX1_604o")
+			return [Buff(SELF, "EX1_604o")]
 
 
 ##
@@ -30,100 +28,88 @@ class EX1_604:
 
 # Charge
 class CS2_103:
-	action = buffTarget("CS2_103e2")
+	action = [Buff(TARGET, "CS2_103e2")]
 
 
 # Rampage
 class CS2_104:
-	action = buffTarget("CS2_104e")
+	action = [Buff(TARGET, "CS2_104e")]
 
 
 # Heroic Strike
 class CS2_105:
-	action = buffSelf("CS2_105e")
+	action = [Buff(FRIENDLY_HERO, "CS2_105e")]
 
 
 # Execute
 class CS2_108:
-	action = destroyTarget
+	action = [Destroy(TARGET)]
 
 
 # Cleave
 class CS2_114:
-	def action(self):
-		targets = random.sample(self.controller.opponent.field, 2)
-		for target in targets:
-			self.hit(target, 2)
+	action = [Hit(RANDOM_ENEMY_MINION * 2, 2)]
 
 
 # Slam
 class EX1_391:
 	def action(self, target):
-		self.hit(target, 2)
+		yield Hit(TARGET, 2)
 		if not target.dead:
-			self.controller.draw()
+			yield Draw(CONTROLLER, 1)
 
 
 # Battle Rage
 class EX1_392:
 	def action(self):
-		for target in self.controller.characters:
-			if target.damage:
-				self.controller.draw()
+		count = len(t for t in self.controller.characters if t.damage)
+		return [Draw(CONTROLLER, count)]
 
 
 # Whirlwind
 class EX1_400:
-	def action(self):
-		for target in self.game.board:
-			self.hit(target, 1)
+	action = [Hit(ALL_MINIONS, 1)]
 
 
 # Brawl
 class EX1_407:
-	def action(self):
-		winner = random.choice(self.game.board)
-		for minion in self.game.board.exclude(winner):
-			minion.destroy()
+	action = [Destroy(ALL_MINIONS - RANDOM_MINION)]
 
 
 # Mortal Strike
 class EX1_408:
 	def action(self, target):
-		self.hit(target, 6 if self.controller.hero.health <= 12 else 4)
+		if self.controller.hero.health <= 12:
+			return [Hit(TARGET, 6)]
+		else:
+			return [Hit(TARGET, 4)]
 
 
 # Upgrade!
 class EX1_409:
 	def action(self):
 		if self.controller.weapon:
-			self.buff(self.controller.weapon, "EX1_409e")
+			return [Buff(FRIENDLY_WEAPON, "EX1_409e")]
 		else:
-			self.controller.summon("EX1_409t")
+			return [Summon(CONTROLLER, "EX1_409t")]
 
 
 # Shield Slam
 class EX1_410:
 	def action(self, target):
-		self.hit(target, self.controller.hero.armor)
+		return [Hit(TARGET, self.controller.hero.armor)]
 
 
 # Shield Block
 class EX1_606:
-	def action(self):
-		self.controller.hero.armor += 5
-		self.controller.draw()
+	action = [GainArmor(FRIENDLY_HERO, 5), Draw(CONTROLLER, 1)]
 
 
 # Inner Rage
 class EX1_607:
-	def action(self, target):
-		self.buff(target, "EX1_607e")
-		self.hit(target, 1)
+	action = [Buff(TARGET, "EX1_607e"), Hit(TARGET, 1)]
 
 
 # Commanding Shout
 class NEW1_036:
-	def action(self):
-		for target in self.controller.field:
-			self.buff(target, "NEW1_036e")
+	action = [Buff(FRIENDLY_MINIONS, "NEW1_036e")]

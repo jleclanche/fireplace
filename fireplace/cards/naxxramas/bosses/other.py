@@ -3,4 +3,4 @@ from ...utils import *
 
 # Deathcharger
 class FP1_006:
-	deathrattle = damageHero(3)
+	deathrattle = [Hit(FRIENDLY_HERO, 3)]

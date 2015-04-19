@@ -8,8 +8,7 @@ from ..utils import *
 class GVG_004:
 	def action(self):
 		if self.poweredUp:
-			for i in range(4):
-				self.hit(random.choice(self.controller.opponent.characters), 1)
+			return [Hit(RANDOM_ENEMY_CHARACTER, 1) * 4]
 
 
 ##
@@ -17,12 +16,12 @@ class GVG_004:
 
 # Flamecannon
 class GVG_001:
-	def action(self):
-		self.hit(random.choice(self.controller.opponent.field), 4)
+	action = [Hit(RANDOM_ENEMY_MINION, 4)]
 
 
 # Unstable Portal
 class GVG_003:
+	# TODO
 	def action(self):
 		card = self.controller.give(randomCollectible(type=CardType.MINION))
 		self.buff(card, "GVG_003e")
@@ -31,5 +30,4 @@ class GVG_003:
 # Echo of Medivh
 class GVG_005:
 	def action(self):
-		for minion in self.controller.field:
-			self.controller.give(minion.id)
+		return [Give(CONTROLLER, minion.id) for minion in self.controller.field]

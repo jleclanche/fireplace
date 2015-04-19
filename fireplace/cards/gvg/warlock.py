@@ -8,15 +8,12 @@ from ..utils import *
 class GVG_018:
 	def DAMAGE(self, source, target, amount):
 		if source is self:
-			self.heal(self.controller.hero, amount)
+			return [Heal(FRIENDLY_HERO, amount)]
 
 
 # Fel Cannon
 class GVG_020:
-	def OWN_TURN_END(self):
-		targets = self.game.board.exclude(race=Race.MECHANICAL)
-		if targets:
-			self.hit(random.choice(targets))
+	OWN_TURN_END = [Hit(RANDOM_MINION - MECH)]
 
 
 ##
@@ -24,13 +21,13 @@ class GVG_020:
 
 # Darkbomb
 class GVG_015:
-	action = damageTarget(3)
+	action = [Hit(TARGET, 3)]
 
 
 # Demonheart
 class GVG_019:
 	def action(self, target):
 		if target.controller == self.controller and target.race == Race.DEMON:
-			self.buff(target, "GVG_019e")
+			return [Buff(TARGET, "GVG_019e")]
 		else:
-			self.hit(target, 5)
+			return [Hit(TARGET, 5)]

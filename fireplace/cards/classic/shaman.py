@@ -6,26 +6,24 @@ from ..utils import *
 
 # Fire Elemental
 class CS2_042:
-	action = damageTarget(3)
+	action = [Hit(TARGET, 3)]
 
 
 # Unbound Elemental
 class EX1_258:
 	def OWN_CARD_PLAYED(self, card):
 		if card.overload:
-			self.buff(self, "EX1_258e")
+			return [Buff(SELF, "EX1_258e")]
 
 
 # Mana Tide Totem
 class EX1_575:
-	def OWN_TURN_END(self):
-		self.controller.draw()
+	OWN_TURN_END = [Draw(CONTROLLER, 1)]
 
 
 # Windspeaker
 class EX1_587:
-	def action(self, target):
-		target.windfury = True
+	action = [GiveWindfury(TARGET)]
 
 
 ##
@@ -33,46 +31,42 @@ class EX1_587:
 
 # Frost Shock
 class CS2_037:
-	def action(self, target):
-		self.hit(target, 1)
+	action = [Hit(TARGET, 1)]
 
 
 # Ancestral Spirit
 class CS2_038:
-	action = buffTarget("CS2_038e")
+	action = [Buff(TARGET, "CS2_038e")]
 
 class CS2_038e:
 	def deathrattle(self):
-		self.controller.summon(self.id)
+		return [Summon(CONTROLLER, self.id)]
 
 
 # Windfury
 class CS2_039:
-	def action(self, target):
-		target.windfury = True
+	action = [GiveWindfury(TARGET)]
 
 
 # Ancestral Healing
 class CS2_041:
 	def action(self, target):
-		self.heal(target, target.maxHealth)
-		self.buff(target, "CS2_041e")
+		return [Heal(TARGET, target.maxHealth), Buff(TARGET, "CS2_041e")]
 
 
 # Rockbiter Weapon
 class CS2_045:
-	action = buffTarget("CS2_045e")
+	action = [Buff(TARGET, "CS2_045e")]
 
 
 # Bloodlust
 class CS2_046:
-	def action(self):
-		for target in self.controller.field:
-			self.buff(target, "CS2_046e")
+	action = [Buff(FRIENDLY_MINIONS, "CS2_046e")]
 
 
 # Far Sight
 class CS2_053:
+	# TODO
 	def action(self):
 		card = self.controller.draw()
 		self.buff(card, "CS2_053e")
@@ -80,50 +74,40 @@ class CS2_053:
 
 # Lightning Bolt
 class EX1_238:
-	action = damageTarget(3)
+	action = [Hit(TARGET, 3)]
 
 
 # Lava Burst
 class EX1_241:
-	action = damageTarget(5)
+	action = [Hit(TARGET, 5)]
 
 
 # Totemic Might
 class EX1_244:
-	def action(self):
-		for totem in self.controller.field.filter(race=Race.TOTEM):
-			self.buff(target, "EX1_244e")
+	action = [Buff(FRIENDLY_MINIONS + TOTEM, "EX1_244e")]
 
 
 # Hex
 class EX1_246:
-	action = morphTarget("hexfrog")
+	action = [Morph(TARGET, "hexfrog")]
 
 
 # Feral Spirit
 class EX1_248:
-	def action(self):
-		self.controller.summon("EX1_tk11")
-		self.controller.summon("EX1_tk11")
+	action = [Summon(CONTROLLER, "EX1_tk11"), Summon("EX1_tk11")]
 
 
 # Forked Lightning
 class EX1_251:
-	def action(self):
-		targets = random.sample(self.controller.opponent.field, 2)
-		for target in targets:
-			self.hit(target, 2)
+	action = [Hit(RANDOM_ENEMY_MINION * 2, 2)]
 
 
 # Earth Shock
 class EX1_245:
-	def action(self, target):
-		target.silence()
-		self.hit(target, 1)
+	action = [Silence(TARGET), Hit(TARGET, 1)]
 
 
 # Lightning Storm
 class EX1_259:
 	def action(self):
-		for target in self.controller.opponent.field:
-			self.hit(target, random.choice((2, 3)))
+		return [Hit(target, random.choice((2, 3))) for target in self.controller.opponent.field]

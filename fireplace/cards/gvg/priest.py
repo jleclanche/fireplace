@@ -6,18 +6,17 @@ from ..utils import *
 
 # Shadowbomber
 class GVG_009:
-	def action(self):
-		for target in (self.currentPlayer.hero, self.currentPlayer.opponent.hero):
-			self.hit(target, 3)
+	action = [Hit(ALL_HEROES, 3)]
 
 
 # Shrinkmeister
 class GVG_011:
-	action = buffTarget("GVG_011a")
+	action = [Buff(TARGET, "GVG_011a")]
 
 
 # Vol'jin
 class GVG_014:
+	# TODO
 	def action(self, target):
 		health = target.health
 		self.buff(target, "GVG_014a", health=self.health)
@@ -33,18 +32,17 @@ class GVG_014a:
 # Lightbomb
 class GVG_008:
 	def action(self):
-		for target in self.game.board:
-			self.hit(target, target.atk)
+		return [Hit(target, target.atk) for target in self.game.board]
 
 
 # Velen's Chosen
 class GVG_010:
-	action = buffTarget("GVG_010b")
+	action = [Buff(TARGET, "GVG_010b")]
 
 
 # Light of the Naaru
 class GVG_012:
 	def action(self, target):
-		self.heal(target, 3)
+		yield Heal(TARGET, 3)
 		if target.damage:
-			self.controller.summon("EX1_001")
+			yield Summon(CONTROLLER, "EX1_001")

@@ -23,17 +23,7 @@ class EX1_363e2:
 		self.owner.controller.draw()
 
 
-# Repairs! (Antique Healbot)
-class GVG_069a:
-	Health = 4
-
-
 # Adrenaline Rush
 class NEW1_006:
-	action = drawCard
-	combo = drawCards(2)
-
-
-# Bolstered (Bloodsail Corsair)
-class NEW1_025e:
-	Health = 1
+	action = [Draw(CONTROLLER, 1)]
+	combo = [Draw(CONTROLLER, 2)]

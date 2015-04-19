@@ -3,7 +3,7 @@ from ..utils import *
 
 # Big Game Hunter
 class EX1_005:
-	action = destroyTarget
+	action = [Destroy(TARGET)]
 
 
 # Mountain Giant
@@ -21,10 +21,8 @@ class EX1_586:
 # Blood Knight
 class EX1_590:
 	def action(self):
-		for target in self.game.board:
-			if target.divineShield:
-				target.divineShield = False
-				self.buff(self, "EX1_590e")
+		count = len(self.game.board.filter(divineShield=True))
+		return [RemoveDivineShield(ALL_MINIONS)] + [Buff(self, "EX1_590e") * count]
 
 
 # Molten Giant
@@ -35,21 +33,14 @@ class EX1_620:
 
 # Captain's Parrot
 class NEW1_016:
-	def action(self):
-		pirates = self.controller.deck.filter(race=Race.PIRATE)
-		if pirates:
-			self.controller.draw(random.choice(pirates))
+	action = [ForceDraw(CONTROLLER, CONTROLLER_DECK + PIRATE)]
 
 
 # Hungry Crab
 class NEW1_017:
-	def action(self, target):
-		target.destroy()
-		self.buff(self, "NEW1_017e")
+	action = [Destroy(TARGET), Buff(SELF, "NEW1_017e")]
 
 
 # Doomsayer
 class NEW1_021:
-	def OWN_TURN_BEGIN(self):
-		for target in self.game.board:
-			target.destroy()
+	OWN_TURN_BEGIN = [Destroy(ALL_MINIONS)]

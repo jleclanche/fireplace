@@ -3,82 +3,72 @@ from ..utils import *
 
 # Damage 1
 class XXX_001:
-	action = damageTarget(1)
+	action = [Hit(TARGET, 1)]
 
 
 # Damage 5
 class XXX_002:
-	action = damageTarget(5)
+	action = [Hit(TARGET, 5)]
 
 
 # Restore 1
 class XXX_003:
-	action = healTarget(1)
+	action = [Heal(TARGET, 1)]
 
 
 # Restore 5
 class XXX_004:
-	action = healTarget(5)
+	action = [Heal(TARGET, 5)]
 
 
 # Destroy
 class XXX_005:
-	action = destroyTarget
+	action = [Destroy(TARGET)]
 
 
 # Break Weapon
 class XXX_006:
-	def action(self):
-		if self.controller.opponent.weapon:
-			self.controller.opponent.weapon.destroy()
+	action = [Destroy(ENEMY_WEAPON)]
 
 
 # Enable for Attack
 class XXX_007:
-	def action(self, target):
-		target.charge = True
+	action = [GiveCharge(TARGET)]
 
 
 # Freeze
 class XXX_008:
-	def action(self, target):
-		target.frozen = True
+	action = [Freeze(TARGET)]
 
 
 # Enchant
 class XXX_009:
-	action = buffTarget("XXX_009e")
+	action = [Buff(TARGET, "XXX_009e")]
 
 
 # Silence - debug
 class XXX_010:
-	action = silenceTarget
+	action = [Silence(TARGET)]
 
 
-# Summon a random secret
+# Summon a random Secret
 class XXX_011:
-	def action(self):
-		secrets = self.controller.deck.filter(secret=True)
-		if secrets:
-			self.controller.summon(random.choice(secrets))
+	action = [ForcePlay(CONTROLLER, RANDOM(CONTROLLER_DECK + SECRET))]
 
 
 # Bounce
 class XXX_012:
-	action = bounceTarget
+	action = [Bounce(TARGET)]
 
 
 # Discard
 class XXX_013:
-	def action(self, target):
-		target.controller.discardHand()
+	action = [Discard(CONTROLLER_HAND)]
 
 
 # Mill 10
 class XXX_014:
-	def action(self, target):
-		for i in range(10):
-			target.controller.deck[-1].destroy()
+	action = [Mill(CONTROLLER, 10)]
 
 
 # Crash
@@ -89,34 +79,27 @@ class XXX_015:
 
 # Snake Ball
 class XXX_016:
-	def action(self):
-		for i in range(5):
-			self.controller.summon("EX1_554t")
+	action = [Summon("EX1_554t") * 5]
 
 
 # Draw 3 Cards
 class XXX_017:
-	action = drawCards(3)
+	action = [Draw(CONTROLLER, 3)]
 
 
 # Destroy All Minions
 class XXX_018:
-	def action(self):
-		for target in self.game.field:
-			target.destroy()
+	action = [Destroy(ALL_MINIONS)]
 
 
 # Restore All Health
 class XXX_021:
-	def action(self):
-		self.heal(target, target.maxHealth)
+	action = [FullHeal(TARGET)]
 
 
 # Destroy All Heroes
 class XXX_023:
-	def action(self):
-		self.game.player1.hero.destroy()
-		self.game.player2.hero.destroy()
+	action = [Destroy(ALL_HEROES)]
 
 
 # Do Nothing
@@ -132,56 +115,45 @@ class XXX_027:
 
 # Destroy Hero Power
 class XXX_041:
-	def action(self, target):
-		target.controller.hero.power.destroy()
+	action = [Destroy(HERO_POWER + CONTROLLED_BY_TARGET)]
 
 
 # -1 Durability
 class XXX_048:
-	def action(self, target):
-		if target.controller.weapon:
-			target.controller.weapon.loseDurability()
+	action = [Hit(ALL_WEAPONS + CONTROLLED_BY_TARGET, 1)]
 
 
 # Destroy All Mana
 class XXX_049:
 	def action(self, target):
-		target.controller.maxMana = 0
+		return [GiveMana(-target.controller.maxMana)]
 
 
 # Destroy a Mana Crystal
 class XXX_050:
-	def action(self, target):
-		target.controller.maxMana -= 1
+	action = [GiveMana(PLAYER + CONTROLLED_BY_TARGET, -1)]
 
 
 # Armor
 class XXX_053:
-	action = gainArmor(100)
+	action = [GainArmor(CONTROLLER, 100)]
 
 
 # Weapon Buff
 class XXX_054:
-	def action(self):
-		if self.controller.weapon:
-			self.buff(self.controller.weapon, "XXX_054e")
+	action = [Buff(FRIENDLY_WEAPON, "XXX_054e")]
 
 
 # 1000 Stats
 class XXX_055:
-	action = buffTarget("XXX_055e")
+	action = [Buff(TARGET, "XXX_055e")]
 
 
 # Silence Destroy
 class XXX_056:
-	def action(self):
-		for target in self.game.field:
-			target.silence()
-			target.destroy()
+	action = [Silence(ALL_MINIONS), Destroy(ALL_MINIONS)]
 
 
 # Destroy Secrets
 class XXX_057:
-	def action(self, target):
-		for secret in target.controller.secrets:
-			secret.destroy()
+	action = [Destroy(ALL_SECRETS + CONTROLLED_BY_TARGET)]

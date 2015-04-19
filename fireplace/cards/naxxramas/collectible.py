@@ -6,113 +6,92 @@ from ..utils import *
 
 # Zombie Chow
 class FP1_001:
-	def deathrattle(self):
-		self.heal(self.controller.opponent.hero, 5)
+	deathrattle = [Heal(ENEMY_HERO, 5)]
 
 
 # Haunted Creeper
 class FP1_002:
-	def deathrattle(self):
-		self.controller.summon("FP1_002t")
-		self.controller.summon("FP1_002t")
+	deathrattle = [Summon(CONTROLLER, "FP1_002t"), Summon(CONTROLLER, "FP1_002t")]
 
 
 # Mad Scientist
 class FP1_004:
-	def deathrattle(self):
-		secrets = self.controller.deck.filter(secret=True)
-		if secrets:
-			self.controller.summon(random.choice(secrets))
+	deathrattle = [ForcePlay(CONTROLLER, RANDOM(CONTROLLER_DECK + SECRET))]
 
 
 # Shade of Naxxramas
 class FP1_005:
-	def OWN_TURN_BEGIN(self):
-		self.buff(self, "FP1_005e")
+	OWN_TURN_BEGIN = [Buff(SELF, "FP1_005e")]
 
 
 # Nerubian Egg
 class FP1_007:
-	deathrattle = summonMinion("FP1_007t")
+	deathrattle = [Summon(CONTROLLER, "FP1_007t")]
 
 
 # Deathlord
 class FP1_009:
-	def deathrattle(self):
-		minions = self.controller.opponent.deck.filter(type=CardType.MINION)
-		if minions:
-			self.controller.opponent.summon(random.choice(minions))
+	deathrattle = [ForcePlay(OPPONENT, RANDOM(OPPONENT_DECK + MINION))]
 
 
 # Webspinner
 class FP1_011:
 	def deathrattle(self):
-		self.controller.give(randomCollectible(type=CardType.MINION, race=Race.BEAST))
+		choice = randomCollectible(type=CardType.MINION, race=Race.BEAST)
+		return [Give(CONTROLLER, choice)]
 
 
 # Sludge Belcher
 class FP1_012:
-	deathrattle = summonMinion("FP1_012t")
+	deathrattle = [Summon(CONTROLLER, "FP1_012t")]
 
 
 # Wailing Soul
 class FP1_016:
-	def action(self):
-		for target in self.controller.field:
-			target.silence()
+	action = [Silence(FRIENDLY_MINIONS)]
 
 
 # Voidcaller
 class FP1_022:
-	def deathrattle(self):
-		demons = self.controller.hand.filter(race=Race.DEMON)
-		if demons:
-			self.controller.summon(random.choice(demons))
+	deathrattle = [ForcePlay(CONTROLLER, RANDOM(CONTROLLER_HAND + DEMON))]
 
 
 # Dark Cultist
 class FP1_023:
-	def deathrattle(self):
-		if self.controller.field:
-			target = random.choice(self.controller.field)
-			self.buff(target, "FP1_023e")
+	deathrattle = [Buff(RANDOM_FRIENDLY_MINION, "FP1_023e")]
 
 
 # Unstable Ghoul
 class FP1_024:
-	def deathrattle(self):
-		for target in self.game.board:
-			self.hit(target, 1)
+	deathrattle = [Hit(ALL_MINIONS, 1)]
 
 
 # Anub'ar Ambusher
 class FP1_026:
-	def deathrattle(self):
-		if self.controller.field:
-			random.choice(self.controller.field).bounce()
+	deathrattle = [Bounce(RANDOM_FRIENDLY_MINION)]
 
 
 # Stoneskin Gargoyle
 class FP1_027:
 	def OWN_TURN_BEGIN(self):
-		self.heal(self, self.damage)
+		return [Heal(SELF, self.damage)]
 
 
 # Undertaker
 class FP1_028:
 	def OWN_MINION_SUMMON(self, minion):
 		if minion.hasDeathrattle:
-			self.buff(self, "FP1_028e")
+			return [Buff(SELF, "FP1_028e")]
 
 
 # Dancing Swords
 class FP1_029:
-	def deathrattle(self):
-		self.controller.opponent.draw()
+	deathrattle = [Draw(OPPONENT, 1)]
 
 
 # Loatheb
 class FP1_030:
+	# TODO
 	def action(self):
 		self.game.register("TURN_END",
 			lambda *args: self.buff(self.controller.opponent.hero, "FP1_030e"),
@@ -122,7 +101,7 @@ class FP1_030e:
 	def TURN_END(self, player):
 		# Remove the buff at the end of the other player's turn
 		if player is not self.owner.controller:
-			self.destroy()
+			return [Destroy(SELF)]
 
 class FP1_030ea:
 	cost = lambda self, i: i+5
@@ -134,8 +113,7 @@ class FP1_030ea:
 # Reincarnate
 class FP1_025:
 	def action(self, target):
-		target.destroy()
-		self.controller.summon(target.id)
+		return [Destroy(TARGET), Summon(CONTROLLER, target.id)]
 
 
 ##
@@ -143,6 +121,4 @@ class FP1_025:
 
 # Death's Bite
 class FP1_021:
-	def deathrattle(self):
-		for target in self.controller.game.board:
-			self.hit(target, 1)
+	deathrattle = [Hit(ALL_MINIONS, 1)]
