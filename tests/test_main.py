@@ -2015,6 +2015,26 @@ def test_blizzard():
 		assert spellbendert.frozen
 
 
+def test_bane_of_doom():
+	game = prepare_game()
+	doom = game.currentPlayer.give("EX1_320")
+	doom2 = game.currentPlayer.give("EX1_320")
+	token = game.player2.summon(SPELLBENDERT)
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert not game.player1.field
+	doom.play(target=token)
+	assert not game.player1.field
+	game.endTurn(); game.endTurn()
+
+	doom2.play(target=token)
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].race == Race.DEMON
+	assert game.player1.field[0].data.collectible
+
+
 def test_baron_rivendare():
 	game = prepare_game()
 	gnome = game.currentPlayer.give("EX1_029")
