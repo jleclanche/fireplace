@@ -1,3 +1,3 @@
-[submodule "hearthstone-data"]
+[submodule "hs-cards"]
 	path = data
-	url = https://github.com/jleclanche/hearthstone-data.git
+	url = https://github.com/HearthSim/hs-cards.git
