@@ -31,6 +31,9 @@ class Game(Entity):
 			return "Uninitialized Game"
 		return "%r vs %r" % (self.players[0], self.players[1])
 
+	def __iter__(self):
+		return self.allEntities.__iter__()
+
 	@property
 	def board(self):
 		return CardList(self.player1.field + self.player2.field)
@@ -46,6 +49,10 @@ class Game(Entity):
 	@property
 	def characters(self):
 		return chain(self.player1.characters, self.player2.characters)
+
+	@property
+	def allEntities(self):
+		return chain(self.entities, self.hands, self.decks)
 
 	@property
 	def entities(self):
