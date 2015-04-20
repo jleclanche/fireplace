@@ -36,31 +36,31 @@ class Game(Entity):
 
 	@property
 	def board(self):
-		return CardList(self.player1.field + self.player2.field)
+		return CardList(chain(self.player1.field, self.player2.field))
 
 	@property
 	def decks(self):
-		return chain(self.player1.deck, self.player2.deck)
+		return CardList(chain(self.player1.deck, self.player2.deck))
 
 	@property
 	def hands(self):
-	    return chain(self.player1.hand, self.player2.hand)
+	    return CardList(chain(self.player1.hand, self.player2.hand))
 
 	@property
 	def characters(self):
-		return chain(self.player1.characters, self.player2.characters)
+		return CardList(chain(self.player1.characters, self.player2.characters))
 
 	@property
 	def allEntities(self):
-		return chain(self.entities, self.hands, self.decks)
+		return CardList(chain(self.entities, self.hands, self.decks))
 
 	@property
 	def entities(self):
-		return chain([self], self.player1.entities, self.player2.entities)
+		return CardList(chain([self], self.player1.entities, self.player2.entities))
 
 	@property
 	def liveEntities(self):
-		return chain(self.player1.liveEntities, self.player2.liveEntities)
+		return CardList(chain(self.player1.liveEntities, self.player2.liveEntities))
 
 	def filter(self, *args, **kwargs):
 		return self.allEntities.filter(*args, **kwargs)
