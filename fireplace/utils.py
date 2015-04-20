@@ -32,7 +32,7 @@ class CardList(list):
 			return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k) != v)
 
 	def filter(self, **kwargs):
-		return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k) == v)
+		return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k, 0) == v)
 
 
 def randomDraft(hero, exclude=[]):
