@@ -26,7 +26,7 @@ class EX1_382e:
 
 # Tirion Fordring
 class EX1_383:
-	action = equipWeapon("EX1_383t")
+	deathrattle = equipWeapon("EX1_383t")
 
 
 ##
