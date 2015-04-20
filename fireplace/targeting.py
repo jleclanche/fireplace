@@ -254,3 +254,25 @@ class TargetSelector(Selector):
 		return entity is source.target
 
 TARGET = TargetSelector()
+
+
+class AdjacentSelector(Selector):
+	"""
+	Selects the minions adjacent to the targets.
+	"""
+	class SelectAdjacent:
+		def merge(self, selector, entities):
+			result = []
+			for e in entities:
+				result.extend(e.adjacentMinions)
+			return result
+
+	def __init__(self, selector):
+		self.program = [Selector.MergeFilter]
+		self.program.extend(selector.program)
+		self.program.append(Selector.Merge)
+		self.program.append(self.SelectAdjacent())
+		self.program.append(Selector.Unmerge)
+
+SELF_ADJACENT = AdjacentSelector(SELF)
+TARGET_ADJACENT = AdjacentSelector(TARGET)
