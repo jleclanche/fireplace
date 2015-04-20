@@ -195,7 +195,7 @@ class PlayableCard(BaseCard):
 
 	@property
 	def entities(self):
-		return chain([self], self.slots)
+		return chain([self], self.buffs)
 
 	@property
 	def slots(self):
