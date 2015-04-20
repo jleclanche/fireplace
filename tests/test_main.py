@@ -2015,6 +2015,26 @@ def test_blizzard():
 		assert spellbendert.frozen
 
 
+def test_brawl():
+	game = prepare_game()
+	brawl = game.player1.give("EX1_407")
+	game.player1.give(GOLDSHIRE_FOOTMAN).play()
+	game.player1.give(WISP).play()
+	game.endTurn()
+
+	game.player2.give(GOLDSHIRE_FOOTMAN).play()
+	game.player2.give(WISP).play()
+	game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	assert len(game.board) == 4
+	brawl.play()
+	assert len(game.board) == 1
+	assert game.board[0].id in (WISP, GOLDSHIRE_FOOTMAN)
+
+
 def test_bane_of_doom():
 	game = prepare_game()
 	doom = game.currentPlayer.give("EX1_320")
