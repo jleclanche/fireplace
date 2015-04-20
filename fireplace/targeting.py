@@ -2,6 +2,7 @@
 Targeting logic
 """
 
+import random
 from enum import IntEnum
 from .enums import CardType, PlayReq
 from .utils import CardList
@@ -276,3 +277,32 @@ class AdjacentSelector(Selector):
 
 SELF_ADJACENT = AdjacentSelector(SELF)
 TARGET_ADJACENT = AdjacentSelector(TARGET)
+
+
+class RandomSelector(Selector):
+	"""
+	Selects a 1-member random sample of the targets.
+	This selector can be multiplied to select more than 1 target.
+	"""
+	class SelectRandom:
+		def __init__(self, times):
+			self.times = times
+
+		def merge(self, selector, entities):
+			return random.sample(entities, min(len(entities), self.times))
+
+	def __init__(self, selector):
+		self.random = self.SelectRandom(1)
+		self.selector = selector
+		self.program = [Selector.MergeFilter]
+		self.program.extend(selector.program)
+		self.program.append(Selector.Merge)
+		self.program.append(self.random)
+		self.program.append(Selector.Unmerge)
+
+	def __mul__(self, other):
+		result = RandomSelector(self.selector)
+		result.random.times = self.random.times * other
+		return result
+
+RANDOM = RandomSelector
