@@ -234,3 +234,23 @@ class SelfSelector(Selector):
 		return entity is source
 
 SELF = SelfSelector()
+
+
+class TargetSelector(Selector):
+	"""
+	Selects the source's target as target.
+	"""
+	class IsTarget:
+		def test(self, entity, source):
+			return entity is source.target
+
+	def __init__(self):
+		self.program = [self.IsTarget()]
+
+	def eval(self, entities, source):
+		return [source.target]
+
+	def test(self, entity, source):
+		return entity is source.target
+
+TARGET = TargetSelector()
