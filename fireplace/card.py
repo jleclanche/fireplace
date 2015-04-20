@@ -241,7 +241,7 @@ class PlayableCard(BaseCard):
 			self.game.broadcast("HEAL", self, target, amount)
 
 	def hit(self, target, amount):
-		if target.immune:
+		if getattr(target, "immune", False):
 			logging.info("%r is immune to %i damage from %r" % (target, amount, self))
 			return
 		logging.info("%r hits %r for %i" % (self, target, amount))
