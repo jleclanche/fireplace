@@ -62,6 +62,9 @@ class Game(Entity):
 	def liveEntities(self):
 		return chain(self.player1.liveEntities, self.player2.liveEntities)
 
+	def filter(self, *args, **kwargs):
+		return self.allEntities.filter(*args, **kwargs)
+
 	def action(self, type, *args):
 		self.manager.action(type, *args)
 		if type == PowSubType.ATTACK:
