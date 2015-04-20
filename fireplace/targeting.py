@@ -214,3 +214,23 @@ class Selector:
 
 	def _not(self, stack):
 		stack.append(not stack.pop())
+
+
+class SelfSelector(Selector):
+	"""
+	Selects the source.
+	"""
+	class IsSelf:
+		def test(self, entity, source):
+			return entity is source
+
+	def __init__(self):
+		self.program = [self.IsSelf()]
+
+	def eval(self, entities, source):
+		return [source]
+
+	def test(self, entity, source):
+		return entity is source
+
+SELF = SelfSelector()
