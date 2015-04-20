@@ -2,7 +2,9 @@
 Targeting logic
 """
 
+from enum import IntEnum
 from .enums import CardType, PlayReq
+from .utils import CardList
 
 
 # Requirements-based targeting
@@ -83,10 +85,24 @@ class Selector:
 	    def test(self, entity)
 	returning a boolean, true if entity matches the condition.
 	"""
-	class BreakLabel:
-		# no-op:
-		def __init__(self, selector, stack):
-			pass
+	class MergeFilter:
+		"""
+		Signals the start of a merge: the following commands define the filter
+		to be passed after Merge
+		"""
+		pass
+
+	class Merge:
+		"""
+		Ops between Merge and Unmerge are classes with merge() methods
+		    def merge(self, selector, entities)
+		that operate on the full collection specified by the ops between
+		MergeFilter and Merge.
+		"""
+		pass
+
+	class Unmerge:
+		pass
 
 	def __init__(self, *args):
 		self.program = []
@@ -107,66 +123,83 @@ class Selector:
 				name = op.name
 			else:
 				name = repr(op)
-			# breaks are just optimization -- filter them
-			if "break" not in name.lower():
-				prog.append(name.lstrip("_"))
+			prog.append(name.lstrip("_"))
 		return "<{}: {}>".format(self.__class__.__name__, " ".join(prog))
 
 	def __or__(self, other):
 		result = Selector()
-		result.program = self.program + [Selector._break_true] + other.program
-		result.program += [Selector._or, Selector.BreakLabel]
+		result.program = self.program + other.program
+		result.program.append(Selector._or)
 		return result
 
 	def __add__(self, other):
 		result = Selector()
-		result.program = self.program + [Selector._break_false] + other.program
-		result.program += [Selector._and, Selector.BreakLabel]
+		result.program = self.program + other.program
+		result.program.append(Selector._and)
 		return result
 
 	def __sub__(self, other):
 		result = Selector()
-		result.program = self.program + [Selector._break_false] + other.program
-		result.program += [Selector._not, Selector._and, Selector.BreakLabel]
+		result.program = self.program + other.program
+		result.program += [Selector._not, Selector._and]
 		return result
 
 	def eval(self, entities, source):
-		return [e for e in entities if self.test(e, source)]
+		self.opc = 0 # outer program counter
+		result = []
+		while self.opc < len(self.program):
+			if self.program[self.opc] != Selector.MergeFilter:
+				result += [e for e in entities if self.test(e, source)]
+				self.opc = self.pc
+				if self.opc >= len(self.program):
+					break
+			else:
+				self.opc += 1
+			# handle merge step:
+			merge_input = CardList([e for e in entities if self.test(e, source)])
+			self.opc = self.pc
+			merge_output = CardList()
+			while self.opc < len(self.program):
+				op = self.program[self.opc]
+				self.opc += 1
+				if op == Selector.Unmerge:
+					break
+				merge_output += op.merge(self, merge_input)
+			negated = False
+			combined = False
+			while self.opc < len(self.program):
+				# special handling for operators on merged collections:
+				op = self.program[self.opc]
+				if op == Selector._or:
+					result += [e for e in merge_output]
+					combined = True
+				elif op == Selector._and:
+					result = [e for e in result if (e in merge_output) != negated]
+					combined = True
+				elif op == Selector._not:
+					negated = not negated
+				else:
+					break
+				self.opc += 1
+			if not combined:
+				# assume or
+				result += merge_output
+		return result
 
 	def test(self, entity, source):
 		stack = []
-		self.pc = 0
+		self.pc = self.opc # program counter
 		while self.pc < len(self.program):
 			op = self.program[self.pc]
 			self.pc += 1
+			if op == Selector.Merge or op == Selector.MergeFilter:
+				break
 			if callable(op):
 				op(self, stack)
 			else:
 				val = type(op).test(op, entity, source)
 				stack.append(val)
 		return stack[-1]
-
-	# if stack has false, skips to the appropriate BreakLabel
-	def _break_false(self, stack):
-		if stack[-1] == False:
-			self._break(stack)
-
-	# same as _break_false, but if stack has true
-	def _break_true(self, stack):
-		if stack[-1] == True:
-			self._break(stack)
-
-	def _break(self, stack):
-		depth = 1
-		while self.pc < len(self.program):
-			op = self.program[self.pc]
-			if op == Selector._break_true or op == Selector._break_false:
-				depth += 1
-			if op == self.BreakLabel:
-				depth -= 1
-			self.pc += 1
-			if depth == 0:
-				break
 
 	# boolean ops:
 	def _and(self, stack):
