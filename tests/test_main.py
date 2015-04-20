@@ -733,6 +733,21 @@ def test_ancestral_healing():
 	assert wisp.taunt
 
 
+def test_ancestral_spirit():
+	game = prepare_game()
+	game.endTurn(); game.endTurn()
+
+	ancestral = game.player1.give("CS2_038")
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert not wisp.hasDeathrattle
+	ancestral.play(target=wisp)
+	assert wisp.hasDeathrattle
+	wisp.destroy()
+	assert len(game.board) == 1
+	assert game.player1.field[0].id == WISP
+
+
 def test_ancient_of_lore():
 	game = prepare_game()
 	ancient1 = game.currentPlayer.give("NEW1_008")
