@@ -55,10 +55,20 @@ class BaseCard(Entity):
 				if event not in self._eventListeners:
 					self._eventListeners[event] = []
 				# A bit of magic powder to pass the Card object as self to the Card defs
-				func = getattr(data.scripts, event)
-				zone = getattr(func, "zone", Zone.PLAY)
-				_func = lambda *args: func(self, *args)
-				_func.zone = getattr(func, "zone", Zone.PLAY)
+				actions = getattr(data.scripts, event)
+				if callable(actions):
+					def _func(*args):
+						_actions = actions(self, *args)
+						if _actions:
+							for act in _actions:
+								act.trigger(self, self.game)
+					_func.zone = getattr(actions, "zone", Zone.PLAY)
+				else:
+					def _func(*args):
+						for act in actions:
+							act.trigger(self, self.game)
+					_func.zone = Zone.PLAY
+
 				self._eventListeners[event].append(_func)
 
 	def __str__(self):
@@ -210,13 +220,19 @@ class PlayableCard(BaseCard):
 			return
 		if self.hasCombo and self.controller.combo:
 			logging.info("Activating %r combo targeting %r" % (self, self.target))
-			func = self.data.scripts.combo
+			actions = self.data.scripts.combo
 		elif hasattr(self.data.scripts, "action"):
 			logging.info("Activating %r action targeting %r" % (self, self.target))
-			func = self.data.scripts.action
+			actions = self.data.scripts.action
 		else:
 			return
-		func(self, **kwargs)
+
+		if hasattr(actions, "__call__"):
+			actions = actions(self, **kwargs)
+		if not actions:
+			return
+		for act in actions:
+			act.trigger(self, self.game)
 
 	def clearBuffs(self):
 		if self.buffs:
@@ -288,7 +304,13 @@ class PlayableCard(BaseCard):
 		Trigger all deathrattles on the card.
 		"""
 		for deathrattle in self.deathrattles:
-			deathrattle(self)
+			action = deathrattle
+			if callable(deathrattle):
+				actions = deathrattle(self)
+			else:
+				actions = deathrattle
+			for action in actions:
+				action.trigger(self, self.game)
 
 	@property
 	def targets(self):
