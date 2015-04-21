@@ -38,7 +38,7 @@ class GVG_017:
 
 # Cobra Shot
 class GVG_073:
-	action = [Hit(TARGET, 3), Hit(ENEMY_HERO, 3)]
+	action = [Hit(TARGET | ENEMY_HERO, 3)]
 
 
 ##
