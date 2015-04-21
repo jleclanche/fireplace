@@ -9,6 +9,12 @@ class GVG_074:
 	action = [TakeControl(RANDOM(ENEMY_SECRETS))]
 
 
+# Jeeves
+class GVG_094:
+	def TURN_END(self, player):
+		return [Draw(CONTROLLER, max(0, 3 - len(player.hand)))]
+
+
 # Goblin Sapper
 class GVG_095:
 	def atk(self, i):

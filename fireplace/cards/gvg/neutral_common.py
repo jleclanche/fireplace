@@ -53,6 +53,17 @@ class GVG_082:
 	deathrattle = [GiveSparePart(CONTROLLER)]
 
 
+# Madder Bomber
+class GVG_090:
+	action = [Hit(RANDOM_CHARACTER, 1) * 6]
+
+
+# Piloted Shredder
+class GVG_096:
+	def deathrattle(self):
+		return [Summon(CONTROLLER, randomCollectible(type=CardType.MINION, cost=2))]
+
+
 # Micro Machine
 class GVG_103:
 	# That card ID is not a mistake
