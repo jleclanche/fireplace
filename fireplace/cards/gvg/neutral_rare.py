@@ -4,6 +4,11 @@ from ..utils import *
 ##
 # Minions
 
+# Kezan Mystic
+class GVG_074:
+	action = [TakeControl(RANDOM(ENEMY_SECRETS))]
+
+
 # Goblin Sapper
 class GVG_095:
 	def atk(self, i):

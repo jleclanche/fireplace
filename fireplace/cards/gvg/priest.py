@@ -26,6 +26,11 @@ class GVG_014a:
 	maxHealth = lambda self, i: self.health
 
 
+# Shadowboxer
+class GVG_072:
+	HEAL = [Hit(RANDOM_ENEMY_CHARACTER, 1)]
+
+
 ##
 # Spells
 

@@ -11,6 +11,13 @@ class GVG_060:
 			yield [Buff(recruit, "GVG_060e")]
 
 
+# Cobalt Guardian
+class GVG_062:
+	def OWN_MINION_SUMMON(self, minion):
+		if minion.race == Race.MECHANICAL:
+			return [SetTag(SELF, {GameTag.DIVINE_SHIELD: True})]
+
+
 # Bolvar Fordragon
 class GVG_063:
 	@hand
@@ -24,6 +31,11 @@ class GVG_063:
 # Seal of Light
 class GVG_057:
 	action = [Heal(FRIENDLY_HERO, 4), Buff(FRIENDLY_HERO, "GVG_057a")]
+
+
+# Muster for Battle
+class GVG_061:
+	action = [Summon(CONTROLLER, "CS2_101t") * 3, Summon(CONTROLLER, "CS2_091")]
 
 
 ##
