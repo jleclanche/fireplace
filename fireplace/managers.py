@@ -105,6 +105,7 @@ class CardManager(Manager):
 		GameTag.ARTISTNAME: None,
 		GameTag.AttackVisualType: None,
 		GameTag.CARD_SET: None,
+		GameTag.CARDRACE: None,
 		GameTag.CARDTEXT_INHAND: None,
 		GameTag.CardTextInPlay: None,
 		GameTag.Collectible: None,
@@ -150,6 +151,8 @@ class CharacterManager(Manager):
 		GameTag.HEALTH: "maxHealth",
 		GameTag.NUM_ATTACKS_THIS_TURN: "numAttacks",
 		GameTag.SHOULDEXITCOMBAT: "shouldExitCombat",
+		GameTag.TAG_AI_MUST_PLAY: None,
+		GameTag.SHOWN_HERO_POWER: None,
 	})
 
 
@@ -158,7 +161,6 @@ class HeroManager(Manager):
 	map.update({
 		GameTag.ARMOR: "armor",
 	})
-
 
 class MinionManager(Manager):
 	map = CharacterManager.map.copy()
@@ -173,7 +175,9 @@ class MinionManager(Manager):
 		GameTag.SILENCED: "silenced",
 		GameTag.STEALTH: "stealthed",
 		GameTag.TAUNT: "taunt",
+		GameTag.DURABILITY: None,
 		GameTag.ELITE: None,
+		GameTag.InvisibleDeathrattle: None,
 	})
 
 
@@ -192,6 +196,7 @@ class SpellManager(Manager):
 		GameTag.ImmuneToSpellpower: "immuneToSpellpower",
 		GameTag.SECRET: "secret",
 		GameTag.AFFECTED_BY_SPELL_POWER: None,
+		GameTag.EVIL_GLOW: None,
 	})
 
 
@@ -211,4 +216,15 @@ class EnchantmentManager(Manager):
 		GameTag.OUTGOING_HEALING_ADJUSTMENT: "outgoingHealingAdjustment",
 		GameTag.STEALTH: "stealthed",
 		GameTag.TAUNT: "taunt",
+		GameTag.MORPH: None,
+		GameTag.SUMMONED: None,
+	})
+
+
+class HeroPowerManager(Manager):
+	map = PlayableCardManager.map.copy()
+	map.update({
+		GameTag.TAG_AI_MUST_PLAY: "autocast",
+		GameTag.HIDE_COST: None,
+		GameTag.ImmuneToSpellpower: None,
 	})

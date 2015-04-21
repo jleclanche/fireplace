@@ -5,8 +5,7 @@ from . import cards as CardDB, targeting
 from .exceptions import *
 from .entity import Entity, booleanProperty, intProperty
 from .enums import AuraType, CardClass, CardType, PlayReq, Race, Rarity, Zone
-from .managers import (CardManager, PlayableCardManager, CharacterManager,
-	MinionManager, SpellManager, WeaponManager, EnchantmentManager)
+from .managers import *
 from .utils import CardList
 
 
@@ -837,6 +836,8 @@ class Weapon(PlayableCard):
 
 
 class HeroPower(PlayableCard):
+	Manager = HeroPowerManager
+
 	def play(self, target=None):
 		logging.info("%s plays hero power %r" % (self.controller, self))
 		assert self.isPlayable()
