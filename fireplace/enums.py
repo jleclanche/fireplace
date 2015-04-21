@@ -339,6 +339,9 @@ class Zone(IntEnum):
 	SETASIDE = 6
 	SECRET = 7
 
+	def test(self, entity, *args):
+		return self == getattr(entity, "zone", Zone.INVALID)
+
 
 class Affiliation(IntEnum):
 	FRIENDLY = 1
