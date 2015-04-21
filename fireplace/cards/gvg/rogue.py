@@ -41,6 +41,11 @@ class GVG_022:
 	combo = [Buff(FRIENDLY_WEAPON, "GVG_022a"), Buff(RANDOM_FRIENDLY_CHARACTER, "GVG_022b")]
 
 
+# Sabotage
+class GVG_047:
+	action = [Destroy(RANDOM_ENEMY_MINION)]
+	combo = [Destroy(RANDOM_ENEMY_MINION + WEAPON)]
+
 ##
 # Weapons
 
