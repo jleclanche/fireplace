@@ -37,3 +37,9 @@ class GVG_108:
 	def action(self, target):
 		choice = randomCollectible(type=CardType.MINION, cost=target.cost)
 		return [Morph(TARGET, choice)]
+
+
+# Clockwork Giant
+class GVG_121:
+	def cost(self, value):
+		return value - len(self.controller.opponent.hand)

@@ -39,3 +39,22 @@ class GVG_117:
 	def OWN_CARD_PLAYED(self, card):
 		if card.type == CardType.SPELL and card.cost == 1:
 			return [Give(CONTROLLER, randomCollectible(race=Race.MECHANICAL))]
+
+
+# Troggzor the Earthinator
+class GVG_118:
+	def CARD_PLAYED(self, player, card):
+		if card.type == CardType.SPELL and player is self.controller.opponent:
+			return [Summon(CONTROLLER, "GVG_068")]
+
+
+# Blingtron 3000
+class GVG_119:
+	def action(self):
+		for player in game.players:
+			yield Summon(player, randomCollectible(type=CardType.WEAPON))
+
+
+# Hemet Nesingwary
+class GVG_120:
+	action = [Destroy(TARGET)]
