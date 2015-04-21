@@ -283,18 +283,25 @@ class PlayableCard(BaseCard):
 			return bool(self.targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
+	def triggerDeathrattles(self):
+		"""
+		Trigger all deathrattles on the card.
+		"""
+		for deathrattle in self.deathrattles:
+			deathrattle(self)
+
 	@property
 	def targets(self):
 		full_board = self.game.board + [self.controller.hero, self.controller.opponent.hero]
 		return [card for card in full_board if targeting.isValidTarget(self, card)]
 
 	def SELF_CARD_DESTROYED(self):
-		for deathrattle in self.deathrattles:
+		if self.deathrattles:
 			logging.info("Triggering Deathrattle for %r" % (self))
-			deathrattle(self)
+			self.triggerDeathrattles()
 			if self.controller.extraDeathrattles:
 				logging.info("Triggering Deathrattle for %r again", self)
-				deathrattle(self)
+				self.triggerDeathrattles()
 		self.clearBuffs()
 
 	def OWN_TURN_BEGIN(self):
