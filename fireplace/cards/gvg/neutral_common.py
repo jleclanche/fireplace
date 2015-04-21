@@ -64,6 +64,13 @@ class GVG_096:
 		return [Summon(CONTROLLER, randomCollectible(type=CardType.MINION, cost=2))]
 
 
+# Tinkertown Technician
+class GVG_102:
+	def action(self):
+		if self.poweredUp:
+			return [Buff(SELF, "GVG_102e"), GiveSparePart(CONTROLLER)]
+
+
 # Micro Machine
 class GVG_103:
 	# That card ID is not a mistake

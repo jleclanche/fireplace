@@ -23,6 +23,14 @@ class GVG_095:
 		return i
 
 
+# Lil' Exorcist
+class GVG_097:
+	def action(self):
+		deathrattles = self.controller.opponent.field(hasDeathrattle=True)
+		# The Enchantment ID is correct
+		return [Buff(SELF, "GVG_101e") * len(deathrattles)]
+
+
 # Bomb Lobber
 class GVG_099:
 	action = [Hit(RANDOM_ENEMY_MINION, 4)]

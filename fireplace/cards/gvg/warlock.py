@@ -23,6 +23,13 @@ class GVG_077:
 			return [Destroy(SELF)]
 
 
+# Floating Watcher
+class GVG_100:
+	def DAMAGE(self, source, target, amount):
+		if self.controller.currentPlayer and source is self.controller.hero:
+			return [Buff(SELF, "GVG_100e")]
+
+
 ##
 # Spells
 
