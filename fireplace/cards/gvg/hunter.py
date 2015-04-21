@@ -4,6 +4,13 @@ from ..utils import *
 ##
 # Minions
 
+# King of Beasts
+class GVG_046:
+	def action(self):
+		beasts = self.controller.field.filter(race=Race.BEAST)
+		return [Buff(SELF, "GVG_046e") * len(beasts)]
+
+
 # Metaltooth Leaper
 class GVG_048:
 	action = [Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_048e")]

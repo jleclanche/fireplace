@@ -16,6 +16,13 @@ class GVG_040:
 			return [Draw(CONTROLLER, 1)]
 
 
+# Neptulon
+class GVG_041:
+	def action(self):
+		for i in range(4):
+			choice = randomCollectible(race=Race.MURLOC)
+			yield Give(CONTROLLER, choice)
+
 ##
 # Spells
 

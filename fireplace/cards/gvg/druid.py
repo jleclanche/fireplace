@@ -35,3 +35,12 @@ class GVG_080:
 # Tree of Life
 class GVG_033:
 	action = [FullHeal(ALL_CHARACTERS)]
+
+
+# Dark Wispers (+5/+5 and Taunt)
+class GVG_041a:
+	action = [Buff(TARGET, "GVG_041c")]
+
+# Dark Wispers (Summon 5 Wisps)
+class GVG_041b:
+	action = [Summon(CONTROLLER, "CS2_231") * 5]
