@@ -92,6 +92,12 @@ class XXX_018:
 	action = [Destroy(ALL_MINIONS)]
 
 
+# Damage all but 1
+class XXX_020:
+	def action(self, target):
+		return [Hit(TARGET, target.health - 1)]
+
+
 # Restore All Health
 class XXX_021:
 	action = [FullHeal(TARGET)]
@@ -110,12 +116,31 @@ class XXX_025:
 # Server Crash
 class XXX_027:
 	def action(self):
-		raise SystemError
+		raise SystemError("Fool!")
+
+
+# Become Hogger
+class XXX_039:
+	action = [Summon(CONTROLLER, "XXX_040")]
 
 
 # Destroy Hero Power
 class XXX_041:
 	action = [Destroy(HERO_POWER + CONTROLLED_BY_TARGET)]
+
+
+# Mill 30
+class XXX_043:
+	action = [Mill(PLAYER + CONTROLLED_BY_TARGET, 30)]
+
+
+# Hand Swapper Minion
+class XXX_044:
+	action = [Discard(RANDOM(CONTROLLER_HAND) * 3), Draw(CONTROLLER, 3)]
+
+# Destroy Deck
+class XXX_047:
+	action = [Destroy(IN_DECK + CONTROLLED_BY_TARGET)]
 
 
 # -1 Durability
@@ -157,3 +182,21 @@ class XXX_056:
 # Destroy Secrets
 class XXX_057:
 	action = [Destroy(ALL_SECRETS + CONTROLLED_BY_TARGET)]
+
+
+# Weapon Nerf
+class XXX_058:
+	action = [Buff(WEAPON + CONTROLLED_BY_TARGET, "XXX_058e")]
+
+
+# Destroy All
+class XXX_059:
+	action = [
+		Destroy(CONTROLLED_BY_TARGET + (HERO_POWER | IN_DECK)),
+		Discard(CONTROLLED_BY_TARGET + IN_HAND),
+	]
+
+# Damage All
+class XXX_060:
+	def action(self, target):
+		return [Hit(TARGET, target.health)]
