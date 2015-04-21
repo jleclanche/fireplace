@@ -11,7 +11,7 @@ class CS2_088:
 
 # Argent Protector
 class EX1_362:
-	action = [GiveDivineShield(TARGET)]
+	action = [SetTag(TARGET, {GameTag.DIVINE_SHIELD: True})]
 
 
 # Aldor Peacekeeper
@@ -101,7 +101,7 @@ class EX1_365:
 
 # Hand of Protection
 class EX1_371:
-	action = [GiveDivineShield(TARGET)]
+	action = [SetTag(TARGET, {GameTag.DIVINE_SHIELD: True})]
 
 
 # Avenging Wrath

@@ -33,7 +33,7 @@ class XXX_006:
 
 # Enable for Attack
 class XXX_007:
-	action = [GiveCharge(TARGET)]
+	action = [SetTag(TARGET, {GameTag.CHARGE: True})]
 
 
 # Freeze

@@ -28,7 +28,7 @@ class NEW1_005:
 
 # Master of Disguise
 class NEW1_014:
-	action = [GiveStealth(TARGET)]
+	action = [SetTag(TARGET, {GameTag.STEALTH: False})]
 
 
 ##

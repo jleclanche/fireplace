@@ -116,19 +116,6 @@ class Give(Action):
 	def do(self, source, target, game):
 		target.give(self.id)
 
-class GiveCharge(Action):
-	"""
-	Give minion targets Charge.
-	"""
-	def do(self, source, target, game):
-		target.charge = True
-
-class GiveDivineShield(Action):
-	"""
-	Give minion targets Divine Shield.
-	"""
-	def do(self, source, target, game):
-		target.divineShield = True
 
 class GiveMana(Action):
 	"""
@@ -138,13 +125,6 @@ class GiveMana(Action):
 	def do(self, source, target, game):
 		target.maxMana += self.amount
 
-class GiveStealth(Action):
-	"""
-	Give minion targets Stealth.
-	"""
-	def do(self, source, target, game):
-		target.stealthed = True
-
 class GiveSparePart(Action):
 	"""
 	Give player targets a random Spare Part.
@@ -153,19 +133,6 @@ class GiveSparePart(Action):
 	def do(self, source, target, game):
 		target.give(random.choice(source.data.entourage))
 
-class GiveTaunt(Action):
-	"""
-	Give minion targets Taunt.
-	"""
-	def do(self, source, target, game):
-		target.taunt = True
-
-class GiveWindfury(Action):
-	"""
-	Give minion targets Windfury.
-	"""
-	def do(self, source, target, game):
-		target.windfury = True
 
 class Hit(Action):
 	"""
@@ -225,12 +192,6 @@ class FillMana(Action):
 	def do(self, source, target, game):
 		target.usedMana -= self.amount
 
-class RemoveDivineShield(Action):
-	"""
-	Remove Divine Shield from minion targets.
-	"""
-	def do(self, source, target, game):
-		target.divineShield = False
 
 class Reveal(Action):
 	"""
@@ -238,6 +199,18 @@ class Reveal(Action):
 	"""
 	def do(self, source, target, game):
 		target.reveal()
+
+
+class SetTag(Action):
+	"""
+	Sets various targets' tags to \a values.
+	"""
+	args = ("values", )
+	def do(self, source, target, game):
+		for k, v in self.values.items():
+			if target.tags[k] != v:
+				target.tags[k] = v
+
 
 class Silence(Action):
 	"""
@@ -277,10 +250,3 @@ class TakeControl(Action):
 	"""
 	def do(self, source, target, game):
 		source.controller.takeControl(target)
-
-class Unstealth(Action):
-	"""
-	Unstealth stealthed minion targets
-	"""
-	def do(self, source, target, game):
-		target.stealthed = False

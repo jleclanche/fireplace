@@ -17,7 +17,7 @@ class PART_002:
 
 # Rusty Horn
 class PART_003:
-	action = [GiveTaunt(TARGET)]
+	action = [SetTag(TARGET, {GameTag.TAUNT: True})]
 
 
 # Finicky Cloakfield

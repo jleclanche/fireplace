@@ -68,7 +68,11 @@ class EX1_539:
 
 # Flare
 class EX1_544:
-	action = [Unstealth(ALL_MINIONS), Destroy(ENEMY_SECRETS), Draw(CONTROLLER, 1)]
+	action = [
+		SetTag(ALL_MINIONS, {GameTag.STEALTH: False}),
+		Destroy(ENEMY_SECRETS),
+		Draw(CONTROLLER, 1),
+	]
 
 
 # Bestial Wrath

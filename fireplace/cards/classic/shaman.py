@@ -23,7 +23,7 @@ class EX1_575:
 
 # Windspeaker
 class EX1_587:
-	action = [GiveWindfury(TARGET)]
+	action = [SetTag(TARGET, {GameTag.WINDFURY: True})]
 
 
 ##
@@ -45,7 +45,7 @@ class CS2_038e:
 
 # Windfury
 class CS2_039:
-	action = [GiveWindfury(TARGET)]
+	action = [SetTag(TARGET, {GameTag.WINDFURY: True})]
 
 
 # Ancestral Healing

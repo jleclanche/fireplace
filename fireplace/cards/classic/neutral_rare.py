@@ -41,7 +41,7 @@ class EX1_055:
 
 # Sunfury Protector
 class EX1_058:
-	action = [GiveTaunt(SELF_ADJACENT)]
+	action = [SetTag(SELF_ADJACENT, {GameTag.TAUNT: True})]
 
 
 # Crazed Alchemist

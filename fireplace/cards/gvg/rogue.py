@@ -13,7 +13,7 @@ class GVG_023:
 class GVG_025:
 	def OWN_MINION_SUMMON(self, minion):
 		if minion.race == Race.PIRATE and minion != self:
-			return [GiveStealth(SELF)]
+			return [SetTag(SELF, {GameTag.STEALTH: True})]
 
 
 # Iron Sensei

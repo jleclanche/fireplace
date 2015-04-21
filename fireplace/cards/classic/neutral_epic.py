@@ -22,7 +22,10 @@ class EX1_586:
 class EX1_590:
 	def action(self):
 		count = len(self.game.board.filter(divineShield=True))
-		return [RemoveDivineShield(ALL_MINIONS)] + [Buff(self, "EX1_590e") * count]
+		return [
+			SetTag(ALL_MINIONS, {GameTag.DIVINE_SHIELD: False}),
+			Buff(self, "EX1_590e") * count,
+		]
 
 
 # Molten Giant
