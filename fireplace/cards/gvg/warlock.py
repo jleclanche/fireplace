@@ -16,6 +16,13 @@ class GVG_020:
 	OWN_TURN_END = [Hit(RANDOM_MINION - MECH)]
 
 
+# Anima Golem
+class GVG_077:
+	def TURN_END(self, player):
+		if len(self.controller.field) == 1 and self.controller.field[0] is self:
+			return [Destroy(SELF)]
+
+
 ##
 # Spells
 

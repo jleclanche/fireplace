@@ -31,6 +31,11 @@ class GVG_072:
 	HEAL = [Hit(RANDOM_ENEMY_CHARACTER, 1)]
 
 
+# Upgraded Repair Bot
+class GVG_083:
+	# The Enchantment ID is correct
+	action = [Buff(TARGET, "GVG_069a")]
+
 ##
 # Spells
 

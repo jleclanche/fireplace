@@ -11,6 +11,13 @@ class GVG_004:
 			return [Hit(RANDOM_ENEMY_CHARACTER, 1) * 4]
 
 
+# Illuminator
+class GVG_089:
+	def OWN_TURN_END(self):
+		if self.controller.secrets:
+			return [Heal(FRIENDLY_HERO, 4)]
+
+
 ##
 # Spells
 
