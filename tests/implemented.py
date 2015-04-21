@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import os
-import sys; sys.path.append("..")
+import sys; sys.path.append(".."); sys.path.append("../data/extras")
 from fireplace import cards
 from fireplace.cards import debug, game, classic, naxxramas, gvg, removed
+from fireplace.enums import CardType
+
+import buffs
 
 
 GREEN = "\033[92m"
@@ -21,6 +24,10 @@ def main():
 				# Minions without card text are implemented
 				color = GREEN
 				break
+			elif card.type == CardType.ENCHANTMENT:
+				if id in buffs.__dict__:
+					color = GREEN
+					break
 		else:
 			color = RED
 		print(color + card.name + ENDC + " (%s)" % (id))
