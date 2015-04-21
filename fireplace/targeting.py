@@ -310,13 +310,17 @@ RANDOM = RandomSelector
 
 class TargetingRequirement(IntEnum):
 	DAMAGED = 1
+	HAS_DEATHRATTLE = 2
 
 	def test(self, entity, *args):
 		if self == TargetingRequirement.DAMAGED:
 			return bool(getattr(entity, "damage", 0))
+		elif self == TargetingRequirement.HAS_DEATHRATTLE:
+			return getattr(entity, "hasDeathrattle", False)
 		return False
 
 DAMAGED = Selector(TargetingRequirement.DAMAGED)
+DEATHRATTLE = Selector(TargetingRequirement.HAS_DEATHRATTLE)
 
 
 IN_PLAY = Selector(Zone.PLAY)

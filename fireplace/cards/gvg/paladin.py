@@ -25,6 +25,11 @@ class GVG_063:
 		return [Buff(SELF, "GVG_063a")]
 
 
+# Scarlet Purifier
+class GVG_103:
+	action = [Hit(ALL_MINIONS + DEATHRATTLE, 2)]
+
+
 ##
 # Spells
 
