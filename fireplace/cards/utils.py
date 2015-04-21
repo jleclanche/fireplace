@@ -1,7 +1,7 @@
 import random
 import fireplace.cards
 from ..actions import *
-from ..enums import CardType, GameTag, Race, Zone
+from ..enums import CardType, GameTag, Race, Rarity, Zone
 from ..targeting import *
 
 

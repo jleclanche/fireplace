@@ -30,3 +30,10 @@ class GVG_107:
 		for target in self.controller.field:
 			tag = random.choice((GameTag.WINDFURY, GameTag.TAUNT, GameTag.DIVINE_SHIELD))
 			yield SetTag(target, {tag: True})
+
+
+# Recombobulator
+class GVG_108:
+	def action(self, target):
+		choice = randomCollectible(type=CardType.MINION, cost=target.cost)
+		return [Morph(TARGET, choice)]
