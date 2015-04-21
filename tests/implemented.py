@@ -3,8 +3,6 @@ import os
 import sys; sys.path.append("..")
 from fireplace import cards
 from fireplace.cards import debug, game, classic, naxxramas, gvg, removed
-from fireplace.card import Card
-from fireplace.enums import GameTag
 
 
 GREEN = "\033[92m"
@@ -13,21 +11,19 @@ ENDC = "\033[0m"
 
 
 def main():
-	for id in sorted(cards.__dict__):
-		cls = getattr(cards, id)
-		if not hasattr(cls, "tags"):
-			continue
+	for id in sorted(cards.db):
+		card = cards.db[id]
 		for set in (debug, game, classic, naxxramas, gvg, removed):
 			if hasattr(set, id):
 				color = GREEN
 				break
-			elif not Card(id).tags.get(GameTag.CARDTEXT_INHAND):
+			elif not card.description:
 				# Minions without card text are implemented
 				color = GREEN
 				break
 		else:
 			color = RED
-		print(color + cls.tags[185] + ENDC + " (%s)" % (id))
+		print(color + card.name + ENDC + " (%s)" % (id))
 
 
 if __name__ == "__main__":
