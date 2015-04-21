@@ -308,6 +308,17 @@ class RandomSelector(Selector):
 RANDOM = RandomSelector
 
 
+class TargetingRequirement(IntEnum):
+	DAMAGED = 1
+
+	def test(self, entity, *args):
+		if self == TargetingRequirement.DAMAGED:
+			return bool(getattr(entity, "damage", 0))
+		return False
+
+DAMAGED = Selector(TargetingRequirement.DAMAGED)
+
+
 IN_PLAY = Selector(Zone.PLAY)
 IN_DECK = Selector(Zone.DECK)
 IN_HAND = Selector(Zone.HAND)
@@ -366,3 +377,5 @@ RANDOM_FRIENDLY_MINION = RANDOM(FRIENDLY_MINIONS)
 RANDOM_FRIENDLY_CHARACTER = RANDOM(FRIENDLY_CHARACTERS)
 RANDOM_ENEMY_MINION = RANDOM(ENEMY_MINIONS)
 RANDOM_ENEMY_CHARACTER = RANDOM(ENEMY_CHARACTERS)
+
+DAMAGED_CHARACTERS = ALL_CHARACTERS + DAMAGED
