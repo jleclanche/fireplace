@@ -114,6 +114,16 @@ class EX1_144:
 	action = [Bounce(TARGET), Buff(TARGET, "EX1_144e")]
 
 
+# Preparation
+class EX1_145:
+	action = [Buff(FRIENDLY_HERO, "EX1_145o")]
+
+class EX1_145o:
+	def OWN_CARD_PLAYED(self, card):
+		if card.type == CardType.SPELL:
+			return [Destroy(SELF)]
+
+
 # Shiv
 class EX1_278:
 	action = [Hit(TARGET, 1), Draw(CONTROLLER, 1)]

@@ -676,6 +676,51 @@ def test_power_word_shield():
 	assert wisp.health == 1
 
 
+def test_preparation():
+	game = prepare_game()
+	game.player1.discardHand()
+	prep1 = game.player1.give("EX1_145")
+	prep2 = game.player1.give("EX1_145")
+	prep3 = game.player1.give("EX1_145")
+	pwshield = game.player1.give("CS2_004")
+	fireball = game.player1.give("CS2_029")
+	fireball2 = game.player2.give("CS2_029")
+	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
+	footman2 = game.player2.give(GOLDSHIRE_FOOTMAN)
+	assert prep1.cost == prep2.cost == prep3.cost == 0
+	assert pwshield.cost == 1
+	assert fireball.cost == fireball2.cost == 4
+	assert footman.cost == footman2.cost == 1
+	game.endTurn(); game.endTurn()
+
+	assert game.player1.mana == 2
+	prep1.play()
+	assert game.player1.mana == 2
+	assert prep2.cost == prep3.cost == 0
+	assert pwshield.cost == 0
+	assert fireball.cost == 4 - 3
+	assert fireball2.cost == 4
+	assert footman.cost == footman2.cost == 1
+	prep2.play()
+	assert game.player1.mana == 2
+	assert prep2.cost == prep3.cost == 0
+	assert pwshield.cost == 0
+	assert fireball.cost == 4 - 3
+	assert fireball2.cost == 4
+	assert footman.cost == footman2.cost == 1
+	fireball.play(target=game.player2.hero)
+	assert game.player1.mana == 1
+	assert pwshield.cost == 1
+	assert fireball2.cost == 4
+	assert footman.cost == footman2.cost == 1
+	prep3.play()
+	assert pwshield.cost == 0
+	assert footman.cost == footman2.cost == 1
+	game.endTurn()
+	assert pwshield.cost == 1
+	assert footman.cost == footman2.cost == 1
+
+
 def test_kill_command():
 	game = prepare_game(HUNTER, HUNTER)
 	game.endTurn(); game.endTurn()
