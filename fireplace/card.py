@@ -710,6 +710,10 @@ class Aura(object):
 		self._buffs = CardList()
 		self._auraType = obj["type"]
 
+
+	def __repr__(self):
+		return "<Aura (%r)>" % (self.id)
+
 	@property
 	def game(self):
 		return self.source.game
