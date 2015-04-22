@@ -199,11 +199,11 @@ class Player(Entity):
 		"""
 		logging.info("%s plays %r from their hand" % (self, card))
 		assert card.controller
+		cost = card.cost
 		self.game.broadcast("CARD_PLAYED", self, card)
 		if card.hasTarget():
 			assert target
 			card.target = target
-		cost = card.cost
 		if self.tempMana:
 			# The coin, Innervate etc
 			cost -= self.tempMana
