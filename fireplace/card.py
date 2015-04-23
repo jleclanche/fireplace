@@ -139,7 +139,7 @@ class BaseCard(Entity):
 		"AFTER_OWN_CARD_PLAYED", "AFTER_SELF_CARD_PLAYED",
 		"BEFORE_ATTACK", "BEFORE_SELF_ATTACK", "SELF_ATTACK",
 		"ATTACK",
-		"OWN_DAMAGE", "SELF_DAMAGE",
+		"DAMAGE", "OWN_DAMAGE", "SELF_DAMAGE",
 		"HEAL", "OWN_HEAL", "SELF_HEAL",
 		"OWN_SECRET_REVEAL",
 	]
@@ -444,10 +444,6 @@ class Character(PlayableCard):
 
 	def SELF_DAMAGE(self, source, amount):
 		self.damage += amount
-
-		if source.freeze:
-			logging.info("%r is frozen by %r" % (self, source))
-			self.frozen = True
 
 	def SELF_HEAL(self, source, amount):
 		self.damage -= amount

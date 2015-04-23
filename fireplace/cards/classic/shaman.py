@@ -31,7 +31,7 @@ class EX1_587:
 
 # Frost Shock
 class CS2_037:
-	action = [Hit(TARGET, 1)]
+	action = [Hit(TARGET, 1), Freeze(TARGET)]
 
 
 # Ancestral Spirit

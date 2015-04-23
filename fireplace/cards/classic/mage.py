@@ -4,6 +4,13 @@ from ..utils import *
 ##
 # Minions
 
+# Water Elemental
+class CS2_033:
+	def DAMAGE(self, source, target, amount):
+		if source is self:
+			return [Freeze(target)]
+
+
 # Ethereal Arcanist
 class EX1_274:
 	def OWN_TURN_END(self):

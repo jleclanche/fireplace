@@ -4,6 +4,13 @@ from ..utils import *
 ##
 # Minions
 
+# Snowchugger
+class GVG_002:
+	def DAMAGE(self, source, target, amount):
+		if source is self:
+			return [Freeze(target)]
+
+
 # Goblin Blastmage
 class GVG_004:
 	def action(self):
