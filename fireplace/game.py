@@ -137,6 +137,11 @@ class Game(Entity):
 		logging.info("Tossing the coin... %s wins!" % (winner))
 		return winner, loser
 
+	def refreshAuras(self):
+		for aura in self.auras:
+			print("Refreshing aura", aura)
+			aura.update()
+
 	def start(self):
 		logging.info("Starting game: %r" % (self))
 		self.player1, self.player2 = self.tossCoin()
@@ -197,8 +202,7 @@ class Game(Entity):
 		super().broadcast(event, *args)
 
 	def UPDATE(self):
-		for aura in self.auras:
-			aura.update()
+		self.refreshAuras()
 
 	def ATTACK(self, source, target):
 		source.controller.broadcast("OWN_ATTACK", source, target)
