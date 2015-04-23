@@ -118,7 +118,7 @@ class EX1_279:
 
 # Ice Barrier
 class EX1_289:
-	def BEFORE_ATTACK(self, source, target):
+	def ATTACK(self, source, target):
 		if target == self.controller.hero:
 			return [GainArmor(FRIENDLY_HERO, 8), Reveal(SELF)]
 
