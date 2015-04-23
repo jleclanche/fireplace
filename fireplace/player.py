@@ -236,7 +236,7 @@ class Player(Entity):
 	# Events
 
 	events = [
-		"BEFORE_OWN_ATTACK", "OWN_ATTACK",
+		"OWN_ATTACK",
 		"TURN_BEGIN", "TURN_END",
 		"OWN_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
@@ -253,9 +253,6 @@ class Player(Entity):
 				if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
 					f(*args)
 		super().broadcast(event, *args)
-
-	def BEFORE_OWN_ATTACK(self, source, target):
-		source.broadcast("BEFORE_SELF_ATTACK", target)
 
 	def OWN_ATTACK(self, source, target):
 		source.broadcast("SELF_ATTACK", target)

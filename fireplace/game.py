@@ -90,7 +90,6 @@ class Game(Entity):
 		# for information on how attacking works
 		self.proposedAttacker = source
 		self.proposedDefender = target
-		self.broadcast("BEFORE_ATTACK", source, target)
 		attacker = self.proposedAttacker
 		defender = self.proposedDefender
 		self.proposedAttacker = None
@@ -178,7 +177,7 @@ class Game(Entity):
 
 	events = [
 		"UPDATE",
-		"BEFORE_ATTACK", "ATTACK",
+		"ATTACK",
 		"DRAW", "MILL",
 		"TURN_BEGIN", "TURN_END",
 		"DAMAGE", "HEAL",
@@ -198,9 +197,6 @@ class Game(Entity):
 	def UPDATE(self):
 		for aura in self.auras:
 			aura.update()
-
-	def BEFORE_ATTACK(self, source, target):
-		source.controller.broadcast("BEFORE_OWN_ATTACK", source, target)
 
 	def ATTACK(self, source, target):
 		source.controller.broadcast("OWN_ATTACK", source, target)
