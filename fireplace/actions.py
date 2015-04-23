@@ -4,6 +4,19 @@ from .enums import CardType, PowSubType, Step
 from .entity import Entity
 
 
+class EventListener:
+	ON = 1
+	AFTER = 2
+
+	def __init__(self, trigger, actions, at):
+		self.trigger = trigger
+		self.actions = actions
+		self.at = at
+
+	def __repr__(self):
+		return "<EventListener %r>" % (self.trigger)
+
+
 class Action: # Lawsuit
 	args = ()
 	type = PowSubType.TRIGGER
@@ -22,11 +35,31 @@ class Action: # Lawsuit
 		self.times *= value
 		return self
 
+	def after(self, *actions):
+		return EventListener(self, actions, EventListener.AFTER)
+
+	def on(self, *actions):
+		return EventListener(self, actions, EventListener.ON)
+
+	def broadcast(self, game, at, *args):
+		for entity in game.liveEntities:
+			for event in getattr(entity.data.scripts, "events", []):
+				if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
+					game.queueActions(entity, event.actions)
+
 	def eval(self, selector, source, game):
 		if isinstance(selector, Entity):
 			return [selector]
 		else:
 			return selector.eval(game, source)
+
+	def matches(self, source, args):
+		for arg, match in zip(args, self._args):
+			# this stuff is stupidslow
+			res = match.eval([arg], source)
+			if res != [arg]:
+				return False
+		return True
 
 
 class GameAction(Action):
@@ -109,7 +142,9 @@ class TargetedAction(Action):
 		for i in range(self.times):
 			logging.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
+				self.broadcast(game, EventListener.ON, *self._args)
 				self.do(source, game, target)
+				self.broadcast(game, EventListener.AFTER, *self._args)
 		game.manager.action_end(self.type, source, targets, *self._args)
 		game._processDeaths()
 		game.refreshAuras()
