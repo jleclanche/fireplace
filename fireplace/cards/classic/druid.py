@@ -13,14 +13,32 @@ class EX1_165b:
 	action = [Morph(SELF, "EX1_165t2")]
 
 
+# Moonfire (Keeper of the Grove)
+class EX1_166a:
+	action = [Hit(TARGET, 2)]
+
+# Dispel (Keeper of the Grove)
+class EX1_166a:
+	action = [Silence(TARGET)]
+
+
 # Rooted (Ancient of War)
 class EX1_178a:
 	action = [Buff(SELF, "EX1_178ae")]
 
-
 # Uproot (Ancient of War)
 class EX1_178b:
 	action = [Buff(SELF, "EX1_178be")]
+
+
+# Demigod's Favor (Cenarius)
+class EX1_573a:
+	action = [Buff(FRIENDLY_MINIONS, "EX1_573ae")]
+
+# Shan'do's Lesson (Cenarius)
+class EX1_573b:
+	action = [Summon(CONTROLLER, "EX1_573t") * 2]
+
 
 # Ancient Teachings (Ancient of Lore)
 class NEW1_008a:
@@ -114,6 +132,15 @@ class EX1_160b:
 # Naturalize
 class EX1_161:
 	action = [Destroy(TARGET), Draw(OPPONENT, 2)]
+
+
+# Nourish (Gain 2 Mana Crystals)
+class EX1_164a:
+	action = [GainMana(CONTROLLER, 2)]
+
+# Nourish (Draw 3 cards)
+class EX1_164b:
+	action = [Draw(CONTROLLER, 3)]
 
 
 # Innervate
