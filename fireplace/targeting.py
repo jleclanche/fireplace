@@ -64,6 +64,9 @@ def isValidTarget(self, target, requirements=None):
 		elif req == PlayReq.REQ_SPELL_TARGET:
 			if target.type != CardType.SPELL:
 				return False
+		elif req == PlayReq.REQ_SECRET_TARGET:
+			if target.type != CardType.SPELL or not target.secret:
+				return False
 		elif req == PlayReq.REQ_WEAPON_TARGET:
 			if target.type != CardType.WEAPON:
 				return False

@@ -262,6 +262,7 @@ class PlayReq(IntEnum):
 	REQ_NO_MINIONS_PLAYED_THIS_TURN = -3
 	REQ_TARGET_HAS_BATTLECRY = -4
 	REQ_SOURCE_IS_ENRAGED = -5
+	REQ_SECRET_TARGET = -6
 
 
 class OptionType(IntEnum):
