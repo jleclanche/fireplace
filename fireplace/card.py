@@ -731,6 +731,7 @@ class Aura(object):
 	def summon(self):
 		logging.info("Summoning Aura %r", self)
 		self.game.auras.append(self)
+		self.game.refreshAuras()
 
 	def _buff(self, target):
 		buff = self.source.buff(target, self.id)

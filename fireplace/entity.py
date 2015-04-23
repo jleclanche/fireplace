@@ -27,9 +27,6 @@ class Entity(object):
 				if getattr(f, "once", False):
 					entity._eventListeners[event].remove(f)
 
-		if event != "UPDATE":
-			self.broadcast("UPDATE")
-
 	def register(self, event, callback, once=False):
 		"""
 		Register \a callback with \a event.

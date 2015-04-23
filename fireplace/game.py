@@ -79,6 +79,7 @@ class Game(Entity):
 			raise NotImplementedError
 		self.manager.action_end(type, *args)
 		self._processDeaths()
+		self.refreshAuras()
 
 	def attack(self, source, target):
 		return self.action(PowSubType.ATTACK, source, target)
@@ -183,7 +184,6 @@ class Game(Entity):
 	# Events
 
 	events = [
-		"UPDATE",
 		"ATTACK",
 		"DRAW", "MILL",
 		"TURN_BEGIN", "TURN_END",
@@ -200,9 +200,6 @@ class Game(Entity):
 					if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
 						f(*args)
 		super().broadcast(event, *args)
-
-	def UPDATE(self):
-		self.refreshAuras()
 
 	def ATTACK(self, source, target):
 		source.controller.broadcast("OWN_ATTACK", source, target)
