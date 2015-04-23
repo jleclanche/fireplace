@@ -334,12 +334,6 @@ class Character(PlayableCard):
 	minHealth = booleanProperty("minHealth")
 	immune = booleanProperty("immune")
 
-	silenceableAttributes = (
-		"aura", "cantAttack", "cantBeTargetedByAbilities", "cantBeTargetedByHeroPowers",
-		"charge", "divineShield", "enrage", "frozen", "poisonous", "stealthed", "taunt",
-		"windfury",
-	)
-
 	def __init__(self, *args):
 		self.attacking = False
 		self.frozen = False
@@ -448,20 +442,6 @@ class Character(PlayableCard):
 	def SELF_HEAL(self, source, amount):
 		self.damage -= amount
 
-	def silence(self):
-		logging.info("%r has been silenced" % (self))
-		for aura in self._auras:
-			aura.destroy()
-		self.clearBuffs()
-
-		for attr in self.silenceableAttributes:
-			if getattr(self, attr):
-				setattr(self, attr, False)
-
-		# Wipe the event listeners and keep only those of the card itself
-		self._registerEvents()
-		self.silenced = True
-
 
 class Hero(Character):
 	def __init__(self, id, data):
@@ -503,6 +483,12 @@ class Minion(Character):
 	charge = booleanProperty("charge")
 	stealthed = booleanProperty("stealthed")
 	taunt = booleanProperty("taunt")
+
+	silenceableAttributes = (
+		"aura", "cantAttack", "cantBeTargetedByAbilities", "cantBeTargetedByHeroPowers",
+		"charge", "divineShield", "enrage", "frozen", "poisonous", "stealthed", "taunt",
+		"windfury",
+	)
 
 	def __init__(self, id, data):
 		self._enrage = None
@@ -609,6 +595,20 @@ class Minion(Character):
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return False
 		return playable
+
+	def silence(self):
+		logging.info("%r has been silenced" % (self))
+		for aura in self._auras:
+			aura.destroy()
+		self.clearBuffs()
+
+		for attr in self.silenceableAttributes:
+			if getattr(self, attr):
+				setattr(self, attr, False)
+
+		# Wipe the event listeners and keep only those of the card itself
+		self._registerEvents()
+		self.silenced = True
 
 	def summon(self):
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
