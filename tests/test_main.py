@@ -2955,7 +2955,7 @@ def test_vancleef():
 
 def test_water_elemental():
 	game = prepare_game()
-	elem = game.currentPlayer.give("CS2_033")
+	elem = game.player1.give("CS2_033")
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
@@ -2963,9 +2963,31 @@ def test_water_elemental():
 	elem.play()
 	game.endTurn(); game.endTurn()
 
-	assert not game.currentPlayer.opponent.hero.frozen
-	elem.attack(target=game.currentPlayer.opponent.hero)
-	assert game.currentPlayer.opponent.hero.frozen
+	assert not game.player2.hero.frozen
+	elem.attack(target=game.player2.hero)
+	assert game.player2.hero.frozen
+	game.endTurn()
+
+	assert game.player2.hero.frozen
+	game.endTurn()
+
+	assert not game.player2.hero.frozen
+	game.endTurn()
+
+	axe = game.player2.give("CS2_106")
+	axe.play()
+	game.player2.hero.attack(target=elem)
+	assert game.player2.hero.frozen
+	game.endTurn()
+
+	assert game.player2.hero.frozen
+	game.endTurn()
+
+	assert game.player2.hero.frozen
+	game.endTurn()
+
+	assert not game.player2.hero.frozen
+	game.endTurn()
 
 
 def test_webspinner():
