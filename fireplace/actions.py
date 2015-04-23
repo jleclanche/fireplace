@@ -184,7 +184,7 @@ class Freeze(Action):
 	Freeze character targets.
 	"""
 	def do(self, source, target, game):
-		target.freeze = True
+		target.frozen = True
 
 class FillMana(Action):
 	"""
