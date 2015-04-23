@@ -928,6 +928,11 @@ def test_amani_berserker():
 	assert amani2 in game.player2.field
 	assert amani1.damage == amani2.damage == 2
 	assert amani1.atk == amani2.atk == 2 + 3
+	game.player1.give(CIRCLE_OF_HEALING).play()
+	assert amani1.atk == amani2.atk == 2
+	assert amani1.health == amani2.health == 3
+	game.player1.give(MOONFIRE).play(target=amani1)
+	assert amani1.atk == 2 + 3
 
 
 def test_secretkeeper():
