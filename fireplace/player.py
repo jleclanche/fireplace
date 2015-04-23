@@ -145,8 +145,8 @@ class Player(Entity):
 				return
 			else:
 				card = self.deck[-1]
-			self.game.broadcast("MILL", self, card)
 			logging.info("%s mills %r" % (self, card))
+			card.destroy()
 			return card
 		else:
 			ret = []

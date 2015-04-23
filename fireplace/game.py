@@ -185,7 +185,7 @@ class Game(Entity):
 
 	events = [
 		"ATTACK",
-		"DRAW", "MILL",
+		"DRAW",
 		"TURN_BEGIN", "TURN_END",
 		"DAMAGE", "HEAL",
 		"CARD_DESTROYED", "MINION_DESTROY",
@@ -206,9 +206,6 @@ class Game(Entity):
 
 	def DRAW(self, player, card):
 		player.broadcast("OWN_DRAW", card)
-
-	def MILL(self, player, card):
-		card.destroy()
 
 	def TURN_BEGIN(self, player):
 		self.step, self.nextStep = self.nextStep, Step.MAIN_START_TRIGGERS
