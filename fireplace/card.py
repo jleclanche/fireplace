@@ -585,11 +585,6 @@ class Minion(Character):
 
 		super().SELF_DAMAGE(source, amount)
 
-	def SELF_HEAL(self, source, amount):
-		super().SELF_HEAL(source, amount)
-		if self._enrage and not self.enraged:
-			self._enrage = None
-
 	def isPlayable(self):
 		playable = super().isPlayable()
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
