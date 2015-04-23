@@ -18,6 +18,14 @@ class EX1_559:
 			return [Give(CONTROLLER, "CS2_029")]
 
 
+# Kirin Tor Mage
+class EX1_612:
+	action = [Buff(FRIENDLY_HERO, "EX1_612o")]
+
+class EX1_612oa:
+	cost = lambda self, i: 0
+
+
 # Mana Wyrm
 class NEW1_012:
 	def OWN_CARD_PLAYED(self, card):
