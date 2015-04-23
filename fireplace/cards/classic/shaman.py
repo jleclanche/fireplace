@@ -50,8 +50,7 @@ class CS2_039:
 
 # Ancestral Healing
 class CS2_041:
-	def action(self, target):
-		return [Heal(TARGET, target.maxHealth), Buff(TARGET, "CS2_041e")]
+	action = [FullHeal(TARGET), Buff(TARGET, "CS2_041e")]
 
 
 # Rockbiter Weapon
