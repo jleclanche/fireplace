@@ -73,7 +73,7 @@ class EX1_085:
 
 # Arcane Golem
 class EX1_089:
-	action = [GiveMana(OPPONENT, 1)]
+	action = [GainMana(OPPONENT, 1)]
 
 
 # Defender of Argus

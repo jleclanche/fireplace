@@ -151,12 +151,12 @@ class XXX_048:
 # Destroy All Mana
 class XXX_049:
 	def action(self, target):
-		return [GiveMana(-target.controller.maxMana)]
+		return [GainMana(-target.controller.maxMana)]
 
 
 # Destroy a Mana Crystal
 class XXX_050:
-	action = [GiveMana(PLAYER + CONTROLLED_BY_TARGET, -1)]
+	action = [GainMana(PLAYER + CONTROLLED_BY_TARGET, -1)]
 
 
 # Armor

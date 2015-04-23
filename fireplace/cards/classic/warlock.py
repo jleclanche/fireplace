@@ -16,7 +16,7 @@ class CS2_064:
 
 # Felguard
 class EX1_301:
-	action = [GiveMana(CONTROLLER, -1)]
+	action = [GainMana(CONTROLLER, -1)]
 
 
 # Void Terror

@@ -15,7 +15,7 @@ class GVG_030b:
 
 # Gift of Mana (Grove Tender)
 class GVG_032a:
-	action = [GiveMana(ALL_PLAYERS, 1), FillMana(ALL_PLAYERS, 1)]
+	action = [GainMana(ALL_PLAYERS, 1), FillMana(ALL_PLAYERS, 1)]
 
 # Gift of Cards (Grove Tender)
 class GVG_032b:

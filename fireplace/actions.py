@@ -108,6 +108,16 @@ class GainArmor(Action):
 	def do(self, source, target, game):
 		target.armor += self.amount
 
+
+class GainMana(Action):
+	"""
+	Give player targets \a Mana crystals.
+	"""
+	args = ("amount", )
+	def do(self, source, target, game):
+		target.maxMana += self.amount
+
+
 class Give(Action):
 	"""
 	Give player targets card \a id.
@@ -116,14 +126,6 @@ class Give(Action):
 	def do(self, source, target, game):
 		target.give(self.id)
 
-
-class GiveMana(Action):
-	"""
-	Give player targets \a Mana crystals.
-	"""
-	args = ("amount", )
-	def do(self, source, target, game):
-		target.maxMana += self.amount
 
 class GiveSparePart(Action):
 	"""
