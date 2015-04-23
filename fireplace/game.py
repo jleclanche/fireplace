@@ -73,6 +73,8 @@ class Game(Entity):
 			args[0]._play(*args[1:])
 		elif type == PowSubType.DEATHS:
 			self._processDeaths()
+		elif type == PowSubType.TRIGGER:
+			pass
 		else:
 			raise NotImplementedError
 		self.manager.action_end(type, *args)

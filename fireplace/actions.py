@@ -1,6 +1,6 @@
 import logging
 import random
-from .enums import CardType
+from .enums import CardType, PowSubType
 from .entity import Entity
 
 
@@ -33,6 +33,7 @@ class Action: # Lawsuit
 			logging.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
 				self.do(source, target, game)
+		game.action(PowSubType.TRIGGER, source)
 
 class Buff(Action):
 	"""
