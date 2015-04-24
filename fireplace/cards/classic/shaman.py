@@ -2,6 +2,23 @@ from ..utils import *
 
 
 ##
+# Hero Powers
+
+# Totemic Call
+class CS2_049:
+	def action(self):
+		entourage = self.data.entourage
+		for minion in self.controller.field:
+			if minion.id in entourage:
+				entourage.remove(minion.id)
+		return [Summon(CONTROLLER, random.choice(entourage))]
+
+# Healing Totem
+class NEW1_009:
+	OWN_TURN_END = [Heal(FRIENDLY_MINIONS, 1)]
+
+
+##
 # Minions
 
 # Fire Elemental

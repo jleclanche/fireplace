@@ -2,6 +2,14 @@ from ..utils import *
 
 
 ##
+# Hero Powers
+
+# Reinforce (Uther Lightbringer)
+class CS2_101:
+	action = [Summon(CONTROLLER, "CS2_101t")]
+
+
+##
 # Minions
 
 # Guardian of Kings

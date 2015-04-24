@@ -2,6 +2,14 @@ from ..utils import *
 
 
 ##
+# Hero Powers
+
+# Lesser Heal (Anduin Wrynn)
+class CS1h_001:
+	action = [Heal(TARGET, 2)]
+
+
+##
 # Minions
 
 # Northshire Cleric

@@ -2,6 +2,14 @@ from ..utils import *
 
 
 ##
+# Hero Powers
+
+# Life Tap
+class CS2_056:
+	action = [Hit(FRIENDLY_HERO, 2), Draw(CONTROLLER, 1)]
+
+
+##
 # Minions
 
 # Blood Imp
@@ -65,6 +73,10 @@ class EX1_323:
 		self.removeFromField()
 		self.controller.summon("EX1_323h")
 		self.controller.summon("EX1_323w")
+
+# INFERNO!
+class EX1_tk33:
+	action = [Summon(CONTROLLER, "EX1_tk34")]
 
 
 ##

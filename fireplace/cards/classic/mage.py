@@ -2,6 +2,14 @@ from ..utils import *
 
 
 ##
+# Hero Powers
+
+# Fireblast (Jaina Proudmoore)
+class CS2_034:
+	action = [Hit(TARGET, 1)]
+
+
+##
 # Minions
 
 # Water Elemental

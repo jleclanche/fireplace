@@ -2,6 +2,14 @@ from ..utils import *
 
 
 ##
+# Hero Powers
+
+# Steady Shot (Rexxar)
+class DS1h_292:
+	action = [Hit(ENEMY_HERO, 2)]
+
+
+##
 # Minions
 
 # Starving Buzzard

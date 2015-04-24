@@ -2,6 +2,14 @@ from ..utils import *
 
 
 ##
+# Hero Powers
+
+# Armor Up!
+class CS2_102:
+	action = [GainArmor(FRIENDLY_HERO, 2)]
+
+
+##
 # Minions
 
 # Armorsmith

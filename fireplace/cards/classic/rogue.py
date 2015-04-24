@@ -2,6 +2,14 @@ from ..utils import *
 
 
 ##
+# Rogue
+
+# Dagger Mastery
+class CS2_083b:
+	action = [Summon(CONTROLLER, "CS2_082")]
+
+
+##
 # Minions
 
 # Defias Ringleader

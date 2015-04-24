@@ -2,6 +2,14 @@ from ..utils import *
 
 
 ##
+# Hero Powers
+
+# Shapeshift
+class CS2_017:
+	action = [Buff(FRIENDLY_HERO, "CS2_017o"), GainArmor(FRIENDLY_HERO, 1)]
+
+
+##
 # Minions
 
 # Cat Form (Druid of the Claw)
