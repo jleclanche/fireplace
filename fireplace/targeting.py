@@ -347,6 +347,7 @@ SPELL = Selector(CardType.SPELL)
 SECRET = Selector(CardType.SECRET)
 HERO_POWER = Selector(CardType.HERO_POWER)
 
+BEAST = Selector(Race.BEAST)
 DEMON = Selector(Race.DEMON)
 MECH = Selector(Race.MECHANICAL)
 MURLOC = Selector(Race.MURLOC)
