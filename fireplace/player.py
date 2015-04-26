@@ -135,6 +135,9 @@ class Player(Entity):
 			else:
 				card = self.deck[-1]
 
+		if len(self.hand) == 10:
+			return self.mill()
+
 		self.game.broadcast("DRAW", self, card)
 		logging.info("%s draws %r" % (self, card))
 		return card
