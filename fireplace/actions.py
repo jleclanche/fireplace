@@ -6,6 +6,7 @@ from .entity import Entity
 
 class Action: # Lawsuit
 	args = ()
+	type = PowSubType.TRIGGER
 
 	def __init__(self, target, *args, **kwargs):
 		self.target = target
@@ -30,11 +31,14 @@ class Action: # Lawsuit
 
 	def trigger(self, source, game):
 		targets = self.eval(self.target, source, game)
+		game.manager.action(self.type, source, targets, *self._args)
 		for i in range(self.times):
 			logging.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
 				self.do(source, target, game)
-		game.action(PowSubType.TRIGGER, source)
+		game.manager.action_end(self.type, source, targets, *self._args)
+		game._processDeaths()
+		game.refreshAuras()
 
 
 class GameAction(Action):
@@ -44,7 +48,11 @@ class GameAction(Action):
 			setattr(self, k, v)
 
 	def trigger(self, source, game):
-		return self.do(source, game)
+		game.manager.action(self.type, source, *self._args)
+		self.do(source, game)
+		game.manager.action_end(self.type, source, *self._args)
+		game._processDeaths()
+		game.refreshAuras()
 
 
 class Attack(GameAction):
@@ -52,12 +60,10 @@ class Attack(GameAction):
 	Make the source attack \a target
 	"""
 	args = ("target", )
+	type = PowSubType.ATTACK
+
 	def do(self, source, game):
-		game.manager.action(PowSubType.ATTACK, source, self.target)
 		game._attack(source, self.target)
-		game.manager.action_end(PowSubType.ATTACK, source, self.target)
-		game._processDeaths()
-		game.refreshAuras()
 
 
 class BeginTurn(GameAction):
@@ -65,6 +71,8 @@ class BeginTurn(GameAction):
 	Make \a player begin the turn
 	"""
 	args = ("player", )
+	type = None
+
 	def do(self, source, game):
 		game._beginTurn(self.player)
 
@@ -75,17 +83,14 @@ class Deaths(GameAction):
 	"""
 
 	def do(self, source, game):
-		game.manager.action(PowSubType.DEATHS, source)
 		game._processDeaths()
-		game.manager.action_end(PowSubType.DEATHS, source)
-		game._processDeaths()
-		game.refreshAuras()
 
 
 class EndTurn(GameAction):
 	"""
 	End the current turn
 	"""
+	type = None
 
 	def do(self, source, game):
 		game._endTurn()
@@ -97,12 +102,10 @@ class Play(GameAction):
 	Choose play action from \a choose or None.
 	"""
 	args = ("card", "target", "choose")
+	type = PowSubType.PLAY
+
 	def do(self, source, game):
-		game.manager.action(PowSubType.PLAY, source, *self._args)
 		source._play(self.card, self.target, self.choose)
-		game.manager.action_end(PowSubType.PLAY, source, *self._args)
-		game._processDeaths()
-		game.refreshAuras()
 
 
 class Buff(Action):
