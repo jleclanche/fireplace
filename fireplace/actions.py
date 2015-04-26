@@ -60,6 +60,15 @@ class Attack(GameAction):
 		game.refreshAuras()
 
 
+class BeginTurn(GameAction):
+	"""
+	Make \a player begin the turn
+	"""
+	args = ("player", )
+	def do(self, source, game):
+		game._beginTurn(self.player)
+
+
 class EndTurn(GameAction):
 	"""
 	End the current turn

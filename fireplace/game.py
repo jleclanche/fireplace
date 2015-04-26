@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .actions import Attack, EndTurn
+from .actions import Attack, BeginTurn, EndTurn
 from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, PowSubType, Step, Zone
@@ -178,7 +178,7 @@ class Game(Entity):
 		self.nextStep = Step.MAIN_READY
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
 		self.player2.give(THE_COIN)
-		self.broadcast("TURN_BEGIN", self.player1)
+		self.beginTurn(self.player1)
 
 	def endTurn(self):
 		return self.queueActions(self, [EndTurn()])
@@ -189,7 +189,24 @@ class Game(Entity):
 		self.broadcast("TURN_END", self.currentPlayer)
 		self.currentPlayer.broadcast("OWN_TURN_END")
 		self.step, self.nextStep = self.nextStep, Step.MAIN_NEXT
-		self.broadcast("TURN_BEGIN", self.currentPlayer.opponent)
+		self.beginTurn(self.currentPlayer.opponent)
+
+	def beginTurn(self, player):
+		return self.queueActions(self, [BeginTurn(player)])
+
+	def _beginTurn(self, player):
+		self.step, self.nextStep = self.nextStep, Step.MAIN_START_TRIGGERS
+		self.broadcast("TURN_BEGIN", player)
+		self.step, self.nextStep = self.nextStep, Step.MAIN_START
+		self.turn += 1
+		if self.currentPlayer:
+			self.currentPlayer.currentPlayer = False
+		self.step, self.nextStep = self.nextStep, Step.MAIN_ACTION
+		self.currentPlayer = player
+		self.currentPlayer.currentPlayer = True
+		self.minionsKilledThisTurn = 0
+		logging.info("%s begins turn %i" % (self.currentPlayer, self.turn))
+		self.currentPlayer.broadcast("OWN_TURN_BEGIN")
 
 	##
 	# Events
@@ -217,19 +234,6 @@ class Game(Entity):
 
 	def DRAW(self, player, card):
 		player.broadcast("OWN_DRAW", card)
-
-	def TURN_BEGIN(self, player):
-		self.step, self.nextStep = self.nextStep, Step.MAIN_START_TRIGGERS
-		self.step, self.nextStep = self.nextStep, Step.MAIN_START
-		self.turn += 1
-		logging.info("%s begins turn %i" % (player, self.turn))
-		if self.currentPlayer:
-			self.currentPlayer.currentPlayer = False
-		self.step, self.nextStep = self.nextStep, Step.MAIN_ACTION
-		self.currentPlayer = player
-		self.currentPlayer.currentPlayer = True
-		self.minionsKilledThisTurn = 0
-		player.broadcast("OWN_TURN_BEGIN")
 
 	def DAMAGE(self, source, target, amount):
 		target.controller.broadcast("OWN_DAMAGE", source, target, amount)
