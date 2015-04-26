@@ -130,6 +130,13 @@ class Game(Entity):
 			if card.toBeDestroyed:
 				card.destroy()
 
+	def queueActions(self, source, actions):
+		"""
+		Queue a list of \a actions for processing from \a source.
+		"""
+		for action in actions:
+			action.trigger(source, self)
+
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
 		# player who wins the outcome is the index

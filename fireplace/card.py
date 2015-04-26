@@ -59,13 +59,11 @@ class BaseCard(Entity):
 					def _func(*args):
 						_actions = actions(self, *args)
 						if _actions:
-							for act in _actions:
-								act.trigger(self, self.game)
+							self.game.queueActions(self, _actions)
 					_func.zone = getattr(actions, "zone", Zone.PLAY)
 				else:
 					def _func(*args):
-						for act in actions:
-							act.trigger(self, self.game)
+						self.game.queueActions(self, actions)
 					_func.zone = Zone.PLAY
 
 				self._eventListeners[event].append(_func)
@@ -238,10 +236,9 @@ class PlayableCard(BaseCard):
 
 		if hasattr(actions, "__call__"):
 			actions = actions(self, **kwargs)
-		if not actions:
-			return
-		for act in actions:
-			act.trigger(self, self.game)
+
+		if actions:
+			self.game.queueActions(self, actions)
 
 	def clearBuffs(self):
 		if self.buffs:
@@ -318,8 +315,7 @@ class PlayableCard(BaseCard):
 				actions = deathrattle(self)
 			else:
 				actions = deathrattle
-			for action in actions:
-				action.trigger(self, self.game)
+			self.game.queueActions(self, actions)
 
 	@property
 	def targets(self):
