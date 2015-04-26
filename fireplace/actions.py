@@ -78,6 +78,20 @@ class EndTurn(GameAction):
 		game._endTurn()
 
 
+class Play(GameAction):
+	"""
+	Make the source player play \a card, on \a target or None.
+	Choose play action from \a choose or None.
+	"""
+	args = ("card", "target", "choose")
+	def do(self, source, game):
+		game.manager.action(PowSubType.PLAY, source, *self._args)
+		source._play(self.card, self.target, self.choose)
+		game.manager.action_end(PowSubType.PLAY, source, *self._args)
+		game._processDeaths()
+		game.refreshAuras()
+
+
 class Buff(Action):
 	"""
 	Buff character targets with Enchantment \a id

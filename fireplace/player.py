@@ -3,6 +3,7 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
+from .actions import Play
 from .card import BaseCard
 from .deck import Deck
 from .entity import Entity
@@ -197,7 +198,7 @@ class Player(Entity):
 		return card
 
 	def play(self, card, target=None, choose=None):
-		self.game.action(PowSubType.PLAY, self, card, target, choose)
+		return self.game.queueActions(self, [Play(card, target, choose)])
 
 	def _play(self, card, target, choose):
 		"""

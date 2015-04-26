@@ -67,9 +67,7 @@ class Game(Entity):
 
 	def action(self, type, *args):
 		self.manager.action(type, *args)
-		if type == PowSubType.PLAY:
-			args[0]._play(*args[1:])
-		elif type == PowSubType.DEATHS:
+		if type == PowSubType.DEATHS:
 			self._processDeaths()
 		elif type == PowSubType.TRIGGER:
 			pass
