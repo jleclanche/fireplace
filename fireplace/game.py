@@ -4,7 +4,7 @@ from itertools import chain
 from .actions import Attack, BeginTurn, Deaths, EndTurn
 from .card import Card, THE_COIN
 from .entity import Entity
-from .enums import CardType, PowSubType, Step, Zone
+from .enums import CardType, Step, Zone
 from .managers import GameManager
 from .utils import CardList
 
@@ -64,16 +64,6 @@ class Game(Entity):
 
 	def filter(self, *args, **kwargs):
 		return self.allEntities.filter(*args, **kwargs)
-
-	def action(self, type, *args):
-		self.manager.action(type, *args)
-		if type == PowSubType.TRIGGER:
-			pass
-		else:
-			raise NotImplementedError
-		self.manager.action_end(type, *args)
-		self._processDeaths()
-		self.refreshAuras()
 
 	def attack(self, source, target):
 		return self.queueActions(source, [Attack(target)])
