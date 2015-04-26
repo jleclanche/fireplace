@@ -13,7 +13,7 @@ class EX1_004:
 
 # Alarm-o-Bot
 class EX1_006:
-	OWN_TURN_BEGIN = [Swap(SELF, (CONTROLLER_HAND + MINION))]
+	OWN_TURN_BEGIN = [Swap(SELF, RANDOM(CONTROLLER_HAND + MINION))]
 
 
 # Twilight Drake

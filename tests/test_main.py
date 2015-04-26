@@ -840,17 +840,23 @@ def test_alarmobot():
 	bot.play()
 	game.currentPlayer.discardHand()
 	wisp = game.currentPlayer.give(WISP)
+	for i in range(9):
+		game.currentPlayer.give(MOONFIRE)
+	assert len(game.currentPlayer.hand) == 10
 	assert bot.zone == Zone.PLAY
 	assert wisp.zone == Zone.HAND
 	game.endTurn(); game.endTurn()
 	assert bot.zone == Zone.HAND
 	assert wisp.zone == Zone.PLAY
 	assert len(game.currentPlayer.field) == 1
+	assert len(game.currentPlayer.hand) == 10
 
 	# bot should not trigger if hand has no minions
 	bot.play()
-	game.currentPlayer.discardHand()
+	game.currentPlayer.give(MOONFIRE)
+	assert len(game.currentPlayer.hand) == 10
 	game.endTurn(); game.endTurn()
+	assert len(game.currentPlayer.hand) == 10
 	assert bot.zone == Zone.PLAY
 	assert len(game.currentPlayer.field) == 2
 
