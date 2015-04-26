@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .actions import Attack, BeginTurn, EndTurn
+from .actions import Attack, BeginTurn, Deaths, EndTurn
 from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, PowSubType, Step, Zone
@@ -67,9 +67,7 @@ class Game(Entity):
 
 	def action(self, type, *args):
 		self.manager.action(type, *args)
-		if type == PowSubType.DEATHS:
-			self._processDeaths()
-		elif type == PowSubType.TRIGGER:
+		if type == PowSubType.TRIGGER:
 			pass
 		else:
 			raise NotImplementedError
@@ -119,7 +117,7 @@ class Game(Entity):
 		return card
 
 	def processDeaths(self):
-		return self.action(PowSubType.DEATHS)
+		return self.queueActions(self, [Deaths()])
 
 	def _processDeaths(self):
 		for card in self.liveEntities:

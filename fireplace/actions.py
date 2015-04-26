@@ -69,6 +69,19 @@ class BeginTurn(GameAction):
 		game._beginTurn(self.player)
 
 
+class Deaths(GameAction):
+	"""
+	Process all deaths in the PLAY Zone.
+	"""
+
+	def do(self, source, game):
+		game.manager.action(PowSubType.DEATHS, source)
+		game._processDeaths()
+		game.manager.action_end(PowSubType.DEATHS, source)
+		game._processDeaths()
+		game.refreshAuras()
+
+
 class EndTurn(GameAction):
 	"""
 	End the current turn
