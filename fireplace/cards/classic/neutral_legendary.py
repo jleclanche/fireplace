@@ -107,7 +107,7 @@ class EX1_558:
 # Ysera
 class EX1_572:
 	def OWN_TURN_END(self):
-		choice = random.choice(self.data.entourage)
+		choice = RandomCard(cardClass=CardClass.DREAM)
 		return [Give(CONTROLLER, choice)]
 
 # Ysera Awakens
