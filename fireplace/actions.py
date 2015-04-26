@@ -6,6 +6,7 @@ from .entity import Entity
 
 class Action: # Lawsuit
 	args = ()
+
 	def __init__(self, target, *args, **kwargs):
 		self.target = target
 		self.times = 1
@@ -34,6 +35,17 @@ class Action: # Lawsuit
 			for target in targets:
 				self.do(source, target, game)
 		game.action(PowSubType.TRIGGER, source)
+
+
+class GameAction(Action):
+	def __init__(self, *args, **kwargs):
+		self._args = args
+		for k, v in zip(self.args, args):
+			setattr(self, k, v)
+
+	def trigger(self, source, game):
+		return self.do(source, game)
+
 
 class Buff(Action):
 	"""
