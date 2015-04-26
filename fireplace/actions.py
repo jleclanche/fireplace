@@ -47,6 +47,19 @@ class GameAction(Action):
 		return self.do(source, game)
 
 
+class Attack(GameAction):
+	"""
+	Make the source attack \a target
+	"""
+	args = ("target", )
+	def do(self, source, game):
+		game.manager.action(PowSubType.ATTACK, source, self.target)
+		game._attack(source, self.target)
+		game.manager.action_end(PowSubType.ATTACK, source, self.target)
+		game._processDeaths()
+		game.refreshAuras()
+
+
 class Buff(Action):
 	"""
 	Buff character targets with Enchantment \a id

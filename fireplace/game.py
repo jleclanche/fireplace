@@ -1,6 +1,7 @@
 import logging
 import random
 from itertools import chain
+from .actions import Attack
 from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, PowSubType, Step, Zone
@@ -66,9 +67,7 @@ class Game(Entity):
 
 	def action(self, type, *args):
 		self.manager.action(type, *args)
-		if type == PowSubType.ATTACK:
-			self._attack(*args)
-		elif type == PowSubType.PLAY:
+		if type == PowSubType.PLAY:
 			args[0]._play(*args[1:])
 		elif type == PowSubType.DEATHS:
 			self._processDeaths()
@@ -81,7 +80,7 @@ class Game(Entity):
 		self.refreshAuras()
 
 	def attack(self, source, target):
-		return self.action(PowSubType.ATTACK, source, target)
+		return self.queueActions(source, [Attack(target)])
 
 	def _attack(self, source, target):
 		"""
