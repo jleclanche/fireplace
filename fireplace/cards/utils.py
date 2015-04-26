@@ -16,5 +16,9 @@ def hand(func):
 drawCard = lambda self, *args: self.controller.draw()
 
 
+def RandomCard(**kwargs):
+	return random.choice(fireplace.cards.filter(**kwargs))
+
+
 def randomCollectible(**kwargs):
-	return random.choice(fireplace.cards.filter(collectible=True, **kwargs))
+	return RandomCard(collectible=True, **kwargs)
