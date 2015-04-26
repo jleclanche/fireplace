@@ -1584,33 +1584,51 @@ def test_pint_sized_summoner():
 	game = prepare_game()
 	goldshire1 = game.currentPlayer.give(GOLDSHIRE_FOOTMAN)
 	goldshire2 = game.currentPlayer.give(GOLDSHIRE_FOOTMAN)
+	moonfire = game.currentPlayer.give(MOONFIRE)
+	frostwolf = game.currentPlayer.give("CS2_121")
 	wisp = game.currentPlayer.give(WISP)
 	assert goldshire1.cost == 1
 	assert goldshire2.cost == 1
+	assert frostwolf.cost == 2
 	assert wisp.cost == 0
 
 	# summon it directly, minions played still at 0
 	summoner = game.currentPlayer.summon("EX1_076")
 	assert game.currentPlayer.minionsPlayedThisTurn == 0
 	assert goldshire1.buffs
-	assert goldshire1.cost == 0
+	assert goldshire1.cost == 1 - 1
 	assert goldshire2.buffs
-	assert goldshire2.cost == 0
+	assert goldshire2.cost == 1 - 1
+	assert not moonfire.buffs
+	assert moonfire.cost == 0
+	assert frostwolf.buffs
+	assert frostwolf.cost == 2 - 1
 	assert wisp.buffs
 	assert wisp.cost == 0
 
 	goldshire1.play()
 	assert game.currentPlayer.minionsPlayedThisTurn == 1
-	assert not wisp.buffs
 	assert not goldshire2.buffs
+	assert not frostwolf.buffs
+	assert not wisp.buffs
 	assert goldshire2.cost == 1
+	assert frostwolf.cost == 2
 	assert wisp.cost == 0
 	game.endTurn()
 
 	assert game.currentPlayer.minionsPlayedThisTurn == 0
 	assert goldshire1.cost == 1
 	assert goldshire2.cost == 1
+	assert frostwolf.cost == 2
 	assert wisp.cost == 0
+
+	game.endTurn()
+	summoner2 = game.currentPlayer.summon("EX1_076")
+	assert frostwolf.cost == 2 - 2
+	summoner.destroy()
+	assert frostwolf.cost == 2 - 1
+	summoner2.destroy()
+	assert frostwolf.cost == 2
 
 
 def test_mana_wraith():
