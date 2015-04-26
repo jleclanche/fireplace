@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .actions import Attack
+from .actions import Attack, EndTurn
 from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, PowSubType, Step, Zone
@@ -181,9 +181,13 @@ class Game(Entity):
 		self.broadcast("TURN_BEGIN", self.player1)
 
 	def endTurn(self):
-		logging.info("%s ends turn" % (self.currentPlayer))
+		return self.queueActions(self, [EndTurn()])
+
+	def _endTurn(self):
+		logging.info("%s ends turn %i", self.currentPlayer, self.turn)
 		self.step, self.nextStep = self.nextStep, Step.MAIN_CLEANUP
 		self.broadcast("TURN_END", self.currentPlayer)
+		self.currentPlayer.broadcast("OWN_TURN_END")
 		self.step, self.nextStep = self.nextStep, Step.MAIN_NEXT
 		self.broadcast("TURN_BEGIN", self.currentPlayer.opponent)
 
@@ -226,9 +230,6 @@ class Game(Entity):
 		self.currentPlayer.currentPlayer = True
 		self.minionsKilledThisTurn = 0
 		player.broadcast("OWN_TURN_BEGIN")
-
-	def TURN_END(self, player):
-		player.broadcast("OWN_TURN_END")
 
 	def DAMAGE(self, source, target, amount):
 		target.controller.broadcast("OWN_DAMAGE", source, target, amount)

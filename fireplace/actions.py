@@ -1,6 +1,6 @@
 import logging
 import random
-from .enums import CardType, PowSubType
+from .enums import CardType, PowSubType, Step
 from .entity import Entity
 
 
@@ -58,6 +58,15 @@ class Attack(GameAction):
 		game.manager.action_end(PowSubType.ATTACK, source, self.target)
 		game._processDeaths()
 		game.refreshAuras()
+
+
+class EndTurn(GameAction):
+	"""
+	End the current turn
+	"""
+
+	def do(self, source, game):
+		game._endTurn()
 
 
 class Buff(Action):
