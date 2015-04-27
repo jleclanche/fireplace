@@ -215,6 +215,11 @@ class PlayableCard(BaseCard):
 	def slots(self):
 		return self.buffs
 
+	def _setZone(self, zone):
+		super()._setZone(zone)
+		if zone == Zone.HAND:
+			self.clearBuffs()
+
 	def action(self):
 		kwargs = {}
 		if self.target:
@@ -328,7 +333,6 @@ class PlayableCard(BaseCard):
 			if self.controller.extraDeathrattles:
 				logging.info("Triggering Deathrattle for %r again", self)
 				self.triggerDeathrattles()
-		self.clearBuffs()
 
 	def OWN_TURN_BEGIN(self):
 		self.exhausted = False
