@@ -779,8 +779,6 @@ class Enrage(object):
 	Enrage buffs are just a collection of tags for the enraged Minion's slots.
 	"""
 
-	_eventListeners = {}
-
 	def __init__(self, tags):
 		MinionManager(self).update(tags)
 
