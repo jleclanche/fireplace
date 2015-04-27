@@ -3,7 +3,7 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
-from .actions import Play
+from .actions import Play, Summon
 from .card import BaseCard
 from .deck import Deck
 from .entity import Entity
@@ -193,8 +193,7 @@ class Player(Entity):
 		if isinstance(card, str):
 			card = self.game.card(card)
 			card.controller = self
-		logging.debug("%s summons %r" % (self, card))
-		card.summon()
+		self.game.queueActions(self, [Summon(self, card)])
 		return card
 
 	def play(self, card, target=None, choose=None):

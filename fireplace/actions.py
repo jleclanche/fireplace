@@ -333,10 +333,15 @@ class Summon(TargetedAction):
 	Make player targets summon \a id onto their field.
 	This works for equipping weapons as well as summoning minions.
 	"""
-	args = ("targets", "id")
+	args = ("targets", "card")
 
 	def do(self, source, game, target):
-		target.summon(self.id)
+		card = self.card
+		if isinstance(card, str):
+			card = game.card(self.card)
+			card.controller = target
+		logging.info("%s summons %r", target, card)
+		card.summon()
 
 
 class Swap(TargetedAction):
