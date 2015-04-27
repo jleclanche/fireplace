@@ -775,11 +775,11 @@ class Aura(object):
 
 	def destroy(self):
 		logging.info("Removing %r affecting %r" % (self, self._buffed))
+		self.game.auras.remove(self)
 		for buff in self._buffs:
 			buff.destroy()
 		del self._buffs
 		del self._buffed
-		self.game.auras.remove(self)
 
 
 class Enrage(object):
