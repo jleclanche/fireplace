@@ -158,7 +158,7 @@ class BaseCard(Entity):
 		"""
 		ret = self.game.card(buff)
 		ret.controller = self.controller
-		ret.zone = Zone.PLAY
+		ret.zone = Zone.SETASIDE
 		ret.apply(target)
 		for k, v in kwargs.items():
 			setattr(ret, k, v)
@@ -666,6 +666,13 @@ class Enchantment(BaseCard):
 	def slots(self):
 		return []
 
+	def _setZone(self, zone):
+		if zone == Zone.PLAY:
+			self.owner.buffs.append(self)
+		elif zone == Zone.GRAVEYARD:
+			self.owner.buffs.remove(self)
+		super()._setZone(zone)
+
 	def apply(self, target):
 		logging.info("Applying %r to %r" % (self, target))
 		self.owner = target
@@ -674,13 +681,13 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "maxHealth"):
 			logging.info("%r removes all damage from %r", self, target)
 			target.damage = 0
-		target.buffs.append(self)
+		self.zone = Zone.PLAY
 
 	def destroy(self):
 		logging.info("Destroying buff %r from %r" % (self, self.owner))
-		self.owner.buffs.remove(self)
 		if hasattr(self.data.scripts, "destroy"):
 			self.data.scripts.destroy(self)
+		self.zone = Zone.GRAVEYARD
 
 	def TURN_END(self, *args):
 		if self.oneTurnEffect:
