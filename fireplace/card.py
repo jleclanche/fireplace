@@ -113,6 +113,9 @@ class BaseCard(Entity):
 				aura = Aura(aura, source=self)
 				aura.summon()
 				self._auras.append(aura)
+		else:
+			for aura in self._auras:
+				aura.destroy()
 
 	def destroy(self):
 		logging.info("%r dies" % (self))
@@ -537,9 +540,6 @@ class Minion(Character):
 		if self.zone == Zone.PLAY:
 			logging.info("%r is removed from the field" % (self))
 			self.controller.field.remove(self)
-			# Remove any aura the minion gives
-			for aura in self._auras:
-				aura.destroy()
 			if self.damage:
 				self.damage = 0
 
@@ -677,8 +677,6 @@ class Enchantment(BaseCard):
 		self.owner.buffs.remove(self)
 		if hasattr(self.data.scripts, "destroy"):
 			self.data.scripts.destroy(self)
-		for aura in self._auras:
-			aura.destroy()
 
 	def TURN_END(self, *args):
 		if self.oneTurnEffect:
