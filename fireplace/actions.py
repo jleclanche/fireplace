@@ -8,8 +8,7 @@ class Action: # Lawsuit
 	args = ()
 	type = PowSubType.TRIGGER
 
-	def __init__(self, target, *args, **kwargs):
-		self.target = target
+	def __init__(self, *args, **kwargs):
 		self.times = 1
 		self._args = args
 		for k, v in zip(self.args, args):
@@ -28,17 +27,6 @@ class Action: # Lawsuit
 			return [selector]
 		else:
 			return selector.eval(game, source)
-
-	def trigger(self, source, game):
-		targets = self.eval(self.target, source, game)
-		game.manager.action(self.type, source, targets, *self._args)
-		for i in range(self.times):
-			logging.info("%r triggering %r targeting %r", source, self, targets)
-			for target in targets:
-				self.do(source, target, game)
-		game.manager.action_end(self.type, source, targets, *self._args)
-		game._processDeaths()
-		game.refreshAuras()
 
 
 class GameAction(Action):
@@ -108,100 +96,131 @@ class Play(GameAction):
 		source._play(self.card, self.target, self.choose)
 
 
-class Buff(Action):
+class TargetedAction(Action):
+	args = ("targets", )
+
+	def __repr__(self):
+		args = ["%s=%r" % (k, v) for k, v in zip(self.args[1:], self._args[1:])]
+		return "<TargetedAction: %s(%s)>" % (self.__class__.__name__, ", ".join(args))
+
+	def trigger(self, source, game):
+		targets = self.eval(self.targets, source, game)
+		game.manager.action(self.type, source, targets, *self._args)
+		for i in range(self.times):
+			logging.info("%r triggering %r targeting %r", source, self, targets)
+			for target in targets:
+				self.do(source, target, game)
+		game.manager.action_end(self.type, source, targets, *self._args)
+		game._processDeaths()
+		game.refreshAuras()
+
+
+class Buff(TargetedAction):
 	"""
 	Buff character targets with Enchantment \a id
 	"""
-	args = ("id", )
+	args = ("targets", "id")
+
 	def do(self, source, target, game):
 		source.buff(target, self.id)
 
-class Bounce(Action):
+
+class Bounce(TargetedAction):
 	"""
 	Bounce minion targets on the field back into the hand.
 	"""
 	def do(self, source, target, game):
 		target.bounce()
 
-class Destroy(Action):
+
+class Destroy(TargetedAction):
 	"""
 	Destroy character targets.
 	"""
 	def do(self, source, target, game):
 		target._destroy()
 
-class Discard(Action):
+
+class Discard(TargetedAction):
 	"""
 	Discard card targets in a player's hand
 	"""
 	def do(self, source, target, game):
 		target.discard()
 
-class Draw(Action):
+
+class Draw(TargetedAction):
 	"""
 	Make player targets draw \a count cards.
 	"""
-	args = ("count", )
+	args = ("targets", "count")
+
 	def do(self, source, target, game):
 		target.draw(self.count)
 
-class ForceDraw(Action):
+
+class ForceDraw(TargetedAction):
 	"""
 	Make player targets draw \a cards from their deck.
 	"""
-	args = ("cards", )
+	args = ("targets", "cards")
+
 	def do(self, source, target, game):
 		cards = self.eval(self.cards, source, game)
 		for card in cards:
 			target.draw(card)
 
 
-class ForcePlay(Action):
+class ForcePlay(TargetedAction):
 	"""
 	Make player targets play \a cards from their hand (at no cost).
 	"""
-	args = ("cards", )
+	args = ("targets", "cards")
+
 	def do(self, source, target, game):
 		cards = self.eval(self.cards, source, game)
 		for card in cards:
 			target.summon(card)
 
 
-class FullHeal(Action):
+class FullHeal(TargetedAction):
 	"""
 	Fully heal character targets.
 	"""
 	def do(self, source, target, game):
 		source.heal(target, target.health)
 
-class GainArmor(Action):
+class GainArmor(TargetedAction):
 	"""
 	Make hero targets gain \a amount armor.
 	"""
-	args = ("amount", )
+	args = ("targets", "amount")
+
 	def do(self, source, target, game):
 		target.armor += self.amount
 
 
-class GainMana(Action):
+class GainMana(TargetedAction):
 	"""
 	Give player targets \a Mana crystals.
 	"""
-	args = ("amount", )
+	args = ("targets", "amount")
+
 	def do(self, source, target, game):
 		target.maxMana += self.amount
 
 
-class Give(Action):
+class Give(TargetedAction):
 	"""
 	Give player targets card \a id.
 	"""
-	args = ("id", )
+	args = ("targets", "id")
+
 	def do(self, source, target, game):
 		target.give(self.id)
 
 
-class GiveSparePart(Action):
+class GiveSparePart(TargetedAction):
 	"""
 	Give player targets a random Spare Part.
 	This currently assumes the source has a Spare Part entourage.
@@ -210,66 +229,78 @@ class GiveSparePart(Action):
 		target.give(random.choice(source.data.entourage))
 
 
-class Hit(Action):
+class Hit(TargetedAction):
 	"""
 	Hit character targets by \a amount.
 	"""
-	args = ("amount", )
+	args = ("targets", "amount")
+
 	def do(self, source, target, game):
 		if target.type == CardType.WEAPON:
 			target.durability -= self.amount
 		else:
 			source.hit(target, self.amount)
 
-class Heal(Action):
+
+class Heal(TargetedAction):
 	"""
 	Heal character targets by \a amount.
 	"""
-	args = ("amount", )
+	args = ("targets", "amount")
+
 	def do(self, source, target, game):
 		source.heal(target, self.amount)
 
-class ManaThisTurn(Action):
+
+class ManaThisTurn(TargetedAction):
 	"""
 	Give player targets \a amount Mana this turn.
 	"""
-	args = ("amount", )
+	args = ("targets", "amount")
+
 	def do(self, source, target, game):
 		target.tempMana += self.amount
 
-class Mill(Action):
+
+class Mill(TargetedAction):
 	"""
 	Mill \a count cards from the top of the player targets' deck.
 	"""
-	args = ("count", )
+	args = ("targets", "count")
+
 	def do(self, source, target, game):
 		target.mill(self.count)
 
-class Morph(Action):
+
+class Morph(TargetedAction):
 	"""
 	Morph minion target into \a minion id
 	"""
-	args = ("id", )
+	args = ("targets", "id")
+
 	def do(self, source, target, game):
 		target.morph(self.id)
 
-class Freeze(Action):
+
+class Freeze(TargetedAction):
 	"""
 	Freeze character targets.
 	"""
 	def do(self, source, target, game):
 		target.frozen = True
 
-class FillMana(Action):
+
+class FillMana(TargetedAction):
 	"""
 	Refill \a amount mana crystals from player targets.
 	"""
-	args = ("amount", )
+	args = ("targets", "amount")
+
 	def do(self, source, target, game):
 		target.usedMana -= self.amount
 
 
-class Reveal(Action):
+class Reveal(TargetedAction):
 	"""
 	Reveal secret targets.
 	"""
@@ -277,39 +308,44 @@ class Reveal(Action):
 		target.reveal()
 
 
-class SetTag(Action):
+class SetTag(TargetedAction):
 	"""
 	Sets various targets' tags to \a values.
 	"""
-	args = ("values", )
+	args = ("targets", "values")
+
 	def do(self, source, target, game):
 		for k, v in self.values.items():
 			if target.tags[k] != v:
 				target.tags[k] = v
 
 
-class Silence(Action):
+class Silence(TargetedAction):
 	"""
 	Silence minion targets.
 	"""
 	def do(self, source, target, game):
 		target.silence()
 
-class Summon(Action):
+
+class Summon(TargetedAction):
 	"""
 	Make player targets summon \a id onto their field.
 	This works for equipping weapons as well as summoning minions.
 	"""
-	args = ("id", )
+	args = ("targets", "id")
+
 	def do(self, source, target, game):
 		target.summon(self.id)
 
-class Swap(Action):
+
+class Swap(TargetedAction):
 	"""
 	Swap minion target with \a other.
 	Behaviour is undefined when swapping more than two minions.
 	"""
-	args = ("other", )
+	args = ("targets", "other")
+
 	def do(self, source, target, game):
 		other = self.eval(self.other, source, game)
 		if other:
@@ -319,7 +355,8 @@ class Swap(Action):
 			target.zone = other.zone
 			other.zone = orig
 
-class TakeControl(Action):
+
+class TakeControl(TargetedAction):
 	"""
 	Make the controller take control of targets.
 	The controller is the controller of the source of the action.
