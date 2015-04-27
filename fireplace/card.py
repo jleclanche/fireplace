@@ -153,7 +153,9 @@ class BaseCard(Entity):
 		NOTE: Any Card can buff any other Card. The controller of the
 		Card that buffs the target becomes the controller of the buff.
 		"""
-		ret = self.controller.summon(buff)
+		ret = self.game.card(buff)
+		ret.controller = self.controller
+		ret.zone = Zone.PLAY
 		ret.apply(target)
 		for k, v in kwargs.items():
 			setattr(ret, k, v)
