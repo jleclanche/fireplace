@@ -381,15 +381,15 @@ class Character(PlayableCard):
 			return False
 		return True
 
+	def _setZone(self, zone):
+		if self.attacking:
+			self.shouldExitCombat = True
+		super()._setZone(zone)
+
 	def attack(self, target):
 		assert target.zone == Zone.PLAY
 		assert self.controller.currentPlayer
 		self.game.attack(self, target)
-
-	def destroy(self):
-		if self.attacking:
-			self.shouldExitCombat = True
-		super().destroy()
 
 	def summon(self):
 		super().summon()
@@ -551,8 +551,6 @@ class Minion(Character):
 			logging.info("%s's hand is full and bounce fails" % (self.controller))
 			self.destroy()
 		else:
-			if self.attacking:
-				self.shouldExitCombat = True
 			self.zone = Zone.HAND
 
 	def hit(self, target, amount):
