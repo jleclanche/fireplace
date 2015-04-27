@@ -810,9 +810,10 @@ class Weapon(PlayableCard):
 	def toBeDestroyed(self):
 		return self.durability == 0
 
-	def destroy(self):
-		self.controller.weapon = None
-		super().destroy()
+	def _setZone(self, zone):
+		if self.zone == Zone.PLAY:
+			self.controller.weapon = None
+		super()._setZone(zone)
 
 	def loseDurability(self, count=1):
 		logging.info("%r loses %r durability", self, count)
