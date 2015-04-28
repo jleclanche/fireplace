@@ -431,7 +431,11 @@ class Character(PlayableCard):
 
 	@property
 	def toBeDestroyed(self):
-		return self.health == 0
+		return self.health == 0 or getattr(self, "_toBeDestroyed", False)
+
+	@toBeDestroyed.setter
+	def toBeDestroyed(self, value):
+		self._toBeDestroyed = value
 
 	def OWN_TURN_BEGIN(self):
 		self.numAttacks = 0
