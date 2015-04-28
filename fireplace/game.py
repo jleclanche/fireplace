@@ -128,7 +128,8 @@ class Game(Entity):
 	def _processDeaths(self):
 		for card in self.liveEntities:
 			if card.toBeDestroyed:
-				card.destroy()
+				card.zone = Zone.GRAVEYARD
+				self.broadcast("CARD_DESTROYED", card)
 
 	def queueActions(self, source, actions):
 		"""

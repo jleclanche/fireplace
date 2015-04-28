@@ -2,6 +2,7 @@ import json
 import logging
 from itertools import chain
 from . import cards as CardDB, targeting
+from .actions import Destroy
 from .exceptions import *
 from .entity import Entity, booleanProperty, intProperty
 from .enums import AuraType, CardClass, CardType, PlayReq, Race, Rarity, Zone
@@ -114,14 +115,6 @@ class BaseCard(Entity):
 		else:
 			for aura in self._auras:
 				aura.destroy()
-
-	def destroy(self):
-		logging.info("%r dies" % (self))
-		inPlay = self.zone == Zone.PLAY
-		self.zone = Zone.GRAVEYARD
-		if not inPlay:
-			return
-		self.game.broadcast("CARD_DESTROYED", self)
 
 	def summon(self):
 		logging.info("Summoning %r", self)
@@ -256,6 +249,21 @@ class PlayableCard(BaseCard):
 				if buff.creator:
 					# Clean up the buff from its source auras
 					buff.creator._buffs.remove(buff)
+
+	def destroy(self):
+		return self.game.queueActions(self, [Destroy(self)])
+
+	def _destroy(self):
+		"""
+		Destroy a card.
+		If the card is in PLAY, it is instead scheduled to be destroyed, and it will
+		be moved to the GRAVEYARD on the next Death event.
+		"""
+		if self.zone == Zone.PLAY:
+			logging.info("Marking %r for imminent death", self)
+			self.toBeDestroyed = True
+		else:
+			self.zone = Zone.GRAVEYARD
 
 	def discard(self):
 		logging.info("Discarding %r" % (self))
@@ -688,6 +696,7 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "destroy"):
 			self.data.scripts.destroy(self)
 		self.zone = Zone.GRAVEYARD
+	_destroy = destroy
 
 	def TURN_END(self, *args):
 		if self.oneTurnEffect:

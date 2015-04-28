@@ -55,7 +55,7 @@ class Destroy(Action):
 	Destroy character targets.
 	"""
 	def do(self, source, target, game):
-		target.destroy()
+		target._destroy()
 
 class Discard(Action):
 	"""
