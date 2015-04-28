@@ -206,6 +206,14 @@ class PlayableCard(BaseCard):
 		return False
 
 	@property
+	def toBeDestroyed(self):
+		return self.health == 0 or getattr(self, "_toBeDestroyed", False)
+
+	@toBeDestroyed.setter
+	def toBeDestroyed(self, value):
+		self._toBeDestroyed = value
+
+	@property
 	def entities(self):
 		return chain([self], self.buffs)
 
@@ -428,14 +436,6 @@ class Character(PlayableCard):
 		if self.zone == Zone.PLAY:
 			return self.attackTargets
 		return super().targets
-
-	@property
-	def toBeDestroyed(self):
-		return self.health == 0 or getattr(self, "_toBeDestroyed", False)
-
-	@toBeDestroyed.setter
-	def toBeDestroyed(self, value):
-		self._toBeDestroyed = value
 
 	def OWN_TURN_BEGIN(self):
 		self.numAttacks = 0
@@ -815,7 +815,11 @@ class Weapon(PlayableCard):
 
 	@property
 	def toBeDestroyed(self):
-		return self.durability == 0
+		return self.durability == 0 or getattr(self, "_toBeDestroyed", False)
+
+	@toBeDestroyed.setter
+	def toBeDestroyed(self, value):
+		self._toBeDestroyed = value
 
 	def _setZone(self, zone):
 		if self.zone == Zone.PLAY:
