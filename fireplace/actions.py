@@ -109,7 +109,7 @@ class TargetedAction(Action):
 		for i in range(self.times):
 			logging.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
-				self.do(source, target, game)
+				self.do(source, game, target)
 		game.manager.action_end(self.type, source, targets, *self._args)
 		game._processDeaths()
 		game.refreshAuras()
@@ -121,7 +121,7 @@ class Buff(TargetedAction):
 	"""
 	args = ("targets", "id")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		source.buff(target, self.id)
 
 
@@ -129,7 +129,7 @@ class Bounce(TargetedAction):
 	"""
 	Bounce minion targets on the field back into the hand.
 	"""
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.bounce()
 
 
@@ -137,7 +137,7 @@ class Destroy(TargetedAction):
 	"""
 	Destroy character targets.
 	"""
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target._destroy()
 
 
@@ -145,7 +145,7 @@ class Discard(TargetedAction):
 	"""
 	Discard card targets in a player's hand
 	"""
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.discard()
 
 
@@ -155,7 +155,7 @@ class Draw(TargetedAction):
 	"""
 	args = ("targets", "count")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.draw(self.count)
 
 
@@ -165,7 +165,7 @@ class ForceDraw(TargetedAction):
 	"""
 	args = ("targets", "cards")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		cards = self.eval(self.cards, source, game)
 		for card in cards:
 			target.draw(card)
@@ -177,7 +177,7 @@ class ForcePlay(TargetedAction):
 	"""
 	args = ("targets", "cards")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		cards = self.eval(self.cards, source, game)
 		for card in cards:
 			target.summon(card)
@@ -187,7 +187,7 @@ class FullHeal(TargetedAction):
 	"""
 	Fully heal character targets.
 	"""
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		source.heal(target, target.health)
 
 class GainArmor(TargetedAction):
@@ -196,7 +196,7 @@ class GainArmor(TargetedAction):
 	"""
 	args = ("targets", "amount")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.armor += self.amount
 
 
@@ -206,7 +206,7 @@ class GainMana(TargetedAction):
 	"""
 	args = ("targets", "amount")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.maxMana += self.amount
 
 
@@ -216,7 +216,7 @@ class Give(TargetedAction):
 	"""
 	args = ("targets", "id")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.give(self.id)
 
 
@@ -225,7 +225,7 @@ class GiveSparePart(TargetedAction):
 	Give player targets a random Spare Part.
 	This currently assumes the source has a Spare Part entourage.
 	"""
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.give(random.choice(source.data.entourage))
 
 
@@ -235,7 +235,7 @@ class Hit(TargetedAction):
 	"""
 	args = ("targets", "amount")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		if target.type == CardType.WEAPON:
 			target.durability -= self.amount
 		else:
@@ -248,7 +248,7 @@ class Heal(TargetedAction):
 	"""
 	args = ("targets", "amount")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		source.heal(target, self.amount)
 
 
@@ -258,7 +258,7 @@ class ManaThisTurn(TargetedAction):
 	"""
 	args = ("targets", "amount")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.tempMana += self.amount
 
 
@@ -268,7 +268,7 @@ class Mill(TargetedAction):
 	"""
 	args = ("targets", "count")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.mill(self.count)
 
 
@@ -278,7 +278,7 @@ class Morph(TargetedAction):
 	"""
 	args = ("targets", "id")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.morph(self.id)
 
 
@@ -286,7 +286,7 @@ class Freeze(TargetedAction):
 	"""
 	Freeze character targets.
 	"""
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.frozen = True
 
 
@@ -296,7 +296,7 @@ class FillMana(TargetedAction):
 	"""
 	args = ("targets", "amount")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.usedMana -= self.amount
 
 
@@ -304,7 +304,7 @@ class Reveal(TargetedAction):
 	"""
 	Reveal secret targets.
 	"""
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.reveal()
 
 
@@ -314,7 +314,7 @@ class SetTag(TargetedAction):
 	"""
 	args = ("targets", "values")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		for k, v in self.values.items():
 			if target.tags[k] != v:
 				target.tags[k] = v
@@ -324,7 +324,7 @@ class Silence(TargetedAction):
 	"""
 	Silence minion targets.
 	"""
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.silence()
 
 
@@ -335,7 +335,7 @@ class Summon(TargetedAction):
 	"""
 	args = ("targets", "id")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		target.summon(self.id)
 
 
@@ -346,7 +346,7 @@ class Swap(TargetedAction):
 	"""
 	args = ("targets", "other")
 
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		other = self.eval(self.other, source, game)
 		if other:
 			assert len(other) == 1
@@ -361,5 +361,5 @@ class TakeControl(TargetedAction):
 	Make the controller take control of targets.
 	The controller is the controller of the source of the action.
 	"""
-	def do(self, source, target, game):
+	def do(self, source, game, target):
 		source.controller.takeControl(target)
