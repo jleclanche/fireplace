@@ -13,7 +13,7 @@ class GVG_018:
 
 # Fel Cannon
 class GVG_020:
-	OWN_TURN_END = [Hit(RANDOM_MINION - MECH)]
+	OWN_TURN_END = [Hit(RANDOM_MINION - MECH, 2)]
 
 
 # Anima Golem
