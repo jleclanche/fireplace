@@ -79,9 +79,9 @@ class FP1_027:
 
 # Undertaker
 class FP1_028:
-	def OWN_MINION_SUMMON(self, minion):
-		if minion.hasDeathrattle:
-			return [Buff(SELF, "FP1_028e")]
+	events = [
+		Summon(CONTROLLER, MINION + DEATHRATTLE).on(Buff(SELF, "FP1_028e"))
+	]
 
 
 # Dancing Swords

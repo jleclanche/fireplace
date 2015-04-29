@@ -126,7 +126,6 @@ class BaseCard(Entity):
 		"TURN_BEGIN", "TURN_END",
 		"OWN_TURN_BEGIN", "OWN_TURN_END",
 		"SELF_CARD_DESTROYED",
-		"MINION_SUMMON", "OWN_MINION_SUMMON",
 		"MINION_DESTROY", "OWN_MINION_DESTROY",
 		"CARD_PLAYED", "OWN_CARD_PLAYED",
 		"AFTER_OWN_CARD_PLAYED", "AFTER_SELF_CARD_PLAYED",
@@ -624,7 +623,6 @@ class Minion(Character):
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return
 		super().summon()
-		self.game.broadcast("MINION_SUMMON", self.controller, self)
 		self.exhausted = True
 
 

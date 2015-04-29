@@ -33,9 +33,9 @@ class GVG_069:
 
 # Ship's Cannon
 class GVG_075:
-	def OWN_MINION_SUMMON(self, minion):
-		if minion.race == Race.PIRATE:
-			return [Hit(RANDOM_ENEMY_CHARACTER, 2)]
+	events = [
+		Summon(CONTROLLER, PIRATE).on(Hit(RANDOM_ENEMY_CHARACTER, 2))
+	]
 
 
 # Explosive Sheep

@@ -13,9 +13,9 @@ class GVG_060:
 
 # Cobalt Guardian
 class GVG_062:
-	def OWN_MINION_SUMMON(self, minion):
-		if minion.race == Race.MECHANICAL:
-			return [SetTag(SELF, {GameTag.DIVINE_SHIELD: True})]
+	events = [
+		Summon(CONTROLLER, MECH).on(SetTag(SELF, {GameTag.DIVINE_SHIELD: True}))
+	]
 
 
 # Bolvar Fordragon

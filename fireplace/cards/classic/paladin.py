@@ -137,5 +137,8 @@ class CS2_097:
 
 # Sword of Justice
 class EX1_366:
-	def OWN_MINION_SUMMON(self, minion):
-		return [Buff(minion, "EX1_366e"), Hit(SELF, 1)]
+	events = [
+		Summon(CONTROLLER, MINION).after(
+			lambda self, source, minion: [Buff(minion, "EX1_366e"), Hit(SELF, 1)]
+		)
+	]

@@ -639,25 +639,29 @@ def test_combo():
 
 def test_morph():
 	game = prepare_game()
-	polymorph = game.player1.give("CS2_022")
-	hex = game.player1.give("EX1_246")
+	game.player1.discardHand()
+	game.player2.discardHand()
 	buzzard = game.player2.summon("CS2_237")
 	wisp = game.player2.summon(WISP)
+	assert not game.player1.hand
+	assert not game.player2.hand
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 
-	assert len(game.player2.hand) == 8
+	assert len(game.player2.hand) == 2
+	hex = game.player1.give("EX1_246")
 	hex.play(target=wisp)
 	assert not game.player2.field.contains(WISP)
 	assert game.player2.field.contains("hexfrog")
 	# Test that buzzard no longer draws on poly/hex (fixed in GVG)
-	assert len(game.player2.hand) == 8
+	assert len(game.player2.hand) == 2
 	game.endTurn(); game.endTurn()
 
-	assert len(game.player2.hand) == 9
+	assert len(game.player2.hand) == 3
+	polymorph = game.player1.give("CS2_022")
 	polymorph.play(target=game.player2.field[-1])
 	assert game.player2.field[-1].id == "CS2_tk1"
-	assert len(game.currentPlayer.opponent.hand) == 9
+	assert len(game.currentPlayer.opponent.hand) == 3
 
 
 def test_power_word_shield():

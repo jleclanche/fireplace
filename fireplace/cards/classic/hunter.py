@@ -14,9 +14,9 @@ class DS1h_292:
 
 # Starving Buzzard
 class CS2_237:
-	def OWN_MINION_SUMMON(self, minion):
-		if minion.race == Race.BEAST:
-			return [Draw(CONTROLLER, 1)]
+	events = [
+		Summon(CONTROLLER, BEAST).on(Draw(CONTROLLER, 1))
+	]
 
 
 # Houndmaster

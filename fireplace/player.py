@@ -249,7 +249,6 @@ class Player(Entity):
 		"OWN_CARD_PLAYED", "CARD_PLAYED",
 		"AFTER_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
 		"OWN_MINION_DESTROY",
-		"MINION_SUMMON",
 	]
 
 	def broadcast(self, event, *args):
@@ -321,7 +320,3 @@ class Player(Entity):
 
 	def OWN_MINION_DESTROY(self, minion):
 		self.minionsKilledThisTurn += 1
-
-	def MINION_SUMMON(self, player, minion):
-		if player is self:
-			minion.controller.broadcast("OWN_MINION_SUMMON", minion)
