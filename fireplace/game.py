@@ -27,9 +27,7 @@ class Game(Entity):
 		return "<%s %s>" % (self.__class__.__name__, self)
 
 	def __str__(self):
-		if not hasattr(self, "players"):
-			return "Uninitialized Game"
-		return "%r vs %r" % (self.players[0], self.players[1])
+		return "%s vs %s" % (self.players)
 
 	def __iter__(self):
 		return self.allEntities.__iter__()
