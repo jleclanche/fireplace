@@ -45,13 +45,13 @@ class Action: # Lawsuit
 		for entity in game.liveEntities:
 			for event in getattr(entity.data.scripts, "events", []):
 				if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
-					game.queueActions(entity, event.actions)
-
-	def eval(self, selector, source, game):
-		if isinstance(selector, Entity):
-			return [selector]
-		else:
-			return selector.eval(game, source)
+					actions = []
+					for action in event.actions:
+						if callable(action):
+							actions += action(entity, *args)
+						else:
+							actions.append(action)
+					game.queueActions(entity, actions)
 
 	def matches(self, source, args):
 		for arg, match in zip(args, self._args):
@@ -131,21 +131,45 @@ class Play(GameAction):
 
 class TargetedAction(Action):
 	args = ("targets", )
+	selectors = ("targets", )
 
 	def __repr__(self):
 		args = ["%s=%r" % (k, v) for k, v in zip(self.args[1:], self._args[1:])]
 		return "<TargetedAction: %s(%s)>" % (self.__class__.__name__, ", ".join(args))
 
+	def eval(self, selector, source, game):
+		if isinstance(selector, Entity):
+			return [selector]
+		else:
+			return selector.eval(game, source)
+
+	def get_args(self, source, game, target):
+		return (target, )
+
+	def evaluate_selectors(self, source, game):
+		ret = []
+		for k, v in zip(self.args, self._args):
+			if k in self.selectors:
+				if isinstance(v, Entity):
+					ret.append([v])
+				else:
+					ret.append(v.eval(game, source))
+			else:
+				ret.append(v)
+		return ret
+
 	def trigger(self, source, game):
-		targets = self.eval(self.targets, source, game)
-		game.manager.action(self.type, source, targets, *self._args)
 		for i in range(self.times):
+			args = self.evaluate_selectors(source, game)
+			targets = args[0]
+			game.manager.action(self.type, source, targets, *self._args)
 			logging.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
-				self.broadcast(game, EventListener.ON, *self._args)
-				self.do(source, game, target)
-				self.broadcast(game, EventListener.AFTER, *self._args)
-		game.manager.action_end(self.type, source, targets, *self._args)
+				extra_args = self.get_args(source, game, target)
+				self.broadcast(game, EventListener.ON, *extra_args)
+				self.do(source, game, *extra_args)
+				self.broadcast(game, EventListener.AFTER, *extra_args)
+			game.manager.action_end(self.type, source, targets, *self._args)
 		game._processDeaths()
 		game.refreshAuras()
 
@@ -370,11 +394,14 @@ class Summon(TargetedAction):
 	"""
 	args = ("targets", "card")
 
-	def do(self, source, game, target):
+	def get_args(self, source, game, target):
 		card = self.card
 		if isinstance(card, str):
 			card = game.card(self.card)
 			card.controller = target
+		return (target, card)
+
+	def do(self, source, game, target, card):
 		logging.info("%s summons %r", target, card)
 		card.summon()
 
