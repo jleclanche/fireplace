@@ -4,7 +4,7 @@ Targeting logic
 
 import random
 from enum import IntEnum
-from .enums import Affiliation, CardType, PlayReq, Race, Zone
+from .enums import Affiliation, CardType, PlayReq, GameTag, Race, Zone
 from .utils import CardList
 
 
@@ -311,19 +311,8 @@ class RandomSelector(Selector):
 RANDOM = RandomSelector
 
 
-class TargetingRequirement(IntEnum):
-	DAMAGED = 1
-	HAS_DEATHRATTLE = 2
-
-	def test(self, entity, *args):
-		if self == TargetingRequirement.DAMAGED:
-			return bool(getattr(entity, "damage", 0))
-		elif self == TargetingRequirement.HAS_DEATHRATTLE:
-			return getattr(entity, "hasDeathrattle", False)
-		return False
-
-DAMAGED = Selector(TargetingRequirement.DAMAGED)
-DEATHRATTLE = Selector(TargetingRequirement.HAS_DEATHRATTLE)
+DAMAGED = Selector(GameTag.DAMAGE)
+DEATHRATTLE = Selector(GameTag.DEATHRATTLE)
 
 
 IN_PLAY = Selector(Zone.PLAY)

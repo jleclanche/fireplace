@@ -199,6 +199,9 @@ class GameTag(IntEnum):
 	DEATH_RATTLE = 217
 	OVERKILL = 380
 
+	def test(self, entity, *args):
+		return bool(entity.tags.get(self))
+
 
 class PlayReq(IntEnum):
 	REQ_MINION_TARGET = 1
