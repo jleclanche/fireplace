@@ -19,6 +19,9 @@ class Manager(object):
 			if self.map[k]:
 				yield k
 
+	def get(self, k, default=None):
+		return self[k] if k in self.map else default
+
 	def items(self):
 		for k, v in self.map.items():
 			if v is not None:
