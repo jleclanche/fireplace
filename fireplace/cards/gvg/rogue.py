@@ -23,10 +23,14 @@ class GVG_027:
 
 # Trade Prince Gallywix
 class GVG_028:
-	def CARD_PLAYED(self, player, card):
-		if player is not self.controller and card.type == CardType.SPELL:
-			if card.id != "GVG_028t":
-				return [Give(player.opponent, card.id), Give(player, "GVG_028t")]
+	events = [
+		Play(OPPONENT, SPELL).on(
+			lambda self, player, card, *args: card.id != "GVG_028t" and [
+				Give(player.opponent, card.id),
+				Give(player, "GVG_028t")
+			] or []
+		)
+	]
 
 class GVG_028t:
 	action = [ManaThisTurn(CONTROLLER, 1)]

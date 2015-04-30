@@ -127,9 +127,11 @@ class EX1_145:
 	action = [Buff(FRIENDLY_HERO, "EX1_145o")]
 
 class EX1_145o:
-	def OWN_CARD_PLAYED(self, card):
-		if card.type == CardType.SPELL:
-			return [Destroy(SELF)]
+	events = [
+		OWN_SPELL_PLAY.after(
+			lambda self, player, card, *args: card is not self.creator and [Destroy(self)] or []
+		)
+	]
 
 
 # Shiv

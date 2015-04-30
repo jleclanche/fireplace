@@ -96,7 +96,11 @@ class EX1_611:
 
 class EX1_611e:
 	# Remove the buff when the card is played
-	AFTER_SELF_CARD_PLAYED = [Destroy(SELF)]
+	events = [
+		Play(PLAYER, MINION).after(
+			lambda self, player, card, *args: card is self.owner and [Destroy(self)] or []
+		)
+	]
 
 
 # Deadly Shot

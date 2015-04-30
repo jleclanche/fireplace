@@ -24,7 +24,9 @@ class EX1_043:
 
 # Questing Adventurer
 class EX1_044:
-	OWN_CARD_PLAYED = [Buff(SELF, "EX1_044e")]
+	events = [
+		OWN_CARD_PLAY.on(Buff(SELF, "EX1_044e"))
+	]
 
 
 # Coldlight Oracle
@@ -34,9 +36,9 @@ class EX1_050:
 
 # Mana Addict
 class EX1_055:
-	def OWN_CARD_PLAYED(self, card):
-		if card.type == CardType.SPELL:
-			return [Buff(SELF, "EX1_055o")]
+	events = [
+		OWN_SPELL_PLAY.on(Buff(SELF, "EX1_055o"))
+	]
 
 
 # Sunfury Protector
@@ -59,9 +61,9 @@ class EX1_059e:
 
 # Secretkeeper
 class EX1_080:
-	def CARD_PLAYED(self, player, card):
-		if card.secret:
-			return [Buff(SELF, "EX1_080o")]
+	events = [
+		OWN_SECRET_PLAY.on(Buff(SELF, "EX1_080o"))
+	]
 
 
 # Mind Control Tech
@@ -83,9 +85,9 @@ class EX1_093:
 
 # Gadgetzan Auctioneer
 class EX1_095:
-	def OWN_CARD_PLAYED(self, card):
-		if card.type == CardType.SPELL:
-			return [Draw(CONTROLLER, 1)]
+	events = [
+		OWN_SPELL_PLAY.on(Draw(CONTROLLER, 1))
+	]
 
 
 # Abomination
@@ -106,7 +108,7 @@ class EX1_284:
 # Murloc Tidecaller
 class EX1_509:
 	events = [
-		Summon(ALL_PLAYERS, MURLOC - SELF).after(Buff(SELF, "EX1_509e"))
+		Summon(ALL_PLAYERS, MURLOC).on(Buff(SELF, "EX1_509e"))
 	]
 
 
@@ -123,15 +125,15 @@ class EX1_597:
 # Knife Juggler
 class NEW1_019:
 	events = [
-		Summon(CONTROLLER, MINION).after(Hit(RANDOM_ENEMY_CHARACTER, 1))
+		Summon(CONTROLLER, MINION - SELF).after(Hit(RANDOM_ENEMY_CHARACTER, 1))
 	]
 
 
 # Wild Pyromancer
 class NEW1_020:
-	def AFTER_OWN_CARD_PLAYED(self, card):
-		if card.type == CardType.SPELL:
-			return [Hit(ALL_MINIONS, 1)]
+	events = [
+		OWN_SPELL_PLAY.after(Hit(ALL_MINIONS, 1))
+	]
 
 
 # Bloodsail Corsair
@@ -141,9 +143,9 @@ class NEW1_025:
 
 # Violet Teacher
 class NEW1_026:
-	def OWN_CARD_PLAYED(self, card):
-		if card.type == CardType.SPELL:
-			return [Summon(CONTROLLER, "NEW1_026t")]
+	events = [
+		OWN_SPELL_PLAY.on(Summon(CONTROLLER, "NEW1_026t"))
+	]
 
 
 # Master Swordsmith

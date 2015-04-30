@@ -28,9 +28,9 @@ class CS2_042:
 
 # Unbound Elemental
 class EX1_258:
-	def OWN_CARD_PLAYED(self, card):
-		if card.overload:
-			return [Buff(SELF, "EX1_258e")]
+	events = [
+		Play(CONTROLLER, OVERLOAD).on(Buff(SELF, "EX1_258e"))
+	]
 
 
 # Mana Tide Totem

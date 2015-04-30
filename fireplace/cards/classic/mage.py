@@ -28,9 +28,9 @@ class EX1_274:
 
 # Archmage Antonidas
 class EX1_559:
-	def OWN_CARD_PLAYED(self, card):
-		if card.type == CardType.SPELL:
-			return [Give(CONTROLLER, "CS2_029")]
+	events = [
+		OWN_SPELL_PLAY.on(Give(CONTROLLER, "CS2_029"))
+	]
 
 
 # Kirin Tor Mage
@@ -43,9 +43,9 @@ class EX1_612oa:
 
 # Mana Wyrm
 class NEW1_012:
-	def OWN_CARD_PLAYED(self, card):
-		if card.type == CardType.SPELL:
-			return [Buff(SELF, "NEW1_012o")]
+	events = [
+		OWN_SPELL_PLAY.on(Buff(SELF, "NEW1_012o"))
+	]
 
 
 ##

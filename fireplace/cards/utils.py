@@ -2,6 +2,7 @@ import random
 import fireplace.cards
 from ..actions import *
 from ..enums import CardClass, CardType, GameTag, Race, Rarity, Zone
+from ..events import *
 from ..targeting import *
 
 

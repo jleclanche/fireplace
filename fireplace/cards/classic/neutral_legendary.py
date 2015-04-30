@@ -41,9 +41,11 @@ class EX1_083:
 
 # Lorewalker Cho
 class EX1_100:
-	def CARD_PLAYED(self, player, card):
-		if card.type == CardType.SPELL:
-			return [Give(player.opponent, card.id)]
+	events = [
+		Play(ALL_PLAYERS, SPELL).on(
+			lambda self, player, card, *args: [Give(player.opponent, card.id)]
+		)
+	]
 
 
 # Cairne Bloodhoof
@@ -135,7 +137,9 @@ class EX1_577:
 
 # Illidan Stormrage
 class EX1_614:
-	OWN_CARD_PLAYED = [Summon(CONTROLLER, "EX1_614t")]
+	events = [
+		OWN_CARD_PLAY.on(Summon(CONTROLLER, "EX1_614t"))
+	]
 
 
 # Captain Greenskin

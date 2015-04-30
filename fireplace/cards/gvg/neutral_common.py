@@ -14,16 +14,16 @@ class GVG_013:
 
 # Stonesplinter Trogg
 class GVG_067:
-	def CARD_PLAYED(self, player, card):
-		if player is not self.controller and card.type == CardType.SPELL:
-			return [Buff(SELF, "GVG_067a")]
+	events = [
+		Play(OPPONENT, SPELL).on(Buff(SELF, "GVG_067a"))
+	]
 
 
 # Burly Rockjaw Trogg
 class GVG_068:
-	def CARD_PLAYED(self, player, card):
-		if player is not self.controller and card.type == CardType.SPELL:
-			return [Buff(SELF, "GVG_068a")]
+	events = [
+		Play(OPPONENT, SPELL).on(Buff(SELF, "GVG_068a"))
+	]
 
 
 # Antique Healbot

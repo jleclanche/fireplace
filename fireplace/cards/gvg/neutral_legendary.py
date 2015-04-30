@@ -36,16 +36,20 @@ class GVG_116:
 
 # Gazlowe
 class GVG_117:
-	def OWN_CARD_PLAYED(self, card):
-		if card.type == CardType.SPELL and card.cost == 1:
-			return [Give(CONTROLLER, randomCollectible(race=Race.MECHANICAL))]
+	events = [
+		Play(CONTROLLER, SPELL).on(
+			lambda self, player, card, *args: card.cost == 1 and [
+				Give(player, randomCollectible(race=Race.MECHANICAL))
+			] or []
+		)
+	]
 
 
 # Troggzor the Earthinator
 class GVG_118:
-	def CARD_PLAYED(self, player, card):
-		if card.type == CardType.SPELL and player is self.controller.opponent:
-			return [Summon(CONTROLLER, "GVG_068")]
+	events = [
+		Play(OPPONENT, SPELL).on(Summon(CONTROLLER, "GVG_068"))
+	]
 
 
 # Blingtron 3000

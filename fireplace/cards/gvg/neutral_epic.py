@@ -6,9 +6,11 @@ from ..utils import *
 
 # Hobgoblin
 class GVG_104:
-	def OWN_CARD_PLAYED(self, card):
-		if card.type == CardType.MINION and card.atk == 1:
-			return [Buff(card, "GVG_104a")]
+	events = [
+		OWN_MINION_PLAY.on(
+			lambda self, player, card, *args: card.atk == 1 and [Buff(card, "GVG_104a")] or []
+		)
+	]
 
 
 # Piloted Sky Golem
