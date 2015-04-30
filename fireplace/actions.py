@@ -76,7 +76,9 @@ class GameAction(Action):
 
 	def trigger(self, source, game):
 		game.manager.action(self.type, source, *self._args)
+		self.broadcast(game, EventListener.ON, source, *self._args)
 		self.do(source, game)
+		self.broadcast(game, EventListener.AFTER, source, *self._args)
 		game.manager.action_end(self.type, source, *self._args)
 		game._processDeaths()
 		game.refreshAuras()
