@@ -313,6 +313,7 @@ RANDOM = RandomSelector
 
 DAMAGED = Selector(GameTag.DAMAGE)
 DEATHRATTLE = Selector(GameTag.DEATHRATTLE)
+OVERLOAD = Selector(GameTag.RECALL)
 
 
 IN_PLAY = Selector(Zone.PLAY)
