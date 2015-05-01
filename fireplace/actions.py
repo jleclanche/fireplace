@@ -47,7 +47,7 @@ class Action: # Lawsuit
 
 	def broadcast(self, game, at, *args):
 		for entity in game.liveEntities:
-			for event in getattr(entity.data.scripts, "events", []):
+			for event in entity._events:
 				if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
 					actions = []
 					for action in event.actions:

@@ -617,6 +617,7 @@ class Minion(Character):
 
 		# Wipe the event listeners and keep only those of the card itself
 		self._registerEvents()
+		self._events = []
 		self.silenced = True
 
 	def summon(self):

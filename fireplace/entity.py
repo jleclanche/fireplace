@@ -17,6 +17,9 @@ class Entity(object):
 			if func:
 				self.register(event, func)
 
+		scripts = getattr(self.data, "scripts", None)
+		self._events = getattr(scripts, "events", [])[:]
+
 	def broadcast(self, event, *args):
 		for entity in self.entities:
 			for f in entity._eventListeners.get(event, []):
