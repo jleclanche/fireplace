@@ -46,7 +46,7 @@ class Action: # Lawsuit
 		return EventListener(self, actions, EventListener.ON, once=True)
 
 	def broadcast(self, game, at, *args):
-		for entity in game.liveEntities:
+		for entity in game.entities:
 			for event in entity._events:
 				if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
 					actions = []
