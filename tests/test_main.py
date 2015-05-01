@@ -2672,6 +2672,21 @@ def test_loatheb():
 	assert fireballPlayer1.cost == 4
 
 
+def test_micro_machine():
+	game = prepare_game()
+	micro = game.player1.give("GVG_103")
+	game.endTurn(); game.endTurn()
+
+	micro.play()
+	assert micro.atk == 1
+	game.endTurn()
+	assert micro.atk == 2
+	game.endTurn()
+	assert micro.atk == 3
+	game.endTurn()
+	assert micro.atk == 4
+
+
 def test_millhouse_manastorm():
 	game = prepare_game(WARRIOR, MAGE)
 	game.player1.discardHand()
