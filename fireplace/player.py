@@ -77,7 +77,7 @@ class Player(Entity):
 			for entity in self.secrets:
 				ret += entity.entities
 		# Note: Board receives TURN_BEGIN before player
-		return chain(list(self.hero.entities), ret, [self])
+		return chain(list(self.hero.entities) if self.hero else [], ret, [self])
 
 	@property
 	def liveEntities(self):
