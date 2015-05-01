@@ -826,6 +826,14 @@ class Weapon(PlayableCard):
 		self._durability = value
 
 	@property
+	def exhausted(self):
+		return not self.controller.currentPlayer
+
+	@exhausted.setter
+	def exhausted(self, value):
+		pass
+
+	@property
 	def toBeDestroyed(self):
 		return self.durability == 0 or getattr(self, "_toBeDestroyed", False)
 
@@ -850,9 +858,6 @@ class Weapon(PlayableCard):
 
 	def SELF_ATTACK(self, target):
 		self.loseDurability()
-
-	def OWN_TURN_END(self):
-		self.exhausted = True
 
 
 class HeroPower(PlayableCard):
