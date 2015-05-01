@@ -462,6 +462,7 @@ class Character(PlayableCard):
 class Hero(Character):
 	def __init__(self, id, data):
 		self.armor = 0
+		self.power = None
 		super().__init__(id, data)
 
 	@property
@@ -473,7 +474,9 @@ class Hero(Character):
 
 	@property
 	def entities(self):
-		ret = [self, self.power]
+		ret = [self]
+		if self.power:
+			ret.append(self.power)
 		if self.controller.weapon:
 			ret.append(self.controller.weapon)
 		return chain(ret, self.buffs)
@@ -875,6 +878,6 @@ class HeroPower(PlayableCard):
 
 	def summon(self):
 		super().summon()
-		if hasattr(self.controller.hero, "power"):
+		if self.controller.hero.power:
 			self.controller.hero.power.destroy()
 		self.controller.hero.power = self
