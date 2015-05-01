@@ -206,7 +206,6 @@ class Player(Entity):
 		logging.info("%s plays %r from their hand" % (self, card))
 		assert card.controller
 		cost = card.cost
-		self.game.broadcast("CARD_PLAYED", self, card)
 		if card.hasTarget():
 			assert target
 			card.target = target
@@ -215,6 +214,9 @@ class Player(Entity):
 			cost -= self.tempMana
 			self.tempMana = max(0, self.tempMana - card.cost)
 		self.usedMana += cost
+		if card.overload:
+			logging.info("%s overloads for %i mana", self, card.overload)
+			self.overloaded += card.overload
 		self.summon(card)
 		# Card must already be on the field for action()
 		if choose:
@@ -233,10 +235,12 @@ class Player(Entity):
 			card.action()
 		if not self.combo:
 			self.combo = True
-		self.game.broadcast("AFTER_CARD_PLAYED", self, card)
 		if card.target:
 			card.target = None
 		self.lastCardPlayed = card
+		self.cardsPlayedThisTurn += 1
+		if card.type == CardType.MINION:
+			self.minionsPlayedThisTurn += 1
 
 	##
 	# Events
@@ -246,8 +250,6 @@ class Player(Entity):
 		"TURN_BEGIN", "TURN_END",
 		"OWN_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
-		"OWN_CARD_PLAYED", "CARD_PLAYED",
-		"AFTER_CARD_PLAYED", "AFTER_OWN_CARD_PLAYED",
 		"OWN_MINION_DESTROY",
 	]
 
@@ -292,31 +294,11 @@ class Player(Entity):
 			card.zone = Zone.HAND
 			self.cardsDrawnThisTurn += 1 # TODO: Is this increased on fatigue/mill?
 
-	def OWN_CARD_PLAYED(self, card):
-		if card.overload:
-			logging.info("%s is overloaded for %i mana" % (self, self.overloaded))
-			self.overloaded += card.overload
-
 	def OWN_DAMAGE(self, source, target, amount):
 		target.broadcast("SELF_DAMAGE", source, amount)
 
 	def OWN_HEAL(self, source, target, amount):
 		target.broadcast("SELF_HEAL", source, amount)
-
-	def CARD_PLAYED(self, player, card):
-		if player is self:
-			card.controller.broadcast("OWN_CARD_PLAYED", card)
-		card.broadcast("SELF_CARD_PLAYED")
-
-	def AFTER_CARD_PLAYED(self, player, card):
-		if player is self:
-			card.controller.broadcast("AFTER_OWN_CARD_PLAYED", card)
-		card.broadcast("AFTER_SELF_CARD_PLAYED")
-
-	def AFTER_OWN_CARD_PLAYED(self, card):
-		self.cardsPlayedThisTurn += 1
-		if card.type == CardType.MINION:
-			self.minionsPlayedThisTurn += 1
 
 	def OWN_MINION_DESTROY(self, minion):
 		self.minionsKilledThisTurn += 1
