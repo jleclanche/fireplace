@@ -245,9 +245,9 @@ class PlayableCard(BaseCard):
 			logging.info("Clearing buffs from %r" % (self))
 			for buff in self.buffs[:]:
 				buff.destroy()
-				if buff.creator:
+				if buff.auraSource:
 					# Clean up the buff from its source auras
-					buff.creator._buffs.remove(buff)
+					buff.auraSource._buffs.remove(buff)
 
 	def destroy(self):
 		return self.game.queueActions(self, [Destroy(self)])
@@ -668,7 +668,7 @@ class Enchantment(BaseCard):
 	Manager = EnchantmentManager
 
 	def __init__(self, *args):
-		self.creator = None
+		self.auraSource = None
 		self.oneTurnEffect = False
 		super().__init__(*args)
 
@@ -755,14 +755,14 @@ class Aura(object):
 
 	def _buff(self, target):
 		buff = self.source.buff(target, self.id)
-		buff.creator = self
+		buff.auraSource = self
 		self._buffs.append(buff)
 		self._buffed.append(target)
 
 	def _entityBuff(self, target):
 		"Returns the buff created by this aura on \a target"
 		for buff in target.buffs:
-			if buff.creator is self:
+			if buff.auraSource is self:
 				return buff
 
 	def update(self):
