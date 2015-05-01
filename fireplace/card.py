@@ -149,6 +149,7 @@ class BaseCard(Entity):
 		ret = self.game.card(buff)
 		ret.controller = self.controller
 		ret.zone = Zone.SETASIDE
+		ret.creator = self
 		ret.apply(target)
 		for k, v in kwargs.items():
 			setattr(ret, k, v)
