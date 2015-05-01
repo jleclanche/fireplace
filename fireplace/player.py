@@ -1,7 +1,5 @@
 import logging
 import random
-import time
-from calendar import timegm
 from itertools import chain
 from .actions import Play, Summon
 from .card import BaseCard
@@ -79,7 +77,6 @@ class Player(Entity):
 		if not self.currentPlayer:
 			for entity in self.secrets:
 				ret += entity.entities
-		# Note: Board receives TURN_BEGIN before player
 		return chain(list(self.hero.entities) if self.hero else [], ret, [self])
 
 	@property
@@ -247,7 +244,7 @@ class Player(Entity):
 
 	events = [
 		"OWN_ATTACK",
-		"TURN_BEGIN", "TURN_END",
+		"TURN_END",
 		"OWN_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
 		"OWN_MINION_DESTROY",
@@ -263,20 +260,6 @@ class Player(Entity):
 
 	def OWN_ATTACK(self, source, target):
 		source.broadcast("SELF_ATTACK", target)
-
-	def TURN_BEGIN(self, player):
-		self.cardsDrawnThisTurn = 0
-		self.cardsPlayedThisTurn = 0
-		self.minionsKilledThisTurn = 0
-		self.turnStart = timegm(time.gmtime())
-		if player is self:
-			self.minionsPlayedThisTurn = 0
-			self.combo = False
-			self.maxMana += 1
-			self.usedMana = self.overloaded
-			if self.overloaded:
-				self.overloaded = 0
-			self.draw()
 
 	def TURN_END(self, *args):
 		if self.tempMana:

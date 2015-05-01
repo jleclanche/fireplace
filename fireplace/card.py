@@ -123,8 +123,8 @@ class BaseCard(Entity):
 	# Events
 
 	events = [
-		"TURN_BEGIN", "TURN_END",
-		"OWN_TURN_BEGIN", "OWN_TURN_END",
+		"TURN_END",
+		"OWN_TURN_END",
 		"SELF_CARD_DESTROYED",
 		"MINION_DESTROY", "OWN_MINION_DESTROY",
 		"SELF_ATTACK",
@@ -343,9 +343,6 @@ class PlayableCard(BaseCard):
 				logging.info("Triggering Deathrattle for %r again", self)
 				self.triggerDeathrattles()
 
-	def OWN_TURN_BEGIN(self):
-		self.exhausted = False
-
 
 class Character(PlayableCard):
 	Manager = CharacterManager
@@ -441,10 +438,6 @@ class Character(PlayableCard):
 		if self.zone == Zone.PLAY:
 			return self.attackTargets
 		return super().targets
-
-	def OWN_TURN_BEGIN(self):
-		self.numAttacks = 0
-		super().OWN_TURN_BEGIN()
 
 	def OWN_TURN_END(self):
 		if self.frozen and not self.numAttacks:

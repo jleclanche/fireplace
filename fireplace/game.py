@@ -1,5 +1,7 @@
 import logging
 import random
+import time
+from calendar import timegm
 from itertools import chain
 from .actions import Attack, BeginTurn, Deaths, EndTurn, EventListener
 from .card import Card, THE_COIN
@@ -186,17 +188,32 @@ class Game(Entity):
 
 	def _beginTurn(self, player):
 		self.step, self.nextStep = self.nextStep, Step.MAIN_START_TRIGGERS
-		self.broadcast("TURN_BEGIN", player)
 		self.step, self.nextStep = self.nextStep, Step.MAIN_START
 		self.turn += 1
-		if self.currentPlayer:
-			self.currentPlayer.currentPlayer = False
+		logging.info("%s begins turn %i", player, self.turn)
 		self.step, self.nextStep = self.nextStep, Step.MAIN_ACTION
 		self.currentPlayer = player
-		self.currentPlayer.currentPlayer = True
 		self.minionsKilledThisTurn = 0
-		logging.info("%s begins turn %i" % (self.currentPlayer, self.turn))
-		self.currentPlayer.broadcast("OWN_TURN_BEGIN")
+
+		for p in self.players:
+			p.cardsDrawnThisTurn = 0
+			p.currentPlayer = p is player
+
+		player.turnStart = timegm(time.gmtime())
+		player.cardsPlayedThisTurn = 0
+		player.minionsPlayedThisTurn = 0
+		player.minionsKilledThisTurn = 0
+		player.combo = False
+		player.maxMana += 1
+		player.usedMana = player.overloaded
+		player.overloaded = 0
+		for character in player.characters:
+			character.numAttacks = 0
+			character.exhausted = False
+		if player.hero.power:
+			player.hero.power.exhausted = False
+
+		player.draw()
 
 	##
 	# Events
@@ -204,7 +221,7 @@ class Game(Entity):
 	events = [
 		"ATTACK",
 		"DRAW",
-		"TURN_BEGIN", "TURN_END",
+		"TURN_END",
 		"DAMAGE", "HEAL",
 		"CARD_DESTROYED", "MINION_DESTROY",
 		"SECRET_REVEAL",
