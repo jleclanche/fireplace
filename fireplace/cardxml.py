@@ -104,7 +104,7 @@ class CardXML(object):
 
 def load(path):
 	db = {}
-	with open(path, "r") as f:
+	with open(path, "r", encoding="utf8") as f:
 		xml = ElementTree.parse(f)
 		for carddata in xml.findall("Entity"):
 			card = CardXML(carddata)
