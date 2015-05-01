@@ -37,10 +37,9 @@ class BaseCard(Entity):
 	cost = intProperty("cost")
 
 	def __init__(self, id, data):
-		assert data
+		self.data = data
 		super().__init__()
 		self._auras = []
-		self.data = data
 		self.requirements = data.requirements.copy()
 		self.id = id
 		self.controller = None
