@@ -74,12 +74,16 @@ class GameAction(Action):
 		for k, v in zip(self.args, args):
 			setattr(self, k, v)
 
+	def get_args(self, source, game):
+		return self._args
+
 	def trigger(self, source, game):
-		game.manager.action(self.type, source, *self._args)
-		self.broadcast(game, EventListener.ON, source, *self._args)
+		args = self.get_args(source, game)
+		game.manager.action(self.type, source, *args)
+		self.broadcast(game, EventListener.ON, *args)
 		self.do(source, game)
-		self.broadcast(game, EventListener.AFTER, source, *self._args)
-		game.manager.action_end(self.type, source, *self._args)
+		self.broadcast(game, EventListener.AFTER, *args)
+		game.manager.action_end(self.type, source, *args)
 		game._processDeaths()
 		game.refreshAuras()
 
@@ -132,6 +136,9 @@ class Play(GameAction):
 	"""
 	args = ("card", "target", "choose")
 	type = PowSubType.PLAY
+
+	def get_args(self, source, game):
+		return (source, ) + self._args
 
 	def do(self, source, game):
 		source._play(self.card, self.target, self.choose)
