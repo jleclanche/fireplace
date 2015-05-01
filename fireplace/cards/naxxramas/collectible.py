@@ -21,7 +21,9 @@ class FP1_004:
 
 # Shade of Naxxramas
 class FP1_005:
-	OWN_TURN_BEGIN = [Buff(SELF, "FP1_005e")]
+	events = [
+		OWN_TURN_BEGIN.on(Buff(SELF, "FP1_005e"))
+	]
 
 
 # Nerubian Egg
@@ -73,8 +75,11 @@ class FP1_026:
 
 # Stoneskin Gargoyle
 class FP1_027:
-	def OWN_TURN_BEGIN(self):
-		return [Heal(SELF, self.damage)]
+	events = [
+		OWN_TURN_BEGIN.on(
+			lambda self, player: [Heal(self, self.damage)]
+		)
+	]
 
 
 # Undertaker

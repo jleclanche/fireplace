@@ -61,7 +61,9 @@ class EX1_112:
 
 # Homing Chicken
 class Mekka1:
-	OWN_TURN_BEGIN = [Destroy(SELF), Draw(CONTROLLER, 3)]
+	events = [
+		OWN_TURN_BEGIN.on(Destroy(SELF), Draw(CONTROLLER, 3))
+	]
 
 # Repair Bot
 class Mekka2:
@@ -73,7 +75,9 @@ class Mekka3:
 
 # Poultryizer
 class Mekka4:
-	OWN_TURN_BEGIN = [Morph(RANDOM_MINION, "Mekka4t")]
+	events = [
+		OWN_TURN_BEGIN.on(Morph(RANDOM_MINION, "Mekka4t"))
+	]
 
 
 # Leeroy Jenkins
@@ -93,9 +97,11 @@ class EX1_298:
 
 # Nat Pagle
 class EX1_557:
-	def OWN_TURN_BEGIN(self):
-		if random.choice((0, 1)):
-			return [Draw(CONTROLLER, 1)]
+	events = [
+		OWN_TURN_BEGIN.on(
+			lambda self, player: random.randint(0, 1) and [Draw(CONTROLLER, 1)] or []
+		)
+	]
 
 
 # Harrison Jones
@@ -127,7 +133,9 @@ class DREAM_05:
 	action = [Buff(TARGET, "DREAM_05e")]
 
 class DREAM_05e:
-	OWN_TURN_BEGIN = [Destroy(SELF)]
+	events = [
+		OWN_TURN_BEGIN.on(Destroy(SELF))
+	]
 
 
 # The Beast

@@ -29,7 +29,9 @@ class EX1_082:
 
 # Demolisher
 class EX1_102:
-	OWN_TURN_BEGIN = [Hit(RANDOM_ENEMY_CHARACTER, 2)]
+	events = [
+		OWN_TURN_BEGIN.on(Hit(RANDOM_ENEMY_CHARACTER, 2))
+	]
 
 
 # Arathi Weaponsmith

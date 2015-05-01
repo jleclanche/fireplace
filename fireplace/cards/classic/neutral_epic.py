@@ -46,4 +46,6 @@ class NEW1_017:
 
 # Doomsayer
 class NEW1_021:
-	OWN_TURN_BEGIN = [Destroy(ALL_MINIONS)]
+	events = [
+		OWN_TURN_BEGIN.on(Destroy(ALL_MINIONS))
+	]

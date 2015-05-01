@@ -74,4 +74,6 @@ class GVG_102:
 # Micro Machine
 class GVG_103:
 	# That card ID is not a mistake
-	TURN_BEGIN = [Buff(SELF, "GVG_076a")]
+	events = [
+		TURN_BEGIN.on(Buff(SELF, "GVG_076a"))
+	]

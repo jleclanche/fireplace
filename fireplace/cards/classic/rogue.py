@@ -98,7 +98,9 @@ class EX1_128:
 	action = [Buff(FRIENDLY_MINIONS, "EX1_128e")]
 
 class EX1_128e:
-	OWN_TURN_BEGIN = [Destroy(SELF)]
+	events = [
+		OWN_TURN_BEGIN.on(Destroy(SELF))
+	]
 
 
 # Fan of Knives

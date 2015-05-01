@@ -36,7 +36,9 @@ class EX1_335:
 
 # Lightwell
 class EX1_341:
-	OWN_TURN_BEGIN = [Heal(RANDOM(FRIENDLY + DAMAGED_CHARACTERS), 3)]
+	events = [
+		OWN_TURN_BEGIN.on(Heal(RANDOM(FRIENDLY + DAMAGED_CHARACTERS), 3))
+	]
 
 
 # Temple Enforcer

@@ -25,7 +25,9 @@ class PART_004:
 	action = [Buff(TARGET, "PART_004e")]
 
 class PART_004e:
-	OWN_TURN_BEGIN = [Destroy(SELF)]
+	events = [
+		OWN_TURN_BEGIN.on(Destroy(SELF))
+	]
 
 
 # Emergency Coolant

@@ -97,12 +97,11 @@ class CS2_063:
 	action = [Buff(TARGET, "CS2_063e")]
 
 class CS2_063e:
-	def TURN_BEGIN(self, player):
-		# NOTE: We do not use OWN_TURN_BEGIN here because our controller
-		# is not necessarily the same as the owner's controller and we
-		# want it to be the original corrupting player's turn.
-		if player is self.controller:
-			return [Destroy(self.owner)]
+	events = [
+		OWN_TURN_BEGIN.on(
+			lambda self, player: [Destroy(self.owner)]
+		)
+	]
 
 
 # Shadow Bolt
