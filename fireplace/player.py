@@ -19,6 +19,7 @@ class Player(Entity):
 	type = CardType.PLAYER
 
 	def __init__(self, name):
+		self.data = None
 		super().__init__()
 		self.name = name
 		self.deck = Deck()

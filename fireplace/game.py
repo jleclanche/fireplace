@@ -14,6 +14,7 @@ class Game(Entity):
 	Manager = GameManager
 
 	def __init__(self, players):
+		self.data = None
 		super().__init__()
 		self.players = players
 		for player in players:
