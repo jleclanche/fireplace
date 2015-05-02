@@ -51,7 +51,7 @@ class GVG_118:
 # Blingtron 3000
 class GVG_119:
 	def action(self):
-		for player in game.players:
+		for player in self.game.players:
 			yield Summon(player, randomCollectible(type=CardType.WEAPON))
 
 
