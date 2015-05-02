@@ -178,8 +178,15 @@ class Game(Entity):
 	def _endTurn(self):
 		logging.info("%s ends turn %i", self.currentPlayer, self.turn)
 		self.step, self.nextStep = self.nextStep, Step.MAIN_CLEANUP
-		self.broadcast("TURN_END", self.currentPlayer)
-		self.currentPlayer.broadcast("OWN_TURN_END")
+
+		self.currentPlayer.tempMana = 0
+		for character in self.currentPlayer.characters.filter(frozen=True):
+			if not character.numAttacks:
+				character.frozen = False
+		for buff in self.currentPlayer.entities.filter(oneTurnEffect=True):
+			logging.info("Ending One-Turn effect: %r", buff)
+			buff.destroy()
+
 		self.step, self.nextStep = self.nextStep, Step.MAIN_NEXT
 		self.beginTurn(self.currentPlayer.opponent)
 
@@ -221,7 +228,6 @@ class Game(Entity):
 	events = [
 		"ATTACK",
 		"DRAW",
-		"TURN_END",
 		"DAMAGE", "HEAL",
 		"CARD_DESTROYED", "MINION_DESTROY",
 		"SECRET_REVEAL",

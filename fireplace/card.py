@@ -123,8 +123,6 @@ class BaseCard(Entity):
 	# Events
 
 	events = [
-		"TURN_END",
-		"OWN_TURN_END",
 		"SELF_CARD_DESTROYED",
 		"MINION_DESTROY", "OWN_MINION_DESTROY",
 		"SELF_ATTACK",
@@ -439,10 +437,6 @@ class Character(PlayableCard):
 			return self.attackTargets
 		return super().targets
 
-	def OWN_TURN_END(self):
-		if self.frozen and not self.numAttacks:
-			self.frozen = False
-
 	def SELF_DAMAGE(self, source, amount):
 		self.damage += amount
 
@@ -690,11 +684,6 @@ class Enchantment(BaseCard):
 			self.data.scripts.destroy(self)
 		self.zone = Zone.GRAVEYARD
 	_destroy = destroy
-
-	def TURN_END(self, *args):
-		if self.oneTurnEffect:
-			logging.info("Ending One-Turn effect: %r" % (self))
-			self.destroy()
 
 
 class Aura(object):

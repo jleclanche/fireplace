@@ -244,7 +244,6 @@ class Player(Entity):
 
 	events = [
 		"OWN_ATTACK",
-		"TURN_END",
 		"OWN_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
 		"OWN_MINION_DESTROY",
@@ -260,10 +259,6 @@ class Player(Entity):
 
 	def OWN_ATTACK(self, source, target):
 		source.broadcast("SELF_ATTACK", target)
-
-	def TURN_END(self, *args):
-		if self.tempMana:
-			self.tempMana = 0
 
 	def OWN_DRAW(self, card):
 		if not card:
