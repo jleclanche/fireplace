@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .actions import Attack, BeginTurn, Deaths, EndTurn
+from .actions import Attack, BeginTurn, Deaths, EndTurn, EventListener
 from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, Step, Zone
@@ -120,7 +120,11 @@ class Game(Entity):
 		Queue a list of \a actions for processing from \a source.
 		"""
 		for action in actions:
-			action.trigger(source, self)
+			if isinstance(action, EventListener):
+				logging.debug("Registering %r on %r", action, self)
+				source.controller._events.append(action)
+			else:
+				action.trigger(source, self)
 
 	def tossCoin(self):
 		outcome = random.randint(0, 1)

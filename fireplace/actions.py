@@ -8,10 +8,11 @@ class EventListener:
 	ON = 1
 	AFTER = 2
 
-	def __init__(self, trigger, actions, at):
+	def __init__(self, trigger, actions, at, once=False):
 		self.trigger = trigger
 		self.actions = actions
 		self.at = at
+		self.once = once
 
 	def __repr__(self):
 		return "<EventListener %r>" % (self.trigger)
@@ -41,6 +42,9 @@ class Action: # Lawsuit
 	def on(self, *actions):
 		return EventListener(self, actions, EventListener.ON)
 
+	def once(self, *actions):
+		return EventListener(self, actions, EventListener.ON, once=True)
+
 	def broadcast(self, game, at, *args):
 		for entity in game.liveEntities:
 			for event in getattr(entity.data.scripts, "events", []):
@@ -52,6 +56,8 @@ class Action: # Lawsuit
 						else:
 							actions.append(action)
 					game.queueActions(entity, actions)
+					if event.once:
+						entity._events.remove(event)
 
 	def matches(self, source, args):
 		for arg, match in zip(args, self._args):
