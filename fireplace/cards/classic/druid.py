@@ -171,7 +171,9 @@ class EX1_571:
 	action = [Summon(CONTROLLER, "EX1_tk9") * 3]
 
 class EX1_tk9:
-	TURN_END = [Destroy(SELF)]
+	events = [
+		TURN_END.on(Destroy(SELF))
+	]
 
 
 # Savagery

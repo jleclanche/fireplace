@@ -67,11 +67,15 @@ class Mekka1:
 
 # Repair Bot
 class Mekka2:
-	OWN_TURN_END = [Heal(RANDOM(DAMAGED_CHARACTERS), 6)]
+	events = [
+		OWN_TURN_END.on(Heal(RANDOM(DAMAGED_CHARACTERS), 6))
+	]
 
 # Emboldener 3000
 class Mekka3:
-	OWN_TURN_END = [Buff(RANDOM_MINION, "Mekka3e")]
+	events = [
+		OWN_TURN_END.on(Buff(RANDOM_MINION, "Mekka3e"))
+	]
 
 # Poultryizer
 class Mekka4:
@@ -87,12 +91,16 @@ class EX1_116:
 
 # Baron Geddon
 class EX1_249:
-	OWN_TURN_END = [Hit(ALL_CHARACTERS - SELF, 2)]
+	events = [
+		OWN_TURN_END.on(Hit(ALL_CHARACTERS - SELF, 2))
+	]
 
 
 # Ragnaros the Firelord
 class EX1_298:
-	OWN_TURN_END = [Hit(RANDOM_ENEMY_CHARACTER, 8)]
+	events = [
+		OWN_TURN_END.on(Hit(RANDOM_ENEMY_CHARACTER, 8))
+	]
 
 
 # Nat Pagle
@@ -114,9 +122,11 @@ class EX1_558:
 
 # Ysera
 class EX1_572:
-	def OWN_TURN_END(self):
-		choice = RandomCard(cardClass=CardClass.DREAM)
-		return [Give(CONTROLLER, choice)]
+	events = [
+		OWN_TURN_END.on(
+			lambda self, player: [Give(CONTROLLER, RandomCard(cardClass=CardClass.DREAM))]
+		)
+	]
 
 # Ysera Awakens
 class DREAM_02:
@@ -161,11 +171,10 @@ class NEW1_029:
 
 class NEW1_029t:
 	cost = lambda self, i: 0
+	events = [
+		OWN_TURN_END.on(Destroy(SELF))
+	]
 
-	def TURN_END(self, player):
-		# Remove the buff at the end of the other player's turn
-		if player is not self.owner.controller:
-			return [Destroy(SELF)]
 
 class NEW1_029ta:
 	cost = lambda self, i: 0
@@ -178,12 +187,16 @@ class NEW1_030:
 
 # Gruul
 class NEW1_038:
-	TURN_END = [Buff(SELF, "NEW1_038o")]
+	events = [
+		TURN_END.on(Buff(SELF, "NEW1_038o"))
+	]
 
 
 # Hogger
 class NEW1_040:
-	OWN_TURN_END = [Summon(CONTROLLER, "NEW1_040t")]
+	events = [
+		OWN_TURN_END.on(Summon(CONTROLLER, "NEW1_040t"))
+	]
 
 
 # Elite Tauren Chieftain

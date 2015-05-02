@@ -8,7 +8,9 @@ class CS2_181:
 
 # Young Priestess
 class EX1_004:
-	OWN_TURN_END = [Buff(RANDOM_FRIENDLY_MINION - SELF, "EX1_004e")]
+	events = [
+		OWN_TURN_END.on(Buff(RANDOM_FRIENDLY_MINION - SELF, "EX1_004e"))
+	]
 
 
 # Alarm-o-Bot
@@ -121,7 +123,9 @@ class EX1_584:
 
 # Imp Master
 class EX1_597:
-	OWN_TURN_END = [Hit(SELF, 1), Summon(CONTROLLER, "EX1_598")]
+	events = [
+		OWN_TURN_END.on(Hit(SELF, 1), Summon(CONTROLLER, "EX1_598"))
+	]
 
 
 # Knife Juggler
@@ -152,7 +156,9 @@ class NEW1_026:
 
 # Master Swordsmith
 class NEW1_037:
-	OWN_TURN_END = [Buff(RANDOM_FRIENDLY_MINION - SELF, "NEW1_037e")]
+	events = [
+		OWN_TURN_END.on(Buff(RANDOM_FRIENDLY_MINION - SELF, "NEW1_037e"))
+	]
 
 
 # Stampeding Kodo

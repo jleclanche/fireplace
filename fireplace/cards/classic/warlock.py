@@ -14,7 +14,9 @@ class CS2_056:
 
 # Blood Imp
 class CS2_059:
-	OWN_TURN_END = [Buff(FRIENDLY_MINIONS - SELF, "CS2_059o")]
+	events = [
+		OWN_TURN_END.on(Buff(FRIENDLY_MINIONS - SELF, "CS2_059o"))
+	]
 
 
 # Dread Infernal
@@ -143,8 +145,11 @@ class EX1_316:
 	action = [Buff(TARGET, "EX1_316e")]
 
 class EX1_316e:
-	def TURN_END(self, player):
-		return [Destroy(self.owner)]
+	events = [
+		TURN_END.on(
+			lambda self, i: [Destroy(self.owner)]
+		)
+	]
 
 
 # Sense Demons

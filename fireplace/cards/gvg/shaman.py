@@ -6,7 +6,9 @@ from ..utils import *
 
 # Vitality Totem
 class GVG_039:
-	OWN_TURN_END = [Heal(FRIENDLY_HERO, 4)]
+	events = [
+		OWN_TURN_END.on(Heal(FRIENDLY_HERO, 4))
+	]
 
 
 # Siltfin Spiritwalker

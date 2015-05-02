@@ -15,7 +15,9 @@ class CS2_049:
 
 # Healing Totem
 class NEW1_009:
-	OWN_TURN_END = [Heal(FRIENDLY_MINIONS, 1)]
+	events = [
+		OWN_TURN_END.on(Heal(FRIENDLY_MINIONS, 1))
+	]
 
 
 ##
@@ -35,7 +37,9 @@ class EX1_258:
 
 # Mana Tide Totem
 class EX1_575:
-	OWN_TURN_END = [Draw(CONTROLLER, 1)]
+	events = [
+		OWN_TURN_END.on(Draw(CONTROLLER, 1))
+	]
 
 
 # Windspeaker

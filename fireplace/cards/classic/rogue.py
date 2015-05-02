@@ -111,12 +111,7 @@ class EX1_129:
 # Headcrack
 class EX1_137:
 	action = [Hit(ENEMY_HERO, 2)]
-
-	def combo(self):
-		self.game.register("TURN_END",
-			lambda *args: self.controller.give("EX1_137"),
-		once=True)
-		return [Hit(ENEMY_HERO, 2)]
+	combo = action + [TURN_END.once(Give(CONTROLLER, "EX1_137"))]
 
 
 # Shadowstep

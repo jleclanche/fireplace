@@ -13,14 +13,18 @@ class GVG_018:
 
 # Fel Cannon
 class GVG_020:
-	OWN_TURN_END = [Hit(RANDOM_MINION - MECH, 2)]
+	events = [
+		OWN_TURN_END.on(Hit(RANDOM_MINION - MECH, 2))
+	]
 
 
 # Anima Golem
 class GVG_077:
-	def TURN_END(self, player):
-		if len(self.controller.field) == 1 and self.controller.field[0] is self:
-			return [Destroy(SELF)]
+	events = [
+		TURN_END.on(
+			lambda self, player: self.controller.field != [self] and [Destroy(SELF)] or []
+		)
+	]
 
 
 # Floating Watcher

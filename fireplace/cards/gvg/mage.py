@@ -20,9 +20,11 @@ class GVG_004:
 
 # Illuminator
 class GVG_089:
-	def OWN_TURN_END(self):
-		if self.controller.secrets:
-			return [Heal(FRIENDLY_HERO, 4)]
+	events = [
+		OWN_TURN_END.on(
+			lambda self, player: player.secrets and [Heal(FRIENDLY_HERO, 4)] or []
+		)
+	]
 
 
 ##

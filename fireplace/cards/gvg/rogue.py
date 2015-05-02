@@ -18,7 +18,9 @@ class GVG_025:
 
 # Iron Sensei
 class GVG_027:
-	OWN_TURN_END = [Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_027e")]
+	events = [
+		OWN_TURN_END.on(Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_027e"))
+	]
 
 
 # Trade Prince Gallywix

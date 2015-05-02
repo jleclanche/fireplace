@@ -96,17 +96,14 @@ class FP1_029:
 
 # Loatheb
 class FP1_030:
-	# TODO
-	def action(self):
-		self.game.register("TURN_END",
-			lambda *args: self.buff(self.controller.opponent.hero, "FP1_030e"),
-		once=True)
+	action = [
+		Buff(ENEMY_HERO, "FP1_030e")
+	]
 
 class FP1_030e:
-	def TURN_END(self, player):
-		# Remove the buff at the end of the other player's turn
-		if player is not self.owner.controller:
-			return [Destroy(SELF)]
+	events = [
+		OWN_TURN_END.on(Destroy(SELF))
+	]
 
 class FP1_030ea:
 	cost = lambda self, i: i+5

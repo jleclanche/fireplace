@@ -21,9 +21,11 @@ class CS2_033:
 
 # Ethereal Arcanist
 class EX1_274:
-	def OWN_TURN_END(self):
-		if self.controller.secrets:
-			return [Buff(SELF, "EX1_274e")]
+	events = [
+		OWN_TURN_END.on(
+			lambda self, player: player.secrets and [Buff(SELF, "EX1_274e")] or []
+		)
+	]
 
 
 # Archmage Antonidas
