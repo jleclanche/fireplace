@@ -70,22 +70,15 @@ class Game(Entity):
 	def attack(self, source, target):
 		return self.queueActions(source, [Attack(source, target)])
 
-	def _attack(self, source, target):
+	def _attack(self):
 		"""
-		Process an attack between \a source and \a target
+		See https://github.com/jleclanche/fireplace/wiki/Combat
+		for information on how attacking works
 		"""
-		logging.info("%r attacks %r" % (source, target))
-		# See https://github.com/jleclanche/fireplace/wiki/Combat
-		# for information on how attacking works
-		self.proposedAttacker = source
-		self.proposedDefender = target
 		attacker = self.proposedAttacker
 		defender = self.proposedDefender
 		self.proposedAttacker = None
 		self.proposedDefender = None
-		attacker.attacking = True
-		defender.defending = True
-		self.broadcast("ATTACK", attacker, defender)
 		if attacker.shouldExitCombat:
 			logging.info("Attack has been interrupted.")
 			attacker.shouldExitCombat = False
@@ -99,6 +92,8 @@ class Game(Entity):
 		attacker.hit(defender, attAtk)
 		if defAtk:
 			defender.hit(attacker, defAtk)
+		if attacker.type == CardType.HERO and attacker.controller.weapon:
+			attacker.controller.weapon.loseDurability()
 		attacker.attacking = False
 		defender.defending = False
 		attacker.numAttacks += 1
@@ -226,7 +221,6 @@ class Game(Entity):
 	# Events
 
 	events = [
-		"ATTACK",
 		"DRAW",
 		"DAMAGE", "HEAL",
 		"CARD_DESTROYED", "MINION_DESTROY",
@@ -241,9 +235,6 @@ class Game(Entity):
 					if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
 						f(*args)
 		super().broadcast(event, *args)
-
-	def ATTACK(self, source, target):
-		source.controller.broadcast("OWN_ATTACK", source, target)
 
 	def DRAW(self, player, card):
 		player.broadcast("OWN_DRAW", card)

@@ -125,8 +125,6 @@ class BaseCard(Entity):
 	events = [
 		"SELF_CARD_DESTROYED",
 		"MINION_DESTROY", "OWN_MINION_DESTROY",
-		"SELF_ATTACK",
-		"ATTACK",
 		"DAMAGE", "OWN_DAMAGE", "SELF_DAMAGE",
 		"HEAL", "OWN_HEAL", "SELF_HEAL",
 		"OWN_SECRET_REVEAL",
@@ -834,9 +832,6 @@ class Weapon(PlayableCard):
 		if self.controller.weapon:
 			self.controller.weapon.destroy()
 		self.controller.weapon = self
-
-	def SELF_ATTACK(self, target):
-		self.loseDurability()
 
 
 class HeroPower(PlayableCard):

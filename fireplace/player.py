@@ -243,7 +243,6 @@ class Player(Entity):
 	# Events
 
 	events = [
-		"OWN_ATTACK",
 		"OWN_DRAW",
 		"OWN_DAMAGE", "OWN_HEAL",
 		"OWN_MINION_DESTROY",
@@ -256,9 +255,6 @@ class Player(Entity):
 				if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
 					f(*args)
 		super().broadcast(event, *args)
-
-	def OWN_ATTACK(self, source, target):
-		source.broadcast("SELF_ATTACK", target)
 
 	def OWN_DRAW(self, card):
 		if not card:

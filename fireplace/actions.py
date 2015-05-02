@@ -95,8 +95,17 @@ class Attack(GameAction):
 	args = ("source", "target")
 	type = PowSubType.ATTACK
 
+	def get_args(self, source, game):
+		ret = super().get_args(source, game)
+		self.source.attacking = True
+		self.target.defending = True
+		return ret
+
 	def do(self, source, game):
-		game._attack(self.source, self.target)
+		game.proposedAttacker = self.source
+		game.proposedDefender = self.target
+		logging.info("%r attacks %r", self.source, self.target)
+		game._attack()
 
 
 class BeginTurn(GameAction):
