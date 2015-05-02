@@ -38,6 +38,9 @@ def isValidTarget(self, target, requirements=None):
 		elif req == PlayReq.REQ_DAMAGED_TARGET:
 			if not target.damage:
 				return False
+		elif req == PlayReq.REQ_YOUR_TURN:
+			if not self.controller.currentPlayer:
+				return False
 		elif req == PlayReq.REQ_TARGET_MAX_ATTACK:
 			if target.atk > param or 0:
 				return False
