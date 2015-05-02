@@ -1055,6 +1055,33 @@ def test_sword_of_justice():
 	assert not wisp2.buffs
 
 
+def test_ethereal_arcanist():
+	game = prepare_game()
+	arcanist = game.player1.give("EX1_274")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	arcanist.play()
+	assert arcanist.atk == arcanist.health == 3
+	game.endTurn(); game.endTurn()
+
+	assert arcanist.atk == arcanist.health == 3
+	icebarrier = game.player1.give("EX1_289")
+	icebarrier.play()
+	assert arcanist.atk == arcanist.health == 3
+	game.endTurn()
+
+	assert arcanist.atk == arcanist.health == 3 + 2
+	game.endTurn()
+
+	assert arcanist.atk == arcanist.health == 3 + 2
+	icebarrier.destroy()
+	game.endTurn()
+
+	assert arcanist.atk == arcanist.health == 3 + 2
+
+
 def test_end_turn_heal():
 	game = prepare_game()
 
