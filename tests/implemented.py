@@ -2,7 +2,7 @@
 import os
 import sys; sys.path.append(".."); sys.path.append("../data/extras")
 from fireplace import cards
-from fireplace.cards import debug, game, classic, naxxramas, gvg, removed
+from fireplace.cards import debug, game, classic, naxxramas, gvg
 from fireplace.enums import CardType
 
 import buffs
@@ -16,7 +16,7 @@ ENDC = "\033[0m"
 def main():
 	for id in sorted(cards.db):
 		card = cards.db[id]
-		for set in (debug, game, classic, naxxramas, gvg, removed):
+		for set in (debug, game, classic, naxxramas, gvg):
 			if hasattr(set, id):
 				color = GREEN
 				break
