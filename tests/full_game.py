@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import sys; sys.path.append("..")
-import fireplace
+import fireplace.heroes
 import logging
+from fireplace.game import Game
+from fireplace.player import Player
 from fireplace.utils import randomDraft
+
 
 logging.getLogger().setLevel(logging.DEBUG)
 
@@ -10,10 +13,12 @@ logging.getLogger().setLevel(logging.DEBUG)
 def main():
 	deck1 = randomDraft(hero=fireplace.heroes.MAGE)
 	deck2 = randomDraft(hero=fireplace.heroes.WARRIOR)
-	player1 = fireplace.Player(name="Player1", deck=deck1)
-	player2 = fireplace.Player(name="Player2", deck=deck2)
+	player1 = Player(name="Player1")
+	player1.prepareDeck(deck1, fireplace.heroes.MAGE)
+	player2 = Player(name="Player2")
+	player2.prepareDeck(deck2, fireplace.heroes.WARRIOR)
 
-	game = fireplace.Game(players=(player1, player2))
+	game = Game(players=(player1, player2))
 	game.start()
 
 	while True:
