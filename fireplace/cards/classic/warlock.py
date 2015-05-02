@@ -100,9 +100,7 @@ class CS2_063:
 
 class CS2_063e:
 	events = [
-		OWN_TURN_BEGIN.on(
-			lambda self, player: [Destroy(self.owner)]
-		)
+		OWN_TURN_BEGIN.on(Destroy(OWNER))
 	]
 
 
@@ -146,9 +144,7 @@ class EX1_316:
 
 class EX1_316e:
 	events = [
-		TURN_END.on(
-			lambda self, i: [Destroy(self.owner)]
-		)
+		TURN_END.on(Destroy(OWNER))
 	]
 
 

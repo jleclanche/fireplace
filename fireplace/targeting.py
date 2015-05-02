@@ -243,6 +243,28 @@ class SelfSelector(Selector):
 SELF = SelfSelector()
 
 
+class OwnerSelector(Selector):
+	"""
+	Selects the source's owner.
+	"""
+	class IsOwner:
+		def test(self, entity, source):
+			return entity is source.owner
+
+	def __init__(self):
+		self.program = [self.IsOwner()]
+
+	def eval(self, entities, source):
+		if source.owner:
+			return [source.owner]
+		return []
+
+	def test(self, entity, source):
+		return entity is source.owner
+
+OWNER = OwnerSelector()
+
+
 class TargetSelector(Selector):
 	"""
 	Selects the source's target as target.
