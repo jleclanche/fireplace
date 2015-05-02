@@ -92,11 +92,11 @@ class Attack(GameAction):
 	"""
 	Make the source attack \a target
 	"""
-	args = ("target", )
+	args = ("source", "target")
 	type = PowSubType.ATTACK
 
 	def do(self, source, game):
-		game._attack(source, self.target)
+		game._attack(self.source, self.target)
 
 
 class BeginTurn(GameAction):

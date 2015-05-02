@@ -68,7 +68,7 @@ class Game(Entity):
 		return self.allEntities.filter(*args, **kwargs)
 
 	def attack(self, source, target):
-		return self.queueActions(source, [Attack(target)])
+		return self.queueActions(source, [Attack(source, target)])
 
 	def _attack(self, source, target):
 		"""
