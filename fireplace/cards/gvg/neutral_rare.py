@@ -26,7 +26,7 @@ class GVG_095:
 # Lil' Exorcist
 class GVG_097:
 	def action(self):
-		deathrattles = self.controller.opponent.field(hasDeathrattle=True)
+		deathrattles = self.controller.opponent.field.filter(hasDeathrattle=True)
 		# The Enchantment ID is correct
 		return [Buff(SELF, "GVG_101e") * len(deathrattles)]
 

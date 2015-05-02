@@ -2663,6 +2663,29 @@ def test_lightwell():
 	assert game.currentPlayer.opponent.hero.health == 29
 
 
+def test_lil_exorcist():
+	game = prepare_game()
+	exorcist1 = game.player1.give("GVG_097")
+	exorcist2 = game.player1.give("GVG_097")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	exorcist1.play()
+	assert exorcist1.atk == 2
+	assert exorcist1.health == 3
+	assert not exorcist1.buffs
+	game.endTurn()
+
+	game.player2.give("FP1_001").play()
+	game.player2.give("FP1_001").play()
+	game.endTurn()
+
+	exorcist2.play()
+	assert exorcist2.atk == 2 + 2
+	assert exorcist2.health == 3 + 2
+	assert exorcist2.buffs
+
+
 def test_loatheb():
 	game = prepare_game(WARRIOR, MAGE)
 	game.player1.discardHand()
