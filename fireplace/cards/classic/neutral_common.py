@@ -82,7 +82,7 @@ class CS2_150:
 
 # Silver Hand Knight
 class CS2_151:
-	action = [Summon("CS2_152")]
+	action = [Summon(CONTROLLER, "CS2_152")]
 
 
 # Elven Archer
