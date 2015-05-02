@@ -66,7 +66,7 @@ class Player(Entity):
 
 	@property
 	def characters(self):
-		return [self.hero] + self.field
+		return CardList(chain([self.hero] if self.hero else [], self.field))
 
 	@property
 	def entities(self):
@@ -77,7 +77,7 @@ class Player(Entity):
 		if not self.currentPlayer:
 			for entity in self.secrets:
 				ret += entity.entities
-		return chain(list(self.hero.entities) if self.hero else [], ret, [self])
+		return CardList(chain(list(self.hero.entities) if self.hero else [], ret, [self]))
 
 	@property
 	def liveEntities(self):
