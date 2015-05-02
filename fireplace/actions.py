@@ -123,6 +123,7 @@ class EndTurn(GameAction):
 	"""
 	End the current turn
 	"""
+	args = ("player", )
 	type = None
 
 	def do(self, source, game):

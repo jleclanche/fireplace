@@ -173,7 +173,7 @@ class Game(Entity):
 		self.beginTurn(self.player1)
 
 	def endTurn(self):
-		return self.queueActions(self, [EndTurn()])
+		return self.queueActions(self, [EndTurn(self.currentPlayer)])
 
 	def _endTurn(self):
 		logging.info("%s ends turn %i", self.currentPlayer, self.turn)
