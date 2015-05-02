@@ -128,13 +128,15 @@ class EX1_279:
 
 # Ice Barrier
 class EX1_289:
-	def ATTACK(self, source, target):
-		if target == self.controller.hero:
-			return [GainArmor(FRIENDLY_HERO, 8), Reveal(SELF)]
+	events = [
+		Attack(CHARACTER, FRIENDLY_HERO).on(GainArmor(FRIENDLY_HERO, 8), Reveal(SELF))
+	]
 
 
 # Vaporize
 class EX1_594:
-	def ATTACK(self, source, target):
-		if target == self.controller.hero and source.type == CardType.MINION:
-			return [Destroy(source), Reveal(SELF)]
+	events = [
+		Attack(MINION, FRIENDLY_HERO).on(
+			lambda self, source, target: [Destroy(source), Reveal(SELF)]
+		)
+	]

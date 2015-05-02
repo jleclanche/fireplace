@@ -96,7 +96,9 @@ class EX1_363:
 	action = [Buff(TARGET, "EX1_363e")]
 
 class EX1_363e:
-	SELF_ATTACK = [Draw(CONTROLLER, 1)]
+	events = [
+		Attack(OWNER).on(Draw(CONTROLLER, 1))
+	]
 
 
 # Holy Wrath
@@ -132,7 +134,9 @@ class EX1_619e:
 
 # Truesilver Champion
 class CS2_097:
-	SELF_ATTACK = [Heal(FRIENDLY_HERO, 2)]
+	events = [
+		Attack(FRIENDLY_HERO).on(Heal(FRIENDLY_HERO, 2))
+	]
 
 
 # Sword of Justice

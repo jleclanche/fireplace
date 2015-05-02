@@ -90,9 +90,11 @@ class EX1_549:
 
 # Freezing Trap
 class EX1_611:
-	def ATTACK(self, source, target):
-		if source.controller is self.controller.opponent and source.type == CardType.MINION:
-			return [Bounce(source), Buff(source, "EX1_611e"), Reveal(SELF)]
+	events = [
+		Attack(ENEMY_MINIONS).on(
+			lambda self, source, target: [Bounce(source), Buff(source, "EX1_611e"), Reveal(SELF)]
+		)
+	]
 
 class EX1_611e:
 	# Remove the buff when the card is played
