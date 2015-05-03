@@ -401,6 +401,11 @@ class Character(PlayableCard):
 		super().summon()
 		self.numAttacks = 0
 
+	def _destroy(self):
+		if self.attacking:
+			self.shouldExitCombat = True
+		super()._destroy()
+
 	@property
 	def damage(self):
 		return getattr(self, "_damage", 0)
