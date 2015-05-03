@@ -84,7 +84,6 @@ class GameAction(Action):
 		self.do(source, game)
 		self.broadcast(game, EventListener.AFTER, *args)
 		game.manager.action_end(self.type, source, *args)
-		game.refreshAuras()
 
 
 class Attack(GameAction):
@@ -194,7 +193,6 @@ class TargetedAction(Action):
 				self.do(source, game, *extra_args)
 				self.broadcast(game, EventListener.AFTER, *extra_args)
 			game.manager.action_end(self.type, source, targets, *self._args)
-		game.refreshAuras()
 
 
 class Buff(TargetedAction):

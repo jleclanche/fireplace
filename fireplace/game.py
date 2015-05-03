@@ -124,6 +124,7 @@ class Game(Entity):
 			else:
 				self._actionQueue.append(action)
 				action.trigger(source, self)
+				self.refreshAuras()
 				self._actionQueue.pop()
 		if not self._actionQueue:
 			self._processDeaths()
