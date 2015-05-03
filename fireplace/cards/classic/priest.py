@@ -6,7 +6,7 @@ from ..utils import *
 
 # Lesser Heal (Anduin Wrynn)
 class CS1h_001:
-	action = [Heal(TARGET, 2)]
+	activate = [Heal(TARGET, 2)]
 
 
 ##
@@ -167,11 +167,11 @@ class EX1_625:
 
 # Mind Spike
 class EX1_625t:
-	action = [Hit(TARGET, 2)]
+	activate = [Hit(TARGET, 2)]
 
 # Mind Shatter
 class EX1_625t2:
-	action = [Hit(TARGET, 3)]
+	activate = [Hit(TARGET, 3)]
 
 
 # Mass Dispel

@@ -6,7 +6,7 @@ from ..utils import *
 
 # Shapeshift
 class CS2_017:
-	action = [Buff(FRIENDLY_HERO, "CS2_017o"), GainArmor(FRIENDLY_HERO, 1)]
+	activate = [Buff(FRIENDLY_HERO, "CS2_017o"), GainArmor(FRIENDLY_HERO, 1)]
 
 
 ##

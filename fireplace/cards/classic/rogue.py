@@ -6,7 +6,7 @@ from ..utils import *
 
 # Dagger Mastery
 class CS2_083b:
-	action = [Summon(CONTROLLER, "CS2_082")]
+	activate = [Summon(CONTROLLER, "CS2_082")]
 
 
 ##

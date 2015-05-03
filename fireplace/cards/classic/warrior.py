@@ -6,7 +6,7 @@ from ..utils import *
 
 # Armor Up!
 class CS2_102:
-	action = [GainArmor(FRIENDLY_HERO, 2)]
+	activate = [GainArmor(FRIENDLY_HERO, 2)]
 
 
 ##

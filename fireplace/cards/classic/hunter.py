@@ -6,7 +6,7 @@ from ..utils import *
 
 # Steady Shot (Rexxar)
 class DS1h_292:
-	action = [Hit(ENEMY_HERO, 2)]
+	activate = [Hit(ENEMY_HERO, 2)]
 
 
 ##

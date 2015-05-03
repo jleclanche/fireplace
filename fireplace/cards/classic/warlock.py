@@ -6,7 +6,7 @@ from ..utils import *
 
 # Life Tap
 class CS2_056:
-	action = [Hit(FRIENDLY_HERO, 2), Draw(CONTROLLER, 1)]
+	activate = [Hit(FRIENDLY_HERO, 2), Draw(CONTROLLER, 1)]
 
 
 ##
@@ -76,7 +76,7 @@ class EX1_323:
 
 # INFERNO!
 class EX1_tk33:
-	action = [Summon(CONTROLLER, "EX1_tk34")]
+	activate = [Summon(CONTROLLER, "EX1_tk34")]
 
 
 ##

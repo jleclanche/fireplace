@@ -863,6 +863,17 @@ class Weapon(PlayableCard):
 class HeroPower(PlayableCard):
 	Manager = HeroPowerManager
 
+	def activate(self):
+		kwargs = {}
+		if self.target:
+			kwargs["target"] = self.target
+		actions = self.data.scripts.activate
+		if callable(actions):
+			actions = actions(self, **kwargs)
+
+		if actions:
+			return self.game.queueActions(self, actions)
+
 	def play(self, target=None):
 		logging.info("%s plays hero power %r" % (self.controller, self))
 		assert self.isPlayable()
@@ -870,7 +881,7 @@ class HeroPower(PlayableCard):
 			assert target
 			self.target = target
 		self.controller.usedMana += self.cost
-		self.action()
+		self.activate()
 		self.exhausted = True
 		if self.target:
 			self.target = None

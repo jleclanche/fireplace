@@ -6,7 +6,7 @@ from ..utils import *
 
 # Reinforce (Uther Lightbringer)
 class CS2_101:
-	action = [Summon(CONTROLLER, "CS2_101t")]
+	activate = [Summon(CONTROLLER, "CS2_101t")]
 
 
 ##

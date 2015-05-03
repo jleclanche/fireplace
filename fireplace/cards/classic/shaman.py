@@ -6,7 +6,7 @@ from ..utils import *
 
 # Totemic Call
 class CS2_049:
-	def action(self):
+	def activate(self):
 		entourage = self.data.entourage
 		for minion in self.controller.field:
 			if minion.id in entourage:

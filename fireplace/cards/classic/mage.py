@@ -6,7 +6,7 @@ from ..utils import *
 
 # Fireblast (Jaina Proudmoore)
 class CS2_034:
-	action = [Hit(TARGET, 1)]
+	activate = [Hit(TARGET, 1)]
 
 
 ##
