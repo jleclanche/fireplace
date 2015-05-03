@@ -14,9 +14,11 @@ class CS2_034:
 
 # Water Elemental
 class CS2_033:
-	def DAMAGE(self, source, target, amount):
-		if source is self:
-			return [Freeze(target)]
+	events = [
+		Damage().on(
+			lambda self, target, amount, source: source is self and [Freeze(target)] or []
+		)
+	]
 
 
 # Ethereal Arcanist

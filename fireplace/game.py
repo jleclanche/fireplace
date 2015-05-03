@@ -222,7 +222,7 @@ class Game(Entity):
 
 	events = [
 		"DRAW",
-		"DAMAGE", "HEAL",
+		"HEAL",
 		"CARD_DESTROYED", "MINION_DESTROY",
 	]
 
@@ -237,9 +237,6 @@ class Game(Entity):
 
 	def DRAW(self, player, card):
 		player.broadcast("OWN_DRAW", card)
-
-	def DAMAGE(self, source, target, amount):
-		target.controller.broadcast("OWN_DAMAGE", source, target, amount)
 
 	def HEAL(self, source, target, amount):
 		source.controller.broadcast("OWN_HEAL", source, target, amount)

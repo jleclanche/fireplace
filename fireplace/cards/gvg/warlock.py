@@ -6,9 +6,11 @@ from ..utils import *
 
 # Mistress of Pain
 class GVG_018:
-	def DAMAGE(self, source, target, amount):
-		if source is self:
-			return [Heal(FRIENDLY_HERO, amount)]
+	events = [
+		Damage().on(
+			lambda self, source, target, amount: source is self and [Heal(FRIENDLY_HERO, amount)] or []
+		)
+	]
 
 
 # Fel Cannon
@@ -29,9 +31,11 @@ class GVG_077:
 
 # Floating Watcher
 class GVG_100:
-	def DAMAGE(self, source, target, amount):
-		if self.controller.currentPlayer and source is self.controller.hero:
-			return [Buff(SELF, "GVG_100e")]
+	events = [
+		Damage(FRIENDLY_HERO).on(
+			lambda self, target, amount: self.controller.currentPlayer and [Buff(SELF, "GVG_100e")] or []
+		)
+	]
 
 
 ##

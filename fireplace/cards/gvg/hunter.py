@@ -18,7 +18,9 @@ class GVG_048:
 
 # Gahz'rilla
 class GVG_049:
-	SELF_DAMAGE = [Buff(SELF, "GVG_049e")]
+	events = [
+		Damage(SELF).on(Buff(SELF, "GVG_049e"))
+	]
 
 class GVG_049e:
 	atk = lambda self, i: i*2

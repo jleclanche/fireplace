@@ -14,9 +14,9 @@ class CS2_102:
 
 # Armorsmith
 class EX1_402:
-	def OWN_DAMAGE(self, source, target, amount):
-		if target.type == CardType.MINION:
-			return [GainArmor(FRIENDLY_HERO, 1)]
+	events = [
+		Damage(FRIENDLY_MINIONS).on(GainArmor(FRIENDLY_HERO, 1))
+	]
 
 
 # Cruel Taskmaster
@@ -26,9 +26,9 @@ class EX1_603:
 
 # Frothing Berserker
 class EX1_604:
-	def DAMAGE(self, source, target, amount):
-		if target.type == CardType.MINION:
-			return [Buff(SELF, "EX1_604o")]
+	events = [
+		Damage(ALL_MINIONS).on(Buff(SELF, "EX1_604o"))
+	]
 
 
 ##

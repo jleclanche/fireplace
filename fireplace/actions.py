@@ -217,6 +217,19 @@ class Bounce(TargetedAction):
 		target.bounce()
 
 
+class Damage(TargetedAction):
+	"""
+	Damage target by \a amount.
+	"""
+	args = ("targets", "amount")
+
+	def get_args(self, source, game, target):
+		return (target, self.amount, source)
+
+	def do(self, source, game, target, *args):
+		target._hit(source, self.amount)
+
+
 class Destroy(TargetedAction):
 	"""
 	Destroy character targets.

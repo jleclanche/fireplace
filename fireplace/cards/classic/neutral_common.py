@@ -41,7 +41,9 @@ class EX1_398:
 
 # Gurubashi Berserker
 class EX1_399:
-	SELF_DAMAGE = [Buff(SELF, "EX1_399e")]
+	events = [
+		Damage(SELF).on(Buff(SELF, "EX1_399e"))
+	]
 
 
 # Nightblade
@@ -109,7 +111,9 @@ class DS1_055:
 
 # Acolyte of Pain
 class EX1_007:
-	SELF_DAMAGE = [Draw(CONTROLLER, 1)]
+	events = [
+		Damage(SELF).on(Draw(CONTROLLER, 1))
+	]
 
 
 # Shattered Sun Cleric

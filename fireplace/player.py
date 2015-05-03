@@ -244,7 +244,7 @@ class Player(Entity):
 
 	events = [
 		"OWN_DRAW",
-		"OWN_DAMAGE", "OWN_HEAL",
+		"OWN_HEAL",
 		"OWN_MINION_DESTROY",
 	]
 
@@ -267,9 +267,6 @@ class Player(Entity):
 		else:
 			card.zone = Zone.HAND
 			self.cardsDrawnThisTurn += 1 # TODO: Is this increased on fatigue/mill?
-
-	def OWN_DAMAGE(self, source, target, amount):
-		target.broadcast("SELF_DAMAGE", source, amount)
 
 	def OWN_HEAL(self, source, target, amount):
 		target.broadcast("SELF_HEAL", source, amount)

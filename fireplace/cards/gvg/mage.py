@@ -6,9 +6,11 @@ from ..utils import *
 
 # Snowchugger
 class GVG_002:
-	def DAMAGE(self, source, target, amount):
-		if source is self:
-			return [Freeze(target)]
+	events = [
+		Damage().on(
+			lambda self, target, amount, source: source is self and [Freeze(target)] or []
+		)
+	]
 
 
 # Goblin Blastmage

@@ -2,7 +2,7 @@ import json
 import logging
 from itertools import chain
 from . import cards as CardDB, targeting
-from .actions import Destroy
+from .actions import Damage, Destroy
 from .exceptions import *
 from .entity import Entity, booleanProperty, intProperty
 from .enums import AuraType, CardClass, CardType, PlayReq, Race, Rarity, Zone
@@ -125,7 +125,6 @@ class BaseCard(Entity):
 	events = [
 		"SELF_CARD_DESTROYED",
 		"MINION_DESTROY", "OWN_MINION_DESTROY",
-		"DAMAGE", "OWN_DAMAGE", "SELF_DAMAGE",
 		"HEAL", "OWN_HEAL", "SELF_HEAL",
 	]
 
@@ -274,8 +273,7 @@ class PlayableCard(BaseCard):
 		if getattr(target, "immune", False):
 			logging.info("%r is immune to %i damage from %r" % (target, amount, self))
 			return
-		logging.info("%r hits %r for %i" % (self, target, amount))
-		self.game.broadcast("DAMAGE", self, target, amount)
+		return self.game.queueActions(self, [Damage(target, amount)])
 
 	def isPlayable(self):
 		if self.controller.mana < self.cost:
@@ -428,14 +426,14 @@ class Character(PlayableCard):
 	def health(self):
 		return max(0, self.maxHealth - self.damage)
 
+	def _hit(self, source, amount):
+		self.damage += amount
+
 	@property
 	def targets(self):
 		if self.zone == Zone.PLAY:
 			return self.attackTargets
 		return super().targets
-
-	def SELF_DAMAGE(self, source, amount):
-		self.damage += amount
 
 	def SELF_HEAL(self, source, amount):
 		self.damage -= amount
@@ -463,12 +461,12 @@ class Hero(Character):
 			ret.append(self.controller.weapon)
 		return chain(ret, self.buffs)
 
-	def SELF_DAMAGE(self, source, amount):
+	def _hit(self, source, amount):
 		if self.armor:
 			newAmount = max(0, amount - self.armor)
 			self.armor -= min(self.armor, amount)
 			amount = newAmount
-		super().SELF_DAMAGE(source, amount)
+		super()._hit(source, amount)
 
 	def destroy(self):
 		raise GameOver("%s wins!" % (self.controller.opponent))
@@ -522,6 +520,8 @@ class Minion(Character):
 	def slots(self):
 		slots = super().slots[:]
 		if self.enraged:
+			if not self._enrage:
+				self._enrage = Enrage(self.data.enrageTags)
 			slots.append(self._enrage)
 		return slots
 
@@ -554,6 +554,18 @@ class Minion(Character):
 		if self.stealthed:
 			self.stealthed = False
 
+	def _hit(self, source, amount):
+		if self.divineShield:
+			self.divineShield = False
+			logging.info("%r's divine shield prevents %i damage. Divine shield fades.", self, amount)
+			return
+
+		if getattr(source, "poisonous", False):
+			logging.info("%r is destroyed because of %r is poisonous", self, source)
+			self.destroy()
+
+		super()._hit(source, amount)
+
 	def morph(self, id):
 		into = self.game.card(id)
 		logging.info("Morphing %r into %r", self, into)
@@ -565,21 +577,6 @@ class Minion(Character):
 		into.zone = Zone.PLAY
 		into.linkedCard = self
 		return into
-
-	def SELF_DAMAGE(self, source, amount):
-		if self.divineShield:
-			self.divineShield = False
-			logging.info("%r's divine shield prevents %i damage. Divine shield fades." % (self, amount))
-			return
-		if isinstance(source, Minion) and source.poisonous:
-			logging.info("%r is destroyed because of %r is poisonous" % (self, source))
-			self.destroy()
-
-		if self.enrage and not self._enrage:
-			self._enrage = Enrage(self.data.enrageTags)
-			self._enrage.controller = self.controller
-
-		super().SELF_DAMAGE(source, amount)
 
 	def isPlayable(self):
 		playable = super().isPlayable()
