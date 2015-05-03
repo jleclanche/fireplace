@@ -389,7 +389,8 @@ class Reveal(TargetedAction):
 	Reveal secret targets.
 	"""
 	def do(self, source, game, target):
-		target.reveal()
+		logging.info("Revealing secret %r", target)
+		target.destroy()
 
 
 class SetTag(TargetedAction):

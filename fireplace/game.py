@@ -224,7 +224,6 @@ class Game(Entity):
 		"DRAW",
 		"DAMAGE", "HEAL",
 		"CARD_DESTROYED", "MINION_DESTROY",
-		"SECRET_REVEAL",
 	]
 
 	def broadcast(self, event, *args):
@@ -254,7 +253,3 @@ class Game(Entity):
 		card.broadcast("SELF_CARD_DESTROYED")
 		if card.type == CardType.MINION:
 			self.broadcast("MINION_DESTROY", card)
-
-	def SECRET_REVEAL(self, secret, player):
-		assert secret.secret
-		player.broadcast("OWN_SECRET_REVEAL", secret)

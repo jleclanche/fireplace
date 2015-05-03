@@ -120,4 +120,6 @@ class NEW1_031:
 
 # Eaglehorn Bow
 class EX1_536:
-	OWN_SECRET_REVEAL = [Buff(SELF, "EX1_536e")]
+	events = [
+		Reveal(FRIENDLY_SECRETS).on(Buff(SELF, "EX1_536e"))
+	]

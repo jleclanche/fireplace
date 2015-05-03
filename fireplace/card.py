@@ -127,7 +127,6 @@ class BaseCard(Entity):
 		"MINION_DESTROY", "OWN_MINION_DESTROY",
 		"DAMAGE", "OWN_DAMAGE", "SELF_DAMAGE",
 		"HEAL", "OWN_HEAL", "SELF_HEAL",
-		"OWN_SECRET_REVEAL",
 	]
 
 	def buff(self, target, buff, **kwargs):
@@ -642,9 +641,7 @@ class Secret(Spell):
 		self.zone = Zone.SECRET
 
 	def reveal(self):
-		logging.info("Revealing secret %r" % (self))
-		self.game.broadcast("SECRET_REVEAL", self, self.controller)
-		self.destroy()
+		return self.game.queueActions(self, [Reveal(self)])
 
 
 class Enchantment(BaseCard):
