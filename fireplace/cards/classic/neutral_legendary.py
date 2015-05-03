@@ -17,7 +17,7 @@ class EX1_014:
 
 # Bananas
 class EX1_014t:
-	action = [Buff("EX1_014te")]
+	action = [Buff(TARGET, "EX1_014te")]
 
 
 # Sylvanas Windrunner
