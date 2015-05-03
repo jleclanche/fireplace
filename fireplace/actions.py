@@ -317,13 +317,19 @@ class Hit(TargetedAction):
 	"""
 	Hit character targets by \a amount.
 	"""
-	args = ("targets", "amount")
+	args = ("targets", "amount", "source")
 
-	def do(self, source, game, target):
+	def get_args(self, source, game, target):
+		if getattr(self, "source", None):
+			source = self.source
+		amount = self.amount
+		return (target, amount, source)
+
+	def do(self, source, game, target, amount, attack_source):
 		if target.type == CardType.WEAPON:
 			target.durability -= self.amount
 		else:
-			source.hit(target, self.amount)
+			attack_source.hit(target, self.amount)
 
 
 class Heal(TargetedAction):

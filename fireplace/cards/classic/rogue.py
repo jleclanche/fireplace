@@ -87,10 +87,8 @@ class EX1_124:
 
 # Betrayal
 class EX1_126:
-	# TODO
 	def action(self, target):
-		for minion in target.adjacentMinions:
-			target.hit(minion, target.atk)
+		return [Hit(TARGET_ADJACENT, target.atk, target)]
 
 
 # Conceal
