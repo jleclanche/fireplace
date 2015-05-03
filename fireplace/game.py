@@ -26,6 +26,7 @@ class Game(Entity):
 		self.turn = 0
 		self.currentPlayer = None
 		self.auras = []
+		self._actionQueue = []
 
 	def __repr__(self):
 		return "<%s %s>" % (self.__class__.__name__, self)
@@ -121,7 +122,11 @@ class Game(Entity):
 				logging.debug("Registering %r on %r", action, self)
 				source.controller._events.append(action)
 			else:
+				self._actionQueue.append(action)
 				action.trigger(source, self)
+				self._actionQueue.pop()
+		if not self._actionQueue:
+			self._processDeaths()
 
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
