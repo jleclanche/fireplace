@@ -81,7 +81,7 @@ class GameAction(Action):
 		args = self.get_args(source, game)
 		game.manager.action(self.type, source, *args)
 		self.broadcast(game, EventListener.ON, *args)
-		self.do(source, game)
+		self.do(source, game, *args)
 		self.broadcast(game, EventListener.AFTER, *args)
 		game.manager.action_end(self.type, source, *args)
 
@@ -99,7 +99,7 @@ class Attack(GameAction):
 		self.target.defending = True
 		return ret
 
-	def do(self, source, game):
+	def do(self, source, game, *args):
 		game.proposedAttacker = self.source
 		game.proposedDefender = self.target
 		logging.info("%r attacks %r", self.source, self.target)
@@ -113,7 +113,7 @@ class BeginTurn(GameAction):
 	args = ("player", )
 	type = None
 
-	def do(self, source, game):
+	def do(self, source, game, *args):
 		game._beginTurn(self.player)
 
 
@@ -122,7 +122,7 @@ class Deaths(GameAction):
 	Process all deaths in the PLAY Zone.
 	"""
 
-	def do(self, source, game):
+	def do(self, source, game, *args):
 		game._processDeaths()
 
 
@@ -133,7 +133,7 @@ class EndTurn(GameAction):
 	args = ("player", )
 	type = None
 
-	def do(self, source, game):
+	def do(self, source, game, *args):
 		game._endTurn()
 
 
@@ -148,7 +148,7 @@ class Play(GameAction):
 	def get_args(self, source, game):
 		return (source, ) + self._args
 
-	def do(self, source, game):
+	def do(self, source, game, *args):
 		card = self.card
 		if card.hasTarget():
 			assert self.target
