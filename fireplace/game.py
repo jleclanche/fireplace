@@ -160,6 +160,7 @@ class Game(Entity):
 		self.player1.cardsDrawnThisTurn = 0
 		self.player2.cardsDrawnThisTurn = 0
 		for player in self.players:
+			player.zone = Zone.PLAY
 			player.summon(player.originalDeck.hero)
 			for card in player.originalDeck:
 				card.controller = player

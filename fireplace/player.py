@@ -40,6 +40,7 @@ class Player(Entity):
 		self.timeout = 75
 		self.timesHeroPowerUsedThisGame = 0
 		self.weapon = None
+		self.zone = Zone.INVALID
 
 	def __str__(self):
 		return self.name
