@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .actions import Play, Summon
+from .actions import Draw, Play, Summon
 from .card import BaseCard
 from .deck import Deck
 from .entity import Entity
@@ -118,30 +118,10 @@ class Player(Entity):
 			card.discard()
 
 	def draw(self, count=1):
-		"""
-		Draws \a count card.
-		If \a count is a BaseCard instance, draw that specific card.
-		"""
-		if isinstance(count, BaseCard):
-			card = count
-		elif count > 1:
-			ret = []
-			while count:
-				ret.append(self.draw())
-				count -= 1
-			return ret
-		else:
-			if not self.deck:
-				card = None
-			else:
-				card = self.deck[-1]
-
-		if len(self.hand) == 10:
-			return self.mill()
-
-		self.game.broadcast("DRAW", self, card)
-		logging.info("%s draws %r" % (self, card))
-		return card
+		ret = self.game.queueActions(self, [Draw(self, count)])[0][0]
+		if count == 1:
+			return ret[0]
+		return ret
 
 	def mill(self, count=1):
 		if count == 1:
@@ -222,7 +202,6 @@ class Player(Entity):
 	# Events
 
 	events = [
-		"OWN_DRAW",
 		"OWN_HEAL",
 	]
 
@@ -233,18 +212,6 @@ class Player(Entity):
 				if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
 					f(*args)
 		super().broadcast(event, *args)
-
-	def OWN_DRAW(self, card):
-		if not card:
-			self.fatigue()
-			return
-
-		if len(self.hand) > self.maxHandSize:
-			logging.info("%s overdraws and loses %r!" % (self, card))
-			card.destroy()
-		else:
-			card.zone = Zone.HAND
-			self.cardsDrawnThisTurn += 1 # TODO: Is this increased on fatigue/mill?
 
 	def OWN_HEAL(self, source, target, amount):
 		target.broadcast("SELF_HEAL", source, amount)

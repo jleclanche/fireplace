@@ -235,7 +235,6 @@ class Game(Entity):
 	# Events
 
 	events = [
-		"DRAW",
 		"HEAL",
 	]
 
@@ -247,9 +246,6 @@ class Game(Entity):
 					if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
 						f(*args)
 		super().broadcast(event, *args)
-
-	def DRAW(self, player, card):
-		player.broadcast("OWN_DRAW", card)
 
 	def HEAL(self, source, target, amount):
 		source.controller.broadcast("OWN_HEAL", source, target, amount)
