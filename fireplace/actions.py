@@ -149,7 +149,26 @@ class Play(GameAction):
 		return (source, ) + self._args
 
 	def do(self, source, game):
-		source._play(self.card, self.target, self.choose)
+		card = self.card
+		if card.hasTarget():
+			assert self.target
+		card.target = self.target
+
+		if self.choose:
+			# Choose One cards replace the action on the played card
+			assert self.choose in card.data.chooseCards
+			chosen = game.card(self.choose)
+			chosen.controller = source
+			logging.info("Choose One from %r: %r", card, chosen)
+			if chosen.hasTarget():
+				chosen.target = self.target
+			card.chosen = chosen
+		card.choose = self.choose
+
+		source._play(card)
+
+		card.target = None
+		card.choose = None
 
 
 class TargetedAction(Action):

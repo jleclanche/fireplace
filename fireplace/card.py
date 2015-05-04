@@ -210,6 +210,11 @@ class PlayableCard(BaseCard):
 		if zone == Zone.HAND:
 			self.clearBuffs()
 
+	def summon(self):
+		super().summon()
+		if self.controller.lastCardPlayed is self:
+			self.action()
+
 	def action(self):
 		kwargs = {}
 		if self.target:
@@ -217,12 +222,16 @@ class PlayableCard(BaseCard):
 		elif PlayReq.REQ_TARGET_IF_AVAILABLE in self.requirements:
 			logging.info("%r has no target, action exits early" % (self))
 			return
+
 		if self.hasCombo and self.controller.combo:
 			logging.info("Activating %r combo targeting %r" % (self, self.target))
 			actions = self.data.scripts.combo
 		elif hasattr(self.data.scripts, "action"):
 			logging.info("Activating %r action targeting %r" % (self, self.target))
 			actions = self.data.scripts.action
+		elif self.choose:
+			logging.info("Activating %r Choose One: %r", self, self.chosen)
+			return self.chosen.action()
 		else:
 			return
 

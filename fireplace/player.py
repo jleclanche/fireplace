@@ -196,16 +196,13 @@ class Player(Entity):
 	def play(self, card, target=None, choose=None):
 		return self.game.queueActions(self, [Play(card, target, choose)])
 
-	def _play(self, card, target, choose):
+	def _play(self, card):
 		"""
 		Plays \a card from the player's hand
 		"""
 		logging.info("%s plays %r from their hand" % (self, card))
 		assert card.controller
 		cost = card.cost
-		if card.hasTarget():
-			assert target
-			card.target = target
 		if self.tempMana:
 			# The coin, Innervate etc
 			cost -= self.tempMana
@@ -214,27 +211,9 @@ class Player(Entity):
 		if card.overload:
 			logging.info("%s overloads for %i mana", self, card.overload)
 			self.overloaded += card.overload
-		self.summon(card)
-		# Card must already be on the field for action()
-		if choose:
-			# Choose One cards replace the action on the played card
-			assert choose in card.data.chooseCards
-			chosen = self.game.card(choose)
-			chosen.controller = self
-			logging.info("Choose One from %r: %r", card, chosen)
-			card.action = chosen.action
-			if chosen.hasTarget():
-				chosen.target = target
-			chosen.action()
-			if chosen.target:
-				chosen.target = None
-		else:
-			card.action()
-		if not self.combo:
-			self.combo = True
-		if card.target:
-			card.target = None
 		self.lastCardPlayed = card
+		self.summon(card)
+		self.combo = True
 		self.cardsPlayedThisTurn += 1
 		if card.type == CardType.MINION:
 			self.minionsPlayedThisTurn += 1
