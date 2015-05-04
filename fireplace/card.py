@@ -337,14 +337,6 @@ class PlayableCard(BaseCard):
 		full_board = self.game.board + [self.controller.hero, self.controller.opponent.hero]
 		return [card for card in full_board if targeting.isValidTarget(self, card)]
 
-	def SELF_CARD_DESTROYED(self):
-		if self.deathrattles:
-			logging.info("Triggering Deathrattle for %r" % (self))
-			self.triggerDeathrattles()
-			if self.controller.extraDeathrattles:
-				logging.info("Triggering Deathrattle for %r again", self)
-				self.triggerDeathrattles()
-
 
 class Character(PlayableCard):
 	Manager = CharacterManager

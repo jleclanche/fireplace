@@ -3,7 +3,7 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
-from .actions import Attack, BeginTurn, Deaths, EndTurn, EventListener
+from .actions import Attack, BeginTurn, Death, Deaths, EndTurn, EventListener
 from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, Step, Zone
@@ -108,10 +108,16 @@ class Game(Entity):
 		return self.queueActions(self, [Deaths()])
 
 	def _processDeaths(self):
+		actions = []
 		for card in self.liveEntities:
 			if card.toBeDestroyed:
-				card.zone = Zone.GRAVEYARD
 				self.broadcast("CARD_DESTROYED", card)
+				actions.append(Death(card))
+				if card.type == CardType.MINION:
+					self.minionsKilledThisTurn += 1
+					card.controller.minionsKilledThisTurn += 1
+		if actions:
+			self.queueActions(self, actions)
 
 	def queueActions(self, source, actions):
 		"""

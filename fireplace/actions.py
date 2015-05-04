@@ -129,6 +129,21 @@ class Deaths(GameAction):
 		game._processDeaths()
 
 
+class Death(GameAction):
+	"""
+	Move target to the GRAVEYARD Zone.
+	"""
+
+	def do(self, source, game, target):
+		target.zone = Zone.GRAVEYARD
+		if target.deathrattles:
+			logging.info("Triggering Deathrattle for %r", target)
+			target.triggerDeathrattles()
+			if target.controller.extraDeathrattles:
+				logging.info("Triggering Deathrattle for %r again", target)
+				target.triggerDeathrattles()
+
+
 class EndTurn(GameAction):
 	"""
 	End the current turn
