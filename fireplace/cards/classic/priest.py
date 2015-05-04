@@ -14,14 +14,16 @@ class CS1h_001:
 
 # Northshire Cleric
 class CS2_235:
-	def HEAL(self, source, target, amount):
-		if target.type == CardType.MINION:
-			return [Draw(CONTROLLER)]
+	events = [
+		Heal(FRIENDLY_MINIONS).on(Draw(CONTROLLER))
+	]
 
 
 # Lightwarden
 class EX1_001:
-	HEAL = [Buff(SELF, "EX1_001e")]
+	events = [
+		Heal().on(Buff(SELF, "EX1_001e"))
+	]
 
 
 # Cabal Shadow Priest

@@ -28,7 +28,9 @@ class GVG_014a:
 
 # Shadowboxer
 class GVG_072:
-	HEAL = [Hit(RANDOM_ENEMY_CHARACTER, 1)]
+	events = [
+		Heal().on(Hit(RANDOM_ENEMY_CHARACTER, 1))
+	]
 
 
 # Upgraded Repair Bot
