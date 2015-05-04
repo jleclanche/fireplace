@@ -19,7 +19,7 @@ class GVG_032a:
 
 # Gift of Cards (Grove Tender)
 class GVG_032b:
-	action = [Draw(ALL_PLAYERS, 1)]
+	action = [Draw(ALL_PLAYERS)]
 
 
 # Druid of the Fang

@@ -13,7 +13,7 @@ class GVG_074:
 class GVG_094:
 	events = [
 		TURN_END.on(
-			lambda self, player: [Draw(player, max(0, 3 - len(player.hand)))]
+			lambda self, player: [Draw(player) * max(0, 3 - len(player.hand))]
 		)
 	]
 

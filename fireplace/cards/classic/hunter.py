@@ -15,7 +15,7 @@ class DS1h_292:
 # Starving Buzzard
 class CS2_237:
 	events = [
-		Summon(CONTROLLER, BEAST).on(Draw(CONTROLLER, 1))
+		Summon(CONTROLLER, BEAST).on(Draw(CONTROLLER))
 	]
 
 
@@ -79,7 +79,7 @@ class EX1_544:
 	action = [
 		SetTag(ALL_MINIONS, {GameTag.STEALTH: False}),
 		Destroy(ENEMY_SECRETS),
-		Draw(CONTROLLER, 1),
+		Draw(CONTROLLER),
 	]
 
 

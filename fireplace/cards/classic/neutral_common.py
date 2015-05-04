@@ -19,7 +19,7 @@ class EX1_011:
 
 # Novice Engineer
 class EX1_015:
-	action = [Draw(CONTROLLER, 1)]
+	action = [Draw(CONTROLLER)]
 
 
 # Mad Bomber
@@ -54,7 +54,7 @@ class EX1_593:
 # Cult Master
 class EX1_595:
 	events = [
-		Death(FRIENDLY + MINION).on(Draw(CONTROLLER, 1))
+		Death(FRIENDLY + MINION).on(Draw(CONTROLLER))
 	]
 
 
@@ -78,7 +78,7 @@ class CS2_146:
 
 # Gnomish Inventor
 class CS2_147:
-	action = [Draw(CONTROLLER, 1)]
+	action = [Draw(CONTROLLER)]
 
 
 # Stormpike Commando
@@ -114,7 +114,7 @@ class DS1_055:
 # Acolyte of Pain
 class EX1_007:
 	events = [
-		Damage(SELF).on(Draw(CONTROLLER, 1))
+		Damage(SELF).on(Draw(CONTROLLER))
 	]
 
 
@@ -160,7 +160,7 @@ class EX1_066:
 
 # Loot Hoarder
 class EX1_096:
-	deathrattle = [Draw(CONTROLLER, 1)]
+	deathrattle = [Draw(CONTROLLER)]
 
 
 # Frost Elemental

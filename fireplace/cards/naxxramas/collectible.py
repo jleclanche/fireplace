@@ -91,7 +91,7 @@ class FP1_028:
 
 # Dancing Swords
 class FP1_029:
-	deathrattle = [Draw(OPPONENT, 1)]
+	deathrattle = [Draw(OPPONENT)]
 
 
 # Loatheb

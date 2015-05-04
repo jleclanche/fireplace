@@ -16,7 +16,7 @@ class CS1h_001:
 class CS2_235:
 	def HEAL(self, source, target, amount):
 		if target.type == CardType.MINION:
-			return [Draw(CONTROLLER, 1)]
+			return [Draw(CONTROLLER)]
 
 
 # Lightwarden
@@ -51,7 +51,7 @@ class EX1_623:
 
 # Power Word: Shield
 class CS2_004:
-	action = [Buff(TARGET, "CS2_004e"), Draw(CONTROLLER, 1)]
+	action = [Buff(TARGET, "CS2_004e"), Draw(CONTROLLER)]
 
 
 # Holy Nova
@@ -178,4 +178,4 @@ class EX1_625t2:
 
 # Mass Dispel
 class EX1_626:
-	action = [Silence(ENEMY_MINIONS), Draw(CONTROLLER, 1)]
+	action = [Silence(ENEMY_MINIONS), Draw(CONTROLLER)]

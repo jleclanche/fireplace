@@ -50,7 +50,7 @@ class EX1_573b:
 
 # Ancient Teachings (Ancient of Lore)
 class NEW1_008a:
-	action = [Draw(CONTROLLER, 2)]
+	action = [Draw(CONTROLLER) * 2]
 
 # Ancient Secrets (Ancient of Lore)
 class NEW1_008b:
@@ -99,7 +99,7 @@ class CS2_013:
 			return [Give(CONTROLLER, "CS2_013t")]
 
 class CS2_013t:
-	action = [Draw(CONTROLLER, 1)]
+	action = [Draw(CONTROLLER)]
 
 
 # Wrath (3 Damage)
@@ -108,7 +108,7 @@ class EX1_154a:
 
 # Wrath (1 Damage)
 class EX1_154b:
-	action = [Hit(TARGET, 1), Draw(CONTROLLER, 1)]
+	action = [Hit(TARGET, 1), Draw(CONTROLLER)]
 
 
 # Mark of Nature (Attack)
@@ -139,7 +139,7 @@ class EX1_160b:
 
 # Naturalize
 class EX1_161:
-	action = [Destroy(TARGET), Draw(OPPONENT, 2)]
+	action = [Destroy(TARGET), Draw(OPPONENT) * 2]
 
 
 # Nourish (Gain 2 Mana Crystals)
@@ -148,7 +148,7 @@ class EX1_164a:
 
 # Nourish (Draw 3 cards)
 class EX1_164b:
-	action = [Draw(CONTROLLER, 3)]
+	action = [Draw(CONTROLLER) * 3]
 
 
 # Innervate
@@ -158,7 +158,7 @@ class EX1_169:
 
 # Starfire
 class EX1_173:
-	action = [Hit(TARGET, 5), Draw(CONTROLLER, 1)]
+	action = [Hit(TARGET, 5), Draw(CONTROLLER)]
 
 
 # Bite

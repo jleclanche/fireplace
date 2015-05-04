@@ -8,7 +8,7 @@ class EX1_002:
 
 # Bloodmage Thalnos
 class EX1_012:
-	deathrattle = [Draw(CONTROLLER, 1)]
+	deathrattle = [Draw(CONTROLLER)]
 
 
 # King Mukla
@@ -62,7 +62,7 @@ class EX1_112:
 # Homing Chicken
 class Mekka1:
 	events = [
-		OWN_TURN_BEGIN.on(Destroy(SELF), Draw(CONTROLLER, 3))
+		OWN_TURN_BEGIN.on(Destroy(SELF), Draw(CONTROLLER) * 3)
 	]
 
 # Repair Bot
@@ -107,7 +107,7 @@ class EX1_298:
 class EX1_557:
 	events = [
 		OWN_TURN_BEGIN.on(
-			lambda self, player: random.randint(0, 1) and [Draw(CONTROLLER, 1)] or []
+			lambda self, player: random.randint(0, 1) and [Draw(CONTROLLER)] or []
 		)
 	]
 
@@ -117,7 +117,7 @@ class EX1_558:
 	def action(self):
 		weapon = self.controller.opponent.weapon
 		if weapon:
-			return [Draw(CONTROLLER, weapon.durability), Destroy(ENEMY_WEAPON)]
+			return [Draw(CONTROLLER) * weapon.durability, Destroy(ENEMY_WEAPON)]
 
 
 # Ysera
@@ -213,7 +213,7 @@ class PRO_001a:
 
 # Rogues Do It...
 class PRO_001b:
-	action = [Hit(TARGET, 4), Draw(CONTROLLER, 1)]
+	action = [Hit(TARGET, 4), Draw(CONTROLLER)]
 
 
 # Power of the Horde

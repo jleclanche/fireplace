@@ -118,7 +118,7 @@ class Player(Entity):
 			card.discard()
 
 	def draw(self, count=1):
-		ret = self.game.queueActions(self, [Draw(self, count)])[0][0]
+		ret = self.game.queueActions(self, [Draw(self) * count])[0]
 		if count == 1:
 			return ret[0]
 		return ret

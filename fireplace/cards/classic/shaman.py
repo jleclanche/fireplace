@@ -38,7 +38,7 @@ class EX1_258:
 # Mana Tide Totem
 class EX1_575:
 	events = [
-		OWN_TURN_END.on(Draw(CONTROLLER, 1))
+		OWN_TURN_END.on(Draw(CONTROLLER))
 	]
 
 

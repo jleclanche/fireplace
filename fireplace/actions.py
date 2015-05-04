@@ -289,24 +289,20 @@ class Draw(TargetedAction):
 	args = ("targets", "count")
 
 	def do(self, source, game, target):
-		ret = []
-		for i in range(self.count):
-			if not target.deck:
-				target.fatigue()
-				ret.append(None)
-				continue
-			card = target.deck[-1]
+		if not target.deck:
+			target.fatigue()
+			return None
+		card = target.deck[-1]
 
-			if len(target.hand) >= target.maxHandSize:
-				logging.info("%s overdraws and loses %r!", target, card)
-				card.destroy()
-			else:
-				logging.info("%s draws %r", target, card)
-				card.zone = Zone.HAND
-				target.cardsDrawnThisTurn += 1
-			ret.append(card)
+		if len(target.hand) >= target.maxHandSize:
+			logging.info("%s overdraws and loses %r!", target, card)
+			card.destroy()
+		else:
+			logging.info("%s draws %r", target, card)
+			card.zone = Zone.HAND
+			target.cardsDrawnThisTurn += 1
 
-		return ret
+		return card
 
 
 class ForceDraw(TargetedAction):

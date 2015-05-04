@@ -70,7 +70,7 @@ class CS2_076:
 
 # Sprint
 class CS2_077:
-	action = [Draw(CONTROLLER, 4)]
+	action = [Draw(CONTROLLER) * 4]
 
 
 # Blade Flurry
@@ -103,7 +103,7 @@ class EX1_128e:
 
 # Fan of Knives
 class EX1_129:
-	action = [Hit(ENEMY_MINIONS, 1), Draw(CONTROLLER, 1)]
+	action = [Hit(ENEMY_MINIONS, 1), Draw(CONTROLLER)]
 
 
 # Headcrack
@@ -131,7 +131,7 @@ class EX1_145o:
 
 # Shiv
 class EX1_278:
-	action = [Hit(TARGET, 1), Draw(CONTROLLER, 1)]
+	action = [Hit(TARGET, 1), Draw(CONTROLLER)]
 
 
 # Sap

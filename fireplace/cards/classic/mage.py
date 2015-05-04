@@ -62,7 +62,7 @@ class CS2_022:
 
 # Arcane Intellect
 class CS2_023:
-	action = [Draw(CONTROLLER, 2)]
+	action = [Draw(CONTROLLER) * 2]
 
 
 # Frostbolt

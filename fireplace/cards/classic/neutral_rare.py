@@ -35,7 +35,7 @@ class EX1_044:
 
 # Coldlight Oracle
 class EX1_050:
-	action = [Draw(ALL_PLAYERS, 2)]
+	action = [Draw(ALL_PLAYERS) * 2]
 
 
 # Mana Addict
@@ -90,7 +90,7 @@ class EX1_093:
 # Gadgetzan Auctioneer
 class EX1_095:
 	events = [
-		OWN_SPELL_PLAY.on(Draw(CONTROLLER, 1))
+		OWN_SPELL_PLAY.on(Draw(CONTROLLER))
 	]
 
 
@@ -106,7 +106,7 @@ class EX1_103:
 
 # Azure Drake
 class EX1_284:
-	action = [Draw(CONTROLLER, 1)]
+	action = [Draw(CONTROLLER)]
 
 
 # Murloc Tidecaller

@@ -6,7 +6,7 @@ from ..utils import *
 
 # Life Tap
 class CS2_056:
-	activate = [Hit(FRIENDLY_HERO, 2), Draw(CONTROLLER, 1)]
+	activate = [Hit(FRIENDLY_HERO, 2), Draw(CONTROLLER)]
 
 
 ##
@@ -114,7 +114,7 @@ class EX1_302:
 	def action(self, target):
 		yield Hit(TARGET, 1)
 		if target.dead:
-			yield Draw(CONTROLLER, 1)
+			yield Draw(CONTROLLER)
 
 
 # Shadowflame
@@ -166,7 +166,6 @@ class EX1_320:
 		if target.dead:
 			choice = randomCollectible(type=CardType.MINION, race=Race.DEMON)
 			yield Summon(CONTROLLER, choice)
-			yield Draw(CONTROLLER, 1)
 
 
 # Demonfire

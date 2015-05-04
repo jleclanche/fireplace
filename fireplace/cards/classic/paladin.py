@@ -60,19 +60,19 @@ class CS2_093:
 
 # Hammer of Wrath
 class CS2_094:
-	action = [Hit(TARGET, 3), Draw(CONTROLLER, 1)]
+	action = [Hit(TARGET, 3), Draw(CONTROLLER)]
 
 
 # Divine Favor
 class EX1_349:
 	def action(self):
 		diff = len(self.controller.opponent.hand) - len(self.controller.hand)
-		return [Draw(CONTROLLER, max(0, diff))]
+		return [Draw(CONTROLLER) * max(0, diff)]
 
 
 # Lay on Hands
 class EX1_354:
-	action = [Heal(TARGET, 8), Draw(CONTROLLER, 3)]
+	action = [Heal(TARGET, 8), Draw(CONTROLLER) * 3]
 
 
 # Blessed Champion
@@ -97,7 +97,7 @@ class EX1_363:
 
 class EX1_363e:
 	events = [
-		Attack(OWNER).on(Draw(CONTROLLER, 1))
+		Attack(OWNER).on(Draw(CONTROLLER))
 	]
 
 

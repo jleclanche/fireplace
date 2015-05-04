@@ -14,7 +14,7 @@ class GVG_039:
 # Siltfin Spiritwalker
 class GVG_040:
 	events = [
-		Death(FRIENDLY + MURLOC).on(Draw(CONTROLLER, 1))
+		Death(FRIENDLY + MURLOC).on(Draw(CONTROLLER))
 	]
 
 

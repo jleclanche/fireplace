@@ -84,7 +84,7 @@ class XXX_016:
 
 # Draw 3 Cards
 class XXX_017:
-	action = [Draw(CONTROLLER, 3)]
+	action = [Draw(CONTROLLER) * 3]
 
 
 # Destroy All Minions

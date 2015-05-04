@@ -64,14 +64,14 @@ class EX1_391:
 	def action(self, target):
 		yield Hit(TARGET, 2)
 		if not target.dead:
-			yield Draw(CONTROLLER, 1)
+			yield Draw(CONTROLLER)
 
 
 # Battle Rage
 class EX1_392:
 	def action(self):
 		count = len(t for t in self.controller.characters if t.damage)
-		return [Draw(CONTROLLER, count)]
+		return [Draw(CONTROLLER) * count]
 
 
 # Whirlwind
@@ -110,7 +110,7 @@ class EX1_410:
 
 # Shield Block
 class EX1_606:
-	action = [GainArmor(FRIENDLY_HERO, 5), Draw(CONTROLLER, 1)]
+	action = [GainArmor(FRIENDLY_HERO, 5), Draw(CONTROLLER)]
 
 
 # Inner Rage
