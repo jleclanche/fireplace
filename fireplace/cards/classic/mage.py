@@ -82,7 +82,7 @@ class CS2_026:
 
 # Mirror Image
 class CS2_027:
-	action = [Summon(CONTROLLER, "CS2_mirror"), Summon(CONTROLLER, "CS2_mirror")]
+	action = [Summon(CONTROLLER, "CS2_mirror") * 2]
 
 
 # Blizzard
