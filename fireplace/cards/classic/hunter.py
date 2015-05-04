@@ -26,9 +26,9 @@ class DS1_070:
 
 # Scavenging Hyena
 class EX1_531:
-	def OWN_MINION_DESTROY(self, minion):
-		if minion.race == Race.BEAST:
-			return [Buff(SELF, "EX1_531e")]
+	events = [
+		Death(FRIENDLY + BEAST).on(Buff(SELF, "EX1_531e"))
+	]
 
 
 # Savannah Highmane

@@ -20,9 +20,9 @@ class GVG_062:
 
 # Bolvar Fordragon
 class GVG_063:
-	@hand
-	def OWN_MINION_DESTROY(self, minion):
-		return [Buff(SELF, "GVG_063a")]
+	events = [
+		Death(FRIENDLY + MINION).on(Buff(SELF, "GVG_063a"), zone=Zone.HAND)
+	]
 
 
 # Scarlet Purifier

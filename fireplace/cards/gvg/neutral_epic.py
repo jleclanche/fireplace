@@ -21,9 +21,9 @@ class GVG_105:
 
 # Junkbot
 class GVG_106:
-	def OWN_MINION_DESTROY(self, minion):
-		if minion.race == Race.MECHANICAL:
-			return [Buff(SELF, "GVG_106e")]
+	events = [
+		Death(FRIENDLY + MECH).on(Buff(SELF, "GVG_106e"))
+	]
 
 
 # Enhance-o Mechano

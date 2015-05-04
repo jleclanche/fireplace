@@ -29,9 +29,9 @@ class GVG_115:
 
 # Mekgineer Thermaplugg
 class GVG_116:
-	def MINION_DESTROY(self, minion):
-		if minion.controller is not self.controller:
-			return [Summon(CONTROLLER, "EX1_029")]
+	events = [
+		Death(ENEMY + MINION).on(Summon(CONTROLLER, "EX1_029"))
+	]
 
 
 # Gazlowe

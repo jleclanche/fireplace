@@ -123,8 +123,6 @@ class BaseCard(Entity):
 	# Events
 
 	events = [
-		"SELF_CARD_DESTROYED",
-		"MINION_DESTROY", "OWN_MINION_DESTROY",
 		"HEAL", "OWN_HEAL", "SELF_HEAL",
 	]
 

@@ -111,7 +111,6 @@ class Game(Entity):
 		actions = []
 		for card in self.liveEntities:
 			if card.toBeDestroyed:
-				self.broadcast("CARD_DESTROYED", card)
 				actions.append(Death(card))
 				if card.type == CardType.MINION:
 					self.minionsKilledThisTurn += 1
@@ -235,7 +234,6 @@ class Game(Entity):
 	events = [
 		"DRAW",
 		"HEAL",
-		"CARD_DESTROYED", "MINION_DESTROY",
 	]
 
 	def broadcast(self, event, *args):
@@ -252,13 +250,3 @@ class Game(Entity):
 
 	def HEAL(self, source, target, amount):
 		source.controller.broadcast("OWN_HEAL", source, target, amount)
-
-	def MINION_DESTROY(self, minion):
-		minion.controller.broadcast("OWN_MINION_DESTROY", minion)
-		self.minionsKilledThisTurn += 1
-
-	def CARD_DESTROYED(self, card):
-		card.controller.broadcast("OWN_CARD_DESTROYED", card)
-		card.broadcast("SELF_CARD_DESTROYED")
-		if card.type == CardType.MINION:
-			self.broadcast("MINION_DESTROY", card)

@@ -13,9 +13,9 @@ class GVG_039:
 
 # Siltfin Spiritwalker
 class GVG_040:
-	def OWN_MINION_DESTROY(self, minion):
-		if minion.race == Race.MURLOC:
-			return [Draw(CONTROLLER, 1)]
+	events = [
+		Death(FRIENDLY + MURLOC).on(Draw(CONTROLLER, 1))
+	]
 
 
 # Neptulon

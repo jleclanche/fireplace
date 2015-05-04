@@ -224,7 +224,6 @@ class Player(Entity):
 	events = [
 		"OWN_DRAW",
 		"OWN_HEAL",
-		"OWN_MINION_DESTROY",
 	]
 
 	def broadcast(self, event, *args):
@@ -249,6 +248,3 @@ class Player(Entity):
 
 	def OWN_HEAL(self, source, target, amount):
 		target.broadcast("SELF_HEAL", source, amount)
-
-	def OWN_MINION_DESTROY(self, minion):
-		self.minionsKilledThisTurn += 1

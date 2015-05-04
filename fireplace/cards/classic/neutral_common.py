@@ -53,7 +53,9 @@ class EX1_593:
 
 # Cult Master
 class EX1_595:
-	OWN_MINION_DESTROY = [Draw(CONTROLLER, 1)]
+	events = [
+		Death(FRIENDLY + MINION).on(Draw(CONTROLLER, 1))
+	]
 
 
 ##
@@ -199,4 +201,6 @@ class NEW1_022:
 
 # Flesheating Ghoul
 class tt_004:
-	MINION_DESTROY = [Buff(SELF, "tt_004o")]
+	events = [
+		Death(MINION).on(Buff(SELF, "tt_004o"))
+	]
