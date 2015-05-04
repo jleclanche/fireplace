@@ -1,6 +1,7 @@
 import logging
 import random
-from .enums import CardType, PowSubType, Step
+from itertools import chain
+from .enums import CardType, PowSubType, Step, Zone
 from .entity import Entity
 
 
@@ -8,11 +9,12 @@ class EventListener:
 	ON = 1
 	AFTER = 2
 
-	def __init__(self, trigger, actions, at, once=False):
+	def __init__(self, trigger, actions, at, zone=Zone.PLAY, once=False):
 		self.trigger = trigger
 		self.actions = actions
 		self.at = at
 		self.once = once
+		self.zone = zone
 
 	def __repr__(self):
 		return "<EventListener %r>" % (self.trigger)
@@ -36,18 +38,20 @@ class Action: # Lawsuit
 		self.times *= value
 		return self
 
-	def after(self, *actions):
-		return EventListener(self, actions, EventListener.AFTER)
+	def after(self, *actions, zone=Zone.PLAY):
+		return EventListener(self, actions, EventListener.AFTER, zone=zone)
 
-	def on(self, *actions):
-		return EventListener(self, actions, EventListener.ON)
+	def on(self, *actions, zone=Zone.PLAY):
+		return EventListener(self, actions, EventListener.ON, zone=zone)
 
-	def once(self, *actions):
-		return EventListener(self, actions, EventListener.ON, once=True)
+	def once(self, *actions, zone=Zone.PLAY):
+		return EventListener(self, actions, EventListener.ON, zone=zone, once=True)
 
 	def broadcast(self, game, at, *args):
-		for entity in game.entities:
+		for entity in chain(game.hands, game.entities):
 			for event in entity._events:
+				if event.zone != entity.zone:
+					continue
 				if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
 					actions = []
 					for action in event.actions:

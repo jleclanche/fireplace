@@ -131,7 +131,7 @@ class EX1_279:
 # Ice Barrier
 class EX1_289:
 	events = [
-		Attack(CHARACTER, FRIENDLY_HERO).on(GainArmor(FRIENDLY_HERO, 8), Reveal(SELF))
+		Attack(CHARACTER, FRIENDLY_HERO).on(GainArmor(FRIENDLY_HERO, 8), Reveal(SELF), zone=Zone.SECRET)
 	]
 
 
@@ -139,6 +139,6 @@ class EX1_289:
 class EX1_594:
 	events = [
 		Attack(MINION, FRIENDLY_HERO).on(
-			lambda self, source, target: [Destroy(source), Reveal(SELF)]
-		)
+			lambda self, source, target: [Destroy(source), Reveal(SELF)],
+		zone=Zone.SECRET)
 	]

@@ -92,8 +92,8 @@ class EX1_549:
 class EX1_611:
 	events = [
 		Attack(ENEMY_MINIONS).on(
-			lambda self, source, target: [Bounce(source), Buff(source, "EX1_611e"), Reveal(SELF)]
-		)
+			lambda self, source, target: [Bounce(source), Buff(source, "EX1_611e"), Reveal(SELF)],
+		zone=Zone.SECRET)
 	]
 
 class EX1_611e:
