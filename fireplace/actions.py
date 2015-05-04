@@ -84,7 +84,6 @@ class GameAction(Action):
 	def trigger(self, source, game):
 		args = self.get_args(source, game)
 		game.manager.action(self.type, source, *args)
-		self.broadcast(game, EventListener.ON, *args)
 		self.do(source, game, *args)
 		game.manager.action_end(self.type, source, *args)
 
@@ -106,6 +105,7 @@ class Attack(GameAction):
 		game.proposedAttacker = self.source
 		game.proposedDefender = self.target
 		logging.info("%r attacks %r", self.source, self.target)
+		self.broadcast(game, EventListener.ON, *args)
 		game._attack()
 
 
@@ -117,6 +117,7 @@ class BeginTurn(GameAction):
 	type = None
 
 	def do(self, source, game, *args):
+		self.broadcast(game, EventListener.ON, self.player)
 		game._beginTurn(self.player)
 
 
@@ -136,6 +137,7 @@ class Death(GameAction):
 
 	def do(self, source, game, target):
 		target.zone = Zone.GRAVEYARD
+		self.broadcast(game, EventListener.ON, target)
 		if target.deathrattles:
 			logging.info("Triggering Deathrattle for %r", target)
 			target.triggerDeathrattles()
@@ -152,6 +154,7 @@ class EndTurn(GameAction):
 	type = None
 
 	def do(self, source, game, *args):
+		self.broadcast(game, EventListener.ON, self.player)
 		game._endTurn()
 
 
@@ -183,6 +186,7 @@ class Play(GameAction):
 			card.chosen = chosen
 		card.choose = self.choose
 
+		self.broadcast(game, EventListener.ON, *args)
 		source._play(card)
 		self.broadcast(game, EventListener.AFTER, *args)
 
@@ -227,7 +231,6 @@ class TargetedAction(Action):
 			logging.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
 				extra_args = self.get_args(source, game, target)
-				self.broadcast(game, EventListener.ON, *extra_args)
 				self.do(source, game, *extra_args)
 			game.manager.action_end(self.type, source, targets, *self._args)
 
@@ -256,11 +259,9 @@ class Damage(TargetedAction):
 	"""
 	args = ("targets", "amount")
 
-	def get_args(self, source, game, target):
-		return (target, self.amount, source)
-
 	def do(self, source, game, target, *args):
 		target._hit(source, self.amount)
+		self.broadcast(game, EventListener.ON, target, self.amount, source)
 
 
 class Destroy(TargetedAction):
@@ -328,6 +329,7 @@ class GainArmor(TargetedAction):
 
 	def do(self, source, game, target):
 		target.armor += self.amount
+		self.broadcast(game, EventListener.ON, target, self.amount)
 
 
 class GainMana(TargetedAction):
@@ -386,6 +388,7 @@ class Heal(TargetedAction):
 
 	def do(self, source, game, target):
 		source.heal(target, self.amount)
+		self.broadcast(game, EventListener.ON, target, self.amount)
 
 
 class ManaThisTurn(TargetedAction):
@@ -442,6 +445,7 @@ class Reveal(TargetedAction):
 	"""
 	def do(self, source, game, target):
 		logging.info("Revealing secret %r", target)
+		self.broadcast(game, EventListener.ON, target)
 		target.destroy()
 
 
@@ -481,6 +485,7 @@ class Summon(TargetedAction):
 
 	def do(self, source, game, target, card):
 		logging.info("%s summons %r", target, card)
+		self.broadcast(game, EventListener.ON, target, card)
 		card.summon()
 		self.broadcast(game, EventListener.AFTER, target, card)
 
