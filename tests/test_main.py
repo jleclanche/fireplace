@@ -1958,6 +1958,23 @@ def test_hunters_mark():
 	assert token.health == 3
 
 
+def test_knife_juggler():
+	game = prepare_game()
+	juggler = game.player1.give("NEW1_019")
+	game.endTurn(); game.endTurn()
+
+	juggler.play()
+	assert game.player2.hero.health == 30
+	game.player1.give(WISP).play()
+	assert game.player2.hero.health == 29
+	game.player1.give(MOONFIRE).play(target=juggler)
+	# kill juggler with archer, shouldnt juggle
+	archer = game.currentPlayer.give("CS2_189")
+	archer.play(target=juggler)
+	assert juggler.dead
+	assert game.player2.hero.health == 29
+
+
 def test_mark_of_nature():
 	game = prepare_game()
 	mark1 = game.currentPlayer.give("EX1_155")

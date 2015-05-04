@@ -238,6 +238,9 @@ class PlayableCard(BaseCard):
 
 		if actions:
 			self.game.queueActions(self, actions)
+			# Hard-process deaths after a battlecry.
+			# cf. test_knife_juggler()
+			self.game._processDeaths()
 
 	def clearBuffs(self):
 		if self.buffs:
