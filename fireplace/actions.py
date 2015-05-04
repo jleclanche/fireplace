@@ -82,7 +82,6 @@ class GameAction(Action):
 		game.manager.action(self.type, source, *args)
 		self.broadcast(game, EventListener.ON, *args)
 		self.do(source, game, *args)
-		self.broadcast(game, EventListener.AFTER, *args)
 		game.manager.action_end(self.type, source, *args)
 
 
@@ -166,6 +165,7 @@ class Play(GameAction):
 		card.choose = self.choose
 
 		source._play(card)
+		self.broadcast(game, EventListener.AFTER, *args)
 
 		card.target = None
 		card.choose = None
@@ -210,7 +210,6 @@ class TargetedAction(Action):
 				extra_args = self.get_args(source, game, target)
 				self.broadcast(game, EventListener.ON, *extra_args)
 				self.do(source, game, *extra_args)
-				self.broadcast(game, EventListener.AFTER, *extra_args)
 			game.manager.action_end(self.type, source, targets, *self._args)
 
 
@@ -464,6 +463,7 @@ class Summon(TargetedAction):
 	def do(self, source, game, target, card):
 		logging.info("%s summons %r", target, card)
 		card.summon()
+		self.broadcast(game, EventListener.AFTER, target, card)
 
 
 class Swap(TargetedAction):
