@@ -2,7 +2,7 @@ import json
 import logging
 from itertools import chain
 from . import cards as CardDB, targeting
-from .actions import Damage, Destroy
+from .actions import Damage, Destroy, Heal
 from .exceptions import *
 from .entity import Entity, booleanProperty, intProperty
 from .enums import AuraType, CardClass, CardType, PlayReq, Race, Rarity, Zone
@@ -271,13 +271,7 @@ class PlayableCard(BaseCard):
 		self.zone = Zone.GRAVEYARD
 
 	def heal(self, target, amount):
-		logging.info("%r heals %r for %i" % (self, target, amount))
-		if self.controller.outgoingHealingAdjustment:
-			# "healing as damage" (hack-ish)
-			return self.hit(target, amount)
-		elif target.damage:
-			# Note that undamaged targets do not receive heals
-			self.game.broadcast("HEAL", self, target, amount)
+		return self.game.queueActions(self, [Heal(target, amount)])
 
 	def hit(self, target, amount):
 		if getattr(target, "immune", False):
@@ -441,9 +435,6 @@ class Character(PlayableCard):
 		if self.zone == Zone.PLAY:
 			return self.attackTargets
 		return super().targets
-
-	def SELF_HEAL(self, source, amount):
-		self.damage -= amount
 
 
 class Hero(Character):

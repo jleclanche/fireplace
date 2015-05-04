@@ -402,8 +402,16 @@ class Heal(TargetedAction):
 	args = ("targets", "amount")
 
 	def do(self, source, game, target):
-		source.heal(target, self.amount)
-		self.broadcast(game, EventListener.ON, target, self.amount)
+		if source.controller.outgoingHealingAdjustment:
+			# "healing as damage" (hack-ish)
+			return source.hit(target, self.amount)
+
+		amount = min(self.amount, target.damage)
+		if amount:
+			# Undamaged targets do not receive heals
+			logging.info("%r heals %r for %i", source, target, amount)
+			target.damage -= amount
+			self.broadcast(game, EventListener.ON, target, amount)
 
 
 class ManaThisTurn(TargetedAction):
