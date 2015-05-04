@@ -224,6 +224,7 @@ class TargetedAction(Action):
 		return ret
 
 	def trigger(self, source, game):
+		ret = []
 		for i in range(self.times):
 			args = self.evaluate_selectors(source, game)
 			targets = args[0]
@@ -231,8 +232,9 @@ class TargetedAction(Action):
 			logging.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
 				extra_args = self.get_args(source, game, target)
-				self.do(source, game, *extra_args)
+				ret.append(self.do(source, game, *extra_args))
 			game.manager.action_end(self.type, source, targets, *self._args)
+		return ret
 
 
 class Buff(TargetedAction):

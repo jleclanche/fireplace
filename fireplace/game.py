@@ -122,17 +122,20 @@ class Game(Entity):
 		"""
 		Queue a list of \a actions for processing from \a source.
 		"""
+		ret = []
 		for action in actions:
 			if isinstance(action, EventListener):
 				logging.debug("Registering %r on %r", action, self)
 				source.controller._events.append(action)
 			else:
 				self._actionQueue.append(action)
-				action.trigger(source, self)
+				ret.append(action.trigger(source, self))
 				self.refreshAuras()
 				self._actionQueue.pop()
 		if not self._actionQueue:
 			self._processDeaths()
+
+		return ret
 
 	def tossCoin(self):
 		outcome = random.randint(0, 1)
