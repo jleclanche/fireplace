@@ -230,22 +230,3 @@ class Game(Entity):
 			player.hero.power.exhausted = False
 
 		player.draw()
-
-	##
-	# Events
-
-	events = [
-		"HEAL",
-	]
-
-	def broadcast(self, event, *args):
-		# Broadcast things to the players' hands if requested
-		for player in self.players:
-			for entity in player.hand:
-				for f in entity._eventListeners.get(event, []):
-					if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
-						f(*args)
-		super().broadcast(event, *args)
-
-	def HEAL(self, source, target, amount):
-		source.controller.broadcast("OWN_HEAL", source, target, amount)

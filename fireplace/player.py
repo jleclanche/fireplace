@@ -197,21 +197,3 @@ class Player(Entity):
 		self.cardsPlayedThisTurn += 1
 		if card.type == CardType.MINION:
 			self.minionsPlayedThisTurn += 1
-
-	##
-	# Events
-
-	events = [
-		"OWN_HEAL",
-	]
-
-	def broadcast(self, event, *args):
-		# Broadcast things to the hand if requested
-		for entity in self.hand:
-			for f in entity._eventListeners.get(event, []):
-				if getattr(f, "zone", Zone.PLAY) == Zone.HAND:
-					f(*args)
-		super().broadcast(event, *args)
-
-	def OWN_HEAL(self, source, target, amount):
-		target.broadcast("SELF_HEAL", source, amount)

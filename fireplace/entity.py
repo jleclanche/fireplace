@@ -4,44 +4,12 @@ from .enums import Zone
 
 class Entity(object):
 	def __init__(self):
-		# Register the events
-		self._registerEvents()
 		self.manager = self.Manager(self)
 		self.tags = self.manager
 		self.uuid = uuid.uuid4()
 
-	def _registerEvents(self):
-		self._eventListeners = {}
-		for event in self.events:
-			func = getattr(self, event, None)
-			if func:
-				self.register(event, func)
-
 		scripts = getattr(self.data, "scripts", None)
 		self._events = getattr(scripts, "events", [])[:]
-
-	def broadcast(self, event, *args):
-		for entity in self.entities:
-			for f in entity._eventListeners.get(event, []):
-				if getattr(f, "zone", Zone.PLAY) == Zone.PLAY:
-					f(*args)
-
-				# clear out one-shot events
-				if getattr(f, "once", False):
-					entity._eventListeners[event].remove(f)
-
-	def register(self, event, callback, once=False):
-		"""
-		Register \a callback with \a event.
-		If \a once is True, the callback will unregister when fired.
-		"""
-		if not event in self._eventListeners:
-			self._eventListeners[event] = []
-
-		if once:
-			callback.once = True
-
-		self._eventListeners[event].append(callback)
 
 	def _getattr(self, attr, i):
 		i += getattr(self, "_" + attr, 0)

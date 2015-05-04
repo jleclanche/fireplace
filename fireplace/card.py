@@ -49,25 +49,6 @@ class BaseCard(Entity):
 		self.spellpower = 0
 		self.tags.update(data.tags)
 
-		for event in self.events:
-			if hasattr(data.scripts, event):
-				if event not in self._eventListeners:
-					self._eventListeners[event] = []
-				# A bit of magic powder to pass the Card object as self to the Card defs
-				actions = getattr(data.scripts, event)
-				if callable(actions):
-					def _func(*args):
-						_actions = actions(self, *args)
-						if _actions:
-							self.game.queueActions(self, _actions)
-					_func.zone = getattr(actions, "zone", Zone.PLAY)
-				else:
-					def _func(*args):
-						self.game.queueActions(self, actions)
-					_func.zone = Zone.PLAY
-
-				self._eventListeners[event].append(_func)
-
 	def __str__(self):
 		return self.name
 
@@ -118,13 +99,6 @@ class BaseCard(Entity):
 	def summon(self):
 		logging.info("Summoning %r", self)
 		self.zone = Zone.PLAY
-
-	##
-	# Events
-
-	events = [
-		"HEAL", "OWN_HEAL", "SELF_HEAL",
-	]
 
 	def buff(self, target, buff, **kwargs):
 		"""
@@ -592,8 +566,7 @@ class Minion(Character):
 			if getattr(self, attr):
 				setattr(self, attr, False)
 
-		# Wipe the event listeners and keep only those of the card itself
-		self._registerEvents()
+		# Wipe the event listeners
 		self._events = []
 		self.silenced = True
 
