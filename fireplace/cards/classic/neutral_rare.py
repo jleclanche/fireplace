@@ -9,7 +9,7 @@ class CS2_181:
 # Young Priestess
 class EX1_004:
 	events = [
-		OWN_TURN_END.on(Buff(RANDOM_FRIENDLY_MINION - SELF, "EX1_004e"))
+		OWN_TURN_END.on(Buff(RANDOM_OTHER_FRIENDLY_MINION, "EX1_004e"))
 	]
 
 
@@ -157,7 +157,7 @@ class NEW1_026:
 # Master Swordsmith
 class NEW1_037:
 	events = [
-		OWN_TURN_END.on(Buff(RANDOM_FRIENDLY_MINION - SELF, "NEW1_037e"))
+		OWN_TURN_END.on(Buff(RANDOM_OTHER_FRIENDLY_MINION, "NEW1_037e"))
 	]
 
 
