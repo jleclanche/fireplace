@@ -147,7 +147,6 @@ class Game(Entity):
 
 	def refreshAuras(self):
 		for aura in self.auras:
-			print("Refreshing aura", aura)
 			aura.update()
 
 	def start(self):

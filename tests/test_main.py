@@ -1144,7 +1144,6 @@ def test_reversing_switch():
 
 	switch.play(goldshire)
 	assert goldshire.atk == 2
-	print(goldshire.atk)
 
 
 def test_commanding_shout():
