@@ -153,11 +153,12 @@ class Player(Entity):
 		self._maxMana = min(self.maxResources, max(0, amount))
 		logging.info("%s is now at %i mana crystals" % (self, amount))
 
-	def takeControl(self, minion):
-		logging.info("%s takes control of %r" % (self, minion))
-		self.opponent.field.remove(minion)
-		self.field.append(minion)
-		minion.controller = self
+	def takeControl(self, card):
+		logging.info("%s takes control of %r", self, card)
+		zone = card.zone
+		card.zone = Zone.SETASIDE
+		card.controller = self
+		card.zone = zone
 
 	def shuffleDeck(self):
 		logging.info("%r shuffles their deck", self)
