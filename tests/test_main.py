@@ -261,6 +261,15 @@ def test_cogmaster():
 	assert cogmaster.atk == 3
 	dummy.destroy()
 	assert cogmaster.atk == 1
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	game.currentPlayer.give(TARGET_DUMMY).play()
+	assert cogmaster.atk == 3
+	blessedchamp = game.currentPlayer.give("EX1_355")
+	blessedchamp.play(target=cogmaster)
+	cogmaster.atk == 6
 
 
 def test_cogmasters_wrench():
