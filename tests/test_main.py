@@ -1978,6 +1978,29 @@ def test_hunters_mark():
 	assert token.health == 3
 
 
+def test_kezan_mystic():
+	game = prepare_game()
+	kezan = game.player1.give("GVG_074")
+	snipe = game.player2.give("EX1_609")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn()
+
+	snipe.play()
+	assert snipe in game.player2.secrets
+	game.endTurn()
+
+	kezan.play()
+	assert not kezan.dead
+	assert snipe in game.player1.secrets
+	game.endTurn(); game.endTurn()
+
+	kezan2 = game.player1.give("GVG_074")
+	kezan2.play()
+	assert not kezan2.dead
+	assert snipe in game.player1.secrets
+
+
 def test_knife_juggler():
 	game = prepare_game()
 	juggler = game.player1.give("NEW1_019")
