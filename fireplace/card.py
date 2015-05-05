@@ -244,6 +244,15 @@ class PlayableCard(BaseCard):
 		logging.info("Discarding %r" % (self))
 		self.zone = Zone.GRAVEYARD
 
+	def draw(self):
+		if len(self.controller.hand) >= self.controller.maxHandSize:
+			logging.info("%s overdraws and loses %r!", self.controller, self)
+			self.destroy()
+		else:
+			logging.info("%s draws %r", self.controller, self)
+			self.zone = Zone.HAND
+			self.controller.cardsDrawnThisTurn += 1
+
 	def heal(self, target, amount):
 		return self.game.queueActions(self, [Heal(target, amount)])
 

@@ -293,14 +293,7 @@ class Draw(TargetedAction):
 			target.fatigue()
 			return None
 		card = target.deck[-1]
-
-		if len(target.hand) >= target.maxHandSize:
-			logging.info("%s overdraws and loses %r!", target, card)
-			card.destroy()
-		else:
-			logging.info("%s draws %r", target, card)
-			card.zone = Zone.HAND
-			target.cardsDrawnThisTurn += 1
+		card.draw()
 
 		return card
 
