@@ -307,7 +307,7 @@ class ForceDraw(TargetedAction):
 	def do(self, source, game, target):
 		cards = self.eval(self.cards, source, game)
 		for card in cards:
-			target.draw(card)
+			card.draw()
 
 
 class ForcePlay(TargetedAction):
