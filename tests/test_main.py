@@ -3143,6 +3143,29 @@ def test_wild_pyromancer():
 	assert pyro.zone == Zone.PLAY
 
 
+def test_young_priestess():
+	game = prepare_game()
+	priestess = game.player1.give("EX1_004")
+	game.endTurn(); game.endTurn()
+
+	priestess.play()
+	assert priestess.health == 1
+	game.endTurn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	game.endTurn()
+
+	assert priestess.health == 1
+	assert wisp.health == 1
+	wisp1 = game.player1.give(WISP)
+	wisp1.play()
+	assert wisp1.health == 1
+
+	game.endTurn()
+	assert wisp1.health == 2
+
+
 def test_ysera():
 	game = prepare_game()
 	ysera = game.currentPlayer.summon("EX1_572")
