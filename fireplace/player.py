@@ -151,7 +151,7 @@ class Player(Entity):
 	@maxMana.setter
 	def maxMana(self, amount):
 		self._maxMana = min(self.maxResources, max(0, amount))
-		logging.info("%s is now at %i mana crystals" % (self, amount))
+		logging.info("%s is now at %i mana crystals", self, self._maxMana)
 
 	def takeControl(self, card):
 		logging.info("%s takes control of %r", self, card)
