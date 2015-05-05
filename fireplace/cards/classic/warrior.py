@@ -70,8 +70,8 @@ class EX1_391:
 # Battle Rage
 class EX1_392:
 	def action(self):
-		count = len(t for t in self.controller.characters if t.damage)
-		return [Draw(CONTROLLER) * count]
+		damaged = self.controller.characters.filter(damaged=True)
+		return [Draw(CONTROLLER) * len(damaged)]
 
 
 # Whirlwind
