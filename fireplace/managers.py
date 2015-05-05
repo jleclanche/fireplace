@@ -209,6 +209,8 @@ class EnchantmentManager(Manager):
 		GameTag.ATK: "atk",
 		GameTag.ATTACHED: "owner",
 		GameTag.CANT_BE_DAMAGED: "immune",
+		GameTag.CANT_BE_TARGETED_BY_ABILITIES: "cantBeTargetedByAbilities",
+		GameTag.CANT_BE_TARGETED_BY_HERO_POWERS: "cantBeTargetedByHeroPowers",
 		GameTag.CHARGE: "charge",
 		GameTag.CREATOR: "creator",
 		GameTag.DURABILITY: "durability",
