@@ -377,6 +377,10 @@ class Character(PlayableCard):
 		super()._destroy()
 
 	@property
+	def damaged(self):
+		return bool(self.damage)
+
+	@property
 	def damage(self):
 		return getattr(self, "_damage", 0)
 
