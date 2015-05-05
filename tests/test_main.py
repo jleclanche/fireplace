@@ -1726,6 +1726,9 @@ def test_mechwarper():
 	mechwarper.play()
 	assert harvest.cost == 3 - 1
 	assert goldshire.cost == 1
+	game.currentPlayer.give(SILENCE).play(target=mechwarper)
+	assert harvest.cost == 3
+	assert goldshire.cost == 1
 	mechwarper.destroy()
 	assert harvest.cost == 3
 	assert goldshire.cost == 1
