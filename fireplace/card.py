@@ -738,6 +738,7 @@ class Aura(object):
 			buff.destroy()
 		del self._buffs
 		del self._buffed
+		self.source._auras.remove(self)
 
 
 class Enrage(object):
