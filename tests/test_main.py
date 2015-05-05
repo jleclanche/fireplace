@@ -2969,6 +2969,22 @@ def test_ragnaros():
 	assert not ragnaros.canAttack()
 
 
+def test_raid_leader():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP)
+	wisp1.play()
+	wisp2 = game.player1.give(WISP)
+	wisp2.play()
+	wisp3 = game.player2.summon(WISP)
+	raidleader = game.player1.summon("CS2_122")
+	assert wisp1.atk == wisp2.atk == 2
+	assert wisp3.atk == 1
+
+	raidleader.destroy()
+
+	assert wisp1.atk == wisp2.atk == 1
+
+
 def test_tree_of_life():
 	game = prepare_game()
 	token1 = game.player1.give(SPELLBENDERT)
