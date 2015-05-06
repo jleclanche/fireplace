@@ -1,84 +1,8 @@
 from enum import IntEnum
 
 
-class CardClass(IntEnum):
-	INVALID = 0
-	DEATHKNIGHT = 1
-	DRUID = 2
-	HUNTER = 3
-	MAGE = 4
-	PALADIN = 5
-	PRIEST = 6
-	ROGUE = 7
-	SHAMAN = 8
-	WARLOCK = 9
-	WARRIOR = 10
-	DREAM = 11
-	COUNT = 12
-
-
-class CardType(IntEnum):
-	INVALID = 0
-	GAME = 1
-	PLAYER = 2
-	HERO = 3
-	MINION = 4
-	SPELL = 5
-	ENCHANTMENT = 6
-	WEAPON = 7
-	ITEM = 8
-	TOKEN = 9
-	HERO_POWER = 10
-
-	# SECRET does not exist, we just use it in Fireplace
-	SECRET = -1
-
-	def test(self, entity, *args):
-		if self == CardType.SECRET:
-			return getattr(entity, "secret", False)
-		return self == entity.type
-
-
-class Faction(IntEnum):
-	INVALID = 0
-	HORDE = 1
-	ALLIANCE = 2
-	NEUTRAL = 3
-
-
-class Race(IntEnum):
-	INVALID = 0
-	BLOODELF = 1
-	DRAENEI = 2
-	DWARF = 3
-	GNOME = 4
-	GOBLIN = 5
-	HUMAN = 6
-	NIGHTELF = 7
-	ORC = 8
-	TAUREN = 9
-	TROLL = 10
-	UNDEAD = 11
-	WORGEN = 12
-	GOBLIN2 = 13
-	MURLOC = 14
-	DEMON = 15
-	SCOURGE = 16
-	MECHANICAL = 17
-	ELEMENTAL = 18
-	OGRE = 19
-	PET = 20
-	TOTEM = 21
-	NERUBIAN = 22
-	PIRATE = 23
-	DRAGON = 24
-
-	# Alias for PET
-	BEAST = 20
-
-	def test(self, entity, *args):
-		return self == getattr(entity, "race", Race.INVALID)
-
+##
+# Game Tags
 
 class GameTag(IntEnum):
 	TIMEOUT = 7
@@ -203,6 +127,54 @@ class GameTag(IntEnum):
 		return bool(entity.tags.get(self))
 
 
+##
+# Card enums
+
+class CardClass(IntEnum):
+	INVALID = 0
+	DEATHKNIGHT = 1
+	DRUID = 2
+	HUNTER = 3
+	MAGE = 4
+	PALADIN = 5
+	PRIEST = 6
+	ROGUE = 7
+	SHAMAN = 8
+	WARLOCK = 9
+	WARRIOR = 10
+	DREAM = 11
+	COUNT = 12
+
+
+class CardType(IntEnum):
+	INVALID = 0
+	GAME = 1
+	PLAYER = 2
+	HERO = 3
+	MINION = 4
+	SPELL = 5
+	ENCHANTMENT = 6
+	WEAPON = 7
+	ITEM = 8
+	TOKEN = 9
+	HERO_POWER = 10
+
+	# SECRET does not exist, we just use it in Fireplace
+	SECRET = -1
+
+	def test(self, entity, *args):
+		if self == CardType.SECRET:
+			return getattr(entity, "secret", False)
+		return self == entity.type
+
+
+class Faction(IntEnum):
+	INVALID = 0
+	HORDE = 1
+	ALLIANCE = 2
+	NEUTRAL = 3
+
+
 class PlayReq(IntEnum):
 	REQ_MINION_TARGET = 1
 	REQ_FRIENDLY_TARGET = 2
@@ -268,6 +240,66 @@ class PlayReq(IntEnum):
 	REQ_SECRET_TARGET = -6
 
 
+class Race(IntEnum):
+	INVALID = 0
+	BLOODELF = 1
+	DRAENEI = 2
+	DWARF = 3
+	GNOME = 4
+	GOBLIN = 5
+	HUMAN = 6
+	NIGHTELF = 7
+	ORC = 8
+	TAUREN = 9
+	TROLL = 10
+	UNDEAD = 11
+	WORGEN = 12
+	GOBLIN2 = 13
+	MURLOC = 14
+	DEMON = 15
+	SCOURGE = 16
+	MECHANICAL = 17
+	ELEMENTAL = 18
+	OGRE = 19
+	PET = 20
+	TOTEM = 21
+	NERUBIAN = 22
+	PIRATE = 23
+	DRAGON = 24
+
+	# Alias for PET
+	BEAST = 20
+
+	def test(self, entity, *args):
+		return self == getattr(entity, "race", Race.INVALID)
+
+
+class Rarity(IntEnum):
+	INVALID = 0
+	COMMON = 1
+	FREE = 2
+	RARE = 3
+	EPIC = 4
+	LEGENDARY = 5
+
+
+class Zone(IntEnum):
+	INVALID = 0
+	PLAY = 1
+	DECK = 2
+	HAND = 3
+	GRAVEYARD = 4
+	REMOVEDFROMGAME = 5
+	SETASIDE = 6
+	SECRET = 7
+
+	def test(self, entity, *args):
+		return self == getattr(entity, "zone", Zone.INVALID)
+
+
+##
+# Game enums
+
 class OptionType(IntEnum):
 	PASS = 1
 	END_TURN = 2
@@ -318,33 +350,13 @@ class Step(IntEnum):
 	MAIN_START_TRIGGERS = 17
 
 
+##
+# Fireplace enums
+
 class AuraType(IntEnum):
 	PLAY_AURA = 1
 	HAND_AURA = 2
 	PLAYER_AURA = 3
-
-
-class Rarity(IntEnum):
-	INVALID = 0
-	COMMON = 1
-	FREE = 2
-	RARE = 3
-	EPIC = 4
-	LEGENDARY = 5
-
-
-class Zone(IntEnum):
-	INVALID = 0
-	PLAY = 1
-	DECK = 2
-	HAND = 3
-	GRAVEYARD = 4
-	REMOVEDFROMGAME = 5
-	SETASIDE = 6
-	SECRET = 7
-
-	def test(self, entity, *args):
-		return self == getattr(entity, "zone", Zone.INVALID)
 
 
 class Affiliation(IntEnum):
