@@ -521,6 +521,8 @@ def test_stealth_windfury():
 	assert not worgen.canAttack()
 	windfury = game.currentPlayer.give("CS2_039")
 	windfury.play(target=worgen)
+	assert worgen.windfury
+	assert worgen.numAttacks == 1
 	assert worgen.canAttack()
 	worgen.attack(game.currentPlayer.opponent.hero)
 	assert not worgen.canAttack()

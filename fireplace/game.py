@@ -248,12 +248,12 @@ class Game(Entity):
 		player.maxMana += 1
 		player.usedMana = player.overloaded
 		player.overloaded = 0
-		for entity in player.liveEntities:
-			entity.turnsInPlay += 1
-		for character in player.characters:
-			character.numAttacks = 0
-			character.exhausted = False
-		if player.hero.power:
-			player.hero.power.exhausted = False
+		for entity in player.entities:
+			if entity.type != CardType.PLAYER:
+				entity.turnsInPlay += 1
+				if entity.type == CardType.HERO_POWER:
+					entity.exhausted = False
+				elif entity.type in (CardType.HERO, CardType.MINION):
+					entity.numAttacks = 0
 
 		player.draw()

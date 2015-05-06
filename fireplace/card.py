@@ -124,7 +124,6 @@ class PlayableCard(BaseCard):
 
 	def __init__(self, id, data):
 		self.buffs = CardList()
-		self.exhausted = False
 		self.freeze = False
 		self.hasBattlecry = False
 		self.hasCombo = False
@@ -356,14 +355,9 @@ class Character(PlayableCard):
 			return False
 		if self.cantAttack:
 			return False
-		if self.windfury:
-			if self.numAttacks >= 2:
-				return False
-		elif self.numAttacks >= 1:
+		if not self.atk:
 			return False
-		if self.atk == 0:
-			return False
-		if self.exhausted and not self.charge:
+		if self.exhausted:
 			return False
 		if self.frozen:
 			return False
@@ -376,6 +370,12 @@ class Character(PlayableCard):
 		if self.windfury:
 			return 2
 		return 1
+
+	@property
+	def exhausted(self):
+		if self.numAttacks >= self.maxAttacks:
+			return True
+		return False
 
 	def _setZone(self, zone):
 		if self.attacking:
@@ -510,6 +510,12 @@ class Minion(Character):
 		return not self.turnsInPlay and not self.charge
 
 	@property
+	def exhausted(self):
+		if self.asleep:
+			return True
+		return super().exhausted
+
+	@property
 	def slots(self):
 		slots = super().slots[:]
 		if self.enraged:
@@ -595,7 +601,6 @@ class Minion(Character):
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return
 		super().summon()
-		self.exhausted = True
 
 
 class Spell(PlayableCard):
@@ -859,3 +864,4 @@ class HeroPower(PlayableCard):
 		if self.controller.hero.power:
 			self.controller.hero.power.destroy()
 		self.controller.hero.power = self
+		self.exhausted = False
