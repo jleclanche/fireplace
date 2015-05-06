@@ -352,6 +352,8 @@ class Character(PlayableCard):
 		return ret
 
 	def canAttack(self):
+		if not self.zone == Zone.PLAY:
+			return False
 		if self.cantAttack:
 			return False
 		if self.windfury:
@@ -364,6 +366,8 @@ class Character(PlayableCard):
 		if self.exhausted and not self.charge:
 			return False
 		if self.frozen:
+			return False
+		if not self.targets:
 			return False
 		return True
 
