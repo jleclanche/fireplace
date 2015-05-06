@@ -371,6 +371,12 @@ class Character(PlayableCard):
 			return False
 		return True
 
+	@property
+	def maxAttacks(self):
+		if self.windfury:
+			return 2
+		return 1
+
 	def _setZone(self, zone):
 		if self.attacking:
 			self.shouldExitCombat = True
