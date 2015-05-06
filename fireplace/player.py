@@ -83,6 +83,8 @@ class Player(Entity):
 	@property
 	def liveEntities(self):
 		ret = self.field[:]
+		if self.hero:
+			ret.append(self.hero)
 		if self.weapon:
 			ret.append(self.weapon)
 		return ret
