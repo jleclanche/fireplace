@@ -326,6 +326,7 @@ class Character(PlayableCard):
 		self.cantAttack = False
 		self.cantBeTargetedByAbilities = False
 		self.cantBeTargetedByHeroPowers = False
+		self.numAttacks = 0
 		self.race = Race.INVALID
 		self.shouldExitCombat = False
 		super().__init__(*args)
@@ -374,10 +375,6 @@ class Character(PlayableCard):
 		assert target.zone == Zone.PLAY
 		assert self.controller.currentPlayer
 		self.game.attack(self, target)
-
-	def summon(self):
-		super().summon()
-		self.numAttacks = 0
 
 	def _destroy(self):
 		if self.attacking:
