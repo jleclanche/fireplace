@@ -7,6 +7,7 @@ from enum import IntEnum
 class GameTag(IntEnum):
 	TIMEOUT = 7
 	TURN_START = 8
+	PLAYSTATE = 17
 	STEP = 19
 	TURN = 20
 	FATIGUE = 22
@@ -304,6 +305,18 @@ class OptionType(IntEnum):
 	PASS = 1
 	END_TURN = 2
 	POWER = 3
+
+
+class PlayState(IntEnum):
+	INVALID = 0
+	PLAYING = 1
+	WINNING = 2
+	LOSING = 3
+	WON = 4
+	LOST = 5
+	TIED = 6
+	DISCONNECT = 7
+	QUIT = 8
 
 
 class PowType(IntEnum):
