@@ -3,7 +3,6 @@ import logging
 from itertools import chain
 from . import cards as CardDB, targeting
 from .actions import Damage, Destroy, Heal
-from .exceptions import *
 from .entity import Entity, booleanProperty, intProperty
 from .enums import AuraType, CardClass, CardType, PlayReq, Race, Rarity, Zone
 from .managers import *
@@ -452,9 +451,6 @@ class Hero(Character):
 			self.armor -= min(self.armor, amount)
 			amount = newAmount
 		super()._hit(source, amount)
-
-	def destroy(self):
-		raise GameOver("%s wins!" % (self.controller.opponent))
 
 	def summon(self):
 		super().summon()

@@ -11,6 +11,10 @@ from .managers import GameManager
 from .utils import CardList
 
 
+class GameOver(Exception):
+	pass
+
+
 class Game(Entity):
 	type = CardType.GAME
 	MAX_MINIONS_ON_FIELD = 8
@@ -104,17 +108,38 @@ class Game(Entity):
 		self.manager.new_entity(card)
 		return card
 
+	def end(self, *losers):
+		"""
+		End the game.
+		\a *losers: Players that lost the game.
+		"""
+		for player in self.players:
+			if player in losers:
+				player.playstate = PlayState.LOST
+			else:
+				player.playstate = PlayState.WON
+		raise GameOver("The game has ended.")
+
 	def processDeaths(self):
 		return self.queueActions(self, [Deaths()])
 
 	def _processDeaths(self):
 		actions = []
+		losers = []
 		for card in self.liveEntities:
 			if card.toBeDestroyed:
 				actions.append(Death(card))
 				if card.type == CardType.MINION:
 					self.minionsKilledThisTurn += 1
 					card.controller.minionsKilledThisTurn += 1
+				elif card.type == CardType.HERO:
+					card.controller.playstate = PlayState.LOSING
+					losers.append(card.controller)
+
+		if losers:
+			self.end(*losers)
+			return
+
 		if actions:
 			self.queueActions(self, actions)
 

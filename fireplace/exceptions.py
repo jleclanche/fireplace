@@ -1,2 +1,0 @@
-class GameOver(Exception):
-	pass
