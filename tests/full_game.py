@@ -2,6 +2,7 @@
 import sys; sys.path.append("..")
 import fireplace.heroes
 import logging
+import random
 from fireplace.game import Game
 from fireplace.player import Player
 from fireplace.utils import randomDraft
@@ -26,26 +27,24 @@ def main():
 		# always play the hero power, just for kicks
 		if heropower.isPlayable():
 			if heropower.hasTarget():
-				heropower.play(target=heropower.targets[0])
+				heropower.play(target=random.choice(heropower.targets))
 			else:
 				heropower.play()
 		# iterate over our hand and play whatever is playable
 		for card in game.currentPlayer.hand:
 			if card.isPlayable():
 				if card.hasTarget():
-					card.play(target=card.targets[0])
+					card.play(target=random.choice(card.targets))
 				else:
 					card.play()
 			else:
 				print("Not playing", card)
-		# attack with whatever minions can attack
-		for minion in game.currentPlayer.field:
-			if minion.canAttack():
-				minion.attack(game.currentPlayer.opponent.hero)
-		# attack with the hero
-		if game.currentPlayer.hero.canAttack():
-			print("Attacking with the hero")
-			game.currentPlayer.hero.attack(game.currentPlayer.opponent.hero)
+
+		# Randomly attack with whatever can attack
+		for character in game.currentPlayer.characters:
+			if character.canAttack():
+				character.attack(random.choice(character.targets))
+
 		game.endTurn()
 
 
