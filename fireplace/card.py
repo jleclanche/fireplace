@@ -500,6 +500,10 @@ class Minion(Character):
 		return super().attackable
 
 	@property
+	def asleep(self):
+		return not self.turnsInPlay and not self.charge
+
+	@property
 	def slots(self):
 		slots = super().slots[:]
 		if self.enraged:
