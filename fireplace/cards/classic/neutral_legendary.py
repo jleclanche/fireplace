@@ -209,7 +209,7 @@ class PRO_001:
 # I Am Murloc
 class PRO_001a:
 	def action(self):
-		return [Summon(CONTROLLER) * random.choice((3, 4, 5))]
+		return [Summon(CONTROLLER, "PRO_001at") * random.choice((3, 4, 5))]
 
 # Rogues Do It...
 class PRO_001b:
