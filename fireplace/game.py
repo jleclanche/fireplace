@@ -6,7 +6,7 @@ from itertools import chain
 from .actions import Attack, BeginTurn, Death, Deaths, EndTurn, EventListener
 from .card import Card, THE_COIN
 from .entity import Entity
-from .enums import CardType, Step, Zone
+from .enums import CardType, PlayState, Step, Zone
 from .managers import GameManager
 from .utils import CardList
 
@@ -165,6 +165,7 @@ class Game(Entity):
 				card.controller = player
 				card.zone = Zone.DECK
 			player.shuffleDeck()
+			player.playstate = PlayState.PLAYING
 
 		self.player1.draw(3)
 		self.player2.draw(4)

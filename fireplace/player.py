@@ -5,7 +5,7 @@ from .actions import Draw, Play, Summon
 from .card import BaseCard
 from .deck import Deck
 from .entity import Entity
-from .enums import CardType, PowSubType, Zone
+from .enums import CardType, PlayState, PowSubType, Zone
 from .entity import slotProperty
 from .managers import PlayerManager
 from .targeting import *
@@ -35,6 +35,7 @@ class Player(Entity):
 		self.lastCardPlayed = None
 		self.overloaded = 0
 		self.maxMana = 0
+		self.playstate = PlayState.INVALID
 		self.tempMana = 0
 		self.timeout = 75
 		self.timesHeroPowerUsedThisGame = 0
