@@ -103,6 +103,7 @@ class CardManager(Manager):
 		GameTag.COST: "cost",
 		GameTag.DEATHRATTLE: "hasDeathrattle",
 		GameTag.EXHAUSTED: "exhausted",
+		GameTag.NUM_TURNS_IN_PLAY: "turnsInPlay",
 		GameTag.RARITY: "rarity",
 		GameTag.SPELLPOWER: "spellpower",
 		GameTag.ZONE: "zone",

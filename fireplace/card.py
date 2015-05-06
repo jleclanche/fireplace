@@ -46,6 +46,7 @@ class BaseCard(Entity):
 		self.silenced = False
 		self.secret = data.secret
 		self.spellpower = 0
+		self.turnsInPlay = 0
 		self.tags.update(data.tags)
 
 	def __str__(self):

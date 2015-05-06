@@ -248,6 +248,8 @@ class Game(Entity):
 		player.maxMana += 1
 		player.usedMana = player.overloaded
 		player.overloaded = 0
+		for entity in player.liveEntities:
+			entity.turnsInPlay += 1
 		for character in player.characters:
 			character.numAttacks = 0
 			character.exhausted = False
