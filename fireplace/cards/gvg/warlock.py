@@ -16,7 +16,7 @@ class GVG_018:
 # Fel Cannon
 class GVG_020:
 	events = [
-		OWN_TURN_END.on(Hit(RANDOM_MINION - MECH, 2))
+		OWN_TURN_END.on(Hit(RANDOM(ALL_MINIONS - MECH), 2))
 	]
 
 

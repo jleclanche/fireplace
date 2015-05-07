@@ -3661,6 +3661,38 @@ def test_faerie_dragon():
 	assert dragon in archer.targets
 
 
+def test_fel_cannon():
+	game = prepare_game()
+	cannon = game.player1.give("GVG_020")
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	cannon.play()
+	game.endTurn(); game.endTurn()
+
+	assert game.player1.hero.health == game.player2.hero.health == 30
+	assert cannon.health == 5
+
+	dummy1 = game.player1.give(TARGET_DUMMY)
+	dummy1.play()
+	game.endTurn()
+
+	dummy2 = game.player2.give(TARGET_DUMMY)
+	dummy2.play()
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	game.endTurn()
+
+	assert not wisp.dead
+	game.endTurn()
+
+	assert dummy1.health == dummy2.health == 2
+	assert not dummy1.dead
+	assert not dummy2.dead
+	assert wisp.dead
+
+
 def test_far_sight():
 	game = prepare_game()
 	game.endTurn(); game.endTurn()
