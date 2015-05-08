@@ -2928,25 +2928,28 @@ def test_nerubar_weblord():
 	assert perdition1.cost == perdition2.cost == 3
 
 
-def test_nortshire_cleric():
+def test_northshire_cleric():
 	game = prepare_game(PRIEST, PRIEST)
-	cleric = game.currentPlayer.give("CS2_235")
+	cleric = game.player1.give("CS2_235")
 	cleric.play()
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
 	game.endTurn(); game.endTurn()
-	game.currentPlayer.discardHand()
-	assert not game.currentPlayer.hand
-	game.currentPlayer.hero.power.play(target=game.currentPlayer.hero)
-	assert not game.currentPlayer.hand
-	pyro = game.currentPlayer.give("NEW1_020")
+
+	game.player1.discardHand()
+	game.player2.discardHand()
+	game.player1.hero.power.play(target=game.currentPlayer.hero)
+	assert not game.player1.hand
+	pyro = game.player1.give("NEW1_020")
 	pyro.play()
-	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
-	assert not game.currentPlayer.hand
-	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
-	assert len(game.currentPlayer.hand) == 2
-	game.currentPlayer.give(CIRCLE_OF_HEALING).play()
-	assert len(game.currentPlayer.hand) == 4
+	game.player1.give(CIRCLE_OF_HEALING).play()
+	assert not game.player1.hand
+	game.player2.summon(SPELLBENDERT)
+	game.player1.give(CIRCLE_OF_HEALING).play()
+	assert len(game.player1.hand) == 2
+	game.player1.give(CIRCLE_OF_HEALING).play()
+	assert len(game.player1.hand) == 5
+	assert not game.player2.hand
 
 
 def test_ragnaros():

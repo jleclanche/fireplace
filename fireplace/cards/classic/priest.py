@@ -15,7 +15,7 @@ class CS1h_001:
 # Northshire Cleric
 class CS2_235:
 	events = [
-		Heal(FRIENDLY_MINIONS).on(Draw(CONTROLLER))
+		Heal(ALL_MINIONS).on(Draw(CONTROLLER))
 	]
 
 
