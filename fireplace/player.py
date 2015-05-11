@@ -39,6 +39,7 @@ class Player(Entity):
 		self.tempMana = 0
 		self.timeout = 75
 		self.timesHeroPowerUsedThisGame = 0
+		self.minionsKilledThisTurn = 0
 		self.weapon = None
 		self.zone = Zone.INVALID
 
