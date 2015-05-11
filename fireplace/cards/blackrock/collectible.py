@@ -14,6 +14,14 @@ class BRM_002:
 ##
 # Spells
 
+# Solemn Vigil
+class BRM_001:
+	action = [Draw(CONTROLLER) * 2]
+
+	def cost(self, value):
+		return value - self.game.minionsKilledThisTurn
+
+
 # Dragon's Breath
 class BRM_003:
 	action = [Hit(TARGET, 4)]

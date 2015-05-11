@@ -975,6 +975,31 @@ def test_secretkeeper():
 	assert secretkeeper.health == 3
 
 
+def test_solemn_vigil():
+	game = prepare_game()
+	game.player1.discardHand()
+	vigil = game.player1.give("BRM_001")
+	assert vigil.cost == 5
+	game.player1.summon(WISP).destroy()
+	assert vigil.cost == 4
+	game.player2.summon(WISP).destroy()
+	assert vigil.cost == 3
+	wisp1 = game.player1.summon(WISP)
+	game.player1.give(MOONFIRE).play(target=wisp1)
+	assert vigil.cost == 2
+	wisp2 = game.player1.summon(WISP)
+	game.player1.give(MOONFIRE).play(target=wisp2)
+	assert vigil.cost == 1
+	game.player1.summon(WISP).destroy()
+	assert vigil.cost == 0
+	game.player1.summon(WISP).destroy()
+	assert vigil.cost == 0
+	vigil.play()
+	assert len(game.player1.hand) == 2
+	assert game.player1.mana == 1
+	assert game.player1.usedMana == 0
+
+
 def test_southsea_deckhand():
 	game = prepare_game(ROGUE, ROGUE)
 	deckhand = game.currentPlayer.give("CS2_146")
