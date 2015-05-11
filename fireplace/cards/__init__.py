@@ -1,6 +1,7 @@
 import logging
 import os
 from pkg_resources import Requirement, resource_filename
+from .blackrock import *
 from .game import *
 from .classic import *
 from .debug import *
