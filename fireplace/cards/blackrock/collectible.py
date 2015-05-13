@@ -11,6 +11,13 @@ class BRM_002:
 	]
 
 
+# Imp Gang Boss
+class BRM_006:
+	events = [
+		Damage(SELF).on(Summon(CONTROLLER, "BRM_006t"))
+	]
+
+
 ##
 # Spells
 
@@ -28,3 +35,8 @@ class BRM_003:
 
 	def cost(self, value):
 		return value - self.game.minionsKilledThisTurn
+
+
+# Demonwrath
+class BRM_005:
+	action = [Hit(ALL_MINIONS - DEMON, 2)]
