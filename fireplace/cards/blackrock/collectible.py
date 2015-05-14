@@ -18,6 +18,17 @@ class BRM_006:
 	]
 
 
+# Dark Iron Skulker
+class BRM_008:
+	action = [Hit(ENEMY_MINIONS - DAMAGED, 2)]
+
+
+# Volcanic Lumberer
+class BRM_009:
+	def cost(self, value):
+		return value - self.game.minionsKilledThisTurn
+
+
 ##
 # Spells
 
