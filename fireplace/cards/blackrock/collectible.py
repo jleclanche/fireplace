@@ -29,6 +29,20 @@ class BRM_009:
 		return value - self.game.minionsKilledThisTurn
 
 
+# Axe Flinger
+class BRM_016:
+	events = [
+		SELF_DAMAGE.on(Hit(ENEMY_HERO, 2))
+	]
+
+
+# Dragon Egg
+class BRM_022:
+	events = [
+		SELF_DAMAGE.on(Summon(CONTROLLER, "BRM_022t"))
+	]
+
+
 ##
 # Spells
 
