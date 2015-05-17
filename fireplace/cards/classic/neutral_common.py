@@ -42,7 +42,7 @@ class EX1_398:
 # Gurubashi Berserker
 class EX1_399:
 	events = [
-		Damage(SELF).on(Buff(SELF, "EX1_399e"))
+		SELF_DAMAGE.on(Buff(SELF, "EX1_399e"))
 	]
 
 
@@ -114,7 +114,7 @@ class DS1_055:
 # Acolyte of Pain
 class EX1_007:
 	events = [
-		Damage(SELF).on(Draw(CONTROLLER))
+		SELF_DAMAGE.on(Draw(CONTROLLER))
 	]
 
 

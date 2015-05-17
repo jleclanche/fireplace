@@ -19,7 +19,7 @@ class GVG_048:
 # Gahz'rilla
 class GVG_049:
 	events = [
-		Damage(SELF).on(Buff(SELF, "GVG_049e"))
+		SELF_DAMAGE.on(Buff(SELF, "GVG_049e"))
 	]
 
 class GVG_049e:

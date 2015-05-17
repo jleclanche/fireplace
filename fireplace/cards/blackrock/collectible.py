@@ -14,7 +14,7 @@ class BRM_002:
 # Imp Gang Boss
 class BRM_006:
 	events = [
-		Damage(SELF).on(Summon(CONTROLLER, "BRM_006t"))
+		SELF_DAMAGE.on(Summon(CONTROLLER, "BRM_006t"))
 	]
 
 
