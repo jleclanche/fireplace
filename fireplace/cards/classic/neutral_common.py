@@ -4,7 +4,6 @@ from ..utils import *
 ##
 # Free basic minions
 
-
 # Frostwolf Warlord
 class CS2_226:
 	def action(self):
@@ -104,6 +103,11 @@ class CS2_188:
 # Razorfen Hunter
 class CS2_196:
 	action = [Summon(CONTROLLER, "CS2_boar")]
+
+
+# Ironbeak Owl
+class CS2_203:
+	action = [Silence(TARGET)]
 
 
 # Darkscale Healer
