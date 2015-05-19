@@ -1743,22 +1743,29 @@ def test_mana_wraith():
 
 def test_mechwarper():
 	game = prepare_game()
-	mechwarper = game.currentPlayer.give("GVG_006")
-	goldshire = game.currentPlayer.give(GOLDSHIRE_FOOTMAN)
-	harvest = game.currentPlayer.give("EX1_556")
+	mechwarper = game.player1.give("GVG_006")
+	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
+	harvest = game.player1.give("EX1_556")
+	clockwork = game.player1.give("GVG_082")
 	game.endTurn(); game.endTurn()
 
 	assert harvest.cost == 3
 	assert goldshire.cost == 1
+	assert clockwork.cost == 1
 	mechwarper.play()
 	assert harvest.cost == 3 - 1
 	assert goldshire.cost == 1
+	assert clockwork.cost == 0
+	clockwork.play()
+	assert clockwork.cost == 1
 	game.currentPlayer.give(SILENCE).play(target=mechwarper)
 	assert harvest.cost == 3
 	assert goldshire.cost == 1
+	assert clockwork.cost == 1
 	mechwarper.destroy()
 	assert harvest.cost == 3
 	assert goldshire.cost == 1
+	assert clockwork.cost == 1
 
 
 def test_metaltooth_leaper():

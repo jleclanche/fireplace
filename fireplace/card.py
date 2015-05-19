@@ -698,6 +698,9 @@ class Aura(object):
 	def isValidTarget(self, target):
 		if self._auraType == AuraType.PLAYER_AURA:
 			return target == self.controller
+		elif self._auraType == AuraType.HAND_AURA:
+			if target.zone != Zone.HAND:
+				return False
 		return targeting.isValidTarget(self.source, target, requirements=self.requirements)
 
 	@property
