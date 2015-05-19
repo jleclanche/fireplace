@@ -637,15 +637,12 @@ class Secret(Spell):
 
 class Enchantment(BaseCard):
 	Manager = EnchantmentManager
+	slots = []
 
 	def __init__(self, *args):
 		self.auraSource = None
 		self.oneTurnEffect = False
 		super().__init__(*args)
-
-	@property
-	def slots(self):
-		return []
 
 	def _setZone(self, zone):
 		if zone == Zone.PLAY:
