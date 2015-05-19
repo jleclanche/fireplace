@@ -29,7 +29,7 @@ class GVG_106:
 # Enhance-o Mechano
 class GVG_107:
 	def action(self):
-		for target in self.controller.field:
+		for target in self.controller.field.exclude(self):
 			tag = random.choice((GameTag.WINDFURY, GameTag.TAUNT, GameTag.DIVINE_SHIELD))
 			yield SetTag(target, {tag: True})
 
