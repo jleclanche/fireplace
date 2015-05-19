@@ -220,9 +220,6 @@ class PlayableCard(BaseCard):
 			logging.info("Clearing buffs from %r" % (self))
 			for buff in self.buffs[:]:
 				buff.destroy()
-				if buff.auraSource:
-					# Clean up the buff from its source auras
-					buff.auraSource._buffs.remove(buff)
 
 	def destroy(self):
 		return self.game.queueActions(self, [Destroy(self)])
@@ -672,6 +669,9 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "destroy"):
 			self.data.scripts.destroy(self)
 		self.zone = Zone.GRAVEYARD
+		if self.auraSource:
+			# Clean up the buff from its source auras
+			self.auraSource._buffs.remove(self)
 	_destroy = destroy
 
 
@@ -750,13 +750,12 @@ class Aura(object):
 				buff = self._entityBuff(target)
 				if buff:
 					buff.destroy()
-					self._buffs.remove(buff)
 				self._buffed.remove(target)
 
 	def destroy(self):
 		logging.info("Removing %r affecting %r" % (self, self._buffed))
 		self.game.auras.remove(self)
-		for buff in self._buffs:
+		for buff in self._buffs[:]:
 			buff.destroy()
 		del self._buffs
 		del self._buffed
