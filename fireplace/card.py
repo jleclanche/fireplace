@@ -420,6 +420,7 @@ class Character(PlayableCard):
 
 	def _hit(self, source, amount):
 		self.damage += amount
+		return amount
 
 	@property
 	def targets(self):
@@ -455,7 +456,7 @@ class Hero(Character):
 			newAmount = max(0, amount - self.armor)
 			self.armor -= min(self.armor, amount)
 			amount = newAmount
-		super()._hit(source, amount)
+		return super()._hit(source, amount)
 
 	def summon(self):
 		super().summon()
@@ -560,7 +561,7 @@ class Minion(Character):
 			logging.info("%r is destroyed because of %r is poisonous", self, source)
 			self.destroy()
 
-		super()._hit(source, amount)
+		return super()._hit(source, amount)
 
 	def morph(self, id):
 		into = self.game.card(id)
