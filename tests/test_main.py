@@ -3801,6 +3801,21 @@ def test_freezing_trap():
 	assert wisp.cost == 0
 
 
+def test_floating_watcher():
+	game = prepare_game()
+	game = prepare_game(WARLOCK, WARLOCK)
+	game.endTurn(); game.endTurn()
+
+	watcher = game.player1.summon("GVG_100")
+	assert watcher.atk == watcher.health == 4
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert watcher.atk == watcher.health == 4
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert watcher.atk == watcher.health == 4 + 2
+	game.player1.hero.power.play()
+	assert watcher.atk == watcher.health == 4 + 4
+
+
 def test_warlock():
 	game = prepare_game(WARLOCK, WARLOCK)
 	sacpact = game.currentPlayer.give("NEW1_003")
