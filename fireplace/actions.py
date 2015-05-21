@@ -262,8 +262,9 @@ class Damage(TargetedAction):
 	args = ("targets", "amount")
 
 	def do(self, source, game, target, *args):
-		target._hit(source, self.amount)
-		self.broadcast(game, EventListener.ON, target, self.amount, source)
+		amount = target._hit(source, self.amount)
+		if amount:
+			self.broadcast(game, EventListener.ON, target, amount, source)
 
 
 class Destroy(TargetedAction):

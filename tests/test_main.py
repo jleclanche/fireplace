@@ -18,6 +18,7 @@ DREAM = "DREAM_04"
 SILENCE = "EX1_332"
 SPELLBENDERT = "tt_010a"
 THE_COIN = "GAME_005"
+HAND_OF_PROTECTION = "EX1_371"
 TIME_REWINDER = "PART_002"
 RESTORE_1 = "XXX_003"
 
@@ -400,6 +401,20 @@ def test_divine_shield():
 	archer2.play(target=squire)
 	assert len(game.currentPlayer.opponent.field) == 0
 	assert not squire.divineShield
+	game.endTurn(); game.endTurn()
+
+	# test damage events with Divine Shield
+	gurubashi = game.currentPlayer.summon("EX1_399")
+	assert gurubashi.atk == 2
+	assert gurubashi.health == 7
+	assert not gurubashi.divineShield
+	prot = game.currentPlayer.give(HAND_OF_PROTECTION)
+	prot.play(target=gurubashi)
+	assert gurubashi.divineShield
+	game.currentPlayer.give(MOONFIRE).play(target=gurubashi)
+	assert not gurubashi.divineShield
+	assert gurubashi.atk == 2
+	assert gurubashi.health == 7
 
 
 def test_divine_spirit():
