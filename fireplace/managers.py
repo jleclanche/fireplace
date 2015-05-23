@@ -85,6 +85,7 @@ class PlayerManager(Manager):
 		GameTag.PLAYSTATE: "playstate",
 		GameTag.CURRENT_SPELLPOWER: "spellpower",
 		GameTag.RECALL_OWED: "overloaded",
+		GameTag.RESOURCES: "maxMana",
 		GameTag.RESOURCES_USED: "usedMana",
 		GameTag.TEMP_RESOURCES: "tempMana",
 		GameTag.TIMEOUT: "timeout",
