@@ -352,6 +352,8 @@ class Character(PlayableCard):
 			return False
 		if self.cantAttack:
 			return False
+		if not self.controller.currentPlayer:
+			return False
 		if not self.atk:
 			return False
 		if self.exhausted:
