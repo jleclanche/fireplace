@@ -43,6 +43,18 @@ class BRM_022:
 	]
 
 
+# Volcanic Drake
+class BRM_025:
+	def cost(self, value):
+		return value - self.game.minionsKilledThisTurn
+
+
+# Hungry Dragon
+class BRM_026:
+	def action(self):
+		return [Summon(CONTROLLER, randomCollectible(type=CardType.MINION, cost=1))]
+
+
 ##
 # Spells
 
