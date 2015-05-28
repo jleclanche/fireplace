@@ -114,7 +114,7 @@ class EX1_246:
 
 # Feral Spirit
 class EX1_248:
-	action = [Summon(CONTROLLER, "EX1_tk11"), Summon("EX1_tk11")]
+	action = [Summon(CONTROLLER, "EX1_tk11") * 2]
 
 
 # Forked Lightning
