@@ -26,7 +26,7 @@ class EX1_166a:
 	action = [Hit(TARGET, 2)]
 
 # Dispel (Keeper of the Grove)
-class EX1_166a:
+class EX1_166b:
 	action = [Silence(TARGET)]
 
 
