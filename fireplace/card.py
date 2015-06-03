@@ -40,6 +40,7 @@ class BaseCard(Entity):
 		super().__init__()
 		self._auras = []
 		self.requirements = data.requirements.copy()
+		self.entourage = CardList(self.data.entourage)
 		self.id = id
 		self.controller = None
 		self.aura = False
