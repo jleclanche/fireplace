@@ -270,11 +270,7 @@ class PlayableCard(BaseCard):
 		if len(self.controller.game.board) < self.requirements.get(PlayReq.REQ_MINIMUM_TOTAL_MINIONS, 0):
 			return False
 		if PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY in self.requirements:
-			entourage = list(self.data.entourage)
-			for minion in self.controller.field:
-				if minion.id in entourage:
-					entourage.remove(minion.id)
-			if not entourage:
+			if not [id for id in self.entourage if not self.controller.field.contains(id)]:
 				return False
 		if PlayReq.REQ_WEAPON_EQUIPPED in self.requirements:
 			if not self.controller.weapon:
