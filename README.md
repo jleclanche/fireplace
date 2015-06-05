@@ -10,7 +10,7 @@ A Hearthstone simulator and implementation, written in Python.
 ### Installation
 
 Run `bootstrap.sh` to download and process the Hearthstone data files.
-To install as a library, run `setup.py install`
+To install as a library, run `./setup.py install`.
 
 ### Documentation
 
@@ -21,6 +21,7 @@ source of documentation, along with the actual code.
 
 Fireplace is licensed GPLv3. This may change in the future.
 
-### IRC
+### Community
 
-Join us on `#hearthsim` on [Freenode](https://freenode.net)
+Fireplace is a [HearthSim](http://hearthsim.info) project. All development
+happens on our IRC channel `#hearthsim` on [Freenode](https://freenode.net).
