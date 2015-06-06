@@ -3829,6 +3829,18 @@ def test_warlock():
 	game.endTurn()
 
 
+def test_discard_enchanted_cards():
+	# Test for bug #58
+	game = prepare_game()
+	deathwing = game.player1.give("NEW1_030")
+	thaurissan = game.player1.summon("BRM_028")
+	for i in range(10):
+		game.endTurn(); game.endTurn()
+
+	deathwing.play()
+	assert not game.player1.hand
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and hasattr(f, "__call__"):
