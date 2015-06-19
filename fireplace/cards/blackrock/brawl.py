@@ -14,6 +14,11 @@ class BRMC_87:
 	deathrattle = [Summon(CONTROLLER, "BRM_028")]
 
 
+# Son of the Flame
+class BRMC_91:
+	action = [Hit(TARGET, 6)]
+
+
 # Golemagg
 class BRMC_95:
 	def cost(self, value):
@@ -24,4 +29,11 @@ class BRMC_95:
 class BRMC_96:
 	events = [
 		OWN_TURN_BEGIN.on(SummonRandomLegendary)
+	]
+
+
+# Garr
+class BRMC_99:
+	events = [
+		SELF_DAMAGE.on(Summon(CONTROLLER, "BRMC_99e"))
 	]
