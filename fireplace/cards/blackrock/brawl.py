@@ -18,3 +18,10 @@ class BRMC_87:
 class BRMC_95:
 	def cost(self, value):
 		return value - self.controller.hero.damage
+
+
+# High Justice Grimstone
+class BRMC_96:
+	events = [
+		OWN_TURN_BEGIN.on(SummonRandomLegendary)
+	]

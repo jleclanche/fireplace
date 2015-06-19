@@ -23,3 +23,8 @@ def RandomCard(**kwargs):
 
 def randomCollectible(**kwargs):
 	return RandomCard(collectible=True, **kwargs)
+
+
+def SummonRandomLegendary(*args):
+	legendary = randomCollectible(type=CardType.MINION, rarity=Rarity.LEGENDARY)
+	return [Summon(CONTROLLER, legendary)]

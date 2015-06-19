@@ -16,9 +16,7 @@ class GVG_110t:
 
 # Sneed's Old Shredder
 class GVG_114:
-	def deathrattle(self):
-		legendary = randomCollectible(type=CardType.MINION, rarity=Rarity.LEGENDARY)
-		return [Summon(CONTROLLER, legendary)]
+	deathrattle = SummonRandomLegendary
 
 
 # Toshley
