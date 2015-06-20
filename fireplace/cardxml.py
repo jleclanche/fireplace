@@ -102,6 +102,11 @@ class CardXML(object):
 	def secret(self):
 		return bool(self.tags.get(GameTag.SECRET, False))
 
+	@property
+	def spare_part(self):
+		return bool(self.tags.get(GameTag.SPARE_PART, False))
+
+
 def load(path):
 	db = {}
 	with open(path, "r", encoding="utf8") as f:
