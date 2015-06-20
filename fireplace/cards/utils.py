@@ -14,8 +14,6 @@ def hand(func):
 	func.zone = Zone.HAND
 	return func
 
-drawCard = lambda self, *args: self.controller.draw()
-
 
 RandomCard = lambda **kw: RandomCardGenerator(**kw)
 RandomCollectible = lambda **kw: RandomCardGenerator(collectible=True, **kw)
