@@ -20,6 +20,7 @@ drawCard = lambda self, *args: self.controller.draw()
 RandomCard = lambda **kw: RandomCardGenerator(**kw)
 RandomCollectible = lambda **kw: RandomCardGenerator(collectible=True, **kw)
 RandomMinion = lambda **kw: RandomCollectible(type=CardType.MINION, **kw)
+RandomWeapon = lambda **kw: RandomCollectible(type=CardType.WEAPON, **kw)
 
 
 def randomCollectible(**kwargs):

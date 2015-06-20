@@ -37,7 +37,7 @@ class GVG_117:
 	events = [
 		Play(CONTROLLER, SPELL).on(
 			lambda self, player, card, *args: card.cost == 1 and [
-				Give(player, randomCollectible(race=Race.MECHANICAL))
+				Give(player, RandomMinion(race=Race.MECHANICAL))
 			] or []
 		)
 	]
@@ -54,7 +54,7 @@ class GVG_118:
 class GVG_119:
 	def action(self):
 		for player in self.game.players:
-			yield Summon(player, randomCollectible(type=CardType.WEAPON))
+			yield Summon(player, RandomWeapon())
 
 
 # Hemet Nesingwary
