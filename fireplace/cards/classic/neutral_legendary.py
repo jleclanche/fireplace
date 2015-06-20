@@ -13,7 +13,7 @@ class EX1_012:
 
 # King Mukla
 class EX1_014:
-	action = [Give(OPPONENT, "EX1_014t"), Give(OPPONENT, "EX1_014t")]
+	action = [Give(OPPONENT, "EX1_014t") * 2]
 
 # Bananas
 class EX1_014t:
@@ -86,7 +86,7 @@ class Mekka4:
 
 # Leeroy Jenkins
 class EX1_116:
-	action = [Summon(OPPONENT, "EX1_116t"), Summon(OPPONENT, "EX1_116t")]
+	action = [Summon(OPPONENT, "EX1_116t") * 2]
 
 
 # Baron Geddon

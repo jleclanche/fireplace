@@ -21,8 +21,7 @@ class GVG_114:
 
 # Toshley
 class GVG_115:
-	action = [GiveSparePart(CONTROLLER)]
-	deathrattle = [GiveSparePart(CONTROLLER)]
+	action = deathrattle = [GiveSparePart(CONTROLLER)]
 
 
 # Mekgineer Thermaplugg
