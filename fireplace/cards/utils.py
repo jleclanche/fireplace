@@ -17,12 +17,9 @@ def hand(func):
 drawCard = lambda self, *args: self.controller.draw()
 
 
+RandomCard = lambda **kw: RandomCardGenerator(**kw)
 RandomCollectible = lambda **kw: RandomCardGenerator(collectible=True, **kw)
 RandomMinion = lambda **kw: RandomCollectible(type=CardType.MINION, **kw)
-
-
-def RandomCard(**kwargs):
-	return random.choice(fireplace.cards.filter(**kwargs))
 
 
 def randomCollectible(**kwargs):

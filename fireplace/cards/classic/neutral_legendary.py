@@ -123,9 +123,7 @@ class EX1_558:
 # Ysera
 class EX1_572:
 	events = [
-		OWN_TURN_END.on(
-			lambda self, player: [Give(CONTROLLER, RandomCard(cardClass=CardClass.DREAM))]
-		)
+		OWN_TURN_END.on(Give(CONTROLLER, RandomCard(cardClass=CardClass.DREAM)))
 	]
 
 # Ysera Awakens
