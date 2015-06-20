@@ -460,7 +460,8 @@ class Hero(Character):
 	def summon(self):
 		super().summon()
 		self.controller.hero = self
-		self.controller.summon(self.data.heroPower)
+		if self.data.heroPower:
+			self.controller.summon(self.data.heroPower)
 
 
 class Minion(Character):

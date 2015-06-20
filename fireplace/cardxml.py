@@ -10,7 +10,7 @@ class CardXML(object):
 		self.tags = {GameTag(int(tag.attrib["enumID"])): self._getTag(tag) for tag in e}
 
 		e = self.xml.findall("HeroPower")
-		self.heroPower = e and e[0].attrib["cardID"]
+		self.heroPower = e and e[0].attrib["cardID"] or None
 
 		e = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
 		self.requirements = self._getRequirements(e)
