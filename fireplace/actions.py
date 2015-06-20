@@ -355,10 +355,19 @@ class Give(TargetedAction):
 	"""
 	Give player targets card \a id.
 	"""
-	args = ("targets", "id")
+	args = ("targets", "card")
 
-	def do(self, source, game, target):
-		target.give(self.id)
+	def get_args(self, source, game, target):
+		card = self.card
+		if isinstance(card, str):
+			card = game.card(self.card)
+		return (target, card)
+
+	def do(self, source, game, target, card):
+		logging.debug("Giving %r to %s", card, target)
+		card.controller = target
+		card.zone = Zone.HAND
+		return card
 
 
 class GiveSparePart(TargetedAction):

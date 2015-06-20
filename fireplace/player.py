@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .actions import Draw, Play, Summon
+from .actions import Draw, Play, Give, Summon
 from .card import BaseCard
 from .deck import Deck
 from .entity import Entity
@@ -95,13 +95,9 @@ class Player(Entity):
 		# Hacky.
 		return [p for p in self.game.players if p != self][0]
 
-	# for debugging
 	def give(self, id):
-		card = self.game.card(id)
-		logging.debug("Giving %r to %s" % (card, self))
-		card.controller = self
-		card.zone = Zone.HAND
-		return card
+		cards = self.game.queueActions(self, [Give(self, id)])[0]
+		return cards[0]
 
 	def getById(self, id):
 		"Helper to get a card from the hand by its id"
