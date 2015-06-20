@@ -28,7 +28,7 @@ class BRMC_95:
 # High Justice Grimstone
 class BRMC_96:
 	events = [
-		OWN_TURN_BEGIN.on(SummonRandomLegendary)
+		OWN_TURN_BEGIN.on(Summon(CONTROLLER, RandomMinion(rarity=Rarity.LEGENDARY)))
 	]
 
 

@@ -16,7 +16,7 @@ class GVG_110t:
 
 # Sneed's Old Shredder
 class GVG_114:
-	deathrattle = SummonRandomLegendary
+	deathrattle = [Summon(CONTROLLER, RandomMinion(rarity=Rarity.LEGENDARY))]
 
 
 # Toshley

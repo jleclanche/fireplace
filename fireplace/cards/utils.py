@@ -17,14 +17,13 @@ def hand(func):
 drawCard = lambda self, *args: self.controller.draw()
 
 
+RandomCollectible = lambda **kw: RandomCardGenerator(collectible=True, **kw)
+RandomMinion = lambda **kw: RandomCollectible(type=CardType.MINION, **kw)
+
+
 def RandomCard(**kwargs):
 	return random.choice(fireplace.cards.filter(**kwargs))
 
 
 def randomCollectible(**kwargs):
 	return RandomCard(collectible=True, **kwargs)
-
-
-def SummonRandomLegendary(*args):
-	legendary = randomCollectible(type=CardType.MINION, rarity=Rarity.LEGENDARY)
-	return [Summon(CONTROLLER, legendary)]
