@@ -15,8 +15,7 @@ class GVG_104:
 
 # Piloted Sky Golem
 class GVG_105:
-	def deathrattle(self):
-		return [Summon(CONTROLLER, randomCollectible(type=CardType.MINION, cost=4))]
+	deathrattle = [Summon(CONTROLLER, RandomMinion(cost=4))]
 
 
 # Junkbot
@@ -37,8 +36,7 @@ class GVG_107:
 # Recombobulator
 class GVG_108:
 	def action(self, target):
-		choice = randomCollectible(type=CardType.MINION, cost=target.cost)
-		return [Morph(TARGET, choice)]
+		return [Morph(TARGET, RandomMinion(cost=target.cost))]
 
 
 # Clockwork Giant

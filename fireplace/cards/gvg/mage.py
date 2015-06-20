@@ -41,7 +41,7 @@ class GVG_001:
 class GVG_003:
 	# TODO
 	def action(self):
-		card = self.controller.give(randomCollectible(type=CardType.MINION))
+		card = self.controller.give(RandomMinion())
 		self.buff(card, "GVG_003e")
 
 

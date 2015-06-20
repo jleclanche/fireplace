@@ -20,10 +20,8 @@ class GVG_040:
 
 # Neptulon
 class GVG_041:
-	def action(self):
-		for i in range(4):
-			choice = randomCollectible(race=Race.MURLOC)
-			yield Give(CONTROLLER, choice)
+	action = [Give(CONTROLLER, RandomMinion(race=Race.MURLOC)) * 4]
+
 
 ##
 # Spells

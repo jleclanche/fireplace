@@ -60,8 +60,7 @@ class GVG_090:
 
 # Piloted Shredder
 class GVG_096:
-	def deathrattle(self):
-		return [Summon(CONTROLLER, randomCollectible(type=CardType.MINION, cost=2))]
+	deathrattle = [Summon(CONTROLLER, RandomMinion(cost=2))]
 
 
 # Tinkertown Technician

@@ -164,8 +164,7 @@ class EX1_320:
 	def action(self, target):
 		yield Hit(TARGET, 2)
 		if target.dead:
-			choice = randomCollectible(type=CardType.MINION, race=Race.DEMON)
-			yield Summon(CONTROLLER, choice)
+			yield Summon(CONTROLLER, RandomMinion(race=Race.DEMON))
 
 
 # Demonfire
