@@ -52,7 +52,7 @@ class BRM_025:
 # Hungry Dragon
 class BRM_026:
 	def action(self):
-		return [Summon(CONTROLLER, randomCollectible(type=CardType.MINION, cost=1))]
+		return [Summon(OPPONENT, randomCollectible(type=CardType.MINION, cost=1))]
 
 
 ##
