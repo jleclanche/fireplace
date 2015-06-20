@@ -45,12 +45,12 @@ class GVG_076:
 
 # Mechanical Yeti
 class GVG_078:
-	deathrattle = [GiveSparePart(ALL_PLAYERS)]
+	deathrattle = [Give(ALL_PLAYERS, RandomSparePart())]
 
 
 # Clockwork Gnome
 class GVG_082:
-	deathrattle = [GiveSparePart(CONTROLLER)]
+	deathrattle = [Give(CONTROLLER, RandomSparePart())]
 
 
 # Madder Bomber
@@ -67,7 +67,7 @@ class GVG_096:
 class GVG_102:
 	def action(self):
 		if self.poweredUp:
-			return [Buff(SELF, "GVG_102e"), GiveSparePart(CONTROLLER)]
+			return [Buff(SELF, "GVG_102e"), Give(CONTROLLER, RandomSparePart())]
 
 
 # Micro Machine

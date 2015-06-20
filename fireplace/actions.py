@@ -397,15 +397,6 @@ class Give(TargetedAction):
 		return card
 
 
-class GiveSparePart(TargetedAction):
-	"""
-	Give player targets a random Spare Part.
-	This currently assumes the source has a Spare Part entourage.
-	"""
-	def do(self, source, game, target):
-		target.give(random.choice(source.data.entourage))
-
-
 class Hit(TargetedAction):
 	"""
 	Hit character targets by \a amount.
