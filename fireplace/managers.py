@@ -201,6 +201,7 @@ class SpellManager(Manager):
 	map.update({
 		GameTag.ImmuneToSpellpower: "immuneToSpellpower",
 		GameTag.SECRET: "secret",
+		GameTag.SPARE_PART: None,
 		GameTag.AFFECTED_BY_SPELL_POWER: None,
 		GameTag.EVIL_GLOW: None,
 	})
