@@ -19,6 +19,16 @@ def test_selector():
 	assert targets[0] == alex
 
 
+def test_empty_selector():
+	game = prepare_game()
+	game.player1.discardHand()
+	game.player2.discardHand()
+	selector = Selector(Zone.HAND)
+	
+	targets = selector.eval(game.player1.hand, game.player1)
+	assert not targets
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and hasattr(f, "__call__"):

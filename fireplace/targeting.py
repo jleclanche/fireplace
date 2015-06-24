@@ -152,6 +152,8 @@ class Selector:
 		return result
 
 	def eval(self, entities, source):
+		if not entities:
+			return []
 		self.opc = 0 # outer program counter
 		result = []
 		while self.opc < len(self.program):
