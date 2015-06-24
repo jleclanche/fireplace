@@ -30,6 +30,7 @@ class Game(Entity):
 		self.turn = 0
 		self.currentPlayer = None
 		self.auras = []
+		self.minionsKilled = CardList()
 		self._actionQueue = []
 
 	def __repr__(self):
@@ -131,6 +132,7 @@ class Game(Entity):
 				actions.append(Death(card))
 				card.ignoreEvents = True
 				if card.type == CardType.MINION:
+					self.minionsKilled.append(card)
 					self.minionsKilledThisTurn += 1
 					card.controller.minionsKilledThisTurn += 1
 				elif card.type == CardType.HERO:
