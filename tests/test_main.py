@@ -2070,6 +2070,27 @@ def test_knife_juggler():
 	assert game.player2.hero.health == 29
 
 
+def test_knife_juggler_swipe():
+	"""
+	Test that a Swipe on Knife Juggler that kills a Haunted Creeper
+	does not trigger the Knife Juggler by the time the spiders spawn
+	"""
+	game = prepare_game()
+	creeper = game.player2.summon("FP1_002")
+	juggler = game.player2.summon("NEW1_019")
+	game.currentPlayer.give(MOONFIRE).play(target=creeper)
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+	game.endTurn(); game.endTurn()
+
+	swipe = game.player1.give("CS2_012")
+	swipe.play(target=juggler)
+	assert juggler.dead
+	assert creeper.dead
+	assert len(game.player2.field) == 2
+	assert game.player1.hero.health == 30
+
+
 def test_mark_of_nature():
 	game = prepare_game()
 	mark1 = game.currentPlayer.give("EX1_155")
