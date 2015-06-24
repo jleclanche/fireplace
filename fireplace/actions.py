@@ -78,6 +78,8 @@ class Action: # Lawsuit
 
 	def broadcast(self, game, at, *args):
 		for entity in chain(game.hands, game.entities):
+			if entity.ignoreEvents:
+				continue
 			for event in entity._events:
 				if event.zone != entity.zone:
 					continue

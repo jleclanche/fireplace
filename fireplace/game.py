@@ -129,6 +129,7 @@ class Game(Entity):
 		for card in self.liveEntities:
 			if card.toBeDestroyed:
 				actions.append(Death(card))
+				card.ignoreEvents = True
 				if card.type == CardType.MINION:
 					self.minionsKilledThisTurn += 1
 					card.controller.minionsKilledThisTurn += 1
