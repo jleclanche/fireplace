@@ -31,6 +31,7 @@ class Game(Entity):
 		self.currentPlayer = None
 		self.auras = []
 		self.minionsKilled = CardList()
+		self.minionsKilledThisTurn = CardList()
 		self._actionQueue = []
 
 	def __repr__(self):
@@ -133,7 +134,7 @@ class Game(Entity):
 				card.ignoreEvents = True
 				if card.type == CardType.MINION:
 					self.minionsKilled.append(card)
-					self.minionsKilledThisTurn += 1
+					self.minionsKilledThisTurn.append(card)
 					card.controller.minionsKilledThisTurn += 1
 				elif card.type == CardType.HERO:
 					card.controller.playstate = PlayState.LOSING
@@ -237,7 +238,7 @@ class Game(Entity):
 		logging.info("%s begins turn %i", player, self.turn)
 		self.step, self.nextStep = self.nextStep, Step.MAIN_ACTION
 		self.currentPlayer = player
-		self.minionsKilledThisTurn = 0
+		self.minionsKilledThisTurn = CardList()
 
 		for p in self.players:
 			p.cardsDrawnThisTurn = 0

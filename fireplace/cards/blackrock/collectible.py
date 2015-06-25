@@ -26,7 +26,7 @@ class BRM_008:
 # Volcanic Lumberer
 class BRM_009:
 	def cost(self, value):
-		return value - self.game.minionsKilledThisTurn
+		return value - len(self.game.minionsKilledThisTurn)
 
 
 # Axe Flinger
@@ -46,7 +46,7 @@ class BRM_022:
 # Volcanic Drake
 class BRM_025:
 	def cost(self, value):
-		return value - self.game.minionsKilledThisTurn
+		return value - len(self.game.minionsKilledThisTurn)
 
 
 # Hungry Dragon
@@ -62,7 +62,7 @@ class BRM_001:
 	action = [Draw(CONTROLLER) * 2]
 
 	def cost(self, value):
-		return value - self.game.minionsKilledThisTurn
+		return value - len(self.game.minionsKilledThisTurn)
 
 
 # Dragon's Breath
@@ -70,7 +70,7 @@ class BRM_003:
 	action = [Hit(TARGET, 4)]
 
 	def cost(self, value):
-		return value - self.game.minionsKilledThisTurn
+		return value - len(self.game.minionsKilledThisTurn)
 
 
 # Demonwrath
