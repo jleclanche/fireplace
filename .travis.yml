@@ -11,7 +11,7 @@ script:
 #  - pip install --download-cache $HOME/.pip-cache coveralls
   - ./bootstrap.sh
   - ./setup.py install
-#  - coverage run tests/test_main.py
+  - ./tests/test_main.py
 # after_script:
 #  - coveralls
 notifications:
