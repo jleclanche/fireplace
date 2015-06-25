@@ -76,3 +76,11 @@ class BRM_003:
 # Demonwrath
 class BRM_005:
 	action = [Hit(ALL_MINIONS - DEMON, 2)]
+
+
+# Resurrect
+class BRM_017:
+	def action(self):
+		minions = self.game.minionsKilled.filter(controller=self.controller)
+		if minions:
+			return [Summon(CONTROLLER, random.choice(minions).id)]

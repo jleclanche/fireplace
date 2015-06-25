@@ -3862,6 +3862,49 @@ def test_discard_enchanted_cards():
 	assert not game.player1.hand
 
 
+def test_resurrect():
+	# Doesn't summon if nothing died
+	game = prepare_game()
+	for i in range(2):
+		game.endTurn(); game.endTurn()
+	game.player1.give("BRM_017").play()
+	assert len(game.player1.field) == 0
+
+	# Summons something
+	game = prepare_game()
+	for i in range(2):
+		game.endTurn(); game.endTurn()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.player1.give(MOONFIRE).play(target=wisp)
+	assert len(game.player1.field) == 0
+	game.player1.give("BRM_017").play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0] == wisp
+
+
+def test_resurrect_wild_pyro():
+	# Wild pyromancer + resurrect triggers
+	game = prepare_game()
+	for i in range(4):
+		game.endTurn(); game.endTurn()
+
+	resurrect = game.player1.give("BRM_017")
+	pyromancer = game.player1.give("NEW1_020")
+	pyromancer.play()
+	game.player1.give(MOONFIRE).play(target=pyromancer)
+	game.player1.give(MOONFIRE).play(target=pyromancer)
+	assert pyromancer.dead
+
+	game.player1.give(WISP).play()
+	assert len(game.player1.field) == 1
+
+	resurrect.play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == pyromancer.id
+	assert game.player1.field[0].health == 1
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and hasattr(f, "__call__"):
