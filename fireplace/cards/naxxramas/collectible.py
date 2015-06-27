@@ -46,6 +46,17 @@ class FP1_012:
 	deathrattle = [Summon(CONTROLLER, "FP1_012t")]
 
 
+# Kel'Thuzad
+class FP1_013:
+	def resurrect_friendly_minions(self, *args):
+		for minion in self.game.minionsKilledThisTurn.filter(controller=self.controller):
+			yield Summon(CONTROLLER, minion.id)
+
+	events = [
+		TURN_END.on(resurrect_friendly_minions)
+	]
+
+
 # Wailing Soul
 class FP1_016:
 	action = [Silence(FRIENDLY_MINIONS)]

@@ -2053,6 +2053,49 @@ def test_kezan_mystic():
 	assert snipe in game.player1.secrets
 
 
+def test_kel_thuzad():
+	game = prepare_game()
+	kt = game.player1.summon("FP1_013")
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 0
+	game.endTurn()
+
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 0
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	game.player2.give(MOONFIRE).play(target=wisp)
+	game.endTurn()
+
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 0
+	wisp2 = game.player1.give(WISP)
+	wisp2.play()
+	assert len(game.player1.field) == 2
+	assert len(game.player2.field) == 0
+	game.endTurn()
+
+	assert len(game.player1.field) == 2
+	assert len(game.player2.field) == 0
+	game.player2.give(MOONFIRE).play(target=wisp2)
+	assert wisp2.dead
+	assert len(game.player1.field) == 1
+	game.endTurn()
+
+	assert wisp2.dead
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1] == WISP
+	game.endTurn()
+
+	# ensure the effect is gone when Kel'Thuzad dies
+	game.player1.give(MOONFIRE).play(target=game.player1.field[1])
+	kt.destroy()
+	assert len(game.player1.field) == 0
+	game.endTurn()
+
+	assert len(game.player1.field) == 0
+
+
 def test_knife_juggler():
 	game = prepare_game()
 	juggler = game.player1.give("NEW1_019")
