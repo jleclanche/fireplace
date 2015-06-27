@@ -9,7 +9,7 @@ from .utils import CardList
 
 
 # Requirements-based targeting
-def isValidTarget(self, target, requirements=None):
+def is_valid_target(self, target, requirements=None):
 	if target.type == CardType.MINION:
 		if target.dead:
 			return False
@@ -17,9 +17,9 @@ def isValidTarget(self, target, requirements=None):
 			return False
 		if target.immune and self.controller != target.controller:
 			return False
-		if self.type == CardType.SPELL and target.cantBeTargetedByAbilities:
+		if self.type == CardType.SPELL and target.cant_be_targeted_by_abilities:
 			return False
-		if self.type == CardType.HERO_POWER and target.cantBeTargetedByHeroPowers:
+		if self.type == CardType.HERO_POWER and target.cant_be_targeted_by_hero_powers:
 			return False
 
 	if requirements is None:
@@ -39,7 +39,7 @@ def isValidTarget(self, target, requirements=None):
 			if not target.damage:
 				return False
 		elif req == PlayReq.REQ_YOUR_TURN:
-			if not self.controller.currentPlayer:
+			if not self.controller.current_player:
 				return False
 		elif req == PlayReq.REQ_TARGET_MAX_ATTACK:
 			if target.atk > param or 0:
@@ -74,10 +74,10 @@ def isValidTarget(self, target, requirements=None):
 			if target.type != CardType.WEAPON:
 				return False
 		elif req == PlayReq.REQ_NO_MINIONS_PLAYED_THIS_TURN:
-			if self.controller.minionsPlayedThisTurn:
+			if self.controller.minions_played_this_turn:
 				return False
 		elif req == PlayReq.REQ_TARGET_HAS_BATTLECRY:
-			if not target.hasBattlecry:
+			if not target.has_battlecry:
 				return False
 		elif req == PlayReq.REQ_SOURCE_IS_ENRAGED:
 			if not self.enraged:
@@ -295,7 +295,7 @@ class AdjacentSelector(Selector):
 		def merge(self, selector, entities):
 			result = []
 			for e in entities:
-				result.extend(e.adjacentMinions)
+				result.extend(e.adjacent_minions)
 			return result
 
 	def __init__(self, selector):

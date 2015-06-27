@@ -25,7 +25,7 @@ class EX1_134:
 # Edwin VanCleef
 class EX1_613:
 	def combo(self):
-		count = self.controller.cardsPlayedThisTurn
+		count = self.controller.cards_played_this_turn
 		return [Buff(self, "EX1_613e") * count]
 
 

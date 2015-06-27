@@ -100,7 +100,7 @@ class CS2_236:
 
 class CS2_236e:
 	def apply(self, target):
-		self.maxHealth = target.health
+		self.max_health = target.health
 
 
 # Mind Blast

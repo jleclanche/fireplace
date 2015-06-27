@@ -33,14 +33,14 @@ class EX1_301:
 class EX1_304:
 	# TODO
 	def action(self):
-		if self.adjacentMinions:
+		if self.adjacent_minions:
 			atk = 0
 			health = 0
-			for minion in self.adjacentMinions:
+			for minion in self.adjacent_minions:
 				atk += minion.atk
 				health += minion.health
 				minion.destroy()
-			buff = self.buff(self, "EX1_304e", atk=atk, maxHealth=health)
+			buff = self.buff(self, "EX1_304e", atk=atk, max_health=health)
 
 
 # Succubus

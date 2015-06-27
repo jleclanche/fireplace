@@ -28,10 +28,10 @@ class Game(Entity):
 			player.game = self
 		self.step = Step.BEGIN_FIRST
 		self.turn = 0
-		self.currentPlayer = None
+		self.current_player = None
 		self.auras = []
-		self.minionsKilled = CardList()
-		self.minionsKilledThisTurn = CardList()
+		self.minions_killed = CardList()
+		self.minions_killed_this_turn = CardList()
 		self._actionQueue = []
 
 	def __repr__(self):
@@ -75,35 +75,34 @@ class Game(Entity):
 		return self.allEntities.filter(*args, **kwargs)
 
 	def attack(self, source, target):
-		return self.queueActions(source, [Attack(source, target)])
+		return self.queue_actions(source, [Attack(source, target)])
 
 	def _attack(self):
 		"""
 		See https://github.com/jleclanche/fireplace/wiki/Combat
 		for information on how attacking works
 		"""
-		attacker = self.proposedAttacker
-		defender = self.proposedDefender
-		self.proposedAttacker = None
-		self.proposedDefender = None
-		if attacker.shouldExitCombat:
+		attacker = self.proposed_attacker
+		defender = self.proposed_defender
+		self.proposed_attacker = None
+		self.proposed_defender = None
+		if attacker.should_exit_combat:
 			logging.info("Attack has been interrupted.")
-			attacker.shouldExitCombat = False
+			attacker.should_exit_combat = False
 			attacker.attacking = False
 			defender.defending = False
 			return
 		# Save the attacker/defender atk values in case they change during the attack
 		# (eg. in case of Enrage)
-		attAtk = attacker.atk
-		defAtk = defender.atk
-		attacker.hit(defender, attAtk)
-		if defAtk:
-			defender.hit(attacker, defAtk)
+		def_atk = defender.atk
+		attacker.hit(defender, attacker.atk)
+		if def_atk:
+			defender.hit(attacker, def_atk)
 		if attacker.type == CardType.HERO and attacker.controller.weapon:
 			attacker.controller.weapon.loseDurability()
 		attacker.attacking = False
 		defender.defending = False
-		attacker.numAttacks += 1
+		attacker.num_attacks += 1
 
 	def card(self, id):
 		card = Card(id)
@@ -123,19 +122,19 @@ class Game(Entity):
 		raise GameOver("The game has ended.")
 
 	def processDeaths(self):
-		return self.queueActions(self, [Deaths()])
+		return self.queue_actions(self, [Deaths()])
 
 	def _processDeaths(self):
 		actions = []
 		losers = []
 		for card in self.liveEntities:
-			if card.toBeDestroyed:
+			if card.to_be_destroyed:
 				actions.append(Death(card))
 				card.ignoreEvents = True
 				if card.type == CardType.MINION:
-					self.minionsKilled.append(card)
-					self.minionsKilledThisTurn.append(card)
-					card.controller.minionsKilledThisTurn += 1
+					self.minions_killed.append(card)
+					self.minions_killed_this_turn.append(card)
+					card.controller.minions_killed_this_turn += 1
 				elif card.type == CardType.HERO:
 					card.controller.playstate = PlayState.LOSING
 					losers.append(card.controller)
@@ -145,9 +144,9 @@ class Game(Entity):
 			return
 
 		if actions:
-			self.queueActions(self, actions)
+			self.queue_actions(self, actions)
 
-	def queueActions(self, source, actions):
+	def queue_actions(self, source, actions):
 		"""
 		Queue a list of \a actions for processing from \a source.
 		"""
@@ -159,7 +158,7 @@ class Game(Entity):
 			else:
 				self._actionQueue.append(action)
 				ret.append(action.trigger(source, self))
-				self.refreshAuras()
+				self.refresh_auras()
 				self._actionQueue.pop()
 		if not self._actionQueue:
 			self._processDeaths()
@@ -174,7 +173,7 @@ class Game(Entity):
 		logging.info("Tossing the coin... %s wins!" % (winner))
 		return winner, loser
 
-	def refreshAuras(self):
+	def refresh_auras(self):
 		for aura in self.auras:
 			aura.update()
 
@@ -183,17 +182,17 @@ class Game(Entity):
 		self.player1, self.player2 = self.tossCoin()
 		self.manager.new_entity(self.player1)
 		self.manager.new_entity(self.player2)
-		self.currentPlayer = self.player1
+		self.current_player = self.player1
 		# XXX: Mulligan events should handle the following, but unimplemented for now
-		self.player1.cardsDrawnThisTurn = 0
-		self.player2.cardsDrawnThisTurn = 0
+		self.player1.cards_drawn_this_turn = 0
+		self.player2.cards_drawn_this_turn = 0
 		for player in self.players:
 			player.zone = Zone.PLAY
 			player.summon(player.originalDeck.hero)
 			for card in player.originalDeck:
 				card.controller = player
 				card.zone = Zone.DECK
-			player.shuffleDeck()
+			player.shuffle_deck()
 			player.playstate = PlayState.PLAYING
 
 		self.player1.draw(3)
@@ -205,59 +204,59 @@ class Game(Entity):
 	def beginMulligan(self):
 		logging.info("Entering mulligan phase")
 		self.step = Step.BEGIN_MULLIGAN
-		self.nextStep = Step.MAIN_READY
+		self.next_step = Step.MAIN_READY
 		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
 		self.player2.give(THE_COIN)
-		self.beginTurn(self.player1)
+		self.begin_turn(self.player1)
 
-	def endTurn(self):
-		return self.queueActions(self, [EndTurn(self.currentPlayer)])
+	def end_turn(self):
+		return self.queue_actions(self, [EndTurn(self.current_player)])
 
-	def _endTurn(self):
-		logging.info("%s ends turn %i", self.currentPlayer, self.turn)
-		self.step, self.nextStep = self.nextStep, Step.MAIN_CLEANUP
+	def _end_turn(self):
+		logging.info("%s ends turn %i", self.current_player, self.turn)
+		self.step, self.next_step = self.next_step, Step.MAIN_CLEANUP
 
-		self.currentPlayer.tempMana = 0
-		for character in self.currentPlayer.characters.filter(frozen=True):
-			if not character.numAttacks:
+		self.current_player.temp_mana = 0
+		for character in self.current_player.characters.filter(frozen=True):
+			if not character.num_attacks:
 				character.frozen = False
-		for buff in self.currentPlayer.entities.filter(oneTurnEffect=True):
+		for buff in self.current_player.entities.filter(one_turn_effect=True):
 			logging.info("Ending One-Turn effect: %r", buff)
 			buff.destroy()
 
-		self.step, self.nextStep = self.nextStep, Step.MAIN_NEXT
-		self.beginTurn(self.currentPlayer.opponent)
+		self.step, self.next_step = self.next_step, Step.MAIN_NEXT
+		self.begin_turn(self.current_player.opponent)
 
-	def beginTurn(self, player):
-		return self.queueActions(self, [BeginTurn(player)])
+	def begin_turn(self, player):
+		return self.queue_actions(self, [BeginTurn(player)])
 
-	def _beginTurn(self, player):
-		self.step, self.nextStep = self.nextStep, Step.MAIN_START_TRIGGERS
-		self.step, self.nextStep = self.nextStep, Step.MAIN_START
+	def _begin_turn(self, player):
+		self.step, self.next_step = self.next_step, Step.MAIN_START_TRIGGERS
+		self.step, self.next_step = self.next_step, Step.MAIN_START
 		self.turn += 1
 		logging.info("%s begins turn %i", player, self.turn)
-		self.step, self.nextStep = self.nextStep, Step.MAIN_ACTION
-		self.currentPlayer = player
-		self.minionsKilledThisTurn = CardList()
+		self.step, self.next_step = self.next_step, Step.MAIN_ACTION
+		self.current_player = player
+		self.minions_killed_this_turn = CardList()
 
 		for p in self.players:
-			p.cardsDrawnThisTurn = 0
-			p.currentPlayer = p is player
+			p.cards_drawn_this_turn = 0
+			p.current_player = p is player
 
-		player.turnStart = timegm(time.gmtime())
-		player.cardsPlayedThisTurn = 0
-		player.minionsPlayedThisTurn = 0
-		player.minionsKilledThisTurn = 0
+		player.turn_start = timegm(time.gmtime())
+		player.cards_played_this_turn = 0
+		player.minions_played_this_turn = 0
+		player.minions_killed_this_turn = 0
 		player.combo = False
-		player.maxMana += 1
-		player.usedMana = player.overloaded
+		player.max_mana += 1
+		player.used_mana = player.overloaded
 		player.overloaded = 0
 		for entity in player.entities:
 			if entity.type != CardType.PLAYER:
-				entity.turnsInPlay += 1
+				entity.turns_in_play += 1
 				if entity.type == CardType.HERO_POWER:
 					entity.exhausted = False
 				elif entity.type in (CardType.HERO, CardType.MINION):
-					entity.numAttacks = 0
+					entity.num_attacks = 0
 
 		player.draw()

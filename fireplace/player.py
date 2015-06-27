@@ -6,7 +6,7 @@ from .card import BaseCard
 from .deck import Deck
 from .entity import Entity
 from .enums import CardType, PlayState, PowSubType, Zone
-from .entity import slotProperty
+from .entity import slot_property
 from .managers import PlayerManager
 from .targeting import *
 from .utils import CardList
@@ -14,8 +14,8 @@ from .utils import CardList
 
 class Player(Entity):
 	Manager = PlayerManager
-	extraDeathrattles = slotProperty("extraDeathrattles")
-	outgoingHealingAdjustment = slotProperty("outgoingHealingAdjustment")
+	extra_deathrattles = slot_property("extra_deathrattles")
+	outgoing_healing_adjustment = slot_property("outgoing_healing_adjustment")
 	type = CardType.PLAYER
 
 	def __init__(self, name):
@@ -27,19 +27,19 @@ class Player(Entity):
 		self.field = CardList()
 		self.secrets = CardList()
 		self.buffs = []
-		self.maxHandSize = 10
-		self.maxResources = 10
-		self.currentPlayer = False
-		self.fatigueCounter = 0
+		self.max_hand_size = 10
+		self.max_resources = 10
+		self.current_player = False
+		self.fatigue_counter = 0
 		self.hero = None
-		self.lastCardPlayed = None
+		self.last_card_played = None
 		self.overloaded = 0
-		self.maxMana = 0
+		self.max_mana = 0
 		self.playstate = PlayState.INVALID
-		self.tempMana = 0
+		self.temp_mana = 0
 		self.timeout = 75
-		self.timesHeroPowerUsedThisGame = 0
-		self.minionsKilledThisTurn = 0
+		self.times_hero_power_used_this_game = 0
+		self.minions_killed_this_turn = 0
 		self.weapon = None
 		self.zone = Zone.INVALID
 
@@ -59,7 +59,7 @@ class Player(Entity):
 
 	@property
 	def mana(self):
-		mana = max(0, self.maxMana - self.usedMana) + self.tempMana
+		mana = max(0, self.max_mana - self.used_mana) + self.temp_mana
 		return mana
 
 	@property
@@ -76,7 +76,7 @@ class Player(Entity):
 		for entity in self.field:
 			ret += entity.entities
 		# Secrets are only active on the opponent's turn
-		if not self.currentPlayer:
+		if not self.current_player:
 			for entity in self.secrets:
 				ret += entity.entities
 		return CardList(chain(list(self.hero.entities) if self.hero else [], ret, [self]))
@@ -96,7 +96,7 @@ class Player(Entity):
 		return [p for p in self.game.players if p != self][0]
 
 	def give(self, id):
-		cards = self.game.queueActions(self, [Give(self, id)])[0]
+		cards = self.game.queue_actions(self, [Give(self, id)])[0]
 		return cards[0]
 
 	def getById(self, id):
@@ -106,11 +106,11 @@ class Player(Entity):
 				return card
 		raise ValueError
 
-	def prepareDeck(self, cards, hero):
+	def prepare_deck(self, cards, hero):
 		self.originalDeck = Deck.fromList(cards)
 		self.originalDeck.hero = hero
 
-	def discardHand(self):
+	def discard_hand(self):
 		logging.info("%r discards his entire hand!" % (self))
 		# iterate the list in reverse so we don't skip over cards in the process
 		# yes it's stupid.
@@ -118,7 +118,7 @@ class Player(Entity):
 			card.discard()
 
 	def draw(self, count=1):
-		ret = self.game.queueActions(self, [Draw(self) * count])[0]
+		ret = self.game.queue_actions(self, [Draw(self) * count])[0]
 		if count == 1:
 			return ret[0]
 		return ret
@@ -140,18 +140,18 @@ class Player(Entity):
 			return ret
 
 	def fatigue(self):
-		self.fatigueCounter += 1
-		logging.info("%s takes %i fatigue damage" % (self, self.fatigueCounter))
-		self.hero.hit(self.hero, self.fatigueCounter)
+		self.fatigue_counter += 1
+		logging.info("%s takes %i fatigue damage" % (self, self.fatigue_counter))
+		self.hero.hit(self.hero, self.fatigue_counter)
 
 	@property
-	def maxMana(self):
-		return self._maxMana
+	def max_mana(self):
+		return self._max_mana
 
-	@maxMana.setter
-	def maxMana(self, amount):
-		self._maxMana = min(self.maxResources, max(0, amount))
-		logging.info("%s is now at %i mana crystals", self, self._maxMana)
+	@max_mana.setter
+	def max_mana(self, amount):
+		self._max_mana = min(self.max_resources, max(0, amount))
+		logging.info("%s is now at %i mana crystals", self, self._max_mana)
 
 	def takeControl(self, card):
 		logging.info("%s takes control of %r", self, card)
@@ -160,7 +160,7 @@ class Player(Entity):
 		card.controller = self
 		card.zone = zone
 
-	def shuffleDeck(self):
+	def shuffle_deck(self):
 		logging.info("%r shuffles their deck", self)
 		random.shuffle(self.deck)
 
@@ -171,11 +171,11 @@ class Player(Entity):
 		if isinstance(card, str):
 			card = self.game.card(card)
 			card.controller = self
-		self.game.queueActions(self, [Summon(self, card)])
+		self.game.queue_actions(self, [Summon(self, card)])
 		return card
 
 	def play(self, card, target=None, choose=None):
-		return self.game.queueActions(self, [Play(card, target, choose)])
+		return self.game.queue_actions(self, [Play(card, target, choose)])
 
 	def _play(self, card):
 		"""
@@ -184,17 +184,17 @@ class Player(Entity):
 		logging.info("%s plays %r from their hand" % (self, card))
 		assert card.controller
 		cost = card.cost
-		if self.tempMana:
+		if self.temp_mana:
 			# The coin, Innervate etc
-			cost -= self.tempMana
-			self.tempMana = max(0, self.tempMana - card.cost)
-		self.usedMana += cost
+			cost -= self.temp_mana
+			self.temp_mana = max(0, self.temp_mana - card.cost)
+		self.used_mana += cost
 		if card.overload:
 			logging.info("%s overloads for %i mana", self, card.overload)
 			self.overloaded += card.overload
-		self.lastCardPlayed = card
+		self.last_card_played = card
 		self.summon(card)
 		self.combo = True
-		self.cardsPlayedThisTurn += 1
+		self.cards_played_this_turn += 1
 		if card.type == CardType.MINION:
-			self.minionsPlayedThisTurn += 1
+			self.minions_played_this_turn += 1

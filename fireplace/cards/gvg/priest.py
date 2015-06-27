@@ -23,7 +23,7 @@ class GVG_014:
 		self.buff(self, "GVG_014a", health=health)
 
 class GVG_014a:
-	maxHealth = lambda self, i: self.health
+	max_health = lambda self, i: self.health
 
 
 # Shadowboxer

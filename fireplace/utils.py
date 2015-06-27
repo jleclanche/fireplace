@@ -57,7 +57,7 @@ def randomDraft(hero, exclude=[]):
 		if cls.type == CardType.HERO:
 			# Heroes are collectible...
 			continue
-		if cls.cardClass and cls.cardClass != hero.cardClass:
+		if cls.card_class and cls.card_class != hero.card_class:
 			continue
 		collection.append(cls)
 

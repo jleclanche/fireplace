@@ -49,7 +49,7 @@ class FP1_012:
 # Kel'Thuzad
 class FP1_013:
 	def resurrect_friendly_minions(self, *args):
-		for minion in self.game.minionsKilledThisTurn.filter(controller=self.controller):
+		for minion in self.game.minions_killed_this_turn.filter(controller=self.controller):
 			yield Summon(CONTROLLER, minion.id)
 
 	events = [

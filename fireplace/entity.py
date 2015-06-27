@@ -21,14 +21,14 @@ class Entity(object):
 		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
 
 
-def slotProperty(attr):
+def slot_property(attr):
 	@property
 	def func(self):
 		return any(getattr(slot, attr, False) for slot in self.slots)
 	return func
 
 
-def booleanProperty(attr):
+def boolean_property(attr):
 	@property
 	def func(self):
 		return getattr(self, "_" + attr, False) \
@@ -41,7 +41,7 @@ def booleanProperty(attr):
 
 	return func
 
-def intProperty(attr):
+def int_property(attr):
 	@property
 	def func(self):
 		ret = self._getattr(attr, 0)

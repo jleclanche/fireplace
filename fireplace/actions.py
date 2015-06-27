@@ -90,7 +90,7 @@ class Action: # Lawsuit
 							actions += action(entity, *args)
 						else:
 							actions.append(action)
-					game.queueActions(entity, actions)
+					game.queue_actions(entity, actions)
 					if event.once:
 						entity._events.remove(event)
 
@@ -133,8 +133,8 @@ class Attack(GameAction):
 		return ret
 
 	def do(self, source, game, *args):
-		game.proposedAttacker = self.source
-		game.proposedDefender = self.target
+		game.proposed_attacker = self.source
+		game.proposed_defender = self.target
 		logging.info("%r attacks %r", self.source, self.target)
 		self.broadcast(game, EventListener.ON, *args)
 		game._attack()
@@ -149,7 +149,7 @@ class BeginTurn(GameAction):
 
 	def do(self, source, game, *args):
 		self.broadcast(game, EventListener.ON, self.player)
-		game._beginTurn(self.player)
+		game._begin_turn(self.player)
 
 
 class Deaths(GameAction):
@@ -171,10 +171,10 @@ class Death(GameAction):
 		self.broadcast(game, EventListener.ON, target)
 		if target.deathrattles:
 			logging.info("Triggering Deathrattle for %r", target)
-			target.triggerDeathrattles()
-			if target.controller.extraDeathrattles:
+			target.trigger_deathrattles()
+			if target.controller.extra_deathrattles:
 				logging.info("Triggering Deathrattle for %r again", target)
-				target.triggerDeathrattles()
+				target.trigger_deathrattles()
 
 
 class EndTurn(GameAction):
@@ -186,7 +186,7 @@ class EndTurn(GameAction):
 
 	def do(self, source, game, *args):
 		self.broadcast(game, EventListener.ON, self.player)
-		game._endTurn()
+		game._end_turn()
 
 
 class Play(GameAction):
@@ -202,17 +202,17 @@ class Play(GameAction):
 
 	def do(self, source, game, *args):
 		card = self.card
-		if card.hasTarget():
+		if card.has_target():
 			assert self.target
 		card.target = self.target
 
 		if self.choose:
 			# Choose One cards replace the action on the played card
-			assert self.choose in card.data.chooseCards
+			assert self.choose in card.data.choose_cards
 			chosen = game.card(self.choose)
 			chosen.controller = source
 			logging.info("Choose One from %r: %r", card, chosen)
-			if chosen.hasTarget():
+			if chosen.has_target():
 				chosen.target = self.target
 			card.chosen = chosen
 		card.choose = self.choose
@@ -379,7 +379,7 @@ class GainMana(TargetedAction):
 	args = ("targets", "amount")
 
 	def do(self, source, game, target):
-		target.maxMana += self.amount
+		target.max_mana += self.amount
 
 
 class Give(TargetedAction):
@@ -425,7 +425,7 @@ class Heal(TargetedAction):
 	args = ("targets", "amount")
 
 	def do(self, source, game, target):
-		if source.controller.outgoingHealingAdjustment:
+		if source.controller.outgoing_healing_adjustment:
 			# "healing as damage" (hack-ish)
 			return source.hit(target, self.amount)
 
@@ -444,7 +444,7 @@ class ManaThisTurn(TargetedAction):
 	args = ("targets", "amount")
 
 	def do(self, source, game, target):
-		target.tempMana += self.amount
+		target.temp_mana += self.amount
 
 
 class Mill(TargetedAction):
@@ -482,7 +482,7 @@ class FillMana(TargetedAction):
 	args = ("targets", "amount")
 
 	def do(self, source, game, target):
-		target.usedMana -= self.amount
+		target.used_mana -= self.amount
 
 
 class Reveal(TargetedAction):

@@ -7,19 +7,19 @@ class CardXML(object):
 	def __init__(self, xml):
 		self.xml = xml
 		e = self.xml.findall("./Tag")
-		self.tags = {GameTag(int(tag.attrib["enumID"])): self._getTag(tag) for tag in e}
+		self.tags = {GameTag(int(tag.attrib["enumID"])): self._get_tag(tag) for tag in e}
 
 		e = self.xml.findall("HeroPower")
-		self.heroPower = e and e[0].attrib["cardID"] or None
+		self.hero_power = e and e[0].attrib["cardID"] or None
 
 		e = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
 		self.requirements = self._getRequirements(e)
 
 		e = self.xml.findall("PowerUpRequirement")
-		self.powerUpRequirements = [Race(int(tag.attrib["param"])) for tag in e]
+		self.powerup_requirements = [Race(int(tag.attrib["param"])) for tag in e]
 
 		e = self.xml.findall("./EnrageDefinition/Tag")
-		self.enrageTags = {GameTag(int(tag.attrib["enumID"])): self._getTag(tag) for tag in e}
+		self.enrage_tags = {GameTag(int(tag.attrib["enumID"])): self._get_tag(tag) for tag in e}
 
 		e = self.xml.findall("Aura")
 		self.auras = [{
@@ -28,7 +28,7 @@ class CardXML(object):
 			"type": AuraType(int(tag.attrib["type"])),
 		} for tag in e]
 
-		self.chooseCards = [tag.attrib["cardID"] for tag in xml.findall("ChooseCard")]
+		self.choose_cards = [tag.attrib["cardID"] for tag in xml.findall("ChooseCard")]
 		self.entourage = [tag.attrib["cardID"] for tag in xml.findall("EntourageCard")]
 
 	def __str__(self):
@@ -40,7 +40,7 @@ class CardXML(object):
 	def _findTag(self, id):
 		return self.xml.findall('./Tag[@enumID="%i"]' % (id))
 
-	def _getTag(self, element):
+	def _get_tag(self, element):
 		type = element.attrib.get("type", "Int")
 
 		if type == "Card":
@@ -71,7 +71,7 @@ class CardXML(object):
 		return self.tags.get(GameTag.CARDTEXT_INHAND, "")
 
 	@property
-	def cardClass(self):
+	def card_class(self):
 		return CardClass(self.tags.get(GameTag.CLASS, 0))
 
 	@property

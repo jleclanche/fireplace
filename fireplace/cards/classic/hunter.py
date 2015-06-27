@@ -44,7 +44,7 @@ class CS2_084:
 	action = [Buff(TARGET, "CS2_084e")]
 
 class CS2_084e:
-	maxHealth = lambda self, i: 1
+	max_health = lambda self, i: 1
 
 # Multi-Shot
 class DS1_183:

@@ -41,7 +41,7 @@ class PART_006:
 
 class PART_006a:
 	atk = lambda self, i: self._xatk
-	maxHealth = lambda self, i: self._xhealth
+	max_health = lambda self, i: self._xhealth
 
 	def apply(self, target):
 		self._xhealth = target.atk

@@ -21,7 +21,7 @@ class EX1_586:
 # Blood Knight
 class EX1_590:
 	def action(self):
-		count = len(self.game.board.filter(divineShield=True))
+		count = len(self.game.board.filter(divine_shield=True))
 		return [
 			SetTag(ALL_MINIONS, {GameTag.DIVINE_SHIELD: False}),
 			Buff(self, "EX1_590e") * count,

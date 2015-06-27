@@ -126,7 +126,7 @@ class EX1_619:
 	action = [Buff(ALL_MINIONS, "EX1_619e")]
 
 class EX1_619e:
-	maxHealth = lambda self, i: 1
+	max_health = lambda self, i: 1
 
 
 ##

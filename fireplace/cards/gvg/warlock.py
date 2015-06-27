@@ -33,7 +33,7 @@ class GVG_077:
 class GVG_100:
 	events = [
 		Damage(FRIENDLY_HERO).on(
-			lambda self, target, amount, source: self.controller.currentPlayer and [Buff(SELF, "GVG_100e")] or []
+			lambda self, target, amount, source: self.controller.current_player and [Buff(SELF, "GVG_100e")] or []
 		)
 	]
 

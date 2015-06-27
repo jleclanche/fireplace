@@ -7,7 +7,7 @@ from test_main import prepare_game
 
 def test_selector():
 	game = prepare_game()
-	game.player1.discardHand()
+	game.player1.discard_hand()
 	alex = game.player1.give("EX1_561")
 	selector = Selector(Race.PIRATE, Race.DRAGON) + Selector(CardType.MINION)
 	assert len(selector.eval(game.player1.hand, game.player1)) >= 1
@@ -21,10 +21,10 @@ def test_selector():
 
 def test_empty_selector():
 	game = prepare_game()
-	game.player1.discardHand()
-	game.player2.discardHand()
+	game.player1.discard_hand()
+	game.player2.discard_hand()
 	selector = Selector(Zone.HAND)
-	
+
 	targets = selector.eval(game.player1.hand, game.player1)
 	assert not targets
 
