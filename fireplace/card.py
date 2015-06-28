@@ -840,6 +840,10 @@ class HeroPower(PlayableCard):
 		if actions:
 			return self.game.queue_actions(self, actions)
 
+	def hit(self, target, amount):
+		amount *= (self.controller.hero_power_double + 1)
+		super().hit(target, amount)
+
 	def play(self, target=None):
 		logging.info("%s plays hero power %r" % (self.controller, self))
 		assert self.is_playable()

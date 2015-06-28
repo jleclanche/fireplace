@@ -15,6 +15,7 @@ from .utils import CardList
 class Player(Entity):
 	Manager = PlayerManager
 	extra_deathrattles = slot_property("extra_deathrattles")
+	hero_power_double = slot_property("hero_power_double", sum)
 	healing_double = slot_property("healing_double", sum)
 	outgoing_healing_adjustment = slot_property("outgoing_healing_adjustment")
 	spellpower_double = slot_property("spellpower_double", sum)
