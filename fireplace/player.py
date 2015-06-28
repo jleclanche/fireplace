@@ -95,6 +95,13 @@ class Player(Entity):
 		# Hacky.
 		return [p for p in self.game.players if p != self][0]
 
+	def get_spell_damage(self, amount: int) -> int:
+		"""
+		Returns the amount of damage \a amount will do, taking
+		SPELLPOWER into account.
+		"""
+		return amount + self.spellpower
+
 	def give(self, id):
 		cards = self.game.queue_actions(self, [Give(self, id)])[0]
 		return cards[0]

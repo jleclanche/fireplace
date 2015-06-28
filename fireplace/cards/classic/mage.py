@@ -116,7 +116,7 @@ class EX1_275:
 # Arcane Missiles
 class EX1_277:
 	def action(self):
-		count = 3 + self.controller.spellpower
+		count = self.controller.get_spell_damage(3)
 		return [Hit(RANDOM_ENEMY_CHARACTER, 1) * count]
 
 

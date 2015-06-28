@@ -117,7 +117,7 @@ class EX1_371:
 # Avenging Wrath
 class EX1_384:
 	def action(self):
-		count = 8 + self.controller.spellpower
+		count = self.controller.get_spell_damage(8)
 		return [Hit(RANDOM_ENEMY_CHARACTER, 1) * count]
 
 

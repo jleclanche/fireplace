@@ -610,7 +610,7 @@ class Spell(PlayableCard):
 
 	def hit(self, target, amount):
 		if not self.immune_to_spellpower:
-			amount += self.controller.spellpower
+			amount = self.controller.get_spell_damage(amount)
 		super().hit(target, amount)
 
 
