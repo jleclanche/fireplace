@@ -429,7 +429,8 @@ class Heal(TargetedAction):
 			# "healing as damage" (hack-ish)
 			return source.hit(target, self.amount)
 
-		amount = min(self.amount, target.damage)
+		amount = self.amount * (source.controller.healing_double + 1)
+		amount = min(amount, target.damage)
 		if amount:
 			# Undamaged targets do not receive heals
 			logging.info("%r heals %r for %i", source, target, amount)
