@@ -3955,5 +3955,4 @@ def main():
 
 
 if __name__ == "__main__":
-	test_dire_wolf_alpha()
 	main()
