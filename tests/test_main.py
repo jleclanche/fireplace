@@ -3702,17 +3702,16 @@ def test_stoneskin_gargoyle():
 	game.end_turn(); game.end_turn()
 	assert gargoyle.health == 4
 
-	# soulpriest test. NYI
-	# soulpriest = game.current_player.give("EX1_591")
-	# soulpriest.play()
-	# game.end_turn(); game.end_turn()
-	# assert gargoyle.health == 4
-	# game.current_player.give(MOONFIRE).play(target=gargoyle)
-	# assert gargoyle.health == 3
-	# game.end_turn(); game.end_turn()
-	# assert gargoyle.health == 2
-	# game.end_turn(); game.end_turn()
-	# assert gargoyle.dead
+	soulpriest = game.current_player.give("EX1_591")
+	soulpriest.play()
+	game.end_turn(); game.end_turn()
+	assert gargoyle.health == 4
+	game.current_player.give(MOONFIRE).play(target=gargoyle)
+	assert gargoyle.health == 3
+	game.end_turn(); game.end_turn()
+	assert gargoyle.health == 2
+	game.end_turn(); game.end_turn()
+	assert gargoyle.dead
 
 
 def test_summoning_portal():
