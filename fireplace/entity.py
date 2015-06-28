@@ -21,10 +21,10 @@ class Entity(object):
 		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
 
 
-def slot_property(attr):
+def slot_property(attr, f=any):
 	@property
 	def func(self):
-		return any(getattr(slot, attr, False) for slot in self.slots)
+		return f(getattr(slot, attr, False) for slot in self.slots)
 	return func
 
 
