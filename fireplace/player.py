@@ -16,6 +16,7 @@ class Player(Entity):
 	Manager = PlayerManager
 	extra_deathrattles = slot_property("extra_deathrattles")
 	outgoing_healing_adjustment = slot_property("outgoing_healing_adjustment")
+	spellpower_double = slot_property("spellpower_double", sum)
 	type = CardType.PLAYER
 
 	def __init__(self, name):
@@ -98,9 +99,11 @@ class Player(Entity):
 	def get_spell_damage(self, amount: int) -> int:
 		"""
 		Returns the amount of damage \a amount will do, taking
-		SPELLPOWER into account.
+		SPELLPOWER and SPELLPOWER_DOUBLE into account.
 		"""
-		return amount + self.spellpower
+		amount += self.spellpower
+		amount *= (self.controller.spellpower_double + 1)
+		return amount
 
 	def give(self, id):
 		cards = self.game.queue_actions(self, [Give(self, id)])[0]
