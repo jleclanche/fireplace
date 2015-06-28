@@ -1724,6 +1724,38 @@ def test_pint_sized_summoner():
 	assert frostwolf.cost == 2
 
 
+def test_prophet_velen():
+	game = prepare_game(PRIEST, PRIEST)
+
+	expected_health = 30
+	assert game.player2.hero.health == expected_health
+	assert game.player1.healing_double == 0
+	assert game.player1.hero_power_double == 0
+	assert game.player1.spellpower_double == 0
+	velen = game.player1.summon("EX1_350")
+	assert game.player1.healing_double == 1
+	assert game.player1.hero_power_double == 1
+	assert game.player1.spellpower_double == 1
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	expected_health -= 2 * 1
+	assert game.player2.hero.health == expected_health
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	expected_health -= 2 * 1
+	assert game.player2.hero.health == expected_health
+	game.end_turn(); game.end_turn()
+
+	game.player1.hero.power.play(target=game.player2.hero)
+	expected_health += 2 * 2
+	assert game.player2.hero.health == expected_health
+	game.end_turn(); game.end_turn()
+
+	kobold = game.current_player.give("CS2_142")
+	kobold.play()
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	expected_health -= 2 * (1 + 1)
+	assert game.player2.hero.health == expected_health
+
+
 def test_mana_wraith():
 	game = prepare_game()
 	wisp1 = game.player1.give(WISP)
