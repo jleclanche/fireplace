@@ -323,14 +323,13 @@ def test_mana():
 	game.end_turn()
 
 	# Play the coin
-	coin = game.current_player.getById(THE_COIN)
+	coin = game.current_player.hand.filter(id=THE_COIN)[0]
 	coin.play()
 	assert game.current_player.mana == 2
 	assert game.current_player.temp_mana == 1
 	game.end_turn()
 	assert game.current_player.opponent.temp_mana == 0
 	assert game.current_player.opponent.mana == 1, game.current_player.opponent.mana
-
 	game.end_turn(); game.end_turn()
 
 	assert game.current_player.mana == 3
@@ -364,22 +363,24 @@ def test_charge():
 	wisp.attack(game.current_player.opponent.hero)
 	assert not wisp.can_attack()
 	game.end_turn()
-	game.current_player.getById(THE_COIN).play()
-	wolfrider = game.current_player.give("CS2_124")
-	wolfrider.play()
-	assert wolfrider.charge
-	assert wolfrider.can_attack()
+
+	stonetusk = game.current_player.give("CS2_171")
+	stonetusk.play()
+	assert stonetusk.charge
+	assert stonetusk.can_attack()
 	game.end_turn()
 	assert wisp.can_attack()
 	wisp.attack(game.current_player.opponent.hero)
 	assert not wisp.can_attack()
 	game.end_turn()
+
 	watcher = game.current_player.give("EX1_045")
 	watcher.play()
 	assert not watcher.can_attack()
 	game.current_player.give("CS2_103").play(target=watcher)
 	assert not watcher.can_attack()
 	game.end_turn(); game.end_turn()
+
 	assert not watcher.can_attack()
 	watcher.silence()
 	assert watcher.can_attack()
@@ -390,16 +391,11 @@ def test_divine_shield():
 	squire = game.current_player.give("EX1_008")
 	squire.play()
 	assert squire.divine_shield
-	game.end_turn()
-
-	archer = game.current_player.give("CS2_189")
-	archer.play(target=squire)
+	game.current_player.give(MOONFIRE).play(target=squire)
 	assert len(game.current_player.field) == 1
 	assert not squire.divine_shield
-	game.current_player.getById(THE_COIN).play()
-	archer2 = game.current_player.give("CS2_189")
-	archer2.play(target=squire)
-	assert len(game.current_player.opponent.field) == 0
+	game.current_player.give(MOONFIRE).play(target=squire)
+	assert len(game.current_player.field) == 0
 	assert not squire.divine_shield
 	game.end_turn(); game.end_turn()
 
@@ -523,11 +519,11 @@ def test_stealth_windfury():
 	worgen.play()
 	assert worgen.stealthed
 	assert not worgen.can_attack()
+	game.end_turn(); game.end_turn()
 	game.end_turn()
 
 	archer = game.current_player.give("CS2_189")
 	assert len(archer.targets) == 2  # Only the heroes
-	game.current_player.getById(THE_COIN).play()
 	assert len(game.current_player.hero.power.targets) == 2
 	game.end_turn()
 
@@ -651,7 +647,8 @@ def test_combo():
 	game = prepare_game()
 	game.end_turn(); game.end_turn()
 	game.end_turn()
-	game.current_player.getById(THE_COIN).play()
+
+	game.current_player.hand.filter(id=THE_COIN)[0].play()
 	# SI:7 with combo
 	assert game.current_player.combo
 	game.current_player.give("EX1_134").play(target=game.current_player.hero)
@@ -1375,8 +1372,7 @@ def test_auras():
 	wisp1.play()
 	assert wisp1.atk == 1
 	game.end_turn()
-
-	# pass next few turns to gain some mana
+	game.end_turn(); game.end_turn()
 	game.end_turn(); game.end_turn()
 	game.end_turn(); game.end_turn()
 	game.end_turn(); game.end_turn()
@@ -1394,7 +1390,6 @@ def test_auras():
 	assert webspinner.atk == 2
 
 	# Test the timber wolf (beast-only) too
-	game.current_player.getById(THE_COIN).play()
 	timberwolf = game.current_player.give("DS1_175")
 	timberwolf.play()
 	assert timberwolf.atk == 2 # 1 (+1 from RL)
@@ -2213,17 +2208,17 @@ def test_mindgames():
 def test_mind_vision():
 	game = prepare_game()
 	# discard our hand, let's clean this.
-	game.current_player.discard_hand()
-	game.end_turn()
+	game.end_turn(); game.end_turn()
+	game.player1.discard_hand()
+	game.player2.discard_hand()
 
 	# play mind vision, should give nothing
-	assert len(game.current_player.hand) == 6
+	assert len(game.current_player.hand) == 0
 	game.current_player.give("CS2_003").play()
-	assert len(game.current_player.hand) == 6
+	assert len(game.current_player.hand) == 0
 
-	# opponent draws a card, coin mind vision should get that one card
+	# opponent draws a card, mind vision should get that one card
 	card = game.current_player.opponent.draw()
-	game.current_player.getById(THE_COIN).play()
 	game.current_player.give("CS2_003").play()
 	assert game.current_player.hand[-1] == card
 
@@ -2515,15 +2510,13 @@ def test_bomb_lobber():
 
 def test_defias():
 	game = prepare_game()
-
 	defias1 = game.current_player.give("EX1_131")
 	defias1.play()
 	assert len(game.current_player.field) == 1
-
 	game.end_turn()
 
 	# Coin-defias
-	game.current_player.getById(THE_COIN).play()
+	game.current_player.hand.filter(id=THE_COIN)[0].play()
 	defias2 = game.current_player.give("EX1_131")
 	defias2.play()
 	assert len(game.current_player.field) == 2
@@ -3516,8 +3509,9 @@ def test_acolyte_of_pain():
 def test_poisonous():
 	game = prepare_game()
 	game.end_turn(); game.end_turn()
+	game.end_turn(); game.end_turn()
 	game.end_turn()
-	game.current_player.getById(THE_COIN).play()
+
 	cobra = game.current_player.give("EX1_170")
 	cobra.play()
 	assert cobra.poisonous
@@ -3552,20 +3546,16 @@ def test_cleave():
 	# play some wisps
 	game.current_player.give(WISP).play()
 	game.current_player.give(WISP).play()
+	game.end_turn(); game.end_turn()
 	game.end_turn()
-
-	# Play the coin
-	game.current_player.getById(THE_COIN).play()
 
 	cleave = game.current_player.give("CS2_114")
 	assert cleave.is_playable()
 	cleave.play()
 	assert len(game.current_player.opponent.field) == 0
-
-	# play another wisp
 	game.current_player.give(WISP).play()
-
 	game.end_turn()
+
 	cleave2 = game.current_player.give("CS2_114")
 	assert not cleave2.is_playable()
 
@@ -3610,13 +3600,12 @@ CHEAT_MIRROR_ENTITY = True
 def test_mctech():
 	game = prepare_game()
 	game.end_turn(); game.end_turn()
+	game.end_turn(); game.end_turn()
 	game.end_turn()
 	# play some wisps
 	game.current_player.give(WISP).play()
 	game.current_player.give(WISP).play()
 	game.current_player.give(WISP).play()
-	# coin mirror entity
-	game.current_player.getById(THE_COIN).play()
 	if CHEAT_MIRROR_ENTITY:
 		# TODO secrets
 		game.current_player.give("EX1_294").play()
