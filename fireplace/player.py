@@ -111,13 +111,6 @@ class Player(Entity):
 		cards = self.game.queue_actions(self, [Give(self, id)])[0]
 		return cards[0]
 
-	def getById(self, id):
-		"Helper to get a card from the hand by its id"
-		for card in self.hand:
-			if card.id == id:
-				return card
-		raise ValueError
-
 	def prepare_deck(self, cards, hero):
 		self.originalDeck = Deck.fromList(cards)
 		self.originalDeck.hero = hero
