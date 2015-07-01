@@ -19,7 +19,7 @@ class GVG_040:
 
 
 # Neptulon
-class GVG_041:
+class GVG_042:
 	action = [Give(CONTROLLER, RandomMinion(race=Race.MURLOC)) * 4]
 
 
