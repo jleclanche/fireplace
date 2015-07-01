@@ -339,6 +339,12 @@ def test_mana():
 	assert game.current_player.mana == 0, game.current_player.mana
 	assert game.current_player.max_mana == 2, game.current_player.max_mana
 
+	for i in range(12):
+		game.end_turn(); game.end_turn()
+
+	assert game.player1.mana == game.player1.max_resources == 10
+	assert game.player2.mana == game.player2.max_resources == 10
+
 
 def test_overload():
 	game = prepare_game()
