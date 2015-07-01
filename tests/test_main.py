@@ -25,6 +25,13 @@ RESTORE_1 = "XXX_003"
 logging.getLogger().setLevel(logging.DEBUG)
 
 
+class TestGame(Game):
+	def start(self):
+		super().start()
+		self.player1.max_mana = 10
+		self.player2.max_mana = 10
+
+
 _draftcache = {}
 def _draft(hero, exclude):
 	# randomDraft() is fairly slow, this caches the drafts
@@ -33,7 +40,7 @@ def _draft(hero, exclude):
 	return _draftcache[(hero, exclude)]
 
 
-def prepare_game(hero1=MAGE, hero2=WARRIOR, exclude=()):
+def prepare_game(hero1=MAGE, hero2=WARRIOR, exclude=(), game_class=TestGame):
 	print("Initializing a new game")
 	deck1 = _draft(hero=hero1, exclude=exclude)
 	deck2 = _draft(hero=hero2, exclude=exclude)
@@ -41,7 +48,7 @@ def prepare_game(hero1=MAGE, hero2=WARRIOR, exclude=()):
 	player1.prepare_deck(deck1, hero1)
 	player2 = Player(name="Player2")
 	player2.prepare_deck(deck2, hero2)
-	game = Game(players=(player1, player2))
+	game = game_class(players=(player1, player2))
 	game.start()
 
 	return game
@@ -314,7 +321,7 @@ def test_cult_master():
 
 
 def test_mana():
-	game = prepare_game()
+	game = prepare_game(game_class=Game)
 	footman = game.current_player.give(GOLDSHIRE_FOOTMAN)
 	assert footman.cost == 1
 	footman.play()
@@ -347,7 +354,7 @@ def test_mana():
 
 
 def test_overload():
-	game = prepare_game()
+	game = prepare_game(game_class=Game)
 	dustdevil = game.current_player.give("EX1_243")
 	dustdevil.play()
 	assert game.current_player.overloaded == 2
