@@ -86,8 +86,8 @@ def test_armor():
 	assert game.current_player.hero.power.exhausted
 	assert not game.current_player.hero.power.is_playable()
 	assert game.current_player.hero.armor == 2
-	assert game.current_player.mana == 2
 	game.end_turn()
+
 	axe = game.current_player.give("CS2_106")
 	axe.play()
 	assert axe is game.current_player.weapon
@@ -726,23 +726,23 @@ def test_preparation():
 	assert footman.cost == footman2.cost == 1
 	game.end_turn(); game.end_turn()
 
-	assert game.player1.mana == 2
+	assert game.player1.used_mana == 0
 	prep1.play()
-	assert game.player1.mana == 2
+	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
 	assert pwshield.cost == 0
 	assert fireball.cost == 4 - 3
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	prep2.play()
-	assert game.player1.mana == 2
+	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
 	assert pwshield.cost == 0
 	assert fireball.cost == 4 - 3
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	fireball.play(target=game.player2.hero)
-	assert game.player1.mana == 1
+	assert game.player1.used_mana == 1
 	assert pwshield.cost == 1
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
@@ -1014,7 +1014,6 @@ def test_solemn_vigil():
 	assert vigil.cost == 0
 	vigil.play()
 	assert len(game.player1.hand) == 2
-	assert game.player1.mana == 1
 	assert game.player1.used_mana == 0
 
 
