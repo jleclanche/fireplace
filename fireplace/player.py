@@ -109,7 +109,7 @@ class Player(Entity):
 
 	def give(self, id):
 		cards = self.game.queue_actions(self, [Give(self, id)])[0]
-		return cards[0]
+		return cards[0][0]
 
 	def prepare_deck(self, cards, hero):
 		self.originalDeck = Deck.fromList(cards)

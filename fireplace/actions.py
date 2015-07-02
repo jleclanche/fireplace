@@ -27,11 +27,11 @@ def _eval_card(game, card):
 	Also returns True if the card was created
 	"""
 	if isinstance(card, str):
-		return game.card(card), True
+		return [game.card(card)], True
 	elif isinstance(card, RandomCardGenerator):
-		return game.card(card.pick()), True
+		return [game.card(card.pick())], True
 
-	return card, False
+	return [card], False
 
 
 class EventListener:
@@ -389,14 +389,15 @@ class Give(TargetedAction):
 	args = ("targets", "card")
 
 	def get_args(self, source, game, target):
-		card, _ = _eval_card(game, self.card)
-		return (target, card)
+		cards, _ = _eval_card(source, game, self.card)
+		return (target, cards)
 
-	def do(self, source, game, target, card):
-		logging.debug("Giving %r to %s", card, target)
-		card.controller = target
-		card.zone = Zone.HAND
-		return card
+	def do(self, source, game, target, cards):
+		logging.debug("Giving %r to %s", cards, target)
+		for card in cards:
+			card.controller = target
+			card.zone = Zone.HAND
+		return cards
 
 
 class Hit(TargetedAction):
@@ -524,16 +525,21 @@ class Summon(TargetedAction):
 	args = ("targets", "card")
 
 	def get_args(self, source, game, target):
-		card, created = _eval_card(game, self.card)
+		cards, created = _eval_card(source, game, self.card)
 		if created:
-			card.controller = target
-		return (target, card)
+			for card in cards:
+				card.controller = target
+		return (target, cards)
 
-	def do(self, source, game, target, card):
-		logging.info("%s summons %r", target, card)
-		self.broadcast(game, EventListener.ON, target, card)
-		card.summon()
-		self.broadcast(game, EventListener.AFTER, target, card)
+	def do(self, source, game, target, cards):
+		logging.info("%s summons %r", target, cards)
+		if not isinstance(cards, list):
+			cards = [cards]
+
+		for card in cards:
+			self.broadcast(game, EventListener.ON, target, card)
+			card.summon()
+			self.broadcast(game, EventListener.AFTER, target, card)
 
 
 class Swap(TargetedAction):
