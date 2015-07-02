@@ -131,7 +131,7 @@ class XXX_041:
 
 # Mill 30
 class XXX_043:
-	action = [Mill(PLAYER + CONTROLLED_BY_TARGET, 30)]
+	action = [Mill(TARGET_PLAYER, 30)]
 
 
 # Hand Swapper Minion
@@ -156,7 +156,7 @@ class XXX_049:
 
 # Destroy a Mana Crystal
 class XXX_050:
-	action = [GainMana(PLAYER + CONTROLLED_BY_TARGET, -1)]
+	action = [GainMana(TARGET_PLAYER, -1)]
 
 
 # Armor
