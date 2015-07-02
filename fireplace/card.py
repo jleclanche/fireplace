@@ -297,7 +297,6 @@ class PlayableCard(BaseCard):
 		Trigger all deathrattles on the card.
 		"""
 		for deathrattle in self.deathrattles:
-			action = deathrattle
 			if callable(deathrattle):
 				actions = deathrattle(self)
 			else:
