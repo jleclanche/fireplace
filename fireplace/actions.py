@@ -39,7 +39,6 @@ def _eval_card(source, game, card):
 	 - The string ID of the card (the card is created)
 	 - A RandomCardGenerator instance (a random card is picked)
 	 - A Copy instance (a selector is evaluated and copies its results)
-	Also returns True if the card was created
 	"""
 
 	if isinstance(card, RandomCardGenerator):
@@ -54,15 +53,13 @@ def _eval_card(source, game, card):
 		cards = card
 
 	ret = []
-	created = False
 	for card in cards:
 		if isinstance(card, str):
 			ret.append(game.card(card))
-			created = True
 		else:
 			ret.append(card)
 
-	return ret, created
+	return ret
 
 
 class EventListener:
@@ -420,7 +417,7 @@ class Give(TargetedAction):
 	args = ("targets", "card")
 
 	def get_args(self, source, game, target):
-		cards, _ = _eval_card(source, game, self.card)
+		cards = _eval_card(source, game, self.card)
 		return (target, cards)
 
 	def do(self, source, game, target, cards):
@@ -556,10 +553,7 @@ class Summon(TargetedAction):
 	args = ("targets", "card")
 
 	def get_args(self, source, game, target):
-		cards, created = _eval_card(source, game, self.card)
-		if created:
-			for card in cards:
-				card.controller = target
+		cards = _eval_card(source, game, self.card)
 		return (target, cards)
 
 	def do(self, source, game, target, cards):
@@ -568,6 +562,8 @@ class Summon(TargetedAction):
 			cards = [cards]
 
 		for card in cards:
+			if card.controller != target:
+				card.controller = target
 			self.broadcast(game, EventListener.ON, target, card)
 			card.summon()
 			self.broadcast(game, EventListener.AFTER, target, card)
