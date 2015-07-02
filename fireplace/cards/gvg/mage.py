@@ -47,5 +47,4 @@ class GVG_003:
 
 # Echo of Medivh
 class GVG_005:
-	def action(self):
-		return [Give(CONTROLLER, minion.id) for minion in self.controller.field]
+	action = [Give(CONTROLLER, Copy(FRIENDLY_MINIONS))]

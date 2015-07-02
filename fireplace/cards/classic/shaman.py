@@ -57,8 +57,7 @@ class CS2_038:
 	action = [Buff(TARGET, "CS2_038e")]
 
 class CS2_038e:
-	def deathrattle(self):
-		return [Summon(CONTROLLER, self.id)]
+	deathrattle = [Summon(CONTROLLER, Copy(SELF))]
 
 
 # Windfury
