@@ -17,21 +17,52 @@ class RandomCardGenerator(object):
 		return random.choice(cards.filter(**self.filters))
 
 
-def _eval_card(game, card):
+class Copy(object):
+	"""
+	Lazily return a list of copies of the target
+	"""
+	def __init__(self, selector):
+		self.selector = selector
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.selector)
+
+	def pick(self, source, game) -> [str]:
+		return self.selector.eval(game, source)
+
+
+def _eval_card(source, game, card):
 	"""
 	Return a Card instance from \a card
 	The card argument can be:
 	 - A Card instance (nothing is done)
 	 - The string ID of the card (the card is created)
 	 - A RandomCardGenerator instance (a random card is picked)
+	 - A Copy instance (a selector is evaluated and copies its results)
 	Also returns True if the card was created
 	"""
-	if isinstance(card, str):
-		return [game.card(card)], True
-	elif isinstance(card, RandomCardGenerator):
-		return [game.card(card.pick())], True
 
-	return [card], False
+	if isinstance(card, RandomCardGenerator):
+		card = card.pick()
+	elif isinstance(card, Copy):
+		c = card.pick(source, game)
+		card = [entity.id if not isinstance(entity, str) else entity for entity in c]
+
+	if not isinstance(card, list):
+		cards = [card]
+	else:
+		cards = card
+
+	ret = []
+	created = False
+	for card in cards:
+		if isinstance(card, str):
+			ret.append(game.card(card))
+			created = True
+		else:
+			ret.append(card)
+
+	return ret, created
 
 
 class EventListener:
