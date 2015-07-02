@@ -569,6 +569,28 @@ class Summon(TargetedAction):
 			self.broadcast(game, EventListener.AFTER, target, card)
 
 
+class Shuffle(TargetedAction):
+	"""
+	Shuffle card targets into player target's deck.
+	"""
+	args = ("targets", "card")
+
+	def get_args(self, source, game, target):
+		cards = _eval_card(source, game, self.card)
+		return (target, cards)
+
+	def do(self, source, game, target, cards):
+		logging.info("%r shuffles into %s's deck", cards, target)
+		if not isinstance(cards, list):
+			cards = [cards]
+
+		for card in cards:
+			if card.controller != target:
+				card.controller = target
+			card.zone = Zone.DECK
+			target.shuffle_deck()
+
+
 class Swap(TargetedAction):
 	"""
 	Swap minion target with \a other.
