@@ -479,6 +479,21 @@ def test_eaglehorn_bow():
 	assert bow.durability == 3
 
 
+def test_echo_of_medivh():
+	game = prepare_game()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(TARGET_DUMMY).play()
+	game.player1.give(GOLDSHIRE_FOOTMAN).play()
+	game.end_turn()
+	game.player2.give(SPELLBENDERT).play()
+	game.end_turn()
+	game.player1.discard_hand()
+	echo = game.player1.give("GVG_005")
+	echo.play()
+	assert game.player1.hand == [WISP, WISP, TARGET_DUMMY, GOLDSHIRE_FOOTMAN]
+
+
 def test_equality():
 	game = prepare_game()
 	equality = game.current_player.give("EX1_619")
