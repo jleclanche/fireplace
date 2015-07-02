@@ -78,6 +78,11 @@ class BRM_005:
 	action = [Hit(ALL_MINIONS - DEMON, 2)]
 
 
+# Gang Up
+class BRM_007:
+	action = [Shuffle(CONTROLLER, Copy(TARGET)) * 3]
+
+
 # Resurrect
 class BRM_017:
 	def action(self):

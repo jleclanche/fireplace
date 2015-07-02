@@ -129,6 +129,11 @@ class XXX_041:
 	action = [Destroy(HERO_POWER + CONTROLLED_BY_TARGET)]
 
 
+# Hand to Deck
+class XXX_042:
+	action = [Shuffle(TARGET_PLAYER, IN_HAND + CONTROLLED_BY_TARGET)]
+
+
 # Mill 30
 class XXX_043:
 	action = [Mill(TARGET_PLAYER, 30)]

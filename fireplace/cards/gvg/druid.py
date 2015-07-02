@@ -22,6 +22,11 @@ class GVG_032b:
 	action = [Draw(ALL_PLAYERS)]
 
 
+# Malorne
+class GVG_035:
+	deathrattle = [Shuffle(CONTROLLER, SELF)]
+
+
 # Druid of the Fang
 class GVG_080:
 	def action(self):
@@ -31,6 +36,11 @@ class GVG_080:
 
 ##
 # Spells
+
+# Recycle
+class GVG_031:
+	action = [Shuffle(OPPONENT, TARGET)]
+
 
 # Tree of Life
 class GVG_033:
