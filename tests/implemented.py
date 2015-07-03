@@ -30,7 +30,7 @@ def main():
 					break
 		else:
 			color = RED
-		print(color + card.name + ENDC + " (%s)" % (id))
+		print(color + ("not " if color != GREEN else "") +  "implemented: " + card.name + ENDC + " (%s)" % (id))
 
 
 if __name__ == "__main__":
