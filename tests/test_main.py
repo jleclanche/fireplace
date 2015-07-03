@@ -1342,6 +1342,32 @@ def test_bounce():
 	assert brewmaster not in game.current_player.opponent.hand
 
 
+def test_bouncing_blade():
+	game = prepare_game()
+	acolyte = game.player1.give("EX1_007")
+	acolyte.play()
+	game.player1.discard_hand()
+	blade = game.player1.give("GVG_050")
+	blade.play()
+	assert acolyte.dead
+	assert len(game.player1.hand) == 3
+
+
+def test_bouncing_blade_commanding_shout():
+	game = prepare_game()
+	acolyte = game.player1.give("EX1_007")
+	acolyte.play()
+	shout = game.current_player.give("NEW1_036")
+	shout.play()
+	game.player1.discard_hand()
+	assert acolyte.min_health == 1
+	blade = game.player1.give("GVG_050")
+	blade.play()
+	assert acolyte.health == 1
+	assert acolyte.zone == Zone.PLAY
+	assert len(game.player1.hand) == 2
+
+
 def test_weapon_sheathing():
 	game = prepare_game()
 	axe = game.player1.give("CS2_106")

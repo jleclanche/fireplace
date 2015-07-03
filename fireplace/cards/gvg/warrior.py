@@ -26,6 +26,17 @@ class GVG_056t:
 ##
 # Spells
 
+# Bouncing Blade
+class GVG_050:
+	def action(self):
+		while True:
+			targets = self.game.board.filter(dead=False)
+			targets = [t for t in targets if t.health > t.min_health]
+			if not targets:
+				break
+			yield Hit(random.choice(targets), 1)
+
+
 # Crush
 class GVG_052:
 	action = [Destroy(TARGET)]
