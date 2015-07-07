@@ -456,6 +456,12 @@ class Hero(Character):
 			amount = newAmount
 		return super()._hit(source, amount)
 
+	def attack(self, target):
+		ret = super().attack(target)
+		if self.controller.weapon:
+			logging.info("%r loses %r durability", self.controller.weapon)
+			self.controller.weapon.damage += 1
+
 	def summon(self):
 		super().summon()
 		self.controller.hero = self
@@ -812,10 +818,6 @@ class Weapon(PlayableCard):
 		if self.zone == Zone.PLAY:
 			self.controller.weapon = None
 		super()._set_zone(zone)
-
-	def loseDurability(self, count=1):
-		logging.info("%r loses %r durability", self, count)
-		self.damage += count
 
 	def summon(self):
 		super().summon()

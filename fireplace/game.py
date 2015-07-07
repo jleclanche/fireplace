@@ -98,8 +98,6 @@ class Game(Entity):
 		attacker.hit(defender, attacker.atk)
 		if def_atk:
 			defender.hit(attacker, def_atk)
-		if attacker.type == CardType.HERO and attacker.controller.weapon:
-			attacker.controller.weapon.loseDurability()
 		attacker.attacking = False
 		defender.defending = False
 		attacker.num_attacks += 1
