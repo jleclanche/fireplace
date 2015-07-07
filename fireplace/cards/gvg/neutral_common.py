@@ -66,7 +66,7 @@ class GVG_096:
 # Tinkertown Technician
 class GVG_102:
 	def action(self):
-		if self.poweredUp:
+		if self.powered_up:
 			return [Buff(SELF, "GVG_102e"), Give(CONTROLLER, RandomSparePart())]
 
 

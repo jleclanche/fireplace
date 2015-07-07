@@ -30,7 +30,7 @@ class GVG_035:
 # Druid of the Fang
 class GVG_080:
 	def action(self):
-		if self.poweredUp:
+		if self.powered_up:
 			return [Morph(SELF, "GVG_080t")]
 
 

@@ -116,10 +116,10 @@ class EX1_334:
 
 class EX1_334e:
 	def apply(self, target):
-		self.controller.takeControl(target)
+		self.controller.take_control(target)
 
 	def destroy(self):
-		self.controller.opponent.takeControl(self.owner)
+		self.controller.opponent.take_control(self.owner)
 
 
 # Thoughtsteal

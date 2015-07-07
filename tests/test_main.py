@@ -6,7 +6,7 @@ from fireplace.heroes import *
 from fireplace.enums import *
 from fireplace.game import Game
 from fireplace.player import Player
-from fireplace.utils import randomDraft
+from fireplace.utils import random_draft
 
 
 GOLDSHIRE_FOOTMAN = "CS1_042"
@@ -34,9 +34,9 @@ class TestGame(Game):
 
 _draftcache = {}
 def _draft(hero, exclude):
-	# randomDraft() is fairly slow, this caches the drafts
+	# random_draft() is fairly slow, this caches the drafts
 	if (hero, exclude) not in _draftcache:
-		_draftcache[(hero, exclude)] = randomDraft(hero, exclude)
+		_draftcache[(hero, exclude)] = random_draft(hero, exclude)
 	return _draftcache[(hero, exclude)]
 
 
@@ -1241,7 +1241,7 @@ def test_druid_of_the_fang():
 	game = prepare_game()
 	fang = game.current_player.give("GVG_080")
 	fang.play()
-	assert not fang.poweredUp
+	assert not fang.powered_up
 	druid = game.current_player.field[0]
 	assert druid.id == "GVG_080"
 	assert druid.atk == 4
@@ -1249,10 +1249,10 @@ def test_druid_of_the_fang():
 
 	game.end_turn(); game.end_turn()
 	fang2 = game.current_player.give("GVG_080")
-	assert not fang2.poweredUp
+	assert not fang2.powered_up
 	webspinner = game.current_player.give("FP1_011")
 	webspinner.play()
-	assert fang2.poweredUp
+	assert fang2.powered_up
 	fang2.play()
 	druid2 = game.current_player.field[-1]
 	assert druid2.id == "GVG_080t"
@@ -2395,18 +2395,18 @@ def test_gadgetzan_auctioneer():
 def test_goblin_blastmage():
 	game = prepare_game()
 	blastmage1 = game.current_player.give("GVG_004")
-	assert not blastmage1.poweredUp
+	assert not blastmage1.powered_up
 	assert game.current_player.hero.health == 30
 	blastmage1.play()
 	assert game.current_player.hero.health == 30
 	game.end_turn(); game.end_turn()
 
 	blastmage2 = game.current_player.give("GVG_004")
-	assert not blastmage2.poweredUp
+	assert not blastmage2.powered_up
 	clockwork = game.current_player.give("GVG_082")
 	clockwork.play()
 	assert clockwork.race == Race.MECHANICAL
-	assert blastmage2.poweredUp
+	assert blastmage2.powered_up
 	blastmage2.play()
 	assert game.current_player.opponent.hero.health == 30 - 4
 	game.end_turn(); game.end_turn()
@@ -2516,11 +2516,11 @@ def test_houndmaster():
 	game = prepare_game()
 	houndmaster = game.current_player.give("DS1_070")
 	assert not houndmaster.targets
-	assert not houndmaster.poweredUp
+	assert not houndmaster.powered_up
 	hound = game.current_player.give("EX1_538t")
 	hound.play()
 	assert houndmaster.targets == [hound]
-	assert houndmaster.poweredUp
+	assert houndmaster.powered_up
 	assert hound.atk == 1
 	assert hound.health == 1
 	assert not hound.taunt
@@ -2695,7 +2695,7 @@ def test_loatheb():
 	game.player1.discard_hand()
 	game.player2.discard_hand()
 	loatheb = game.player1.give("FP1_030")
-	fireballPlayer1 = game.player1.give("CS2_029")
+	fireballp1 = game.player1.give("CS2_029")
 	fireball1 = game.player2.give("CS2_029")
 	fireball2 = game.player2.give("CS2_029")
 	moonfire = game.player2.give(MOONFIRE)
@@ -2704,26 +2704,26 @@ def test_loatheb():
 	assert fireball1.cost == 4
 	assert fireball2.cost == 4
 	assert moonfire.cost == 0
-	assert fireballPlayer1.cost == 4
+	assert fireballp1.cost == 4
 	loatheb.play()
 	# costs do not change right away
 	assert not fireball1.buffs
 	assert fireball1.cost == 4
 	assert fireball2.cost == 4
 	assert moonfire.cost == 0
-	assert fireballPlayer1.cost == 4
+	assert fireballp1.cost == 4
 	game.end_turn()
 
 	assert fireball1.cost == 4 + 5
 	assert fireball2.cost == 4 + 5
 	assert moonfire.cost == 0 + 5
-	assert fireballPlayer1.cost == 4
+	assert fireballp1.cost == 4
 	game.end_turn()
 
 	assert fireball1.cost == 4
 	assert fireball2.cost == 4
 	assert moonfire.cost == 0
-	assert fireballPlayer1.cost == 4
+	assert fireballp1.cost == 4
 
 
 def test_micro_machine():
@@ -2747,7 +2747,7 @@ def test_millhouse_manastorm():
 	game.player1.discard_hand()
 	game.player2.discard_hand()
 	millhouse = game.player1.give("NEW1_029")
-	fireballPlayer1 = game.player1.give("CS2_029")
+	fireballp1 = game.player1.give("CS2_029")
 	fireball1 = game.player2.give("CS2_029")
 	fireball2 = game.player2.give("CS2_029")
 	moonfire = game.player2.give(MOONFIRE)
@@ -2756,7 +2756,7 @@ def test_millhouse_manastorm():
 	assert fireball1.cost == 4
 	assert fireball2.cost == 4
 	assert moonfire.cost == 0
-	assert fireballPlayer1.cost == 4
+	assert fireballp1.cost == 4
 	millhouse.play()
 	# costs change as soon as millhouse is played
 	assert game.player2.hero.buffs
@@ -2764,19 +2764,19 @@ def test_millhouse_manastorm():
 	assert fireball1.cost == 0
 	assert fireball2.cost == 0
 	assert moonfire.cost == 0
-	assert fireballPlayer1.cost == 4
+	assert fireballp1.cost == 4
 	game.end_turn()
 
 	assert fireball1.cost == 0
 	assert fireball2.cost == 0
 	assert moonfire.cost == 0
-	assert fireballPlayer1.cost == 4
+	assert fireballp1.cost == 4
 	game.end_turn()
 
 	assert fireball1.cost == 4
 	assert fireball2.cost == 4
 	assert moonfire.cost == 0
-	assert fireballPlayer1.cost == 4
+	assert fireballp1.cost == 4
 
 
 def test_molten_giant():

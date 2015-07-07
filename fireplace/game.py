@@ -32,7 +32,7 @@ class Game(Entity):
 		self.auras = []
 		self.minions_killed = CardList()
 		self.minions_killed_this_turn = CardList()
-		self._actionQueue = []
+		self._action_queue = []
 
 	def __repr__(self):
 		return "<%s %s>" % (self.__class__.__name__, self)
@@ -41,7 +41,7 @@ class Game(Entity):
 		return "%s vs %s" % (self.players)
 
 	def __iter__(self):
-		return self.allEntities.__iter__()
+		return self.all_entities.__iter__()
 
 	@property
 	def board(self):
@@ -60,7 +60,7 @@ class Game(Entity):
 		return CardList(chain(self.player1.characters, self.player2.characters))
 
 	@property
-	def allEntities(self):
+	def all_entities(self):
 		return CardList(chain(self.entities, self.hands, self.decks))
 
 	@property
@@ -68,11 +68,11 @@ class Game(Entity):
 		return CardList(chain([self], self.player1.entities, self.player2.entities))
 
 	@property
-	def liveEntities(self):
-		return CardList(chain(self.player1.liveEntities, self.player2.liveEntities))
+	def live_entities(self):
+		return CardList(chain(self.player1.live_entities, self.player2.live_entities))
 
 	def filter(self, *args, **kwargs):
-		return self.allEntities.filter(*args, **kwargs)
+		return self.all_entities.filter(*args, **kwargs)
 
 	def attack(self, source, target):
 		return self.queue_actions(source, [Attack(source, target)])
@@ -119,16 +119,16 @@ class Game(Entity):
 				player.playstate = PlayState.WON
 		raise GameOver("The game has ended.")
 
-	def processDeaths(self):
+	def process_deaths(self):
 		return self.queue_actions(self, [Deaths()])
 
-	def _processDeaths(self):
+	def _process_deaths(self):
 		actions = []
 		losers = []
-		for card in self.liveEntities:
+		for card in self.live_entities:
 			if card.to_be_destroyed:
 				actions.append(Death(card))
-				card.ignoreEvents = True
+				card.ignore_events = True
 				if card.type == CardType.MINION:
 					self.minions_killed.append(card)
 					self.minions_killed_this_turn.append(card)
@@ -154,16 +154,16 @@ class Game(Entity):
 				logging.debug("Registering %r on %r", action, self)
 				source.controller._events.append(action)
 			else:
-				self._actionQueue.append(action)
+				self._action_queue.append(action)
 				ret.append(action.trigger(source, self))
 				self.refresh_auras()
-				self._actionQueue.pop()
-		if not self._actionQueue:
-			self._processDeaths()
+				self._action_queue.pop()
+		if not self._action_queue:
+			self._process_deaths()
 
 		return ret
 
-	def tossCoin(self):
+	def toss_coin(self):
 		outcome = random.randint(0, 1)
 		# player who wins the outcome is the index
 		winner = self.players[outcome]
@@ -177,7 +177,7 @@ class Game(Entity):
 
 	def start(self):
 		logging.info("Starting game: %r" % (self))
-		self.player1, self.player2 = self.tossCoin()
+		self.player1, self.player2 = self.toss_coin()
 		self.manager.new_entity(self.player1)
 		self.manager.new_entity(self.player2)
 		self.current_player = self.player1
@@ -186,8 +186,8 @@ class Game(Entity):
 		self.player2.cards_drawn_this_turn = 0
 		for player in self.players:
 			player.zone = Zone.PLAY
-			player.summon(player.originalDeck.hero)
-			for card in player.originalDeck:
+			player.summon(player.original_deck.hero)
+			for card in player.original_deck:
 				card.controller = player
 				card.zone = Zone.DECK
 			player.shuffle_deck()
@@ -195,11 +195,11 @@ class Game(Entity):
 
 		self.player1.draw(3)
 		self.player2.draw(4)
-		self.beginMulligan()
-		self.player1.firstPlayer = True
-		self.player2.firstPlayer = False
+		self.begin_mulligan()
+		self.player1.first_player = True
+		self.player2.first_player = False
 
-	def beginMulligan(self):
+	def begin_mulligan(self):
 		logging.info("Entering mulligan phase")
 		self.step = Step.BEGIN_MULLIGAN
 		self.next_step = Step.MAIN_READY

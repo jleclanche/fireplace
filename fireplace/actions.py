@@ -106,7 +106,7 @@ class Action: # Lawsuit
 
 	def broadcast(self, game, at, *args):
 		for entity in chain(game.hands, game.entities):
-			if entity.ignoreEvents:
+			if entity.ignore_events:
 				continue
 			for event in entity._events:
 				if event.zone != entity.zone:
@@ -186,7 +186,7 @@ class Deaths(GameAction):
 	"""
 
 	def do(self, source, game, *args):
-		game._processDeaths()
+		game._process_deaths()
 
 
 class Death(GameAction):
@@ -614,4 +614,4 @@ class TakeControl(TargetedAction):
 	The controller is the controller of the source of the action.
 	"""
 	def do(self, source, game, target):
-		source.controller.takeControl(target)
+		source.controller.take_control(target)

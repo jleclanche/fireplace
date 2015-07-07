@@ -127,7 +127,7 @@ class PlayableCard(BaseCard):
 	def __init__(self, id, data):
 		self.buffs = CardList()
 		self.has_battlecry = False
-		self.hasCombo = False
+		self.has_combo = False
 		self.overload = 0
 		self.target = None
 		super().__init__(id, data)
@@ -149,7 +149,7 @@ class PlayableCard(BaseCard):
 		return ret
 
 	@property
-	def poweredUp(self):
+	def powered_up(self):
 		"""
 		Returns True whether the card is "powered up".
 		Currently, this only applies to some cards which require a minion with a
@@ -195,7 +195,7 @@ class PlayableCard(BaseCard):
 			logging.info("%r has no target, action exits early" % (self))
 			return
 
-		if self.hasCombo and self.controller.combo:
+		if self.has_combo and self.controller.combo:
 			logging.info("Activating %r combo targeting %r" % (self, self.target))
 			actions = self.data.scripts.combo
 		elif hasattr(self.data.scripts, "action"):
@@ -214,7 +214,7 @@ class PlayableCard(BaseCard):
 			self.game.queue_actions(self, actions)
 			# Hard-process deaths after a battlecry.
 			# cf. test_knife_juggler()
-			self.game._processDeaths()
+			self.game._process_deaths()
 
 	def clear_buffs(self):
 		if self.buffs:
@@ -285,7 +285,7 @@ class PlayableCard(BaseCard):
 		self.controller.play(self, target, choose)
 
 	def has_target(self):
-		if self.hasCombo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements and self.controller.combo:
+		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements and self.controller.combo:
 			return True
 		if PlayReq.REQ_TARGET_IF_AVAILABLE in self.requirements:
 			return bool(self.targets)
@@ -451,9 +451,9 @@ class Hero(Character):
 
 	def _hit(self, source, amount):
 		if self.armor:
-			newAmount = max(0, amount - self.armor)
+			new_amount = max(0, amount - self.armor)
 			self.armor -= min(self.armor, amount)
-			amount = newAmount
+			amount = new_amount
 		return super()._hit(source, amount)
 
 	def attack(self, target):

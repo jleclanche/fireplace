@@ -85,7 +85,7 @@ class Player(Entity):
 		return CardList(chain(list(self.hero.entities) if self.hero else [], ret, [self]))
 
 	@property
-	def liveEntities(self):
+	def live_entities(self):
 		ret = self.field[:]
 		if self.hero:
 			ret.append(self.hero)
@@ -112,8 +112,8 @@ class Player(Entity):
 		return cards[0][0]
 
 	def prepare_deck(self, cards, hero):
-		self.originalDeck = Deck.fromList(cards)
-		self.originalDeck.hero = hero
+		self.original_deck = Deck.from_list(cards)
+		self.original_deck.hero = hero
 
 	def discard_hand(self):
 		logging.info("%r discards his entire hand!" % (self))
@@ -158,7 +158,7 @@ class Player(Entity):
 		self._max_mana = min(self.max_resources, max(0, amount))
 		logging.info("%s is now at %i mana crystals", self, self._max_mana)
 
-	def takeControl(self, card):
+	def take_control(self, card):
 		logging.info("%s takes control of %r", self, card)
 		zone = card.zone
 		card.zone = Zone.SETASIDE

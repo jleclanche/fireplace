@@ -5,15 +5,15 @@ import logging
 import random
 from fireplace.game import Game
 from fireplace.player import Player
-from fireplace.utils import randomDraft
+from fireplace.utils import random_draft
 
 
 logging.getLogger().setLevel(logging.DEBUG)
 
 
 def main():
-	deck1 = randomDraft(hero=fireplace.heroes.MAGE)
-	deck2 = randomDraft(hero=fireplace.heroes.WARRIOR)
+	deck1 = random_draft(hero=fireplace.heroes.MAGE)
+	deck2 = random_draft(hero=fireplace.heroes.WARRIOR)
 	player1 = Player(name="Player1")
 	player1.prepare_deck(deck1, fireplace.heroes.MAGE)
 	player2 = Player(name="Player2")

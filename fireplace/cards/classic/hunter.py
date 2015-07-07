@@ -71,7 +71,7 @@ class EX1_538:
 # Kill Command
 class EX1_539:
 	def action(self, target):
-		return [Hit(TARGET, 5 if self.poweredUp else 3)]
+		return [Hit(TARGET, 5 if self.powered_up else 3)]
 
 
 # Flare

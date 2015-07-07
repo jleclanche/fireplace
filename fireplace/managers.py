@@ -71,7 +71,7 @@ class PlayerManager(Manager):
 		GameTag.CARDTYPE: "type",
 		GameTag.COMBO_ACTIVE: "combo",
 		GameTag.FATIGUE: "fatigue_counter",
-		GameTag.FIRST_PLAYER: "firstPlayer",
+		GameTag.FIRST_PLAYER: "first_player",
 		GameTag.HEALING_DOUBLE: "healing_double",
 		GameTag.HERO_ENTITY: "hero",
 		GameTag.LAST_CARD_PLAYED: "last_card_played",
@@ -136,7 +136,7 @@ class PlayableCardManager(Manager):
 	map.update({
 		GameTag.BATTLECRY: "has_battlecry",
 		GameTag.CARD_TARGET: "target",
-		GameTag.COMBO: "hasCombo",
+		GameTag.COMBO: "has_combo",
 		GameTag.DEFENDING: "defending",
 		GameTag.RECALL: "overload",
 		GameTag.WINDFURY: "windfury",
