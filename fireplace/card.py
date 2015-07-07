@@ -126,7 +126,6 @@ class PlayableCard(BaseCard):
 
 	def __init__(self, id, data):
 		self.buffs = CardList()
-		self.freeze = False
 		self.has_battlecry = False
 		self.hasCombo = False
 		self.overload = 0

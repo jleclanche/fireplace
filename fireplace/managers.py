@@ -138,9 +138,9 @@ class PlayableCardManager(Manager):
 		GameTag.CARD_TARGET: "target",
 		GameTag.COMBO: "hasCombo",
 		GameTag.DEFENDING: "defending",
-		GameTag.FREEZE: "freeze",
 		GameTag.RECALL: "overload",
 		GameTag.WINDFURY: "windfury",
+		GameTag.FREEZE: None,
 		GameTag.TARGETING_ARROW_TEXT: None,
 		GameTag.TOPDECK: None,
 	})
