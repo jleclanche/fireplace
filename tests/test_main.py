@@ -2,7 +2,7 @@
 import sys; sys.path.append("..")
 import logging
 import random
-from fireplace.heroes import *
+from fireplace.cards.heroes import *
 from fireplace.enums import *
 from fireplace.game import Game
 from fireplace.player import Player

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import sys; sys.path.append("..")
-import fireplace.heroes
 import logging
 import random
+from fireplace.cards.heroes import *
 from fireplace.game import Game
 from fireplace.player import Player
 from fireplace.utils import random_draft
@@ -12,12 +12,12 @@ logging.getLogger().setLevel(logging.DEBUG)
 
 
 def main():
-	deck1 = random_draft(hero=fireplace.heroes.MAGE)
-	deck2 = random_draft(hero=fireplace.heroes.WARRIOR)
+	deck1 = random_draft(hero=MAGE)
+	deck2 = random_draft(hero=WARRIOR)
 	player1 = Player(name="Player1")
-	player1.prepare_deck(deck1, fireplace.heroes.MAGE)
+	player1.prepare_deck(deck1, MAGE)
 	player2 = Player(name="Player2")
-	player2.prepare_deck(deck2, fireplace.heroes.WARRIOR)
+	player2.prepare_deck(deck2, WARRIOR)
 
 	game = Game(players=(player1, player2))
 	game.start()
