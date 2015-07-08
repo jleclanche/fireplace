@@ -2605,7 +2605,24 @@ def test_light_of_the_naaru():
 	assert game.player1.field[0].id == "EX1_001"
 	assert game.player1.hero.health == 28
 
-	# TODO Auchenai kill test
+
+def test_auchenai_light_of_the_naaru():
+	game = prepare_game()
+	soulpriest = game.current_player.give("EX1_591")
+	soulpriest.play()
+	assert len(game.player1.field) == 1
+	naaru = game.player1.give("GVG_012")
+	naaru.play(target=game.player2.hero)
+	assert len(game.player1.field) == 2
+	lightwarden = game.player1.field[1]
+	assert lightwarden.id == "EX1_001"
+	assert game.player2.hero.health == 30 - 3
+
+	naaru2 = game.player1.give("GVG_012")
+	naaru2.play(target=lightwarden)
+	assert lightwarden.dead
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1].id == "EX1_001"
 
 
 def test_lightspawn():
