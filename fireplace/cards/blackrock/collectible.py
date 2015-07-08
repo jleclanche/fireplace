@@ -92,6 +92,14 @@ class BRM_007:
 	action = [Shuffle(CONTROLLER, Copy(TARGET)) * 3]
 
 
+# Quick Shot
+class BRM_013:
+	def action(self, target):
+		yield Hit(target, 3)
+		if not self.controller.hand:
+			yield Draw(self.controller, 1)
+
+
 # Resurrect
 class BRM_017:
 	def action(self):

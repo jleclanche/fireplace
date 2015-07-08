@@ -3741,6 +3741,35 @@ def test_majordomo_executus():
 	assert game.current_player.opponent.hero.health == 22
 
 
+def test_quick_shot():
+	game = prepare_game(HUNTER, HUNTER)
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	quickshot1 = game.player1.give("BRM_013")
+	wisp = game.player1.give("CS2_231")
+	wisp.play()
+	quickshot1.play(target=wisp)
+	assert wisp.dead
+	assert len(game.player1.hand) == 1
+	quickshot2 = game.player1.give("BRM_013")
+	quickshot2.play(target=game.current_player.opponent.hero)
+	assert game.current_player.opponent.hero.health == 27
+	assert len(game.player1.hand) == 1
+
+
+def test_quick_shot_acolyte():
+	game = prepare_game(HUNTER, HUNTER)
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	quickshot = game.player1.give("BRM_013")
+	acolyte = game.player1.give("EX1_007")
+	acolyte.play()
+	assert len(game.player1.hand) == 1
+	quickshot.play(target=acolyte)
+	assert len(game.player1.hand) == 1
+	assert acolyte.dead
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and hasattr(f, "__call__"):
