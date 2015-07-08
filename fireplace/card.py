@@ -1,10 +1,9 @@
-import json
 import logging
 from itertools import chain
 from . import cards as CardDB, targeting
 from .actions import Damage, Destroy, Heal
 from .entity import Entity, boolean_property, int_property
-from .enums import AuraType, CardClass, CardType, PlayReq, Race, Rarity, Zone
+from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *
 from .utils import CardList
 

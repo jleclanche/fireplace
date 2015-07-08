@@ -2,10 +2,9 @@ import logging
 import random
 from itertools import chain
 from .actions import Draw, Play, Give, Summon
-from .card import BaseCard
 from .deck import Deck
 from .entity import Entity
-from .enums import CardType, PlayState, PowSubType, Zone
+from .enums import CardType, PlayState, Zone
 from .entity import slot_property
 from .managers import PlayerManager
 from .targeting import *

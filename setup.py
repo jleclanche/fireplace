@@ -2,7 +2,6 @@
 
 import os.path
 import fireplace
-from pkg_resources import Requirement, resource_filename
 from setuptools import setup, find_packages
 
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import sys; sys.path.append("..")
 import logging
-import random
 from fireplace.cards.heroes import *
 from fireplace.enums import *
 from fireplace.game import Game

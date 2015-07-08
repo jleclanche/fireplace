@@ -1,4 +1,4 @@
-from .enums import CardClass, CardType, GameTag, Race, Rarity
+from .enums import GameTag
 
 
 class Manager(object):

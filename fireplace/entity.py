@@ -1,6 +1,4 @@
 import uuid
-import logging
-from .enums import Zone
 
 class Entity(object):
 	def __init__(self):

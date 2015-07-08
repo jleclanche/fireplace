@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .enums import CardType, PowSubType, Step, Zone
+from .enums import CardType, PowSubType, Zone
 from .entity import Entity
 
 

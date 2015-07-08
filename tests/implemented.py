@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import os
 import re
 import string
 import sys; sys.path.append(".."); sys.path.append("../data/extras")

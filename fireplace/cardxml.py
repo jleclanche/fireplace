@@ -1,6 +1,5 @@
-import os
 from xml.etree import ElementTree
-from fireplace.enums import AuraType, CardClass, CardType, Faction, GameTag, PlayReq, Race, Rarity, Zone
+from fireplace.enums import AuraType, CardClass, CardType, Faction, GameTag, PlayReq, Race, Rarity
 
 
 class CardXML(object):
