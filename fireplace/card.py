@@ -207,7 +207,7 @@ class PlayableCard(BaseCard):
 		else:
 			return
 
-		if hasattr(actions, "__call__"):
+		if callable(actions):
 			actions = actions(self, **kwargs)
 
 		if actions:

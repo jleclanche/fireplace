@@ -31,7 +31,7 @@ def test_empty_selector():
 
 def main():
 	for name, f in globals().items():
-		if name.startswith("test_") and hasattr(f, "__call__"):
+		if name.startswith("test_") and callable(f):
 			f()
 	print("All tests ran OK")
 
