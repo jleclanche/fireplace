@@ -330,7 +330,6 @@ class Character(PlayableCard):
 
 	@property
 	def attack_targets(self):
-		targets = [self.controller.opponent.hero] + self.controller.opponent.field
 		taunts = []
 		for target in self.controller.opponent.field:
 			if target.taunt:
