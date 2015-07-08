@@ -54,6 +54,15 @@ class BRM_026:
 	action = [Summon(OPPONENT, RandomMinion(cost=1))]
 
 
+# Majordomo Executus
+class BRM_027:
+	deathrattle = [Summon(CONTROLLER, "BRM_027h"), Summon(CONTROLLER, "BRM_027p")]
+
+# DIE, INSECT!
+class BRM_027p:
+	activate = [Hit(RANDOM_ENEMY_CHARACTER, 8)]
+
+
 ##
 # Spells
 

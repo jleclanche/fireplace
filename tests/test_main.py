@@ -3711,6 +3711,36 @@ def test_resurrect_wild_pyro():
 	assert game.player1.field[0].health == 1
 
 
+def test_majordomo_executus():
+	game = prepare_game(WARRIOR, WARRIOR)
+	assert game.current_player.hero.armor == 0
+	assert game.current_player.hero.health == 30
+	assert not game.current_player.hero.power.exhausted
+	assert game.current_player.hero.power.is_playable()
+	game.current_player.hero.power.play()
+	assert game.current_player.hero.power.exhausted
+	assert not game.current_player.hero.power.is_playable()
+	assert game.current_player.hero.armor == 2
+	game.end_turn(); game.end_turn()
+
+	majordomo = game.player1.give("BRM_027")
+	majordomo.play()
+	game.end_turn(); game.end_turn()
+
+	game.current_player.hero.power.play()
+	assert game.current_player.hero.power.exhausted
+	assert not game.current_player.hero.power.is_playable()
+	assassinate = game.player1.give("CS2_076")
+	assassinate.play(target=majordomo)
+	assert game.current_player.hero.armor == 0
+	assert game.current_player.hero.health == 8
+	assert game.current_player.hero.power.id == "BRM_027p"
+	assert not game.current_player.hero.power.exhausted
+	assert game.current_player.hero.power.is_playable()
+	game.current_player.hero.power.play()
+	assert game.current_player.opponent.hero.health == 22
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and hasattr(f, "__call__"):
