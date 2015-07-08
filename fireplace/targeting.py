@@ -88,9 +88,8 @@ def is_valid_target(self, target, requirements=None):
 class Selector:
 	"""
 	A Forth-like program consisting of methods of Selector and members of
-	IntEnum classes. The IntEnums must have appropriate test() methods
-	    def test(self, entity)
-	returning a boolean, true if entity matches the condition.
+	IntEnum classes. The IntEnums must have appropriate test(entity)
+	methods returning a boolean, true if entity matches the condition.
 	"""
 	class MergeFilter:
 		"""
@@ -101,9 +100,8 @@ class Selector:
 
 	class Merge:
 		"""
-		Ops between Merge and Unmerge are classes with merge() methods
-		    def merge(self, selector, entities)
-		that operate on the full collection specified by the ops between
+		Ops between Merge and Unmerge are classes with merge(selector, entities)
+		methods that operate on the full collection specified by the ops between
 		MergeFilter and Merge.
 		"""
 		pass
@@ -154,7 +152,7 @@ class Selector:
 	def eval(self, entities, source):
 		if not entities:
 			return []
-		self.opc = 0 # outer program counter
+		self.opc = 0  # outer program counter
 		result = []
 		while self.opc < len(self.program):
 			if self.program[self.opc] != Selector.MergeFilter:
@@ -197,7 +195,7 @@ class Selector:
 
 	def test(self, entity, source):
 		stack = []
-		self.pc = self.opc # program counter
+		self.pc = self.opc  # program counter
 		while self.pc < len(self.program):
 			op = self.program[self.pc]
 			self.pc += 1

@@ -137,12 +137,12 @@ def test_spell_power():
 	assert game.current_player.spellpower == 0
 	game.current_player.give("CS2_142").play()
 	assert game.current_player.spellpower == 1
-	game.current_player.give(MOONFIRE).play(target=game.player2.hero); expected_health -= 1+1
+	game.current_player.give(MOONFIRE).play(target=game.player2.hero); expected_health -= 1 + 1
 	assert game.player2.hero.health == expected_health
 	# Summon Malygos
 	malygos = game.current_player.summon("EX1_563")
 	assert game.current_player.spellpower == 1 + 5
-	game.current_player.give(MOONFIRE).play(target=game.player2.hero); expected_health -= 1+1+5
+	game.current_player.give(MOONFIRE).play(target=game.player2.hero); expected_health -= 1 + 1 + 5
 	assert game.player2.hero.health == expected_health
 	# Test heals are not affected
 	game.current_player.give(RESTORE_1).play(target=game.player2.hero); expected_health += 1
@@ -159,7 +159,7 @@ def test_spell_power():
 	game.end_turn(); game.end_turn()
 	malygos.destroy()
 	# Check arcane missiles doesn't wreck everything
-	game.current_player.give("EX1_277").play(); expected_health -= 3+1
+	game.current_player.give("EX1_277").play(); expected_health -= 3 + 1
 	assert game.player2.hero.health == expected_health
 
 
@@ -855,7 +855,7 @@ def test_avenging_wrath():
 	# Summon Malygos and test that spellpower only increases dmg by 5
 	game.current_player.summon("EX1_563")
 	game.current_player.give("EX1_384").play()
-	assert game.current_player.opponent.hero.health == 30 - (8+5)
+	assert game.current_player.opponent.hero.health == 30 - (8 + 5)
 
 
 def test_doomhammer():
@@ -1199,13 +1199,13 @@ def test_dire_wolf_alpha():
 	assert direwolf1.atk == 3
 	assert direwolf2.atk == 3
 	frostwolf = game.current_player.summon("CS2_121")
-	game.end_turn(); game.end_turn();
+	game.end_turn(); game.end_turn()
 	frostwolf.attack(direwolf2)
 
 
 def test_dread_infernal():
 	game = prepare_game()
-	infernal =  game.current_player.give("CS2_064")
+	infernal = game.current_player.give("CS2_064")
 	game.current_player.give(WISP).play()
 	game.current_player.give(WISP).play()
 	game.current_player.give(WISP).play()
@@ -1295,11 +1295,11 @@ def test_auras():
 	# Test the timber wolf (beast-only) too
 	timberwolf = game.current_player.give("DS1_175")
 	timberwolf.play()
-	assert timberwolf.atk == 2 # 1 (+1 from RL)
-	assert raidleader.atk == 2 # 2 (+0)
-	assert len(webspinner.slots) == 2
-	assert webspinner.atk == 3 # 1 (+1 from RL, +1 from TW)
-	assert wisp2.atk == 2 # 1 (+1 from TW)
+	assert timberwolf.atk == 1 + 1
+	assert raidleader.atk == 2
+	assert len(webspinner.buffs) == 2
+	assert webspinner.atk == 1 + 1 + 1
+	assert wisp2.atk == 1 + 1
 
 	timberwolf2 = game.current_player.give("DS1_175")
 	timberwolf2.play()
@@ -1495,16 +1495,16 @@ def test_void_terror():
 
 	terror2.play()
 	assert terror1.dead
-	assert terror2.atk == 3+3
-	assert terror2.health == 3+3
+	assert terror2.atk == 3 + 3
+	assert terror2.health == 3 + 3
 
 	power.play(target=terror2)
-	assert terror2.health == 3+3+4
-	assert terror2.atk == 3+3+4
+	assert terror2.health == 3 + 3 + 4
+	assert terror2.atk == 3 + 3 + 4
 	terror3.play()
 	assert terror2.dead
-	assert terror3.atk == 3+3+3+4
-	assert terror3.health == 3+3+3+4
+	assert terror3.atk == 3 + 3 + 3 + 4
+	assert terror3.health == 3 + 3 + 3 + 4
 	game.end_turn(); game.end_turn()
 	assert terror3.zone == Zone.PLAY
 
@@ -2238,9 +2238,9 @@ def test_baron_rivendare():
 	game.current_player.give(MOONFIRE).play(target=wisp)
 	assert wisp.dead
 	assert rivendare.zone == Zone.PLAY
-	assert len(game.current_player.field) == 3 # Rivendare and two treants
+	assert len(game.current_player.field) == 3  # Rivendare and two treants
 	rivendare.destroy()
-	assert len(game.current_player.field) == 3 # Only one treant spawns
+	assert len(game.current_player.field) == 3  # Only one treant spawns
 
 
 def test_blood_imp():
@@ -2341,7 +2341,7 @@ def test_bomb_lobber():
 	game.end_turn()
 
 	lobber2.play()
-	assert wisp.dead or warden.health == 7-4
+	assert wisp.dead or warden.health == 7 - 4
 
 
 def test_defias():
@@ -2416,10 +2416,10 @@ def test_gahzrilla():
 	gahz = game.current_player.summon("GVG_049")
 	assert gahz.atk == 6
 	game.current_player.give(MOONFIRE).play(target=gahz)
-	assert gahz.atk == 6*2
+	assert gahz.atk == 6 * 2
 	timberwolf = game.current_player.give("DS1_175")
 	timberwolf.play()
-	assert gahz.atk == (6*2) + 1
+	assert gahz.atk == (6 * 2) + 1
 	# TODO: Buffs are always taken into account at the end
 	# game.current_player.give(MOONFIRE).play(target=gahz)
 	# assert gahz.atk == (6*2*2) + 1
@@ -2605,8 +2605,8 @@ def test_light_of_the_naaru():
 	assert game.player1.field[0].id == "EX1_001"
 	assert game.player1.hero.health == 28
 
-
 	# TODO Auchenai kill test
+
 
 def test_lightspawn():
 	game = prepare_game()
@@ -2638,7 +2638,7 @@ def test_lightwarden():
 	lightwarden = game.current_player.give("EX1_001")
 	lightwarden.play()
 	assert lightwarden.atk == 1
-	game.end_turn(); game.end_turn();
+	game.end_turn(); game.end_turn()
 
 	# No-op heal should not do anything.
 	assert game.current_player.hero.health == 30
@@ -2971,7 +2971,7 @@ def test_twilight_drake():
 	drake = game.current_player.give("EX1_043")
 	drake.play()
 	assert len(game.current_player.hand) == 7
-	assert drake.health == 1+7
+	assert drake.health == 1 + 7
 	assert drake.buffs
 
 	game.end_turn()

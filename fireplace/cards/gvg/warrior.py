@@ -40,6 +40,7 @@ class GVG_050:
 # Crush
 class GVG_052:
 	action = [Destroy(TARGET)]
+
 	def cost(self, value):
 		for minion in self.controller.field:
 			if minion.damaged:

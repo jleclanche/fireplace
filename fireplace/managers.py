@@ -171,6 +171,7 @@ class HeroManager(Manager):
 		GameTag.ARMOR: "armor",
 	})
 
+
 class MinionManager(Manager):
 	map = CharacterManager.map.copy()
 	map.update({

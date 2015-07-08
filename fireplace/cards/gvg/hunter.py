@@ -23,7 +23,7 @@ class GVG_049:
 	]
 
 class GVG_049e:
-	atk = lambda self, i: i*2
+	atk = lambda self, i: i * 2
 
 
 ##

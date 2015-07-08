@@ -39,6 +39,7 @@ def boolean_property(attr):
 
 	return func
 
+
 def int_property(attr):
 	@property
 	def func(self):

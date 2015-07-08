@@ -115,7 +115,7 @@ class FP1_030e:
 	]
 
 class FP1_030ea:
-	cost = lambda self, i: i+5
+	cost = lambda self, i: i + 5
 
 
 ##

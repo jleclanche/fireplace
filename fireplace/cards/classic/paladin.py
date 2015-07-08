@@ -80,7 +80,7 @@ class EX1_355:
 	action = [Buff(TARGET, "EX1_355e")]
 
 class EX1_355e:
-	atk = lambda self, i: i*2
+	atk = lambda self, i: i * 2
 
 
 # Humility

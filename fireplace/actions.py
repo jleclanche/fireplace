@@ -35,10 +35,10 @@ def _eval_card(source, game, card):
 	"""
 	Return a Card instance from \a card
 	The card argument can be:
-	 - A Card instance (nothing is done)
-	 - The string ID of the card (the card is created)
-	 - A RandomCardGenerator instance (a random card is picked)
-	 - A Copy instance (a selector is evaluated and copies its results)
+	- A Card instance (nothing is done)
+	- The string ID of the card (the card is created)
+	- A RandomCardGenerator instance (a random card is picked)
+	- A Copy instance (a selector is evaluated and copies its results)
 	"""
 
 	if isinstance(card, RandomCardGenerator):
@@ -77,7 +77,7 @@ class EventListener:
 		return "<EventListener %r>" % (self.trigger)
 
 
-class Action: # Lawsuit
+class Action:  # Lawsuit
 	args = ()
 	type = PowSubType.TRIGGER
 
@@ -388,6 +388,7 @@ class FullHeal(TargetedAction):
 	"""
 	def do(self, source, game, target):
 		source.heal(target, target.health)
+
 
 class GainArmor(TargetedAction):
 	"""

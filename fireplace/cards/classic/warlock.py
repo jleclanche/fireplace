@@ -40,7 +40,7 @@ class EX1_304:
 				atk += minion.atk
 				health += minion.health
 				minion.destroy()
-			buff = self.buff(self, "EX1_304e", atk=atk, max_health=health)
+			self.buff(self, "EX1_304e", atk=atk, max_health=health)
 
 
 # Succubus
@@ -60,7 +60,7 @@ class EX1_313:
 
 # Summoning Portal (Virtual Aura)
 class EX1_315a:
-	cost = lambda self, i: min(i, max(1, i-2))
+	cost = lambda self, i: min(i, max(1, i - 2))
 
 
 # Flame Imp

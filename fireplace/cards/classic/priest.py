@@ -72,6 +72,7 @@ class CS1_129:
 
 class CS1_129e:
 	atk = lambda self, i: self._xatk
+
 	def apply(self, target):
 		self._xatk = target.health
 

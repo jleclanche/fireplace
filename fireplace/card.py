@@ -495,7 +495,7 @@ class Minion(Character):
 		ret = CardList()
 		index = self.controller.field.index(self)
 		left = self.controller.field[:index]
-		right = self.controller.field[index+1:]
+		right = self.controller.field[index + 1:]
 		if left:
 			ret.append(left[-1])
 		if right:
@@ -691,7 +691,6 @@ class Aura(object):
 		self._buffed = CardList()
 		self._buffs = CardList()
 		self._auraType = obj["type"]
-
 
 	def __repr__(self):
 		return "<Aura (%r)>" % (self.id)

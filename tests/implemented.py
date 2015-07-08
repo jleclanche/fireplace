@@ -21,20 +21,21 @@ PREFIXES = {
 }
 
 SOLVED_KEYWORDS = [
-    "Windfury", "Charge", "Divine Shield", "Taunt", "Stealth",
-    "Spell Damage \+[0-9]+",
-    "Can't be targeted by spells or Hero Powers",
-    "Overload: \([0-9]+\)",
-    "50% chance to attack the wrong enemy",
-    "Can't Attack",
+	"Windfury", "Charge", "Divine Shield", "Taunt", "Stealth",
+	"Spell Damage \+[0-9]+",
+	"Can't be targeted by spells or Hero Powers",
+	"Overload: \([0-9]+\)",
+	"50% chance to attack the wrong enemy",
+	"Can't Attack",
 ]
+
 
 def cleanup_description(description):
 	ret = description
 	ret = re.sub("(" + "|".join(SOLVED_KEYWORDS) + ")", "", ret)
 	ret = re.sub("<[^>]*>", "", ret)
 	exclude_chars = string.punctuation + string.whitespace
-	ret = ''.join([ ch for ch in ret if ch not in exclude_chars])
+	ret = "".join([ch for ch in ret if ch not in exclude_chars])
 	return ret
 
 
