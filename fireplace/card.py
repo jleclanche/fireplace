@@ -461,6 +461,8 @@ class Hero(Character):
 			logging.info("%r loses %r durability", self.controller.weapon)
 			self.controller.weapon.damage += 1
 
+		return ret
+
 	def summon(self):
 		super().summon()
 		self.controller.hero = self
