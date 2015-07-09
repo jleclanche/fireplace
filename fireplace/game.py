@@ -15,7 +15,7 @@ class GameOver(Exception):
 	pass
 
 
-class Game(Entity):
+class BaseGame(Entity):
 	type = CardType.GAME
 	MAX_MINIONS_ON_FIELD = 8
 	Manager = GameManager
@@ -176,18 +176,11 @@ class Game(Entity):
 		for aura in self.auras:
 			aura.update()
 
-	def start(self):
-		logging.info("Starting game: %r" % (self))
-		self.players[1].opponent = self.players[0]
+	def prepare(self):
 		self.players[0].opponent = self.players[1]
-		self.player1, self.player2 = self.pick_first_player()
-		self.manager.new_entity(self.player1)
-		self.manager.new_entity(self.player2)
-		self.current_player = self.player1
-		# XXX: Mulligan events should handle the following, but unimplemented for now
-		self.player1.cards_drawn_this_turn = 0
-		self.player2.cards_drawn_this_turn = 0
+		self.players[1].opponent = self.players[0]
 		for player in self.players:
+			self.manager.new_entity(player)
 			player.zone = Zone.PLAY
 			player.summon(player.original_deck.hero)
 			for card in player.original_deck:
@@ -195,19 +188,20 @@ class Game(Entity):
 				card.zone = Zone.DECK
 			player.shuffle_deck()
 			player.playstate = PlayState.PLAYING
+			player.cards_drawn_this_turn = 0
 
+		first, second = self.pick_first_player()
+		self.player1 = first
+		self.player1.first_player = True
+		self.player2 = second
+		self.player2.first_player = False
 		self.player1.draw(3)
 		self.player2.draw(4)
-		self.begin_mulligan()
-		self.player1.first_player = True
-		self.player2.first_player = False
+		self.current_player = self.player1
 
-	def begin_mulligan(self):
-		logging.info("Entering mulligan phase")
-		self.step = Step.BEGIN_MULLIGAN
-		self.next_step = Step.MAIN_READY
-		logging.info("%s gets The Coin (%s)" % (self.player2, THE_COIN))
-		self.player2.give(THE_COIN)
+	def start(self):
+		logging.info("Starting game: %r" % (self))
+		self.prepare()
 		self.begin_turn(self.player1)
 
 	def end_turn(self):
@@ -261,3 +255,38 @@ class Game(Entity):
 					entity.num_attacks = 0
 
 		player.draw()
+
+
+class CoinRules:
+	"""
+	Randomly determines the starting player when the Game starts.
+	The second player gets "The Coin" (GAME_005).
+	"""
+	def pick_first_player(self):
+		winner = random.choice(self.players)
+		logging.info("Tossing the coin... %s wins!", winner)
+		return winner, winner.opponent
+
+	def start(self):
+		super().start()
+		logging.info("%s gets The Coin (%s)", self.player2, THE_COIN)
+		self.player2.give(THE_COIN)
+
+
+class MulliganRules:
+	"""
+	Performs a Mulligan phase when the Game starts.
+	Currently just a dummy phase.
+	"""
+	def start(self):
+		self.next_step = Step.BEGIN_MULLIGAN
+		super().start()
+		self.begin_mulligan()
+
+	def begin_mulligan(self):
+		logging.info("Entering mulligan phase")
+		self.step, self.next_step = self.next_step, Step.MAIN_READY
+
+
+class Game(MulliganRules, CoinRules, BaseGame):
+	pass
