@@ -457,7 +457,7 @@ class Hero(Character):
 	def attack(self, target):
 		ret = super().attack(target)
 		if self.controller.weapon:
-			logging.info("%r loses %r durability", self.controller.weapon)
+			logging.info("%r loses 1 durability", self.controller.weapon)
 			self.controller.weapon.damage += 1
 
 		return ret
