@@ -2715,7 +2715,6 @@ def test_loatheb():
 	fireball1 = game.player2.give("CS2_029")
 	fireball2 = game.player2.give("CS2_029")
 	moonfire = game.player2.give(MOONFIRE)
-	game.end_turn()
 
 	assert fireball1.cost == 4
 	assert fireball2.cost == 4
@@ -2723,7 +2722,6 @@ def test_loatheb():
 	assert fireballp1.cost == 4
 	loatheb.play()
 	# costs do not change right away
-	assert not fireball1.buffs
 	assert fireball1.cost == 4
 	assert fireball2.cost == 4
 	assert moonfire.cost == 0
@@ -2767,7 +2765,6 @@ def test_millhouse_manastorm():
 	fireball1 = game.player2.give("CS2_029")
 	fireball2 = game.player2.give("CS2_029")
 	moonfire = game.player2.give(MOONFIRE)
-	game.end_turn()
 
 	assert fireball1.cost == 4
 	assert fireball2.cost == 4

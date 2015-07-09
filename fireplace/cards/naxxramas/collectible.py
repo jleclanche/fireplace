@@ -111,11 +111,11 @@ class FP1_030:
 
 class FP1_030e:
 	events = [
-		OWN_TURN_END.on(Destroy(SELF))
+		OWN_TURN_BEGIN.on(Destroy(SELF))
 	]
 
 class FP1_030ea:
-	cost = lambda self, i: i + 5
+	cost = lambda self, i: i + 5 if self.owner.controller.current_player else i
 
 
 ##

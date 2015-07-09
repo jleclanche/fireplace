@@ -170,7 +170,7 @@ class NEW1_029:
 class NEW1_029t:
 	cost = lambda self, i: 0
 	events = [
-		OWN_TURN_END.on(Destroy(SELF))
+		OWN_TURN_BEGIN.on(Destroy(SELF))
 	]
 
 
