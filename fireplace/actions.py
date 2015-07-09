@@ -276,6 +276,9 @@ class TargetedAction(Action):
 			if k in self.selectors:
 				if isinstance(v, Entity):
 					ret.append([v])
+				elif isinstance(v, Action):
+					# eg. Unstable Portal: Buff(Give(...), ...)
+					ret.append(v.trigger(source, game)[0])
 				else:
 					ret.append(v.eval(game, source))
 			else:
