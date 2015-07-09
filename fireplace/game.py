@@ -26,7 +26,8 @@ class Game(Entity):
 		self.players = players
 		for player in players:
 			player.game = self
-		self.step = Step.BEGIN_FIRST
+		self.step = None
+		self.next_step = None
 		self.turn = 0
 		self.current_player = None
 		self.auras = []
