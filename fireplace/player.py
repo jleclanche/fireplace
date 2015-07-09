@@ -179,6 +179,7 @@ class Player(Entity):
 		return card
 
 	def play(self, card, target=None, choose=None):
+		assert self.current_player
 		return self.game.queue_actions(self, [Play(card, target, choose)])
 
 	def _play(self, card):
