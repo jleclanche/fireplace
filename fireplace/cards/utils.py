@@ -17,5 +17,6 @@ def hand(func):
 RandomCard = lambda **kw: RandomCardGenerator(**kw)
 RandomCollectible = lambda **kw: RandomCardGenerator(collectible=True, **kw)
 RandomMinion = lambda **kw: RandomCollectible(type=CardType.MINION, **kw)
+RandomSpell = lambda **kw: RandomCollectible(type=CardType.SPELL, **kw)
 RandomWeapon = lambda **kw: RandomCollectible(type=CardType.WEAPON, **kw)
 RandomSparePart = lambda **kw: RandomCardGenerator(spare_part=True, **kw)
