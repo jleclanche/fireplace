@@ -92,11 +92,6 @@ class Player(Entity):
 			ret.append(self.weapon)
 		return ret
 
-	@property
-	def opponent(self):
-		# Hacky.
-		return [p for p in self.game.players if p != self][0]
-
 	def get_spell_damage(self, amount: int) -> int:
 		"""
 		Returns the amount of damage \a amount will do, taking

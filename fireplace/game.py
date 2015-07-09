@@ -178,6 +178,8 @@ class Game(Entity):
 
 	def start(self):
 		logging.info("Starting game: %r" % (self))
+		self.players[1].opponent = self.players[0]
+		self.players[0].opponent = self.players[1]
 		self.player1, self.player2 = self.pick_first_player()
 		self.manager.new_entity(self.player1)
 		self.manager.new_entity(self.player2)
