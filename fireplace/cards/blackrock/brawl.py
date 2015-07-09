@@ -2,6 +2,22 @@ from ..utils import *
 
 
 ##
+# Hero Powers
+
+# Wild Magic
+class TBA01_5:
+	activate = [Buff(Give(CONTROLLER, RandomMinion()), "TBA01_5e")]
+
+class TBA01_5e:
+	cost = lambda self, i: 0
+
+
+# Molten Rage
+class TBA01_6:
+	activate = [Summon(CONTROLLER, "CS2_118")]
+
+
+##
 # Minions
 
 # Lucifron
