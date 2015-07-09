@@ -45,19 +45,19 @@ class Game(Entity):
 
 	@property
 	def board(self):
-		return CardList(chain(self.player1.field, self.player2.field))
+		return CardList(chain(self.players[0].field, self.players[1].field))
 
 	@property
 	def decks(self):
-		return CardList(chain(self.player1.deck, self.player2.deck))
+		return CardList(chain(self.players[0].deck, self.players[1].deck))
 
 	@property
 	def hands(self):
-		return CardList(chain(self.player1.hand, self.player2.hand))
+		return CardList(chain(self.players[0].hand, self.players[1].hand))
 
 	@property
 	def characters(self):
-		return CardList(chain(self.player1.characters, self.player2.characters))
+		return CardList(chain(self.players[0].characters, self.players[1].characters))
 
 	@property
 	def all_entities(self):
@@ -65,11 +65,11 @@ class Game(Entity):
 
 	@property
 	def entities(self):
-		return CardList(chain([self], self.player1.entities, self.player2.entities))
+		return CardList(chain([self], self.players[0].entities, self.players[1].entities))
 
 	@property
 	def live_entities(self):
-		return CardList(chain(self.player1.live_entities, self.player2.live_entities))
+		return CardList(chain(self.players[0].live_entities, self.players[1].live_entities))
 
 	def filter(self, *args, **kwargs):
 		return self.all_entities.filter(*args, **kwargs)
