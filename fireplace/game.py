@@ -164,13 +164,13 @@ class Game(Entity):
 
 		return ret
 
-	def toss_coin(self):
-		outcome = random.randint(0, 1)
-		# player who wins the outcome is the index
-		winner = self.players[outcome]
-		loser = winner.opponent
-		logging.info("Tossing the coin... %s wins!" % (winner))
-		return winner, loser
+	def pick_first_player(self):
+		"""
+		Picks and returns first player, second player
+		In the default implementation, the first player is always
+		"Player 0". Use CoinRules to decide it randomly.
+		"""
+		return self.players[0], self.players[1]
 
 	def refresh_auras(self):
 		for aura in self.auras:
@@ -178,7 +178,7 @@ class Game(Entity):
 
 	def start(self):
 		logging.info("Starting game: %r" % (self))
-		self.player1, self.player2 = self.toss_coin()
+		self.player1, self.player2 = self.pick_first_player()
 		self.manager.new_entity(self.player1)
 		self.manager.new_entity(self.player2)
 		self.current_player = self.player1
