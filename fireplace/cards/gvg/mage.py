@@ -39,10 +39,7 @@ class GVG_001:
 
 # Unstable Portal
 class GVG_003:
-	# TODO
-	def action(self):
-		card = self.controller.give(RandomMinion())
-		self.buff(card, "GVG_003e")
+	action = [Buff(Give(CONTROLLER, RandomMinion()), "GVG_003e")]
 
 
 # Echo of Medivh

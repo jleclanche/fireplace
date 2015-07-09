@@ -3366,6 +3366,17 @@ def test_upgrade():
 	assert not game.current_player.opponent.weapon
 
 
+def test_unstable_portal():
+	game = prepare_game()
+	game.player1.discard_hand()
+	portal = game.player1.give("GVG_003")
+	portal.play()
+	assert len(game.player1.hand) == 1
+	minion = game.player1.hand[0]
+	assert minion.type == CardType.MINION
+	assert minion.buffs
+
+
 CHEAT_MIRROR_ENTITY = True
 def test_mctech():
 	game = prepare_game()
