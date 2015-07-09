@@ -2002,7 +2002,7 @@ def test_kel_thuzad():
 	game.end_turn()
 
 	# ensure the effect is gone when Kel'Thuzad dies
-	game.player1.give(MOONFIRE).play(target=game.player1.field[1])
+	game.player2.give(MOONFIRE).play(target=game.player1.field[1])
 	kt.destroy()
 	assert len(game.player1.field) == 0
 	game.end_turn()
