@@ -3799,6 +3799,20 @@ def test_quick_shot_acolyte():
 	assert acolyte.dead
 
 
+def test_fel_reaver():
+	game = prepare_game()
+	expected_size = len(game.player1.deck)
+	felreaver = game.player1.give("GVG_016")
+	felreaver.play()
+	game.end_turn()
+
+	for i in range(5):
+		game.player2.give(WISP).play()
+		expected_size -= 3
+		assert len(game.player1.deck) == expected_size
+		assert len(game.player2.deck) == 25
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):

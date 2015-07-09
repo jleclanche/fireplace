@@ -4,6 +4,13 @@ from ..utils import *
 ##
 # Minions
 
+# Fel Reaver
+class GVG_016:
+	events = [
+		Play(OPPONENT).on(Mill(CONTROLLER, 3))
+	]
+
+
 # Hobgoblin
 class GVG_104:
 	events = [
