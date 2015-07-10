@@ -89,3 +89,25 @@ class BananaBrawl(Game):
 		if card.type == CardType.MINION:
 			ret.append(Give(card.controller, self.RandomBanana()))
 		return ret
+
+
+class SpidersEverywhereBrawl(Game):
+	"""
+	Spiders, Spiders EVERYWHERE!
+
+	Spiders have overrun everything, including your deck!
+	Whatever class you play, your deck will be TEEMING with
+	Webspinners.
+	"""
+
+	def __init__(self, players):
+		from .. import cards
+		super().__init__(players)
+		for player in players:
+			hero = player.original_deck.hero
+			player_class = getattr(cards, hero).card_class
+			spells = cards.filter(card_class=player_class, type=CardType.SPELL)
+			deck = ["FP1_011"] * 23
+			for i in range(7):
+				deck.append(random.choice(spells))
+			player.prepare_deck(deck, hero)
