@@ -1,4 +1,6 @@
 import random
+from ..actions import RandomCardGenerator, Give
+from ..enums import CardType
 from ..game import Game
 
 
@@ -69,3 +71,21 @@ class BlackrockShowdownBrawl(Game):
 			else:
 				player.summon("BRMC_94")  # Sulfuras
 
+
+class BananaBrawl(Game):
+	"""
+	Banana Brawl!
+
+	Mukla is a year older, and he LOVES bananas! Whenever
+	one of your minions dies, he gives you a Banana to
+	celebrate!
+	"""
+
+	class RandomBanana(RandomCardGenerator):
+		cards = ("EX1_014t", "TB_006", "TB_007", "TB_008")
+
+	def _schedule_death(self, card):
+		ret = super()._schedule_death(card)
+		if card.type == CardType.MINION:
+			ret.append(Give(card.controller, self.RandomBanana()))
+		return ret
