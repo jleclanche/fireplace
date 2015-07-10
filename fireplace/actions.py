@@ -11,10 +11,17 @@ class RandomCardGenerator(object):
 	"""
 	def __init__(self, **filters):
 		self.filters = filters
+		self._cards = None
+
+	@property
+	def cards(self):
+		if self._cards is None:
+			from . import cards
+			self._cards = cards.filter(**self.filters)
+		return self._cards
 
 	def pick(self) -> str:
-		from . import cards
-		return random.choice(cards.filter(**self.filters))
+		return random.choice(self.cards)
 
 
 class Copy(object):
