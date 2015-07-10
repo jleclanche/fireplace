@@ -213,7 +213,7 @@ class PlayableCard(BaseCard):
 			self.game.queue_actions(self, actions)
 			# Hard-process deaths after a battlecry.
 			# cf. test_knife_juggler()
-			self.game._process_deaths()
+			self.game.process_deaths()
 
 	def clear_buffs(self):
 		if self.buffs:

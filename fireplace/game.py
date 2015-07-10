@@ -121,9 +121,6 @@ class BaseGame(Entity):
 		raise GameOver("The game has ended.")
 
 	def process_deaths(self):
-		return self.queue_actions(self, [Deaths()])
-
-	def _process_deaths(self):
 		actions = []
 		losers = []
 		for card in self.live_entities:
@@ -160,7 +157,7 @@ class BaseGame(Entity):
 				self.refresh_auras()
 				self._action_queue.pop()
 		if not self._action_queue:
-			self._process_deaths()
+			self.process_deaths()
 
 		return ret
 

@@ -186,7 +186,7 @@ class Deaths(GameAction):
 	"""
 
 	def do(self, source, game, *args):
-		game._process_deaths()
+		game.process_deaths()
 
 
 class Death(GameAction):
