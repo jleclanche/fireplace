@@ -108,21 +108,24 @@ class BaseGame(Entity):
 		self.manager.new_entity(card)
 		return card
 
-	def end(self, *losers):
+	def check_for_end_game(self):
 		"""
-		End the game.
-		\a *losers: Players that lost the game.
+		Check if one or more player is currently losing.
+		End the game if they are.
 		"""
+		gameover = False
 		for player in self.players:
-			if player in losers:
+			if player.playstate == PlayState.LOSING:
 				player.playstate = PlayState.LOST
+				gameover = True
 			else:
 				player.playstate = PlayState.WON
-		raise GameOver("The game has ended.")
+
+		if gameover:
+			raise GameOver("The game has ended.")
 
 	def process_deaths(self):
 		actions = []
-		losers = []
 		for card in self.live_entities:
 			if card.to_be_destroyed:
 				actions.append(Death(card))
@@ -133,11 +136,8 @@ class BaseGame(Entity):
 					card.controller.minions_killed_this_turn += 1
 				elif card.type == CardType.HERO:
 					card.controller.playstate = PlayState.LOSING
-					losers.append(card.controller)
 
-		if losers:
-			self.end(*losers)
-			return
+		self.check_for_end_game()
 
 		if actions:
 			self.queue_actions(self, actions)
