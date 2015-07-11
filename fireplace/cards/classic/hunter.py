@@ -88,6 +88,16 @@ class EX1_549:
 	action = [Buff(TARGET, "EX1_549o")]
 
 
+# Snake Trap
+class EX1_554:
+	events = [
+		Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(
+			lambda self, source, target, *args: [Summon(CONTROLLER, "EX1_554t"),
+			Summon(CONTROLLER, "EX1_554t"), Summon(CONTROLLER, "EX1_554t"), Reveal(SELF)],
+			zone=Zone.SECRET)
+	]
+
+
 # Snipe
 class EX1_609:
 	events = [

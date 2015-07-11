@@ -3834,6 +3834,23 @@ def test_snipe():
 	assert watcher.health == 1
 
 
+def test_snake_trap():
+	game = prepare_game(HUNTER, HUNTER)
+	snaketrap = game.player1.give("EX1_554")
+	wisp = game.player1.give(WISP)
+	snaketrap.play()
+	wisp.play()
+	game.end_turn()
+
+	stonetusk = game.player2.give("CS2_171")
+	stonetusk.play().attack(wisp)
+	assert len(game.player2.field) == 0
+	assert game.player1.field.contains("EX1_554t")
+	assert len(game.player1.field) == 3
+	assert stonetusk.health == 1
+	assert wisp.dead
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):
