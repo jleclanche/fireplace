@@ -17,7 +17,7 @@ class GameOver(Exception):
 
 class BaseGame(Entity):
 	type = CardType.GAME
-	MAX_MINIONS_ON_FIELD = 8
+	MAX_MINIONS_ON_FIELD = 7
 	Manager = GameManager
 
 	def __init__(self, players):
