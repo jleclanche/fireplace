@@ -1814,36 +1814,38 @@ def test_cold_blood():
 
 def test_corruption():
 	game = prepare_game()
-	corruption1 = game.current_player.give("CS2_063")
-	cabal = game.current_player.give("EX1_091")
-	game.end_turn()
-	wisp = game.current_player.give(WISP)
-	wisp.play()
-	wisp2 = game.current_player.give(WISP)
-	wisp2.play()
-	corruption2 = game.current_player.give("CS2_063")
 	game.end_turn()
 
-	corruption1.play(target=wisp)
-	assert wisp.zone == Zone.PLAY
-	assert wisp.buffs
-	assert wisp.buffs[0].controller == game.current_player
+	wisp = game.player2.give(WISP)
+	wisp.play()
 	game.end_turn()
-	assert wisp.zone == Zone.PLAY
+
+	corruption1 = game.player1.give("CS2_063")
+	corruption1.play(target=wisp)
+	assert wisp.buffs
+	assert wisp.buffs[0].controller == game.player1
+	game.end_turn()
+
+	assert not wisp.dead
 	game.end_turn()
 
 	assert wisp.dead
 	game.end_turn()
 
 	# corrupt our own wisp. next turn opponent MCs it.
-	corruption2.play(target=wisp2)
-	assert wisp2.zone == Zone.PLAY
+	wisp2 = game.player2.give(WISP)
+	wisp2.play()
+	lucifron = game.player2.give("BRMC_85")
+	lucifron.play()
+	assert not wisp2.dead
 	game.end_turn()
 
-	assert wisp2.zone == Zone.PLAY
+	assert not wisp2.dead
+	cabal = game.player1.give("EX1_091")
 	cabal.play(target=wisp2)
-	assert wisp2.zone == Zone.PLAY
+	assert not wisp2.dead
 	game.end_turn()
+
 	assert wisp2.dead
 
 
