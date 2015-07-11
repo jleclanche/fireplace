@@ -38,6 +38,11 @@ class GVG_017:
 			self.buff(card, "GVG_017e")
 
 
+# Feign Death
+class GVG_026:
+	action = [Deathrattle(FRIENDLY_MINIONS)]
+
+
 # Cobra Shot
 class GVG_073:
 	action = [Hit(TARGET | ENEMY_HERO, 3)]

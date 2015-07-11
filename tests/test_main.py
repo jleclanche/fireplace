@@ -3851,6 +3851,34 @@ def test_snake_trap():
 	assert wisp.dead
 
 
+def test_feign_death():
+	game = prepare_game(HUNTER, HUNTER)
+	game.player1.discard_hand()
+	feigndeath = game.player1.give("GVG_026")
+	hauntedcreeper = game.player1.give("FP1_002")
+	webspinner = game.player1.give("FP1_011")
+	hauntedcreeper.play()
+	webspinner.play()
+	feigndeath.play()
+	assert not hauntedcreeper.dead
+	assert not webspinner.dead
+	assert len(game.player1.field) == 4
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].race == Race.BEAST
+
+
+def test_feign_death_baron_rivendare():
+	game = prepare_game(HUNTER, HUNTER)
+	feigndeath = game.player1.give("GVG_026")
+	rivendare = game.player1.give("FP1_031")
+	rivendare.play()
+	hauntedcreeper = game.player1.give("FP1_002")
+	hauntedcreeper.play()
+	feigndeath.play()
+	assert not hauntedcreeper.dead
+	assert len(game.player1.field) == 6
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):
