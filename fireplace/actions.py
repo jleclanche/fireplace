@@ -152,6 +152,7 @@ class GameAction(Action):
 		game.manager.action(self.type, source, *args)
 		self.do(source, game, *args)
 		game.manager.action_end(self.type, source, *args)
+		game.process_deaths()
 
 
 class Attack(GameAction):
@@ -249,7 +250,9 @@ class Play(GameAction):
 		card.choose = self.choose
 
 		self.broadcast(game, EventListener.ON, *args)
+		game.process_deaths()
 		game.play(card)
+		game.process_deaths()
 		self.broadcast(game, EventListener.AFTER, *args)
 
 		card.target = None

@@ -33,7 +33,6 @@ class BaseGame(Entity):
 		self.auras = []
 		self.minions_killed = CardList()
 		self.minions_killed_this_turn = CardList()
-		self._action_queue = []
 
 	def __repr__(self):
 		return "<%s %s>" % (self.__class__.__name__, self)
@@ -183,12 +182,8 @@ class BaseGame(Entity):
 				logging.debug("Registering %r on %r", action, self)
 				source.controller._events.append(action)
 			else:
-				self._action_queue.append(action)
 				ret.append(action.trigger(source, self))
 				self.refresh_auras()
-				self._action_queue.pop()
-		if not self._action_queue:
-			self.process_deaths()
 
 		return ret
 
