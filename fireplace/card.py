@@ -282,6 +282,7 @@ class PlayableCard(BaseCard):
 		"""
 		assert self.zone != Zone.PLAY
 		self.controller.play(self, target, choose)
+		return self
 
 	def has_target(self):
 		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements and self.controller.combo:
