@@ -1226,9 +1226,8 @@ def test_dread_infernal():
 
 def test_dread_corsair():
 	game = prepare_game()
-	corsair = game.current_player.give("NEW1_022")
+	corsair = game.player1.give("NEW1_022")
 	assert corsair.cost == 4
-	game.current_player.give(THE_COIN).play()
 	axe = game.player1.give("CS2_106")
 	axe.play()
 	assert corsair.cost == 4 - 3
@@ -2123,28 +2122,27 @@ def test_archmage_antonidas():
 
 def test_armorsmith():
 	game = prepare_game()
-	armorsmith1 = game.current_player.give("EX1_402")
+	armorsmith1 = game.player1.give("EX1_402")
 	armorsmith1.play()
 	game.end_turn()
 
-	armorsmith2 = game.current_player.give("EX1_402")
+	armorsmith2 = game.player2.give("EX1_402")
 	armorsmith2.play()
 	game.end_turn()
 
-	assert not game.current_player.hero.armor
+	assert game.player1.hero.armor == game.player2.hero.armor == 0
 	armorsmith1.attack(target=armorsmith2)
-	assert game.current_player.hero.armor == 1
-	assert game.current_player.opponent.hero.armor == 1
-
+	assert game.player1.hero.armor == game.player2.hero.armor == 1
 	game.end_turn()
-	game.current_player.give("EX1_402").play()
-	game.current_player.give(WISP).play()
+
+	game.player2.give("EX1_402").play()
+	game.player2.give(WISP).play()
 
 	# Whirlwind. 1 armor on each hero, 2 armorsmiths in play for current player, 1 for opponent.
-	game.current_player.give("EX1_400").play()
-	assert game.current_player.hero.armor == 7
+	game.player2.give("EX1_400").play()
+	assert game.player2.hero.armor == 1 + (2 * 3)
 	assert game.current_player.hero.health == 30
-	assert game.current_player.opponent.hero.armor == 2
+	assert game.player1.hero.armor == 1 + 1
 
 
 def test_auchenai_soulpriest():
