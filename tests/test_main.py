@@ -84,10 +84,10 @@ def test_armor():
 	game = prepare_game(WARRIOR, WARRIOR)
 	assert game.current_player.hero.armor == 0
 	assert not game.current_player.hero.power.exhausted
-	assert game.current_player.hero.power.is_playable()
-	game.current_player.hero.power.play()
+	assert game.current_player.hero.power.is_usable()
+	game.current_player.hero.power.use()
 	assert game.current_player.hero.power.exhausted
-	assert not game.current_player.hero.power.is_playable()
+	assert not game.current_player.hero.power.is_usable()
 	assert game.current_player.hero.armor == 2
 	game.end_turn()
 
@@ -150,7 +150,7 @@ def test_spell_power():
 	game.end_turn(); game.end_turn()
 
 	# Check hero power is unaffected
-	game.current_player.hero.power.play(); expected_health -= 2
+	game.current_player.hero.power.use(); expected_health -= 2
 	assert game.player2.hero.health == expected_health
 	# Check battlecries are unaffected
 	game.current_player.give("CS2_189").play(target=game.player2.hero); expected_health -= 1
@@ -172,11 +172,11 @@ def test_mage():
 	assert game.current_player.times_hero_power_used_this_game == 0
 
 	# Fireblast the opponent hero
-	game.current_player.hero.power.play(target=game.current_player.opponent.hero)
+	game.current_player.hero.power.use(target=game.current_player.opponent.hero)
 	assert game.current_player.hero.health == 30
 	assert game.current_player.opponent.hero.health == 29
 	assert game.current_player.times_hero_power_used_this_game == 1
-	assert not game.current_player.hero.power.is_playable()
+	assert not game.current_player.hero.power.is_usable()
 
 
 def test_priest():
@@ -184,7 +184,7 @@ def test_priest():
 	assert game.current_player.hero.id is PRIEST
 	# Heal self
 	assert game.current_player.hero.health == 30
-	game.current_player.hero.power.play(target=game.current_player.hero)
+	game.current_player.hero.power.use(target=game.current_player.hero)
 	assert game.current_player.hero.health == 30
 
 	game.end_turn(); game.end_turn()
@@ -193,23 +193,23 @@ def test_priest():
 	moonfire.play(target=game.current_player.hero)
 	assert game.current_player.last_card_played == moonfire
 	assert game.current_player.hero.health == 29
-	game.current_player.hero.power.play(target=game.current_player.hero)
+	game.current_player.hero.power.use(target=game.current_player.hero)
 	assert game.current_player.hero.health == 30
-	assert not game.current_player.hero.power.is_playable()
+	assert not game.current_player.hero.power.is_usable()
 
 
 def test_shaman():
 	game = prepare_game(SHAMAN, SHAMAN)
 	assert game.current_player.hero.id is SHAMAN
 	assert len(game.current_player.hero.power.data.entourage) == 4
-	game.current_player.hero.power.play()
+	game.current_player.hero.power.use()
 	assert game.current_player.field[0].id in ("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
 
 
 def test_paladin():
 	game = prepare_game(PALADIN, PALADIN)
 	assert game.current_player.hero.id is PALADIN
-	game.current_player.hero.power.play()
+	game.current_player.hero.power.use()
 	assert len(game.board) == 1
 	assert len(game.current_player.field) == 1
 	assert game.current_player.field[0].id == "CS2_101t"
@@ -603,7 +603,7 @@ def test_deadly_poison():
 	game = prepare_game(ROGUE, ROGUE)
 	poison = game.current_player.give("CS2_074")
 	assert not poison.is_playable()
-	game.current_player.hero.power.play()
+	game.current_player.hero.power.use()
 	assert game.current_player.weapon.atk == 1
 	assert game.current_player.hero.atk == 1
 	assert poison.is_playable()
@@ -958,7 +958,7 @@ def test_southsea_deckhand():
 	deckhand.play()
 	assert not deckhand.charge
 	# Play rogue hero power (gives a weapon)
-	game.current_player.hero.power.play()
+	game.current_player.hero.power.use()
 	assert deckhand.charge
 	game.end_turn(); game.end_turn()
 
@@ -976,7 +976,7 @@ def test_southsea_deckhand():
 	game.end_turn(); game.end_turn()
 
 	assert deckhand.charge
-	game.current_player.hero.power.play()
+	game.current_player.hero.power.use()
 	assert deckhand.charge
 	game.current_player.weapon.destroy()
 	# No longer have weapon, but still have the charge buff from earlier
@@ -1026,7 +1026,7 @@ def test_sword_of_justice():
 	assert sword.durability == 4
 	game.end_turn()
 
-	game.current_player.hero.power.play()
+	game.current_player.hero.power.use()
 	assert sword.durability == 3
 
 	game.current_player.give(WISP).play()
@@ -1644,7 +1644,7 @@ def test_prophet_velen():
 	expected_health -= 2 * 1
 	assert game.player2.hero.health == expected_health
 
-	game.player1.hero.power.play(target=game.player2.hero)
+	game.player1.hero.power.use(target=game.player2.hero)
 	expected_health += 2 * 2
 	assert game.player2.hero.health == expected_health
 
@@ -2151,7 +2151,7 @@ def test_auchenai_soulpriest():
 	game = prepare_game(PRIEST, PRIEST)
 	auchenai = game.player1.give("EX1_591")
 	auchenai.play()
-	game.player1.hero.power.play(target=game.player2.hero)
+	game.player1.hero.power.use(target=game.player2.hero)
 	assert game.player2.hero.health == 28
 	game.player1.give(CIRCLE_OF_HEALING).play()
 	assert auchenai.health == 1
@@ -2663,12 +2663,12 @@ def test_lightwarden():
 
 	# No-op heal should not do anything.
 	assert game.current_player.hero.health == 30
-	game.current_player.hero.power.play(target=game.current_player.hero)
+	game.current_player.hero.power.use(target=game.current_player.hero)
 	assert game.current_player.hero.health == 30
 	assert lightwarden.atk == 1
 	lightwarden.attack(target=game.current_player.opponent.hero)
 	game.end_turn()
-	game.current_player.hero.power.play(target=game.current_player.hero)
+	game.current_player.hero.power.use(target=game.current_player.hero)
 	assert lightwarden.atk == 3
 
 
@@ -2888,7 +2888,7 @@ def test_northshire_cleric():
 	game.player2.discard_hand()
 	cleric = game.player1.give("CS2_235")
 	cleric.play()
-	game.player1.hero.power.play(target=game.current_player.hero)
+	game.player1.hero.power.use(target=game.current_player.hero)
 	assert not game.player1.hand
 
 	pyromancer = game.player1.give("NEW1_020")
@@ -3214,30 +3214,30 @@ def test_shadowform():
 	# Hero Power should reset
 	shadowform1 = game.current_player.give("EX1_625")
 	assert game.current_player.hero.power.id == "CS1h_001"
-	assert game.current_player.hero.power.is_playable()
-	game.current_player.hero.power.play(target=game.current_player.hero)
-	assert not game.current_player.hero.power.is_playable()
+	assert game.current_player.hero.power.is_usable()
+	game.current_player.hero.power.use(target=game.current_player.hero)
+	assert not game.current_player.hero.power.is_usable()
 	assert shadowform1.is_playable()
 	shadowform1.play()
 	assert game.current_player.hero.power.id == "EX1_625t"
-	assert game.current_player.hero.power.is_playable()
-	game.current_player.hero.power.play(target=game.current_player.opponent.hero)
-	assert not game.current_player.hero.power.is_playable()
+	assert game.current_player.hero.power.is_usable()
+	game.current_player.hero.power.use(target=game.current_player.opponent.hero)
+	assert not game.current_player.hero.power.is_usable()
 	assert game.current_player.opponent.hero.health == 28
 	game.end_turn(); game.end_turn()
 
 	shadowform2 = game.current_player.give("EX1_625")
 	shadowform2.play()
 	assert game.current_player.hero.power.id == "EX1_625t2"
-	assert game.current_player.hero.power.is_playable()
-	game.current_player.hero.power.play(target=game.current_player.opponent.hero)
-	assert not game.current_player.hero.power.is_playable()
+	assert game.current_player.hero.power.is_usable()
+	game.current_player.hero.power.use(target=game.current_player.opponent.hero)
+	assert not game.current_player.hero.power.is_usable()
 	assert game.current_player.opponent.hero.health == 25
 
 	shadowform3 = game.current_player.give("EX1_625")
 	shadowform3.play()
 	assert game.current_player.hero.power.id == "EX1_625t2"
-	assert not game.current_player.hero.power.is_playable()
+	assert not game.current_player.hero.power.is_usable()
 
 
 def test_shadowstep():
@@ -3673,7 +3673,7 @@ def test_floating_watcher():
 	assert watcher.atk == watcher.health == 4
 	game.player1.give(MOONFIRE).play(target=game.player1.hero)
 	assert watcher.atk == watcher.health == 4 + 2
-	game.player1.hero.power.play()
+	game.player1.hero.power.use()
 	assert watcher.atk == watcher.health == 4 + 4
 
 
@@ -3747,7 +3747,7 @@ def test_majordomo_executus():
 	majordomo.play()
 	game.end_turn(); game.end_turn()
 
-	game.player1.hero.power.play()
+	game.player1.hero.power.use()
 	assert game.player1.hero.power.exhausted
 	assert game.player1.hero.armor == 2
 	assert game.player1.hero.health == 30
@@ -3756,7 +3756,7 @@ def test_majordomo_executus():
 	assert game.player1.hero.health == 8
 	assert game.player1.hero.power.id == "BRM_027p"
 	assert not game.player1.hero.power.exhausted
-	game.current_player.hero.power.play()
+	game.current_player.hero.power.use()
 	assert game.player1.hero.power.exhausted
 	assert game.player2.hero.health == 22
 

@@ -25,11 +25,11 @@ def main():
 	while True:
 		heropower = game.current_player.hero.power
 		# always play the hero power, just for kicks
-		if heropower.is_playable():
+		if heropower.is_usable():
 			if heropower.has_target():
-				heropower.play(target=random.choice(heropower.targets))
+				heropower.use(target=random.choice(heropower.targets))
 			else:
-				heropower.play()
+				heropower.use()
 		# iterate over our hand and play whatever is playable
 		for card in game.current_player.hand:
 			if card.is_playable():

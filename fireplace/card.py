@@ -830,11 +830,11 @@ class HeroPower(PlayableCard):
 	Manager = HeroPowerManager
 
 	def activate(self):
-		kwargs = {}
-		if self.target:
-			kwargs["target"] = self.target
 		actions = self.data.scripts.activate
 		if callable(actions):
+			kwargs = {}
+			if self.target:
+				kwargs["target"] = self.target
 			actions = actions(self, **kwargs)
 
 		if actions:
@@ -844,24 +844,33 @@ class HeroPower(PlayableCard):
 		amount *= (self.controller.hero_power_double + 1)
 		super().hit(target, amount)
 
+	def is_playable(self):
+		return False
+
 	def play(self, target=None):
-		logging.info("%s plays hero power %r" % (self.controller, self))
-		assert self.is_playable()
+		raise NotImplementedError
+
+	def use(self, target=None):
+		assert self.is_usable()
+		logging.info("%s uses hero power %r on %r", self.controller, self, target)
+
 		if self.has_target():
 			assert target
 			self.target = target
-		self.controller.used_mana += self.cost
-		self.activate()
-		self.exhausted = True
-		if self.target:
-			self.target = None
-		self.controller.times_hero_power_used_this_game += 1
 
-	def is_playable(self):
-		playable = super().is_playable()
+		ret = self.activate()
+
+		self.exhausted = True
+		self.controller.times_hero_power_used_this_game += 1
+		self.controller.used_mana += self.cost
+		self.target = None
+
+		return ret
+
+	def is_usable(self):
 		if self.exhausted:
 			return False
-		return playable
+		return super().is_playable()
 
 	def summon(self):
 		super().summon()
