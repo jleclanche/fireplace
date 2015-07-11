@@ -1762,38 +1762,40 @@ def test_bestial_wrath():
 
 def test_betrayal():
 	game = prepare_game()
-	betrayal = game.current_player.give("EX1_126")
-
-	wisp1 = game.current_player.give(WISP)
-	wisp1.play()
-	wisp2 = game.current_player.give(WISP)
-	wisp2.play()
-	wisp3 = game.current_player.give(WISP)
-	wisp3.play()
+	wisp1 = game.player1.give(WISP).play()
+	wisp2 = game.player1.give(WISP).play()
+	wisp3 = game.player1.give(WISP).play()
 	assert len(game.current_player.field) == 3
+	game.end_turn()
+
+	betrayal = game.player2.give("EX1_126")
 	betrayal.play(target=wisp2)
-	assert len(game.current_player.field) == 1
+	assert len(game.player1.field) == 1
 	assert wisp1.dead
-	assert wisp2.zone == Zone.PLAY
+	assert not wisp2.dead
 	assert wisp3.dead
+	game.end_turn()
 
-	bender = game.current_player.give(SPELLBENDERT)
-	bender.play()
-	game.current_player.give("EX1_126").play(target=wisp2)
-	assert wisp2.zone == Zone.PLAY
-	assert bender.zone == Zone.PLAY
+	bender = game.player1.give(SPELLBENDERT).play()
+	game.end_turn()
+
+	game.player2.give("EX1_126").play(target=wisp2)
+	assert not wisp2.dead
+	assert not bender.dead
 	assert bender.health == 2
-	bender.destroy(); wisp2.destroy()
-	assert not game.current_player.field
 
-	# prepare the board: two War Golems and an Emperor Cobra in the middle
-	golem1 = game.current_player.summon("CS2_186")
-	cobra = game.current_player.summon("EX1_170")
-	golem2 = game.current_player.summon("CS2_186")
-	game.current_player.give("EX1_126").play(target=cobra)
-	assert golem1.dead
-	assert cobra.zone == Zone.PLAY
-	assert golem2.dead
+
+def test_betrayal_poisonous():
+	game = prepare_game()
+	watcher1 = game.player1.give("EX1_045").play()
+	cobra = game.player1.give("EX1_170").play()
+	watcher2 = game.player1.give("EX1_045").play()
+	game.end_turn()
+
+	game.player2.give("EX1_126").play(target=cobra)
+	assert watcher1.dead
+	assert not cobra.dead
+	assert watcher2.dead
 
 
 def test_cold_blood():
