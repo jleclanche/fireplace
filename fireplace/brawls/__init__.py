@@ -1,7 +1,8 @@
 import random
-from ..actions import RandomCardGenerator, Give
+from ..actions import RandomCardGenerator, Give, Summon
 from ..enums import CardType
 from ..game import Game
+from ..cards.utils import RandomMinion
 
 
 class BlackrockShowdownBrawl(Game):
@@ -111,3 +112,19 @@ class SpidersEverywhereBrawl(Game):
 			for i in range(7):
 				deck.append(random.choice(spells))
 			player.prepare_deck(deck, hero)
+
+
+class GreatSummonerBrawl(Game):
+	"""
+	The Great Summoner Competition
+
+	Summoners from across the world have come to compete. When
+	you cast a spell, a random minion of the same cost is summoned
+	for you!
+	"""
+
+	def play(self, card, *args):
+		if card.type == CardType.SPELL:
+			action = Summon(card.controller, RandomMinion(cost=card.cost))
+			self.queue_actions(card.controller, [action])
+		return super().play(card, *args)
