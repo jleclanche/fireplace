@@ -3813,6 +3813,27 @@ def test_fel_reaver():
 		assert len(game.player2.deck) == 25
 
 
+def test_snipe():
+	game = prepare_game(HUNTER, HUNTER)
+	snipe1 = game.player1.give("EX1_609")
+	snipe1.play()
+	game.end_turn()
+
+	tidehunter = game.player2.give("EX1_506")
+	tidehunter.play()
+	assert tidehunter.dead
+	assert len(game.player2.field) == 1
+	snipe2 = game.player2.give("EX1_609")
+	snipe2.play()
+	game.end_turn()
+
+	watcher = game.player1.give("EX1_045")
+	watcher.play()
+	assert not watcher.can_attack()
+	assert not watcher.dead
+	assert watcher.health == 1
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):

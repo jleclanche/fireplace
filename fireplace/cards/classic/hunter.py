@@ -88,6 +88,15 @@ class EX1_549:
 	action = [Buff(TARGET, "EX1_549o")]
 
 
+# Snipe
+class EX1_609:
+	events = [
+		Play(OPPONENT, MINION).after(
+			lambda self, source, target, *args: [Hit(target, 4), Reveal(SELF)],
+		zone=Zone.SECRET)
+	]
+
+
 # Freezing Trap
 class EX1_611:
 	events = [
