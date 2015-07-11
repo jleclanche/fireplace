@@ -2626,7 +2626,18 @@ def test_auchenai_light_of_the_naaru():
 	naaru2.play(target=lightwarden)
 	assert lightwarden.dead
 	assert len(game.player1.field) == 2
-	assert game.player1.field[1].id == "EX1_001"
+	lightwarden2 = game.player1.field[1]
+	assert lightwarden2.id == "EX1_001"
+
+	# test on full board
+	for i in range(5):
+		game.player1.give(WISP).play()
+	assert len(game.player1.field) == 7
+	naaru3 = game.player1.give("GVG_012")
+	naaru3.play(target=lightwarden2)
+
+	assert lightwarden2.dead
+	assert len(game.player1.field) == 6
 
 
 def test_lightspawn():
