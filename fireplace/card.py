@@ -294,17 +294,6 @@ class PlayableCard(BaseCard):
 			return bool(self.targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
-	def trigger_deathrattles(self):
-		"""
-		Trigger all deathrattles on the card.
-		"""
-		for deathrattle in self.deathrattles:
-			if callable(deathrattle):
-				actions = deathrattle(self)
-			else:
-				actions = deathrattle
-			self.game.queue_actions(self, actions)
-
 	@property
 	def targets(self):
 		full_board = self.game.board + [self.controller.hero, self.controller.opponent.hero]

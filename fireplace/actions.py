@@ -205,11 +205,7 @@ class Death(GameAction):
 		target.zone = Zone.GRAVEYARD
 		self.broadcast(game, EventListener.ON, target)
 		if target.deathrattles:
-			logging.info("Triggering Deathrattle for %r", target)
-			target.trigger_deathrattles()
-			if target.controller.extra_deathrattles:
-				logging.info("Triggering Deathrattle for %r again", target)
-				target.trigger_deathrattles()
+			game.queue_actions(source, [Deathrattle(target)])
 
 
 class EndTurn(GameAction):
@@ -334,6 +330,23 @@ class Damage(TargetedAction):
 		amount = target._hit(source, self.amount)
 		if amount:
 			self.broadcast(game, EventListener.ON, target, amount, source)
+
+
+class Deathrattle(TargetedAction):
+	"""
+	Trigger deathrattles on card targets.
+	"""
+	def do(self, source, game, target):
+		for deathrattle in target.deathrattles:
+			if callable(deathrattle):
+				actions = deathrattle(target)
+			else:
+				actions = deathrattle
+			game.queue_actions(target, actions)
+
+			if target.controller.extra_deathrattles:
+				logging.info("Triggering deathrattles for %r again", target)
+				game.queue_actions(target, actions)
 
 
 class Destroy(TargetedAction):
