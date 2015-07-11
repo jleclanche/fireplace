@@ -1,7 +1,7 @@
 import logging
 from itertools import chain
 from . import cards as CardDB, targeting
-from .actions import Damage, Destroy, Heal, Play
+from .actions import Damage, Deaths, Destroy, Heal, Play
 from .entity import Entity, boolean_property, int_property
 from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *
@@ -222,7 +222,7 @@ class PlayableCard(BaseCard):
 				buff.destroy()
 
 	def destroy(self):
-		return self.game.queue_actions(self, [Destroy(self)])
+		return self.game.queue_actions(self, [Destroy(self), Deaths()])
 
 	def _destroy(self):
 		"""
