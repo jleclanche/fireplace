@@ -3739,32 +3739,24 @@ def test_resurrect_wild_pyro():
 
 def test_majordomo_executus():
 	game = prepare_game(WARRIOR, WARRIOR)
-	assert game.current_player.hero.armor == 0
-	assert game.current_player.hero.health == 30
-	assert not game.current_player.hero.power.exhausted
-	assert game.current_player.hero.power.is_playable()
-	game.current_player.hero.power.play()
-	assert game.current_player.hero.power.exhausted
-	assert not game.current_player.hero.power.is_playable()
-	assert game.current_player.hero.armor == 2
 	game.end_turn(); game.end_turn()
 
 	majordomo = game.player1.give("BRM_027")
 	majordomo.play()
 	game.end_turn(); game.end_turn()
 
+	game.player1.hero.power.play()
+	assert game.player1.hero.power.exhausted
+	assert game.player1.hero.armor == 2
+	assert game.player1.hero.health == 30
+	majordomo.destroy()
+	assert game.player1.hero.armor == 0
+	assert game.player1.hero.health == 8
+	assert game.player1.hero.power.id == "BRM_027p"
+	assert not game.player1.hero.power.exhausted
 	game.current_player.hero.power.play()
-	assert game.current_player.hero.power.exhausted
-	assert not game.current_player.hero.power.is_playable()
-	assassinate = game.player1.give("CS2_076")
-	assassinate.play(target=majordomo)
-	assert game.current_player.hero.armor == 0
-	assert game.current_player.hero.health == 8
-	assert game.current_player.hero.power.id == "BRM_027p"
-	assert not game.current_player.hero.power.exhausted
-	assert game.current_player.hero.power.is_playable()
-	game.current_player.hero.power.play()
-	assert game.current_player.opponent.hero.health == 22
+	assert game.player1.hero.power.exhausted
+	assert game.player2.hero.health == 22
 
 
 def test_quick_shot():
