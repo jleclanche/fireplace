@@ -107,6 +107,15 @@ class EX1_609:
 	]
 
 
+# Explosive trap
+class EX1_610:
+	events = [
+		Attack(ENEMY_MINIONS, FRIENDLY_HERO).on(
+			lambda self, source, target, *args: [Hit(ENEMY_CHARACTERS, 2), Reveal(SELF)],
+		zone=Zone.SECRET)
+	]
+
+
 # Freezing Trap
 class EX1_611:
 	events = [

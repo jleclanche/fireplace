@@ -3879,6 +3879,33 @@ def test_feign_death_baron_rivendare():
 	assert len(game.player1.field) == 6
 
 
+def test_explosive_trap():
+	game = prepare_game(HUNTER, HUNTER)
+	explosivetrap = game.player1.give("EX1_610")
+	explosivetrap.play()
+	huffer = game.player1.give("NEW1_034")
+	huffer.play()
+	huffer.attack(game.player2.hero)
+	assert game.player2.hero.health == 26
+	assert game.player1.hero.health == 30
+	assert not huffer.dead
+	game.end_turn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	game.end_turn(); game.end_turn()
+
+	assert len(game.player2.field) == 4
+	wisp.attack(game.player1.hero)
+	assert explosivetrap.dead
+	assert len(game.player2.field) == 0
+	assert game.player2.hero.health == 24
+	assert game.player1.hero.health == 30
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):
