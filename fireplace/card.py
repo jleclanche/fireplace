@@ -259,6 +259,8 @@ class PlayableCard(BaseCard):
 		return self.game.queue_actions(self, [Damage(target, amount)])
 
 	def is_playable(self):
+		if not self.controller.current_player:
+			return False
 		if self.controller.mana < self.cost:
 			return False
 		if PlayReq.REQ_TARGET_TO_PLAY in self.requirements:
@@ -280,7 +282,8 @@ class PlayableCard(BaseCard):
 		"""
 		Helper for Player.play(card)
 		"""
-		assert self.zone != Zone.PLAY
+		assert self.is_playable()
+		assert self.zone == Zone.HAND
 		self.controller.play(self, target, choose)
 		return self
 
