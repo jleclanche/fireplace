@@ -253,7 +253,7 @@ class Play(GameAction):
 		card.choose = self.choose
 
 		self.broadcast(game, EventListener.ON, *args)
-		source._play(card)
+		game.play(card)
 		self.broadcast(game, EventListener.AFTER, *args)
 
 		card.target = None

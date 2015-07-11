@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .actions import Draw, Play, Give, Summon
+from .actions import Draw, Give, Summon
 from .deck import Deck
 from .entity import Entity
 from .enums import CardType, PlayState, Zone
@@ -172,28 +172,3 @@ class Player(Entity):
 			card.controller = self
 		self.game.queue_actions(self, [Summon(self, card)])
 		return card
-
-	def play(self, card, target=None, choose=None):
-		return self.game.queue_actions(self, [Play(card, target, choose)])
-
-	def _play(self, card):
-		"""
-		Plays \a card from the player's hand
-		"""
-		logging.info("%s plays %r from their hand" % (self, card))
-		assert card.controller
-		cost = card.cost
-		if self.temp_mana:
-			# The coin, Innervate etc
-			cost -= self.temp_mana
-			self.temp_mana = max(0, self.temp_mana - card.cost)
-		self.used_mana += cost
-		if card.overload:
-			logging.info("%s overloads for %i mana", self, card.overload)
-			self.overloaded += card.overload
-		self.last_card_played = card
-		self.summon(card)
-		self.combo = True
-		self.cards_played_this_turn += 1
-		if card.type == CardType.MINION:
-			self.minions_played_this_turn += 1

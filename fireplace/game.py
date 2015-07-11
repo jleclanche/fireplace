@@ -103,6 +103,28 @@ class BaseGame(Entity):
 		defender.defending = False
 		attacker.num_attacks += 1
 
+	def play(self, card):
+		"""
+		Plays \a card from a Player's hand
+		"""
+		player = card.controller
+		logging.info("%s plays %r", player, card)
+		cost = card.cost
+		if player.temp_mana:
+			# The coin, Innervate etc
+			cost -= player.temp_mana
+			player.temp_mana = max(0, player.temp_mana - card.cost)
+		player.used_mana += cost
+		if card.overload:
+			logging.info("%s overloads for %i mana", player, card.overload)
+			player.overloaded += card.overload
+		player.last_card_played = card
+		player.summon(card)
+		player.combo = True
+		player.cards_played_this_turn += 1
+		if card.type == CardType.MINION:
+			player.minions_played_this_turn += 1
+
 	def card(self, id):
 		card = Card(id)
 		self.manager.new_entity(card)

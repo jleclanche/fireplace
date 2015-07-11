@@ -1,7 +1,7 @@
 import logging
 from itertools import chain
 from . import cards as CardDB, targeting
-from .actions import Damage, Destroy, Heal
+from .actions import Damage, Destroy, Heal, Play
 from .entity import Entity, boolean_property, int_property
 from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *
@@ -280,11 +280,11 @@ class PlayableCard(BaseCard):
 
 	def play(self, target=None, choose=None):
 		"""
-		Helper for Player.play(card)
+		Queue a Play action on the card.
 		"""
 		assert self.is_playable()
 		assert self.zone == Zone.HAND
-		self.controller.play(self, target, choose)
+		self.game.queue_actions(self.controller, [Play(self, target, choose)])
 		return self
 
 	def has_target(self):
