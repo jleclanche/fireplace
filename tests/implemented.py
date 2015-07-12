@@ -15,18 +15,18 @@ YELLOW = "\033[33m"
 RED = "\033[91m"
 ENDC = "\033[0m"
 PREFIXES = {
-	GREEN: "Implemented: ",
-	YELLOW: "Potentially implemented: ",
-	RED: "Not implemented: ",
+	GREEN: "Implemented",
+	YELLOW: "Potentially implemented",
+	RED: "Not implemented",
 }
 
 SOLVED_KEYWORDS = [
 	"Windfury", "Charge", "Divine Shield", "Taunt", "Stealth",
-	"Spell Damage \+[0-9]+",
 	"Can't be targeted by spells or Hero Powers",
-	"Overload: \([0-9]+\)",
 	"50% chance to attack the wrong enemy",
 	"Can't Attack",
+	r"Spell Damage \+\d+",
+	r"Overload: \(\d+\)",
 ]
 
 
@@ -47,7 +47,8 @@ def potentially_implemented(card):
 def main():
 	for id in sorted(cards.db):
 		card = cards.db[id]
-		if not cleanup_description(card.description):
+		description = cleanup_description(card.description)
+		if not description:
 			# Minions without card text or with basic abilities are implemented
 			color = GREEN
 		elif card.type == CardType.ENCHANTMENT:
@@ -63,7 +64,9 @@ def main():
 					color = YELLOW
 				else:
 					color = RED
-		print(color + PREFIXES[color] + card.name + ENDC + " (%s)" % (id))
+
+		name = color + "%s: %s" % (PREFIXES[color], card.name) + ENDC
+		print("%s (%s)" % (name, id))
 
 
 if __name__ == "__main__":
