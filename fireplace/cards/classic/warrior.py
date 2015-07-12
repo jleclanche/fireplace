@@ -4,9 +4,13 @@ from ..utils import *
 ##
 # Hero Powers
 
-# Armor Up!
+# Armor Up! (Garrosh Hellscream)
 class CS2_102:
 	activate = [GainArmor(FRIENDLY_HERO, 2)]
+
+# Armor Up! (Magni Bronzebeard)
+class CS2_102_H1:
+	activate = CS2_102.activate
 
 
 ##

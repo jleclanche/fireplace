@@ -8,6 +8,10 @@ from ..utils import *
 class DS1h_292:
 	activate = [Hit(ENEMY_HERO, 2)]
 
+# Steady Shot (Alleria Windrunner)
+class DS1h_292_H1:
+	activate = DS1h_292.activate
+
 
 ##
 # Minions

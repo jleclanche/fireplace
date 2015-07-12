@@ -8,6 +8,10 @@ from ..utils import *
 class CS2_034:
 	activate = [Hit(TARGET, 1)]
 
+# Fireblast (Medivh)
+class CS2_034_H1:
+	activate = CS2_034.activate
+
 
 ##
 # Minions
