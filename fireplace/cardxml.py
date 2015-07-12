@@ -1,5 +1,5 @@
 from xml.etree import ElementTree
-from fireplace.enums import AuraType, CardClass, CardType, Faction, GameTag, PlayReq, Race, Rarity
+from fireplace.enums import *
 
 
 class CardXML(object):
@@ -72,6 +72,10 @@ class CardXML(object):
 	@property
 	def card_class(self):
 		return CardClass(self.tags.get(GameTag.CLASS, 0))
+
+	@property
+	def card_set(self):
+		return CardSet(self.tags.get(GameTag.CARD_SET, 0))
 
 	@property
 	def collectible(self):
