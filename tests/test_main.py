@@ -614,19 +614,14 @@ def test_deadly_poison():
 
 def test_deathwing():
 	game = prepare_game()
-	deathwing = game.current_player.give("NEW1_030")
-	# play some wisps
-	game.current_player.give(WISP).play()
-	game.current_player.give(WISP).play()
-	game.current_player.give(WISP).play()
-
-	# fast-forward to turn 10
-	for i in range(9 * 2):
-		game.end_turn()
-
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	deathwing = game.player1.give("NEW1_030")
 	deathwing.play()
 	assert not game.current_player.hand
 	assert len(game.board) == 1
+	assert not deathwing.dead
 
 
 def test_combo():
@@ -1087,7 +1082,6 @@ def test_emperor_thaurissan():
 	assert deathwing.cost == 10 - 2
 
 
-
 def test_ethereal_arcanist():
 	game = prepare_game()
 	arcanist = game.player1.give("EX1_274")
@@ -1111,27 +1105,19 @@ def test_ethereal_arcanist():
 	assert arcanist.atk == arcanist.health == 3 + 2
 
 
-def test_end_turn_heal():
+def test_healing_totem():
 	game = prepare_game()
-
-	footman = game.current_player.give(GOLDSHIRE_FOOTMAN)
+	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
 	footman.play()
-	assert footman.health == 2
-	game.end_turn()
-
-	# play an archer on the footman
-	archer = game.current_player.give("CS2_189")
-	archer.play(target=footman)
+	game.player1.give(MOONFIRE).play(target=footman)
+	healtotem = game.player1.give("NEW1_009")
+	healtotem.play()
 	assert footman.health == 1
 	game.end_turn()
 
-	healtotem = game.current_player.give("NEW1_009")
-	healtotem.play()
-	game.end_turn()
 	assert footman.health == 2
 	game.end_turn()
-	game.end_turn()
-	# check it's still at max health after a couple of turns
+
 	assert footman.health == 2
 
 
