@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import sys; sys.path.append("..")
 import logging
+import random
+import fireplace.cards
 from fireplace.cards.heroes import *
 from fireplace.enums import *
 from fireplace.game import Game
@@ -39,8 +41,14 @@ def _draft(hero, exclude):
 	return _draftcache[(hero, exclude)]
 
 
-def prepare_game(hero1=MAGE, hero2=WARRIOR, exclude=(), game_class=TestGame):
+_heroes = fireplace.cards.filter(collectible=True, type=CardType.HERO)
+
+def prepare_game(hero1=None, hero2=None, exclude=(), game_class=TestGame):
 	print("Initializing a new game")
+	if hero1 is None:
+		hero1 = random.choice(_heroes)
+	if hero2 is None:
+		hero2 = random.choice(_heroes)
 	deck1 = _draft(hero=hero1, exclude=exclude)
 	deck2 = _draft(hero=hero2, exclude=exclude)
 	player1 = Player(name="Player1")
