@@ -63,6 +63,12 @@ class BRM_027p:
 	activate = [Hit(RANDOM_ENEMY_CHARACTER, 8)]
 
 
+# Emperor Thaurissan
+class BRM_028:
+	events = [
+		OWN_TURN_END.on(Buff(CONTROLLER_HAND, "BRM_028e"))
+	]
+
 ##
 # Spells
 

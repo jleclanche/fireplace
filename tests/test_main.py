@@ -1040,6 +1040,54 @@ def test_sword_of_justice():
 	assert not wisp2.buffs
 
 
+def test_emperor_thaurissan():
+	game = prepare_game()
+	thaurissan = game.player1.give("BRM_028")
+	fireball = game.player1.give("CS2_029")
+	wisp = game.player1.give(WISP)
+	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
+	deathwing = game.player1.give("NEW1_030")
+	thaurissan.play()
+	assert fireball.cost == 4
+	assert wisp.cost == 0
+	assert footman.cost == 1
+	assert deathwing.cost == 10
+	game.end_turn()
+
+	assert fireball.cost == 4 - 1
+	assert wisp.cost == 0
+	assert footman.cost == 1 - 1
+	assert deathwing.cost == 10 - 1
+	game.end_turn()
+
+	assert fireball.cost == 4 - 1
+	assert wisp.cost == 0
+	assert footman.cost == 1 - 1
+	assert deathwing.cost == 10 - 1
+	game.end_turn()
+
+	assert fireball.cost == 4 - 2
+	assert wisp.cost == 0
+	assert footman.cost == 0
+	assert deathwing.cost == 10 - 2
+	game.end_turn()
+
+	thaurissan.destroy()
+	game.end_turn()
+
+	assert fireball.cost == 4 - 2
+	assert wisp.cost == 0
+	assert footman.cost == 0
+	assert deathwing.cost == 10 - 2
+	game.end_turn()
+
+	assert fireball.cost == 4 - 2
+	assert wisp.cost == 0
+	assert footman.cost == 0
+	assert deathwing.cost == 10 - 2
+
+
+
 def test_ethereal_arcanist():
 	game = prepare_game()
 	arcanist = game.player1.give("EX1_274")
