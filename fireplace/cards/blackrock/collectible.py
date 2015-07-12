@@ -29,6 +29,15 @@ class BRM_009:
 		return value - len(self.game.minions_killed_this_turn)
 
 
+# Druid of the Flame (Firecat Form)
+class BRM_010a:
+	action = [Morph(SELF, "BRM_010t")]
+
+# Druid of the Flame (Firehawk Form)
+class BRM_010b:
+	action = [Morph(SELF, "BRM_010t2")]
+
+
 # Axe Flinger
 class BRM_016:
 	events = [

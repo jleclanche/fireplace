@@ -1277,6 +1277,23 @@ def test_dread_corsair():
 	assert corsair.cost == 4
 
 
+def test_druid_of_the_flame():
+	game = prepare_game()
+	flame1 = game.player1.give("BRM_010")
+	flame1.play(choose="BRM_010a")
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "BRM_010t"
+	assert game.player1.field[0].atk == 5
+	assert game.player1.field[0].health == 2
+
+	flame2 = game.player1.give("BRM_010")
+	flame2.play(choose="BRM_010b")
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1].id == "BRM_010t2"
+	assert game.player1.field[1].atk == 2
+	assert game.player1.field[1].health == 5
+
+
 def test_druid_of_the_fang():
 	game = prepare_game()
 	fang = game.current_player.give("GVG_080")
