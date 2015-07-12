@@ -32,6 +32,7 @@ SOLVED_KEYWORDS = [
 
 def cleanup_description(description):
 	ret = description
+	ret = re.sub("(<b>|</b>)", "", ret)
 	ret = re.sub("(" + "|".join(SOLVED_KEYWORDS) + ")", "", ret)
 	ret = re.sub("<[^>]*>", "", ret)
 	exclude_chars = string.punctuation + string.whitespace
