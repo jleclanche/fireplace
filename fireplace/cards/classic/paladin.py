@@ -63,6 +63,15 @@ class CS2_094:
 	action = [Hit(TARGET, 3), Draw(CONTROLLER)]
 
 
+# Eye for an Eye
+class EX1_132:
+	events = [
+		Damage(FRIENDLY_HERO).on(
+			lambda self, target, amount, source: [Hit(ENEMY_HERO, amount), Reveal(SELF)],
+		zone=Zone.SECRET)
+	]
+
+
 # Divine Favor
 class EX1_349:
 	def action(self):

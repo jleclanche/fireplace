@@ -3858,6 +3858,27 @@ def test_quick_shot_acolyte():
 	assert acolyte.dead
 
 
+def test_eye_for_eye():
+	game = prepare_game()
+	eye_for_eye1 = game.player1.give("EX1_132")
+	eye_for_eye1.play()
+	game.end_turn()
+
+	stonetusk = game.player2.give("CS2_171")
+	eye_for_eye2 = game.player2.give("EX1_132")
+	stonetusk.play()
+	stonetusk.attack(game.player1.hero)
+	assert game.player1.hero.health == 29
+	assert game.player2.hero.health == 29
+	eye_for_eye2.play()
+	game.end_turn()
+
+	hammer = game.player1.give("CS2_094")
+	hammer.play(target=game.player2.hero)
+	assert game.player2.hero.health == 26
+	assert game.player1.hero.health == 26
+
+
 def test_fel_reaver():
 	game = prepare_game()
 	expected_size = len(game.player1.deck)
