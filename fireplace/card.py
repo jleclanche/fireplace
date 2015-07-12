@@ -76,6 +76,7 @@ class BaseCard(Entity):
 
 	def _set_zone(self, value):
 		old = self.zone
+		assert old != value
 		logging.debug("%r moves from %r to %r" % (self, old, value))
 		caches = {
 			Zone.HAND: self.controller.hand,

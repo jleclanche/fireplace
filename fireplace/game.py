@@ -148,7 +148,7 @@ class BaseGame(Entity):
 	def process_deaths(self):
 		actions = []
 		for card in self.live_entities:
-			if card.to_be_destroyed:
+			if card.to_be_destroyed and not card.ignore_events:
 				actions += self._schedule_death(card)
 
 		self.check_for_end_game()
@@ -162,6 +162,7 @@ class BaseGame(Entity):
 		trigger attached to the Game object.
 		Returns a list of actions to perform during the death sweep.
 		"""
+		logging.debug("Scheduling death for %r", card)
 		card.ignore_events = True
 		if card.type == CardType.MINION:
 			self.minions_killed.append(card)
