@@ -135,6 +135,19 @@ class EX1_619e:
 
 
 ##
+# Secrets
+
+# Repentance
+class EX1_379:
+	events = Play(OPPONENT, MINION).after(lambda self, source, minion, *args: (
+		Buff(minion, "EX1_379e"), Reveal(self)
+	))
+
+class EX1_379e:
+	max_health = lambda self, i: 1
+
+
+##
 # Weapons
 
 # Truesilver Champion

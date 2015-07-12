@@ -4070,6 +4070,24 @@ def test_eye_for_eye():
 	assert game.player1.hero.health == 26
 
 
+def test_repentance():
+	game = prepare_game()
+	repentance = game.player1.give("EX1_379")
+	repentance.play()
+	game.end_turn()
+
+	spellbendert1 = game.player2.summon(SPELLBENDERT)
+	assert repentance in game.player1.secrets
+	assert spellbendert1.health == 3
+	assert spellbendert1.max_health == 3
+
+	spellbendert2 = game.player2.give(SPELLBENDERT)
+	spellbendert2.play()
+	assert repentance not in game.player1.secrets
+	assert spellbendert2.health == 1
+	assert spellbendert2.max_health == 1
+
+
 def test_fel_reaver():
 	game = prepare_game()
 	expected_size = len(game.player1.deck)
