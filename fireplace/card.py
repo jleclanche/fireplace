@@ -202,7 +202,7 @@ class PlayableCard(BaseCard):
 			actions = self.data.scripts.action
 		elif self.choose:
 			logging.info("Activating %r Choose One: %r", self, self.chosen)
-			return self.chosen.action()
+			actions = self.chosen.data.scripts.action
 		else:
 			return
 
