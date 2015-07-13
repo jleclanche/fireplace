@@ -65,9 +65,9 @@ class GVG_096:
 
 # Tinkertown Technician
 class GVG_102:
-	def action(self):
-		if self.powered_up:
-			return [Buff(SELF, "GVG_102e"), Give(CONTROLLER, RandomSparePart())]
+	action = [Find(FRIENDLY_MINIONS + MECH) &
+		[Buff(SELF, "GVG_102e"), Give(CONTROLLER, RandomSparePart())]
+	]
 
 
 # Micro Machine
