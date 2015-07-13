@@ -58,6 +58,21 @@ class Evaluator:
 			action.trigger(source, game)
 
 
+class Dead(Evaluator):
+	"""
+	Evaluates to True if every target in \a selector is dead
+	"""
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def evaluate(self, source, game):
+		for target in self.selector.eval(game, source):
+			if not target.dead:
+				return False
+		return True
+
+
 class Find(Evaluator):
 	"""
 	Evaluates to True if \a selector has a match.
