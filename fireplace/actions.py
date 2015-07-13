@@ -44,8 +44,12 @@ class Evaluator:
 		ret = self.evaluate(source, game)
 		if ret:
 			if self._if:
-				return [self._if]
+				if isinstance(self._if, Action):
+					return [self._if]
+				return self._if
 		elif self._else:
+			if isinstance(self._else, Action):
+				return [self._else]
 			return [self._else]
 		return []
 
