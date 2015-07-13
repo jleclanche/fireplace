@@ -58,12 +58,13 @@ class Find(Evaluator):
 	"""
 	Evaluates to True if \a selector has a match.
 	"""
-	def __init__(self, selector):
+	def __init__(self, selector, count=1):
 		super().__init__()
 		self.selector = selector
+		self.count = count
 
 	def evaluate(self, source, game):
-		return bool(self.selector.eval(game, source))
+		return len(self.selector.eval(game, source)) >= self.count
 
 
 class Copy(object):
