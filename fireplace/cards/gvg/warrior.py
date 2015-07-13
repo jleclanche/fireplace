@@ -20,7 +20,7 @@ class GVG_056:
 
 # Burrowing Mine
 class GVG_056t:
-	action = [Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER, 1)]
+	action = [Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER)]
 
 
 ##

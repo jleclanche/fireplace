@@ -141,7 +141,8 @@ class XXX_043:
 
 # Hand Swapper Minion
 class XXX_044:
-	action = [Discard(RANDOM(CONTROLLER_HAND) * 3), Draw(CONTROLLER, 3)]
+	action = [Discard(RANDOM(CONTROLLER_HAND) * 3), Draw(CONTROLLER) * 3]
+
 
 # Destroy Deck
 class XXX_047:

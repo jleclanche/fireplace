@@ -112,7 +112,7 @@ class BRM_013:
 	def action(self, target):
 		yield Hit(target, 3)
 		if not self.controller.hand:
-			yield Draw(self.controller, 1)
+			yield Draw(self.controller)
 
 
 # Resurrect

@@ -372,8 +372,6 @@ class Draw(TargetedAction):
 	"""
 	Make player targets draw \a count cards.
 	"""
-	args = ("targets", "count")
-
 	def do(self, source, game, target):
 		if not target.deck:
 			target.fatigue()
