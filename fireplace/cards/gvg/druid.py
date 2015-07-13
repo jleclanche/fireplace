@@ -29,9 +29,7 @@ class GVG_035:
 
 # Druid of the Fang
 class GVG_080:
-	def action(self):
-		if self.powered_up:
-			return [Morph(SELF, "GVG_080t")]
+	action = [Find(FRIENDLY_MINIONS + BEAST) & Morph(SELF, "GVG_080t")]
 
 
 ##
