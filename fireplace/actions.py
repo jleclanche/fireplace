@@ -375,11 +375,11 @@ class Draw(TargetedAction):
 	def do(self, source, game, target):
 		if not target.deck:
 			target.fatigue()
-			return None
+			return []
 		card = target.deck[-1]
 		card.draw()
 
-		return card
+		return [card]
 
 
 class ForceDraw(TargetedAction):
