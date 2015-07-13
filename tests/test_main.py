@@ -931,6 +931,16 @@ def test_secretkeeper():
 	assert secretkeeper.health == 3
 
 
+def test_siltfin_spiritwalker():
+	game = prepare_game()
+	game.player1.discard_hand()
+	siltfin = game.player1.give("GVG_040")
+	murloc = game.player1.give("CS2_168")
+	murloc.play()
+	game.player1.give(MOONFIRE).play(target=murloc)
+	assert len(game.player1.hand) == 1
+
+
 def test_solemn_vigil():
 	game = prepare_game()
 	game.player1.discard_hand()
