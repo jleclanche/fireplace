@@ -1318,6 +1318,20 @@ def test_druid_of_the_fang():
 	assert druid2.race == Race.BEAST
 
 
+def test_imp_gang_boss():
+	game = prepare_game()
+	igb = game.player1.give("BRM_006")
+	igb.play()
+	game.player1.give(MOONFIRE).play(target=igb)
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1].id == "BRM_006t"
+
+	igb2 = game.player1.give("BRM_006")
+	igb2.play()
+	game.player1.give(MOONFIRE).play(target=igb2)
+	assert len(game.player1.field) == 4
+
+
 def test_imp_master():
 	game = prepare_game()
 	impmaster = game.current_player.give("EX1_597")
