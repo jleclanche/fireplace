@@ -3072,6 +3072,24 @@ def test_truesilver_champion():
 	assert lightwarden.atk == 3
 
 
+def test_tinkertown_technician():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player1.give(WISP).play()
+	tech = game.player1.give("GVG_102")
+	tech.play()
+	assert tech.atk == tech.health == 3
+	assert len(game.player1.hand) == 0
+
+	dummy = game.player1.give(TARGET_DUMMY)
+	dummy.play()
+	tech2 = game.player1.give("GVG_102")
+	tech2.play()
+	assert tech2.atk == tech2.health == 4
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].type == CardType.SPELL
+
+
 def test_twilight_drake():
 	game = prepare_game()
 	game.end_turn(); game.end_turn()
