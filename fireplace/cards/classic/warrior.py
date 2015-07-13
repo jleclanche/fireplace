@@ -65,10 +65,7 @@ class CS2_114:
 
 # Slam
 class EX1_391:
-	def action(self, target):
-		yield Hit(TARGET, 2)
-		if not target.dead:
-			yield Draw(CONTROLLER)
+	action = [Hit(TARGET, 2), Dead(TARGET) | Draw(CONTROLLER)]
 
 
 # Battle Rage

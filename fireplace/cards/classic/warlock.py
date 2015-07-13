@@ -111,10 +111,7 @@ class CS2_057:
 
 # Mortal Coil
 class EX1_302:
-	def action(self, target):
-		yield Hit(TARGET, 1)
-		if target.dead:
-			yield Draw(CONTROLLER)
+	action = [Hit(TARGET, 1), Dead(TARGET) & Draw(CONTROLLER)]
 
 
 # Shadowflame
@@ -161,10 +158,7 @@ class EX1_317:
 
 # Bane of Doom
 class EX1_320:
-	def action(self, target):
-		yield Hit(TARGET, 2)
-		if target.dead:
-			yield Summon(CONTROLLER, RandomMinion(race=Race.DEMON))
+	action = [Hit(TARGET, 2), Dead(TARGET) & Summon(CONTROLLER, RandomMinion(race=Race.DEMON))]
 
 
 # Demonfire
