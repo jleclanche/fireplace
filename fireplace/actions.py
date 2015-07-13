@@ -133,7 +133,7 @@ class Action:  # Lawsuit
 		for arg, match in zip(args, self._args):
 			# this stuff is stupidslow
 			res = match.eval([arg], source)
-			if res != [arg]:
+			if not res or res[0] is not arg:
 				return False
 		return True
 
