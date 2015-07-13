@@ -24,6 +24,41 @@ class RandomCardGenerator(object):
 		return random.choice(self.cards)
 
 
+class Evaluator:
+	"""
+	Lazily evaluate a condition at runtime.
+	"""
+	def __init__(self):
+		self._if = None
+
+	def __and__(self, action):
+		self._if = action
+		return self
+
+	def get_actions(self, source, game):
+		ret = self.evaluate(source, game)
+		if ret:
+			if self._if:
+				return [self._if]
+		return []
+
+	def trigger(self, source, game):
+		for action in self.get_actions(source, game):
+			action.trigger(source, game)
+
+
+class Find(Evaluator):
+	"""
+	Evaluates to True if \a selector has a match.
+	"""
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def evaluate(self, source, game):
+		return bool(self.selector.eval(game, source))
+
+
 class Copy(object):
 	"""
 	Lazily return a list of copies of the target
