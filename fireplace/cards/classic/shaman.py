@@ -82,10 +82,7 @@ class CS2_046:
 
 # Far Sight
 class CS2_053:
-	# TODO
-	def action(self):
-		card = self.controller.draw()
-		self.buff(card, "CS2_053e")
+	action = [Buff(Draw(CONTROLLER), "CS2_053e")]
 
 
 # Lightning Bolt
