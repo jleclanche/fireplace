@@ -30,9 +30,14 @@ class Evaluator:
 	"""
 	def __init__(self):
 		self._if = None
+		self._else = None
 
 	def __and__(self, action):
 		self._if = action
+		return self
+
+	def __or__(self, action):
+		self._else = action
 		return self
 
 	def get_actions(self, source, game):
@@ -40,6 +45,8 @@ class Evaluator:
 		if ret:
 			if self._if:
 				return [self._if]
+		elif self._else:
+			return [self._else]
 		return []
 
 	def trigger(self, source, game):
