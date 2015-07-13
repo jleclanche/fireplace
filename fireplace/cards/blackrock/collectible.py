@@ -109,10 +109,7 @@ class BRM_007:
 
 # Quick Shot
 class BRM_013:
-	def action(self, target):
-		yield Hit(target, 3)
-		if not self.controller.hand:
-			yield Draw(self.controller)
+	action = [Hit(TARGET, 3), Find(CONTROLLER_HAND) | Draw(CONTROLLER)]
 
 
 # Resurrect

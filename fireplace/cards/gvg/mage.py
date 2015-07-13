@@ -15,9 +15,7 @@ class GVG_002:
 
 # Goblin Blastmage
 class GVG_004:
-	def action(self):
-		if self.powered_up:
-			return [Hit(RANDOM_ENEMY_CHARACTER, 1) * 4]
+	action = [Find(FRIENDLY_MINIONS + MECH) & Hit(RANDOM_ENEMY_CHARACTER, 1) * 4]
 
 
 # Illuminator

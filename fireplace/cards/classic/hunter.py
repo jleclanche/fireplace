@@ -74,8 +74,7 @@ class EX1_538:
 
 # Kill Command
 class EX1_539:
-	def action(self, target):
-		return [Hit(TARGET, 5 if self.powered_up else 3)]
+	action = [Find(FRIENDLY_MINIONS + BEAST) & Hit(TARGET, 5) | Hit(TARGET, 3)]
 
 
 # Flare
