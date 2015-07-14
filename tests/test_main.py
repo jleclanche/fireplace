@@ -2342,6 +2342,14 @@ def test_baron_rivendare():
 	assert len(game.current_player.field) == 3  # Only one treant spawns
 
 
+def test_blingtron_3000():
+	game = prepare_game()
+	blingtron = game.player1.give("GVG_119")
+	blingtron.play()
+	assert game.player1.weapon
+	assert game.player2.weapon
+
+
 def test_blood_imp():
 	game = prepare_game()
 	wisp = game.current_player.give(WISP)

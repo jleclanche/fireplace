@@ -51,9 +51,7 @@ class GVG_118:
 
 # Blingtron 3000
 class GVG_119:
-	def action(self):
-		for player in self.game.players:
-			yield Summon(player, RandomWeapon())
+	action = [Summon(ALL_PLAYERS, RandomWeapon())]
 
 
 # Hemet Nesingwary
