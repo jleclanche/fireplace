@@ -50,7 +50,7 @@ class GVG_022:
 # Sabotage
 class GVG_047:
 	action = [Destroy(RANDOM_ENEMY_MINION)]
-	combo = [Destroy(RANDOM_ENEMY_MINION + WEAPON)]
+	combo = [Destroy(ENEMY_WEAPON | RANDOM_ENEMY_MINION)]
 
 ##
 # Weapons

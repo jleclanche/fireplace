@@ -3322,6 +3322,31 @@ def test_ysera_awakens():
 	assert ysera.health == 12
 
 
+def test_sabotage():
+	game = prepare_game()
+	sabotage = game.player1.give("GVG_047")
+	sabotage.play()
+
+	sabotage2 = game.player1.give("GVG_047")
+	sabotage2.play()
+	game.end_turn()
+
+	axe = game.player2.give("CS2_106")
+	axe.play()
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	sabotage3 = game.player1.give("GVG_047")
+	sabotage3.play()
+	assert not axe.dead
+	assert wisp.dead
+
+	sabotage4 = game.player1.give("GVG_047")
+	sabotage4.play()
+	assert axe.dead
+
+
 def test_shadow_madness_wild_pyro():
 	game = prepare_game()
 	pyromancer = game.current_player.give("NEW1_020")
