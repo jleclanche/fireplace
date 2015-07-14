@@ -33,6 +33,7 @@ SOLVED_KEYWORDS = [
 
 def cleanup_description(description):
 	ret = description
+	ret = re.sub("<i>.+</i>", "", ret)
 	ret = re.sub("(<b>|</b>)", "", ret)
 	ret = re.sub("(" + "|".join(SOLVED_KEYWORDS) + ")", "", ret)
 	ret = re.sub("<[^>]*>", "", ret)
