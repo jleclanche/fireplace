@@ -130,7 +130,7 @@ class EX1_339:
 
 # Mindgames
 class EX1_345:
-	action = [Summon(CONTROLLER, Copy(RANDOM(OPPONENT_DECK + MINION) | "EX1_345t"))]
+	action = [Summon(CONTROLLER, Copy(RANDOM(OPPONENT_DECK + MINION, "EX1_345t")))]
 
 
 # Circle of Healing
