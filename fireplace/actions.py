@@ -25,6 +25,18 @@ class RandomCardGenerator(object):
 		return random.choice(self.cards)
 
 
+class Count:
+	"""
+	Lazily count the matches in a selector
+	"""
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def evaluate(self, source, game):
+		return len(self.selector.eval(game, source))
+
+
 class Evaluator:
 	"""
 	Lazily evaluate a condition at runtime.
@@ -338,7 +350,7 @@ class TargetedAction(Action):
 		return "<TargetedAction: %s(%s)>" % (self.__class__.__name__, ", ".join(args))
 
 	def __mul__(self, value):
-		self.times *= value
+		self.times = value
 		return self
 
 	def eval(self, selector, source, game):
@@ -367,7 +379,10 @@ class TargetedAction(Action):
 
 	def trigger(self, source, game):
 		ret = []
-		for i in range(self.times):
+		times = self.times
+		if isinstance(times, Count):
+			times = times.evaluate(source, game)
+		for i in range(times):
 			args = self.evaluate_selectors(source, game)
 			targets = args[0]
 			game.manager.action(self.type, source, targets, *self._args)
