@@ -139,10 +139,11 @@ class BaseGame(Entity):
 			if player.playstate == PlayState.LOSING:
 				player.playstate = PlayState.LOST
 				gameover = True
-			else:
-				player.playstate = PlayState.WON
 
 		if gameover:
+			for player in self.players:
+				if player.playstate != PlayState.LOST:
+					player.playstate = PlayState.WON
 			raise GameOver("The game has ended.")
 
 	def process_deaths(self):
