@@ -94,10 +94,9 @@ class EX1_549:
 # Snake Trap
 class EX1_554:
 	events = [
-		Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(
-			lambda self, source, target, *args: [Summon(CONTROLLER, "EX1_554t"),
-			Summon(CONTROLLER, "EX1_554t"), Summon(CONTROLLER, "EX1_554t"), Reveal(SELF)],
-			zone=Zone.SECRET)
+		Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(lambda self, source, target, *args: [
+			Summon(CONTROLLER, "EX1_554t") * 3, Reveal(SELF)
+		], zone=Zone.SECRET)
 	]
 
 
