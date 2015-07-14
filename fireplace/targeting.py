@@ -360,7 +360,7 @@ MINION = Selector(CardType.MINION)
 CHARACTER = MINION | HERO
 WEAPON = Selector(CardType.WEAPON)
 SPELL = Selector(CardType.SPELL)
-SECRET = Selector(CardType.SECRET)
+SECRET = Selector(GameTag.SECRET)
 HERO_POWER = Selector(CardType.HERO_POWER)
 
 BEAST = Selector(Race.BEAST)

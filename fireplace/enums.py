@@ -188,12 +188,7 @@ class CardType(IntEnum):
 	TOKEN = 9
 	HERO_POWER = 10
 
-	# SECRET does not exist, we just use it in Fireplace
-	SECRET = -1
-
 	def test(self, entity, *args):
-		if self == CardType.SECRET:
-			return getattr(entity, "secret", False)
 		return self == entity.type
 
 
