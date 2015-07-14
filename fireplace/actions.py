@@ -93,12 +93,20 @@ class Copy(object):
 	"""
 	def __init__(self, selector):
 		self.selector = selector
+		self.fallback = None
 
 	def __repr__(self):
 		return "%s(%r)" % (self.__class__.__name__, self.selector)
 
+	def __or__(self, other):
+		self.fallback = other
+		return self
+
 	def pick(self, source, game) -> [str]:
-		return self.selector.eval(game, source)
+		ret = self.selector.eval(game, source)
+		if not ret and self.fallback:
+			return [self.fallback]
+		return ret
 
 
 def _eval_card(source, game, card):

@@ -317,13 +317,10 @@ class RandomSelector(Selector):
 			self.times = times
 
 		def merge(self, selector, entities):
-			if not entities and self.fallback:
-				return [self.fallback]
 			return random.sample(entities, min(len(entities), self.times))
 
-	def __init__(self, selector, fallback=None):
+	def __init__(self, selector):
 		self.random = self.SelectRandom(1)
-		self.random.fallback = fallback
 		self.selector = selector
 		self.program = [Selector.MergeFilter]
 		self.program.extend(selector.program)
