@@ -568,7 +568,7 @@ class Minion(Character):
 		for buff in self.buffs:
 			# TODO: buff.setAside() instead
 			buff.destroy()
-		self.zone = Zone.REMOVEDFROMGAME
+		self.zone = Zone.SETASIDE
 		into.controller = self.controller
 		into.zone = Zone.PLAY
 		return into
