@@ -6,9 +6,7 @@ from ..utils import *
 
 # Frostwolf Warlord
 class CS2_226:
-	def action(self):
-		count = len(self.controller.field) - 1
-		return [Buff(SELF, "CS2_226e") * count]
+	action = [Buff(SELF, "CS2_226e") * Count(FRIENDLY_MINIONS)]
 
 
 # Voodoo Doctor

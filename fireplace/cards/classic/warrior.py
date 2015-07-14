@@ -70,9 +70,7 @@ class EX1_391:
 
 # Battle Rage
 class EX1_392:
-	def action(self):
-		damaged = self.controller.characters.filter(damaged=True)
-		return [Draw(CONTROLLER) * len(damaged)]
+	action = [Draw(CONTROLLER) * Count(FRIENDLY_MINIONS + DAMAGED)]
 
 
 # Whirlwind

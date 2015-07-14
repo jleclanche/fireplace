@@ -67,9 +67,7 @@ class EX1_537:
 
 # Unleash the Hounds
 class EX1_538:
-	def action(self):
-		count = len(self.controller.opponent.field)
-		return [Summon(CONTROLLER, "EX1_538t") * count]
+	action = [Summon(CONTROLLER, "EX1_538t") * Count(ENEMY_MINIONS)]
 
 
 # Kill Command

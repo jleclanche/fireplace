@@ -22,8 +22,7 @@ class EX1_006:
 
 # Twilight Drake
 class EX1_043:
-	def action(self):
-		return [Buff(SELF, "EX1_043e") * len(self.controller.hand)]
+	action = [Buff(SELF, "EX1_043e") * Count(CONTROLLER_HAND)]
 
 
 # Questing Adventurer
