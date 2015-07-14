@@ -119,6 +119,8 @@ class Player(Entity):
 	def draw(self, count=1):
 		ret = self.game.queue_actions(self, [Draw(self) * count])[0]
 		if count == 1:
+			if not ret[0]:  # fatigue
+				return None
 			return ret[0][0]
 		return ret
 
