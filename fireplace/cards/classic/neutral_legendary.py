@@ -129,7 +129,7 @@ class EX1_572:
 # Ysera Awakens
 class DREAM_02:
 	def action(self):
-		for character in game.characters.exclude(id="EX1_572"):
+		for character in self.game.characters.exclude(id="EX1_572"):
 			yield Hit(character, 5)
 
 # Dream

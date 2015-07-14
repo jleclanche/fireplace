@@ -3294,6 +3294,20 @@ def test_ysera():
 	assert game.player1.hand[0].card_class == CardClass.DREAM
 
 
+def test_ysera_awakens():
+	game = prepare_game()
+	game.player1.give(WISP).play()
+	ysera = game.player1.give("EX1_572")
+	ysera.play()
+	game.end_turn()
+
+	game.player2.give(WISP).play()
+	game.player2.give("DREAM_02").play()
+	assert game.player1.hero.health == game.player2.hero.health == 30 - 5
+	assert len(game.board) == 1
+	assert ysera.health == 12
+
+
 def test_shadow_madness_wild_pyro():
 	game = prepare_game()
 	pyromancer = game.current_player.give("NEW1_020")
