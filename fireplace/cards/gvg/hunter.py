@@ -6,9 +6,7 @@ from ..utils import *
 
 # King of Beasts
 class GVG_046:
-	def action(self):
-		beasts = self.controller.field.filter(race=Race.BEAST)
-		return [Buff(SELF, "GVG_046e") * len(beasts)]
+	action = [Buff(SELF, "GVG_046e") * Count(FRIENDLY_MINIONS + BEAST)]
 
 
 # Metaltooth Leaper
