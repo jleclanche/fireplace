@@ -3028,6 +3028,18 @@ def test_raid_leader():
 	assert wisp1.atk == wisp2.atk == 1
 
 
+def test_recombobulator():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	recom = game.player1.give("GVG_108")
+	recom.play(target=wisp)
+	recom.destroy()
+
+	assert wisp not in game.player1.field
+	assert game.player1.field[0].cost == 0
+
+
 def test_tree_of_life():
 	game = prepare_game()
 	token1 = game.player1.give(SPELLBENDERT)
