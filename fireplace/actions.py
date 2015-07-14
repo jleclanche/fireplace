@@ -578,10 +578,22 @@ class Morph(TargetedAction):
 	"""
 	Morph minion target into \a minion id
 	"""
-	args = ("targets", "id")
+	args = ("targets", "card")
 
-	def do(self, source, game, target):
-		target.morph(self.id)
+	def get_args(self, source, game, target):
+		card = _eval_card(source, game, self.card)
+		if isinstance(card, list):
+			assert len(card) == 1
+			card = card[0]
+		card.controller = target.controller
+		return (target, card)
+
+	def do(self, source, game, target, card):
+		logging.info("Morphing %r into %r", self, card)
+		target.clear_buffs()
+		target.zone = Zone.SETASIDE
+		card.zone = Zone.PLAY
+		return card
 
 
 class Freeze(TargetedAction):

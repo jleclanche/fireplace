@@ -1,7 +1,7 @@
 import logging
 from itertools import chain
 from . import cards as CardDB, targeting
-from .actions import Damage, Deaths, Destroy, Heal, Play
+from .actions import Damage, Deaths, Destroy, Heal, Morph, Play
 from .entity import Entity, boolean_property, int_property
 from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *
@@ -562,16 +562,8 @@ class Minion(Character):
 
 		return super()._hit(source, amount)
 
-	def morph(self, id):
-		into = self.game.card(id)
-		logging.info("Morphing %r into %r", self, into)
-		for buff in self.buffs:
-			# TODO: buff.setAside() instead
-			buff.destroy()
-		self.zone = Zone.SETASIDE
-		into.controller = self.controller
-		into.zone = Zone.PLAY
-		return into
+	def morph(self, into):
+		return self.game.queue_actions(self, [Morph(self, into)])
 
 	def is_playable(self):
 		playable = super().is_playable()
