@@ -1616,6 +1616,20 @@ def test_voljin_stealth():
 	assert tiger.health == 5
 
 
+def test_malorne():
+	game = prepare_game()
+	# empty the deck
+	game.player1.draw(26)
+	game.player1.discard_hand()
+	assert len(game.player1.deck) == 0
+	malorne = game.player1.give("GVG_035")
+	malorne.play()
+	malorne.destroy()
+	assert len(game.player1.deck) == 1
+	game.player1.draw()
+	assert game.player1.hand[0].id == "GVG_035"
+
+
 def test_mana_addict():
 	game = prepare_game()
 	manaaddict = game.current_player.give("EX1_055")
