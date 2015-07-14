@@ -8,7 +8,7 @@ from ..utils import *
 class GVG_018:
 	events = [
 		Damage().on(
-			lambda self, source, target, amount: source is self and [Heal(FRIENDLY_HERO, amount)] or []
+			lambda self, target, amount, source: source is self and [Heal(FRIENDLY_HERO, amount)] or []
 		)
 	]
 
