@@ -3,6 +3,7 @@ import random
 from itertools import chain
 from .enums import CardType, PowSubType, Zone
 from .entity import Entity
+from .targeting import Selector
 
 
 class RandomCardGenerator(object):
@@ -675,7 +676,10 @@ class Shuffle(TargetedAction):
 	args = ("targets", "card")
 
 	def get_args(self, source, game, target):
-		cards = _eval_card(source, game, self.card)
+		if isinstance(self.card, Selector):
+			cards = self.card.eval(game, source)
+		else:
+			cards = _eval_card(source, game, self.card)
 		return (target, cards)
 
 	def do(self, source, game, target, cards):
