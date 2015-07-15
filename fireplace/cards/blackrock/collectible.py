@@ -11,6 +11,11 @@ class BRM_002:
 	]
 
 
+# Twilight Whelp
+class BRM_004:
+	action = [HOLDING_DRAGON & Buff(SELF, "BRM_004e")]
+
+
 # Imp Gang Boss
 class BRM_006:
 	events = [
@@ -36,6 +41,11 @@ class BRM_010a:
 # Druid of the Flame (Firehawk Form)
 class BRM_010b:
 	action = [Morph(SELF, "BRM_010t2")]
+
+
+# Core Rager
+class BRM_014:
+	action = [Find(CONTROLLER_HAND) | Buff(SELF, "BRM_014e")]
 
 
 # Axe Flinger
@@ -77,6 +87,12 @@ class BRM_028:
 	events = [
 		OWN_TURN_END.on(Buff(CONTROLLER_HAND, "BRM_028e"))
 	]
+
+
+# Blackwing Technician
+class BRM_033:
+	action = [HOLDING_DRAGON & Buff(SELF, "BRM_033e")]
+
 
 ##
 # Spells
