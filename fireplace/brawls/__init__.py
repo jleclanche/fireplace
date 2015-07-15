@@ -1,6 +1,6 @@
 import random
 from ..actions import RandomCardGenerator, Give, Summon
-from ..enums import CardType
+from ..enums import CardClass, CardType
 from ..game import Game
 from ..cards.utils import RandomMinion
 
@@ -128,3 +128,23 @@ class GreatSummonerBrawl(Game):
 			action = Summon(card.controller, RandomMinion(cost=card.cost))
 			self.queue_actions(card.controller, [action])
 		return super().play(card, *args)
+
+
+class CrossroadsEncounterBrawl(Game):
+	"""
+	Encounter at the Crossroads
+
+	Encounter at the crossroads! Pick a class.
+	Let's see what's in your deck this time!
+	"""
+
+	def __init__(self, players):
+		from .. import cards
+		super().__init__(players)
+		for player in players:
+			hero = player.original_deck.hero
+			player_class = getattr(cards, hero).card_class
+			pool = cards.filter(card_class=player_class, collectible=True)
+			pool += cards.filter(card_class=CardClass.INVALID, collectible=True)
+			deck = [random.choice(pool) for i in range(30)]
+			player.prepare_deck(deck, hero)
