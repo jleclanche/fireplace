@@ -4,7 +4,7 @@ import string
 import sys; sys.path.append(".."); sys.path.append("../data/extras")
 from data.extras import chooseone
 from fireplace import cards
-from fireplace.cards import debug, game, classic, naxxramas, gvg, blackrock
+from fireplace.cards import debug, game, tutorial, classic, naxxramas, gvg, blackrock
 from fireplace.enums import CardType, CardSet
 
 import buffs
@@ -59,7 +59,7 @@ def main():
 		elif card.card_set == CardSet.CREDITS:
 			color = GREEN
 		else:
-			for set in (debug, game, classic, naxxramas, gvg, blackrock):
+			for set in (debug, game, tutorial, classic, naxxramas, gvg, blackrock):
 				if hasattr(set, id):
 					color = GREEN
 					break
