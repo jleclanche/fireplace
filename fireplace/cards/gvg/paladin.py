@@ -26,7 +26,7 @@ class GVG_063:
 
 
 # Scarlet Purifier
-class GVG_103:
+class GVG_101:
 	action = [Hit(ALL_MINIONS + DEATHRATTLE, 2)]
 
 
