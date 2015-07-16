@@ -22,6 +22,13 @@ class GVG_032b:
 	action = [Draw(ALL_PLAYERS)]
 
 
+# Mech-Bear-Cat
+class GVG_034:
+	events = [
+		SELF_DAMAGE.on(Give(CONTROLLER, RandomSparePart()))
+	]
+
+
 # Malorne
 class GVG_035:
 	deathrattle = [Shuffle(CONTROLLER, SELF)]
