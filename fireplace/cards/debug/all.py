@@ -103,6 +103,11 @@ class XXX_021:
 	action = [FullHeal(TARGET)]
 
 
+# Free Cards
+class XXX_022:
+	action = [Buff(FRIENDLY_HERO, "XXX_022e")]
+
+
 # Destroy All Heroes
 class XXX_023:
 	action = [Destroy(ALL_HEROES)]
@@ -144,6 +149,11 @@ class XXX_044:
 	action = [Discard(RANDOM(CONTROLLER_HAND) * 3), Draw(CONTROLLER) * 3]
 
 
+# Force AI to Use Hero Power
+class XXX_046:
+	action = [SetTag(ENEMY_HERO, {GameTag.TAG_AI_MUST_PLAY: True})]
+
+
 # Destroy Deck
 class XXX_047:
 	action = [Destroy(IN_DECK + CONTROLLED_BY_TARGET)]
@@ -165,9 +175,14 @@ class XXX_050:
 	action = [GainMana(TARGET_PLAYER, -1)]
 
 
-# Armor
+# Make Immune
+class XXX_051:
+	action = [SetTag(TARGET, {GameTag.CANT_BE_DAMAGED: True})]
+
+
+# Armor 100
 class XXX_053:
-	action = [GainArmor(CONTROLLER, 100)]
+	action = [GainArmor(TARGET, 100)]
 
 
 # Weapon Buff
@@ -202,7 +217,23 @@ class XXX_059:
 		Discard(CONTROLLED_BY_TARGET + IN_HAND),
 	]
 
+
 # Damage All
 class XXX_060:
 	def action(self, target):
 		return [Hit(TARGET, target.health)]
+
+
+# Armor 1
+class XXX_061:
+	action = [GainArmor(TARGET, 1)]
+
+
+# Armor 5
+class XXX_062:
+	action = [GainArmor(TARGET, 5)]
+
+
+# Destroy ALL Secrets
+class XXX_063:
+	action = [Destroy(ALL_SECRETS)]
