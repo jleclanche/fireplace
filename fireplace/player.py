@@ -1,7 +1,7 @@
 import logging
 import random
 from itertools import chain
-from .actions import Draw, Give, Summon
+from .actions import Draw, Give, Steal, Summon
 from .deck import Deck
 from .entity import Entity
 from .enums import CardType, PlayState, Zone
@@ -155,11 +155,7 @@ class Player(Entity):
 		logging.info("%s is now at %i mana crystals", self, self._max_mana)
 
 	def steal(self, card):
-		logging.info("%s takes control of %r", self, card)
-		zone = card.zone
-		card.zone = Zone.SETASIDE
-		card.controller = self
-		card.zone = zone
+		return self.game.queue_actions(self, [Steal(card)])
 
 	def shuffle_deck(self):
 		logging.info("%r shuffles their deck", self)

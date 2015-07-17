@@ -743,4 +743,8 @@ class Steal(TargetedAction):
 	The controller is the controller of the source of the action.
 	"""
 	def do(self, source, game, target):
-		source.controller.steal(target)
+		logging.info("%s takes control of %r", self, target)
+		zone = target.zone
+		target.zone = Zone.SETASIDE
+		target.controller = source.controller
+		target.zone = zone
