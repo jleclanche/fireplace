@@ -149,6 +149,11 @@ class XXX_044:
 	action = [Discard(RANDOM(CONTROLLER_HAND) * 3), Draw(CONTROLLER) * 3]
 
 
+# Steal Card
+class XXX_045:
+	action = [Steal(RANDOM(OPPONENT_HAND))]
+
+
 # Force AI to Use Hero Power
 class XXX_046:
 	action = [SetTag(ENEMY_HERO, {GameTag.TAG_AI_MUST_PLAY: True})]
