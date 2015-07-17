@@ -1255,6 +1255,20 @@ def test_dire_wolf_alpha():
 	frostwolf.attack(direwolf2)
 
 
+def test_dragonkin_sorcerer():
+	game = prepare_game()
+	dragonkin = game.player1.give("BRM_020")
+	dragonkin.play()
+	assert dragonkin.health == 5
+	pwshield = game.player1.give("CS2_004")
+	pwshield.play(target=dragonkin)
+	assert dragonkin.health == 5 + 2 + 1
+	assert dragonkin.max_health == 5 + 2 + 1
+	game.player1.give(MOONFIRE).play(target=dragonkin)
+	assert dragonkin.health == 5 + 2 + 1 + 1 - 1
+	assert dragonkin.max_health == 5 + 2 + 1 + 1
+
+
 def test_dread_infernal():
 	game = prepare_game()
 	infernal = game.current_player.give("CS2_064")

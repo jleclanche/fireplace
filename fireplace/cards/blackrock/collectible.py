@@ -55,6 +55,13 @@ class BRM_016:
 	]
 
 
+# Dragonkin Sorcerer
+class BRM_020:
+	events = [
+		Play(CONTROLLER, SPELL, SELF).on(Buff(SELF, "BRM_020e"))
+	]
+
+
 # Dragon Egg
 class BRM_022:
 	events = [
