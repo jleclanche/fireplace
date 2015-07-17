@@ -71,7 +71,7 @@ class EX1_080:
 
 # Mind Control Tech
 class EX1_085:
-	action = [Find(ENEMY_MINIONS, 4) & TakeControl(RANDOM_ENEMY_MINION)]
+	action = [Find(ENEMY_MINIONS, 4) & Steal(RANDOM_ENEMY_MINION)]
 
 
 # Arcane Golem

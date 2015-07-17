@@ -22,7 +22,7 @@ class EX1_014t:
 
 # Sylvanas Windrunner
 class EX1_016:
-	deathrattle = [TakeControl(RANDOM_ENEMY_MINION)]
+	deathrattle = [Steal(RANDOM_ENEMY_MINION)]
 
 
 # Old Murk-Eye

@@ -154,7 +154,7 @@ class Player(Entity):
 		self._max_mana = min(self.max_resources, max(0, amount))
 		logging.info("%s is now at %i mana crystals", self, self._max_mana)
 
-	def take_control(self, card):
+	def steal(self, card):
 		logging.info("%s takes control of %r", self, card)
 		zone = card.zone
 		card.zone = Zone.SETASIDE

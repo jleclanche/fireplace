@@ -737,10 +737,10 @@ class Swap(TargetedAction):
 			other.zone = orig
 
 
-class TakeControl(TargetedAction):
+class Steal(TargetedAction):
 	"""
 	Make the controller take control of targets.
 	The controller is the controller of the source of the action.
 	"""
 	def do(self, source, game, target):
-		source.controller.take_control(target)
+		source.controller.steal(target)

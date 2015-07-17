@@ -6,7 +6,7 @@ from ..utils import *
 
 # Kezan Mystic
 class GVG_074:
-	action = [TakeControl(RANDOM(ENEMY_SECRETS))]
+	action = [Steal(RANDOM(ENEMY_SECRETS))]
 
 
 # Jeeves

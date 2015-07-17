@@ -28,7 +28,7 @@ class EX1_001:
 
 # Cabal Shadow Priest
 class EX1_091:
-	action = [TakeControl(TARGET)]
+	action = [Steal(TARGET)]
 
 
 # Lightspawn
@@ -63,7 +63,7 @@ class CS1_112:
 
 # Mind Control
 class CS1_113:
-	action = [TakeControl(TARGET)]
+	action = [Steal(TARGET)]
 
 
 # Inner Fire
@@ -117,10 +117,10 @@ class EX1_334:
 
 class EX1_334e:
 	def apply(self, target):
-		self.controller.take_control(target)
+		self.controller.steal(target)
 
 	def destroy(self):
-		self.controller.opponent.take_control(self.owner)
+		self.controller.opponent.steal(self.owner)
 
 
 # Thoughtsteal
