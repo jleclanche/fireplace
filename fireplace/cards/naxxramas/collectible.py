@@ -123,8 +123,7 @@ class FP1_030ea:
 
 # Reincarnate
 class FP1_025:
-	def action(self, target):
-		return [Destroy(TARGET), Summon(CONTROLLER, target.id)]
+	action = [Destroy(TARGET), Summon(CONTROLLER, Copy(TARGET)]
 
 
 ##
