@@ -96,10 +96,10 @@ class EX1_557:
 
 # Harrison Jones
 class EX1_558:
-	def play(self):
-		weapon = self.controller.opponent.weapon
-		if weapon:
-			return (Draw(CONTROLLER) * weapon.durability, Destroy(ENEMY_WEAPON))
+	play = (
+		Draw(CONTROLLER) * Attr(ENEMY_WEAPON, GameTag.DURABILITY),
+		Destroy(ENEMY_WEAPON)
+	)
 
 
 # Ysera
