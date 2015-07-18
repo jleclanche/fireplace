@@ -21,7 +21,7 @@ class RandomCardGenerator(object):
 			self._cards = cards.filter(**self.filters)
 		return self._cards
 
-	def pick(self) -> str:
+	def pick(self, source, game) -> str:
 		return random.choice(self.cards)
 
 
@@ -132,7 +132,7 @@ def _eval_card(source, game, card):
 	"""
 
 	if isinstance(card, RandomCardGenerator):
-		card = card.pick()
+		card = card.pick(source, game)
 	elif isinstance(card, Copy):
 		c = card.pick(source, game)
 		card = [entity.id if not isinstance(entity, str) else entity for entity in c]
