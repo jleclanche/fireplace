@@ -5,7 +5,6 @@ class Entity(object):
 		self.manager = self.Manager(self)
 		self.tags = self.manager
 		self.uuid = uuid.uuid4()
-		self.ignore_events = False
 
 		scripts = getattr(self.data, "scripts", None)
 		events = getattr(scripts, "events", [])

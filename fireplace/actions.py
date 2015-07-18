@@ -194,8 +194,6 @@ class Action:  # Lawsuit
 			zone = getattr(entity, "zone", Zone.INVALID)
 			if zone not in (Zone.PLAY, Zone.SECRET, Zone.HAND):
 				continue
-			if entity.ignore_events:
-				continue
 			for event in entity._events:
 				if entity.zone == Zone.HAND and not event.in_hand:
 					continue

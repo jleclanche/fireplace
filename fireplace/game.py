@@ -149,7 +149,7 @@ class BaseGame(Entity):
 	def process_deaths(self):
 		actions = []
 		for card in self.live_entities:
-			if card.to_be_destroyed and not card.ignore_events:
+			if card.to_be_destroyed:
 				actions += self._schedule_death(card)
 
 		self.check_for_end_game()
