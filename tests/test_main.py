@@ -309,6 +309,20 @@ def test_cult_master():
 	assert len(game.current_player.hand) == 4 + 1
 
 
+def test_cult_master_board_clear():
+	game = prepare_game()
+	game.player1.discard_hand()
+	for i in range(4):
+		game.player1.give(WISP).play()
+	cultmaster = game.player1.give("EX1_595")
+	cultmaster.play()
+	game.player1.give(MOONFIRE).play(target=cultmaster)
+	assert len(game.player1.field) == 5
+	# Whirlwind the board
+	game.player1.give("EX1_400").play()
+	assert len(game.player1.hand) == 0
+
+
 def test_mana():
 	game = prepare_game(game_class=Game)
 	footman = game.current_player.give(GOLDSHIRE_FOOTMAN)
