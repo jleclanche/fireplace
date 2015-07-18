@@ -605,6 +605,14 @@ class Spell(PlayableCard):
 
 
 class Secret(Spell):
+	@property
+	def exhausted(self):
+		return not self.controller.current_player
+
+	@exhausted.setter
+	def exhausted(self, value):
+		pass
+
 	def _set_zone(self, value):
 		if self.zone == Zone.SECRET:
 			self.controller.secrets.remove(self)
