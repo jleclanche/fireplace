@@ -104,9 +104,7 @@ class EX1_617:
 
 # Animal Companion
 class NEW1_031:
-	def play(self):
-		huffer = random.choice(self.data.entourage)
-		return Summon(CONTROLLER, huffer)
+	play = Summon(CONTROLLER, RandomEntourage())
 
 
 ##

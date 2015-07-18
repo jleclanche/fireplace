@@ -53,9 +53,7 @@ class EX1_110:
 
 # Gelbin Mekkatorque
 class EX1_112:
-	def play(self):
-		choice = random.choice(self.data.entourage)
-		return Summon(CONTROLLER, choice)
+	play = Summon(CONTROLLER, RandomEntourage())
 
 # Homing Chicken
 class Mekka1:
@@ -171,10 +169,7 @@ class NEW1_040:
 
 # Elite Tauren Chieftain
 class PRO_001:
-	def play(self):
-		choice1 = random.choice(self.data.entourage)
-		choice2 = random.choice(self.data.entourage)
-		return Give(CONTROLLER, choice1), Give(OPPONENT, choice2)
+	play = Give(ALL_PLAYERS, RandomEntourage())
 
 # I Am Murloc
 class PRO_001a:
@@ -188,6 +183,4 @@ class PRO_001b:
 
 # Power of the Horde
 class PRO_001c:
-	def play(self):
-		choice = random.choice(self.data.entourage)
-		return Summon(CONTROLLER, choice)
+	play = Summon(CONTROLLER, RandomEntourage())
