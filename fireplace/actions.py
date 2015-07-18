@@ -42,6 +42,20 @@ class Count(LazyNum):
 		return len(self.selector.eval(game, source))
 
 
+class Attr(LazyNum):
+	"""
+	Lazily evaluate the sum of all tags in a selector
+	"""
+	def __init__(self, selector, tag):
+		super().__init__()
+		self.selector = selector
+		self.tag = tag
+
+	def evaluate(self, source, game):
+		entities = self.selector.eval(game, source)
+		return sum(e.tags[self.tag] for e in entities)
+
+
 class Evaluator:
 	"""
 	Lazily evaluate a condition at runtime.
