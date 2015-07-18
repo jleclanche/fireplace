@@ -161,7 +161,7 @@ class EventListener:
 		self.actions = actions
 		self.at = at
 		self.once = once
-		self.zone = zone
+		self.in_hand = zone == Zone.HAND
 
 	def __repr__(self):
 		return "<EventListener %r>" % (self.trigger)
@@ -191,10 +191,13 @@ class Action:  # Lawsuit
 
 	def broadcast(self, game, at, *args):
 		for entity in chain(game.hands, game.entities):
+			zone = getattr(entity, "zone", Zone.INVALID)
+			if zone not in (Zone.PLAY, Zone.SECRET, Zone.HAND):
+				continue
 			if entity.ignore_events:
 				continue
 			for event in entity._events:
-				if event.zone != entity.zone:
+				if entity.zone == Zone.HAND and not event.in_hand:
 					continue
 				if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
 					actions = []
