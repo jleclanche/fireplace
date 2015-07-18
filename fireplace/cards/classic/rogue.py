@@ -75,8 +75,7 @@ class CS2_077:
 
 # Blade Flurry
 class CS2_233:
-	def play(self):
-		return Hit(ENEMY_CHARACTERS, self.controller.weapon.atk), Destroy(FRIENDLY_WEAPON)
+	play = Hit(ENEMY_CHARACTERS, Attr(FRIENDLY_WEAPON, GameTag.ATK)), Destroy(FRIENDLY_WEAPON)
 
 
 # Eviscerate

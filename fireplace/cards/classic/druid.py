@@ -176,8 +176,7 @@ class EX1_tk9:
 
 # Savagery
 class EX1_578:
-	def play(self, target):
-		return Hit(TARGET, self.controller.hero.atk)
+	play = Hit(TARGET, Attr(FRIENDLY_HERO, GameTag.ATK))
 
 
 # Starfall (2 Damage to All)

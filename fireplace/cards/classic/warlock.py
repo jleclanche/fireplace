@@ -112,8 +112,7 @@ class EX1_302:
 
 # Shadowflame
 class EX1_303:
-	def play(self, target):
-		return Hit(ENEMY_MINIONS, target.atk), Destroy(TARGET)
+	play = Hit(ENEMY_MINIONS, Attr(TARGET, GameTag.ATK)), Destroy(TARGET)
 
 
 # Soulfire

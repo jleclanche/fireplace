@@ -99,8 +99,7 @@ class EX1_409:
 
 # Shield Slam
 class EX1_410:
-	def play(self, target):
-		return Hit(TARGET, self.controller.hero.armor)
+	play = Hit(TARGET, Attr(FRIENDLY_HERO, GameTag.ARMOR))
 
 
 # Shield Block
