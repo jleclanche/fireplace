@@ -1,7 +1,7 @@
 import logging
 from itertools import chain
 from . import cards as CardDB, targeting
-from .actions import Damage, Deaths, Destroy, Heal, Morph, Play
+from .actions import Action, Damage, Deaths, Destroy, Heal, Morph, Play
 from .entity import Entity, boolean_property, int_property
 from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *

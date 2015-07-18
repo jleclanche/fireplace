@@ -8,7 +8,11 @@ class Entity(object):
 		self.ignore_events = False
 
 		scripts = getattr(self.data, "scripts", None)
-		self._events = getattr(scripts, "events", [])[:]
+		events = getattr(scripts, "events", [])
+		if not isinstance(events, list):
+			self._events = [events]
+		else:
+			self._events = events[:]
 
 	def _getattr(self, attr, i):
 		i += getattr(self, "_" + attr, 0)

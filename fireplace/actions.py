@@ -203,7 +203,14 @@ class Action:  # Lawsuit
 					actions = []
 					for action in event.actions:
 						if callable(action):
-							actions += action(entity, *args)
+							ac = action(entity, *args)
+							if not ac:
+								# Handle falsy returns
+								continue
+							if not hasattr(ac, "__iter__"):
+								actions.append(ac)
+							else:
+								actions += action(entity, *args)
 						else:
 							actions.append(action)
 					game.queue_actions(entity, actions)

@@ -179,6 +179,9 @@ class BaseGame(Entity):
 		Queue a list of \a actions for processing from \a source.
 		"""
 		ret = []
+		if not hasattr(actions, "__iter__"):
+			actions = (actions, )
+
 		for action in actions:
 			if isinstance(action, EventListener):
 				logging.debug("Registering %r on %r", action, self)
