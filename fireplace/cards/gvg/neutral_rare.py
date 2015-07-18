@@ -6,16 +6,14 @@ from ..utils import *
 
 # Kezan Mystic
 class GVG_074:
-	action = [Steal(RANDOM(ENEMY_SECRETS))]
+	play = Steal(RANDOM(ENEMY_SECRETS))
 
 
 # Jeeves
 class GVG_094:
-	events = [
-		TURN_END.on(
-			lambda self, player: [Draw(player) * max(0, 3 - len(player.hand))]
-		)
-	]
+	events = TURN_END.on(
+		lambda self, player: Draw(player) * max(0, 3 - len(player.hand))
+	)
 
 
 # Goblin Sapper
@@ -29,9 +27,9 @@ class GVG_095:
 # Lil' Exorcist
 class GVG_097:
 	# The Enchantment ID is correct
-	action = [Buff(SELF, "GVG_101e") * Count(ENEMY_MINIONS + DEATHRATTLE)]
+	play = Buff(SELF, "GVG_101e") * Count(ENEMY_MINIONS + DEATHRATTLE)
 
 
 # Bomb Lobber
 class GVG_099:
-	action = [Hit(RANDOM_ENEMY_MINION, 4)]
+	play = Hit(RANDOM_ENEMY_MINION, 4)

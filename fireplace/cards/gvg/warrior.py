@@ -6,21 +6,21 @@ from ..utils import *
 
 # Shieldmaiden
 class GVG_053:
-	action = [GainArmor(FRIENDLY_HERO, 5)]
+	play = GainArmor(FRIENDLY_HERO, 5)
 
 
 # Screwjank Clunker
 class GVG_055:
-	action = [Buff(TARGET, "GVG_055e")]
+	play = Buff(TARGET, "GVG_055e")
 
 
 # Iron Juggernaut
 class GVG_056:
-	action = [Shuffle(OPPONENT, "GVG_056t")]
+	play = Shuffle(OPPONENT, "GVG_056t")
 
 # Burrowing Mine
 class GVG_056t:
-	action = [Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER)]
+	play = Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER)
 
 
 ##
@@ -28,7 +28,7 @@ class GVG_056t:
 
 # Bouncing Blade
 class GVG_050:
-	def action(self):
+	def play(self):
 		while True:
 			targets = self.game.board.filter(dead=False)
 			targets = [t for t in targets if t.health > t.min_health]
@@ -39,7 +39,7 @@ class GVG_050:
 
 # Crush
 class GVG_052:
-	action = [Destroy(TARGET)]
+	play = Destroy(TARGET)
 
 	def cost(self, value):
 		for minion in self.controller.field:

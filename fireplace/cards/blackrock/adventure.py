@@ -6,4 +6,4 @@ from ..utils import *
 
 # Flameheart
 class BRMA_01:
-	action = [Draw(CONTROLLER) * 2, GainArmor(FRIENDLY_HERO, 4)]
+	play = Draw(CONTROLLER) * 2, GainArmor(FRIENDLY_HERO, 4)

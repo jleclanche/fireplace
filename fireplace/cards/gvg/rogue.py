@@ -6,36 +6,30 @@ from ..utils import *
 
 # Goblin Auto-Barber
 class GVG_023:
-	action = [Buff(FRIENDLY_WEAPON, "GVG_023a")]
+	play = Buff(FRIENDLY_WEAPON, "GVG_023a")
 
 
 # One-eyed Cheat
 class GVG_025:
-	events = [
-		Summon(CONTROLLER, PIRATE - SELF).on(SetTag(SELF, {GameTag.STEALTH: True}))
-	]
+	events = Summon(CONTROLLER, PIRATE - SELF).on(SetTag(SELF, {GameTag.STEALTH: True}))
 
 
 # Iron Sensei
 class GVG_027:
-	events = [
-		OWN_TURN_END.on(Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_027e"))
-	]
+	events = OWN_TURN_END.on(Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_027e"))
 
 
 # Trade Prince Gallywix
 class GVG_028:
-	events = [
-		Play(OPPONENT, SPELL).on(
-			lambda self, player, card, *args: card.id != "GVG_028t" and [
-				Give(player.opponent, card.id),
-				Give(player, "GVG_028t")
-			] or []
+	events = Play(OPPONENT, SPELL).on(
+		lambda self, player, card, *args: card.id != "GVG_028t" and (
+			Give(player.opponent, card.id),
+			Give(player, "GVG_028t")
 		)
-	]
+	)
 
 class GVG_028t:
-	action = [ManaThisTurn(CONTROLLER, 1)]
+	play = ManaThisTurn(CONTROLLER, 1)
 
 
 ##
@@ -43,14 +37,14 @@ class GVG_028t:
 
 # Tinker's Sharpsword Oil
 class GVG_022:
-	action = [Buff(FRIENDLY_WEAPON, "GVG_022a")]
-	combo = [Buff(FRIENDLY_WEAPON, "GVG_022a"), Buff(RANDOM_FRIENDLY_CHARACTER, "GVG_022b")]
+	play = Buff(FRIENDLY_WEAPON, "GVG_022a")
+	combo = Buff(FRIENDLY_WEAPON, "GVG_022a"), Buff(RANDOM_FRIENDLY_CHARACTER, "GVG_022b")
 
 
 # Sabotage
 class GVG_047:
-	action = [Destroy(RANDOM_ENEMY_MINION)]
-	combo = [Destroy(ENEMY_WEAPON | RANDOM_ENEMY_MINION)]
+	play = Destroy(RANDOM_ENEMY_MINION)
+	combo = Destroy(ENEMY_WEAPON | RANDOM_ENEMY_MINION)
 
 ##
 # Weapons

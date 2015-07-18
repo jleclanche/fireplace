@@ -6,37 +6,35 @@ from ..utils import *
 
 # Attack Mode (Anodized Robo Cub)
 class GVG_030a:
-	action = [Buff(SELF, "GVG_030ae")]
+	play = Buff(SELF, "GVG_030ae")
 
 # Tank Mode (Anodized Robo Cub)
 class GVG_030b:
-	action = [Buff(SELF, "GVG_030be")]
+	play = Buff(SELF, "GVG_030be")
 
 
 # Gift of Mana (Grove Tender)
 class GVG_032a:
-	action = [GainMana(ALL_PLAYERS, 1), FillMana(ALL_PLAYERS, 1)]
+	play = GainMana(ALL_PLAYERS, 1), FillMana(ALL_PLAYERS, 1)
 
 # Gift of Cards (Grove Tender)
 class GVG_032b:
-	action = [Draw(ALL_PLAYERS)]
+	play = Draw(ALL_PLAYERS)
 
 
 # Mech-Bear-Cat
 class GVG_034:
-	events = [
-		SELF_DAMAGE.on(Give(CONTROLLER, RandomSparePart()))
-	]
+	events = SELF_DAMAGE.on(Give(CONTROLLER, RandomSparePart()))
 
 
 # Malorne
 class GVG_035:
-	deathrattle = [Shuffle(CONTROLLER, SELF)]
+	deathrattle = Shuffle(CONTROLLER, SELF)
 
 
 # Druid of the Fang
 class GVG_080:
-	action = [Find(FRIENDLY_MINIONS + BEAST) & Morph(SELF, "GVG_080t")]
+	play = Find(FRIENDLY_MINIONS + BEAST) & Morph(SELF, "GVG_080t")
 
 
 ##
@@ -44,18 +42,18 @@ class GVG_080:
 
 # Recycle
 class GVG_031:
-	action = [Shuffle(OPPONENT, TARGET)]
+	play = Shuffle(OPPONENT, TARGET)
 
 
 # Tree of Life
 class GVG_033:
-	action = [FullHeal(ALL_CHARACTERS)]
+	play = FullHeal(ALL_CHARACTERS)
 
 
 # Dark Wispers (+5/+5 and Taunt)
 class GVG_041a:
-	action = [Buff(TARGET, "GVG_041c")]
+	play = Buff(TARGET, "GVG_041c")
 
 # Dark Wispers (Summon 5 Wisps)
 class GVG_041b:
-	action = [Summon(CONTROLLER, "CS2_231") * 5]
+	play = Summon(CONTROLLER, "CS2_231") * 5
