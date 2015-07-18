@@ -28,9 +28,7 @@ class CS2_033:
 # Ethereal Arcanist
 class EX1_274:
 	events = [
-		OWN_TURN_END.on(
-			lambda self, player: player.secrets and [Buff(SELF, "EX1_274e")] or []
-		)
+		OWN_TURN_END.on(Find(FRIENDLY_SECRETS) & Buff(SELF, "EX1_274e"))
 	]
 
 

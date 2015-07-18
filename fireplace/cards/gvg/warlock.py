@@ -23,9 +23,7 @@ class GVG_020:
 # Anima Golem
 class GVG_077:
 	events = [
-		TURN_END.on(
-			lambda self, player: self.controller.field != [self] and [Destroy(SELF)] or []
-		)
+		TURN_END.on(Find(FRIENDLY_MINIONS - SELF) | Destroy(SELF))
 	]
 
 
