@@ -25,7 +25,12 @@ class RandomCardGenerator(object):
 		return random.choice(self.cards)
 
 
-class Count:
+class LazyNum:
+	def evaluate(self, source, game) -> int:
+		raise NotImplementedError
+
+
+class Count(LazyNum):
 	"""
 	Lazily count the matches in a selector
 	"""
@@ -388,7 +393,7 @@ class TargetedAction(Action):
 	def trigger(self, source, game):
 		ret = []
 		times = self.times
-		if isinstance(times, Count):
+		if isinstance(times, LazyNum):
 			times = times.evaluate(source, game)
 		for i in range(times):
 			args = self.evaluate_selectors(source, game)
