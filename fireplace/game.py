@@ -165,6 +165,7 @@ class BaseGame(Entity):
 		"""
 		logging.debug("Scheduling death for %r", card)
 		card.ignore_events = True
+		card.zone = Zone.GRAVEYARD
 		if card.type == CardType.MINION:
 			self.minions_killed.append(card)
 			self.minions_killed_this_turn.append(card)
