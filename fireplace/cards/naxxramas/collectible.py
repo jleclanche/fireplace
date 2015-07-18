@@ -115,6 +115,15 @@ class FP1_025:
 
 
 ##
+# Secrets
+
+# Avenge
+class FP1_020:
+	events = Death(FRIENDLY + MINION).on(Find(FRIENDLY_MINIONS) & 
+			(Buff(RANDOM_FRIENDLY_MINION, "FP1_020e"), Reveal(SELF)))
+
+
+##
 # Weapons
 
 # Death's Bite

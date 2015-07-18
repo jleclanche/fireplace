@@ -4006,6 +4006,49 @@ def test_quick_shot_acolyte():
 	assert acolyte.dead
 
 
+def test_avenge():
+	game = prepare_game()
+	avenge = game.player1.give("FP1_020")
+	wisp1 = game.player1.give(WISP)
+	avenge.play()
+	wisp1.play()
+	game.end_turn()
+
+	stonetusk1 = game.player2.give("CS2_171")
+	stonetusk1.play()
+	stonetusk1.attack(wisp1)
+	assert avenge in game.player1.secrets
+	game.end_turn()
+
+	wisp2 = game.player1.give(WISP)
+	wisp3 = game.player1.give(WISP)
+	wisp2.play()
+	wisp3.play()
+	game.end_turn()
+
+	stonetusk2 = game.player2.give("CS2_171")
+	stonetusk2.play()
+	stonetusk2.attack(wisp3)
+	assert avenge not in game.player1.secrets
+	assert wisp2.atk == 4
+	assert wisp2.health == 3
+
+
+def test_avenge_board_clear():
+	game = prepare_game()
+	avenge = game.player1.give("FP1_020")
+	wisp1 = game.player1.give(WISP)
+	wisp2 = game.player1.give(WISP)
+	avenge.play()
+	wisp1.play()
+	wisp2.play()
+	game.end_turn()
+
+	arcane = game.player2.give("CS2_025")
+	arcane.play()
+	assert avenge in game.player1.secrets
+
+
 def test_eye_for_eye():
 	game = prepare_game()
 	eye_for_eye1 = game.player1.give("EX1_132")
@@ -4025,6 +4068,24 @@ def test_eye_for_eye():
 	hammer.play(target=game.player2.hero)
 	assert game.player2.hero.health == 26
 	assert game.player1.hero.health == 26
+
+
+def test_repentance():
+	game = prepare_game()
+	repentance = game.player1.give("EX1_379")
+	repentance.play()
+	game.end_turn()
+
+	spellbendert1 = game.player2.summon(SPELLBENDERT)
+	assert repentance in game.player1.secrets
+	assert spellbendert1.health == 3
+	assert spellbendert1.max_health == 3
+
+	spellbendert2 = game.player2.give(SPELLBENDERT)
+	spellbendert2.play()
+	assert repentance not in game.player1.secrets
+	assert spellbendert2.health == 1
+	assert spellbendert2.max_health == 1
 
 
 def test_fel_reaver():

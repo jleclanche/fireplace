@@ -119,6 +119,18 @@ class EX1_371:
 	play = SetTag(TARGET, {GameTag.DIVINE_SHIELD: True})
 
 
+# Repentance
+class EX1_379:
+	events = Play(OPPONENT, MINION).after(
+			lambda self, source, target, *args: (
+				Buff(target, "EX1_379e"),
+				Reveal(self)
+				))
+
+class EX1_379e:
+	max_health = lambda self, i: 1
+
+
 # Avenging Wrath
 class EX1_384:
 	def play(self):
