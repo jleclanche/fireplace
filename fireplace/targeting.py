@@ -338,6 +338,7 @@ RANDOM = RandomSelector
 
 DAMAGED = Selector(GameTag.DAMAGE)
 DEATHRATTLE = Selector(GameTag.DEATHRATTLE)
+DIVINE_SHIELD = Selector(GameTag.DIVINE_SHIELD)
 OVERLOAD = Selector(GameTag.RECALL)
 
 
