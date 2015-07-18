@@ -452,6 +452,28 @@ def test_divine_spirit():
 	game.end_turn()
 
 
+def test_savagery():
+	game = prepare_game(DRUID, DRUID)
+	watcher = game.player1.give("EX1_045")
+	watcher.play()
+	assert watcher.health == 5
+	savagery = game.player1.give("EX1_578")
+	savagery.play(watcher)
+	assert watcher.health == 5
+
+	game.player1.hero.power.use()
+	savagery2 = game.player1.give("EX1_578")
+	savagery2.play(watcher)
+	assert watcher.health == 5 - 1
+	game.end_turn(); game.end_turn()
+
+	# Play a kobold
+	game.current_player.give("CS2_142").play()
+	savagery3 = game.player1.give("EX1_578")
+	savagery3.play(watcher)
+	assert watcher.health == 5 - 1 - 1
+
+
 def test_silence():
 	game = prepare_game()
 	silence = game.current_player.give(SILENCE)
