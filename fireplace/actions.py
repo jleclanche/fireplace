@@ -564,14 +564,17 @@ class Hit(TargetedAction):
 	def get_args(self, source, game, target):
 		if getattr(self, "source", None):
 			source = self.source
-		amount = self.amount
+		if isinstance(self.amount, LazyNum):
+			amount = self.amount.evaluate(source, game)
+		else:
+			amount = self.amount
 		return (target, amount, source)
 
 	def do(self, source, game, target, amount, attack_source):
 		if target.type == CardType.WEAPON:
-			target.durability -= self.amount
+			target.durability -= amount
 		else:
-			attack_source.hit(target, self.amount)
+			attack_source.hit(target, amount)
 
 
 class Heal(TargetedAction):
