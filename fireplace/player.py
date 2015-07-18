@@ -77,10 +77,7 @@ class Player(Entity):
 		ret = []
 		for entity in self.field:
 			ret += entity.entities
-		# Secrets are only active on the opponent's turn
-		if not self.current_player:
-			for entity in self.secrets:
-				ret += entity.entities
+		ret += self.secrets
 		return CardList(chain(list(self.hero.entities) if self.hero else [], ret, [self]))
 
 	@property
