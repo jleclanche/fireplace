@@ -110,9 +110,7 @@ class EX1_572:
 
 # Ysera Awakens
 class DREAM_02:
-	def play(self):
-		for character in self.game.characters.exclude(id="EX1_572"):
-			yield Hit(character, 5)
+	play = Hit(ALL_CHARACTERS - ID("EX1_572"), 5)
 
 # Dream
 class DREAM_04:

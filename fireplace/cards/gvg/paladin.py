@@ -6,9 +6,7 @@ from ..utils import *
 
 # Quartermaster
 class GVG_060:
-	def play(self):
-		for recruit in self.controller.field.filter(id="CS2_101t"):
-			yield Buff(recruit, "GVG_060e")
+	play = Buff(FRIENDLY_MINIONS + ID("CS2_101t"), "GVG_060e")
 
 
 # Cobalt Guardian
