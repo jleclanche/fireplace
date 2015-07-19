@@ -239,7 +239,7 @@ class PlayableCard(BaseCard):
 
 	def discard(self):
 		logging.info("Discarding %r" % (self))
-		self.zone = Zone.GRAVEYARD
+		self.zone = Zone.DISCARD
 
 	def draw(self):
 		if len(self.controller.hand) >= self.controller.max_hand_size:
