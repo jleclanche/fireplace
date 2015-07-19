@@ -336,6 +336,24 @@ class RandomSelector(Selector):
 RANDOM = RandomSelector
 
 
+class IdSelector(Selector):
+	"""
+	Selects any card matching the given id
+	"""
+	class MatchesId:
+		def __init__(self, id):
+			super().__init__()
+			self.id = id
+
+		def test(self, entity, source):
+			return getattr(entity, "id", None) == self.id
+
+	def __init__(self, id):
+		self.program = [self.MatchesId(id)]
+
+ID = IdSelector
+
+
 DAMAGED = Selector(GameTag.DAMAGE)
 DEATHRATTLE = Selector(GameTag.DEATHRATTLE)
 DIVINE_SHIELD = Selector(GameTag.DIVINE_SHIELD)
