@@ -107,11 +107,12 @@ class EX1_332:
 
 # Shadow Madness
 class EX1_334:
-	play = Buff(TARGET, "EX1_334e")
+	play = Steal(TARGET), Buff(TARGET, "EX1_334e")
 
 class EX1_334e:
-	def apply(self, target):
-		self.controller.steal(target)
+	events = [
+		TURN_END.on(Destroy(SELF))
+	]
 
 	def destroy(self):
 		self.controller.opponent.steal(self.owner)
