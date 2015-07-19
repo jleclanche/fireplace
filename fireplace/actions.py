@@ -356,7 +356,7 @@ class Play(GameAction):
 
 		self.broadcast(game, EventListener.ON, *args)
 		game.process_deaths()
-		game.play(card)
+		game._play(card)
 		game.process_deaths()
 		self.broadcast(game, EventListener.AFTER, *args)
 

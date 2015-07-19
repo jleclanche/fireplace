@@ -123,11 +123,11 @@ class GreatSummonerBrawl(Game):
 	for you!
 	"""
 
-	def play(self, card, *args):
+	def _play(self, card, *args):
 		if card.type == CardType.SPELL:
 			action = Summon(card.controller, RandomMinion(cost=card.cost))
 			self.queue_actions(card.controller, [action])
-		return super().play(card, *args)
+		return super()._play(card, *args)
 
 
 class CrossroadsEncounterBrawl(Game):

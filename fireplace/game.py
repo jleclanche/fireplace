@@ -102,7 +102,7 @@ class BaseGame(Entity):
 		defender.defending = False
 		attacker.num_attacks += 1
 
-	def play(self, card):
+	def _play(self, card):
 		"""
 		Plays \a card from a Player's hand
 		"""
