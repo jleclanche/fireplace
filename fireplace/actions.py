@@ -355,9 +355,7 @@ class Play(GameAction):
 		card.choose = self.choose
 
 		self.broadcast(game, EventListener.ON, *args)
-		game.process_deaths()
 		game._play(card)
-		game.process_deaths()
 		self.broadcast(game, EventListener.AFTER, *args)
 
 		card.target = None
