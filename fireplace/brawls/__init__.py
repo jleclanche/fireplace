@@ -145,6 +145,7 @@ class CrossroadsEncounterBrawl(Game):
 			hero = player.original_deck.hero
 			player_class = getattr(cards, hero).card_class
 			pool = cards.filter(card_class=player_class, collectible=True)
-			pool += cards.filter(card_class=CardClass.INVALID, collectible=True)
-			deck = [random.choice(pool) for i in range(30)]
+			deck = [random.choice(pool) for i in range(15)]
+			pool = cards.filter(card_class=CardClass.INVALID, collectible=True)
+			deck += [random.choice(pool) for i in range(15)]
 			player.prepare_deck(deck, hero)
