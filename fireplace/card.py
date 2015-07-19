@@ -244,7 +244,7 @@ class PlayableCard(BaseCard):
 	def draw(self):
 		if len(self.controller.hand) >= self.controller.max_hand_size:
 			logging.info("%s overdraws and loses %r!", self.controller, self)
-			self.destroy()
+			self.discard()
 		else:
 			logging.info("%s draws %r", self.controller, self)
 			self.zone = Zone.HAND
