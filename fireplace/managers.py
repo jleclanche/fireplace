@@ -176,6 +176,7 @@ class MinionManager(Manager):
 	map = CharacterManager.map.copy()
 	map.update({
 		GameTag.ADJACENT_BUFF: "adjacent_buff",
+		GameTag.ALWAYS_WINS_BRAWLS: "always_wins_brawls",
 		GameTag.CARDRACE: "race",
 		GameTag.CHARGE: "charge",
 		GameTag.DIVINE_SHIELD: "divine_shield",

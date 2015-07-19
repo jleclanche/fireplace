@@ -129,6 +129,9 @@ class GameTag(IntEnum):
 	DEATH_RATTLE = 217
 	OVERKILL = 380
 
+	# Internal
+	ALWAYS_WINS_BRAWLS = -10
+
 	def test(self, entity, *args):
 		return bool(entity.tags.get(self))
 

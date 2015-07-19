@@ -2353,6 +2353,22 @@ def test_brawl():
 	assert game.board[0].id in (WISP, GOLDSHIRE_FOOTMAN)
 
 
+def test_dark_iron_bouncer_brawl():
+	game = prepare_game()
+	bouncer = game.player1.give("BRMA01_3")
+	bouncer.play()
+	for i in range(6):
+		game.player1.give(WISP).play()
+	game.end_turn()
+
+	for i in range(7):
+		game.player2.give(WISP).play()
+	brawl = game.player2.give("EX1_407")
+	brawl.play()
+	assert len(game.board) == 1
+	assert not bouncer.dead
+
+
 def test_bane_of_doom():
 	game = prepare_game()
 	doom = game.current_player.give("EX1_320")

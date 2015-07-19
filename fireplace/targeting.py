@@ -358,6 +358,7 @@ DAMAGED = Selector(GameTag.DAMAGE)
 DEATHRATTLE = Selector(GameTag.DEATHRATTLE)
 DIVINE_SHIELD = Selector(GameTag.DIVINE_SHIELD)
 OVERLOAD = Selector(GameTag.RECALL)
+ALWAYS_WINS_BRAWLS = Selector(GameTag.ALWAYS_WINS_BRAWLS)
 
 
 IN_PLAY = Selector(Zone.PLAY)

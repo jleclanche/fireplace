@@ -470,7 +470,7 @@ class Minion(Character):
 	taunt = boolean_property("taunt")
 
 	silenceable_attributes = (
-		"aura", "cant_attack", "cant_be_targeted_by_abilities",
+		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
 		"frozen", "poisonous", "stealthed", "taunt", "windfury",
 	)
@@ -478,6 +478,7 @@ class Minion(Character):
 	def __init__(self, id, data):
 		self._enrage = None
 		self.adjacent_buff = False
+		self.always_wins_brawls = False
 		self.divine_shield = False
 		self.enrage = False
 		self.poisonous = False

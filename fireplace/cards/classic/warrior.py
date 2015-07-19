@@ -76,7 +76,11 @@ class EX1_400:
 
 # Brawl
 class EX1_407:
-	play = Destroy(ALL_MINIONS - RANDOM_MINION)
+	play = (
+		Find(ALL_MINIONS + ALWAYS_WINS_BRAWLS) &
+		Destroy(ALL_MINIONS - RANDOM(ALL_MINIONS + ALWAYS_WINS_BRAWLS)) |
+		Destroy(ALL_MINIONS - RANDOM_MINION)
+	)
 
 
 # Mortal Strike
