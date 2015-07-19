@@ -346,6 +346,7 @@ IN_PLAY = Selector(Zone.PLAY)
 IN_DECK = Selector(Zone.DECK)
 IN_HAND = Selector(Zone.HAND)
 HIDDEN = Selector(Zone.SECRET)
+KILLED = Selector(Zone.GRAVEYARD)
 
 FRIENDLY = Selector(Affiliation.FRIENDLY)
 ENEMY = Selector(Affiliation.HOSTILE)
