@@ -4247,6 +4247,47 @@ def test_explosive_trap():
 	assert game.player1.hero.health == 30
 
 
+def test_stalagg_feugen():
+	game = prepare_game()
+	stalagg1 = game.player1.give("FP1_014")
+	stalagg2 = game.player1.give("FP1_014")
+	feugen = game.player1.give("FP1_015")
+	stalagg1.play()
+	stalagg2.play()
+
+	stalagg1.destroy()
+	assert stalagg1.dead
+	stalagg2.destroy()
+	assert stalagg2.dead
+	assert len(game.player1.field) == 0
+	game.end_turn(); game.end_turn()
+
+	feugen.play()
+	feugen.destroy()
+	assert feugen.dead
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "FP1_014t"
+
+
+def test_stalagg_feugen_both_killed():
+	game = prepare_game()
+	stalagg = game.player1.give("FP1_014")
+	stalagg.play()
+	game.end_turn()
+
+	feugen = game.player2.give("FP1_015")
+	feugen.play()
+	game.end_turn()
+
+	stalagg.attack(feugen)
+	assert stalagg.dead
+	assert feugen.dead
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 1
+	assert game.player1.field[0].id == "FP1_014t"
+	assert game.player2.field[0].id == "FP1_014t"
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):

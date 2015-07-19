@@ -53,6 +53,16 @@ class FP1_013:
 	events = TURN_END.on(resurrect_friendly_minions)
 
 
+# Stalagg
+class FP1_014:
+	deathrattle = Find(KILLED + ID("FP1_015")) & Summon(CONTROLLER, "FP1_014t")
+
+
+# Feugen
+class FP1_015:
+	deathrattle = Find(KILLED + ID("FP1_014")) & Summon(CONTROLLER, "FP1_014t")
+
+
 # Wailing Soul
 class FP1_016:
 	play = Silence(FRIENDLY_MINIONS)
