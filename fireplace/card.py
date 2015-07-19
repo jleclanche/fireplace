@@ -646,7 +646,7 @@ class Enchantment(BaseCard):
 	def _set_zone(self, zone):
 		if zone == Zone.PLAY:
 			self.owner.buffs.append(self)
-		elif zone == Zone.GRAVEYARD:
+		elif zone == Zone.REMOVEDFROMGAME:
 			self.owner.buffs.remove(self)
 		super()._set_zone(zone)
 
@@ -664,7 +664,7 @@ class Enchantment(BaseCard):
 		logging.info("Destroying buff %r from %r" % (self, self.owner))
 		if hasattr(self.data.scripts, "destroy"):
 			self.data.scripts.destroy(self)
-		self.zone = Zone.GRAVEYARD
+		self.zone = Zone.REMOVEDFROMGAME
 		if self.aura_source:
 			# Clean up the buff from its source auras
 			self.aura_source._buffs.remove(self)
