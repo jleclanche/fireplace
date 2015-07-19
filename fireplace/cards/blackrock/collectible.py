@@ -119,7 +119,4 @@ class BRM_013:
 
 # Resurrect
 class BRM_017:
-	def play(self):
-		minions = self.game.minions_killed.filter(controller=self.controller)
-		if minions:
-			return Summon(CONTROLLER, random.choice(minions).id)
+	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))
