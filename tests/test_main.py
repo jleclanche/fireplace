@@ -2253,6 +2253,26 @@ def test_mirror_image():
 	assert game.current_player.field[1].id == "CS2_mirror"
 
 
+def test_mortal_strike():
+	game = prepare_game()
+	game.player1.discard_hand()
+	expected_health = 30
+	for i in range(5):
+		ms = game.player1.give("EX1_408")
+		assert not ms.powered_up
+		ms.play(target=game.player1.hero)
+		expected_health -= 4
+		assert game.player1.hero.health == expected_health
+		if i % 2:
+			game.end_turn(); game.end_turn()
+
+	ms = game.player1.give("EX1_408")
+	# assert ms.powered_up  # TODO
+	ms.play(target=game.player1.hero)
+	expected_health -= 6
+	assert game.player1.hero.health == expected_health
+
+
 def test_archmage_antonidas():
 	game = prepare_game()
 	antonidas = game.current_player.give("EX1_559")
