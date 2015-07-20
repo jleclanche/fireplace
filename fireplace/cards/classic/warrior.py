@@ -85,11 +85,7 @@ class EX1_407:
 
 # Mortal Strike
 class EX1_408:
-	def play(self, target):
-		if self.controller.hero.health <= 12:
-			return Hit(TARGET, 6)
-		else:
-			return Hit(TARGET, 4)
+	play = (Attr(FRIENDLY_HERO, "health") <= 12) & Hit(TARGET, 6) | Hit(TARGET, 4)
 
 
 # Upgrade!
