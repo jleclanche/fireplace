@@ -53,7 +53,10 @@ class Attr(LazyNum):
 
 	def evaluate(self, source, game):
 		entities = self.selector.eval(game, source)
-		return sum(e.tags[self.tag] for e in entities)
+		if isinstance(self.tag, str):
+			return sum(getattr(e, self.tag) for e in entities)
+		else:
+			return sum(e.tags[self.tag] for e in entities)
 
 
 class Evaluator:
