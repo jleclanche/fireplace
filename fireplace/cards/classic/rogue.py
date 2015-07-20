@@ -24,9 +24,7 @@ class EX1_134:
 
 # Edwin VanCleef
 class EX1_613:
-	def combo(self):
-		count = self.controller.cards_played_this_turn
-		return Buff(self, "EX1_613e") * count
+	combo = Buff(SELF, "EX1_613e") * Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
 
 
 # Kidnapper
