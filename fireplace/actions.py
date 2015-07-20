@@ -1,4 +1,5 @@
 import logging
+import operator
 import random
 from itertools import chain
 from .enums import CardType, PowSubType, Zone
@@ -28,6 +29,14 @@ class RandomCardGenerator(object):
 class LazyNum:
 	def evaluate(self, source, game) -> int:
 		raise NotImplementedError
+
+	def __le__(self, other):
+		if isinstance(other, int):
+			# When comparing a LazyNum with an int, turn it into an
+			# Evaluator that compares the int to the result of the LazyNum
+			# TODO: Implement other operators than <=
+			return LazyNumEvaluator(self, other, operator.le)
+		return super().__le__(other)
 
 
 class Count(LazyNum):
@@ -91,6 +100,18 @@ class Evaluator:
 	def trigger(self, source, game):
 		for action in self.get_actions(source, game):
 			action.trigger(source, game)
+
+
+class LazyNumEvaluator(Evaluator):
+	def __init__(self, num, other, cmp):
+		super().__init__()
+		self.num = num
+		self.other = other
+		self.cmp = cmp
+
+	def evaluate(self, source, game):
+		num = self.num.evaluate(source, game)
+		return self.cmp(num, self.other)
 
 
 class Dead(Evaluator):
