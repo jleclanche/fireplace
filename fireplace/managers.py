@@ -233,6 +233,7 @@ class EnchantmentManager(Manager):
 		GameTag.STEALTH: "stealthed",
 		GameTag.TAG_HERO_POWER_DOUBLE: "hero_power_double",
 		GameTag.TAUNT: "taunt",
+		GameTag.ATTACK_HEALTH_SWAP: "attack_health_swap",
 		GameTag.MORPH: None,
 		GameTag.SUMMONED: None,
 	})

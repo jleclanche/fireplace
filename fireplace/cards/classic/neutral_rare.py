@@ -45,14 +45,6 @@ class EX1_058:
 class EX1_059:
 	play = Buff(TARGET, "EX1_059e")
 
-class EX1_059e:
-	atk = lambda self, i: self._xatk
-	max_health = lambda self, i: self._xhealth
-
-	def apply(self, target):
-		self._xhealth = target.atk
-		self._xatk = target.health
-
 
 # Secretkeeper
 class EX1_080:

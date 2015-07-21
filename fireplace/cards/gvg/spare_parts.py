@@ -37,14 +37,6 @@ class PART_005:
 class PART_006:
 	play = Buff(TARGET, "PART_006a")
 
-class PART_006a:
-	atk = lambda self, i: self._xatk
-	max_health = lambda self, i: self._xhealth
-
-	def apply(self, target):
-		self._xhealth = target.atk
-		self._xatk = target.health
-
 
 # Whirling Blades
 class PART_007:

@@ -642,7 +642,16 @@ class Enchantment(BaseCard):
 	def __init__(self, *args):
 		self.aura_source = None
 		self.one_turn_effect = False
+		self.attack_health_swap = False
 		super().__init__(*args)
+
+	def _getattr(self, attr, i):
+		if self.attack_health_swap:
+			if attr == "atk":
+				return self._swapped_atk
+			elif attr == "max_health":
+				return self._swapped_health
+		return super()._getattr(attr, i)
 
 	def _set_zone(self, zone):
 		if zone == Zone.PLAY:
@@ -654,9 +663,12 @@ class Enchantment(BaseCard):
 	def apply(self, target):
 		logging.info("Applying %r to %r" % (self, target))
 		self.owner = target
+		if self.attack_health_swap:
+			self._swapped_atk = target.health
+			self._swapped_health = target.atk
 		if hasattr(self.data.scripts, "apply"):
 			self.data.scripts.apply(self, target)
-		if hasattr(self.data.scripts, "max_health"):
+		if hasattr(self.data.scripts, "max_health") or self.attack_health_swap:
 			logging.info("%r removes all damage from %r", self, target)
 			target.damage = 0
 		self.zone = Zone.PLAY
