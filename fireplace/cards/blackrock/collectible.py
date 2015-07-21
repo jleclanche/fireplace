@@ -58,6 +58,11 @@ class BRM_022:
 	events = SELF_DAMAGE.on(Summon(CONTROLLER, "BRM_022t"))
 
 
+# Drakonid Crusher
+class BRM_024:
+	play = (Attr(ENEMY_HERO, "health") <= 15) & Buff(SELF, "BRM_024e")
+
+
 # Volcanic Drake
 class BRM_025:
 	cost = lambda self, i: i - len(self.game.minions_killed_this_turn)
@@ -115,6 +120,11 @@ class BRM_007:
 # Quick Shot
 class BRM_013:
 	play = Hit(TARGET, 3), Find(CONTROLLER_HAND) | Draw(CONTROLLER)
+
+
+# Revenge
+class BRM_015:
+	play = (Attr(FRIENDLY_HERO, "health") <= 12) & Hit(ALL_MINIONS, 3) | Hit(TARGET, 1)
 
 
 # Resurrect
