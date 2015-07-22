@@ -1,7 +1,12 @@
 import random
 
 
-class RandomCardGenerator(object):
+class Picker:
+	def pick(self, source) -> [str]:
+		raise NotImplementedError
+
+
+class RandomCardPicker(Picker):
 	"""
 	Store filters and generate a random card matching the filters on pick()
 	"""
@@ -17,10 +22,10 @@ class RandomCardGenerator(object):
 		return self._cards
 
 	def pick(self, source) -> str:
-		return random.choice(self.cards)
+		return [random.choice(self.cards)]
 
 
-class Copy(object):
+class Copy(Picker):
 	"""
 	Lazily return a list of copies of the target
 	"""

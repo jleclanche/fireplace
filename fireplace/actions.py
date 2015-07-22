@@ -1,6 +1,6 @@
 import logging
 from itertools import chain
-from .dsl import RandomCardGenerator, Copy, LazyNum
+from .dsl import LazyNum, Picker
 from .enums import CardType, PowSubType, Zone
 from .entity import Entity
 from .targeting import Selector
@@ -12,13 +12,10 @@ def _eval_card(source, card):
 	The card argument can be:
 	- A Card instance (nothing is done)
 	- The string ID of the card (the card is created)
-	- A RandomCardGenerator instance (a random card is picked)
-	- A Copy instance (a selector is evaluated and copies its results)
+	- A Picker instance (a card is dynamically picked)
 	"""
 
-	if isinstance(card, RandomCardGenerator):
-		card = card.pick(source)
-	elif isinstance(card, Copy):
+	if isinstance(card, Picker):
 		c = card.pick(source)
 		card = [entity.id if not isinstance(entity, str) else entity for entity in c]
 

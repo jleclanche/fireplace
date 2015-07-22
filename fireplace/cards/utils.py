@@ -15,14 +15,14 @@ def hand(func):
 	return func
 
 
-RandomCard = lambda **kw: RandomCardGenerator(**kw)
-RandomCollectible = lambda **kw: RandomCardGenerator(collectible=True, **kw)
+RandomCard = lambda **kw: RandomCardPicker(**kw)
+RandomCollectible = lambda **kw: RandomCardPicker(collectible=True, **kw)
 RandomMinion = lambda **kw: RandomCollectible(type=CardType.MINION, **kw)
 RandomSpell = lambda **kw: RandomCollectible(type=CardType.SPELL, **kw)
 RandomWeapon = lambda **kw: RandomCollectible(type=CardType.WEAPON, **kw)
-RandomSparePart = lambda **kw: RandomCardGenerator(spare_part=True, **kw)
+RandomSparePart = lambda **kw: RandomCardPicker(spare_part=True, **kw)
 
-class RandomEntourage(RandomCardGenerator):
+class RandomEntourage(RandomCardPicker):
 	def pick(self, source):
 		self._cards = source.entourage
 		return super().pick(source)
