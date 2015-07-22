@@ -391,12 +391,14 @@ class Play(GameAction):
 			card.chosen = chosen
 		card.choose = self.choose
 
+		game.no_aura_refresh = True
 		game._play(card)
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(source, card)
 		self.broadcast(source, game, EventListener.ON, *args)
 		summon_action.broadcast(source, game, EventListener.ON, source, card)
+		game.no_aura_refresh = False
 		card.action()
 		summon_action.broadcast(source, game, EventListener.AFTER, source, card)
 		self.broadcast(source, game, EventListener.AFTER, *args)

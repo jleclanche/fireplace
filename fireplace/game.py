@@ -33,6 +33,7 @@ class BaseGame(Entity):
 		self.auras = []
 		self.graveyard = CardList()
 		self.minions_killed_this_turn = CardList()
+		self.no_aura_refresh = False
 
 	def __repr__(self):
 		return "<%s %s>" % (self.__class__.__name__, self)
@@ -198,6 +199,8 @@ class BaseGame(Entity):
 		return self.players[0], self.players[1]
 
 	def refresh_auras(self):
+		if self.no_aura_refresh:
+			return
 		for aura in self.auras:
 			aura.update()
 
