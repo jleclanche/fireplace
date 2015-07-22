@@ -3792,6 +3792,23 @@ def test_vaporize():
 	assert game.current_player.opponent.hero.health == 27
 
 
+def test_stampeding_kodo():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	watcher = game.player1.give("EX1_045")
+	watcher.play()
+	game.end_turn()
+
+	kodo = game.player2.give("NEW1_041")
+	kodo.play()
+	assert wisp.dead
+	assert not watcher.dead
+	kodo2 = game.player2.give("NEW1_041")
+	kodo2.play()
+	assert not watcher.dead
+
+
 def test_stoneskin_gargoyle():
 	game = prepare_game()
 	gargoyle = game.current_player.give("FP1_027")
