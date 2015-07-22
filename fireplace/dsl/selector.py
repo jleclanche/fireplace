@@ -1,4 +1,5 @@
 import random
+from enum import IntEnum
 from ..enums import Affiliation, CardType, GameTag, Race, Zone
 from ..utils import CardList
 
