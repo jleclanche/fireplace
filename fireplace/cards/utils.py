@@ -1,5 +1,6 @@
 import random
 from ..actions import *
+from ..dsl import *
 from ..enums import CardClass, CardType, GameTag, Race, Rarity, Zone
 from ..events import *
 from ..targeting import *
