@@ -250,6 +250,7 @@ class Action:  # Lawsuit
 							actions += action(entity, *args)
 					else:
 						actions.append(action)
+				logging.debug("%r triggers off %r from %r", entity, self, source)
 				game.queue_actions(entity, actions)
 				if event.once:
 					entity._events.remove(event)
