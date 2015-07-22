@@ -189,7 +189,7 @@ class BaseGame(Entity):
 				logging.debug("Registering %r on %r", action, self)
 				source.controller._events.append(action)
 			else:
-				ret.append(action.trigger(source, self))
+				ret.append(action.trigger(source))
 				self.refresh_auras()
 
 		return ret

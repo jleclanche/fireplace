@@ -22,9 +22,9 @@ RandomWeapon = lambda **kw: RandomCollectible(type=CardType.WEAPON, **kw)
 RandomSparePart = lambda **kw: RandomCardGenerator(spare_part=True, **kw)
 
 class RandomEntourage(RandomCardGenerator):
-	def pick(self, source, game):
+	def pick(self, source):
 		self._cards = source.entourage
-		return super().pick(source, game)
+		return super().pick(source)
 
 
 HOLDING_DRAGON = Find(CONTROLLER_HAND + DRAGON)
