@@ -97,10 +97,6 @@ class BaseCard(Entity):
 			for aura in self._auras:
 				aura.destroy()
 
-	def summon(self):
-		logging.info("Summoning %r", self)
-		self.zone = Zone.PLAY
-
 	def buff(self, target, buff, **kwargs):
 		"""
 		Summon \a buff and apply it to \a target
