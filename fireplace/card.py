@@ -441,6 +441,13 @@ class Hero(Character):
 			ret.append(self.controller.weapon)
 		return chain(ret, self.buffs)
 
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			self.controller.hero = self
+			if self.data.hero_power:
+				self.controller.summon(self.data.hero_power)
+		super()._set_zone(value)
+
 	def _hit(self, source, amount):
 		if self.armor:
 			new_amount = max(0, amount - self.armor)
@@ -455,12 +462,6 @@ class Hero(Character):
 			self.controller.weapon.damage += 1
 
 		return ret
-
-	def summon(self):
-		super().summon()
-		self.controller.hero = self
-		if self.data.hero_power:
-			self.controller.summon(self.data.hero_power)
 
 
 class Minion(Character):
@@ -832,6 +833,14 @@ class Weapon(PlayableCard):
 class HeroPower(PlayableCard):
 	Manager = HeroPowerManager
 
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			if self.controller.hero.power:
+				self.controller.hero.power.destroy()
+			self.controller.hero.power = self
+			self.exhausted = False
+		super()._set_zone(value)
+
 	def activate(self):
 		actions = self.data.scripts.activate
 		if callable(actions):
@@ -874,10 +883,3 @@ class HeroPower(PlayableCard):
 		if self.exhausted:
 			return False
 		return super().is_playable()
-
-	def summon(self):
-		super().summon()
-		if self.controller.hero.power:
-			self.controller.hero.power.destroy()
-		self.controller.hero.power = self
-		self.exhausted = False
