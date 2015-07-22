@@ -117,9 +117,7 @@ class EX1_145:
 	play = Buff(FRIENDLY_HERO, "EX1_145o")
 
 class EX1_145o:
-	events = OWN_SPELL_PLAY.after(
-		lambda self, player, card, *args: card is not self.creator and Destroy(self)
-	)
+	events = OWN_SPELL_PLAY.on(Destroy(SELF))
 
 
 # Shiv
