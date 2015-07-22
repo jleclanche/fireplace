@@ -30,13 +30,17 @@ class LazyNum:
 	def evaluate(self, source, game) -> int:
 		raise NotImplementedError
 
-	def __le__(self, other):
-		if isinstance(other, int):
-			# When comparing a LazyNum with an int, turn it into an
-			# Evaluator that compares the int to the result of the LazyNum
-			# TODO: Implement other operators than <=
-			return LazyNumEvaluator(self, other, operator.le)
-		return super().__le__(other)
+	def _cmp(op):
+		def func(self, other):
+			if isinstance(other, int):
+				# When comparing a LazyNum with an int, turn it into an
+				# Evaluator that compares the int to the result of the LazyNum
+				return LazyNumEvaluator(self, other, getattr(operator, op))
+			return getattr(super(), "__%s__" % (op))(other)
+		return func
+
+	__ge__ = _cmp("ge")
+	__le__ = _cmp("le")
 
 
 class Count(LazyNum):
