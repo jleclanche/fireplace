@@ -45,6 +45,10 @@ class BaseGame(Entity):
 		return self.all_entities.__iter__()
 
 	@property
+	def game(self):
+		return self
+
+	@property
 	def board(self):
 		return CardList(chain(self.players[0].field, self.players[1].field))
 
