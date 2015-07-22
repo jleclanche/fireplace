@@ -232,31 +232,37 @@ class Action:  # Lawsuit
 	def once(self, *actions, zone=Zone.PLAY):
 		return EventListener(self, actions, EventListener.ON, zone=zone, once=True)
 
-	def broadcast(self, source, game, at, *args):
-		for entity in chain(game.hands, game.entities):
-			zone = getattr(entity, "zone", Zone.INVALID)
-			if zone not in (Zone.PLAY, Zone.SECRET, Zone.HAND):
+	def _broadcast(self, entity, source, game, at, *args):
+		for event in entity._events:
+			if entity.zone == Zone.HAND and not event.in_hand:
 				continue
-			for event in entity._events:
-				if entity.zone == Zone.HAND and not event.in_hand:
-					continue
-				if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
-					actions = []
-					for action in event.actions:
-						if callable(action):
-							ac = action(entity, *args)
-							if not ac:
-								# Handle falsy returns
-								continue
-							if not hasattr(ac, "__iter__"):
-								actions.append(ac)
-							else:
-								actions += action(entity, *args)
+			if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
+				actions = []
+				for action in event.actions:
+					if callable(action):
+						ac = action(entity, *args)
+						if not ac:
+							# Handle falsy returns
+							continue
+						if not hasattr(ac, "__iter__"):
+							actions.append(ac)
 						else:
-							actions.append(action)
-					game.queue_actions(entity, actions)
-					if event.once:
-						entity._events.remove(event)
+							actions += action(entity, *args)
+					else:
+						actions.append(action)
+				game.queue_actions(entity, actions)
+				if event.once:
+					entity._events.remove(event)
+
+	def broadcast(self, source, game, at, *args):
+		for entity in game.hands:
+			self._broadcast(entity, source, game, at, *args)
+
+		for entity in game.entities:
+			zone = getattr(entity, "zone", Zone.INVALID)
+			if zone not in (Zone.PLAY, Zone.SECRET):
+				continue
+			self._broadcast(entity, source, game, at, *args)
 
 	def matches(self, source, args):
 		for arg, match in zip(args, self._args):
