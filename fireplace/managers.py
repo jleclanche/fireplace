@@ -182,6 +182,7 @@ class MinionManager(Manager):
 		GameTag.DIVINE_SHIELD: "divine_shield",
 		GameTag.ENRAGED: "enrage",
 		GameTag.FORGETFUL: "forgetful",
+		GameTag.INSPIRE: "has_inspire",
 		GameTag.POISONOUS: "poisonous",
 		GameTag.SILENCED: "silenced",
 		GameTag.STEALTH: "stealthed",

@@ -97,6 +97,7 @@ class GameTag(IntEnum):
 	NUM_CARDS_DRAWN_THIS_TURN = 399
 	EVIL_GLOW = 401
 	HIDE_COST = 402
+	INSPIRE = 403
 
 	# flavor
 	ELITE = 114

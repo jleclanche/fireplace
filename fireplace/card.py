@@ -458,13 +458,14 @@ class Hero(Character):
 class Minion(Character):
 	Manager = MinionManager
 	charge = boolean_property("charge")
+	has_inspire = boolean_property("has_inspire")
 	stealthed = boolean_property("stealthed")
 	taunt = boolean_property("taunt")
 
 	silenceable_attributes = (
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
-		"frozen", "poisonous", "stealthed", "taunt", "windfury",
+		"frozen", "has_inspire", "poisonous", "stealthed", "taunt", "windfury",
 	)
 
 	def __init__(self, id, data):
@@ -835,8 +836,18 @@ class HeroPower(PlayableCard):
 				kwargs["target"] = self.target
 			actions = actions(self, **kwargs)
 
+		ret = []
 		if actions:
-			return self.game.queue_actions(self, actions)
+			ret += self.game.queue_actions(self, actions)
+
+		for minion in self.controller.field.filter(has_inspire=True):
+			if not hasattr(minion.data.scripts, "inspire"):
+				raise NotImplementedError("Missing inspire script for %r" % (minion))
+			actions = minion.data.scripts.inspire
+			if actions:
+				ret += self.game.queue_actions(self, actions)
+
+		return ret
 
 	def hit(self, target, amount):
 		amount *= (self.controller.hero_power_double + 1)
