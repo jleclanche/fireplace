@@ -615,6 +615,9 @@ class Secret(Spell):
 		pass
 
 	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			# Move secrets to the SECRET Zone when played
+			value = Zone.SECRET
 		if self.zone == Zone.SECRET:
 			self.controller.secrets.remove(self)
 		if value == Zone.SECRET:
@@ -626,10 +629,6 @@ class Secret(Spell):
 		if self.controller.secrets.contains(self):
 			return False
 		return super().is_playable()
-
-	def summon(self):
-		super().summon()
-		self.zone = Zone.SECRET
 
 	def reveal(self):
 		return self.game.queue_actions(self, [Reveal(self)])
