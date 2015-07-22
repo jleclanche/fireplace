@@ -232,7 +232,7 @@ class Action:  # Lawsuit
 	def once(self, *actions, zone=Zone.PLAY):
 		return EventListener(self, actions, EventListener.ON, zone=zone, once=True)
 
-	def broadcast(self, game, at, *args):
+	def broadcast(self, source, game, at, *args):
 		for entity in chain(game.hands, game.entities):
 			zone = getattr(entity, "zone", Zone.INVALID)
 			if zone not in (Zone.PLAY, Zone.SECRET, Zone.HAND):
@@ -301,7 +301,7 @@ class Attack(GameAction):
 		game.proposed_attacker = self.source
 		game.proposed_defender = self.target
 		logging.info("%r attacks %r", self.source, self.target)
-		self.broadcast(game, EventListener.ON, *args)
+		self.broadcast(source, game, EventListener.ON, *args)
 		game._attack()
 
 
@@ -313,7 +313,7 @@ class BeginTurn(GameAction):
 	type = None
 
 	def do(self, source, game, *args):
-		self.broadcast(game, EventListener.ON, self.player)
+		self.broadcast(source, game, EventListener.ON, self.player)
 		game._begin_turn(self.player)
 
 
@@ -333,7 +333,7 @@ class Death(GameAction):
 
 	def do(self, source, game, target):
 		logging.info("Processing Death for %r", target)
-		self.broadcast(game, EventListener.ON, target)
+		self.broadcast(source, game, EventListener.ON, target)
 		if target.deathrattles:
 			game.queue_actions(source, [Deathrattle(target)])
 
@@ -346,7 +346,7 @@ class EndTurn(GameAction):
 	type = None
 
 	def do(self, source, game, *args):
-		self.broadcast(game, EventListener.ON, self.player)
+		self.broadcast(source, game, EventListener.ON, self.player)
 		game._end_turn()
 
 
@@ -378,9 +378,9 @@ class Play(GameAction):
 			card.chosen = chosen
 		card.choose = self.choose
 
-		self.broadcast(game, EventListener.ON, *args)
+		self.broadcast(source, game, EventListener.ON, *args)
 		game._play(card)
-		self.broadcast(game, EventListener.AFTER, *args)
+		self.broadcast(source, game, EventListener.AFTER, *args)
 
 		card.target = None
 		card.choose = None
@@ -470,7 +470,7 @@ class Damage(TargetedAction):
 	def do(self, source, game, target, *args):
 		amount = target._hit(source, self.amount)
 		if amount:
-			self.broadcast(game, EventListener.ON, target, amount, source)
+			self.broadcast(source, game, EventListener.ON, target, amount, source)
 
 
 class Deathrattle(TargetedAction):
@@ -560,7 +560,7 @@ class GainArmor(TargetedAction):
 
 	def do(self, source, game, target):
 		target.armor += self.amount
-		self.broadcast(game, EventListener.ON, target, self.amount)
+		self.broadcast(source, game, EventListener.ON, target, self.amount)
 
 
 class GainMana(TargetedAction):
@@ -630,7 +630,7 @@ class Heal(TargetedAction):
 			# Undamaged targets do not receive heals
 			logging.info("%r heals %r for %i", source, target, amount)
 			target.damage -= amount
-			self.broadcast(game, EventListener.ON, target, amount)
+			self.broadcast(source, game, EventListener.ON, target, amount)
 
 
 class ManaThisTurn(TargetedAction):
@@ -699,7 +699,7 @@ class Reveal(TargetedAction):
 	"""
 	def do(self, source, game, target):
 		logging.info("Revealing secret %r", target)
-		self.broadcast(game, EventListener.ON, target)
+		self.broadcast(source, game, EventListener.ON, target)
 		target.destroy()
 
 
@@ -742,9 +742,9 @@ class Summon(TargetedAction):
 		for card in cards:
 			if card.controller != target:
 				card.controller = target
-			self.broadcast(game, EventListener.ON, target, card)
+			self.broadcast(source, game, EventListener.ON, target, card)
 			card.summon()
-			self.broadcast(game, EventListener.AFTER, target, card)
+			self.broadcast(source, game, EventListener.AFTER, target, card)
 
 
 class Shuffle(TargetedAction):
