@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys; sys.path.append("..")
-from fireplace.enums import Race, CardType, Zone
-from fireplace.targeting import Affiliation, Selector
+from fireplace.enums import Affiliation, Race, CardType, Zone
+from fireplace.dsl.selector import Selector
 from test_main import prepare_game
 
 

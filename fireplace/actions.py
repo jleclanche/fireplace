@@ -1,9 +1,8 @@
 import logging
 from itertools import chain
-from .dsl import LazyNum, Picker
+from .dsl import LazyNum, Picker, Selector
 from .enums import CardType, PowSubType, Zone
 from .entity import Entity
-from .targeting import Selector
 
 
 def _eval_card(source, card):

@@ -1,5 +1,5 @@
 from .actions import *
-from .targeting import *
+from .dsl.selector import *
 
 
 OWN_CARD_PLAY = Play(CONTROLLER)
