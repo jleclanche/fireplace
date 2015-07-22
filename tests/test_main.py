@@ -2743,6 +2743,32 @@ def test_illidan():
 	assert illidan.dead
 
 
+def test_illidan_knife_juggler():
+	game = prepare_game()
+	illidan = game.player1.give("EX1_614")
+	illidan.play()
+	juggler = game.player1.give("NEW1_019")
+	juggler.play()
+	assert len(game.player1.field) == 3
+	assert game.player2.hero.health == 30 - 1
+
+
+def test_illidan_full_board():
+	game = prepare_game()
+	illidan = game.player1.give("EX1_614")
+	illidan.play()
+	game.player1.give(THE_COIN).play()
+	game.player1.give(THE_COIN).play()
+	game.player1.give(THE_COIN).play()
+	game.player1.give(THE_COIN).play()
+	game.player1.give(THE_COIN).play()
+	assert len(game.player1.field) == 6
+	juggler = game.player1.give("NEW1_019")
+	juggler.play()
+	assert len(game.player1.field) == 7
+	assert game.player2.hero.health == 30
+
+
 def test_leeroy():
 	game = prepare_game()
 	leeroy = game.current_player.give("EX1_116")
