@@ -365,6 +365,12 @@ class Play(GameAction):
 	args = ("card", "target", "choose")
 	type = PowSubType.PLAY
 
+	def _broadcast(self, entity, source, game, at, *args):
+		# Prevent cards from triggering off their own play
+		if entity is self.card:
+			return
+		return super()._broadcast(entity, source, game, at, *args)
+
 	def get_args(self, source, game):
 		return (source, ) + self._args
 
@@ -736,6 +742,12 @@ class Summon(TargetedAction):
 	This works for equipping weapons as well as summoning minions.
 	"""
 	args = ("targets", "card")
+
+	def _broadcast(self, entity, source, game, at, *args):
+		# Prevent cards from triggering off their own summon
+		if entity is args[1]:
+			return
+		return super()._broadcast(entity, source, game, at, *args)
 
 	def get_args(self, source, game, target):
 		cards = _eval_card(source, game, self.card)
