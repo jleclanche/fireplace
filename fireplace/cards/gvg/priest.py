@@ -52,7 +52,4 @@ class GVG_010:
 
 # Light of the Naaru
 class GVG_012:
-	def play(self, target):
-		yield Heal(TARGET, 3)
-		if target.damage:
-			yield Summon(CONTROLLER, "EX1_001")
+	play = Heal(TARGET, 3), (Attr(TARGET, GameTag.DAMAGE) >= 1) & Summon(CONTROLLER, "EX1_001")
