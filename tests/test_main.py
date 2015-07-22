@@ -26,7 +26,7 @@ RESTORE_1 = "XXX_003"
 logging.getLogger().setLevel(logging.DEBUG)
 
 
-class TestGame(Game):
+class BaseTestGame(Game):
 	def start(self):
 		super().start()
 		self.player1.max_mana = 10
@@ -43,7 +43,7 @@ def _draft(hero, exclude):
 
 _heroes = fireplace.cards.filter(collectible=True, type=CardType.HERO)
 
-def prepare_game(hero1=None, hero2=None, exclude=(), game_class=TestGame):
+def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
 	print("Initializing a new game")
 	if hero1 is None:
 		hero1 = random.choice(_heroes)
