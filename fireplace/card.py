@@ -820,15 +820,13 @@ class Weapon(PlayableCard):
 		self._to_be_destroyed = value
 
 	def _set_zone(self, zone):
-		if self.zone == Zone.PLAY:
+		if zone == Zone.PLAY:
+			if self.controller.weapon:
+				self.controller.weapon.destroy()
+			self.controller.weapon = self
+		elif self.zone == Zone.PLAY:
 			self.controller.weapon = None
 		super()._set_zone(zone)
-
-	def summon(self):
-		super().summon()
-		if self.controller.weapon:
-			self.controller.weapon.destroy()
-		self.controller.weapon = self
 
 
 class HeroPower(PlayableCard):
