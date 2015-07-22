@@ -391,9 +391,19 @@ class Play(GameAction):
 			card.chosen = chosen
 		card.choose = self.choose
 
-		self.broadcast(source, game, EventListener.ON, *args)
 		game._play(card)
+		# NOTE: A Play is not a summon! But it sure looks like one.
+		# We need to fake a Summon broadcast.
+		summon_action = Summon(source, card)
+		self.broadcast(source, game, EventListener.ON, *args)
+		summon_action.broadcast(source, game, EventListener.ON, source, card)
+		card.action()
+		summon_action.broadcast(source, game, EventListener.AFTER, source, card)
 		self.broadcast(source, game, EventListener.AFTER, *args)
+		source.combo = True
+		source.cards_played_this_turn += 1
+		if card.type == CardType.MINION:
+			source.minions_played_this_turn += 1
 
 		card.target = None
 		card.choose = None

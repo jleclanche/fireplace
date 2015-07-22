@@ -118,11 +118,7 @@ class BaseGame(Entity):
 			logging.info("%s overloads for %i mana", player, card.overload)
 			player.overloaded += card.overload
 		player.last_card_played = card
-		player.summon(card)
-		player.combo = True
-		player.cards_played_this_turn += 1
-		if card.type == CardType.MINION:
-			player.minions_played_this_turn += 1
+		card.zone = Zone.PLAY
 
 	def card(self, id):
 		card = Card(id)

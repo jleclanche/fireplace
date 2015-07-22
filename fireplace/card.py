@@ -178,11 +178,6 @@ class PlayableCard(BaseCard):
 		if zone == Zone.HAND:
 			self.clear_buffs()
 
-	def summon(self):
-		super().summon()
-		if self.controller.last_card_played is self:
-			self.action()
-
 	def action(self):
 		kwargs = {}
 		if self.target:
