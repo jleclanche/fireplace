@@ -748,6 +748,8 @@ class Summon(TargetedAction):
 		for card in cards:
 			if card.controller != target:
 				card.controller = target
+			if card.type == CardType.MINION and len(target.field) >= game.MAX_MINIONS_ON_FIELD:
+				continue
 			self.broadcast(source, game, EventListener.ON, target, card)
 			card.summon()
 			self.broadcast(source, game, EventListener.AFTER, target, card)

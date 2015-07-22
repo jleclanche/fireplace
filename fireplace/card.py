@@ -587,11 +587,6 @@ class Minion(Character):
 		self._events = []
 		self.silenced = True
 
-	def summon(self):
-		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
-			return
-		super().summon()
-
 
 class Spell(PlayableCard):
 	Manager = SpellManager
