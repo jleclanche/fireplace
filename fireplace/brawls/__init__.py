@@ -149,3 +149,18 @@ class CrossroadsEncounterBrawl(Game):
 			pool = cards.filter(card_class=CardClass.INVALID, collectible=True)
 			deck += [random.choice(pool) for i in range(15)]
 			player.prepare_deck(deck, hero)
+
+
+class HeartOfTheSunwellBrawl(Game):
+	"""
+	Heart of the Sunwell
+
+	In the Sunwell lies unlimited power, and that power is
+	yours! Start each game with 10 mana and see what you
+	can do with it!
+	"""
+
+	def prepare(self):
+		super().prepare()
+		for player in self.players:
+			player.max_mana = 10
