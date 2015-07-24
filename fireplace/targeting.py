@@ -1,7 +1,7 @@
 """
 Targeting logic
 """
-from .enums import CardType, PlayReq
+from .enums import CardType, PlayReq, Rarity
 
 
 # Requirements-based targeting
@@ -57,6 +57,9 @@ def is_valid_target(self, target, requirements=None):
 				return False
 		elif req == PlayReq.REQ_UNDAMAGED_TARGET:
 			if target.damage:
+				return False
+		elif req == PlayReq.REQ_LEGENDARY_TARGET:
+			if target.rarity != Rarity.LEGENDARY:
 				return False
 
 		# fireplace reqs
