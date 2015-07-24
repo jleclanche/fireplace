@@ -643,6 +643,22 @@ def test_card_draw():
 	assert len(game.current_player.hand) == handlength - 2
 
 
+def test_cant_draw():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player1.cant_draw = True
+	game.end_turn(); game.end_turn()
+
+	assert len(game.player1.hand) == 0
+	game.end_turn(); game.end_turn()
+
+	assert len(game.player1.hand) == 0
+	game.player1.cant_draw = False
+	game.end_turn(); game.end_turn()
+
+	assert len(game.player1.hand) == 1
+
+
 def test_deadly_poison():
 	game = prepare_game(ROGUE, ROGUE)
 	poison = game.current_player.give("CS2_074")

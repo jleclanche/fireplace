@@ -68,6 +68,7 @@ class GameManager(Manager):
 
 class PlayerManager(Manager):
 	map = {
+		GameTag.CANT_DRAW: "cant_draw",
 		GameTag.CARDTYPE: "type",
 		GameTag.COMBO_ACTIVE: "combo",
 		GameTag.FATIGUE: "fatigue_counter",

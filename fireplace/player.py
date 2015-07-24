@@ -31,6 +31,7 @@ class Player(Entity):
 		self.buffs = []
 		self.max_hand_size = 10
 		self.max_resources = 10
+		self.cant_draw = False
 		self.current_player = False
 		self.fatigue_counter = 0
 		self.hero = None
@@ -114,6 +115,10 @@ class Player(Entity):
 			card.discard()
 
 	def draw(self, count=1):
+		if self.cant_draw:
+			logging.info("%s tries to draw %i cards, but can't draw", self, count)
+			return None
+
 		ret = self.game.queue_actions(self, [Draw(self) * count])[0]
 		if count == 1:
 			if not ret[0]:  # fatigue
