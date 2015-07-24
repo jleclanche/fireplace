@@ -276,6 +276,7 @@ ID = IdSelector
 DAMAGED = Selector(GameTag.DAMAGE)
 DEATHRATTLE = Selector(GameTag.DEATHRATTLE)
 DIVINE_SHIELD = Selector(GameTag.DIVINE_SHIELD)
+FROZEN = Selector(GameTag.FROZEN)
 OVERLOAD = Selector(GameTag.RECALL)
 ALWAYS_WINS_BRAWLS = Selector(GameTag.ALWAYS_WINS_BRAWLS)
 
