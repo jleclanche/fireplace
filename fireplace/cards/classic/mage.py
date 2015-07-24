@@ -132,5 +132,5 @@ class EX1_289:
 # Vaporize
 class EX1_594:
 	events = Attack(MINION, FRIENDLY_HERO).on(
-		lambda self, source, target: Destroy(source), Reveal(SELF),
+		Destroy(Attack.Args.ATTACKER), Reveal(SELF)
 	)

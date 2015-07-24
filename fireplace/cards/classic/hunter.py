@@ -86,17 +86,6 @@ class EX1_549:
 	play = Buff(TARGET, "EX1_549o")
 
 
-# Freezing Trap
-class EX1_611:
-	events = Attack(ENEMY_MINIONS).on(lambda self, source, target: (
-		Bounce(source), Buff(source, "EX1_611e"), Reveal(SELF)
-	))
-
-class EX1_611e:
-	# Remove the buff when the card is played
-	events = Play(PLAYER, OWNER).after(Destroy(SELF))
-
-
 # Deadly Shot
 class EX1_617:
 	play = Destroy(RANDOM_ENEMY_MINION)
@@ -110,7 +99,6 @@ class NEW1_031:
 ##
 # Secrets
 
-
 # Snake Trap
 class EX1_554:
 	events = Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(
@@ -120,9 +108,9 @@ class EX1_554:
 
 # Snipe
 class EX1_609:
-	events = Play(OPPONENT, MINION).after(lambda self, source, target, *args: (
-		Hit(target, 4), Reveal(SELF)
-	))
+	events = Play(OPPONENT, MINION).after(
+		Hit(Play.Args.CARD, 4), Reveal(SELF)
+	)
 
 
 # Explosive Trap
@@ -130,6 +118,19 @@ class EX1_610:
 	events = Attack(ENEMY_MINIONS, FRIENDLY_HERO).on(
 		Hit(ENEMY_CHARACTERS, 2), Reveal(SELF)
 	)
+
+
+# Freezing Trap
+class EX1_611:
+	events = Attack(ENEMY_MINIONS).on(
+		Bounce(Attack.Args.ATTACKER),
+		Buff(Attack.Args.ATTACKER, "EX1_611e"),
+		Reveal(SELF)
+	)
+
+class EX1_611e:
+	# Remove the buff when the card is played
+	events = Play(PLAYER, OWNER).after(Destroy(SELF))
 
 
 ##

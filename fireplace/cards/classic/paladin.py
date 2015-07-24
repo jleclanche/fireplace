@@ -63,13 +63,6 @@ class CS2_094:
 	play = Hit(TARGET, 3), Draw(CONTROLLER)
 
 
-# Eye for an Eye
-class EX1_132:
-	events = Damage(FRIENDLY_HERO).on(
-		lambda self, target, amount, source: (Hit(ENEMY_HERO, amount), Reveal(SELF))
-	)
-
-
 # Divine Favor
 class EX1_349:
 	def play(self):
@@ -137,11 +130,18 @@ class EX1_619e:
 ##
 # Secrets
 
+# Eye for an Eye
+class EX1_132:
+	events = Damage(FRIENDLY_HERO).on(
+		Hit(ENEMY_HERO, Damage.Args.AMOUNT), Reveal(SELF)
+	)
+
+
 # Repentance
 class EX1_379:
-	events = Play(OPPONENT, MINION).after(lambda self, source, minion, *args: (
-		Buff(minion, "EX1_379e"), Reveal(self)
-	))
+	events = Play(OPPONENT, MINION).after(
+		Buff(Play.Args.CARD, "EX1_379e"), Reveal(SELF)
+	)
 
 class EX1_379e:
 	max_health = lambda self, i: 1
@@ -158,5 +158,6 @@ class CS2_097:
 # Sword of Justice
 class EX1_366:
 	events = Summon(CONTROLLER, MINION).after(
-		lambda self, source, minion: (Buff(minion, "EX1_366e"), Hit(SELF, 1))
+		Buff(Summon.Args.CARDS, "EX1_366e"),
+		Hit(SELF, 1)
 	)
