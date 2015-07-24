@@ -127,6 +127,11 @@ class FP1_025:
 ##
 # Secrets
 
+# Duplicate
+class FP1_018:
+	events = Death(FRIENDLY + MINION).on(Give(CONTROLLER, Copy(Death.Args.ENTITY)) * 2)
+
+
 # Avenge
 class FP1_020:
 	events = Death(FRIENDLY + MINION).on(Find(FRIENDLY_MINIONS) & (
