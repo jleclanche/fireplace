@@ -280,6 +280,13 @@ class TargetedAction(Action):
 			elif isinstance(v, Selector):
 				# evaluate Selector arguments
 				v = v.eval(source.game, source)
+			elif isinstance(v, Action.Args):
+				# This is used when an event listener triggers and the callback
+				# Action has arguments of the type Action.Args.FOO
+				# XXX we rely on source.event_args to be set, but it's very racey.
+				# If multiple events happen on an entity at once, stuff will go wrong.
+				assert source.event_args
+				v = source.event_args[v]
 			elif isinstance(v, LazyNum):
 				# evaluate LazyNum arguments into ints
 				v = v.evaluate(source)
@@ -293,6 +300,8 @@ class TargetedAction(Action):
 		ret = []
 		if isinstance(t, Entity):
 			return [t]
+		elif isinstance(t, Action.Args):
+			return [source.event_args[t]]
 		elif isinstance(t, Action):
 			# eg. Unstable Portal: Buff(Give(...), ...)
 			return t.trigger(source)[0]

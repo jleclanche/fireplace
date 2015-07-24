@@ -41,6 +41,12 @@ class Copy(Picker):
 		return self
 
 	def pick(self, source) -> [str]:
+		from ..actions import Action
+		if isinstance(self.selector, Action.Args):
+			# TODO cleanup DRY with actions.py
+			assert source.event_args
+			return [source.event_args[self.selector]]
+
 		ret = self.selector.eval(source.game, source)
 		if not ret and self.fallback:
 			return [self.fallback]

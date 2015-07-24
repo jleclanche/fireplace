@@ -41,7 +41,10 @@ class Entity(object):
 					actions += action(self, *args)
 			else:
 				actions.append(action)
+		# XXX This is racey. Replace with something more solid.
+		self.event_args = args
 		source.game.queue_actions(self, actions)
+		self.event_args = None
 		if event.once:
 			self._events.remove(event)
 
