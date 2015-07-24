@@ -83,23 +83,8 @@ class Action:  # Lawsuit
 			if entity.zone == Zone.HAND and not event.in_hand:
 				continue
 			if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
-				actions = []
-				for action in event.actions:
-					if callable(action):
-						ac = action(entity, *args)
-						if not ac:
-							# Handle falsy returns
-							continue
-						if not hasattr(ac, "__iter__"):
-							actions.append(ac)
-						else:
-							actions += action(entity, *args)
-					else:
-						actions.append(action)
-				logging.debug("%r triggers off %r from %r", entity, self, source)
-				source.game.queue_actions(entity, actions)
-				if event.once:
-					entity._events.remove(event)
+				logging.info("%r triggers off %r from %r", entity, self, source)
+				entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
 		for entity in source.game.hands:

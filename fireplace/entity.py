@@ -21,6 +21,30 @@ class Entity(object):
 			return i
 		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
 
+	def trigger_event(self, source, event, args):
+		"""
+		Trigger an event on the Entity
+		* \a source: The source of the event
+		* \a event: The event being triggered
+		* \a args: A list of arguments to pass to the callback
+		"""
+		actions = []
+		for action in event.actions:
+			if callable(action):
+				ac = action(self, *args)
+				if not ac:
+					# Handle falsy returns
+					continue
+				if not hasattr(ac, "__iter__"):
+					actions.append(ac)
+				else:
+					actions += action(self, *args)
+			else:
+				actions.append(action)
+		source.game.queue_actions(self, actions)
+		if event.once:
+			self._events.remove(event)
+
 
 def slot_property(attr, f=any):
 	@property
