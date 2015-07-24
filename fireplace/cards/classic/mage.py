@@ -91,10 +91,7 @@ class CS2_029:
 
 # Ice Lance
 class CS2_031:
-	def play(self, target):
-		if target.frozen:
-			return Hit(TARGET, 4)
-		return Freeze(TARGET)
+	play = Find(TARGET + FROZEN) & Hit(TARGET, 4) | Freeze(TARGET)
 
 
 # Flamestrike
