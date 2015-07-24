@@ -53,7 +53,7 @@ class XXX_010:
 
 # Summon a random Secret
 class XXX_011:
-	play = ForcePlay(CONTROLLER, RANDOM(CONTROLLER_DECK + SECRET))
+	play = Summon(CONTROLLER, RANDOM(CONTROLLER_DECK + SECRET))
 
 
 # Bounce

@@ -16,7 +16,7 @@ class FP1_002:
 
 # Mad Scientist
 class FP1_004:
-	deathrattle = ForcePlay(CONTROLLER, RANDOM(CONTROLLER_DECK + SECRET))
+	deathrattle = Summon(CONTROLLER, RANDOM(CONTROLLER_DECK + SECRET))
 
 
 # Shade of Naxxramas
@@ -31,7 +31,7 @@ class FP1_007:
 
 # Deathlord
 class FP1_009:
-	deathrattle = ForcePlay(OPPONENT, RANDOM(OPPONENT_DECK + MINION))
+	deathrattle = Summon(OPPONENT, RANDOM(OPPONENT_DECK + MINION))
 
 
 # Webspinner
@@ -70,7 +70,7 @@ class FP1_016:
 
 # Voidcaller
 class FP1_022:
-	deathrattle = ForcePlay(CONTROLLER, RANDOM(CONTROLLER_HAND + DEMON))
+	deathrattle = Summon(CONTROLLER, RANDOM(CONTROLLER_HAND + DEMON))
 
 
 # Dark Cultist

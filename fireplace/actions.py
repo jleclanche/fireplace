@@ -423,19 +423,6 @@ class ForceDraw(TargetedAction):
 			card.draw()
 
 
-class ForcePlay(TargetedAction):
-	"""
-	Make player targets play \a cards from their hand (at no cost).
-	"""
-	class Args(Action.Args):
-		TARGETS = 0
-		CARDS = 1
-
-	def do(self, source, target, cards):
-		for card in cards:
-			target.summon(card)
-
-
 class FullHeal(TargetedAction):
 	"""
 	Fully heal character targets.
