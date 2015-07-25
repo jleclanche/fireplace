@@ -251,6 +251,21 @@ def test_deathrattle():
 	assert len(game.current_player.field) == 1
 
 
+def test_chromaggus():
+	game = prepare_game()
+	chromaggus = game.player1.give("BRM_031")
+	chromaggus.play()
+	game.end_turn(); game.end_turn()
+
+	game.player1.discard_hand()
+	arcint = game.player1.give("CS2_023")
+	assert len(game.player1.hand) == 1
+	arcint.play()
+	assert len(game.player1.hand) == 4
+	assert game.player1.hand[0] == game.player1.hand[1]
+	assert game.player1.hand[2] == game.player1.hand[3]
+
+
 def test_cogmaster():
 	game = prepare_game()
 	cogmaster = game.current_player.give("GVG_013")
