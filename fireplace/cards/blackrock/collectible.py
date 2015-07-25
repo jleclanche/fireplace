@@ -48,6 +48,11 @@ class BRM_016:
 	events = SELF_DAMAGE.on(Hit(ENEMY_HERO, 2))
 
 
+# Grim Patron
+class BRM_019:
+	events = SELF_DAMAGE.on(Dead(SELF) | Summon(CONTROLLER, "BRM_019"))
+
+
 # Dragonkin Sorcerer
 class BRM_020:
 	events = Play(CONTROLLER, SPELL, SELF).on(Buff(SELF, "BRM_020e"))

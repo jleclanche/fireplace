@@ -16,6 +16,11 @@ class GVG_004:
 	play = Find(FRIENDLY_MINIONS + MECH) & Hit(RANDOM_ENEMY_CHARACTER, 1) * 4
 
 
+# Flame Leviathan
+class GVG_007:
+	events = Draw(CONTROLLER, SELF).on(Hit(ALL_CHARACTERS, 2))
+
+
 # Illuminator
 class GVG_089:
 	events = OWN_TURN_END.on(Find(FRIENDLY_SECRETS) & Heal(FRIENDLY_HERO, 4))
