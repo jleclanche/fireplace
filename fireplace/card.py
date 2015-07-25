@@ -196,7 +196,7 @@ class PlayableCard(BaseCard):
 			logging.info("Activating %r Choose One: %r", self, self.chosen)
 			actions = self.chosen.data.scripts.play
 		else:
-			return
+			actions = []
 
 		if callable(actions):
 			actions = actions(self, **kwargs)
@@ -206,6 +206,10 @@ class PlayableCard(BaseCard):
 			# Hard-process deaths after a battlecry.
 			# cf. test_knife_juggler()
 			self.game.process_deaths()
+
+		if self.overload:
+			logging.info("%r overloads %s for %i mana", self, self.controller, self.overload)
+			self.controller.overloaded += self.overload
 
 	def clear_buffs(self):
 		if self.buffs:

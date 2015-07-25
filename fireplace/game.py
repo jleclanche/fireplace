@@ -119,9 +119,6 @@ class BaseGame(Entity):
 			cost -= player.temp_mana
 			player.temp_mana = max(0, player.temp_mana - card.cost)
 		player.used_mana += cost
-		if card.overload:
-			logging.info("%s overloads for %i mana", player, card.overload)
-			player.overloaded += card.overload
 		player.last_card_played = card
 		card.zone = Zone.PLAY
 
