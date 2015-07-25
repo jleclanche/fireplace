@@ -122,6 +122,7 @@ class PlayableCard(BaseCard):
 
 	def __init__(self, id, data):
 		self.buffs = CardList()
+		self.cant_play = False
 		self.has_battlecry = False
 		self.has_combo = False
 		self.overload = 0
@@ -179,6 +180,10 @@ class PlayableCard(BaseCard):
 			self.clear_buffs()
 
 	def action(self):
+		if self.cant_play:
+			logging.info("%r play action cannot continue", self)
+			return
+
 		kwargs = {}
 		if self.target:
 			kwargs["target"] = self.target

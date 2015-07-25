@@ -137,6 +137,7 @@ class PlayableCardManager(Manager):
 	map = CardManager.map.copy()
 	map.update({
 		GameTag.BATTLECRY: "has_battlecry",
+		GameTag.CANT_PLAY: "cant_play",
 		GameTag.CARD_TARGET: "target",
 		GameTag.COMBO: "has_combo",
 		GameTag.DEFENDING: "defending",
