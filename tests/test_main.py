@@ -2832,6 +2832,28 @@ def test_lorewalker_cho():
 	game.current_player.give(THE_COIN).play()
 
 
+def test_lava_shock():
+	game = prepare_game()
+	game.player1.give("EX1_243").play()
+	assert game.player1.overloaded == 2
+	lava = game.player1.give("BRM_011")
+	lava.play(target=game.player2.hero)
+	assert game.player2.hero.health == 28
+	assert game.player1.overloaded == 0
+	game.end_turn(); game.end_turn()
+
+	game.player1.give("EX1_243").play()
+	game.end_turn(); game.end_turn()
+
+	game.player1.give("EX1_243").play()
+	assert game.player1.overloaded == 2
+	assert game.player1.overload_locked == 2
+	lava = game.player1.give("BRM_011")
+	lava.play(target=game.player2.hero)
+	assert game.player1.overloaded == 0
+	assert game.player1.overload_locked == 0
+
+
 def test_light_of_the_naaru():
 	game = prepare_game()
 	naaru1 = game.player1.give("GVG_012")

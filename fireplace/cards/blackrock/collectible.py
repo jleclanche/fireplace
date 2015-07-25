@@ -122,6 +122,11 @@ class BRM_007:
 	play = Shuffle(CONTROLLER, Copy(TARGET)) * 3
 
 
+# Lava Shock
+class BRM_011:
+	play = Hit(TARGET, 2), UnlockOverload(CONTROLLER)
+
+
 # Quick Shot
 class BRM_013:
 	play = Hit(TARGET, 3), Find(CONTROLLER_HAND) | Draw(CONTROLLER)
