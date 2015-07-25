@@ -273,7 +273,8 @@ class BaseGame(Entity):
 		player.minions_killed_this_turn = 0
 		player.combo = False
 		player.max_mana += 1
-		player.used_mana = player.overloaded
+		player.used_mana = 0
+		player.overload_locked = player.overloaded
 		player.overloaded = 0
 		for entity in player.entities:
 			if entity.type != CardType.PLAYER:

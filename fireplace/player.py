@@ -62,7 +62,7 @@ class Player(Entity):
 
 	@property
 	def mana(self):
-		mana = max(0, self.max_mana - self.used_mana) + self.temp_mana
+		mana = max(0, self.max_mana - self.used_mana - self.overload_locked) + self.temp_mana
 		return mana
 
 	@property

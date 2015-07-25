@@ -358,10 +358,12 @@ def test_mana():
 
 def test_overload():
 	game = prepare_game(game_class=Game)
-	dustdevil = game.current_player.give("EX1_243")
+	dustdevil = game.player1.give("EX1_243")
 	dustdevil.play()
-	assert game.current_player.overloaded == 2
+	assert game.player1.overloaded == 2
 	game.end_turn(); game.end_turn()
+	assert game.player1.overloaded == 0
+	assert game.player1.overload_locked == 2
 	assert game.current_player.mana == 0
 
 
