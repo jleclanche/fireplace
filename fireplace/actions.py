@@ -348,6 +348,14 @@ class Bounce(TargetedAction):
 		target.bounce()
 
 
+class Counter(TargetedAction):
+	"""
+	Counter a card, making it unplayable.
+	"""
+	def do(self, source, target):
+		target.cant_play = True
+
+
 class Damage(TargetedAction):
 	"""
 	Damage target by \a amount.
