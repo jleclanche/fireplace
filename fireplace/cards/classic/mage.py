@@ -119,6 +119,13 @@ class EX1_279:
 ##
 # Secrets
 
+# Counterspell
+class EX1_287:
+	events = Play(OPPONENT, SPELL).on(
+		Counter(Play.Args.CARD), Reveal(SELF)
+	)
+
+
 # Ice Barrier
 class EX1_289:
 	events = Attack(CHARACTER, FRIENDLY_HERO).on(

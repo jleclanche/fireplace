@@ -1281,6 +1281,22 @@ def test_conceal():
 	assert not wisp2.stealthed
 
 
+def test_counterspell():
+	game = prepare_game()
+	counterspell = game.player1.give("EX1_287")
+	counterspell.play()
+	game.end_turn()
+
+	game.player2.give(WISP).play()
+	assert counterspell in game.player1.secrets
+	bolt = game.player2.give("EX1_238")
+	bolt.play(target=game.player1.hero)
+	assert not game.player1.secrets
+	assert game.player2.used_mana == 1
+	assert game.player2.overloaded == 0
+	assert game.player1.hero.health == 30
+
+
 def test_cruel_taskmaster():
 	game = prepare_game()
 	taskmaster1 = game.current_player.give("EX1_603")
