@@ -171,8 +171,7 @@ class PRO_001:
 
 # I Am Murloc
 class PRO_001a:
-	def play(self):
-		return Summon(CONTROLLER, "PRO_001at") * random.choice((3, 4, 5))
+	play = Summon(CONTROLLER, "PRO_001at") * RandomNumber(3, 4, 5)
 
 # Rogues Do It...
 class PRO_001b:

@@ -116,5 +116,4 @@ class EX1_245:
 
 # Lightning Storm
 class EX1_259:
-	def play(self):
-		return [Hit(target, random.choice((2, 3))) for target in self.controller.opponent.field]
+	play = Hit(ENEMY_MINIONS, RandomNumber(2, 3))

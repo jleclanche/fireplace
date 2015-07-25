@@ -32,8 +32,7 @@ class GVG_029:
 
 # Crackle
 class GVG_038:
-	def play(self, target):
-		return Hit(TARGET, random.randint(3, 6))
+	play = Hit(TARGET, RandomNumber(3, 4, 5, 6))
 
 
 ##

@@ -10,8 +10,7 @@ class GVG_110:
 
 # Boom Bot
 class GVG_110t:
-	def deathrattle(self):
-		return Hit(RANDOM_ENEMY_CHARACTER, random.randint(1, 4))
+	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, RandomNumber(1, 4))
 
 
 # Sneed's Old Shredder
