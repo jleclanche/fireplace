@@ -407,12 +407,17 @@ class Draw(TargetedAction):
 	"""
 	Make player targets draw \a count cards.
 	"""
+	class Args(Action.Args):
+		TARGETS = 0
+		CARD = 1
+
 	def do(self, source, target):
 		if not target.deck:
 			target.fatigue()
 			return []
 		card = target.deck[-1]
 		card.draw()
+		self.broadcast(source, EventListener.ON, target, card)
 
 		return [card]
 
