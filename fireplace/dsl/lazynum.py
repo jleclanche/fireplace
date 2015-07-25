@@ -1,4 +1,5 @@
 import operator
+import random
 from .evaluator import Evaluator
 
 
@@ -58,3 +59,12 @@ class Attr(LazyNum):
 			return sum(getattr(e, self.tag) for e in entities)
 		else:
 			return sum(e.tags[self.tag] for e in entities)
+
+
+class RandomNumber(LazyNum):
+	def __init__(self, *args):
+		super().__init__()
+		self.choices = args
+
+	def evaluate(self, source):
+		return random.choice(self.choices)
