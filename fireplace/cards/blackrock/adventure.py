@@ -69,9 +69,25 @@ class BRMA11_2H:
 	activate = Draw(ALL_PLAYERS) * 3, GainMana(CONTROLLER, 1)
 
 
+# Echolocate
+class BRMA16_2:
+	activate = Summon(CONTROLLER, "BRMA16_5")
+
+class BRMA16_2H:
+	activate = Summon(CONTROLLER, "BRMA16_5")
+
+
 # Mutation (Unused)
 class BRMA12_10:
 	activate = Discard(RANDOM(CONTROLLER_HAND))
+
+
+# Bone Minions
+class BRMA17_5:
+	activate = Summon(CONTROLLER, "BRMA17_6") * 2
+
+class BRMA17_5H:
+	activate = Summon(CONTROLLER, "BRMA17_6H") * 2
 
 
 ##
@@ -123,9 +139,39 @@ class BRMA11_3:
 	play = Hit(ENEMY_HERO, 2)
 
 
+# DIE, INSECT!
+class BRMA13_8:
+	play = Hit(RANDOM_ENEMY_CHARACTER, 8)
+
+
+# Release the Aberrations!
+class BRMA15_3:
+	play = Summon(CONTROLLER, "BRMA15_4") * 3
+
+
+# Sonic Breath
+class BRMA16_3:
+	play = Hit(TARGET, 3), Buff(FRIENDLY_WEAPON, "BRMA16_3e")
+
+
+# Reverberating Gong
+class BRMA16_4:
+	play = Destroy(ENEMY_WEAPON)
+
+
+# LAVA!
+class BRMA17_4:
+	play = Hit(ALL_MINIONS, 2)
+
+
 ##
 # Weapons
 
 # Razorgore's Claws (Unused)
 class BRMA10_6:
 	events = Death(MINION + ID("BRMA10_4")).on(Buff(SELF, "BRMA10_6e"))
+
+
+# Dragonteeth
+class BRMA16_5:
+	events = Play(OPPONENT).on(Buff(SELF, "BRMA16_5e"))
