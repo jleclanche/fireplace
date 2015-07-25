@@ -92,6 +92,11 @@ class BRM_033:
 	play = HOLDING_DRAGON & Buff(SELF, "BRM_033e")
 
 
+# Blackwing Corruptor
+class BRM_034:
+	play = HOLDING_DRAGON & Hit(TARGET, 3)
+
+
 ##
 # Spells
 

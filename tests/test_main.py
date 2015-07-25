@@ -4381,6 +4381,22 @@ def test_stalagg_feugen_both_killed():
 	assert game.player2.field[0].id == "FP1_014t"
 
 
+def test_blackwing_corruptor():
+	game = prepare_game()
+	game.player1.discard_hand()
+	blackwing1 = game.player1.give("BRM_034")
+	blackwing1.play(target=game.player2.hero)
+	assert game.player2.hero.health == 30
+	assert len(game.player1.hand) == 0
+	game.end_turn()
+
+	game.player2.discard_hand()
+	whelp = game.player2.give("BRM_004")
+	blackwing2 = game.player2.give("BRM_034")
+	blackwing2.play(target=game.player1.hero)
+	assert game.player1.hero.health == 27
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):
