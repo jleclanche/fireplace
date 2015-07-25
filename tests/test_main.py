@@ -4474,6 +4474,34 @@ def test_blackwing_corruptor():
 	assert game.player1.hero.health == 27
 
 
+def test_crackle():
+	game = prepare_game(SHAMAN, SHAMAN)
+	crackle = game.player1.give("GVG_038")
+	crackle.play(target=game.player2.hero)
+	assert game.player2.hero.health in (24, 25, 26, 27)
+	assert game.player1.overloaded == 1
+
+
+def test_crackle_malygos():
+	game = prepare_game(SHAMAN, SHAMAN)
+	malygos = game.player1.give("EX1_563")
+	malygos.play()
+	game.end_turn(); game.end_turn()
+
+	crackle = game.player1.give("GVG_038")
+	crackle.play(target=game.player2.hero)
+	assert game.player2.hero.health in (19, 20, 21, 22)
+	assert game.player1.overloaded == 1
+
+
+def test_i_am_murloc():
+	game = prepare_game()
+	iammurloc = game.player1.give("PRO_001a")
+	iammurloc.play()
+	assert len(game.player1.field) in (3, 4, 5)
+	assert game.player1.field[0].id == "PRO_001at"
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):
