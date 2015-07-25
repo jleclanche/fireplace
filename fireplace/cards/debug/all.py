@@ -92,6 +92,11 @@ class XXX_018:
 	play = Destroy(ALL_MINIONS)
 
 
+# Molasses
+class XXX_019:
+	play = SetTag(CONTROLLER, {GameTag.TIMEOUT: 0})
+
+
 # Damage all but 1
 class XXX_020:
 	def play(self, target):
