@@ -697,3 +697,13 @@ class Steal(TargetedAction):
 		target.zone = Zone.SETASIDE
 		target.controller = source.controller
 		target.zone = zone
+
+
+class UnlockOverload(TargetedAction):
+	"""
+	Unlock the target player's overload, both current and owed.
+	"""
+	def do(self, source, target):
+		logging.info("%s overload gets cleared", target)
+		target.overloaded = 0
+		target.overload_locked = 0
