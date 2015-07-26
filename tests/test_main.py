@@ -4542,6 +4542,30 @@ def test_i_am_murloc():
 	assert game.player1.field[0].id == "PRO_001at"
 
 
+def test_powermace():
+	game = prepare_game()
+
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	powermace1 = game.player1.give("GVG_036")
+	powermace1.play()
+	assert wisp.atk == 1
+	assert wisp.health == 1
+	powermace1.destroy()
+	assert wisp.atk == 1
+	assert wisp.health == 1
+
+	dummy = game.player1.give(TARGET_DUMMY)
+	dummy.play()
+	powermace2 = game.player1.give("GVG_036")
+	powermace2.play()
+	assert dummy.atk == 0
+	assert dummy.health == 2
+	powermace2.destroy()
+	assert dummy.atk == 0 + 2
+	assert dummy.health == 2 + 2
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):
