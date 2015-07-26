@@ -2669,6 +2669,24 @@ def test_gadgetzan_auctioneer():
 	assert len(game.player1.hand) == 1
 
 
+def test_gallywix():
+	game = prepare_game()
+	gallywix = game.player1.give("GVG_028")
+	gallywix.play()
+	game.end_turn()
+
+	game.player1.discard_hand()
+	game.player2.discard_hand()
+	game.player2.give("CS2_029").play(target=game.player1.hero)
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].id == "CS2_029"
+	assert len(game.player2.hand) == 1
+	assert game.player2.hand[0].id == "GVG_028t"
+	game.player2.hand[0].play()
+	assert game.player2.temp_mana == 1
+	assert len(game.player2.hand) == 0
+
+
 def test_goblin_blastmage():
 	game = prepare_game()
 	blastmage1 = game.current_player.give("GVG_004")
