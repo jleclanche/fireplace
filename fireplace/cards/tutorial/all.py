@@ -64,3 +64,13 @@ class TU4e_005:
 # Legacy of the Emperor
 class TU4f_004:
 	play = Buff(FRIENDLY_MINIONS, "TU4f_004o")
+
+
+# Transcendence
+class TU4f_006:
+	play = Buff(FRIENDLY_HERO, "TU4f_006o")
+
+class TU4f_006o:
+	events = Death(FRIENDLY + MINION).on(
+		Find(FRIENDLY_MINIONS) | Destroy(SELF)
+	)
