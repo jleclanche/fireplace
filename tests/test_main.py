@@ -2358,6 +2358,19 @@ def test_mortal_strike():
 	assert game.player1.hero.health == expected_health
 
 
+def test_mortal_coil():
+	game = prepare_game();
+	wisp = game.player1.give(WISP);
+	wisp.play();
+	game.end_turn();
+	game.player2.discard_hand();
+	assert len(game.player2.hand) == 0
+	coil = game.player2.give("EX1_302");
+	assert len(game.player2.hand) == 1
+	coil.play(target=wisp);
+	assert len(game.player2.hand) == 1
+
+
 def test_archmage_antonidas():
 	game = prepare_game()
 	antonidas = game.current_player.give("EX1_559")
