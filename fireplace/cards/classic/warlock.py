@@ -156,11 +156,7 @@ class EX1_320:
 
 # Demonfire
 class EX1_596:
-	def play(self, target):
-		if target.race == Race.DEMON and target.controller == self.controller:
-			return Buff(TARGET, "EX1_596e")
-		else:
-			return Hit(TARGET, 2)
+	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "EX1_596e") | Hit(TARGET, 2)
 
 
 # Sacrificial Pact

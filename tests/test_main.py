@@ -689,6 +689,28 @@ def test_deadly_poison():
 	assert game.current_player.hero.atk == 3
 
 
+def test_demonfire():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.player1.give("EX1_596").play(target=wisp)
+	assert wisp.dead
+	imp = game.player1.give("CS2_059")
+	imp.play()
+	game.player1.give("EX1_596").play(target=imp)
+	assert imp.atk == 0 + 2
+	assert imp.health == 1 + 2
+	assert imp.buffs
+	game.end_turn()
+
+	imp2 = game.player2.give("CS2_059")
+	imp2.play()
+	game.end_turn()
+
+	game.player1.give("EX1_596").play(target=imp2)
+	assert imp2.dead
+
+
 def test_duplicate():
 	game = prepare_game()
 	game.player1.discard_hand()

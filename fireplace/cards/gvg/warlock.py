@@ -38,8 +38,4 @@ class GVG_015:
 
 # Demonheart
 class GVG_019:
-	def play(self, target):
-		if target.controller == self.controller and target.race == Race.DEMON:
-			return Buff(TARGET, "GVG_019e")
-		else:
-			return Hit(TARGET, 5)
+	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "GVG_019e") | Hit(TARGET, 5)
