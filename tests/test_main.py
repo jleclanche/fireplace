@@ -4026,6 +4026,13 @@ def test_fel_cannon():
 	assert wisp.dead
 
 
+def test_fireguard_destroyer():
+	game = prepare_game()
+	fireguard = game.player1.give("BRM_012")
+	fireguard.play()
+	assert fireguard.atk in (4, 5, 6, 7)
+
+
 def test_far_sight():
 	game = prepare_game()
 	game.player1.discard_hand()

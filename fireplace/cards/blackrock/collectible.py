@@ -38,6 +38,11 @@ class BRM_010b:
 	play = Morph(SELF, "BRM_010t2")
 
 
+# Fireguard Destroyer
+class BRM_012:
+	play = Buff(SELF, "BRM_012e") * RandomNumber(1, 2, 3, 4)
+
+
 # Core Rager
 class BRM_014:
 	play = Find(CONTROLLER_HAND) | Buff(SELF, "BRM_014e")
