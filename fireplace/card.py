@@ -293,6 +293,9 @@ class PlayableCard(BaseCard):
 			return True
 		if PlayReq.REQ_TARGET_IF_AVAILABLE in self.requirements:
 			return bool(self.targets)
+		if PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND in self.requirements:
+			if self.controller.hand.filter(race=Race.DRAGON):
+				return bool(self.targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
 	@property
