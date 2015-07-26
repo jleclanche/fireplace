@@ -4253,6 +4253,21 @@ def test_quick_shot_acolyte():
 	assert acolyte.dead
 
 
+def test_quick_shot_gallywix():
+	game = prepare_game()
+	gallywix = game.player1.give("GVG_028")
+	gallywix.play()
+	game.end_turn();
+
+	game.player2.discard_hand()
+	assert len(game.player2.hand) == 0
+	quickshot = game.player2.give("BRM_013")
+	assert len(game.player2.hand) == 1
+	quickshot.play(target=game.current_player.opponent.hero)
+	assert len(game.player2.hand) == 1
+	assert game.player2.hand[0].id == "GVG_028t"
+
+
 def test_avenge():
 	game = prepare_game()
 	avenge = game.player1.give("FP1_020")
