@@ -97,6 +97,11 @@ class BRM_028:
 	events = OWN_TURN_END.on(Buff(CONTROLLER_HAND, "BRM_028e"))
 
 
+# Rend Blackhand
+class BRM_029:
+	play = HOLDING_DRAGON & Destroy(TARGET)
+
+
 # Chromaggus
 class BRM_031:
 	events = Draw(CONTROLLER).on(Give(CONTROLLER, Copy(Draw.Args.CARD)))
