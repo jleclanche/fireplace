@@ -1838,6 +1838,25 @@ def test_mana_addict():
 	assert manaaddict.atk == 1
 
 
+def test_mana_wyrm():
+	game = prepare_game()
+	wyrm = game.player1.give("NEW1_012")
+	wyrm.play()
+	assert wyrm.atk == 1
+	game.player1.give(THE_COIN).play()
+	assert wyrm.atk == 2
+
+	game.end_turn()
+	assert wyrm.atk == 2
+	game.player2.give(THE_COIN).play()
+	assert wyrm.atk == 2
+
+	game.end_turn()
+	assert wyrm.atk == 2
+	game.player1.give(THE_COIN).play()
+	assert wyrm.atk == 3
+
+
 def test_old_murkeye():
 	game = prepare_game()
 	murkeye = game.player1.give("EX1_062")
