@@ -3577,6 +3577,18 @@ def test_reincarnate():
 	assert not leeroy1.can_attack()
 
 
+def test_reincarnate_kel_thuzad():
+	game = prepare_game()
+	kelthuzad = game.player1.give("FP1_013")
+	kelthuzad.play()
+	assert len(game.player1.field) == 1
+	game.player1.give("FP1_025").play(target=kelthuzad)
+	assert len(game.player1.field) == 1
+	game.end_turn()
+	assert len(game.player1.field) == 2
+	assert len(game.player1.field.filter(id="FP1_013")) == 2
+
+
 def test_tree_of_life():
 	game = prepare_game()
 	token1 = game.player1.give(SPELLBENDERT)
