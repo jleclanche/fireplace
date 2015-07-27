@@ -572,6 +572,21 @@ def test_equality():
 	assert not game.board
 
 
+def test_elite_tauren_chieftain():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player2.discard_hand()
+	assert len(game.player1.hand) == 0
+	assert len(game.player2.hand) == 0
+	tauren = game.player1.give("PRO_001")
+	tauren.play()
+	assert len(game.player1.hand) == 1
+	assert len(game.player2.hand) == 1
+	chords = ("PRO_001a", "PRO_001b", "PRO_001c")
+	assert game.player1.hand[0] in chords
+	assert game.player2.hand[0] in chords
+
+
 def test_stealth_windfury():
 	game = prepare_game(MAGE, MAGE)
 	worgen = game.current_player.give("EX1_010")
