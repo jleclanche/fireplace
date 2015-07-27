@@ -35,12 +35,19 @@ class Copy(Picker):
 	def __repr__(self):
 		return "%s(%r)" % (self.__class__.__name__, self.selector)
 
+	def copy(self, source, entity):
+		"""
+		Return a copy of \a entity
+		"""
+		return source.game.card(entity.id)
+
 	def pick(self, source) -> [str]:
 		from ..actions import Action
 		if isinstance(self.selector, Action.Args):
 			# TODO cleanup DRY with actions.py
 			assert source.event_args
-			return [source.event_args[self.selector]]
+			entities = [source.event_args[self.selector]]
+		else:
+			entities = self.selector.eval(source.game, source)
 
-		ret = self.selector.eval(source.game, source)
-		return ret
+		return [self.copy(source, e) for e in entities]

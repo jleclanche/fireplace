@@ -14,10 +14,8 @@ def _eval_card(source, card):
 	- The string ID of the card (the card is created)
 	- A Picker instance (a card is dynamically picked)
 	"""
-
 	if isinstance(card, Picker):
-		c = card.pick(source)
-		card = [entity.id if not isinstance(entity, str) else entity for entity in c]
+		card = card.pick(source)
 
 	if not isinstance(card, list):
 		cards = [card]
@@ -557,14 +555,13 @@ class Morph(TargetedAction):
 
 	def get_target_args(self, source, target):
 		card = _eval_card(source, self._args[1])
-		if isinstance(card, list):
-			assert len(card) == 1
-			card = card[0]
+		assert len(card) == 1
+		card = card[0]
 		card.controller = target.controller
 		return (card, )
 
 	def do(self, source, target, card):
-		logging.info("Morphing %r into %r", self, card)
+		logging.info("Morphing %r into %r", target, card)
 		target.clear_buffs()
 		target.zone = Zone.SETASIDE
 		card.zone = Zone.PLAY
