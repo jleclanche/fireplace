@@ -31,14 +31,9 @@ class Copy(Picker):
 	"""
 	def __init__(self, selector):
 		self.selector = selector
-		self.fallback = None
 
 	def __repr__(self):
 		return "%s(%r)" % (self.__class__.__name__, self.selector)
-
-	def __or__(self, other):
-		self.fallback = other
-		return self
 
 	def pick(self, source) -> [str]:
 		from ..actions import Action
@@ -48,6 +43,4 @@ class Copy(Picker):
 			return [source.event_args[self.selector]]
 
 		ret = self.selector.eval(source.game, source)
-		if not ret and self.fallback:
-			return [self.fallback]
 		return ret

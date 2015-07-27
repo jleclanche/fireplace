@@ -552,6 +552,7 @@ def test_echo_of_medivh():
 	echo = game.player1.give("GVG_005")
 	echo.play()
 	assert game.player1.hand == [WISP, WISP, TARGET_DUMMY, GOLDSHIRE_FOOTMAN]
+	assert len(game.player1.field) == 4
 
 
 def test_equality():

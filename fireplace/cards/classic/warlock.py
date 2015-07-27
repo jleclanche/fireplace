@@ -140,13 +140,11 @@ class EX1_316e:
 
 # Sense Demons
 class EX1_317:
-	def play(self):
-		for i in range(2):
-			demons = self.controller.deck.filter(race=Race.DEMON)
-			if demons:
-				yield Draw(CONTROLLER, random.choice(demons))
-			else:
-				yield Draw(CONTROLLER, "EX1_317t")
+	play = (
+		Find(CONTROLLER_DECK + MINION + DEMON) &
+		Draw(CONTROLLER, RANDOM(CONTROLLER_DECK + MINION + DEMON)) |
+		Give(CONTROLLER, "EX1_317t"),
+	) * 2
 
 
 # Bane of Doom
