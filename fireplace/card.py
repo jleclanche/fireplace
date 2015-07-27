@@ -267,6 +267,10 @@ class PlayableCard(BaseCard):
 		if PlayReq.REQ_TARGET_TO_PLAY in self.requirements:
 			if not self.targets:
 				return False
+		if PlayReq.REQ_NUM_MINION_SLOTS in self.requirements:
+			minion_slots = self.game.MAX_MINIONS_ON_FIELD - len(self.controller.field)
+			if self.requirements[PlayReq.REQ_NUM_MINION_SLOTS] > minion_slots:
+				return False
 		if len(self.controller.opponent.field) < self.requirements.get(PlayReq.REQ_MINIMUM_ENEMY_MINIONS, 0):
 			return False
 		if len(self.controller.game.board) < self.requirements.get(PlayReq.REQ_MINIMUM_TOTAL_MINIONS, 0):
