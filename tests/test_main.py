@@ -1987,6 +1987,27 @@ def test_mechwarper():
 	assert clockwork.cost == 1
 
 
+def test_mekgineer_thermaplugg():
+	game = prepare_game()
+	mekgineer = game.player1.summon("GVG_116")
+
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 0
+	wisp1 = game.player1.summon(WISP)
+	wisp1.destroy()
+	assert wisp1.dead
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 0
+	game.end_turn()
+
+	wisp2 = game.player2.summon(WISP)
+	wisp2.destroy()
+	assert wisp2.dead
+	assert len(game.player1.field) == 2
+	assert len(game.player1.field.filter(id="EX1_029")) == 1
+	assert len(game.player2.field) == 0
+
+
 def test_metaltooth_leaper():
 	game = prepare_game()
 	wisp = game.current_player.give(WISP)
