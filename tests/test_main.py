@@ -3251,6 +3251,20 @@ def test_murloc_tidecaller():
 	assert tidecaller.atk == 4
 
 
+def test_neptulon():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player2.discard_hand()
+	assert len(game.player1.hand) == 0
+	assert len(game.player2.hand) == 0
+	game.player1.give("GVG_042").play()
+	assert len(game.player1.hand) == 4
+	assert len(game.player2.hand) == 0
+	for i in range(4):
+		assert game.player1.hand[i].race == Race.MURLOC
+	assert game.player1.overloaded == 3
+
+
 def test_nerubar_weblord():
 	game = prepare_game()
 	game.player1.discard_hand()
