@@ -1003,6 +1003,16 @@ def test_ancient_of_lore():
 	assert game.current_player.hero.health == 30 - 6 + 5
 
 
+def test_ancient_watcher():
+	game = prepare_game()
+	watcher = game.player1.give("EX1_045")
+	watcher.play()
+	game.end_turn(); game.end_turn()
+	assert not watcher.can_attack()
+	game.player1.give(SILENCE).play(target=watcher)
+	assert watcher.can_attack()
+
+
 def test_alarmobot():
 	game = prepare_game()
 	bot = game.current_player.give("EX1_006")
