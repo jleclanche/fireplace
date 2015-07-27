@@ -208,19 +208,46 @@ def test_priest():
 
 def test_shaman():
 	game = prepare_game(SHAMAN, SHAMAN)
-	assert game.current_player.hero.id is SHAMAN
-	assert len(game.current_player.hero.power.data.entourage) == 4
-	game.current_player.hero.power.use()
-	assert game.current_player.field[0].id in ("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
+	assert game.player1.hero.id is SHAMAN
+	assert len(game.player1.hero.power.data.entourage) == 4
+
+	# use hero power four times
+	for i in range(4):
+		assert len(game.player1.field) == i
+		assert game.player1.hero.power.is_usable()
+		game.player1.hero.power.use()
+		assert len(game.player1.field) == i + 1
+		assert game.player1.field[-1] in ("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
+		game.end_turn(); game.end_turn()
+
+	# ensure hero power can only be used again after a totem was destroyed
+	assert not game.player1.hero.power.is_usable()
+	game.player1.field[0].destroy()
+	assert game.player1.hero.power.is_usable()
+
+	# ensure that hero power cannot be used on full board
+	for i in range(4):
+		game.player1.give(WISP).play()
+	assert len(game.player1.field) == 7
+	assert not game.player1.hero.power.is_usable()
 
 
 def test_paladin():
 	game = prepare_game(PALADIN, PALADIN)
 	assert game.current_player.hero.id is PALADIN
+
 	game.current_player.hero.power.use()
 	assert len(game.board) == 1
 	assert len(game.current_player.field) == 1
 	assert game.current_player.field[0].id == "CS2_101t"
+
+	# ensure that hero power cannot be used on full board
+	game.end_turn(); game.end_turn()
+	assert game.player1.hero.power.is_usable()
+	for i in range(6):
+		game.player1.give(WISP).play()
+	assert len(game.player1.field) == 7
+	assert not game.player1.hero.power.is_usable()
 
 
 def test_deathrattle():
