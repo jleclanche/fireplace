@@ -3,7 +3,7 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
-from .actions import Attack, BeginTurn, Death, Deaths, EndTurn, EventListener
+from .actions import Attack, BeginTurn, Death, EndTurn, EventListener
 from .card import Card, THE_COIN
 from .entity import Entity
 from .enums import CardType, PlayState, Step, Zone

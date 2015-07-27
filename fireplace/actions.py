@@ -1,6 +1,5 @@
 import logging
 from enum import IntEnum
-from itertools import chain
 from .dsl import LazyNum, Picker, Selector
 from .enums import CardType, PowSubType, Zone
 from .entity import Entity
@@ -80,7 +79,9 @@ class Action:  # Lawsuit
 		for event in entity.events:
 			if entity.zone == Zone.HAND and not event.in_hand:
 				continue
-			if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):
+			if event.at != at:
+				continue
+			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, args):
 				logging.info("%r triggers off %r from %r", entity, self, source)
 				entity.trigger_event(source, event, args)
 
@@ -295,7 +296,6 @@ class TargetedAction(Action):
 		return ret
 
 	def get_targets(self, source, t):
-		ret = []
 		if isinstance(t, Entity):
 			return [t]
 		elif isinstance(t, Action.Args):

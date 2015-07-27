@@ -2,7 +2,6 @@
 import re
 import string
 import sys; sys.path.append(".."); sys.path.append("../data/extras")
-from data.extras import chooseone
 from fireplace import cards
 from fireplace.cards import debug, game, tutorial, classic, naxxramas, gvg, blackrock
 from fireplace.enums import CardType, CardSet
@@ -44,7 +43,7 @@ def cleanup_description(description):
 
 
 def potentially_implemented(card):
-	return card.auras or "Enrage" in card.description or hasattr(chooseone, card.id)
+	return card.auras or "Enrage" in card.description or card.choose_cards
 
 
 def main():

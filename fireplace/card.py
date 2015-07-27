@@ -1,10 +1,11 @@
 import logging
 from itertools import chain
-from . import cards as CardDB, targeting
-from .actions import Action, Damage, Deaths, Destroy, Heal, Morph, Play
+from . import cards as CardDB
+from .actions import Damage, Deaths, Destroy, Heal, Morph, Play
 from .entity import Entity, boolean_property, int_property
 from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *
+from .targeting import is_valid_target
 from .utils import CardList
 
 
@@ -213,7 +214,7 @@ class PlayableCard(BaseCard):
 			self.game.process_deaths()
 
 		if self.overload:
-			logging.info("%r overloads %s for %i mana", self, self.controller, self.overload)
+			logging.info("%r overloads %s for %i", self, self.controller, self.overload)
 			self.controller.overloaded += self.overload
 
 	def clear_buffs(self):
@@ -292,8 +293,9 @@ class PlayableCard(BaseCard):
 		return self
 
 	def has_target(self):
-		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements and self.controller.combo:
-			return True
+		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements:
+			if self.controller.combo:
+				return True
 		if PlayReq.REQ_TARGET_IF_AVAILABLE in self.requirements:
 			return bool(self.targets)
 		if PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND in self.requirements:
@@ -303,8 +305,7 @@ class PlayableCard(BaseCard):
 
 	@property
 	def targets(self):
-		full_board = self.game.board + [self.controller.hero, self.controller.opponent.hero]
-		return [card for card in full_board if targeting.is_valid_target(self, card)]
+		return [card for card in self.game.characters if is_valid_target(self, card)]
 
 
 class Character(PlayableCard):
@@ -554,7 +555,7 @@ class Minion(Character):
 	def _hit(self, source, amount):
 		if self.divine_shield:
 			self.divine_shield = False
-			logging.info("%r's divine shield prevents %i damage. Divine shield fades.", self, amount)
+			logging.info("%r's divine shield prevents %i damage.", self, amount)
 			return
 
 		if getattr(source, "poisonous", False):
@@ -706,7 +707,7 @@ class Aura(object):
 		elif self._auraType == AuraType.HAND_AURA:
 			if target.zone != Zone.HAND:
 				return False
-		return targeting.is_valid_target(self.source, target, requirements=self.requirements)
+		return is_valid_target(self.source, target, requirements=self.requirements)
 
 	@property
 	def targets(self):

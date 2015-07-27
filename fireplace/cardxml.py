@@ -1,12 +1,14 @@
 from xml.etree import ElementTree
-from fireplace.enums import *
+from .enums import *
 
 
 class CardXML(object):
 	def __init__(self, xml):
 		self.xml = xml
 		e = self.xml.findall("./Tag")
-		self.tags = {GameTag(int(tag.attrib["enumID"])): self._get_tag(tag) for tag in e}
+		self.tags = {
+			GameTag(int(tag.attrib["enumID"])): self._get_tag(tag) for tag in e
+		}
 
 		e = self.xml.findall("HeroPower")
 		self.hero_power = e and e[0].attrib["cardID"] or None
@@ -18,7 +20,9 @@ class CardXML(object):
 		self.powerup_requirements = [Race(int(tag.attrib["param"])) for tag in e]
 
 		e = self.xml.findall("./EnrageDefinition/Tag")
-		self.enrage_tags = {GameTag(int(tag.attrib["enumID"])): self._get_tag(tag) for tag in e}
+		self.enrage_tags = {
+			GameTag(int(tag.attrib["enumID"])): self._get_tag(tag) for tag in e
+		}
 
 		e = self.xml.findall("Aura")
 		self.auras = [{
@@ -27,8 +31,8 @@ class CardXML(object):
 			"type": AuraType(int(tag.attrib["type"])),
 		} for tag in e]
 
-		self.choose_cards = [tag.attrib["cardID"] for tag in xml.findall("ChooseCard")]
-		self.entourage = [tag.attrib["cardID"] for tag in xml.findall("EntourageCard")]
+		self.choose_cards = [t.attrib["cardID"] for t in xml.findall("ChooseCard")]
+		self.entourage = [t.attrib["cardID"] for t in xml.findall("EntourageCard")]
 
 	def __str__(self):
 		return self.name
@@ -55,7 +59,9 @@ class CardXML(object):
 		return value
 
 	def _getRequirements(self, reqs):
-		return {PlayReq(int(tag.attrib["reqID"])): int(tag.attrib["param"] or 0) for tag in reqs}
+		return {
+			PlayReq(int(t.attrib["reqID"])): int(t.attrib["param"] or 0) for t in reqs
+		}
 
 	@property
 	def id(self):
