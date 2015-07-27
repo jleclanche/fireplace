@@ -11,6 +11,11 @@ class EX1_105:
 	cost = lambda self, i: i - (len(self.controller.hand) - 1)
 
 
+# Faceless Manipulator
+class EX1_564:
+	play = Morph(SELF, ExactCopy(TARGET))
+
+
 # Sea Giant
 class EX1_586:
 	cost = lambda self, i: i - len(self.game.board)

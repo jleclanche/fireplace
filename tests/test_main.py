@@ -4480,6 +4480,30 @@ def test_repentance():
 	assert spellbendert2.max_health == 1
 
 
+def test_faceless_manipulator():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	motw = game.player1.give("CS2_009")
+	motw.play(target=wisp)
+	assert wisp.atk == 1 + 2
+	assert wisp.health == 1 + 2
+	assert wisp.taunt
+	game.player1.give(MOONFIRE).play(target=wisp)
+	assert wisp.health == 1 + 2 - 1
+	game.end_turn()
+
+	faceless = game.player2.give("EX1_564")
+	faceless.play(target=wisp)
+	morphed = game.player2.field[0]
+	assert morphed.id == WISP
+	assert morphed.buffs
+	assert wisp.atk == morphed.atk
+	assert wisp.health == morphed.health
+	assert wisp.max_health == morphed.max_health
+	assert morphed.buffs
+
+
 def test_fel_reaver():
 	game = prepare_game()
 	expected_size = len(game.player1.deck)
