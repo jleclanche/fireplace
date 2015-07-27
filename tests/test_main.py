@@ -3957,6 +3957,27 @@ def test_savage_roar():
 	assert game.player2.hero.atk == 0
 
 
+def test_shadowflame():
+	game = prepare_game()
+	dummy1 = game.player1.give(TARGET_DUMMY)
+	dummy1.play()
+	game.end_turn()
+	goldshire = game.player2.give(GOLDSHIRE_FOOTMAN)
+	goldshire.play()
+	dummy2 = game.player2.give(TARGET_DUMMY)
+	dummy2.play()
+
+	assert dummy1.health == 2 
+	assert goldshire.health == 2
+	assert not dummy2.dead
+	game.player2.give("EX1_303").play(target=dummy2)
+	assert dummy1.health == 2
+	assert goldshire.health == 2
+	assert dummy2.dead
+	game.player2.give("EX1_303").play(target=goldshire)
+	assert dummy1.health == 1
+
+
 def test_shadow_madness_wild_pyro():
 	game = prepare_game()
 	pyromancer = game.current_player.give("NEW1_020")
