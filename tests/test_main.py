@@ -4420,6 +4420,17 @@ def test_floating_watcher():
 	assert watcher.atk == watcher.health == 4 + 4
 
 
+def test_force_of_nature():
+	game = prepare_game()
+	game.player1.give("EX1_571").play()
+	assert len(game.player1.field) == 3
+	assert len(game.player1.field.filter(id="EX1_tk9")) == 3
+	game.player1.field[0].attack(game.player2.hero)
+	assert game.player2.hero.health == 30 - 2
+	game.end_turn()
+	assert len(game.player1.field) == 0
+
+
 def test_warlock():
 	game = prepare_game(WARLOCK, WARLOCK)
 	sacpact = game.current_player.give("NEW1_003")
