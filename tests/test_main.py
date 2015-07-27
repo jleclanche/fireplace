@@ -1584,6 +1584,31 @@ def test_bouncing_blade_commanding_shout():
 	assert len(game.player1.hand) == 2
 
 
+def test_deaths_bite():
+	game = prepare_game()
+	deathsbite = game.player1.give("FP1_021")
+	deathsbite.play()
+	assert game.player1.weapon is deathsbite
+	game.player1.hero.attack(game.player2.hero)
+	assert game.player2.hero.health == 26
+	assert deathsbite.durability == 1
+	game.end_turn()
+
+	token = game.player2.give(SPELLBENDERT)
+	token.play()
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	wisp2 = game.player1.give(WISP)
+	wisp2.play()
+	game.player1.hero.attack(game.player2.hero)
+	assert game.player2.hero.health == 22
+	assert wisp.dead
+	assert wisp2.dead
+	assert token.health == 2
+
+
 def test_weapon_sheathing():
 	game = prepare_game()
 	axe = game.player1.give("CS2_106")
