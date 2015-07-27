@@ -3550,6 +3550,33 @@ def test_recombobulator():
 	assert game.player1.field[0].cost == 0
 
 
+def test_reincarnate():
+	game = prepare_game()
+
+	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire.play()
+	assert goldshire.health == 2
+	game.player1.give(MOONFIRE).play(target=goldshire)
+	assert goldshire.health == 1
+	assert len(game.player1.field) == 1
+	game.player1.give("FP1_025").play(target=goldshire)
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].health == 2
+	game.player1.field[0].destroy()
+
+	# Ensure charge refresh
+	leeroy1 = game.current_player.give("EX1_116")
+	leeroy1.play()
+	assert leeroy1.can_attack()
+	leeroy1.attack(target=game.player2.hero)
+	assert not leeroy1.can_attack()
+	game.player1.give("FP1_025").play(target=leeroy1)
+	leeroy2 = game.player1.field[0]
+	assert leeroy2.can_attack()
+	leeroy1.attack(target=game.player2.hero)
+	assert not leeroy1.can_attack()
+
+
 def test_tree_of_life():
 	game = prepare_game()
 	token1 = game.player1.give(SPELLBENDERT)
