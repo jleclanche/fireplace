@@ -51,3 +51,21 @@ class Copy(Picker):
 			entities = self.selector.eval(source.game, source)
 
 		return [self.copy(source, e) for e in entities]
+
+
+class ExactCopy(Copy):
+	"""
+	Lazily create an exact copy of the target.
+	An exact copy will include buffs and all tags.
+	"""
+	def copy(self, source, entity):
+		ret = super().copy(source, entity)
+		for k in entity.silenceable_attributes:
+			v = getattr(entity, k)
+			setattr(ret, k, v)
+		ret.silenced = entity.silenced
+		ret.damage = entity.damage
+		for buff in entity.buffs:
+			# Recreate the buff stack
+			entity.buff(ret, buff.id)
+		return ret
