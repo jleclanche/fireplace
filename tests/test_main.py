@@ -1732,6 +1732,19 @@ def test_venture_co():
 	assert fireball.cost == 4
 
 
+def test_violet_teacher():
+	game = prepare_game()
+	teacher = game.player1.give("NEW1_026")
+	teacher.play()
+	assert len(game.player1.field) == 1
+	game.player1.give(THE_COIN).play()
+	assert len(game.player1.field) == 2
+	assert len(game.player1.field.filter(id="NEW1_026t")) == 1
+	game.end_turn()
+	game.player2.give(THE_COIN).play()
+	assert len(game.player1.field) == 2
+
+
 def test_voidcaller():
 	game = prepare_game()
 	game.current_player.discard_hand()
