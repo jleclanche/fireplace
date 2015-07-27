@@ -2531,6 +2531,32 @@ def test_bane_of_doom():
 	assert game.player1.field[0].data.collectible
 
 
+def test_baron_geddon():
+	game = prepare_game()
+
+	geddon1 = game.player1.give("EX1_249")
+	wisp = game.player1.give(WISP)
+	geddon1.play()
+	wisp.play()
+	assert geddon1.health == 5
+	assert not wisp.dead
+	assert game.player1.hero.health == 30
+	assert game.player2.hero.health == 30
+	game.end_turn()
+	assert geddon1.health == 5
+	assert wisp.dead
+	assert game.player1.hero.health == 28
+	assert game.player2.hero.health == 28
+
+	geddon2 = game.player2.give("EX1_249")
+	geddon2.play()
+	assert geddon1.health == 5
+	assert geddon2.health == 5
+	game.end_turn()
+	assert geddon1.health == 3
+	assert geddon2.health == 5
+
+
 def test_baron_rivendare():
 	game = prepare_game()
 	gnome = game.current_player.give("EX1_029")
