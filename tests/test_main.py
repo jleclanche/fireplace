@@ -3543,6 +3543,17 @@ def test_tinkertown_technician():
 	assert game.player1.hand[0].type == CardType.SPELL
 
 
+def test_totemic_might():
+	game = prepare_game()
+	searing = game.player1.give("CS2_050")
+	searing.play()
+	assert searing.atk == 1
+	assert searing.health == 1
+	game.player1.give("EX1_244").play()
+	assert searing.atk == 1
+	assert searing.health == 3
+
+
 def test_twilight_drake():
 	game = prepare_game()
 	game.end_turn(); game.end_turn()
