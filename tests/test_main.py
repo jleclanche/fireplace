@@ -3872,6 +3872,31 @@ def test_sabotage():
 	assert axe.dead
 
 
+def test_savage_roar():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP)
+	wisp1.play()
+	game.end_turn()
+	wisp2 = game.player2.give(WISP)
+	wisp2.play()
+	game.end_turn()
+
+	assert wisp1.atk == 1
+	assert wisp2.atk == 1
+	assert game.player1.hero.atk == 0
+	assert game.player2.hero.atk == 0
+	game.player1.give("CS2_011").play()
+	assert wisp1.atk == 1 + 2
+	assert wisp2.atk == 1
+	assert game.player1.hero.atk == 2
+	assert game.player2.hero.atk == 0
+	game.end_turn()
+	assert wisp1.atk == 1
+	assert wisp2.atk == 1
+	assert game.player1.hero.atk == 0
+	assert game.player2.hero.atk == 0
+
+
 def test_shadow_madness_wild_pyro():
 	game = prepare_game()
 	pyromancer = game.current_player.give("NEW1_020")
