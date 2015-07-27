@@ -997,6 +997,18 @@ def test_doomhammer():
 	assert game.current_player.weapon.durability == 6
 
 
+def test_dr_boom():
+	game = prepare_game()
+	boom = game.player1.give("GVG_110")
+	assert len(game.player1.field) == 0
+	boom.play()
+	assert len(game.player1.field) == 3
+	assert len(game.player1.field.filter(id="GVG_110t")) == 2
+	# Whirlwind the board
+	game.player1.give("EX1_400").play()
+	assert (30 - 2) >= game.player2.hero.health >= (30 - 8)
+
+
 def test_raging_worgen():
 	game = prepare_game()
 	worgen = game.current_player.summon("EX1_412")
