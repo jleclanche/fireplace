@@ -643,7 +643,7 @@ class Summon(TargetedAction):
 		for card in cards:
 			if card.controller != target:
 				card.controller = target
-			if card.type == CardType.MINION and len(target.field) >= source.game.MAX_MINIONS_ON_FIELD:
+			if card.type == CardType.MINION and not target.minion_slots:
 				continue
 			self.broadcast(source, EventListener.ON, target, card)
 			card.zone = Zone.PLAY

@@ -90,6 +90,10 @@ class Player(Entity):
 			ret.append(self.weapon)
 		return ret
 
+	@property
+	def minion_slots(self):
+		return max(0, self.game.MAX_MINIONS_ON_FIELD - len(self.field))
+
 	def get_spell_damage(self, amount: int) -> int:
 		"""
 		Returns the amount of damage \a amount will do, taking
