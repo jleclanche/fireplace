@@ -920,6 +920,17 @@ def test_kill_command():
 	assert game.current_player.opponent.hero.health == 22
 
 
+def test_abusive_sergeant():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert wisp.atk == 1
+	game.player1.give("CS2_188").play(target=wisp)
+	assert wisp.atk == 3
+	game.end_turn()
+	assert wisp.atk == 1
+
+
 def test_animal_companion():
 	game = prepare_game()
 	companion = game.player1.give("NEW1_031")
