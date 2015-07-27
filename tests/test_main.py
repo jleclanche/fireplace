@@ -4542,6 +4542,25 @@ def test_i_am_murloc():
 	assert game.player1.field[0].id == "PRO_001at"
 
 
+def test_deaths_bite():
+	game = prepare_game();
+
+	wisp1 = game.player1.give(WISP)
+	wisp1.play()
+	game.end_turn()
+	wisp2 = game.player2.give(WISP)
+	wisp2.play()
+	game.end_turn()
+
+	bite = game.player1.give("FP1_021")
+	bite.play()
+	assert not wisp1.dead
+	assert not wisp2.dead
+	bite.destroy()
+	assert wisp1.dead
+	assert wisp2.dead
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):
