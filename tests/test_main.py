@@ -3744,6 +3744,24 @@ def test_water_elemental():
 	game.end_turn()
 
 
+def test_whirlwind():
+	game = prepare_game()
+	token = game.player1.give(SPELLBENDERT)
+	token.play()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn()
+	wisp2 = game.player2.give(WISP)
+	wisp2.play()
+
+	game.player2.give("EX1_400").play()
+	assert game.player1.hero.health == 30
+	assert game.player2.hero.health == 30
+	assert wisp.dead
+	assert wisp2.dead
+	assert token.health == 2
+
+
 def test_webspinner():
 	game = prepare_game()
 	game.current_player.discard_hand()
