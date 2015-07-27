@@ -458,14 +458,6 @@ class Hero(Character):
 			amount = new_amount
 		return super()._hit(source, amount)
 
-	def attack(self, target):
-		ret = super().attack(target)
-		if self.controller.weapon:
-			logging.info("%r loses 1 durability", self.controller.weapon)
-			self.controller.weapon.damage += 1
-
-		return ret
-
 
 class Minion(Character):
 	Manager = MinionManager
@@ -791,6 +783,14 @@ class Weapon(PlayableCard):
 	def __init__(self, *args):
 		super().__init__(*args)
 		self.damage = 0
+
+	@property
+	def events(self):
+		from .actions import Attack, Hit
+		from .dsl.selector import FRIENDLY_HERO
+		ret = self._events[:]
+		ret.append(Attack(FRIENDLY_HERO).on(Hit(self, 1)))
+		return ret
 
 	@property
 	def durability(self):
