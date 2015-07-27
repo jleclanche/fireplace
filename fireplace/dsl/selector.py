@@ -153,6 +153,9 @@ class SelfSelector(Selector):
 	def __init__(self):
 		self.program = [self.IsSelf()]
 
+	def __repr__(self):
+		return "<SELF>"
+
 	def eval(self, entities, source):
 		return [source]
 
@@ -172,6 +175,9 @@ class OwnerSelector(Selector):
 
 	def __init__(self):
 		self.program = [self.IsOwner()]
+
+	def __repr__(self):
+		return "<OWNER>"
 
 	def eval(self, entities, source):
 		if source.owner:
@@ -194,6 +200,9 @@ class TargetSelector(Selector):
 
 	def __init__(self):
 		self.program = [self.IsTarget()]
+
+	def __repr__(self):
+		return "<TARGET>"
 
 	def eval(self, entities, source):
 		return [source.target]
