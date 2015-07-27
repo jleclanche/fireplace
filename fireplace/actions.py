@@ -79,7 +79,7 @@ class Action:  # Lawsuit
 		return EventListener(self, actions, EventListener.ON, zone=zone, once=True)
 
 	def _broadcast(self, entity, source, at, *args):
-		for event in entity._events:
+		for event in entity.events:
 			if entity.zone == Zone.HAND and not event.in_hand:
 				continue
 			if isinstance(event.trigger, self.__class__) and event.at == at and event.trigger.matches(entity, args):

@@ -13,6 +13,10 @@ class Entity(object):
 		else:
 			self._events = events[:]
 
+	@property
+	def events(self):
+		return self._events
+
 	def _getattr(self, attr, i):
 		i += getattr(self, "_" + attr, 0)
 		for slot in self.slots:
