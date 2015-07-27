@@ -4908,6 +4908,21 @@ def test_explosive_trap():
 	assert game.player1.hero.health == 30
 
 
+def test_explosive_trap_weapon():
+	game = prepare_game()
+	explosivetrap = game.player1.give("EX1_610")
+	explosivetrap.play()
+	game.end_turn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	# Fiery War Axe
+	game.player2.give("CS2_106").play()
+	assert not wisp.dead
+	game.player2.hero.attack(game.player1.hero)
+	assert wisp.dead
+
+
 def test_stalagg_feugen():
 	game = prepare_game()
 	stalagg1 = game.player1.give("FP1_014")

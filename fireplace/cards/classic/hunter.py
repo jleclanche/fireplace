@@ -115,7 +115,7 @@ class EX1_609:
 
 # Explosive Trap
 class EX1_610:
-	events = Attack(ENEMY_MINIONS, FRIENDLY_HERO).on(
+	events = Attack(ENEMY_CHARACTERS, FRIENDLY_HERO).on(
 		Hit(ENEMY_CHARACTERS, 2), Reveal(SELF)
 	)
 
