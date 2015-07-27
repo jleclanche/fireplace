@@ -306,6 +306,17 @@ def test_chromaggus_naturalize():
 	assert game.player1.hand[2] == game.player1.hand[3]
 
 
+def test_cobalt_guardian():
+	game = prepare_game()
+	cobalt = game.player1.give("GVG_062")
+	cobalt.play()
+	assert not cobalt.divine_shield
+	game.player1.give(TARGET_DUMMY).play()
+	assert cobalt.divine_shield
+	game.player1.give(TARGET_DUMMY).play()
+	assert cobalt.divine_shield
+
+
 def test_cogmaster():
 	game = prepare_game()
 	cogmaster = game.current_player.give("GVG_013")
