@@ -1336,6 +1336,24 @@ def test_crazed_alchemist():
 	assert warden.health == 1
 
 
+def test_crazed_alchemist_damage_silence():
+	# Test for bug #9
+	game = prepare_game()
+	snapjaw = game.player1.give("CS2_119")
+	snapjaw.play()
+	assert snapjaw.atk == 2
+	assert snapjaw.health == 7
+	game.player1.give("EX1_059").play(target=snapjaw)
+	assert snapjaw.atk == 7
+	assert snapjaw.health == 2
+	game.player1.give(MOONFIRE).play(target=snapjaw)
+	assert snapjaw.atk == 7
+	assert snapjaw.health == 1
+	game.player1.give(SILENCE).play(target=snapjaw)
+	assert snapjaw.atk == 2
+	assert snapjaw.health == 6
+
+
 def test_reversing_switch():
 	game = prepare_game()
 	switch = game.player1.give("PART_006")
