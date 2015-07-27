@@ -498,10 +498,7 @@ class Hit(TargetedAction):
 		if attack_source is None:
 			# Actions can trigger a hit from a specific source (eg. Betrayal)
 			attack_source = source
-		if target.type == CardType.WEAPON:
-			target.durability -= amount
-		else:
-			attack_source.hit(target, amount)
+		attack_source.hit(target, amount)
 
 
 class Heal(TargetedAction):

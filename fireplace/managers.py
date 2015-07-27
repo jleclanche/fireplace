@@ -190,7 +190,6 @@ class MinionManager(Manager):
 		GameTag.SILENCED: "silenced",
 		GameTag.STEALTH: "stealthed",
 		GameTag.TAUNT: "taunt",
-		GameTag.DURABILITY: None,
 		GameTag.ELITE: None,
 		GameTag.InvisibleDeathrattle: None,
 	})
@@ -201,7 +200,7 @@ class WeaponManager(Manager):
 	map.update({
 		GameTag.ATK: "atk",
 		GameTag.DAMAGE: "damage",
-		GameTag.DURABILITY: "durability",
+		GameTag.DURABILITY: "max_durability",
 	})
 
 
@@ -226,7 +225,7 @@ class EnchantmentManager(Manager):
 		GameTag.CANT_BE_TARGETED_BY_HERO_POWERS: "cant_be_targeted_by_hero_powers",
 		GameTag.CHARGE: "charge",
 		GameTag.CREATOR: "creator",
-		GameTag.DURABILITY: "durability",
+		GameTag.DURABILITY: "max_durability",
 		GameTag.EXTRA_DEATHRATTLES: "extra_deathrattles",
 		GameTag.HEALING_DOUBLE: "healing_double",
 		GameTag.HEALTH: "max_health",

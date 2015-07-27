@@ -794,14 +794,17 @@ class Weapon(PlayableCard):
 
 	@property
 	def durability(self):
-		ret = getattr(self, "_durability", 0)
-		for slot in self.slots:
-			ret += getattr(slot, "durability", 0)
-		return max(0, ret - self.damage)
+		return max(0, self.max_durability - self.damage)
 
-	@durability.setter
-	def durability(self, value):
-		self._durability = value
+	@property
+	def max_durability(self):
+		ret = self._max_durability
+		ret += self._getattr("max_health", 0)
+		return max(0, ret)
+
+	@max_durability.setter
+	def max_durability(self, value):
+		self._max_durability = value
 
 	@property
 	def exhausted(self):
@@ -818,6 +821,10 @@ class Weapon(PlayableCard):
 	@to_be_destroyed.setter
 	def to_be_destroyed(self, value):
 		self._to_be_destroyed = value
+
+	def _hit(self, source, amount):
+		self.damage += amount
+		return amount
 
 	def _set_zone(self, zone):
 		if zone == Zone.PLAY:
