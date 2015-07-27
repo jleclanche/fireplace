@@ -2319,6 +2319,26 @@ def test_kel_thuzad():
 	assert len(game.player1.field) == 0
 
 
+def test_king_mukla():
+	game = prepare_game()
+	mukla = game.player1.give("EX1_014")
+	game.player2.discard_hand()
+	assert len(game.player2.hand) == 0
+	mukla.play()
+	assert len(game.player2.hand) == 2
+	for i in range(2):
+		assert game.player2.hand[i].id == "EX1_014t"
+	game.end_turn()
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	assert wisp.health == 1
+	assert wisp.atk == 1
+	assert game.player2.hand[0].id == "EX1_014t"
+	game.player2.hand[0].play(target=wisp)
+	assert wisp.health == 2
+	assert wisp.atk == 2
+
+
 def test_knife_juggler():
 	game = prepare_game()
 	juggler = game.player1.give("NEW1_019")
