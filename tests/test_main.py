@@ -293,6 +293,19 @@ def test_chromaggus():
 	assert game.player1.hand[2] == game.player1.hand[3]
 
 
+def test_chromaggus_naturalize():
+	game = prepare_game()
+	chromaggus = game.player1.give("BRM_031")
+	chromaggus.play()
+	game.end_turn()
+	game.player1.discard_hand()
+	naturalize = game.player2.give("EX1_161")
+	naturalize.play(target=chromaggus)
+	assert len(game.player1.hand) == 4
+	assert game.player1.hand[0] == game.player1.hand[1]
+	assert game.player1.hand[2] == game.player1.hand[3]
+
+
 def test_cogmaster():
 	game = prepare_game()
 	cogmaster = game.current_player.give("GVG_013")
