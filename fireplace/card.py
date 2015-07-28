@@ -1,11 +1,10 @@
 import logging
 from itertools import chain
-from . import cards as CardDB
+from . import cards as CardDB, rules
 from .actions import Damage, Deaths, Destroy, Heal, Morph, Play
 from .entity import Entity, boolean_property, int_property
 from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *
-from .rules import WeaponRules
 from .targeting import is_valid_target
 from .utils import CardList
 
@@ -487,6 +486,13 @@ class Minion(Character):
 		super().__init__(id, data)
 
 	@property
+	def events(self):
+		ret = self._events[:]
+		if self.poisonous:
+			ret += rules.Poisonous
+		return ret
+
+	@property
 	def adjacent_minions(self):
 		assert self.zone is Zone.PLAY, self.zone
 		ret = CardList()
@@ -558,10 +564,6 @@ class Minion(Character):
 			self.divine_shield = False
 			logging.info("%r's divine shield prevents %i damage.", self, amount)
 			return
-
-		if getattr(source, "poisonous", False):
-			logging.info("%r is destroyed because of %r is poisonous", self, source)
-			self.destroy()
 
 		return super()._hit(source, amount)
 
@@ -782,7 +784,7 @@ class Enrage(object):
 		return i + getattr(self, attr, 0)
 
 
-class Weapon(WeaponRules, PlayableCard):
+class Weapon(rules.WeaponRules, PlayableCard):
 	Manager = WeaponManager
 
 	def __init__(self, *args):
