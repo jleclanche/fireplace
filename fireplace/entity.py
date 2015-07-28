@@ -1,6 +1,9 @@
 import uuid
 
+
 class Entity(object):
+	base_events = []
+
 	def __init__(self):
 		self.manager = self.Manager(self)
 		self.tags = self.manager
@@ -15,7 +18,7 @@ class Entity(object):
 
 	@property
 	def events(self):
-		return self._events
+		return self.base_events + self._events
 
 	def _getattr(self, attr, i):
 		i += getattr(self, "_" + attr, 0)

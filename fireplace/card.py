@@ -5,6 +5,7 @@ from .actions import Damage, Deaths, Destroy, Heal, Morph, Play
 from .entity import Entity, boolean_property, int_property
 from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *
+from .rules import WeaponRules
 from .targeting import is_valid_target
 from .utils import CardList
 
@@ -781,20 +782,12 @@ class Enrage(object):
 		return i + getattr(self, attr, 0)
 
 
-class Weapon(PlayableCard):
+class Weapon(WeaponRules, PlayableCard):
 	Manager = WeaponManager
 
 	def __init__(self, *args):
 		super().__init__(*args)
 		self.damage = 0
-
-	@property
-	def events(self):
-		from .actions import Attack, Hit
-		from .dsl.selector import FRIENDLY_HERO
-		ret = self._events[:]
-		ret.append(Attack(FRIENDLY_HERO).on(Hit(self, 1)))
-		return ret
 
 	@property
 	def durability(self):
