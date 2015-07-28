@@ -100,6 +100,9 @@ class Action:  # Lawsuit
 
 	def matches(self, source, args):
 		for arg, match in zip(args, self._args):
+			if match is None:
+				# Allow matching Action(None, None, z) to Action(x, y, z)
+				continue
 			# this stuff is stupidslow
 			res = match.eval([arg], source)
 			if not res or res[0] is not arg:
