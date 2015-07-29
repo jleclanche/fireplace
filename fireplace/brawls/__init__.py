@@ -164,3 +164,26 @@ class HeartOfTheSunwellBrawl(Game):
 		super().prepare()
 		for player in self.players:
 			player.max_mana = 10
+
+
+class TooManyPortalsBrawl(Game):
+	"""
+	Too Many Portals!
+
+	The master mages of Dalaran have gone too far this time,
+	opening up hundreds of portals!  Choose a class and use a
+	few spells and a WHOLE lot of portals to defeat your rivals!
+	"""
+	UNSTABLE_PORTAL = "GVG_003"
+
+	def __init__(self, players):
+		from .. import cards
+		super().__init__(players)
+		for player in players:
+			hero = player.original_deck.hero
+			player_class = getattr(cards, hero).card_class
+			spells = cards.filter(card_class=player_class, type=CardType.SPELL)
+			deck = [self.UNSTABLE_PORTAL] * 23
+			for i in range(7):
+				deck.append(random.choice(spells))
+			player.prepare_deck(deck, hero)
