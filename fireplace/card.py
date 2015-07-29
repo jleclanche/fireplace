@@ -287,6 +287,13 @@ class PlayableCard(BaseCard):
 		"""
 		Queue a Play action on the card.
 		"""
+		if choose is not None:
+			assert choose in self.data.choose_cards
+		elif target is not None:
+			assert self.has_target()
+			assert target in self.targets
+		else:
+			assert not self.has_target()
 		assert self.is_playable()
 		assert self.zone == Zone.HAND
 		self.game.queue_actions(self.controller, [Play(self, target, choose)])

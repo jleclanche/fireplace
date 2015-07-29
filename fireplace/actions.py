@@ -217,13 +217,10 @@ class Play(GameAction):
 		return (source, ) + super().get_args(source)
 
 	def do(self, source, player, card, target=None, choose=None):
-		if card.has_target():
-			assert target
 		card.target = target
 
 		if choose is not None:
 			# Choose One cards replace the action on the played card
-			assert choose in card.data.choose_cards
 			chosen = player.game.card(choose)
 			chosen.controller = player
 			logging.info("Choose One from %r: %r", card, chosen)
