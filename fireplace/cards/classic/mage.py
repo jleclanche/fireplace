@@ -141,6 +141,13 @@ class EX1_289:
 	)
 
 
+# Mirror Entity
+class EX1_294:
+	events = Play(OPPONENT, MINION).after(
+		Summon(CONTROLLER, ExactCopy(Play.Args.CARD)), Reveal(SELF)
+	)
+
+
 # Vaporize
 class EX1_594:
 	events = Attack(MINION, FRIENDLY_HERO).on(

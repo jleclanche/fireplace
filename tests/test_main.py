@@ -2334,6 +2334,85 @@ def test_metaltooth_leaper():
 	assert dummy.atk == 0 + 2
 
 
+def test_mirror_entity():
+	game = prepare_game()
+	mirror = game.player1.give("EX1_294")
+	mirror.play()
+	game.end_turn()
+
+	assert mirror in game.player1.secrets
+	assert len(game.player1.field) == 0
+	game.player2.give(WISP).play()
+	assert not mirror in game.player1.secrets
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == WISP
+
+
+def test_mirror_entity_battlecry():
+	game = prepare_game()
+	mirror = game.player2.summon("EX1_294")
+	blademaster = game.player1.give("CS2_181")
+	blademaster.play()
+	assert len(game.player1.field) == len(game.player2.field) == 1
+	assert game.player1.field[0].health == game.player2.field[0].health
+
+
+def test_mirror_entity_repentance():
+	game = prepare_game()
+	repentance1 = game.player2.summon("EX1_379")
+	mirror1 = game.player2.summon("EX1_294")
+	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire1.play()
+	assert mirror1.dead
+	assert repentance1.dead
+	assert goldshire1.health == 1
+	assert len(game.player1.field) == len(game.player2.field) == 1
+	assert game.player1.field[0].health == game.player2.field[0].health
+
+	game.player1.field[0].destroy()
+	game.player2.field[0].destroy()
+
+	mirror2 = game.player2.summon("EX1_294")
+	repentance2 = game.player2.summon("EX1_379")
+	goldshire2 = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire2.play()
+	assert repentance2.dead
+	assert mirror2.dead
+	assert goldshire2.health == 1
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].health == 2
+
+
+def test_mirror_entity_bolvar():
+	game = prepare_game()
+	mirror = game.player2.summon("EX1_294")
+	bolvar = game.player1.give("GVG_063")
+	assert bolvar.atk == 1
+	game.player1.give(MOONFIRE).play(target=game.player1.summon(WISP))
+	assert bolvar.atk == 2
+	bolvar.play()
+	assert len(game.player1.field) == len(game.player2.field) == 1
+	assert game.player1.field[0].atk == game.player2.field[0].atk
+
+
+def test_mirror_entity_summon_trigger():
+	game = prepare_empty_game()
+	mirror = game.player2.give("EX1_294")
+	mirror.shuffle_into_deck()
+	scientist = game.player2.summon("FP1_004")
+	kodo = game.player1.give("NEW1_041")
+	assert len(game.player2.deck) == 1
+	assert len(game.player2.field) == 1
+	assert len(game.player1.field) == 0
+	assert not scientist.dead
+	kodo.play()
+	assert len(game.player1.field) == 1
+	assert len(game.player2.deck) == 0
+	assert len(game.player2.field) == 1
+	assert scientist.dead
+	assert game.player2.field[0].id == "NEW1_041"
+
+
 def test_bestial_wrath():
 	game = prepare_game()
 	wolf = game.current_player.give("DS1_175")
@@ -4622,32 +4701,41 @@ def test_unstable_portal():
 	assert minion.buffs
 
 
-CHEAT_MIRROR_ENTITY = True
-def test_mctech():
+def test_mind_control_tech():
 	game = prepare_game()
-	game.end_turn()
-	# play some wisps
-	game.current_player.give(WISP).play()
-	game.current_player.give(WISP).play()
-	game.current_player.give(WISP).play()
-	if CHEAT_MIRROR_ENTITY:
-		# TODO secrets
-		game.current_player.give("EX1_294").play()
+	for i in range(4):
+		game.player1.give(WISP).play()
 	game.end_turn()
 
-	assert len(game.current_player.opponent.field) == 3
-	# play an mctech. nothing should be controlled.
-	game.current_player.give("EX1_085").play()
-	assert len(game.current_player.field) == 1
+	# test normal steal
+	assert len(game.player1.field) == 4
+	assert len(game.player2.field) == 0
+	mct = game.player2.give("EX1_085")
+	mct.play()
+	assert len(game.player1.field) == 3
+	assert len(game.player2.field) == 2
+
+	# ensure no steal with 3 minions or less
+	game.player2.give("EX1_085").play()
+	assert len(game.player1.field) == 3
+	assert len(game.player2.field) == 3
+
+
+def test_mind_control_tech_mirror_entity():
+	game = prepare_game()
+	for i in range(3):
+		game.player1.give(WISP).play()
+
+	# play mirror entity
+	game.player1.give("EX1_294").play()
 	game.end_turn()
-	if CHEAT_MIRROR_ENTITY:
-		# mc tech gets copied, board now at 4
-		game.current_player.give("EX1_085").play()
-	assert len(game.current_player.field) == 4
-	game.end_turn()
-	game.current_player.give("EX1_085").play()
-	assert len(game.current_player.field) == 3
-	assert len(game.current_player.opponent.field) == 3
+
+	# ensure that nothing is stolen (mirror entity triggers after mctech)
+	assert len(game.player1.field) == 3
+	assert len(game.player2.field) == 0
+	game.player2.give("EX1_085").play()
+	assert len(game.player1.field) == 4
+	assert len(game.player2.field) == 1
 
 
 def test_inner_fire():
