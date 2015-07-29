@@ -35,12 +35,11 @@ class EventListener:
 	ON = 1
 	AFTER = 2
 
-	def __init__(self, trigger, actions, at, zone=Zone.PLAY):
+	def __init__(self, trigger, actions, at):
 		self.trigger = trigger
 		self.actions = actions
 		self.at = at
 		self.once = False
-		self.in_hand = zone == Zone.HAND
 
 	def __repr__(self):
 		return "<EventListener %r>" % (self.trigger)
@@ -66,16 +65,14 @@ class Action:  # Lawsuit
 		args = ["%s=%r" % (k, v) for k, v in zip(self._argnames, self._args)]
 		return "<Action: %s(%s)>" % (self.__class__.__name__, ", ".join(args))
 
-	def after(self, *actions, zone=Zone.PLAY):
-		return EventListener(self, actions, EventListener.AFTER, zone=zone)
+	def after(self, *actions):
+		return EventListener(self, actions, EventListener.AFTER)
 
-	def on(self, *actions, zone=Zone.PLAY):
-		return EventListener(self, actions, EventListener.ON, zone=zone)
+	def on(self, *actions):
+		return EventListener(self, actions, EventListener.ON)
 
 	def _broadcast(self, entity, source, at, *args):
 		for event in entity.events:
-			if entity.zone == Zone.HAND and not event.in_hand:
-				continue
 			if event.at != at:
 				continue
 			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, args):
@@ -83,13 +80,10 @@ class Action:  # Lawsuit
 				entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
-		for entity in source.game.hands:
+		for entity in source.game.entities:
 			self._broadcast(entity, source, at, *args)
 
-		for entity in source.game.entities:
-			zone = getattr(entity, "zone", Zone.INVALID)
-			if zone not in (Zone.PLAY, Zone.SECRET):
-				continue
+		for entity in source.game.hands:
 			self._broadcast(entity, source, at, *args)
 
 	def get_args(self, source):

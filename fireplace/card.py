@@ -131,6 +131,15 @@ class PlayableCard(BaseCard):
 		super().__init__(id, data)
 
 	@property
+	def events(self):
+		if self.zone == Zone.HAND:
+			ret = getattr(self.data.scripts, "in_hand", [])
+			if not hasattr(ret, "__iter__"):
+				ret = (ret, )
+			return ret
+		return self.base_events + self._events
+
+	@property
 	def dead(self):
 		return self.zone == Zone.GRAVEYARD or self.to_be_destroyed
 
@@ -500,7 +509,7 @@ class Minion(Character):
 
 	@property
 	def events(self):
-		ret = self._events[:]
+		ret = super().events
 		if self.poisonous:
 			ret += rules.Poisonous
 		return ret

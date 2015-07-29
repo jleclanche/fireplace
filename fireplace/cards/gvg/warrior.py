@@ -20,7 +20,7 @@ class GVG_056:
 
 # Burrowing Mine
 class GVG_056t:
-	events = Draw(CONTROLLER, SELF).on(Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER))
+	in_hand = Draw(CONTROLLER, SELF).on(Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER))
 
 
 ##

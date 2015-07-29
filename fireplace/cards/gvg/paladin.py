@@ -16,7 +16,7 @@ class GVG_062:
 
 # Bolvar Fordragon
 class GVG_063:
-	events = Death(FRIENDLY + MINION).on(Buff(SELF, "GVG_063a"), zone=Zone.HAND)
+	in_hand = Death(FRIENDLY + MINION).on(Buff(SELF, "GVG_063a"))
 
 
 # Scarlet Purifier

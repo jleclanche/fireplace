@@ -18,7 +18,7 @@ class GVG_004:
 
 # Flame Leviathan
 class GVG_007:
-	events = Draw(CONTROLLER, SELF).on(Hit(ALL_CHARACTERS, 2))
+	in_hand = Draw(CONTROLLER, SELF).on(Hit(ALL_CHARACTERS, 2))
 
 
 # Illuminator

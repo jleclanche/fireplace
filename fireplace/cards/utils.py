@@ -1,17 +1,8 @@
 import random
 from ..actions import *
 from ..dsl import *
-from ..enums import CardClass, CardType, GameTag, Race, Rarity, Zone
+from ..enums import CardClass, CardType, GameTag, Race, Rarity
 from ..events import *
-
-
-def hand(func):
-	"""
-	@hand helper decorator
-	The decorated event listener will only listen while in the HAND Zone
-	"""
-	func.zone = Zone.HAND
-	return func
 
 
 RandomCard = lambda **kw: RandomCardPicker(**kw)
