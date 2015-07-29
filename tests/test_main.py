@@ -4591,6 +4591,27 @@ def test_freezing_trap():
 	assert wisp.cost == 0
 
 
+def test_flame_leviathan():
+	game = prepare_empty_game()
+	assert len(game.player1.deck) == 0
+	leviathan = game.player1.give("GVG_007")
+	leviathan.shuffle_into_deck()
+	assert len(game.player1.deck) == 1
+	game.end_turn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+
+	# draw the flame leviathan
+	assert game.player1.hero.health == 30
+	assert game.player2.hero.health == 30
+	assert not wisp.dead
+	game.end_turn()
+	assert game.player1.hero.health == 28
+	assert game.player2.hero.health == 28
+	assert wisp.dead
+
+
 def test_floating_watcher():
 	game = prepare_game()
 	game = prepare_game(WARLOCK, WARLOCK)
