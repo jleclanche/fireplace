@@ -4617,7 +4617,6 @@ def test_resurrect_wild_pyro():
 	pyromancer = game.player1.give("NEW1_020")
 	pyromancer.play()
 	game.player1.give(MOONFIRE).play(target=pyromancer)
-	game.player1.give(MOONFIRE).play(target=pyromancer)
 	assert pyromancer.dead
 
 	game.player1.give(WISP).play()
@@ -4968,7 +4967,9 @@ def test_blackwing_corruptor():
 	game = prepare_game()
 	game.player1.discard_hand()
 	blackwing1 = game.player1.give("BRM_034")
-	blackwing1.play(target=game.player2.hero)
+	blackwing1.play()
+	assert blackwing1.health == 4
+	assert game.player1.hero.health == 30
 	assert game.player2.hero.health == 30
 	assert len(game.player1.hand) == 0
 	game.end_turn()
