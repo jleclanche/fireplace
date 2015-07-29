@@ -69,6 +69,19 @@ def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
 	return game
 
 
+def prepare_empty_game(game_class=BaseTestGame):
+	player1 = Player(name="Player1")
+	player1.prepare_deck([], random.choice(_heroes))
+	player1.cant_fatigue = True
+	player2 = Player(name="Player2")
+	player2.prepare_deck([], random.choice(_heroes))
+	player2.cant_fatigue = True
+	game = game_class(players=(player1, player2))
+	game.start()
+
+	return game
+
+
 def test_cheat_destroy_deck():
 	game = prepare_game()
 	game.player1.discard_hand()
