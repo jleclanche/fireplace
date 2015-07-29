@@ -104,7 +104,7 @@ class EX1_129:
 # Headcrack
 class EX1_137:
 	play = Hit(ENEMY_HERO, 2)
-	combo = (play, TURN_END.once(Give(CONTROLLER, "EX1_137")))
+	combo = (play, TURN_END.on(Give(CONTROLLER, "EX1_137")))
 
 
 # Shadowstep

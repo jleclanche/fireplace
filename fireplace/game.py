@@ -189,6 +189,7 @@ class BaseGame(Entity):
 		for action in actions:
 			if isinstance(action, EventListener):
 				logging.debug("Registering %r on %r", action, self)
+				action.once = True
 				source.controller._events.append(action)
 			else:
 				ret.append(action.trigger(source))

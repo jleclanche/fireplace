@@ -35,11 +35,11 @@ class EventListener:
 	ON = 1
 	AFTER = 2
 
-	def __init__(self, trigger, actions, at, zone=Zone.PLAY, once=False):
+	def __init__(self, trigger, actions, at, zone=Zone.PLAY):
 		self.trigger = trigger
 		self.actions = actions
 		self.at = at
-		self.once = once
+		self.once = False
 		self.in_hand = zone == Zone.HAND
 
 	def __repr__(self):
@@ -71,9 +71,6 @@ class Action:  # Lawsuit
 
 	def on(self, *actions, zone=Zone.PLAY):
 		return EventListener(self, actions, EventListener.ON, zone=zone)
-
-	def once(self, *actions, zone=Zone.PLAY):
-		return EventListener(self, actions, EventListener.ON, zone=zone, once=True)
 
 	def _broadcast(self, entity, source, at, *args):
 		for event in entity.events:
