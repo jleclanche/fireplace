@@ -3002,6 +3002,23 @@ def test_gallywix():
 	assert len(game.player2.hand) == 0
 
 
+def test_gang_up():
+	game = prepare_empty_game()
+	wisp = game.player1.summon(WISP)
+	assert len(game.player1.deck) == 0
+	assert len(game.player2.deck) == 0
+	game.player1.give("BRM_007").play(target=wisp)
+	assert len(game.player1.deck) == 3
+	assert len(game.player2.deck) == 0
+	game.end_turn()
+
+	game.player2.give("BRM_007").play(target=wisp)
+	assert len(game.player1.deck) == 3
+	assert len(game.player2.deck) == 3
+	assert len(game.player1.deck.filter(id=WISP)) == 3
+	assert len(game.player2.deck.filter(id=WISP)) == 3
+
+
 def test_goblin_blastmage():
 	game = prepare_game()
 	blastmage1 = game.current_player.give("GVG_004")
