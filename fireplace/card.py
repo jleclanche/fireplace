@@ -1,7 +1,7 @@
 import logging
 from itertools import chain
 from . import cards as CardDB, rules
-from .actions import Damage, Deaths, Destroy, Heal, Morph, Play
+from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle
 from .entity import Entity, boolean_property, int_property
 from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *
@@ -298,6 +298,12 @@ class PlayableCard(BaseCard):
 		assert self.zone == Zone.HAND
 		self.game.queue_actions(self.controller, [Play(self, target, choose)])
 		return self
+
+	def shuffle_into_deck(self):
+		"""
+		Shuffle the card into the controller's deck
+		"""
+		return self.game.queue_actions(self.controller, [Shuffle(self.controller, self)])
 
 	def has_target(self):
 		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements:
