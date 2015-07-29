@@ -16,8 +16,11 @@ class LazyNum:
 			return getattr(super(), "__%s__" % (op))(other)
 		return func
 
+	__eq__ = _cmp("eq")
 	__ge__ = _cmp("ge")
+	__gt__ = _cmp("gt")
 	__le__ = _cmp("le")
+	__lt__ = _cmp("lt")
 
 
 class LazyNumEvaluator(Evaluator):
