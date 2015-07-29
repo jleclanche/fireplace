@@ -2047,16 +2047,14 @@ def test_voljin_stealth():
 
 
 def test_malorne():
-	game = prepare_game()
-	# empty the deck
-	game.player1.draw(26)
-	game.player1.discard_hand()
+	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
 	malorne = game.player1.give("GVG_035")
 	malorne.play()
 	malorne.destroy()
 	assert len(game.player1.deck) == 1
 	game.player1.draw()
+	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].id == "GVG_035"
 
 
