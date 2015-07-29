@@ -20,7 +20,7 @@ class GVG_056:
 
 # Burrowing Mine
 class GVG_056t:
-	play = Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER)
+	events = Draw(CONTROLLER, SELF).on(Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER))
 
 
 ##
