@@ -133,6 +133,13 @@ class EX1_132:
 	)
 
 
+# Redemption
+class EX1_136:
+	events = Death(FRIENDLY + MINION).on(
+		SetCurrentHealth(Summon(CONTROLLER, Copy(Death.Args.ENTITY)), 1), Reveal(SELF)
+	)
+
+
 # Repentance
 class EX1_379:
 	events = Play(OPPONENT, MINION).after(

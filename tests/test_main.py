@@ -3463,6 +3463,26 @@ def test_recombobulator():
 	assert game.player1.field[0].cost == 0
 
 
+def test_redemption():
+	game = prepare_game()
+	redemption = game.player1.give("EX1_136")
+	redemption.play()
+	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
+	footman.play()
+	game.end_turn()
+	
+	assert footman.health == 2
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 0
+	footman.destroy()
+	assert redemption not in game.player1.secrets
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 0
+	target = game.player1.field[0]
+	assert target.id == GOLDSHIRE_FOOTMAN
+	assert target.health == 1
+
+
 def test_reincarnate():
 	game = prepare_game()
 
