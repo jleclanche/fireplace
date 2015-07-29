@@ -32,6 +32,7 @@ class Player(Entity):
 		self.max_hand_size = 10
 		self.max_resources = 10
 		self.cant_draw = False
+		self.cant_fatigue = False
 		self.current_player = False
 		self.fatigue_counter = 0
 		self.hero = None
@@ -147,8 +148,11 @@ class Player(Entity):
 			return ret
 
 	def fatigue(self):
+		if self.cant_fatigue:
+			logging.info("%s can't fatigue and does not take damage", self)
+			return
 		self.fatigue_counter += 1
-		logging.info("%s takes %i fatigue damage" % (self, self.fatigue_counter))
+		logging.info("%s takes %i fatigue damage", self, self.fatigue_counter)
 		self.hero.hit(self.hero, self.fatigue_counter)
 
 	@property
