@@ -31,6 +31,10 @@ RESTORE_1 = "XXX_003"
 DESTROY_DECK = "XXX_047"
 
 
+BLACKLIST = (
+	"GVG_007",  # Flame Leviathan
+)
+
 logging.getLogger().setLevel(logging.DEBUG)
 
 
@@ -45,7 +49,7 @@ _draftcache = {}
 def _draft(hero, exclude):
 	# random_draft() is fairly slow, this caches the drafts
 	if (hero, exclude) not in _draftcache:
-		_draftcache[(hero, exclude)] = random_draft(hero, exclude)
+		_draftcache[(hero, exclude)] = random_draft(hero, exclude + BLACKLIST)
 	return _draftcache[(hero, exclude)]
 
 
