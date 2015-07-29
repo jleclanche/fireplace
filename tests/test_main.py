@@ -3204,6 +3204,19 @@ def test_illidan_full_board():
 	assert game.player2.hero.health == 30
 
 
+def test_iron_juggernaut():
+	game = prepare_empty_game()
+	juggernaut = game.player1.give("GVG_056")
+	assert len(game.player2.deck) == 0
+	juggernaut.play()
+
+	assert game.player2.hero.health == 30
+	assert len(game.player2.deck) == 1    
+	game.end_turn()
+	assert game.player2.hero.health == 20
+	assert len(game.player2.deck) == 0
+
+
 def test_leeroy():
 	game = prepare_game()
 	leeroy = game.player1.give("EX1_116")
