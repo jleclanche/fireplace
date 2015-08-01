@@ -13,7 +13,6 @@ import enrage
 import heropowers
 import missing_cards
 import powerups
-import spare_parts
 
 
 
@@ -160,7 +159,9 @@ def main():
 		if hasattr(powerups, id):
 			add_powerup_requirements(card, getattr(powerups, id))
 
-		if hasattr(spare_parts, id):
+		if re.match(r"^PART_\d+$", id):
+			# Hearthstone uses entourage data to identify Spare Parts
+			# We're better than that.
 			set_tag(card, GameTag.SPARE_PART, True)
 
 		if card.tags.get(GameTag.SPELLPOWER):
