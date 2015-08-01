@@ -43,7 +43,7 @@ class CardXML(object):
 	def _findTag(self, id):
 		return self.xml.findall('./Tag[@enumID="%i"]' % (id))
 
-	def _get_tag(self, element):
+	def _get_tag(self, element, locale="enUS"):
 		type = element.attrib.get("type", "Int")
 
 		if type == "Card":
@@ -51,6 +51,9 @@ class CardXML(object):
 
 		if type == "String":
 			return element.text
+
+		if type == "LocString":
+			return element.find(locale).text
 
 		value = int(element.attrib["value"])
 		if type == "Bool":
