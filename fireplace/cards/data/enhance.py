@@ -138,7 +138,11 @@ def remove_tag(card, tag):
 def main():
 	from fireplace.cardxml import load
 
-	db, xml = load(sys.argv[1])
+	if len(sys.argv) < 3:
+		print("Usage: %s <in> <out/CardDefs.xml>")
+		exit(1)
+
+	db, xml = load(os.path.join(sys.argv[1], "CardDefs.xml"))
 	for id, card in db.items():
 		if hasattr(buffs, id):
 			for tag, value in getattr(buffs, id).items():
