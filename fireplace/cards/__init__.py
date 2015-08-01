@@ -56,7 +56,7 @@ def filter(**kwargs):
 # This code is only ran once, at initial import.
 
 if "cardlist" not in globals():
-	xmlfile = resource_filename(__name__, "enUS.xml")
+	xmlfile = resource_filename(__name__, "data/CardDefs.xml")
 	if not os.path.exists(xmlfile):
 		raise RuntimeError("%r does not exist - generate it!" % (xmlfile))
 

@@ -1,4 +1,10 @@
 #!/bin/bash
+set -e
+
+BASEDIR="$(realpath $(dirname $0))"
+DATADIR="$BASEDIR/fireplace/cards/data"
+HSDATA_DIR="$DATADIR/hs-data"
+HSDATA_URL="https://github.com/HearthSim/hs-data.git"
 
 # check python version
 PY_MAJOR=$(python -c 'import sys; print(sys.version_info[0])')
@@ -13,6 +19,11 @@ if [[ "$PY_MINOR" -lt 4 ]]; then
 	>&2 echo "WARNING: Python versions older than 3.4 are known to have issues."
 fi
 
-cd "$(dirname $0)"
-git submodule init && git submodule update
-./data/extras/enhance.py data/TextAsset/enUS.txt fireplace/cards/enUS.xml
+echo "Fetching data files from $HSDATA_URL"
+if [ ! -e "$HSDATA_DIR" ]; then
+	git clone --depth=1 "$HSDATA_URL" "$HSDATA_DIR"
+else
+	git -C "$HSDATA_DIR" pull
+fi
+
+"$DATADIR/enhance.py" "$HSDATA_DIR/CardDefs.xml" "$DATADIR/CardDefs.xml"
