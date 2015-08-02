@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-BASEDIR="$(realpath $(dirname $0))"
+BASEDIR="$(readlink -f $(dirname $0))"
 DATADIR="$BASEDIR/fireplace/cards/data"
 HSDATA_DIR="$DATADIR/hs-data"
 HSDATA_URL="https://github.com/HearthSim/hs-data.git"
