@@ -10,7 +10,6 @@ import auras
 import buffs
 import chooseone
 import enrage
-import heropowers
 import missing_cards
 import powerups
 
@@ -135,6 +134,35 @@ def remove_tag(card, tag):
 	print("%s: Removing %r tag" % (card.name, tag))
 
 
+def load_dbf(path):
+	db = {}
+	hero_powers = {}
+	with open(path, "r") as f:
+		xml = ElementTree.parse(f)
+		for record in xml.findall("Record"):
+			id = int(record.find("./Field[@column='ID']").text)
+			guid = record.find("./Field[@column='NOTE_MINI_GUID']").text
+			hero_power_id = int(record.find("./Field[@column='HERO_POWER_ID']").text)
+
+			db[id] = guid
+			if hero_power_id:
+				hero_powers[guid] = hero_power_id
+
+	for k, v in hero_powers.items():
+		hero_powers[k] = db[v]
+
+	# Some hero powers are missing from the DBF, wtf :(
+	missing = {
+		"EX1_323h": "EX1_tk33",
+	}
+
+	for k, v in missing.items():
+		assert k not in hero_powers
+		hero_powers[k] = v
+
+	return db, hero_powers
+
+
 def main():
 	from fireplace.cardxml import load
 
@@ -143,6 +171,7 @@ def main():
 		exit(1)
 
 	db, xml = load(os.path.join(sys.argv[1], "CardDefs.xml"))
+	dbf, hero_powers = load_dbf(os.path.join(sys.argv[1], "DBF", "CARD.xml"))
 	for id, card in db.items():
 		if hasattr(buffs, id):
 			for tag, value in getattr(buffs, id).items():
@@ -157,8 +186,8 @@ def main():
 		if hasattr(enrage, id):
 			add_enrage_definition(card, getattr(enrage, id))
 
-		if hasattr(heropowers, id):
-			add_hero_power(card, getattr(heropowers, id))
+		if id in hero_powers:
+			add_hero_power(card, hero_powers[id])
 
 		if hasattr(powerups, id):
 			add_powerup_requirements(card, getattr(powerups, id))
