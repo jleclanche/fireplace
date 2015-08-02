@@ -26,4 +26,4 @@ else
 	git -C "$HSDATA_DIR" pull
 fi
 
-"$DATADIR/enhance.py" "$HSDATA_DIR" "$DATADIR/CardDefs.xml"
+"$DATADIR/__init__.py" "$HSDATA_DIR" "$DATADIR/CardDefs.xml"
