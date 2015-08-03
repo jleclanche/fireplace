@@ -1090,6 +1090,40 @@ def test_alarmobot():
 	assert len(game.current_player.field) == 2
 
 
+def test_alexstrasza():
+	game = prepare_game()
+	alex1 = game.player1.give("EX1_561")
+	assert game.player1.hero.health == 30
+	assert game.player2.hero.health == 30
+	alex1.play(target=game.player1.hero)
+	assert game.player1.hero.health == 15
+	assert game.player1.hero.max_health == 30
+	assert game.player2.hero.health == 30
+	game.end_turn(); game.end_turn()
+
+	alex2 = game.player1.give("EX1_561")
+	assert game.player2.hero.health == 30
+	alex2.play(target=game.player2.hero)
+	assert game.player2.hero.health == 15
+
+
+def test_alexstrasza_ragnaros():
+	game = prepare_game()
+	majordomo = game.player1.give("BRM_027")
+	majordomo.play()
+	majordomo.destroy()
+	assert game.player1.hero.id == "BRM_027h"
+	assert game.player1.hero.health == 8
+	assert game.player1.hero.max_health == 8
+	game.end_turn(); game.end_turn()
+
+	alex = game.player1.give("EX1_561")
+	alex.play(target=game.player1.hero)
+	assert game.player1.hero.buffs
+	assert game.player1.hero.health == 15
+	assert game.player1.hero.max_health == 15
+
+
 def test_avenging_wrath():
 	game = prepare_game()
 	game.current_player.give("EX1_384").play()
@@ -3211,7 +3245,7 @@ def test_iron_juggernaut():
 	juggernaut.play()
 
 	assert game.player2.hero.health == 30
-	assert len(game.player2.deck) == 1    
+	assert len(game.player2.deck) == 1
 	game.end_turn()
 	assert game.player2.hero.health == 20
 	assert len(game.player2.deck) == 0

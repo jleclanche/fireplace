@@ -102,6 +102,17 @@ class EX1_558:
 	)
 
 
+# Alexstrasza
+class EX1_561:
+	play = (
+		(Attr(TARGET, GameTag.HEALTH) <= 15) & Buff(TARGET, "EX1_561e"),
+		SetCurrentHealth(TARGET, 15)
+	)
+
+class EX1_561e:
+	max_health = lambda self, i: 15
+
+
 # Ysera
 class EX1_572:
 	events = OWN_TURN_END.on(
