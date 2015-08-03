@@ -68,11 +68,11 @@ class EX1_319:
 
 # Lord Jaraxxus
 class EX1_323:
-	# TODO
-	def play(self):
-		self.removeFromField()
-		self.controller.summon("EX1_323h")
-		self.controller.summon("EX1_323w")
+	play = (
+		Destroy(SELF),
+		Summon(CONTROLLER, "EX1_323h"),
+		Summon(CONTROLLER, "EX1_323w")
+	)
 
 # INFERNO!
 class EX1_tk33:

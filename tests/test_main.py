@@ -3260,6 +3260,28 @@ def test_leeroy():
 	assert game.player2.field[0].id == game.player2.field[1].id == "EX1_116t"
 
 
+def test_jaraxxus():
+	game = prepare_game(WARRIOR, WARRIOR)
+	game.player1.hero.power.use()
+	game.player1.give("CS2_106").play()
+	assert game.player1.weapon.id == "CS2_106"
+	game.end_turn(); game.end_turn()
+
+	assert game.player1.hero.health == 30
+	assert game.player1.hero.armor == 2
+	game.player1.give("EX1_323").play()
+	assert game.player1.weapon.id == "EX1_323w"
+	assert game.player1.hero.health == 15
+	assert game.player1.hero.armor == 0
+	assert game.player1.hero.power.id == "EX1_tk33"
+	assert len(game.player1.field) == 0
+	game.end_turn(); game.end_turn()
+
+	game.player1.hero.power.use()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "EX1_tk34"
+
+
 def test_lorewalker_cho():
 	game = prepare_game()
 	cho = game.current_player.give("EX1_100")
