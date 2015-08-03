@@ -589,6 +589,20 @@ class Reveal(TargetedAction):
 		target.destroy()
 
 
+class SetCurrentHealth(TargetedAction):
+	"""
+	Sets the current health of the character target to \a amount.
+	"""
+	class Args(Action.Args):
+		TARGETS = 0
+		AMOUNT = 1
+
+	def do(self, source, target, amount):
+		logging.info("Setting current health on %r to %i", target, amount)
+		maxhp = target.max_health
+		target.damage = max(0, maxhp - amount)
+
+
 class SetTag(TargetedAction):
 	"""
 	Sets various targets' tags to \a values.
