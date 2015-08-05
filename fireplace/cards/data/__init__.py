@@ -14,7 +14,6 @@ import missing_cards
 import powerups
 
 
-
 italicize = [
 	"EX1_345t",  # Shadow of Nothing
 	"TU4c_005",  # Hidden Gnome
@@ -218,8 +217,8 @@ def main():
 			assert description and not description.startswith("<i>")
 			print("%s: Italicizing description %r" % (id, description))
 			e = card._findTag(GameTag.CARDTEXT_INHAND)
-			if e:
-				e[0].text = "<i>%s</i>" % (description)
+			for tag in e[0]:
+				tag.text = "<i>%s</i>" % (tag.text)
 			else:
 				print("WARNING: No CARDTEXT_INHAND tag found on %r" % (card))
 
