@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 import re
 import string
-import sys; sys.path.append(".."); sys.path.append("../data/extras")
+import sys
+sys.path.append("..")
+sys.path.append("../fireplace/cards/data")
 from fireplace import cards
 from fireplace.cards import debug, game, tutorial, classic, naxxramas, gvg, blackrock
 from fireplace.enums import CardType, CardSet
