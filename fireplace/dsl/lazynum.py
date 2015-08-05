@@ -43,6 +43,9 @@ class Count(LazyNum):
 		super().__init__()
 		self.selector = selector
 
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.selector)
+
 	def evaluate(self, source):
 		return len(self.selector.eval(source.game, source))
 
@@ -56,6 +59,9 @@ class Attr(LazyNum):
 		self.selector = selector
 		self.tag = tag
 
+	def __repr__(self):
+		return "%s(%r, %r)" % (self.__class__.__name__, self.selector, self.tag)
+
 	def evaluate(self, source):
 		entities = self.selector.eval(source.game, source)
 		if isinstance(self.tag, str):
@@ -68,6 +74,9 @@ class RandomNumber(LazyNum):
 	def __init__(self, *args):
 		super().__init__()
 		self.choices = args
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.choices)
 
 	def evaluate(self, source):
 		return random.choice(self.choices)

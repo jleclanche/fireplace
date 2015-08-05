@@ -20,6 +20,9 @@ class RandomCardPicker(Picker):
 				self.lazy_filters = True
 				break
 
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.filters)
+
 	@property
 	def cards(self):
 		if self._cards is None:
