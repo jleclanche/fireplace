@@ -72,9 +72,6 @@ def is_valid_target(self, target, requirements=None):
 		elif req == PlayReq.REQ_WEAPON_TARGET:
 			if target.type != CardType.WEAPON:
 				return False
-		elif req == PlayReq.REQ_NO_MINIONS_PLAYED_THIS_TURN:
-			if self.controller.minions_played_this_turn:
-				return False
 		elif req == PlayReq.REQ_TARGET_HAS_BATTLECRY:
 			if not target.has_battlecry:
 				return False

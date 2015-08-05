@@ -2079,22 +2079,15 @@ def test_pint_sized_summoner():
 	# summon it directly, minions played still at 0
 	summoner = game.current_player.summon("EX1_076")
 	assert game.current_player.minions_played_this_turn == 0
-	assert goldshire1.buffs
 	assert goldshire1.cost == 1 - 1
-	assert goldshire2.buffs
 	assert goldshire2.cost == 1 - 1
 	assert not moonfire.buffs
 	assert moonfire.cost == 0
-	assert frostwolf.buffs
 	assert frostwolf.cost == 2 - 1
-	assert wisp.buffs
 	assert wisp.cost == 0
 
 	goldshire1.play()
 	assert game.current_player.minions_played_this_turn == 1
-	assert not goldshire2.buffs
-	assert not frostwolf.buffs
-	assert not wisp.buffs
 	assert goldshire2.cost == 1
 	assert frostwolf.cost == 2
 	assert wisp.cost == 0

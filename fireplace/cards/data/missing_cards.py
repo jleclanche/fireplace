@@ -38,7 +38,6 @@ CS2_227a = {
 EX1_076a = {
 	GameTag.CARDNAME: "Pint-Sized Summoner (Aura)",
 	GameTag.CARDTYPE: CardType.ENCHANTMENT,
-	GameTag.COST: -1,
 }
 
 EX1_145oa = {
