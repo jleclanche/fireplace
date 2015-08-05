@@ -155,6 +155,7 @@ class NEW1_029:
 	play = Buff(ENEMY_HERO, "NEW1_029t")
 
 class NEW1_029t:
+	aura = Buff(ENEMY + SPELL + IN_HAND, "NEW1_029ta")
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
 
 class NEW1_029ta:

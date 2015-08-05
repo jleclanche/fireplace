@@ -37,6 +37,16 @@ class EX1_341:
 	events = OWN_TURN_BEGIN.on(Heal(RANDOM(FRIENDLY + DAMAGED_CHARACTERS), 3))
 
 
+# Prophet Velen
+class EX1_350:
+	aura = Buff(CONTROLLER, "EX1_350a")
+
+
+# Auchenai Soulpriest
+class EX1_591:
+	aura = Buff(CONTROLLER, "EX1_591a")
+
+
 # Temple Enforcer
 class EX1_623:
 	play = Buff(TARGET, "EX1_623e")

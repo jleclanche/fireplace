@@ -33,11 +33,19 @@ class EX1_559:
 	events = OWN_SPELL_PLAY.on(Give(CONTROLLER, "CS2_029"))
 
 
+# Sorcerer's Apprentice
+class EX1_608:
+	aura = Buff(FRIENDLY + SPELL + IN_HAND, "EX1_608a")
+
+
 # Kirin Tor Mage
 class EX1_612:
-	play = Buff(FRIENDLY_HERO, "EX1_612o")
+	play = Buff(FRIENDLY_HERO, "EX1_612oa")
 
 class EX1_612oa:
+	aura = Buff(FRIENDLY + SECRET + IN_HAND, "EX1_612o")
+
+class EX1_612o:
 	cost = lambda self, i: 0
 
 

@@ -40,9 +40,6 @@ def is_valid_target(self, target, requirements=None):
 		elif req == PlayReq.REQ_TARGET_MAX_ATTACK:
 			if target.atk > param or 0:
 				return False
-		elif req == PlayReq.REQ_NONSELF_TARGET:
-			if target is self:
-				return False
 		elif req == PlayReq.REQ_TARGET_WITH_RACE:
 			if target.type != CardType.MINION or target.race != param:
 				return False
@@ -62,20 +59,4 @@ def is_valid_target(self, target, requirements=None):
 			if target.rarity != Rarity.LEGENDARY:
 				return False
 
-		# fireplace reqs
-		elif req == PlayReq.REQ_SPELL_TARGET:
-			if target.type != CardType.SPELL:
-				return False
-		elif req == PlayReq.REQ_SECRET_TARGET:
-			if target.type != CardType.SPELL or not target.secret:
-				return False
-		elif req == PlayReq.REQ_WEAPON_TARGET:
-			if target.type != CardType.WEAPON:
-				return False
-		elif req == PlayReq.REQ_TARGET_HAS_BATTLECRY:
-			if not target.has_battlecry:
-				return False
-		elif req == PlayReq.REQ_SOURCE_IS_ENRAGED:
-			if not self.enraged:
-				return False
 	return True

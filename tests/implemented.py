@@ -60,7 +60,7 @@ def main():
 					color = GREEN
 					break
 			else:
-				if card.auras or "Enrage" in card.description or card.choose_cards:
+				if "Enrage" in card.description or card.choose_cards:
 					color = GREEN
 				else:
 					color = RED

@@ -117,6 +117,7 @@ class EX1_145:
 	play = Buff(FRIENDLY_HERO, "EX1_145o")
 
 class EX1_145o:
+	aura = Buff(FRIENDLY + SPELL + IN_HAND, "EX1_145oa")
 	events = OWN_SPELL_PLAY.on(Destroy(SELF))
 
 

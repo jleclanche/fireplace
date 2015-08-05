@@ -6,7 +6,6 @@ import sys; sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
 from xml.dom import minidom
 from xml.etree import ElementTree
 from fireplace.enums import AuraType, GameTag
-import auras
 import buffs
 import chooseone
 import enrage
@@ -21,25 +20,6 @@ italicize = [
 	"GAME_006",  # NOOOOOOOOOOOO
 	"PlaceholderCard",  # Placeholder Card
 ]
-
-
-def add_aura(card, auras):
-	for aura in auras:
-		reqs = aura.get("requirements", {})
-		id = aura.get("id")
-		type = aura.get("type", AuraType.PLAY_AURA)
-
-		e = ElementTree.Element("Aura")
-		e.attrib["cardID"] = id
-		e.attrib["type"] = str(int(type))
-
-		for requirement, param in reqs.items():
-			req = ElementTree.Element("ActiveRequirement")
-			req.attrib["reqID"] = str(int(requirement))
-			req.attrib["param"] = str(int(param)) if param is not True else ""
-			e.append(req)
-		card.xml.append(e)
-		print("%s: Adding aura data %r" % (card.name, aura))
 
 
 def add_chooseone_tags(card, ids):
@@ -178,9 +158,6 @@ def main():
 
 		if hasattr(chooseone, id):
 			add_chooseone_tags(card, getattr(chooseone, id))
-
-		if hasattr(auras, id):
-			add_aura(card, getattr(auras, id))
 
 		if hasattr(enrage, id):
 			add_enrage_definition(card, getattr(enrage, id))

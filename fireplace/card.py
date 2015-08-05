@@ -90,10 +90,14 @@ class BaseCard(Entity):
 		self._zone = value
 
 		if value == Zone.PLAY:
-			for aura in self.data.auras:
-				aura = Aura(aura, source=self)
-				aura.summon()
-				self._auras.append(aura)
+			if hasattr(self.data.scripts, "aura"):
+				auras = self.data.scripts.aura
+				if not hasattr(auras, "__iter__"):
+					auras = (auras, )
+				for aura in auras:
+					aura = Aura(aura, source=self)
+					aura.summon()
+					self._auras.append(aura)
 		else:
 			for aura in self._auras:
 				aura.destroy()
@@ -500,7 +504,6 @@ class Minion(Character):
 
 	def __init__(self, id, data):
 		self._enrage = None
-		self.adjacent_buff = False
 		self.always_wins_brawls = False
 		self.divine_shield = False
 		self.enrage = False
@@ -710,48 +713,30 @@ class Aura(object):
 	targets affected by an aura. It is only internal.
 	"""
 
-	def __init__(self, obj, source):
-		self.id = obj["id"]
+	def __init__(self, action, source):
+		self.action = action
+		self.selector = self.action._args[0]
+		self.id = self.action._args[1]
 		self.source = source
-		self.controller = source.controller
-		self.requirements = obj["requirements"].copy()
 		self._buffed = CardList()
 		self._buffs = CardList()
-		self._auraType = obj["type"]
+		# THIS IS A HACK
+		# DON'T SHOOT, IT'S TEMPORARY
+		self.on_enrage = self.id == "CS2_221e"
 
 	def __repr__(self):
 		return "<Aura (%r)>" % (self.id)
 
 	@property
-	def game(self):
-		return self.source.game
-
-	def is_valid_target(self, target):
-		if self._auraType == AuraType.PLAYER_AURA:
-			return target == self.controller
-		elif self._auraType == AuraType.HAND_AURA:
-			if target.zone != Zone.HAND:
-				return False
-		return is_valid_target(self.source, target, requirements=self.requirements)
-
-	@property
 	def targets(self):
-		if self._auraType == AuraType.PLAYER_AURA:
-			return [self.controller]
-		elif self._auraType == AuraType.HAND_AURA:
-			return self.controller.hand + self.controller.opponent.hand
-		if self.source.type == CardType.MINION and self.source.adjacent_buff:
-			return self.source.adjacent_minions
-		# XXX The targets are right but we need to get them a cleaner way.
-		ret = self.game.player1.field + self.game.player2.field
-		if self.controller.weapon:
-			ret.append(self.controller.weapon)
-		return ret
+		if self.on_enrage and not self.source.enraged:
+			return []
+		return self.selector.eval(self.source.game, self.source)
 
 	def summon(self):
 		logging.info("Summoning Aura %r", self)
-		self.game.auras.append(self)
-		self.game.refresh_auras()
+		self.source.game.auras.append(self)
+		self.source.game.refresh_auras()
 
 	def _buff(self, target):
 		buff = self.source.buff(target, self.id)
@@ -766,18 +751,14 @@ class Aura(object):
 				return buff
 
 	def update(self):
-		for target in self.targets:
-			if target.type == CardType.ENCHANTMENT:
-				# HACKY: self.targets currently relies on hero entities
-				# This includes enchantments so we need to filter them out.
-				continue
-			if self.is_valid_target(target):
-				if not self._entity_buff(target):
-					self._buff(target)
+		targets = self.targets
+		for target in targets:
+			if not self._entity_buff(target):
+				self._buff(target)
 		# Make sure to copy the list as it can change during iteration
 		for target in self._buffed[:]:
 			# Remove auras no longer valid
-			if not self.is_valid_target(target):
+			if target not in targets:
 				buff = self._entity_buff(target)
 				if buff:
 					buff.destroy()
@@ -785,7 +766,7 @@ class Aura(object):
 
 	def destroy(self):
 		logging.info("Removing %r affecting %r" % (self, self._buffed))
-		self.game.auras.remove(self)
+		self.source.game.auras.remove(self)
 		for buff in self._buffs[:]:
 			buff.destroy()
 		del self._buffs

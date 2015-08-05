@@ -28,6 +28,11 @@ class EX1_258:
 	events = Play(CONTROLLER, OVERLOAD).on(Buff(SELF, "EX1_258e"))
 
 
+# Flametongue Totem
+class EX1_565:
+	aura = Buff(SELF_ADJACENT, "EX1_565o")
+
+
 # Mana Tide Totem
 class EX1_575:
 	events = OWN_TURN_END.on(Draw(CONTROLLER))

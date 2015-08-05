@@ -11,6 +11,11 @@ class EX1_105:
 	cost = lambda self, i: i - (len(self.controller.hand) - 1)
 
 
+# Murloc Warleader
+class EX1_507:
+	aura = Buff(ALL_MINIONS + MURLOC - SELF, "EX1_507e")
+
+
 # Faceless Manipulator
 class EX1_564:
 	play = Morph(SELF, ExactCopy(TARGET))
@@ -47,3 +52,8 @@ class NEW1_017:
 # Doomsayer
 class NEW1_021:
 	events = OWN_TURN_BEGIN.on(Destroy(ALL_MINIONS))
+
+
+# Southsea Captain
+class NEW1_027:
+	aura = Buff(FRIENDLY_MINIONS + PIRATE - SELF, "NEW1_027e")

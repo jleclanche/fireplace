@@ -68,6 +68,11 @@ class FP1_016:
 	play = Silence(FRIENDLY_MINIONS)
 
 
+# Nerub'ar Weblord
+class FP1_017:
+	aura = Buff(MINION + BATTLECRY + IN_HAND, "FP1_017a")
+
+
 # Voidcaller
 class FP1_022:
 	deathrattle = Summon(CONTROLLER, RANDOM(CONTROLLER_HAND + DEMON))
@@ -108,10 +113,16 @@ class FP1_030:
 	play = Buff(ENEMY_HERO, "FP1_030e")
 
 class FP1_030e:
+	aura = Buff(ENEMY + SPELL + IN_HAND, "FP1_030ea")
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
 
 class FP1_030ea:
 	cost = lambda self, i: i + 5 if self.owner.controller.current_player else i
+
+
+# Baron Rivendare
+class FP1_031:
+	aura = Buff(CONTROLLER, "FP1_031a")
 
 
 ##

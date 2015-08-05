@@ -16,6 +16,14 @@ class GVG_020:
 	events = OWN_TURN_END.on(Hit(RANDOM(ALL_MINIONS - MECH), 2))
 
 
+# Mal'Ganis
+class GVG_021:
+	aura = (
+		Buff(FRIENDLY_MINIONS + DEMON - SELF, "GVG_021e"),
+		Buff(FRIENDLY_HERO, "GVG_021e2"),
+	)
+
+
 # Anima Golem
 class GVG_077:
 	events = TURN_END.on(Find(FRIENDLY_MINIONS - SELF) | Destroy(SELF))

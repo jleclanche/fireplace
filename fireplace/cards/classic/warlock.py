@@ -56,7 +56,10 @@ class EX1_313:
 	play = Hit(FRIENDLY_HERO, 5)
 
 
-# Summoning Portal (Virtual Aura)
+# Summoning Portal
+class EX1_315:
+	aura = Buff(FRIENDLY + MINION + IN_HAND, "EX1_315a")
+
 class EX1_315a:
 	cost = lambda self, i: min(i, max(1, i - 2))
 

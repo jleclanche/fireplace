@@ -43,3 +43,8 @@ class GVG_108:
 # Clockwork Giant
 class GVG_121:
 	cost = lambda self, i: i - len(self.controller.opponent.hand)
+
+
+# Wee Spellstopper
+class GVG_122:
+	aura = Buff(SELF_ADJACENT, "GVG_122a")

@@ -26,6 +26,16 @@ class DS1_070:
 	play = Buff(TARGET, "DS1_070o")
 
 
+# Timber Wolf
+class DS1_175:
+	aura = Buff(FRIENDLY_MINIONS + BEAST - SELF, "DS1_175o")
+
+
+# Tundra Rhino
+class DS1_178:
+	aura = Buff(FRIENDLY_MINIONS + BEAST, "DS1_178e")
+
+
 # Scavenging Hyena
 class EX1_531:
 	events = Death(FRIENDLY + BEAST).on(Buff(SELF, "EX1_531e"))
@@ -34,6 +44,11 @@ class EX1_531:
 # Savannah Highmane
 class EX1_534:
 	deathrattle = Summon(CONTROLLER, "EX1_534t") * 2
+
+
+# Leokk
+class NEW1_033:
+	aura = Buff(FRIENDLY_MINIONS - SELF, "NEW1_033o")
 
 
 ##

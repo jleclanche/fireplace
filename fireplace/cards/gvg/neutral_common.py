@@ -4,6 +4,11 @@ from ..utils import *
 ##
 # Minions
 
+# Mechwarper
+class GVG_006:
+	aura = Buff(FRIENDLY + MECH + IN_HAND, "GVG_006a")
+
+
 # Cogmaster
 class GVG_013:
 	def atk(self, i):

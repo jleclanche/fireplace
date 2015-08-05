@@ -112,6 +112,9 @@ class XXX_021:
 class XXX_022:
 	play = Buff(FRIENDLY_HERO, "XXX_022e")
 
+class XXX_022e:
+	aura = Buff(FRIENDLY + IN_HAND, "XXX_022ea")
+
 
 # Destroy All Heroes
 class XXX_023:

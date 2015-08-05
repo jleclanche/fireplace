@@ -24,13 +24,6 @@ class CardXML(object):
 			GameTag(int(tag.attrib["enumID"])): self._get_tag(tag) for tag in e
 		}
 
-		e = self.xml.findall("Aura")
-		self.auras = [{
-			"id": tag.attrib["cardID"],
-			"requirements": self._getRequirements(tag.findall("ActiveRequirement")),
-			"type": AuraType(int(tag.attrib["type"])),
-		} for tag in e]
-
 		self.choose_cards = [t.attrib["cardID"] for t in xml.findall("ChooseCard")]
 		self.entourage = [t.attrib["cardID"] for t in xml.findall("EntourageCard")]
 

@@ -4,6 +4,16 @@ from ..utils import *
 ##
 # Free basic minions
 
+# Raid Leader
+class CS2_122:
+	aura = Buff(FRIENDLY_MINIONS - SELF, "CS2_122e")
+
+
+# Stormwind Champion
+class CS2_222:
+	aura = Buff(FRIENDLY_MINIONS - SELF, "CS2_222o")
+
+
 # Frostwolf Warlord
 class CS2_226:
 	play = Buff(SELF, "CS2_226e") * Count(FRIENDLY_MINIONS)
@@ -29,6 +39,11 @@ class EX1_102:
 	events = OWN_TURN_BEGIN.on(Hit(RANDOM_ENEMY_CHARACTER, 2))
 
 
+# Dire Wolf Alpha
+class EX1_162:
+	aura = Buff(SELF_ADJACENT, "EX1_162o")
+
+
 # Arathi Weaponsmith
 class EX1_398:
 	play = Summon(CONTROLLER, "EX1_398t")
@@ -37,6 +52,11 @@ class EX1_398:
 # Gurubashi Berserker
 class EX1_399:
 	events = SELF_DAMAGE.on(Buff(SELF, "EX1_399e"))
+
+
+# Grimscale Oracle
+class EX1_508:
+	aura = Buff(ALL_MINIONS + MURLOC - SELF, "EX1_508o")
 
 
 # Nightblade
@@ -100,6 +120,16 @@ class CS2_196:
 # Ironbeak Owl
 class CS2_203:
 	play = Silence(TARGET)
+
+
+# Spiteful Smith
+class CS2_221:
+	aura = Buff(FRIENDLY_WEAPON, "CS2_221e")
+
+
+# Venture Co. Mercenary
+class CS2_227:
+	aura = Buff(FRIENDLY + MINION + IN_HAND, "CS2_227a")
 
 
 # Darkscale Healer
