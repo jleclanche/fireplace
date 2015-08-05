@@ -19,6 +19,10 @@ TB_007e = {
 	GameTag.ATTACK_HEALTH_SWAP: True,
 }
 
+TB_Pilot1 = {
+	GameTag.DEATHRATTLE: True,
+}
+
 ###
 # Classic set
 #

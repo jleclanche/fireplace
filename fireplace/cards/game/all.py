@@ -22,3 +22,8 @@ class TB_007:
 # Rotten Banana
 class TB_008:
 	play = Hit(TARGET, 1)
+
+
+# Mysterious Pilot
+class TB_Pilot1:
+	deathrattle = Summon(CONTROLLER, RandomMinion(cost=Attr(SELF, GameTag.COST)))

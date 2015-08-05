@@ -1,5 +1,5 @@
 import random
-from ..actions import Give, Summon
+from ..actions import Buff, Give, Summon
 from ..enums import CardClass, CardType
 from ..game import Game
 from ..cards.utils import RandomMinion
@@ -188,3 +188,20 @@ class TooManyPortalsBrawl(Game):
 			for i in range(7):
 				deck.append(random.choice(spells))
 			player.prepare_deck(deck, hero)
+
+
+class MaskedBallBrawl(Game):
+	"""
+	The Masked Ball
+
+	At the SI:7 mansion in Stormwind they have a grand masked ball every year.
+	Everyone is in disguise! When a minion dies, its disguise is revealed, showing the
+	minion to actually be a different random minion that costs (2) less and ready for
+	another fight!
+	"""
+
+	def _play(self, card, *args):
+		if card.type == CardType.MINION and card.cost >= 2:
+			action = Buff(card, "TB_Pilot1")
+			self.queue_actions(card, [action])
+		return super()._play(card, *args)
