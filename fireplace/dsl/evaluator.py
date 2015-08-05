@@ -1,3 +1,6 @@
+import logging
+
+
 class Evaluator:
 	"""
 	Lazily evaluate a condition at runtime.
@@ -59,3 +62,21 @@ class Find(Evaluator):
 
 	def evaluate(self, source):
 		return len(self.selector.eval(source.game, source)) >= self.count
+
+
+class Joust(Evaluator):
+	"""
+	Compare the sum of the costs of \a selector1 versus \a selector2.
+	Evaluates to True if the mana cost of \a selector1 is higher.
+	"""
+	def __init__(self, selector1, selector2):
+		super().__init__()
+		self.selector1 = selector1
+		self.selector2 = selector2
+
+	def evaluate(self, source):
+		t1 = self.selector1.eval(source.game, source)
+		t2 = self.selector2.eval(source.game, source)
+		diff = sum(t.cost for t in t1) - sum(t.cost for t in t2)
+		logging.info("Jousting %r vs %r -> %i difference", t1, t2, diff)
+		return diff > 0
