@@ -282,6 +282,7 @@ class IdSelector(Selector):
 ID = IdSelector
 
 
+BATTLECRY = Selector(GameTag.BATTLECRY)
 DAMAGED = Selector(GameTag.DAMAGE)
 DEATHRATTLE = Selector(GameTag.DEATHRATTLE)
 DIVINE_SHIELD = Selector(GameTag.DIVINE_SHIELD)
