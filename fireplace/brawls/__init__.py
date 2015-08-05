@@ -1,8 +1,9 @@
 import random
-from ..actions import RandomCardGenerator, Give, Summon
+from ..actions import Give, Summon
 from ..enums import CardClass, CardType
 from ..game import Game
 from ..cards.utils import RandomMinion
+from ..dsl.picker import RandomCardPicker
 
 
 class BlackrockShowdownBrawl(Game):
@@ -82,7 +83,7 @@ class BananaBrawl(Game):
 	celebrate!
 	"""
 
-	class RandomBanana(RandomCardGenerator):
+	class RandomBanana(RandomCardPicker):
 		cards = ("EX1_014t", "TB_006", "TB_007", "TB_008")
 
 	def _schedule_death(self, card):
