@@ -36,8 +36,7 @@ class GVG_107:
 
 # Recombobulator
 class GVG_108:
-	def play(self, target):
-		return Morph(TARGET, RandomMinion(cost=target.cost))
+	play = Morph(TARGET, RandomMinion(cost=Attr(TARGET, GameTag.COST)))
 
 
 # Clockwork Giant
