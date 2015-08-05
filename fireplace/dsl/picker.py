@@ -1,4 +1,5 @@
 import random
+from .lazynum import LazyNum
 
 
 class Picker:
@@ -13,16 +14,37 @@ class RandomCardPicker(Picker):
 	def __init__(self, **filters):
 		self.filters = filters
 		self._cards = None
+		self.lazy_filters = False
+		for v in filters.values():
+			if isinstance(v, LazyNum):
+				self.lazy_filters = True
+				break
 
 	@property
 	def cards(self):
 		if self._cards is None:
-			from .. import cards
-			self._cards = cards.filter(**self.filters)
+			self._cards = self._filter_cards(self.filters)
 		return self._cards
 
+	def _filter_cards(self, filters):
+		from .. import cards
+		return cards.filter(**filters)
+
+	def get_cards(self, source):
+		filters = self.filters.copy()
+		# Iterate through the filters, evaluating the LazyNums as we go
+		for k, v in filters.items():
+			if isinstance(v, LazyNum):
+				filters[k] = v.evaluate(source)
+		return self._filter_cards(filters)
+
 	def pick(self, source) -> str:
-		return [random.choice(self.cards)]
+		if self.lazy_filters:
+			# If the card has lazy filters, we need to evaluate them
+			cards = self.get_cards(source)
+		else:
+			cards = self.cards
+		return [random.choice(cards)]
 
 
 class Copy(Picker):
