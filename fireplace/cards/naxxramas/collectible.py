@@ -14,6 +14,11 @@ class FP1_002:
 	deathrattle = Summon(CONTROLLER, "FP1_002t"), Summon(CONTROLLER, "FP1_002t")
 
 
+# Echoing Ooze
+class FP1_003:
+	play = OWN_TURN_END.on(Summon(CONTROLLER, ExactCopy(SELF)))
+
+
 # Mad Scientist
 class FP1_004:
 	deathrattle = Summon(CONTROLLER, RANDOM(CONTROLLER_DECK + SECRET))

@@ -652,6 +652,20 @@ def test_eaglehorn_bow():
 	assert bow.durability == 3
 
 
+def test_echoing_ooze():
+	game = prepare_game()
+	ooze = game.player1.give("FP1_003")
+	ooze.play()
+	assert len(game.player1.field) == 1
+	game.end_turn()
+
+	assert len(game.player1.field) == 2
+	assert game.player1.field[0] is ooze
+	assert game.player1.field[1].id == ooze.id
+	assert game.player1.field[1].atk == ooze.atk
+	assert game.player1.field[1].health == ooze.health
+
+
 def test_echo_of_medivh():
 	game = prepare_game()
 	game.player1.give(WISP).play()
