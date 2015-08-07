@@ -1252,6 +1252,25 @@ def test_secretkeeper():
 	assert secretkeeper.health == 3
 
 
+def test_siege_engine():
+	game = prepare_game(WARRIOR, WARRIOR)
+	engine = game.player1.give("GVG_086")
+	engine.play()
+	assert engine.atk == 5
+	game.player1.hero.power.use()
+	assert game.player1.hero.armor == 2
+	assert engine.atk == 6
+	game.end_turn()
+	game.player2.hero.power.use()
+	assert engine.atk == 6
+	game.end_turn()
+
+	# Shield Block
+	game.player1.give("EX1_606").play()
+	assert game.player1.hero.armor == 7
+	assert engine.atk == 7
+
+
 def test_siltfin_spiritwalker():
 	game = prepare_game()
 	game.player1.discard_hand()

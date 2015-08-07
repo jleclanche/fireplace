@@ -23,6 +23,11 @@ class GVG_056t:
 	in_hand = Draw(CONTROLLER, SELF).on(Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER))
 
 
+# Siege Engine
+class GVG_086:
+	events = GainArmor(FRIENDLY_HERO).on(Buff(SELF, "GVG_086e"))
+
+
 ##
 # Spells
 
