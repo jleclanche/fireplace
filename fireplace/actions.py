@@ -390,6 +390,7 @@ class Discard(TargetedAction):
 	"""
 	def do(self, source, target):
 		target.discard()
+		self.broadcast(source, EventListener.ON, target)
 
 
 class Draw(TargetedAction):
