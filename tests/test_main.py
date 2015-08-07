@@ -16,6 +16,7 @@ TARGET_DUMMY = "GVG_093"
 KOBOLD_GEOMANCER = "CS2_142"
 SPELLBENDERT = "tt_010a"
 WISP = "CS2_231"
+WHELP = "ds1_whelptoken"
 
 # Token spells
 MOONFIRE = "CS2_008"
@@ -5141,10 +5142,27 @@ def test_blackwing_corruptor():
 	game.end_turn()
 
 	game.player2.discard_hand()
-	game.player2.give("BRM_004")  # Make sure we have a whelp in hand
+	game.player2.give(WHELP)
 	blackwing2 = game.player2.give("BRM_034")
 	blackwing2.play(target=game.player1.hero)
 	assert game.player1.hero.health == 27
+
+
+def test_blackwing_technician():
+	game = prepare_game()
+	game.player1.discard_hand()
+	blackwing1 = game.player1.give("BRM_033")
+	blackwing1.play()
+	assert not blackwing1.buffs
+	assert blackwing1.atk == 2
+	assert blackwing1.health == 4
+
+	game.player1.give(WHELP)
+	blackwing2 = game.player1.give("BRM_033")
+	blackwing2.play()
+	assert blackwing2.buffs
+	assert blackwing2.atk == 3
+	assert blackwing2.health == 5
 
 
 def test_crackle():
