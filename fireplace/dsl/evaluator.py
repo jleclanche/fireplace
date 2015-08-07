@@ -1,3 +1,4 @@
+import copy
 import logging
 
 
@@ -10,12 +11,14 @@ class Evaluator:
 		self._else = None
 
 	def __and__(self, action):
-		self._if = action
-		return self
+		ret = copy.copy(self)
+		ret._if = action
+		return ret
 
 	def __or__(self, action):
-		self._else = action
-		return self
+		ret = copy.copy(self)
+		ret._else = action
+		return ret
 
 	def get_actions(self, source):
 		from ..actions import Action
