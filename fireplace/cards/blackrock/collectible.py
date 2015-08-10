@@ -91,6 +91,10 @@ class BRM_027:
 class BRM_027p:
 	activate = Hit(RANDOM_ENEMY_CHARACTER, 8)
 
+# DIE, INSECTS!
+class BRM_027pH:
+	activate = Hit(RANDOM_ENEMY_CHARACTER, 8) * 2
+
 
 # Emperor Thaurissan
 class BRM_028:
