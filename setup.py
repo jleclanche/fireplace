@@ -10,7 +10,7 @@ README = open(os.path.join(os.path.dirname(__file__), "README.md")).read()
 CLASSIFIERS = [
 	"Development Status :: 2 - Pre-Alpha",
 	"Intended Audience :: Developers",
-	"License :: OSI Approved :: MIT License",
+	"License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)"
 	"Programming Language :: Python",
 	"Programming Language :: Python :: 3",
 	"Programming Language :: Python :: 3.4",
@@ -30,6 +30,6 @@ setup(
 	classifiers=CLASSIFIERS,
 	download_url="https://github.com/jleclanche/python-bna/tarball/master",
 	long_description=README,
-	license="GPLv3",
+	license="AGPLv3",
 	url="https://github.com/jleclanche/fireplace",
 )
