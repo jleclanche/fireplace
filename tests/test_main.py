@@ -4444,6 +4444,25 @@ def test_inner_fire():
 	assert gurubashi.atk == 7
 
 
+def test_innervate():
+    game = prepare_game()
+    assert game.player1.mana == 10
+    assert game.player1.temp_mana == 0
+    assert game.player1.max_mana == 10
+    assert game.player1.max_resources == 10
+    game.player1.give("EX1_169").play()
+    assert game.player1.mana == 10
+    assert game.player1.temp_mana == 0
+    game.player1.give(GOLDSHIRE_FOOTMAN).play()
+    assert game.player1.mana == 9
+    game.player1.give("EX1_169").play()
+    assert game.player1.mana == 10
+    assert game.player1.temp_mana == 1
+    game.player1.give(GOLDSHIRE_FOOTMAN).play()
+    assert game.player1.mana == 9
+    assert game.player1.temp_mana == 0
+
+
 def test_ice_barrier():
 	game = prepare_game(MAGE, MAGE)
 	icebarrier = game.current_player.give("EX1_289")
