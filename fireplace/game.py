@@ -93,7 +93,6 @@ class BaseGame(Entity):
 		self.proposed_defender = None
 		if attacker.should_exit_combat:
 			logging.info("Attack has been interrupted.")
-			attacker.should_exit_combat = False
 			attacker.attacking = False
 			defender.defending = False
 			return

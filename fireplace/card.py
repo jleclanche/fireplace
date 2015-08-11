@@ -347,7 +347,6 @@ class Character(PlayableCard):
 		self.cant_be_targeted_by_hero_powers = False
 		self.num_attacks = 0
 		self.race = Race.INVALID
-		self.should_exit_combat = False
 		super().__init__(*args)
 
 	@property
@@ -397,20 +396,16 @@ class Character(PlayableCard):
 			return True
 		return False
 
-	def _set_zone(self, zone):
-		if self.attacking:
-			self.should_exit_combat = True
-		super()._set_zone(zone)
+	@property
+	def should_exit_combat(self):
+		if self.dead or self.zone != Zone.PLAY:
+			return True
+		return False
 
 	def attack(self, target):
 		assert target.zone == Zone.PLAY
 		assert self.controller.current_player
 		self.game.attack(self, target)
-
-	def _destroy(self):
-		if self.attacking:
-			self.should_exit_combat = True
-		super()._destroy()
 
 	@property
 	def damaged(self):
