@@ -587,7 +587,7 @@ class Reveal(TargetedAction):
 	def do(self, source, target):
 		logging.info("Revealing secret %r", target)
 		self.broadcast(source, EventListener.ON, target)
-		target.destroy()
+		target.zone = Zone.GRAVEYARD
 
 
 class SetCurrentHealth(TargetedAction):
