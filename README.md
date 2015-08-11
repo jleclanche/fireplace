@@ -1,4 +1,5 @@
 ## Fireplace
+[![AGPLv3](https://www.gnu.org/graphics/agplv3-88x31.png)](http://choosealicense.com/licenses/agpl-3.0/)
 [![Build Status](https://travis-ci.org/jleclanche/fireplace.svg)](https://travis-ci.org/jleclanche/fireplace)
 
 A Hearthstone simulator and implementation, written in Python.
@@ -19,7 +20,8 @@ source of documentation, along with the actual code.
 
 ### License
 
-Fireplace is licensed GPLv3. This may change in the future.
+Fireplace is licensed under the terms of the
+[Affero GPLv3](https://www.gnu.org/licenses/agpl-3.0.en.html) or any later version.
 
 ### Community
 
