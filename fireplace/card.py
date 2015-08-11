@@ -1,7 +1,7 @@
 import logging
 from itertools import chain
 from . import cards as CardDB, rules
-from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle
+from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
 from .entity import Entity, boolean_property, int_property
 from .enums import AuraType, CardType, PlayReq, Race, Zone
 from .managers import *
@@ -445,6 +445,9 @@ class Character(PlayableCard):
 		if self.zone == Zone.PLAY:
 			return self.attack_targets
 		return super().targets
+
+	def set_current_health(self, amount):
+		return self.game.queue_actions(self, [SetCurrentHealth(self, amount)])
 
 
 class Hero(Character):
