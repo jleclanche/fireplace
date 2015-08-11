@@ -4527,6 +4527,20 @@ def test_vaporize():
 	assert game.current_player.opponent.hero.health == 27
 
 
+def test_slam():
+	game = prepare_game()
+	wisp = game.player1.summon(WISP)
+	mogushan = game.player1.summon("EX1_396")
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	game.player1.give("EX1_391").play(target=wisp)
+	assert wisp.dead
+	assert len(game.player1.hand) == 0
+	game.player1.give("EX1_391").play(target=mogushan)
+	assert not mogushan.dead
+	assert len(game.player1.hand) == 1
+
+
 def test_stampeding_kodo():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
