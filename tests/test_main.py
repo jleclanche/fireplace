@@ -5008,6 +5008,22 @@ def test_repentance():
 	assert spellbendert2.max_health == 1
 
 
+def test_revenge():
+	game = prepare_game()
+	dummy1 = game.player1.summon(TARGET_DUMMY)
+	assert dummy1.health == 2
+	assert game.player1.hero.health == 30
+	game.player1.give("BRM_015").play()
+	assert dummy1.health == 1
+	assert game.player1.hero.health == 30
+	dummy2 = game.player1.summon(TARGET_DUMMY)
+	game.player1.hero.set_current_health(12)
+	assert dummy2.health == 2
+	game.player1.give("BRM_015").play()
+	assert dummy1.dead
+	assert dummy2.dead
+
+
 def test_faceless_manipulator():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
