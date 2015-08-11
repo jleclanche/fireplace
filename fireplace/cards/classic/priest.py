@@ -130,7 +130,7 @@ class EX1_334e:
 
 # Thoughtsteal
 class EX1_339:
-	play = Give(CONTROLLER, Copy(RANDOM(OPPONENT_DECK + MINION) * 2))
+	play = Give(CONTROLLER, Copy(RANDOM(OPPONENT_DECK) * 2))
 
 
 # Mindgames
