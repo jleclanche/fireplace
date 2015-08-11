@@ -3844,6 +3844,21 @@ def test_truesilver_champion():
 	assert lightwarden.atk == 3
 
 
+def test_truesilver_champion_explosive_trap():
+	game = prepare_game()
+	explosivetrap = game.player1.give("EX1_610")
+	explosivetrap.play()
+	game.end_turn()
+	game.player2.hero.set_current_health(2)
+	assert game.player2.hero.health == 2
+	truesilver = game.player2.give("CS2_097")
+	truesilver.play()
+	game.player2.hero.attack(game.player1.hero)
+	assert explosivetrap.dead
+	assert game.player2.hero.health == 2
+	assert game.player1.hero.health == 26
+
+
 def test_tinkertown_technician():
 	game = prepare_game()
 	game.player1.discard_hand()
