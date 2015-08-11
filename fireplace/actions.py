@@ -522,7 +522,7 @@ class ManaThisTurn(TargetedAction):
 		AMOUNT = 1
 
 	def do(self, source, target, amount):
-		target.temp_mana += amount
+		target.temp_mana += min(target.max_resources - target.mana, amount)
 
 
 class Mill(TargetedAction):
