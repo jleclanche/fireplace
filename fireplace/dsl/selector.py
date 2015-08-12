@@ -28,14 +28,10 @@ class Selector:
 	class Unmerge:
 		pass
 
-	def __init__(self, *args):
+	def __init__(self, tag=None):
 		self.program = []
-		first = True
-		for arg in args:
-			self.program.append(arg)
-			if not first:
-				self.program.append(Selector._or)
-			first = False
+		if tag is not None:
+			self.program.append(tag)
 
 	def __repr__(self):
 		prog = []

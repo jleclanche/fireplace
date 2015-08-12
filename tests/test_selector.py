@@ -9,7 +9,7 @@ def test_selector():
 	game = prepare_game()
 	game.player1.discard_hand()
 	alex = game.player1.give("EX1_561")
-	selector = Selector(Race.PIRATE, Race.DRAGON) + Selector(CardType.MINION)
+	selector = Selector(Race.PIRATE) | Selector(Race.DRAGON) + Selector(CardType.MINION)
 	assert len(selector.eval(game.player1.hand, game.player1)) >= 1
 
 	in_hand = Selector(Zone.HAND)
