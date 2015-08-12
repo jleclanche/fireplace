@@ -144,8 +144,8 @@ class EX1_316e:
 # Sense Demons
 class EX1_317:
 	play = (
-		Find(CONTROLLER_DECK + MINION + DEMON) &
-		Draw(CONTROLLER, RANDOM(CONTROLLER_DECK + MINION + DEMON)) |
+		Find(CONTROLLER_DECK + DEMON) &
+		ForceDraw(RANDOM(CONTROLLER_DECK + DEMON)) |
 		Give(CONTROLLER, "EX1_317t"),
 	) * 2
 

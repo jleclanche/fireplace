@@ -4203,6 +4203,34 @@ def test_savage_roar():
 	assert game.player2.hero.atk == 0
 
 
+def test_sense_demons():
+	game = prepare_empty_game()
+	game.player1.discard_hand()
+	demon1 = game.player1.give("EX1_319")
+	demon1.shuffle_into_deck()
+	demon2 = game.player1.give("CS2_065")
+	demon2.shuffle_into_deck()
+	wisp = game.player1.give(WISP)
+	wisp.shuffle_into_deck()
+	assert len(game.player1.deck) == 3
+	assert len(game.player1.hand) == 0
+	sense1 = game.player1.give("EX1_317")
+	sense1.play()
+	assert len(game.player1.deck) == 1
+	assert len(game.player1.hand) == 2
+	assert game.player1.hand.contains(demon1)
+	assert game.player1.hand.contains(demon2)
+
+	game.player1.discard_hand()
+	assert len(game.player1.deck) == 1
+	assert len(game.player1.hand) == 0
+	sense2 = game.player1.give("EX1_317")
+	sense2.play()
+	assert len(game.player1.deck) == 1
+	assert len(game.player1.hand) == 2
+	assert game.player1.hand[0].id == game.player1.hand[1].id == "EX1_317t"
+
+
 def test_shadowflame():
 	game = prepare_game()
 	dummy1 = game.player1.give(TARGET_DUMMY)
