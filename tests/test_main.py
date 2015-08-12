@@ -3097,6 +3097,18 @@ def test_gang_up():
 	assert len(game.player2.deck.filter(id=WISP)) == 3
 
 
+def test_gazlowe():
+	game = prepare_empty_game()
+	game.player1.discard_hand()
+	game.player1.give("GVG_117").play()
+	assert len(game.player1.hand) == 0
+	smite = game.player1.give("CS1_130")
+	assert smite.cost == 1
+	smite.play(target=game.player2.hero)
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].race == Race.MECHANICAL
+
+
 def test_goblin_blastmage():
 	game = prepare_game()
 	blastmage1 = game.current_player.give("GVG_004")
