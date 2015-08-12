@@ -395,7 +395,7 @@ class Discard(TargetedAction):
 
 class Draw(TargetedAction):
 	"""
-	Make player targets draw \a count cards.
+	Make player targets draw a card from their deck.
 	"""
 	class Args(Action.Args):
 		TARGETS = 0
@@ -414,16 +414,10 @@ class Draw(TargetedAction):
 
 class ForceDraw(TargetedAction):
 	"""
-	Make player targets draw \a cards from their deck.
+	Draw card targets into their owners hand
 	"""
-	class Args(Action.Args):
-		TARGETS = 0
-		CARDS = 1
-
 	def do(self, source, target):
-		cards = self.eval(self.cards, source)
-		for card in cards:
-			card.draw()
+		target.draw()
 
 
 class FullHeal(TargetedAction):
