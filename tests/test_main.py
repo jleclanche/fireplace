@@ -2231,14 +2231,15 @@ def test_mechwarper():
 	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
 	harvest = game.player1.give("EX1_556")
 	clockwork = game.player1.give("GVG_082")
+	clockwork2 = game.player1.give("GVG_082")
 	assert harvest.cost == 3
 	assert goldshire.cost == 1
-	assert clockwork.cost == 1
+	assert clockwork.cost == clockwork2.cost == 1
 
 	mechwarper.play()
 	assert harvest.cost == 3 - 1
 	assert goldshire.cost == 1
-	assert clockwork.cost == 0
+	assert clockwork.cost == clockwork2.cost == 0
 
 	clockwork.play()
 	assert clockwork.cost == 1
@@ -2246,12 +2247,12 @@ def test_mechwarper():
 	game.current_player.give(SILENCE).play(target=mechwarper)
 	assert harvest.cost == 3
 	assert goldshire.cost == 1
-	assert clockwork.cost == 1
+	assert clockwork.cost == clockwork2.cost == 1
 
 	mechwarper.destroy()
 	assert harvest.cost == 3
 	assert goldshire.cost == 1
-	assert clockwork.cost == 1
+	assert clockwork.cost == clockwork2.cost == 1
 
 
 def test_mekgineer_thermaplugg():
