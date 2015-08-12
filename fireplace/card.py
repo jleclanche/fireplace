@@ -3,7 +3,7 @@ from itertools import chain
 from . import cards as CardDB, rules
 from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
 from .entity import Entity, boolean_property, int_property
-from .enums import AuraType, CardType, PlayReq, Race, Zone
+from .enums import AuraType, CardType, PlayReq, Race, Rarity, Zone
 from .managers import *
 from .targeting import is_valid_target
 from .utils import CardList
@@ -132,6 +132,7 @@ class PlayableCard(BaseCard):
 		self.has_combo = False
 		self.overload = 0
 		self.target = None
+		self.rarity = Rarity.INVALID
 		super().__init__(id, data)
 
 	@property
