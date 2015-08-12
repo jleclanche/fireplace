@@ -431,7 +431,7 @@ class FullHeal(TargetedAction):
 	Fully heal character targets.
 	"""
 	def do(self, source, target):
-		source.heal(target, target.health)
+		source.heal(target, target.max_health)
 
 
 class GainArmor(TargetedAction):
