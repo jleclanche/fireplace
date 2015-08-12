@@ -729,7 +729,7 @@ class Aura(object):
 	def targets(self):
 		if self.on_enrage and not self.source.enraged:
 			return []
-		return self.selector.eval(self.source.game, self.source)
+		return CardList(self.selector.eval(self.source.game, self.source))
 
 	def summon(self):
 		logging.info("Summoning Aura %r", self)
