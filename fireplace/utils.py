@@ -5,6 +5,12 @@ class CardList(list):
 				return True
 		return False
 
+	def __getitem__(self, key):
+		ret = super().__getitem__(key)
+		if isinstance(key, slice):
+			return self.__class__(ret)
+		return ret
+
 	def contains(self, x):
 		"True if list contains any instance of x"
 		for item in self:
