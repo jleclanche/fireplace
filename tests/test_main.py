@@ -1036,14 +1036,16 @@ def test_ancestors_call():
 
 
 def test_ancestral_healing():
-	game = prepare_game()
-	ancestral = game.current_player.give("CS2_041")
-	wisp = game.current_player.give(WISP)
-	wisp.play()
-	assert not wisp.taunt
-	ancestral.play(wisp)
-	assert wisp.health == 1
-	assert wisp.taunt
+	game = prepare_empty_game()
+	watcher = game.current_player.give("EX1_045")
+	watcher.play()
+	assert not watcher.taunt
+	assert watcher.health == 5
+	watcher.set_current_health(1)
+	assert watcher.health == 1
+	game.current_player.give("CS2_041").play(watcher)
+	assert watcher.taunt
+	assert watcher.health == 5
 
 
 def test_ancestral_spirit():
