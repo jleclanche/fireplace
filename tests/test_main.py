@@ -1482,6 +1482,32 @@ def test_healing_totem():
 	assert footman.health == 2
 
 
+def test_captains_parrot():
+	game = prepare_empty_game()
+	pirate1 = game.player1.give("NEW1_022")
+	pirate1.shuffle_into_deck()
+	pirate2 = game.player1.give("CS2_146")
+	pirate2.shuffle_into_deck()
+	wisp = game.player1.give(WISP)
+	wisp.shuffle_into_deck()
+	assert len(game.player1.deck) == 3
+	game.player1.give("NEW1_016").play()
+	assert len(game.player1.deck) == 2
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].race == Race.PIRATE
+	game.player1.discard_hand()
+	game.player1.give("NEW1_016").play()
+	assert len(game.player1.deck) == 1
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].race == Race.PIRATE
+	game.player1.discard_hand()
+	assert len(game.player1.deck) == 1
+	assert len(game.player1.hand) == 0
+	game.player1.give("NEW1_016").play()
+	assert len(game.player1.deck) == 1
+	assert len(game.player1.hand) == 0
+
+
 def test_crazed_alchemist():
 	game = prepare_game()
 	alchemist = game.current_player.give("EX1_059")

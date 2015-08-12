@@ -41,7 +41,7 @@ class EX1_620:
 
 # Captain's Parrot
 class NEW1_016:
-	play = ForceDraw(CONTROLLER, CONTROLLER_DECK + PIRATE)
+	play = ForceDraw(RANDOM(CONTROLLER_DECK + PIRATE))
 
 
 # Hungry Crab
