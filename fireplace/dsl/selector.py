@@ -1,3 +1,4 @@
+import operator
 import random
 from enum import IntEnum
 from ..enums import Affiliation, CardType, GameTag, Race, Zone
@@ -136,6 +137,40 @@ class Selector:
 
 	def _not(self, stack):
 		stack.append(not stack.pop())
+
+
+class AttrSelector(Selector):
+	"""
+	Selects entities with tags matching a comparison.
+	"""
+	class IsAttrValue:
+		def __init__(self, tag, op, value):
+			self.tag = tag
+			self.op = op
+			self.value = value
+
+		def test(self, entity, source):
+			return self.op(entity.tags.get(self.tag, 0), self.value)
+
+	def __init__(self, tag):
+		super().__init__()
+		self.tag = tag
+		self.program = []
+
+	def _cmp(op):
+		def func(self, other):
+			sel = self.__class__(self.tag)
+			sel.program = [self.IsAttrValue(self.tag, getattr(operator, op), other)]
+			return sel
+		return func
+
+	__eq__ = _cmp("eq")
+	__ge__ = _cmp("ge")
+	__gt__ = _cmp("gt")
+	__le__ = _cmp("le")
+	__lt__ = _cmp("lt")
+
+ATK = AttrSelector(GameTag.ATK)
 
 
 class SelfSelector(Selector):
