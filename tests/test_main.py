@@ -2481,6 +2481,37 @@ def test_betrayal_poisonous():
 	assert watcher2.dead
 
 
+def test_big_game_hunter():
+	game = prepare_game()
+	bgh1 = game.player1.give("EX1_005")
+	assert not bgh1.has_target()
+	bgh1.play()
+	game.end_turn()
+
+	wargolem = game.player2.give("CS2_186")
+	wargolem.play()
+	assert wargolem.atk == 7
+	game.end_turn()
+
+	bgh2 = game.player1.give("EX1_005")
+	assert bgh2.has_target()
+	bgh2.play(target=wargolem)
+	assert wargolem.dead
+
+
+def test_big_game_hunter_questing_adventurer():
+	game = prepare_game()
+	adventurer = game.player1.give("EX1_044")
+	adventurer.play()
+	mightblessing = game.player1.give("CS2_087")
+	mightblessing.play(target=adventurer)
+	assert adventurer.atk == 6
+	bgh = game.player1.give("EX1_005")
+	bgh.play()
+	assert len(game.player1.field) == 2
+	assert adventurer.atk == 7
+
+
 def test_cold_blood():
 	game = prepare_game()
 	wisp = game.current_player.give(WISP)
