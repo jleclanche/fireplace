@@ -115,3 +115,8 @@ class EX1_607:
 # Commanding Shout
 class NEW1_036:
 	play = Buff(FRIENDLY_MINIONS, "NEW1_036e")
+
+
+# Warsong Commander
+class EX1_084:
+	events = Summon(CONTROLLER, MINION + (ATK <= 3)).after(Buff(Summon.Args.CARDS, "EX1_084e"))
