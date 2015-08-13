@@ -11,9 +11,7 @@ class GVG_016:
 
 # Hobgoblin
 class GVG_104:
-	events = OWN_MINION_PLAY.on(
-		lambda self, player, card, *args: card.atk == 1 and Buff(card, "GVG_104a")
-	)
+	events = Play(CONTROLLER, MINION + (ATK == 1)).on(Buff(Play.Args.CARD, "GVG_104a"))
 
 
 # Piloted Sky Golem
