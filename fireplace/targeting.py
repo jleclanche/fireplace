@@ -6,6 +6,10 @@ from .enums import CardType, PlayReq, Rarity
 
 # Requirements-based targeting
 def is_valid_target(self, target, requirements=None):
+	if target is self:
+		# Battlecries can never target themselves
+		return False
+
 	if target.type == CardType.MINION:
 		if target.dead:
 			return False
