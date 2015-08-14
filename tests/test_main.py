@@ -1201,6 +1201,25 @@ def test_doomhammer():
 	assert game.current_player.weapon.durability == 6
 
 
+def test_dragon_egg():
+	game = prepare_game(PRIEST, PRIEST)
+	egg = game.player1.give("BRM_022")
+	egg.play()
+	assert len(game.player1.field) == 1
+	game.player1.give(MOONFIRE).play(target=egg)
+	assert len(game.player1.field) == 2
+	assert len(game.player1.field.filter(id="BRM_022t")) == 1
+	assert egg.health == 1
+	game.player1.hero.power.use(target = egg)
+	assert egg.health == 2
+	assert len(game.player1.field) == 2
+	for i in range(2):
+		game.player1.give(MOONFIRE).play(target=egg)
+	assert egg.dead
+	assert len(game.player1.field) == 3
+	assert len(game.player1.field.filter(id="BRM_022t")) == 3
+
+
 def test_dr_boom():
 	game = prepare_game()
 	boom = game.player1.give("GVG_110")
