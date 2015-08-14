@@ -4929,6 +4929,26 @@ def test_resurrect_wild_pyro():
 	assert game.player1.field[0].health == 1
 
 
+def test_rend_blackhand():
+	game = prepare_empty_game()
+	rend1 = game.player1.give("BRM_029")
+	assert not rend1.has_target()
+	dragon = game.player1.give("NEW1_023")
+	assert not rend1.has_target()
+	pagle = game.player2.summon("EX1_557")
+	assert rend1.has_target()
+	assert rend1.targets == [pagle]
+	rend1.play(target=pagle)
+	assert pagle.dead
+	rend1.destroy()
+	game.end_turn(); game.end_turn()
+
+	rend2 = game.player1.give("BRM_029")
+	assert not rend2.has_target()
+	assert not rend2.targets
+	rend2.play()
+
+
 def test_majordomo_executus():
 	game = prepare_game(WARRIOR, WARRIOR)
 	game.end_turn(); game.end_turn()
