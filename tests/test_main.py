@@ -618,6 +618,18 @@ def test_silence():
 	assert not thrallmar.windfury
 
 
+def test_silence_deathrattle():
+	game = prepare_game()
+	egg = game.player1.give("FP1_007")
+	egg.play()
+	assert len(game.player1.field) == 1
+	game.player1.give(SILENCE).play(target=egg)
+	game.player1.give(MOONFIRE).play(target=egg)
+	game.player1.give(MOONFIRE).play(target=egg)
+	assert egg.dead
+	assert len(game.player1.field) == 0
+
+
 def test_earth_shock():
 	game = prepare_game()
 	crusader = game.current_player.give("EX1_020")
@@ -4118,7 +4130,7 @@ def test_warsong_commander_faceless_manipulator():
 	assert copy == goldshire
 	assert copy.charge
 
-	
+
 def test_warsong_commander_faceless_manipulator_buffed():
 	# test 6 - Warsong, then Faceless Manipulator on 5/6 damaged Gurubashi Berseker
 	game = prepare_game()

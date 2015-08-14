@@ -499,7 +499,8 @@ class Minion(Character):
 	silenceable_attributes = (
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
-		"frozen", "has_inspire", "poisonous", "stealthed", "taunt", "windfury",
+		"frozen", "has_deathrattle", "has_inspire", "poisonous", "stealthed",
+		"taunt", "windfury",
 	)
 
 	def __init__(self, id, data):
