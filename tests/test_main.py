@@ -3517,6 +3517,24 @@ def test_nerubar_weblord():
 	assert perdition1.cost == perdition2.cost == 3
 
 
+def test_noble_sacrifice():
+	game = prepare_game()
+	sacrifice = game.player1.give("EX1_130")
+	sacrifice.play()
+	wisp = game.player2.summon(WISP)
+	game.end_turn()
+
+	assert sacrifice in game.player1.secrets
+	assert not wisp.dead
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 1
+	wisp.attack(game.player1.hero)
+	assert sacrifice not in game.player1.secrets
+	assert wisp.dead
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 0
+
+
 def test_northshire_cleric():
 	game = prepare_game(PRIEST, PRIEST)
 	game.player1.discard_hand()

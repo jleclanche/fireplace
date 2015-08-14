@@ -126,6 +126,13 @@ class EX1_619e:
 ##
 # Secrets
 
+# Noble Sacrifice
+class EX1_130:
+	events = Attack(ENEMY_MINIONS).on(
+		Retarget(Attack.Args.ATTACKER, Summon(CONTROLLER, "EX1_130a")), Reveal(SELF)
+	)
+
+
 # Eye for an Eye
 class EX1_132:
 	events = Damage(FRIENDLY_HERO).on(
