@@ -2767,6 +2767,27 @@ def test_king_mukla():
 	assert wisp.atk == 2
 
 
+def tst_kirin_tor_mage():
+	game = prepare_game()
+	counterspell = game.player1.give("EX1_287")
+	assert counterspell.cost == 2
+	vaporize = game.player1.give("EX1_594")
+	assert vaporize.cost == 2
+	missiles = game.player1.give("EX1_277")
+	assert missiles.cost == 1
+	game.player1.give("EX1_612").play()
+	assert counterspell.cost == 0
+	assert vaporize.cost == 0
+	assert missiles.cost == 1
+	counterspell.play()
+	assert vaporize.cost == 2
+	game.player1.give("EX1_612").play()
+	assert vaporize.cost == 0
+	game.end_turn(); game.end_turn()
+
+	assert vaporize.cost == 2
+
+
 def test_knife_juggler():
 	game = prepare_game()
 	juggler = game.player1.give("NEW1_019")
