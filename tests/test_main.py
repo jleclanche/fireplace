@@ -903,6 +903,30 @@ def test_southsea_deckhand():
 	assert deckhand.charge
 
 
+def test_spellbender():
+	game = prepare_game()
+	spellbender = game.player1.give("tt_010")
+	spellbender.play()
+	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire.play()
+	game.end_turn()
+
+	assert game.player1.hero.health == 30
+	game.player2.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 29
+	assert spellbender in game.player1.secrets
+	assert goldshire.health == 2
+	assert len(game.player1.field) == 1
+	game.player2.give(MOONFIRE).play(target=goldshire)
+	assert spellbender not in game.player1.secrets
+	assert goldshire.health == 2
+	assert len(game.player1.field) == 2
+	target = game.player1.field[1]
+	assert target.id == "tt_010a"
+	assert target.max_health == 3
+	assert target.health == 2
+
+
 def test_spiteful_smith():
 	game = prepare_game()
 	assert not game.current_player.hero.atk

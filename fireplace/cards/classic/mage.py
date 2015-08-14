@@ -125,6 +125,13 @@ class EX1_279:
 ##
 # Secrets
 
+# Spellbender
+class tt_010:
+	events = Play(OPPONENT, SPELL, MINION).on(
+		Retarget(Play.Args.CARD, Summon(CONTROLLER, "tt_010a")), Reveal(SELF)
+	)
+
+
 # Counterspell
 class EX1_287:
 	events = Play(OPPONENT, SPELL).on(
