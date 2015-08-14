@@ -202,7 +202,7 @@ class PlayableCard(BaseCard):
 		kwargs = {}
 		if self.target:
 			kwargs["target"] = self.target
-		elif PlayReq.REQ_TARGET_IF_AVAILABLE in self.requirements:
+		elif self.has_target():
 			logging.info("%r has no target, action exits early" % (self))
 			return
 
