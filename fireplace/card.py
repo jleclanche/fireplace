@@ -190,8 +190,9 @@ class PlayableCard(BaseCard):
 		return self.buffs
 
 	def _set_zone(self, zone):
+		old_zone = self.zone
 		super()._set_zone(zone)
-		if zone == Zone.HAND:
+		if old_zone == Zone.PLAY and zone not in (Zone.GRAVEYARD, Zone.SETASIDE):
 			self.clear_buffs()
 
 	def action(self):
