@@ -1981,6 +1981,26 @@ def test_power_overwhelming():
 	assert wisp not in game.board
 
 
+def test_power_of_the_wild():
+	game = prepare_game()
+	assert len(game.player1.field) == 0
+	game.player1.give("EX1_160").play(choose="EX1_160a")
+	assert len(game.player1.field) == 1
+	token = game.player1.field[0]
+	assert token.id == "EX1_160t"
+	teacher = game.player1.give("NEW1_026")
+	teacher.play()
+	assert token.atk == 3 and token.health == 2
+	assert teacher.atk == 3 and teacher.health == 5
+	game.player1.give("EX1_160").play(choose="EX1_160b")
+	assert len(game.player1.field) == 3
+	assert token.atk == 4 and token.health == 3
+	assert teacher.atk == 4 and teacher.health == 6
+	apprentice = game.player1.field[2]
+	assert apprentice.id == "NEW1_026t"
+	assert apprentice.atk == 1 + 1 and apprentice.health == 1+ 1
+
+
 def test_questing_adventurer():
 	game = prepare_game()
 	adventurer = game.current_player.give("EX1_044")
