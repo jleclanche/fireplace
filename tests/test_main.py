@@ -2351,8 +2351,8 @@ def test_mirror_entity_repentance():
 	mirror1 = game.player2.summon("EX1_294")
 	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
 	goldshire1.play()
-	assert mirror1.dead
-	assert repentance1.dead
+	assert mirror1 not in game.player2.secrets
+	assert repentance1 not in game.player2.secrets
 	assert goldshire1.health == 1
 	assert len(game.player1.field) == len(game.player2.field) == 1
 	assert game.player1.field[0].health == game.player2.field[0].health
@@ -2364,8 +2364,8 @@ def test_mirror_entity_repentance():
 	repentance2 = game.player2.summon("EX1_379")
 	goldshire2 = game.player1.give(GOLDSHIRE_FOOTMAN)
 	goldshire2.play()
-	assert repentance2.dead
-	assert mirror2.dead
+	assert repentance2 not in game.player2.secrets
+	assert mirror2 not in game.player2.secrets
 	assert goldshire2.health == 1
 	assert len(game.player2.field) == 1
 	assert game.player2.field[0].health == 2
@@ -4029,17 +4029,17 @@ def test_truesilver_champion():
 
 def test_truesilver_champion_explosive_trap():
 	game = prepare_game()
-	explosivetrap = game.player1.give("EX1_610")
-	explosivetrap.play()
-	game.end_turn()
-	game.player2.hero.set_current_health(2)
-	assert game.player2.hero.health == 2
-	truesilver = game.player2.give("CS2_097")
+	explosivetrap = game.player2.summon("EX1_610")
+	game.player1.hero.set_current_health(2)
+	truesilver = game.player1.give("CS2_097")
 	truesilver.play()
-	game.player2.hero.attack(game.player1.hero)
-	assert explosivetrap.dead
-	assert game.player2.hero.health == 2
-	assert game.player1.hero.health == 26
+	assert explosivetrap in game.player2.secrets
+	assert game.player1.hero.health == 2
+	assert game.player2.hero.health == 30
+	game.player1.hero.attack(game.player2.hero)
+	assert explosivetrap not in game.player2.secrets
+	assert game.player1.hero.health == 2
+	assert game.player2.hero.health == 26
 
 
 def test_tinkertown_technician():
@@ -4898,26 +4898,25 @@ def test_ice_barrier():
 
 def test_vaporize():
 	game = prepare_game()
-	vaporize = game.current_player.give("EX1_594")
+	vaporize = game.player1.give("EX1_594")
 	game.end_turn()
 
-	wisp = game.current_player.give(WISP)
+	wisp = game.player2.give(WISP)
 	wisp.play()
 	game.end_turn()
 
 	vaporize.play()
-	assert game.current_player.secrets[0] == vaporize
+	assert game.player1.secrets[0] == vaporize
 	game.end_turn()
 
 	assert len(game.current_player.opponent.secrets) == 1
 	# Play an axe and hit the hero ourselves
-	game.current_player.give("CS2_106").play()
-	game.current_player.hero.attack(target=game.current_player.opponent.hero)
-	assert len(game.current_player.opponent.secrets) == 1
-	assert game.current_player.opponent.hero.health == 27
-	wisp.attack(target=game.current_player.opponent.hero)
-	assert not game.current_player.opponent.secrets
-	assert vaporize.dead
+	game.player2.give("CS2_106").play()
+	game.player2.hero.attack(target=game.player1.hero)
+	assert game.player1.hero.health == 27
+	assert vaporize in game.player1.secrets
+	wisp.attack(target=game.player1.hero)
+	assert vaporize not in game.player1.secrets
 	assert wisp.dead
 	assert game.current_player.opponent.hero.health == 27
 
@@ -5132,9 +5131,9 @@ def test_freezing_trap():
 	assert not wisp.buffs
 	assert wisp.zone == Zone.PLAY
 	assert game.player2.hero.health == 30
+	assert trap in game.player2.secrets
 	wisp.attack(target=game.player2.hero)
-	assert not game.player2.secrets
-	assert trap.dead
+	assert trap not in game.player2.secrets
 	assert game.player2.hero.health == 30
 	assert wisp.zone == Zone.HAND
 	assert wisp in game.player1.hand
@@ -5580,8 +5579,9 @@ def test_explosive_trap():
 	game.end_turn(); game.end_turn()
 
 	assert len(game.player2.field) == 4
+	assert explosivetrap in game.player1.secrets
 	wisp.attack(game.player1.hero)
-	assert explosivetrap.dead
+	assert explosivetrap not in game.player1.secrets
 	assert len(game.player2.field) == 0
 	assert game.player2.hero.health == 24
 	assert game.player1.hero.health == 30
