@@ -5070,6 +5070,23 @@ def test_freezing_trap():
 	assert wisp.cost == 0
 
 
+def test_frothing_berserker():
+	game = prepare_game()
+	frothing = game.player1.give("EX1_604")
+	assert not frothing.buffs
+	wisp1 = game.player1.summon(WISP)
+	game.player1.give(MOONFIRE).play(target=wisp1)
+	assert not frothing.buffs
+	frothing.play()
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert not frothing.buffs
+	assert frothing.atk == 2
+	wisp2 = game.player1.summon(WISP)
+	game.player1.give(MOONFIRE).play(target=wisp2)
+	assert frothing.buffs
+	assert frothing.atk == 2 + 1
+
+
 def test_flame_leviathan():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
