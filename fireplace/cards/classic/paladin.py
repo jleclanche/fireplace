@@ -101,11 +101,7 @@ class EX1_363e:
 
 # Holy Wrath
 class EX1_365:
-	# TODO
-	def play(self, target):
-		drawn = self.controller.draw()
-		self.hit(target, drawn[0].cost)
-
+	play = Hit(TARGET, Attr(Draw(CONTROLLER), GameTag.COST))
 
 # Hand of Protection
 class EX1_371:

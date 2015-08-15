@@ -3420,6 +3420,32 @@ def test_houndmaster():
 	assert hound.taunt
 
 
+def test_holy_wrath():
+	game = prepare_empty_game()
+	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire.shuffle_into_deck()
+	assert goldshire in game.player1.deck
+	assert goldshire.cost == 1
+	assert game.player2.hero.health == 30
+	game.player1.give("EX1_365").play(target=game.player2.hero)
+	assert not goldshire in game.player1.deck
+	assert game.player2.hero.health == 30 - 1
+	game.player1.give("EX1_365").play(target=game.player2.hero)
+	assert game.player2.hero.health == 30 - 1
+	game.end_turn(); game.end_turn()
+
+	game.player2.hero.set_current_health(30)
+	for i in range(10):
+		game.player1.give(WISP)
+	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire.shuffle_into_deck()
+	assert game.player2.hero.health == 30
+	game.player1.give("EX1_365").play(target=game.player2.hero)
+	assert game.player2.hero.health == 30 - 1
+	assert not goldshire in game.player1.deck
+	assert not goldshire in game.player1.hand
+
+
 def test_illidan():
 	game = prepare_game()
 	illidan = game.current_player.give("EX1_614")
