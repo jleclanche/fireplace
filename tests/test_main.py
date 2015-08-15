@@ -4600,6 +4600,30 @@ def test_shadow_madness_silence():
 	assert wisp.controller == game.player1
 
 
+def test_shadow_word_pain():
+	game = prepare_game()
+	yeti = game.player1.summon("CS2_182")
+	wisp1 = game.player1.summon(WISP)
+	wisp2 = game.player1.summon(WISP)
+	pain = game.player1.give("CS2_234")
+	assert pain.targets == [wisp1, wisp2]
+	pain.play(target=wisp1)
+	assert wisp1.dead
+	assert not wisp2.dead
+	assert not yeti.dead
+
+
+def test_shadow_word_pain_questing_adventurer():
+	game = prepare_game()
+	adventurer = game.player1.summon("EX1_044")
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	pain = game.player1.give("CS2_234")
+	assert adventurer.atk == 3
+	assert adventurer in pain.targets
+	pain.play(target=adventurer)
+	assert adventurer.dead
+
+
 def test_shadowform():
 	game = prepare_game(PRIEST, PRIEST)
 	# Hero Power should reset
