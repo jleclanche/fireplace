@@ -3151,6 +3151,18 @@ def test_gazlowe():
 	assert game.player1.hand[0].race == Race.MECHANICAL
 
 
+def test_gazlowe_preparation():
+	game = prepare_empty_game()
+	game.player1.give("GVG_117").play()
+	fireball = game.player1.give("CS2_029")
+	assert fireball.cost == 4
+	game.player1.give("EX1_145").play()
+	assert fireball.cost == 1
+	fireball.play(target=game.player2.hero)
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].race == Race.MECHANICAL
+
+
 def test_goblin_blastmage():
 	game = prepare_game()
 	blastmage1 = game.current_player.give("GVG_004")
