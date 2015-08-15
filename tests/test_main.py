@@ -1034,6 +1034,22 @@ def test_animal_companion():
 	assert game.player1.field[0].id in ("NEW1_032", "NEW1_033", "NEW1_034")
 
 
+def test_anima_golem():
+	game = prepare_game()
+	anima = game.player1.give("GVG_077")
+	anima.play()
+	wisp1 = game.player1.summon(WISP)
+	wisp2 = game.player2.summon(WISP)
+	game.end_turn(); game.end_turn()
+
+	assert not anima.dead
+	wisp1.destroy()
+	game.end_turn()
+
+	assert anima.dead
+	game.end_turn()
+
+
 def test_ancestors_call():
 	game = prepare_game()
 	game.player1.discard_hand()
