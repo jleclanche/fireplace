@@ -2126,6 +2126,25 @@ def test_voljin_stealth():
 	assert tiger.health == 5
 
 
+def test_mad_scientist():
+	game = prepare_empty_game()
+	vaporize = game.player1.give("EX1_594")
+	vaporize.shuffle_into_deck()
+	counterspell = game.player1.give("EX1_287")
+	scientist = game.player1.give("FP1_004")
+	scientist.play()
+	assert len(game.player1.deck) == 1
+	assert len(game.player1.hand) == 1
+	assert len(game.player1.secrets) == 0
+	game.player1.give(MOONFIRE).play(target=scientist)
+	game.player1.give(MOONFIRE).play(target=scientist)
+	assert scientist.dead
+	assert len(game.player1.deck) == 0
+	assert len(game.player1.hand) == 1
+	assert vaporize in game.player1.secrets
+	assert counterspell in game.player1.hand
+
+
 def test_malorne():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
