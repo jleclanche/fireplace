@@ -4872,6 +4872,19 @@ def test_mind_control_tech_mirror_entity():
 	assert len(game.player2.field) == 1
 
 
+def test_injured_blademaster():
+	game = prepare_game()
+	frothing = game.player1.give("EX1_604")
+	frothing.play()
+	assert not frothing.buffs
+	assert frothing.atk == 2
+	blademaster = game.player1.give("CS2_181")
+	blademaster.play()
+	assert frothing.buffs
+	assert frothing.atk == 2 + 1
+	assert blademaster.health == blademaster.max_health - 4
+
+
 def test_inner_fire():
 	game = prepare_game()
 	gurubashi = game.player1.give("EX1_399")
