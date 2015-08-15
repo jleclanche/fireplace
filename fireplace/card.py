@@ -100,7 +100,7 @@ class BaseCard(Entity):
 					self._auras.append(aura)
 		else:
 			for aura in self._auras:
-				aura.destroy()
+				aura.to_be_destroyed = True
 
 	def buff(self, target, buff, **kwargs):
 		"""
@@ -605,7 +605,7 @@ class Minion(Character):
 	def silence(self):
 		logging.info("%r has been silenced" % (self))
 		for aura in self._auras:
-			aura.destroy()
+			aura.to_be_destroyed = True
 		self.clear_buffs()
 
 		for attr in self.silenceable_attributes:
@@ -719,6 +719,7 @@ class Aura(object):
 		self.selector = self.action._args[0]
 		self.id = self.action._args[1]
 		self.source = source
+		self.to_be_destroyed = False
 		self._buffed = CardList()
 		self._buffs = CardList()
 		# THIS IS A HACK
@@ -752,6 +753,9 @@ class Aura(object):
 				return buff
 
 	def update(self):
+		if self.to_be_destroyed:
+			return self.destroy()
+
 		targets = self.targets
 		for target in targets:
 			if not self._entity_buff(target):
