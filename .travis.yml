@@ -8,12 +8,9 @@ cache:
     - $HOME/.pip-cache/
     - $HOME/virtualenv/python3.4
 script:
-#  - pip install --download-cache $HOME/.pip-cache coveralls
   - ./bootstrap.sh
   - ./setup.py install
-  - ./tests/test_main.py
-# after_script:
-#  - coveralls
+  - py.test
 notifications:
   email:
     on_failure: always
