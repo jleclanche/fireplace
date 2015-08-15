@@ -624,6 +624,16 @@ def test_ancient_watcher():
 	assert watcher.can_attack()
 
 
+def test_anubar_ambusher():
+	game = prepare_empty_game()
+	ambusher = game.player1.summon("FP1_026")
+	wisp = game.player1.summon(WISP)
+	assert wisp in game.player1.field
+	ambusher.destroy()
+	assert len(game.player1.field) == 0
+	assert wisp in game.player1.hand
+
+
 def test_alarmobot():
 	game = prepare_game()
 	bot = game.current_player.give("EX1_006")
