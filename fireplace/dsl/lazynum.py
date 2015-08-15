@@ -1,6 +1,7 @@
 import operator
 import random
 from .evaluator import Evaluator
+from .selector import Selector
 
 
 class LazyNum:
@@ -21,6 +22,14 @@ class LazyNum:
 	__gt__ = _cmp("gt")
 	__le__ = _cmp("le")
 	__lt__ = _cmp("lt")
+
+	def get_entities(self, source):
+		if isinstance(self.selector, Selector):
+			entities = self.selector.eval(source.game, source)
+		else:
+			# TODO assert that self.selector is a TargetedAction
+			entities = sum(self.selector.trigger(source), [])
+		return entities
 
 
 class LazyNumEvaluator(Evaluator):
@@ -47,7 +56,7 @@ class Count(LazyNum):
 		return "%s(%r)" % (self.__class__.__name__, self.selector)
 
 	def evaluate(self, source):
-		return len(self.selector.eval(source.game, source))
+		return len(self.get_entities(source))
 
 
 class Attr(LazyNum):
@@ -63,7 +72,7 @@ class Attr(LazyNum):
 		return "%s(%r, %r)" % (self.__class__.__name__, self.selector, self.tag)
 
 	def evaluate(self, source):
-		entities = self.selector.eval(source.game, source)
+		entities = self.get_entities(source)
 		if isinstance(self.tag, str):
 			return sum(getattr(e, self.tag) for e in entities)
 		else:
