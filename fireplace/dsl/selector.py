@@ -171,6 +171,7 @@ class AttrSelector(Selector):
 	__lt__ = _cmp("lt")
 
 ATK = AttrSelector(GameTag.ATK)
+COST = AttrSelector(GameTag.COST)
 
 
 class SelfSelector(Selector):

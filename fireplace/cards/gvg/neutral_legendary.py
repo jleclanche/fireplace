@@ -30,8 +30,8 @@ class GVG_116:
 
 # Gazlowe
 class GVG_117:
-	events = Play(CONTROLLER, SPELL).on(
-		lambda self, player, card, *args: card.cost == 1 and Give(player, RandomMinion(race=Race.MECHANICAL))
+	events = Play(CONTROLLER, SPELL + (COST == 1)).on(
+		Give(Play.Args.PLAYER, RandomMinion(race=Race.MECHANICAL))
 	)
 
 
