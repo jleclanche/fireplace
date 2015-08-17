@@ -4539,6 +4539,29 @@ def test_ice_barrier():
 	assert game.current_player.opponent.hero.armor == 7
 
 
+def test_ice_lance():
+	game = prepare_game()
+	lance1 = game.player1.give("CS2_031")
+	assert game.player2.hero.health == 30
+	assert not game.player2.hero.frozen
+	lance1.play(target=game.player2.hero)
+	assert game.player2.hero.health == 30
+	assert game.player2.hero.frozen
+	lance2 = game.player1.give("CS2_031")
+	lance2.play(target=game.player2.hero)
+	assert game.player2.hero.health == 26
+	assert game.player2.hero.frozen
+	game.end_turn()
+
+	axe = game.player2.give("CS2_106")
+	axe.play()
+	assert game.player2.hero.frozen
+	assert not game.player2.hero.can_attack()
+	game.end_turn()
+
+	assert not game.player2.hero.frozen
+
+
 def test_vaporize():
 	game = prepare_game()
 	vaporize = game.player1.give("EX1_594")
