@@ -611,6 +611,7 @@ def test_anima_golem():
 	game.end_turn()
 
 	assert anima.dead
+	assert not wisp2.dead
 	game.end_turn()
 
 
@@ -790,7 +791,7 @@ def test_dragon_egg():
 	assert len(game.player1.field) == 2
 	assert len(game.player1.field.filter(id="BRM_022t")) == 1
 	assert egg.health == 1
-	game.player1.hero.power.use(target = egg)
+	game.player1.hero.power.use(target=egg)
 	assert egg.health == 2
 	assert len(game.player1.field) == 2
 	for i in range(2):
@@ -1510,7 +1511,7 @@ def test_power_of_the_wild():
 	assert teacher.atk == 4 and teacher.health == 6
 	apprentice = game.player1.field[2]
 	assert apprentice.id == "NEW1_026t"
-	assert apprentice.atk == 1 + 1 and apprentice.health == 1+ 1
+	assert apprentice.atk == 1 + 1 and apprentice.health == 1 + 1
 
 
 def test_questing_adventurer():
@@ -1913,18 +1914,21 @@ def test_mirror_entity():
 	assert mirror in game.player1.secrets
 	assert len(game.player1.field) == 0
 	game.player2.give(WISP).play()
-	assert not mirror in game.player1.secrets
+	assert mirror not in game.player1.secrets
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == WISP
 
 
 def test_mirror_entity_battlecry():
 	game = prepare_game()
-	mirror = game.player2.summon("EX1_294")
-	blademaster = game.player1.give("CS2_181")
+	mirror = game.player1.give("EX1_294")
+	mirror.play()
+	game.end_turn()
+
+	blademaster = game.player2.give("CS2_181")
 	blademaster.play()
 	assert len(game.player1.field) == len(game.player2.field) == 1
-	assert game.player1.field[0].health == game.player2.field[0].health
+	assert game.player1.field[0].health == game.player2.field[0].health == 3
 
 
 def test_mirror_entity_repentance():
@@ -1955,14 +1959,18 @@ def test_mirror_entity_repentance():
 
 def test_mirror_entity_bolvar():
 	game = prepare_game()
-	mirror = game.player2.summon("EX1_294")
-	bolvar = game.player1.give("GVG_063")
+	mirror = game.player1.give("EX1_294")
+	mirror.play()
+	game.end_turn()
+
+	bolvar = game.player2.give("GVG_063")
 	assert bolvar.atk == 1
-	game.player1.give(MOONFIRE).play(target=game.player1.summon(WISP))
+	wisp = game.player2.summon(WISP)
+	game.player2.give(MOONFIRE).play(target=wisp)
 	assert bolvar.atk == 2
 	bolvar.play()
 	assert len(game.player1.field) == len(game.player2.field) == 1
-	assert game.player1.field[0].atk == game.player2.field[0].atk
+	assert game.player1.field[0].atk == game.player2.field[0].atk == 2
 
 
 def test_mirror_entity_summon_trigger():
@@ -3010,7 +3018,7 @@ def test_holy_wrath():
 	assert goldshire.cost == 1
 	assert game.player2.hero.health == 30
 	game.player1.give("EX1_365").play(target=game.player2.hero)
-	assert not goldshire in game.player1.deck
+	assert goldshire not in game.player1.deck
 	assert game.player2.hero.health == 30 - 1
 	game.player1.give("EX1_365").play(target=game.player2.hero)
 	assert game.player2.hero.health == 30 - 1
@@ -3024,8 +3032,8 @@ def test_holy_wrath():
 	assert game.player2.hero.health == 30
 	game.player1.give("EX1_365").play(target=game.player2.hero)
 	assert game.player2.hero.health == 30 - 1
-	assert not goldshire in game.player1.deck
-	assert not goldshire in game.player1.hand
+	assert goldshire not in game.player1.deck
+	assert goldshire not in game.player1.hand
 
 
 def test_illidan():
@@ -3834,7 +3842,7 @@ def test_warsong_commander_buffed():
 	game.end_turn(); game.end_turn()
 
 	# test 5 - Warsong, Argent Squire, then Blood Knight
-	squire = game.player1.give("EX1_008");
+	squire = game.player1.give("EX1_008")
 	squire.play()
 	assert squire.charge
 	assert squire.divine_shield
@@ -4413,22 +4421,22 @@ def test_inner_fire():
 
 
 def test_innervate():
-    game = prepare_game()
-    assert game.player1.mana == 10
-    assert game.player1.temp_mana == 0
-    assert game.player1.max_mana == 10
-    assert game.player1.max_resources == 10
-    game.player1.give("EX1_169").play()
-    assert game.player1.mana == 10
-    assert game.player1.temp_mana == 0
-    game.player1.give(GOLDSHIRE_FOOTMAN).play()
-    assert game.player1.mana == 9
-    game.player1.give("EX1_169").play()
-    assert game.player1.mana == 10
-    assert game.player1.temp_mana == 1
-    game.player1.give(GOLDSHIRE_FOOTMAN).play()
-    assert game.player1.mana == 9
-    assert game.player1.temp_mana == 0
+	game = prepare_game()
+	assert game.player1.mana == 10
+	assert game.player1.temp_mana == 0
+	assert game.player1.max_mana == 10
+	assert game.player1.max_resources == 10
+	game.player1.give("EX1_169").play()
+	assert game.player1.mana == 10
+	assert game.player1.temp_mana == 0
+	game.player1.give(GOLDSHIRE_FOOTMAN).play()
+	assert game.player1.mana == 9
+	game.player1.give("EX1_169").play()
+	assert game.player1.mana == 10
+	assert game.player1.temp_mana == 1
+	game.player1.give(GOLDSHIRE_FOOTMAN).play()
+	assert game.player1.mana == 9
+	assert game.player1.temp_mana == 0
 
 
 def test_ice_barrier():
@@ -4837,7 +4845,7 @@ def test_rend_blackhand():
 	game = prepare_empty_game()
 	rend1 = game.player1.give("BRM_029")
 	assert not rend1.has_target()
-	dragon = game.player1.give("NEW1_023")
+	game.player1.give(WHELP)
 	assert not rend1.has_target()
 	pagle = game.player2.summon("EX1_557")
 	assert rend1.has_target()
