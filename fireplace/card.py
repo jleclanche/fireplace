@@ -40,12 +40,10 @@ class BaseCard(Entity):
 		super().__init__()
 		self._auras = []
 		self.requirements = data.requirements.copy()
-		self.entourage = CardList(self.data.entourage)
 		self.id = id
 		self.controller = None
 		self.aura = False
 		self.silenced = False
-		self.secret = data.secret
 		self.spellpower = 0
 		self.turns_in_play = 0
 		self.tags.update(data.tags)
@@ -127,6 +125,7 @@ class PlayableCard(BaseCard):
 	def __init__(self, id, data):
 		self.buffs = CardList()
 		self.cant_play = False
+		self.entourage = CardList(data.entourage)
 		self.has_battlecry = False
 		self.has_combo = False
 		self.overload = 0
