@@ -4,16 +4,16 @@ from ..utils import *
 ##
 # Minions
 
+# Tuskarr Totemic
+class AT_046:
+	play = Summon(CONTROLLER, RandomTotem())
+
+
 # Draenei Totemcarver
-class PH_SHAM_001:
-	play = Buff(SELF, "PH_SHAM_001e") * Count(FRIENDLY_MINIONS + TOTEM)
+class AT_047:
+	play = Buff(SELF, "AT_047e") * Count(FRIENDLY_MINIONS + TOTEM)
 
 
 # Thunder Bluff Valiant
-class PH_SHAM_002:
-	inspire = Buff(FRIENDLY_TOTEMS, "PH_SHAM_002e")
-
-
-# Tuskarr Totemic
-class PH_SHAM_003:
-	play = Summon(CONTROLLER, RandomTotem())
+class AT_049:
+	inspire = Buff(FRIENDLY_MINIONS + TOTEM, "AT_049e")

@@ -6,6 +6,7 @@ from .classic import *
 from .debug import *
 from .gvg import *
 from .naxxramas import *
+from .tourney import *
 from .tutorial import *
 from .. import cardxml
 

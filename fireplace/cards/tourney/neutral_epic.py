@@ -5,5 +5,5 @@ from ..utils import *
 # Minions
 
 # Kodorider
-class PH_NEUTRAL_EPIC_001:
-	inspire = Summon(CONTROLLER, "PH_NEUTRAL_EPIC_001t")
+class AT_099:
+	inspire = Summon(CONTROLLER, "AT_099t")
