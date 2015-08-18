@@ -41,7 +41,7 @@ class FP1_009:
 
 # Webspinner
 class FP1_011:
-	deathrattle = Give(CONTROLLER, RandomMinion(race=Race.BEAST))
+	deathrattle = Give(CONTROLLER, RandomBeast())
 
 
 # Sludge Belcher

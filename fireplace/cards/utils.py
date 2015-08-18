@@ -8,6 +8,7 @@ from ..events import *
 RandomCard = lambda **kw: RandomCardPicker(**kw)
 RandomCollectible = lambda **kw: RandomCardPicker(collectible=True, **kw)
 RandomMinion = lambda **kw: RandomCollectible(type=CardType.MINION, **kw)
+RandomBeast = lambda **kw: RandomMinion(race=Race.BEAST)
 RandomSpell = lambda **kw: RandomCollectible(type=CardType.SPELL, **kw)
 RandomTotem = lambda **kw: RandomCardPicker(race=Race.TOTEM)
 RandomWeapon = lambda **kw: RandomCollectible(type=CardType.WEAPON, **kw)
