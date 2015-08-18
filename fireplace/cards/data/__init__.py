@@ -179,7 +179,7 @@ def main():
 		if card.tags.get(GameTag.RECALL):
 			guess_overload(card)
 
-		if "Can't Attack." in card.description:
+		if "Can't attack." in card.description:
 			set_tag(card, GameTag.CANT_ATTACK, True)
 
 		if "Can't be targeted by spells or Hero Powers." in card.description:
