@@ -4,7 +4,7 @@ from . import cards as CardDB, rules
 from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
 from .entity import Entity, boolean_property, int_property
 from .enums import CardType, PlayReq, Race, Rarity, Zone
-from .managers import *
+from .managers import CardManager
 from .targeting import is_valid_target
 from .utils import CardList
 
@@ -122,7 +122,6 @@ class BaseCard(Entity):
 
 
 class PlayableCard(BaseCard):
-	Manager = PlayableCardManager
 	windfury = boolean_property("windfury")
 
 	def __init__(self, id, data):
@@ -337,7 +336,6 @@ class PlayableCard(BaseCard):
 
 
 class Character(PlayableCard):
-	Manager = CharacterManager
 	min_health = boolean_property("min_health")
 	immune = boolean_property("immune")
 
@@ -490,7 +488,6 @@ class Hero(Character):
 
 
 class Minion(Character):
-	Manager = MinionManager
 	charge = boolean_property("charge")
 	has_inspire = boolean_property("has_inspire")
 	stealthed = boolean_property("stealthed")
@@ -618,8 +615,6 @@ class Minion(Character):
 
 
 class Spell(PlayableCard):
-	Manager = SpellManager
-
 	def __init__(self, *args):
 		self.immune_to_spellpower = False
 		super().__init__(*args)
@@ -660,7 +655,6 @@ class Secret(Spell):
 
 
 class Enchantment(BaseCard):
-	Manager = EnchantmentManager
 	slots = []
 
 	def __init__(self, *args):
@@ -786,15 +780,13 @@ class Enrage(object):
 	"""
 
 	def __init__(self, tags):
-		MinionManager(self).update(tags)
+		CardManager(self).update(tags)
 
 	def _getattr(self, attr, i):
 		return i + getattr(self, attr, 0)
 
 
 class Weapon(rules.WeaponRules, PlayableCard):
-	Manager = WeaponManager
-
 	def __init__(self, *args):
 		super().__init__(*args)
 		self.damage = 0
@@ -844,8 +836,6 @@ class Weapon(rules.WeaponRules, PlayableCard):
 
 
 class HeroPower(PlayableCard):
-	Manager = HeroPowerManager
-
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
 			if self.controller.hero.power:
