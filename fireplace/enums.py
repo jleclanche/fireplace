@@ -403,12 +403,6 @@ class Step(IntEnum):
 ##
 # Fireplace enums
 
-class AuraType(IntEnum):
-	PLAY_AURA = 1
-	HAND_AURA = 2
-	PLAYER_AURA = 3
-
-
 class Affiliation(IntEnum):
 	FRIENDLY = 1
 	HOSTILE = 2

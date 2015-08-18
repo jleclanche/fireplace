@@ -5,7 +5,7 @@ import re
 import sys; sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
 from xml.dom import minidom
 from xml.etree import ElementTree
-from fireplace.enums import AuraType, GameTag
+from fireplace.enums import GameTag
 import buffs
 import chooseone
 import enrage
@@ -92,6 +92,7 @@ def create_card(id, card):
 	for tag, value in card.items():
 		e.append(_create_tag(tag, value))
 	return e
+
 
 def _create_tag(tag, value):
 	e = ElementTree.Element("Tag")
