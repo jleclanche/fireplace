@@ -1,5 +1,6 @@
 from .hunter import *
 from .mage import *
+from .priest import *
 from .shaman import *
 from .neutral_common import *
 from .neutral_epic import *
