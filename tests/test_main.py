@@ -810,6 +810,25 @@ def test_secretkeeper():
 	assert secretkeeper.health == 3
 
 
+def test_shield_slam():
+	game = prepare_game(WARRIOR, WARRIOR)
+	wisp = game.player2.summon(WISP)
+	assert game.player1.hero.armor == 0
+	shieldslam1 = game.player1.give("EX1_410")
+	shieldslam1.play(target=wisp)
+	assert not wisp.dead
+	game.player1.give(HAND_OF_PROTECTION).play(target=wisp)
+	assert wisp.divine_shield
+	shieldslam2 = game.player1.give("EX1_410")
+	shieldslam2.play(target=wisp)
+	assert not wisp.divine_shield
+	game.player1.hero.power.use()
+	assert game.player1.hero.armor == 2
+	shieldslam3 = game.player1.give("EX1_410")
+	shieldslam3.play(target=wisp)
+	assert wisp.dead
+
+
 def test_siege_engine():
 	game = prepare_game(WARRIOR, WARRIOR)
 	engine = game.player1.give("GVG_086")
