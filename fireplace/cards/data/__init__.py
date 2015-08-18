@@ -159,7 +159,7 @@ def main():
 	from fireplace.cardxml import load
 
 	if len(sys.argv) < 3:
-		print("Usage: %s <in> <out/CardDefs.xml>")
+		print("Usage: %s <in> <out/CardDefs.xml>" % (sys.argv[0]))
 		exit(1)
 
 	db, xml = load(os.path.join(sys.argv[1], "CardDefs.xml"))
