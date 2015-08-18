@@ -336,8 +336,9 @@ class PlayableCard(BaseCard):
 
 
 class Character(PlayableCard):
-	min_health = boolean_property("min_health")
+	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
 	immune = boolean_property("immune")
+	min_health = boolean_property("min_health")
 
 	def __init__(self, *args):
 		self.attacking = False

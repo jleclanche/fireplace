@@ -22,6 +22,9 @@ def is_valid_target(self, target, requirements=None):
 		if self.type == CardType.HERO_POWER and target.cant_be_targeted_by_hero_powers:
 			return False
 
+	if target.cant_be_targeted_by_opponents and self.controller != target.controller:
+		return False
+
 	if requirements is None:
 		requirements = self.requirements
 
