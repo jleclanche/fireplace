@@ -53,6 +53,16 @@ def add_powerup_requirements(card, race):
 	print("%s: Adding POWERED_UP definition of %r" % (card.name, race))
 
 
+def fix_entourage(card, guids):
+	for entourage in card.xml.findall("EntourageCard"):
+		guid = entourage.attrib["cardID"]
+		if len(guid) < 34:
+			# Still using mini guids, don't need to convert anything
+			return
+		entourage.attrib["cardID"] = guids[guid]
+	print("%s: Converting long guid to mini guids" % (card))
+
+
 def guess_spellpower(card):
 	sre = re.search(r"Spell Damage \+(\d+)", card.description)
 	dmg = int(sre.groups()[0])
@@ -116,16 +126,19 @@ def remove_tag(card, tag):
 def load_dbf(path):
 	db = {}
 	hero_powers = {}
+	guid_lookup = {}
 	with open(path, "r") as f:
 		xml = ElementTree.parse(f)
 		for record in xml.findall("Record"):
 			id = int(record.find("./Field[@column='ID']").text)
-			guid = record.find("./Field[@column='NOTE_MINI_GUID']").text
+			long_guid = record.find("./Field[@column='LONG_GUID']").text
+			mini_guid = record.find("./Field[@column='NOTE_MINI_GUID']").text
 			hero_power_id = int(record.find("./Field[@column='HERO_POWER_ID']").text)
 
-			db[id] = guid
+			guid_lookup[long_guid] = mini_guid
+			db[id] = mini_guid
 			if hero_power_id:
-				hero_powers[guid] = hero_power_id
+				hero_powers[mini_guid] = hero_power_id
 
 	for k, v in hero_powers.items():
 		hero_powers[k] = db[v]
@@ -139,7 +152,7 @@ def load_dbf(path):
 		assert k not in hero_powers
 		hero_powers[k] = v
 
-	return db, hero_powers
+	return guid_lookup, hero_powers
 
 
 def main():
@@ -150,7 +163,7 @@ def main():
 		exit(1)
 
 	db, xml = load(os.path.join(sys.argv[1], "CardDefs.xml"))
-	dbf, hero_powers = load_dbf(os.path.join(sys.argv[1], "DBF", "CARD.xml"))
+	guids, hero_powers = load_dbf(os.path.join(sys.argv[1], "DBF", "CARD.xml"))
 	for id, card in db.items():
 		if hasattr(buffs, id):
 			for tag, value in getattr(buffs, id).items():
@@ -172,6 +185,9 @@ def main():
 			# Hearthstone uses entourage data to identify Spare Parts
 			# We're better than that.
 			set_tag(card, GameTag.SPARE_PART, True)
+
+		if card.xml.findall("EntourageCard"):
+			fix_entourage(card, guids)
 
 		if card.tags.get(GameTag.SPELLPOWER):
 			guess_spellpower(card)
