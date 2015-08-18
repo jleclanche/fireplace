@@ -617,11 +617,14 @@ class Minion(Character):
 class Spell(PlayableCard):
 	def __init__(self, *args):
 		self.immune_to_spellpower = False
+		self.receives_double_spelldamage_bonus = False
 		super().__init__(*args)
 
 	def hit(self, target, amount):
 		if not self.immune_to_spellpower:
 			amount = self.controller.get_spell_damage(amount)
+		if self.receives_double_spelldamage_bonus:
+			amount *= 2
 		super().hit(target, amount)
 
 
