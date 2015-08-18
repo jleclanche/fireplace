@@ -14,8 +14,8 @@ from .utils import CardList
 class Player(Entity):
 	Manager = PlayerManager
 	extra_deathrattles = slot_property("extra_deathrattles")
-	hero_power_double = slot_property("hero_power_double", sum)
 	healing_double = slot_property("healing_double", sum)
+	hero_power_double = slot_property("hero_power_double", sum)
 	outgoing_healing_adjustment = slot_property("outgoing_healing_adjustment")
 	spellpower_double = slot_property("spellpower_double", sum)
 	type = CardType.PLAYER
@@ -65,6 +65,10 @@ class Player(Entity):
 	def mana(self):
 		mana = max(0, self.max_mana - self.used_mana - self.overload_locked) + self.temp_mana
 		return mana
+
+	@property
+	def heropower_damage(self):
+		return sum(minion.heropower_damage for minion in self.field)
 
 	@property
 	def spellpower(self):

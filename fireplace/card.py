@@ -43,6 +43,7 @@ class BaseCard(Entity):
 		self.id = id
 		self.controller = None
 		self.aura = False
+		self.heropower_damage = 0
 		self.silenced = False
 		self.spellpower = 0
 		self.turns_in_play = 0
@@ -868,6 +869,7 @@ class HeroPower(PlayableCard):
 		return ret
 
 	def hit(self, target, amount):
+		amount += self.controller.heropower_damage
 		amount *= (self.controller.hero_power_double + 1)
 		super().hit(target, amount)
 
