@@ -346,57 +346,6 @@ def test_elite_tauren_chieftain():
 	assert game.player2.hand[0] in chords
 
 
-def test_stealth_windfury():
-	game = prepare_game(MAGE, MAGE)
-	worgen = game.current_player.give("EX1_010")
-	worgen.play()
-	assert worgen.stealthed
-	assert not worgen.can_attack()
-	game.end_turn(); game.end_turn()
-	game.end_turn()
-
-	archer = game.current_player.give("CS2_189")
-	assert len(archer.targets) == 2  # Only the heroes
-	assert len(game.current_player.hero.power.targets) == 2
-	game.end_turn()
-
-	worgen.attack(game.current_player.opponent.hero)
-	assert not worgen.stealthed
-	assert not worgen.can_attack()
-	windfury = game.current_player.give("CS2_039")
-	windfury.play(target=worgen)
-	assert worgen.windfury
-	assert worgen.num_attacks == 1
-	assert worgen.can_attack()
-	worgen.attack(game.current_player.opponent.hero)
-	assert not worgen.can_attack()
-	game.end_turn()
-
-	assert len(archer.targets) == 3
-
-
-def test_taunt():
-	game = prepare_game()
-	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
-	wisp1 = game.player1.summon(WISP)
-	goldshire2 = game.player2.give(GOLDSHIRE_FOOTMAN)
-	wisp2 = game.player2.summon(WISP)
-	game.end_turn(); game.end_turn()
-
-	assert wisp1.can_attack()
-	assert wisp1.targets == [wisp2, game.player2.hero]
-	game.end_turn()
-
-	goldshire2.play()
-	game.end_turn()
-
-	assert wisp1.targets == [goldshire2]
-	goldshire1.play()
-	game.end_turn()
-
-	assert wisp2.targets == [goldshire1]
-
-
 def test_deadly_poison():
 	game = prepare_game(ROGUE, ROGUE)
 	poison = game.current_player.give("CS2_074")
@@ -456,52 +405,6 @@ def test_deathwing():
 	assert not game.current_player.hand
 	assert len(game.board) == 1
 	assert not deathwing.dead
-
-
-def test_combo():
-	game = prepare_game()
-	game.end_turn(); game.end_turn()
-	game.end_turn()
-
-	game.current_player.hand.filter(id=THE_COIN)[0].play()
-	# SI:7 with combo
-	assert game.current_player.combo
-	game.current_player.give("EX1_134").play(target=game.current_player.hero)
-	assert game.current_player.hero.health == 28
-	game.end_turn()
-
-	# Without combo should not have a target
-	assert not game.current_player.combo
-	game.current_player.give("EX1_134").play()
-
-
-def test_morph():
-	game = prepare_game()
-	game.end_turn()
-
-	buzzard = game.player2.give("CS2_237")
-	buzzard.play()
-	wisp = game.player2.give(WISP)
-	wisp.play()
-	game.end_turn()
-
-	game.player1.discard_hand()
-	game.player2.discard_hand()
-	assert not game.player1.hand
-	assert not game.player2.hand
-	hex = game.player1.give("EX1_246")
-	hex.play(target=wisp)
-	assert not game.player2.field.contains(WISP)
-	assert game.player2.field.contains("hexfrog")
-	# Test that buzzard no longer draws on poly/hex (fixed in GVG)
-	assert not game.player2.hand
-	game.end_turn(); game.end_turn()
-
-	assert len(game.player2.hand) == 1
-	polymorph = game.player1.give("CS2_022")
-	polymorph.play(target=game.player2.field[-1])
-	assert game.player2.field[-1].id == "CS2_tk1"
-	assert len(game.current_player.opponent.hand) == 1
 
 
 def test_power_word_shield():
