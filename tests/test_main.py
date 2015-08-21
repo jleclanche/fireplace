@@ -883,6 +883,26 @@ def test_solemn_vigil():
 	assert game.player1.used_mana == 0
 
 
+def test_sorcerers_apprentice():
+	game = prepare_game()
+	apprentice1 = game.player1.give("EX1_608")
+	fireball1 = game.player1.give("CS2_029")
+	assert fireball1.cost == 4
+	apprentice1.play()
+	assert fireball1.cost == 3
+	apprentice2 = game.player1.summon("EX1_608")
+	assert fireball1.cost == 2
+	apprentice1.destroy()
+	assert fireball1.cost == 3
+	game.end_turn()
+
+	fireball2 = game.player2.give("CS2_029")
+	assert fireball2.cost == 4
+	game.end_turn()
+
+	assert fireball1.cost == 3
+
+
 def test_southsea_deckhand():
 	game = prepare_game(ROGUE, ROGUE)
 	deckhand = game.current_player.give("CS2_146")
