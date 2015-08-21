@@ -24,7 +24,7 @@ class CS2_064:
 
 # Felguard
 class EX1_301:
-	play = GainMana(CONTROLLER, -1)
+	play = GainEmptyMana(CONTROLLER, -1)
 
 
 # Void Terror

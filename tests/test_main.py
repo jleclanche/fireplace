@@ -4843,6 +4843,17 @@ def test_fel_cannon():
 	assert wisp.dead
 
 
+def test_felguard():
+	game = prepare_game(game_class=Game)
+	for i in range(3):
+		game.end_turn(); game.end_turn()
+	assert game.player1.max_mana == 4
+	felguard = game.player1.give("EX1_301")
+	felguard.play()
+	assert game.player1.max_mana == 3
+	assert game.player1.mana == 1
+
+
 def test_fireguard_destroyer():
 	game = prepare_game()
 	fireguard = game.player1.give("BRM_012")
