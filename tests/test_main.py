@@ -4103,6 +4103,31 @@ def test_wild_pyromancer():
 	assert pyro.zone == Zone.PLAY
 
 
+def test_wild_growth():
+	game = prepare_game(game_class=Game)
+	game.end_turn(); game.end_turn()
+	assert game.player1.max_mana == 2
+	wildgrowth1 = game.player1.give("CS2_013")
+	wildgrowth1.play()
+	assert game.player1.mana == 0
+	assert game.player1.used_mana == 2 + 1
+	assert game.player1.max_mana == 2 + 1
+	for i in range(8):
+		game.end_turn(); game.end_turn()
+
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	assert game.player1.max_mana == 10
+	wildgrowth2 = game.player1.give("CS2_013")
+	wildgrowth2.play()
+	assert len(game.player1.hand) == 1
+	assert game.player1.max_mana == 10
+	excess_mana = game.player1.hand[0]
+	assert excess_mana.id == "CS2_013t"
+	excess_mana.play()
+	assert len(game.player1.hand) == 1
+
+
 def test_wrathguard():
 	game = prepare_game()
 	wrathguard = game.player1.give("AT_026")

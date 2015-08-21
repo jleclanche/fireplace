@@ -94,7 +94,7 @@ class CS2_012:
 class CS2_013:
 	def play(self):
 		if self.controller.max_mana < self.controller.max_resources:
-			return GainMana(CONTROLLER, 1)
+			return GainEmptyMana(CONTROLLER, 1)
 		else:
 			return Give(CONTROLLER, "CS2_013t")
 
