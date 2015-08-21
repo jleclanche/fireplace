@@ -477,6 +477,19 @@ class GainMana(TargetedAction):
 		target.max_mana += amount
 
 
+class GainEmptyMana(TargetedAction):
+	"""
+	Give player targets \a amount empty Mana crystals.
+	"""
+	class Args(Action.Args):
+		TARGETS = 0
+		AMOUNT = 1
+
+	def do(self, source, target, amount):
+		target.max_mana += amount
+		target.used_mana += amount
+
+
 class Give(TargetedAction):
 	"""
 	Give player targets card \a id.
