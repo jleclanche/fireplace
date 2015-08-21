@@ -2958,6 +2958,29 @@ def test_grimscale_oracle():
 	assert murloc2.atk == 2
 
 
+def test_grove_tender():
+	game = prepare_game(game_class=Game)
+	for i in range(3):
+		game.end_turn(); game.end_turn()
+
+	assert game.player1.max_mana == 4
+	assert game.player2.max_mana == 3
+	grovetender1 = game.player1.give("GVG_032")
+	grovetender1.play(choose="GVG_032a")
+	assert game.player1.max_mana == 5
+	assert game.player2.max_mana == 4
+	assert game.player1.mana == 2
+	assert game.player1.used_mana == 3
+	game.end_turn(); game.end_turn()
+
+	game.player1.discard_hand()
+	game.player2.discard_hand()
+	grovetender2 = game.player1.give("GVG_032")
+	grovetender2.play(choose="GVG_032b")
+	assert len(game.player1.hand) == 1
+	assert len(game.player2.hand) == 1
+
+
 def test_gruul():
 	game = prepare_game()
 	gruul = game.current_player.give("NEW1_038")
