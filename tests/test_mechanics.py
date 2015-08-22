@@ -277,6 +277,58 @@ def test_freeze():
 	assert not wisp.frozen
 
 
+def test_graveyard_minions():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP)
+	wisp1.play()
+	wisp2 = game.player2.summon(WISP)
+	game.end_turn(); game.end_turn()
+	wisp1.attack(target=wisp2)
+	assert wisp1 in game.player1.graveyard
+	assert wisp1 not in game.player2.graveyard
+	assert wisp1 in game.graveyard
+	assert wisp2 in game.player2.graveyard
+	assert wisp2 not in game.player1.graveyard
+	assert wisp2 in game.graveyard
+	wisp3 = game.player1.give(WISP)
+	wisp3.discard()
+	assert wisp3 not in game.player1.graveyard
+	assert wisp3 not in game.graveyard
+
+
+def test_graveyard_weapons():
+	game = prepare_game()
+	axe1 = game.player1.give("CS2_106")
+	axe1.play()
+	axe2 = game.player1.summon("CS2_106")
+	assert axe1.dead
+	assert axe1 in game.player1.graveyard
+	assert axe1 not in game.player2.graveyard
+	assert axe1 in game.graveyard
+	for i in range(2):
+		game.player1.hero.attack(game.player2.hero)
+	assert axe2.dead
+	assert axe2 in game.player1.graveyard
+	assert axe2 not in game.player2.graveyard
+	assert axe2 in game.graveyard
+
+
+def test_graveyard_secrets():
+	game = prepare_game()
+	snipe = game.player1.give("EX1_609")
+	snipe.play()
+	game.end_turn()
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	assert wisp.dead
+	assert snipe in game.player1.graveyard
+	assert snipe not in game.player2.graveyard
+	assert snipe in game.graveyard
+	assert wisp in game.player2.graveyard
+	assert wisp not in game.player1.graveyard
+	assert wisp in game.graveyard
+
+
 def test_joust():
 	game = prepare_empty_game()
 	wisp = game.player1.give(WISP)

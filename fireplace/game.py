@@ -31,7 +31,6 @@ class BaseGame(Entity):
 		self.turn = 0
 		self.current_player = None
 		self.auras = []
-		self.graveyard = CardList()
 		self.minions_killed_this_turn = CardList()
 		self.no_aura_refresh = False
 
@@ -67,6 +66,10 @@ class BaseGame(Entity):
 	@property
 	def all_entities(self):
 		return CardList(chain(self.entities, self.hands, self.decks, self.graveyard))
+
+	@property
+	def graveyard(self):
+		return CardList(chain(self.players[0].graveyard, self.players[1].graveyard))
 
 	@property
 	def entities(self):
@@ -170,7 +173,6 @@ class BaseGame(Entity):
 		logging.debug("Scheduling death for %r", card)
 		card.ignore_events = True
 		card.zone = Zone.GRAVEYARD
-		self.graveyard.append(card)
 		if card.type == CardType.MINION:
 			self.minions_killed_this_turn.append(card)
 			card.controller.minions_killed_this_turn += 1

@@ -27,6 +27,7 @@ class Player(Entity):
 		self.deck = Deck()
 		self.hand = CardList()
 		self.field = CardList()
+		self.graveyard = CardList()
 		self.secrets = CardList()
 		self.buffs = []
 		self.max_hand_size = 10
