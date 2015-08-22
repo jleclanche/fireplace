@@ -1,11 +1,12 @@
 from itertools import chain
 from . import cards as CardDB, rules
-from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
+from .actions import Damage, Deaths, Destroy, Heal, Inspire, Morph, Play, Shuffle, SetCurrentHealth
 from .aura import TargetableByAuras
 from .entity import Entity, boolean_property, int_property
 from .enums import CardType, PlayReq, Race, Rarity, Zone
 from .managers import CardManager
 from .targeting import is_valid_target
+from .dsl import FRIENDLY_MINIONS
 from .utils import CardList
 from .exceptions import InvalidAction
 
@@ -783,12 +784,7 @@ class HeroPower(PlayableCard):
 		if actions:
 			ret += self.game.queue_actions(self, actions)
 
-		for minion in self.controller.field.filter(has_inspire=True):
-			if not hasattr(minion.data.scripts, "inspire"):
-				raise NotImplementedError("Missing inspire script for %r" % (minion))
-			actions = minion.data.scripts.inspire
-			if actions:
-				ret += self.game.queue_actions(self, actions)
+		ret += self.game.queue_actions(self, [Inspire(FRIENDLY_MINIONS)])
 
 		return ret
 

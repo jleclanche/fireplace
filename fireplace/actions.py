@@ -541,6 +541,18 @@ class Heal(TargetedAction):
 			self.broadcast(source, EventListener.ON, target, amount)
 
 
+class Inspire(TargetedAction):
+	"""
+	Trigger inspire on card targets.
+	"""
+	def do(self, source, target):
+		if hasattr(target.data.scripts, "inspire"):
+			actions = target.data.scripts.inspire
+			if actions:
+				self.broadcast(source, EventListener.ON, target)
+				source.game.queue_actions(target, actions)
+
+
 class ManaThisTurn(TargetedAction):
 	"""
 	Give player targets \a amount Mana this turn.
