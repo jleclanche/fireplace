@@ -4762,17 +4762,21 @@ def test_warlock():
 
 
 def test_resurrect():
-	# Doesn't summon if nothing died
+	# Shouldn't be playable if no minion died
 	game = prepare_game()
-	game.player1.give("BRM_017").play()
-	assert len(game.player1.field) == 0
+	resurrect = game.player1.give("BRM_017")
+	assert not resurrect.is_playable()
+	axe = game.player1.give("CS2_106")
+	axe.play()
+	axe.destroy()
+	assert not resurrect.is_playable()
 
 	# Summons something
 	wisp = game.player1.give(WISP)
 	wisp.play()
 	game.player1.give(MOONFIRE).play(target=wisp)
 	assert len(game.player1.field) == 0
-	game.player1.give("BRM_017").play()
+	resurrect.play()
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0] == wisp
 

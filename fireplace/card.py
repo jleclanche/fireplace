@@ -295,6 +295,9 @@ class PlayableCard(BaseCard):
 		if PlayReq.REQ_WEAPON_EQUIPPED in self.requirements:
 			if not self.controller.weapon:
 				return False
+		if PlayReq.REQ_FRIENDLY_MINION_DIED_THIS_GAME in self.requirements:
+			if not self.controller.graveyard.filter(type=CardType.MINION):
+				return False
 		return True
 
 	def play(self, target=None, choose=None):
