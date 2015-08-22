@@ -407,7 +407,7 @@ class Draw(TargetedAction):
 			return []
 		card = target.deck[-1]
 		card.draw()
-		self.broadcast(source, EventListener.ON, target, card)
+		self.broadcast(source, EventListener.ON, target, card, source)
 
 		return [card]
 
