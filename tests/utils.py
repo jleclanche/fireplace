@@ -5,8 +5,10 @@ from fireplace.cards.heroes import *
 from fireplace.enums import *
 from fireplace.game import BaseGame, CoinRules, Game
 from fireplace.player import Player
-from fireplace.utils import random_draft
+from fireplace.utils import random_draft, get_logger
 
+
+logger = get_logger("fireplace.Test")
 
 # Token minions
 GOLDSHIRE_FOOTMAN = "CS1_042"
@@ -34,6 +36,8 @@ DESTROY_DECK = "XXX_047"
 # Collectible cards excluded from random drafts
 BLACKLIST = (
 	"GVG_007",  # Flame Leviathan
+	"AT_022",  # Fist of Jaraxxus
+	"AT_130",  # Sea Reaver
 )
 
 _draftcache = {}
@@ -56,37 +60,47 @@ class BaseTestGame(CoinRules, BaseGame):
 		self.player2.max_mana = 10
 
 
-def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
-	print("Initializing a new game")
+def _select_heroes(hero1=None, hero2=None):
 	if hero1 is None:
 		hero1 = random.choice(_heroes)
 	if hero2 is None:
 		hero2 = random.choice(_heroes)
-	deck1 = _draft(hero=hero1, exclude=exclude)
-	deck2 = _draft(hero=hero2, exclude=exclude)
-	player1 = Player(name="Player1")
-	player1.prepare_deck(deck1, hero1)
-	player2 = Player(name="Player2")
-	player2.prepare_deck(deck2, hero2)
-	game = game_class(players=(player1, player2))
-	game.start()
+	return (hero1, hero2)
 
-	# Do empty mulligans
+
+def _prepare_player(name, hero, deck=[]):
+	player = Player(name)
+	player.prepare_deck(deck, hero)
+	return player
+
+
+def _empty_mulligan(game):
 	for player in game.players:
 		if player.choice:
 			player.choice.choose()
 
+
+def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
+	logger.info("Initializing a new game")
+	heroes = _select_heroes(hero1, hero2)
+	player1 = _prepare_player("Player1", heroes[0], _draft(hero=heroes[0], exclude=exclude))
+	player2 = _prepare_player("Player2", heroes[1], _draft(hero=heroes[1], exclude=exclude))
+	game = game_class(players=(player1, player2))
+	game.start()
+	_empty_mulligan(game)
+
 	return game
 
 
-def prepare_empty_game(game_class=BaseTestGame):
-	player1 = Player(name="Player1")
-	player1.prepare_deck([], random.choice(_heroes))
+def prepare_empty_game(hero1=None, hero2=None, game_class=BaseTestGame):
+	logger.info("Initializing a new game with empty decks")
+	heroes = _select_heroes(hero1, hero2)
+	player1 = _prepare_player("Player1", heroes[0])
 	player1.cant_fatigue = True
-	player2 = Player(name="Player2")
-	player2.prepare_deck([], random.choice(_heroes))
+	player2 = _prepare_player("Player2", heroes[1])
 	player2.cant_fatigue = True
 	game = game_class(players=(player1, player2))
 	game.start()
+	_empty_mulligan(game)
 
 	return game
