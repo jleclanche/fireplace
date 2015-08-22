@@ -202,6 +202,18 @@ def test_cult_master_board_clear():
 	assert len(game.player1.hand) == 0
 
 
+def test_dark_bargain():
+	game = prepare_game()
+	for i in range(3):
+		game.player2.summon(WISP)
+	assert len(game.player2.field) == 3
+	assert len(game.player1.hand) == 4
+	bargain = game.player1.give("AT_025")
+	bargain.play()
+	assert len(game.player2.field) == 1
+	assert len(game.player1.hand) == 2
+
+
 def test_divine_spirit():
 	game = prepare_game()
 	wisp = game.current_player.give(WISP)
@@ -379,6 +391,22 @@ def test_demonfire():
 
 	game.player1.give("EX1_596").play(target=imp2)
 	assert imp2.dead
+
+
+def test_demonfuse():
+	game = prepare_game()
+	game.player2.max_mana = 9
+	demonfuse = game.player1.give("AT_024")
+	wisp = game.player2.summon(WISP)
+	imp1 = game.player1.give("EX1_319")
+	imp1.play()
+	imp2 = game.player2.summon("EX1_319")
+	assert len(demonfuse.targets) == 2
+	demonfuse.play(target=imp1)
+	assert imp1.atk == 3 + 3
+	assert imp1.health == 2 + 3
+	assert imp1.buffs
+	assert game.player2.max_mana == 10
 
 
 def test_duplicate():
@@ -1217,6 +1245,16 @@ def test_dread_corsair():
 	assert corsair.cost == 4 - 3
 	axe.destroy()
 	assert corsair.cost == 4
+
+
+def test_dreadsteed():
+	game = prepare_game()
+	dreadsteed = game.player1.give("AT_019")
+	dreadsteed.play()
+	assert len(game.player1.field) == 1
+	game.player1.give(MOONFIRE).play(target=dreadsteed)
+	assert dreadsteed.dead
+	assert len(game.player1.field) == 1
 
 
 def test_druid_of_the_flame():
@@ -3587,6 +3625,22 @@ def test_truesilver_champion_explosive_trap():
 	assert game.player2.hero.health == 26
 
 
+def test_tiny_knight_of_evil():
+	game = prepare_empty_game()
+	knight = game.player1.give("AT_021")
+	knight.play()
+	assert len(game.player1.hand) == 0
+	game.player1.give(SOULFIRE).play(target=game.player2.hero)
+	assert not knight.buffs
+	assert knight.atk == 3
+	assert knight.health == 2
+	game.player1.give(WISP)
+	game.player1.give(SOULFIRE).play(target=game.player2.hero)
+	assert knight.buffs
+	assert knight.atk == 3 + 1
+	assert knight.health == 2 + 1
+
+
 def test_tinkertown_technician():
 	game = prepare_game()
 	game.player1.discard_hand()
@@ -3954,6 +4008,28 @@ def test_wild_pyromancer():
 	game.player1.give(SILENCE).play(target=pyro)
 	assert pyro.health == 1
 	assert pyro.zone == Zone.PLAY
+
+
+def test_wrathguard():
+	game = prepare_game()
+	wrathguard = game.player1.give("AT_026")
+	wrathguard.play()
+	assert game.player1.hero.health == 30
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert game.player1.hero.health == 30
+	game.player1.give(MOONFIRE).play(target=wrathguard)
+	assert game.player1.hero.health == 30 - 1
+	game.player1.give(CIRCLE_OF_HEALING)
+	assert game.player1.hero.health == 29
+	game.end_turn()
+
+	wargolem = game.player2.give("CS2_186")
+	wargolem.play()
+	game.end_turn()
+
+	wrathguard.attack(target=wargolem)
+	assert wrathguard.dead
+	assert game.player1.hero.health == 29 - 7
 
 
 def test_young_priestess():

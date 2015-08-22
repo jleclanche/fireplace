@@ -646,6 +646,16 @@ BRMC_86e = buff(atk=2)
 BRMC_98e = buff(atk=3)
 
 
+##
+# The Grand Tournament
+
+# Felrage (Tiny Knight of Evil)
+AT_021e = buff(+1, +1)
+
+# Dark Fusion (Demonfuse)
+AT_024e = buff(+3, +3)
+
+
 ###
 # Tutorial set
 #
