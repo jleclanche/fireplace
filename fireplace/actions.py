@@ -649,6 +649,8 @@ class Summon(TargetedAction):
 			card.zone = Zone.PLAY
 			self.broadcast(source, EventListener.AFTER, target, card)
 
+		return cards
+
 
 class Shuffle(TargetedAction):
 	"""
