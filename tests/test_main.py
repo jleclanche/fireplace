@@ -4088,6 +4088,26 @@ def test_wild_growth():
 	assert len(game.player1.hand) == 1
 
 
+def test_wilfred_fizzlebang():
+	game = prepare_empty_game(WARLOCK, WARLOCK)
+	game.player1.discard_hand()
+	fizzlebang = game.player1.give("AT_027")
+	fizzlebang.play()
+	game.player1.give("CS2_029").shuffle_into_deck()
+	game.player1.give("CS2_029").shuffle_into_deck()
+	assert len(game.player1.deck) == 2
+	assert len(game.player1.hand) == 0
+	game.player1.hero.power.use()
+	assert len(game.player1.hand) == 1
+	fireball1 = game.player1.hand[0]
+	assert fireball1.cost == 0
+	fireball1.discard()
+	game.end_turn(); game.end_turn()
+
+	fireball2 = game.player1.hand[0]
+	assert fireball2.cost == 4
+
+
 def test_wrathguard():
 	game = prepare_game()
 	wrathguard = game.player1.give("AT_026")

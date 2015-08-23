@@ -18,6 +18,15 @@ class AT_021:
 class AT_026:
 	events = Damage(SELF).on(Hit(FRIENDLY_HERO, Damage.Args.AMOUNT))
 
+# Wilfred Fizzlebang
+class AT_027:
+	events = Draw(CONTROLLER).on(
+		lambda self, target, card, source: source is self.controller.hero.power and Buff(card, "AT_027e")
+	)
+
+class AT_027e:
+	cost = lambda self, i: 0
+
 
 ##
 # Spells
