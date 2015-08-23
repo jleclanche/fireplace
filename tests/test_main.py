@@ -4867,6 +4867,18 @@ def test_fireguard_destroyer():
 	assert fireguard.atk in (4, 5, 6, 7)
 
 
+def test_fist_of_jaraxxus():
+	game = prepare_empty_game()
+	fist1 = game.player1.give("AT_022")
+	assert game.player2.hero.health == 30
+	game.player1.give(SOULFIRE).play(target=game.player1.hero)
+	assert game.player2.hero.health == 30 - 4
+	assert fist1.zone == Zone.DISCARD
+	fist2 = game.player1.give("AT_022")
+	fist2.play()
+	assert game.player2.hero.health == 30 - 4 - 4
+
+
 def test_far_sight():
 	game = prepare_game()
 	game.player1.discard_hand()

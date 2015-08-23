@@ -31,6 +31,12 @@ class AT_027e:
 ##
 # Spells
 
+# Fist of Jaraxxus
+class AT_022:
+	play = Hit(RANDOM_ENEMY_CHARACTER, 4)
+	in_hand = Discard(SELF).on(play)
+
+
 # Demonfuse
 class AT_024:
 	play = Buff(TARGET, "AT_024e"), GainMana(OPPONENT, 1)
