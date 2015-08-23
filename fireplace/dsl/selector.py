@@ -288,6 +288,9 @@ class RandomSelector(Selector):
 		self.program.append(self.random)
 		self.program.append(Selector.Unmerge)
 
+	def __repr__(self):
+		return "RANDOM(%r)" % (self.selector)
+
 	def __mul__(self, other):
 		result = RandomSelector(self.selector)
 		result.random.times = self.random.times * other
