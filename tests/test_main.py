@@ -1493,6 +1493,20 @@ def test_arcane_explosion():
 	assert len(game.current_player.opponent.field) == 0
 
 
+def test_arcane_golem():
+	game = prepare_game(game_class=Game)
+	golem = game.player1.give("EX1_089")
+	for i in range(3):
+		game.end_turn(); game.end_turn()
+
+	assert game.player1.max_mana == 4
+	assert game.player2.max_mana == 3
+	golem.play()
+	assert golem.charge
+	assert game.player1.max_mana == 4
+	assert game.player2.max_mana == 4
+
+
 def test_arcane_missiles():
 	game = prepare_game()
 	missiles = game.current_player.give("EX1_277")
