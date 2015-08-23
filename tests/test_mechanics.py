@@ -61,34 +61,38 @@ def test_auras():
 
 
 def test_bounce():
-	game = prepare_game()
-	wisp = game.current_player.give(WISP)
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
 	wisp.play()
-	assert game.current_player.field == [wisp]
-	brewmaster = game.current_player.give("EX1_049")
-	brewmaster.play(target=wisp)
-	assert game.current_player.field == [brewmaster]
-	assert wisp in game.current_player.hand
+	assert game.player1.field == [wisp]
+	brewmaster1 = game.player1.give("EX1_049")
+	brewmaster1.play(target=wisp)
+	assert game.player1.field == [brewmaster1]
+	assert wisp in game.player1.hand
 	assert wisp.zone == Zone.HAND
-	wisp.play()
+	wisp.discard()
 
 	# test for damage reset on bounce
-	brewmaster2 = game.current_player.give("EX1_049")
-	moonfire = game.current_player.give(MOONFIRE)
-	moonfire.play(target=brewmaster)
-	assert brewmaster.health == 1
-	brewmaster2.play(target=brewmaster)
-	assert brewmaster.health == 2
+	brewmaster2 = game.player1.give("EX1_049")
+	moonfire = game.player1.give(MOONFIRE)
+	moonfire.play(target=brewmaster1)
+	assert brewmaster1.health == 1
+	brewmaster2.play(target=brewmaster1)
+	assert brewmaster1.health == 2
 	assert brewmaster2.health == 2
+	brewmaster1.discard()
+	game.end_turn();
 
-	game.end_turn()
 	# fill the hand with some bananas
-	game.current_player.give("EX1_014t")
-	game.current_player.give("EX1_014t")
-	game.end_turn()
-	vanish = game.current_player.give("NEW1_004")
+	for i in range(10):
+		game.player1.give("EX1_014t")
+	assert len(game.player1.hand) == 10
+	vanish = game.player2.give("NEW1_004")
 	vanish.play()
-	assert brewmaster not in game.current_player.opponent.hand
+	assert len(game.player1.hand) == 10
+	assert brewmaster2 not in game.player1.hand
+	assert brewmaster2 in game.player1.graveyard
+	assert brewmaster2 in game.graveyard
 
 
 def test_card_draw():
