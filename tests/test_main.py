@@ -3683,6 +3683,32 @@ def test_undertaker():
 	assert undertaker.health == 2
 
 
+def test_unstable_ghoul():
+	game = prepare_game()
+	wisp = game.player2.summon(WISP)
+	acolyte = game.player2.summon("EX1_007")
+	ghoul = game.player1.give("FP1_024")
+	ghoul.play()
+	game.end_turn()
+
+	game.player2.discard_hand()
+	assert not wisp.dead
+	assert not acolyte.dead
+	assert acolyte.health == 3
+	assert len(game.player2.hand) == 0
+	assert game.player1.hero.health == 30
+	assert game.player2.hero.health == 30
+	axe = game.player2.give("CS2_106")
+	axe.play()
+	game.player2.hero.attack(target=ghoul)
+	assert wisp.dead
+	assert not acolyte.dead
+	assert acolyte.health == 3 - 1
+	assert len(game.player2.hand) == 1
+	assert game.player1.hero.health == 30
+	assert game.player2.hero.health == 30 - 1
+
+
 def test_vancleef():
 	game = prepare_game()
 	vancleef1 = game.current_player.give("EX1_613")
