@@ -1,3 +1,4 @@
+import logging
 import random
 from .lazynum import LazyNum
 
@@ -64,7 +65,8 @@ class Copy(Picker):
 		"""
 		Return a copy of \a entity
 		"""
-		return source.game.card(entity.id)
+		logging.info("Creating a copy of %r", entity)
+		return source.game.card(entity.id, source)
 
 	def pick(self, source) -> [str]:
 		from ..actions import Action

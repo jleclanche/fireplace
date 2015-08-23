@@ -121,8 +121,10 @@ class BaseGame(Entity):
 		player.last_card_played = card
 		card.zone = Zone.PLAY
 
-	def card(self, id):
+	def card(self, id, source=None):
 		card = Card(id)
+		if source is not None:
+			card.creator = source
 		self.manager.new_entity(card)
 		return card
 

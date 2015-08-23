@@ -24,7 +24,7 @@ def _eval_card(source, card):
 	ret = []
 	for card in cards:
 		if isinstance(card, str):
-			ret.append(source.game.card(card))
+			ret.append(source.game.card(card, source))
 		else:
 			ret.append(card)
 

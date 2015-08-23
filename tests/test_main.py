@@ -2323,14 +2323,20 @@ def test_mind_vision():
 	game.player2.discard_hand()
 
 	# play mind vision, should give nothing
-	assert len(game.current_player.hand) == 0
-	game.current_player.give("CS2_003").play()
-	assert len(game.current_player.hand) == 0
+	assert len(game.player1.hand) == 0
+	game.player1.give("CS2_003").play()
+	assert len(game.player1.hand) == 0
 
 	# opponent draws a card, mind vision should get that one card
-	card = game.current_player.opponent.draw()
-	game.current_player.give("CS2_003").play()
-	assert game.current_player.hand[-1] == card
+	assert len(game.player1.hand) == len(game.player2.hand) == 0
+	card = game.player2.draw()
+	assert len(game.player1.hand) == 0
+	assert len(game.player2.hand) == 1
+	mind_vision = game.player1.give("CS2_003")
+	mind_vision.play()
+	copied = game.player1.hand[-1]
+	assert copied == card
+	assert copied.creator is mind_vision
 
 
 def test_mirror_image():
@@ -3470,7 +3476,7 @@ def test_redemption():
 	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
 	footman.play()
 	game.end_turn()
-	
+
 	assert footman.health == 2
 	assert len(game.player1.field) == 1
 	assert len(game.player2.field) == 0
@@ -4268,6 +4274,7 @@ def test_unstable_portal():
 	assert len(game.player1.hand) == 1
 	minion = game.player1.hand[0]
 	assert minion.type == CardType.MINION
+	assert minion.creator is portal
 	assert minion.buffs
 
 
