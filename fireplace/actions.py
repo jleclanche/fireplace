@@ -389,8 +389,8 @@ class Discard(TargetedAction):
 	Discard card targets in a player's hand
 	"""
 	def do(self, source, target):
-		target.discard()
 		self.broadcast(source, EventListener.ON, target)
+		target.discard()
 
 
 class Draw(TargetedAction):
