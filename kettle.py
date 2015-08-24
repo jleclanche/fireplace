@@ -50,14 +50,20 @@ class KettleManager:
 			}
 		}
 
-	def full_entity(self, entity):
-		if isinstance(entity, Player):
-			type = "Player"
-		else:
-			type = "FullEntity"
+	def player_entity(self, player):
 		return {
-			"Type": type,
-			type: {
+			"Type": "Player",
+			"Player": {
+				"EntityID": player.manager.id,
+				"Tags": Kettle._serialize_tags(player.tags),
+			}
+		}
+
+	def full_entity(self, entity):
+		return {
+			"Type": "FullEntity",
+			"FullEntity": {
+				"CardID": entity.id,
 				"EntityID": entity.manager.id,
 				"Tags": Kettle._serialize_tags(entity.tags),
 			}
