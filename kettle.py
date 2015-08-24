@@ -39,7 +39,6 @@ class KettleManager:
 
 	def start_game(self):
 		self.queued_data.append(self.game_entity(self.game))
-		self.game.start()
 
 	def game_entity(self, game):
 		return {
@@ -134,7 +133,7 @@ class Kettle(socketserver.BaseRequestHandler):
 		game = Game(players=players)
 		manager = KettleManager(game)
 		game.manager.register(manager)
-		manager.start_game()
+		game.start()
 
 		return manager
 

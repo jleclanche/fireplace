@@ -38,12 +38,14 @@ class Manager(object):
 
 class GameManager(Manager):
 	map = {
+		GameTag.CARDTYPE: "type",
 		GameTag.NEXT_STEP: "next_step",
 		GameTag.NUM_MINIONS_KILLED_THIS_TURN: "minions_killed_this_turn",
 		GameTag.PROPOSED_ATTACKER: "proposed_attacker",
 		GameTag.PROPOSED_DEFENDER: "proposed_defender",
 		GameTag.STEP: "step",
 		GameTag.TURN: "turn",
+		GameTag.ZONE: "zone",
 	}
 
 	def __init__(self, *args):
@@ -64,6 +66,10 @@ class GameManager(Manager):
 		for observer in self.observers:
 			observer.new_entity(entity)
 		self.counter += 1
+
+	def start_game(self):
+		for observer in self.observers:
+			observer.start_game()
 
 
 class PlayerManager(Manager):

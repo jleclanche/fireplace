@@ -236,7 +236,9 @@ class BaseGame(Entity):
 		self.current_player = self.player1
 
 	def start(self):
-		logging.info("Starting game: %r" % (self))
+		logging.info("Starting game %r", self)
+		self.zone = Zone.PLAY
+		self.manager.start_game()
 		self.prepare()
 		self.begin_turn(self.player1)
 
