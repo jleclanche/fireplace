@@ -215,10 +215,10 @@ class BaseGame(Entity):
 		self.players[0].opponent = self.players[1]
 		self.players[1].opponent = self.players[0]
 		for player in self.players:
+			player.zone = Zone.PLAY
 			self.manager.new_entity(player)
 
 		for player in self.players:
-			player.zone = Zone.PLAY
 			player.summon(player.starting_hero)
 			for id in player.starting_deck:
 				player.card(id, zone=Zone.DECK)
