@@ -223,9 +223,12 @@ class BaseGame(Entity):
 		self.players[1].opponent = self.players[0]
 		for player in self.players:
 			self.manager.new_entity(player)
+
+		for player in self.players:
 			player.zone = Zone.PLAY
-			player.summon(player.original_deck.hero)
-			for card in player.original_deck:
+			player.summon(player.starting_hero)
+			for id in player.starting_deck:
+				card = self.card(id)
 				card.controller = player
 				card.zone = Zone.DECK
 			player.shuffle_deck()

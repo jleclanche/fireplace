@@ -114,8 +114,8 @@ class Player(Entity):
 		return cards[0][0]
 
 	def prepare_deck(self, cards, hero):
-		self.original_deck = Deck.from_list(cards)
-		self.original_deck.hero = hero
+		self.starting_deck = cards
+		self.starting_hero = hero
 
 	def discard_hand(self):
 		logging.info("%r discards his entire hand!" % (self))

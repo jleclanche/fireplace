@@ -7,10 +7,6 @@ class Deck(CardList):
 	MAX_UNIQUE_CARDS = 2
 	MAX_UNIQUE_LEGENDARIES = 1
 
-	@classmethod
-	def from_list(cls, cards):
-		return cls([Card(card) for card in cards])
-
 	def __init__(self, cards=None):
 		super().__init__(cards or [])
 		self.hero = None

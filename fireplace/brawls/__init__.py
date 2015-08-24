@@ -106,7 +106,7 @@ class SpidersEverywhereBrawl(Game):
 		from .. import cards
 		super().__init__(players)
 		for player in players:
-			hero = player.original_deck.hero
+			hero = player.starting_hero
 			player_class = getattr(cards, hero).card_class
 			spells = cards.filter(card_class=player_class, type=CardType.SPELL)
 			deck = ["FP1_011"] * 23
@@ -143,7 +143,7 @@ class CrossroadsEncounterBrawl(Game):
 		from .. import cards
 		super().__init__(players)
 		for player in players:
-			hero = player.original_deck.hero
+			hero = player.starting_hero
 			player_class = getattr(cards, hero).card_class
 			pool = cards.filter(card_class=player_class, collectible=True)
 			deck = [random.choice(pool) for i in range(15)]
@@ -181,7 +181,7 @@ class TooManyPortalsBrawl(Game):
 		from .. import cards
 		super().__init__(players)
 		for player in players:
-			hero = player.original_deck.hero
+			hero = player.starting_hero
 			player_class = getattr(cards, hero).card_class
 			spells = cards.filter(card_class=player_class, type=CardType.SPELL)
 			deck = [self.UNSTABLE_PORTAL] * 23
