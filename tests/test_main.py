@@ -22,6 +22,8 @@ def test_mage():
 	assert game.player1.hero.health == 30
 	assert game.player1.opponent.hero.health == 30
 	assert game.player1.times_hero_power_used_this_game == 0
+	assert game.player1.hero.power.controller is game.player1
+	assert game.player2.hero.power.controller is game.player2
 
 	# Fireblast the opponent hero
 	game.player1.hero.power.use(target=game.player2.hero)
@@ -4907,6 +4909,7 @@ def test_majordomo_executus():
 
 	game.player1.hero.power.use()
 	assert game.player1.hero.power.exhausted
+	assert game.player1.hero.power.controller is game.player1
 	assert game.player1.hero.armor == 2
 	assert game.player1.hero.health == 30
 	majordomo.destroy()
@@ -4914,6 +4917,7 @@ def test_majordomo_executus():
 	assert game.player1.hero.health == 8
 	assert game.player1.hero.power.id == "BRM_027p"
 	assert not game.player1.hero.power.exhausted
+	assert game.player1.hero.power.controller is game.player1
 	game.current_player.hero.power.use()
 	assert game.player1.hero.power.exhausted
 	assert game.player2.hero.health == 22

@@ -24,7 +24,7 @@ def _eval_card(source, card):
 	ret = []
 	for card in cards:
 		if isinstance(card, str):
-			ret.append(source.game.card(card, source))
+			ret.append(source.controller.card(card, source))
 		else:
 			ret.append(card)
 
@@ -212,8 +212,7 @@ class Play(GameAction):
 
 		if choose is not None:
 			# Choose One cards replace the action on the played card
-			chosen = player.game.card(choose)
-			chosen.controller = player
+			chosen = player.card(choose)
 			logging.info("Choose One from %r: %r", card, chosen)
 			if chosen.has_target():
 				chosen.target = target

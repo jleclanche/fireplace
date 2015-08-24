@@ -4,7 +4,7 @@ import time
 from calendar import timegm
 from itertools import chain
 from .actions import Attack, BeginTurn, Death, EndTurn, EventListener
-from .card import Card, THE_COIN
+from .card import THE_COIN
 from .entity import Entity
 from .enums import CardType, PlayState, Step, Zone
 from .managers import GameManager
@@ -121,13 +121,6 @@ class BaseGame(Entity):
 		player.last_card_played = card
 		card.zone = Zone.PLAY
 
-	def card(self, id, source=None):
-		card = Card(id)
-		if source is not None:
-			card.creator = source
-		self.manager.new_entity(card)
-		return card
-
 	def check_for_end_game(self):
 		"""
 		Check if one or more player is currently losing.
@@ -228,8 +221,7 @@ class BaseGame(Entity):
 			player.zone = Zone.PLAY
 			player.summon(player.starting_hero)
 			for id in player.starting_deck:
-				card = self.card(id)
-				card.controller = player
+				card = player.card(id)
 				card.zone = Zone.DECK
 			player.shuffle_deck()
 			player.playstate = PlayState.PLAYING

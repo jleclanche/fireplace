@@ -31,7 +31,10 @@ class KettleManager:
 		pass
 
 	def new_entity(self, entity):
-		payload = self.full_entity(entity)
+		if isinstance(entity, Player):
+			payload = self.player_entity(entity)
+		else:
+			payload = self.full_entity(entity)
 		self.queued_data.append(payload)
 
 	def start_game(self):

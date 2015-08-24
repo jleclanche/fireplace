@@ -2,6 +2,7 @@ import logging
 import random
 from itertools import chain
 from .actions import Draw, Give, Steal, Summon
+from .card import Card
 from .deck import Deck
 from .entity import Entity
 from .enums import CardType, PlayState, Zone
@@ -100,6 +101,14 @@ class Player(Entity):
 	def minion_slots(self):
 		return max(0, self.game.MAX_MINIONS_ON_FIELD - len(self.field))
 
+	def card(self, id, source=None):
+		card = Card(id)
+		card.controller = self
+		if source is not None:
+			card.creator = source
+		self.game.manager.new_entity(card)
+		return card
+
 	def get_spell_damage(self, amount: int) -> int:
 		"""
 		Returns the amount of damage \a amount will do, taking
@@ -181,7 +190,6 @@ class Player(Entity):
 		Puts \a card in the PLAY zone
 		"""
 		if isinstance(card, str):
-			card = self.game.card(card)
-			card.controller = self
+			card = self.card(card)
 		self.game.queue_actions(self, [Summon(self, card)])
 		return card

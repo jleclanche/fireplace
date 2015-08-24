@@ -66,7 +66,7 @@ class Copy(Picker):
 		Return a copy of \a entity
 		"""
 		logging.info("Creating a copy of %r", entity)
-		return source.game.card(entity.id, source)
+		return source.controller.card(entity.id, source)
 
 	def pick(self, source) -> [str]:
 		from ..actions import Action
