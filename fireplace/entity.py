@@ -16,6 +16,9 @@ class Entity(object):
 		else:
 			self._events = events[:]
 
+	def __int__(self):
+		return self.manager.id
+
 	@property
 	def events(self):
 		return self.base_events + self._events
