@@ -63,19 +63,28 @@ class KettleManager:
 
 class Kettle(socketserver.BaseRequestHandler):
 	def handle(self):
-		header = self.request.recv(4)
-		body_size, = struct.unpack("<i", header)
-		data = self.request.recv(body_size)
-		data = json.loads(data.decode("utf-8"))
+		data = self.read_packet()
 		data = data[0]
 		query_type = data["Type"]
 		payload = data[query_type]
 		DEBUG("Got payload %r", payload)
-		if query_type == "CreateGame":
-			manager = self.create_game(payload)
-		else:
-			raise NotImplementedError
+		assert query_type == "CreateGame"
 
+		manager = self.create_game(payload)
+		self.send_payload(manager)
+
+		while True:
+			data = self.read_packet()
+			raise NotImplementedError
+			self.send_payload(manager)
+
+	def read_packet(self):
+		header = self.request.recv(4)
+		body_size, = struct.unpack("<i", header)
+		data = self.request.recv(body_size)
+		return json.loads(data.decode("utf-8"))
+
+	def send_payload(self, manager):
 		serialized = json.dumps(manager.queued_data).encode("utf-8")
 		manager.queued_data = []
 		response_payload = struct.pack("<i", len(serialized)) + serialized
