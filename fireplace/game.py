@@ -35,10 +35,7 @@ class BaseGame(Entity):
 		self.no_aura_refresh = False
 
 	def __repr__(self):
-		return "<%s %s>" % (self.__class__.__name__, self)
-
-	def __str__(self):
-		return "%s vs %s" % (self.players)
+		return "%s(players=%r)" % (self.__class__.__name__, self.players)
 
 	def __iter__(self):
 		return self.all_entities.__iter__()
