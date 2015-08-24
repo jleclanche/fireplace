@@ -830,6 +830,32 @@ def test_siltfin_spiritwalker():
 	assert len(game.player1.hand) == 1
 
 
+def test_skycapn_kragg():
+	game = prepare_game()
+	kragg = game.player1.give("AT_070")
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert kragg.cost == 7
+	game.end_turn()
+
+	pirate = game.player2.give("CS2_146")
+	pirate.play()
+	assert kragg.cost == 7
+	game.end_turn()
+
+	game.player1.give("CS2_146").play()
+	assert kragg.cost == 7 - 1
+	game.player1.field[-1].destroy()
+	assert kragg.cost == 7
+	game.end_turn(); game.end_turn()
+
+	game.player1.summon("CS2_146")
+	assert kragg.cost == 7 - 1
+	assert game.player1.mana == 10
+	kragg.play()
+	assert game.player1.mana == 10 - 6
+
+
 def test_solemn_vigil():
 	game = prepare_game()
 	game.player1.discard_hand()
