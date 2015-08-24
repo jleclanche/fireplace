@@ -66,23 +66,23 @@ def fix_entourage(card, guids):
 def guess_spellpower(card):
 	sre = re.search(r"Spell Damage \+(\d+)", card.description)
 	dmg = int(sre.groups()[0])
-	e = card._findTag(GameTag.SPELLPOWER)
-	if not e:
+	e = card._find_tag(GameTag.SPELLPOWER)
+	if e is None:
 		print("WARNING: No SPELLPOWER tag found on %r" % (card))
 		return
-	e[0].attrib["value"] = str(dmg)
-	e[0].attrib["type"] = "Number"
+	e.attrib["value"] = str(dmg)
+	e.attrib["type"] = "Number"
 	print("%s: Setting Spell Power to %i" % (card.name, dmg))
 
 
 def guess_overload(card):
 	sre = re.search(r"Overload[^(]+\((\d+)\)", card.description)
 	amount = int(sre.groups()[0])
-	e = card._findTag(GameTag.RECALL)
-	if not e:
+	e = card._find_tag(GameTag.RECALL)
+	if e is None:
 		print("WARNING: No RECALL tag found on %r" % (card))
 		return
-	e[0].attrib["value"] = str(amount)
+	e.attrib["value"] = str(amount)
 	print("%s: Setting Overload to %i" % (card.name, amount))
 
 
@@ -119,7 +119,7 @@ def set_tag(card, tag, value):
 
 
 def remove_tag(card, tag):
-	e = card._findTag(tag)[0]
+	e = card._find_tag(tag)
 	card.xml.remove(e)
 	print("%s: Removing %r tag" % (card.name, tag))
 
@@ -210,9 +210,9 @@ def main():
 			description = card.description
 			assert description and not description.startswith("<i>")
 			print("%s: Italicizing description %r" % (id, description))
-			e = card._findTag(GameTag.CARDTEXT_INHAND)
-			for tag in e[0]:
-				tag.text = "<i>%s</i>" % (tag.text)
+			e = card._find_tag(GameTag.CARDTEXT_INHAND)
+			if e is not None:
+				e.text = "<i>%s</i>" % (e.text)
 			else:
 				print("WARNING: No CARDTEXT_INHAND tag found on %r" % (card))
 
