@@ -101,9 +101,10 @@ class Player(Entity):
 	def minion_slots(self):
 		return max(0, self.game.MAX_MINIONS_ON_FIELD - len(self.field))
 
-	def card(self, id, source=None):
+	def card(self, id, source=None, zone=Zone.SETASIDE):
 		card = Card(id)
 		card.controller = self
+		card.zone = zone
 		if source is not None:
 			card.creator = source
 		self.game.manager.new_entity(card)

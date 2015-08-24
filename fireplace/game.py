@@ -221,8 +221,7 @@ class BaseGame(Entity):
 			player.zone = Zone.PLAY
 			player.summon(player.starting_hero)
 			for id in player.starting_deck:
-				card = player.card(id)
-				card.zone = Zone.DECK
+				player.card(id, zone=Zone.DECK)
 			player.shuffle_deck()
 			player.playstate = PlayState.PLAYING
 			player.cards_drawn_this_turn = 0
