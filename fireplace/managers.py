@@ -60,9 +60,9 @@ class GameManager(Manager):
 			observer.action_end(type, args)
 
 	def new_entity(self, entity):
+		entity.manager.id = self.counter
 		for observer in self.observers:
 			observer.new_entity(entity)
-		entity.manager.id = self.counter
 		self.counter += 1
 
 
