@@ -1876,8 +1876,14 @@ def test_mirror_entity_battlecry():
 
 def test_mirror_entity_repentance():
 	game = prepare_game()
-	repentance1 = game.player2.summon("EX1_379")
-	mirror1 = game.player2.summon("EX1_294")
+	game.end_turn()
+
+	repentance1 = game.player2.give("EX1_379")
+	repentance1.play()
+	mirror1 = game.player2.give("EX1_294")
+	mirror1.play()
+	game.end_turn()
+
 	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
 	goldshire1.play()
 	assert mirror1 not in game.player2.secrets
@@ -1888,9 +1894,14 @@ def test_mirror_entity_repentance():
 
 	game.player1.field[0].destroy()
 	game.player2.field[0].destroy()
+	game.end_turn()
 
-	mirror2 = game.player2.summon("EX1_294")
-	repentance2 = game.player2.summon("EX1_379")
+	mirror2 = game.player2.give("EX1_294")
+	mirror2.play()
+	repentance2 = game.player2.give("EX1_379")
+	repentance2.play()
+	game.end_turn()
+
 	goldshire2 = game.player1.give(GOLDSHIRE_FOOTMAN)
 	goldshire2.play()
 	assert repentance2 not in game.player2.secrets
@@ -3614,17 +3625,20 @@ def test_truesilver_champion():
 
 def test_truesilver_champion_explosive_trap():
 	game = prepare_game()
-	explosivetrap = game.player2.summon("EX1_610")
-	game.player1.hero.set_current_health(2)
-	truesilver = game.player1.give("CS2_097")
+	explosivetrap = game.player1.give("EX1_610")
+	explosivetrap.play()
+	game.end_turn()
+
+	game.player2.hero.set_current_health(2)
+	truesilver = game.player2.give("CS2_097")
 	truesilver.play()
-	assert explosivetrap in game.player2.secrets
-	assert game.player1.hero.health == 2
-	assert game.player2.hero.health == 30
-	game.player1.hero.attack(game.player2.hero)
-	assert explosivetrap not in game.player2.secrets
-	assert game.player1.hero.health == 2
-	assert game.player2.hero.health == 26
+	assert explosivetrap in game.player1.secrets
+	assert game.player1.hero.health == 30
+	assert game.player2.hero.health == 2
+	game.player2.hero.attack(game.player1.hero)
+	assert explosivetrap not in game.player1.secrets
+	assert game.player1.hero.health == 26
+	assert game.player2.hero.health == 2
 
 
 def test_tiny_knight_of_evil():
