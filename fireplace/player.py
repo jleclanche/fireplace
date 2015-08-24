@@ -191,6 +191,6 @@ class Player(Entity):
 		Puts \a card in the PLAY zone
 		"""
 		if isinstance(card, str):
-			card = self.card(card)
+			card = self.card(card, zone=Zone.PLAY)
 		self.game.queue_actions(self, [Summon(self, card)])
 		return card

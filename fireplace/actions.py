@@ -645,7 +645,8 @@ class Summon(TargetedAction):
 			if card.type == CardType.MINION and not target.minion_slots:
 				continue
 			self.broadcast(source, EventListener.ON, target, card)
-			card.zone = Zone.PLAY
+			if card.zone != Zone.PLAY:
+				card.zone = Zone.PLAY
 			self.broadcast(source, EventListener.AFTER, target, card)
 
 		return cards
