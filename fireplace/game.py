@@ -241,8 +241,8 @@ class BaseGame(Entity):
 		logging.info("Starting game %r", self)
 		self.state = State.RUNNING
 		self.zone = Zone.PLAY
-		self.manager.start_game()
 		self.prepare()
+		self.manager.start_game()
 		self.begin_turn(self.player1)
 
 	def end_turn(self):
