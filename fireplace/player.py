@@ -36,7 +36,6 @@ class Player(Entity):
 		self.max_resources = 10
 		self.cant_draw = False
 		self.cant_fatigue = False
-		self.current_player = False
 		self.fatigue_counter = 0
 		self.hero = None
 		self.last_card_played = None
@@ -55,6 +54,10 @@ class Player(Entity):
 
 	def __repr__(self):
 		return "%s(name=%r, hero=%r)" % (self.__class__.__name__, self.name, self.hero)
+
+	@property
+	def current_player(self):
+		return self.game.current_player is self
 
 	@property
 	def controller(self):

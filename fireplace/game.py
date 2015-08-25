@@ -277,7 +277,6 @@ class BaseGame(Entity):
 
 		for p in self.players:
 			p.cards_drawn_this_turn = 0
-			p.current_player = p is player
 
 		player.turn_start = timegm(time.gmtime())
 		player.cards_played_this_turn = 0
