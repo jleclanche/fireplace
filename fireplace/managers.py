@@ -49,10 +49,10 @@ class GameManager(Manager):
 		GameTag.ZONE: "zone",
 	}
 
-	def __init__(self, *args):
-		super().__init__(*args)
-		self.id = 1
-		self.counter = self.id + 1
+	def __init__(self, obj):
+		super().__init__(obj)
+		self.counter = 1
+		obj.entity_id = self.counter
 
 	def action(self, type, *args):
 		for observer in self.observers:
@@ -63,10 +63,10 @@ class GameManager(Manager):
 			observer.action_end(type, args)
 
 	def new_entity(self, entity):
-		entity.manager.id = self.counter
+		self.counter += 1
+		entity.entity_id = self.counter
 		for observer in self.observers:
 			observer.new_entity(entity)
-		self.counter += 1
 
 	def start_game(self):
 		for observer in self.observers:

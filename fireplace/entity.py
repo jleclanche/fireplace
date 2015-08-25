@@ -17,7 +17,7 @@ class Entity(object):
 			self._events = events[:]
 
 	def __int__(self):
-		return self.manager.id
+		return self.entity_id
 
 	@property
 	def events(self):
