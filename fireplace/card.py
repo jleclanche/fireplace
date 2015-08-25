@@ -539,7 +539,7 @@ class Minion(Character):
 
 	@property
 	def asleep(self):
-		return not self.turns_in_play and not self.charge
+		return self.zone == Zone.PLAY and not self.turns_in_play and not self.charge
 
 	@property
 	def exhausted(self):
