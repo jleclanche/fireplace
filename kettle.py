@@ -6,7 +6,7 @@ import socketserver
 import struct
 import sys
 from argparse import ArgumentParser
-from fireplace.enums import CardType, GameTag, Zone
+from fireplace.enums import CardType, GameTag, OptionType, Zone
 from fireplace.game import Game
 from fireplace.player import Player
 from fireplace.utils import CardList
@@ -79,6 +79,14 @@ class KettleManager:
 				del state[GameTag.ZONE_POSITION]
 			self.tag_change(entity, GameTag.ZONE_POSITION, zone_pos)
 
+	def refresh_options(self):
+		self.options = [{"Type": OptionType.END_TURN}]
+		payload = {
+			"Type": "Options",
+			"Options": self.options,
+		}
+		self.queued_data.append(payload)
+
 	def get_zone_position(self, entity):
 		if entity.zone == Zone.HAND:
 			return entity.controller.hand.index(entity) + 1
@@ -99,6 +107,13 @@ class KettleManager:
 	def start_game(self):
 		self.add_to_state(self.game)
 		self.queued_data.append(self.game_entity(self.game))
+
+	def process_send_option(self, data):
+		option = self.options[data["Index"]]
+		if option["Type"] == OptionType.END_TURN:
+			self.game.end_turn()
+		else:
+			raise NotImplementedError
 
 	def tag_change(self, entity, tag, value):
 		payload = {
@@ -155,10 +170,17 @@ class Kettle(socketserver.BaseRequestHandler):
 		while True:
 			for entity in manager.game_state:
 				manager.refresh_state(entity)
+			manager.refresh_options()
 			self.send_payload(manager)
-			data = self.read_packet()
-			if data is None:
+			packet = self.read_packet()
+			if packet is None:
 				break
+
+			if packet["Type"] == "SendOption":
+				manager.process_send_option(packet["SendOption"])
+			else:
+				raise NotImplementedError
+
 			self.send_payload(manager)
 
 	def read_packet(self):
@@ -167,6 +189,7 @@ class Kettle(socketserver.BaseRequestHandler):
 			return None
 		body_size, = struct.unpack("<i", header)
 		data = self.request.recv(body_size)
+		DEBUG("Got data %r", data)
 		return json.loads(data.decode("utf-8"))
 
 	def send_payload(self, manager):
@@ -194,6 +217,10 @@ class Kettle(socketserver.BaseRequestHandler):
 		game.manager.register(manager)
 		game.current_player = game.players[0]  # Dumb.
 		game.start()
+
+		# Skip mulligan
+		for player in game.players:
+			player.choice = None
 
 		return manager
 
