@@ -98,6 +98,7 @@ class PlayerManager(Manager):
 		GameTag.RESOURCES: "max_mana",
 		GameTag.RESOURCES_USED: "used_mana",
 		GameTag.SPELLPOWER_DOUBLE: "spellpower_double",
+		GameTag.STARTHANDSIZE: "start_hand_size",
 		GameTag.TAG_HERO_POWER_DOUBLE: "hero_power_double",
 		GameTag.TEMP_RESOURCES: "temp_mana",
 		GameTag.TIMEOUT: "timeout",
