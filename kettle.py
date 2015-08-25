@@ -6,8 +6,7 @@ import socketserver
 import struct
 import sys
 from argparse import ArgumentParser
-from fireplace.enums import GameTag
-from fireplace.entity import Entity
+from fireplace.enums import CardType, GameTag, Zone
 from fireplace.game import Game
 from fireplace.player import Player
 from fireplace.utils import CardList
@@ -49,6 +48,10 @@ class KettleManager:
 				continue
 			state[tag] = int(value)
 
+		zone_pos = self.get_zone_position(entity)
+		if zone_pos:
+			state[GameTag.ZONE_POSITION] = zone_pos
+
 		# Don't have a way of getting entities by ID in fireplace yet
 		state[GameTag.ENTITY_ID] = entity
 
@@ -67,6 +70,23 @@ class KettleManager:
 			elif int(value) != state.get(tag, 0):
 				self.tag_change(entity, tag, int(value))
 				state[tag] = int(value)
+
+		zone_pos = self.get_zone_position(entity)
+		if zone_pos != state.get(GameTag.ZONE_POSITION):
+			if zone_pos:
+				state[GameTag.ZONE_POSITION] = zone_pos
+			else:
+				del state[GameTag.ZONE_POSITION]
+			self.tag_change(entity, GameTag.ZONE_POSITION, zone_pos)
+
+	def get_zone_position(self, entity):
+		if entity.zone == Zone.HAND:
+			return entity.controller.hand.index(entity) + 1
+		elif entity.zone == Zone.PLAY:
+			if entity.type == CardType.MINION:
+				return entity.controller.field.index(entity) + 1
+			else:
+				return 1
 
 	def new_entity(self, entity):
 		self.add_to_state(entity)
