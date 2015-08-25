@@ -6,7 +6,7 @@ from itertools import chain
 from .actions import Attack, BeginTurn, Death, EndTurn, EventListener
 from .card import THE_COIN
 from .entity import Entity
-from .enums import CardType, PlayState, Step, Zone
+from .enums import CardType, PlayState, State, Step, Zone
 from .managers import GameManager
 from .utils import CardList
 
@@ -26,6 +26,7 @@ class BaseGame(Entity):
 		self.players = players
 		for player in players:
 			player.game = self
+		self.state = State.INVALID
 		self.step = None
 		self.next_step = None
 		self.turn = 0
@@ -141,6 +142,7 @@ class BaseGame(Entity):
 						player.playstate = PlayState.LOST
 					else:
 						player.playstate = PlayState.WON
+			self.state = State.COMPLETE
 			raise GameOver("The game has ended.")
 
 	def process_deaths(self):
@@ -237,6 +239,7 @@ class BaseGame(Entity):
 
 	def start(self):
 		logging.info("Starting game %r", self)
+		self.state = State.RUNNING
 		self.zone = Zone.PLAY
 		self.manager.start_game()
 		self.prepare()

@@ -43,6 +43,7 @@ class GameManager(Manager):
 		GameTag.NUM_MINIONS_KILLED_THIS_TURN: "minions_killed_this_turn",
 		GameTag.PROPOSED_ATTACKER: "proposed_attacker",
 		GameTag.PROPOSED_DEFENDER: "proposed_defender",
+		GameTag.STATE: "state",
 		GameTag.STEP: "step",
 		GameTag.TURN: "turn",
 		GameTag.ZONE: "zone",

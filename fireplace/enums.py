@@ -45,6 +45,7 @@ class GameTag(IntEnum):
 	CARDRACE = 200
 	FACTION = 201
 	CARDTYPE = 202
+	STATE = 204
 	FREEZE = 208
 	ENRAGED = 212
 	RECALL = 215
@@ -376,6 +377,13 @@ class PowSubType(IntEnum):
 	PLAY = 7
 	FATIGUE = 8
 	ACTION = 99
+
+
+class State(IntEnum):
+	INVALID = 0
+	LOADING = 1
+	RUNNING = 2
+	COMPLETE = 3
 
 
 class Step(IntEnum):
