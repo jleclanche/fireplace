@@ -181,7 +181,7 @@ class CardSet(IntEnum):
 	FP1 = 12
 	PE1 = 13
 	BRM = 14
-	TEMP1 = 15
+	TGT = 15
 	CREDITS = 16
 	HERO_SKINS = 17
 	TB = 18
