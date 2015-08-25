@@ -273,6 +273,8 @@ class PlayableCard(BaseCard):
 		return self.game.queue_actions(self, [Damage(target, amount)])
 
 	def is_playable(self):
+		if self.controller.choice:
+			return False
 		if not self.controller.current_player:
 			return False
 		if self.controller.mana < self.cost:

@@ -239,6 +239,7 @@ class BaseGame(Entity):
 	def start(self):
 		logging.info("Starting game %r", self)
 		self.state = State.RUNNING
+		self.step = Step.MAIN_BEGIN
 		self.zone = Zone.PLAY
 		self.prepare()
 		self.manager.start_game()
@@ -318,14 +319,18 @@ class MulliganRules:
 	Performs a Mulligan phase when the Game starts.
 	Currently just a dummy phase.
 	"""
+
 	def start(self):
+		from .actions import MulliganChoice
+
 		self.next_step = Step.BEGIN_MULLIGAN
 		super().start()
-		self.begin_mulligan()
 
-	def begin_mulligan(self):
 		logging.info("Entering mulligan phase")
 		self.step, self.next_step = self.next_step, Step.MAIN_READY
+
+		for player in self.players:
+			self.queue_actions(self, MulliganChoice(player))
 
 
 class Game(MulliganRules, CoinRules, BaseGame):

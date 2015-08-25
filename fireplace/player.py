@@ -31,6 +31,7 @@ class Player(Entity):
 		self.graveyard = CardList()
 		self.secrets = CardList()
 		self.buffs = []
+		self.choice = None
 		self.start_hand_size = 4
 		self.max_hand_size = 10
 		self.max_resources = 10

@@ -338,6 +338,20 @@ class Zone(IntEnum):
 ##
 # Game enums
 
+class ChoiceType(IntEnum):
+	INVALID = 0
+	MULLIGAN = 1
+	GENERAL = 2
+
+
+class Mulligan(IntEnum):
+	INVALID = 0
+	INPUT = 1
+	DEALING = 2
+	WAITING = 3
+	DONE = 4
+
+
 class OptionType(IntEnum):
 	PASS = 1
 	END_TURN = 2

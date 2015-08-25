@@ -4,7 +4,7 @@ import random
 import fireplace.cards
 from fireplace.cards.heroes import *
 from fireplace.enums import *
-from fireplace.game import Game
+from fireplace.game import BaseGame, CoinRules, Game
 from fireplace.player import Player
 from fireplace.utils import random_draft
 
@@ -53,7 +53,7 @@ def _draft(hero, exclude):
 _heroes = fireplace.cards.filter(collectible=True, type=CardType.HERO)
 
 
-class BaseTestGame(Game):
+class BaseTestGame(CoinRules, BaseGame):
 	def start(self):
 		super().start()
 		self.player1.max_mana = 10
@@ -74,6 +74,11 @@ def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
 	player2.prepare_deck(deck2, hero2)
 	game = game_class(players=(player1, player2))
 	game.start()
+
+	# Do empty mulligans
+	for player in game.players:
+		if player.choice:
+			player.choice.choose()
 
 	return game
 

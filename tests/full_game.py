@@ -22,6 +22,12 @@ def main():
 	game = Game(players=(player1, player2))
 	game.start()
 
+	for player in game.players:
+		print("Can mulligan %r" % (player.choice.cards))
+		mull_count = random.randint(0, len(player.choice.cards))
+		cards_to_mulligan = random.sample(player.choice.cards, mull_count)
+		player.choice.choose(*cards_to_mulligan)
+
 	while True:
 		heropower = game.current_player.hero.power
 		# always play the hero power, just for kicks

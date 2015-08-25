@@ -1,7 +1,7 @@
 import logging
 from enum import IntEnum
 from .dsl import LazyNum, Picker, Selector
-from .enums import CardType, PowSubType, Zone
+from .enums import CardType, Mulligan, PowSubType, Zone
 from .entity import Entity
 
 
@@ -181,8 +181,33 @@ class EndTurn(GameAction):
 	type = None
 
 	def do(self, source, player):
+		assert not player.choice, "Attempted to end a turn with a choice open"
 		self.broadcast(source, EventListener.ON, player)
 		source.game._end_turn()
+
+
+class MulliganChoice(GameAction):
+	class Args(Action.Args):
+		PLAYER = 0
+
+	type = None
+
+	def do(self, source, player):
+		player.mulligan_state = Mulligan.INPUT
+		player.choice = self
+		# NOTE: Ideally, we give The Coin when the Mulligan is over.
+		# Unfortunately, that's not compatible with Blizzard's way.
+		self.cards = player.hand.exclude(id="GAME_005")
+		self.player = player
+
+	def choose(self, *cards):
+		self.player.draw(len(cards))
+		for card in cards:
+			assert card in self.cards
+			card.zone = Zone.DECK
+		self.player.choice = None
+		self.player.shuffle_deck()
+		self.player.mulligan_state = Mulligan.DONE
 
 
 class Play(GameAction):
