@@ -133,6 +133,7 @@ class Kettle(socketserver.BaseRequestHandler):
 		game = Game(players=players)
 		manager = KettleManager(game)
 		game.manager.register(manager)
+		game.current_player = game.players[0]  # Dumb.
 		game.start()
 
 		return manager
