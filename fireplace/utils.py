@@ -11,6 +11,10 @@ class CardList(list):
 			return self.__class__(ret)
 		return ret
 
+	def __int__(self):
+		# Used in Kettle to easily serialize CardList to json
+		return len(self)
+
 	def contains(self, x):
 		"True if list contains any instance of x"
 		for item in self:
