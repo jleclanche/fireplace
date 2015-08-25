@@ -235,7 +235,6 @@ class BaseGame(Entity):
 		self.player2.first_player = False
 		self.player1.draw(self.player1.start_hand_size - 1)
 		self.player2.draw(self.player1.start_hand_size)
-		self.current_player = self.player1
 
 	def start(self):
 		logging.info("Starting game %r", self)
