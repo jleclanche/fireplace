@@ -400,8 +400,9 @@ class Character(PlayableCard):
 
 	@property
 	def should_exit_combat(self):
-		if self.dead or self.zone != Zone.PLAY:
-			return True
+		if self.attacking:
+			if self.dead or self.zone != Zone.PLAY:
+				return True
 		return False
 
 	def attack(self, target):
