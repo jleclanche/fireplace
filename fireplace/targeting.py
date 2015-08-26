@@ -4,6 +4,15 @@ Targeting logic
 from .enums import CardType, PlayReq, Rarity
 
 
+TARGETING_PREREQUISITES = (
+	PlayReq.REQ_TARGET_TO_PLAY,
+	PlayReq.REQ_TARGET_FOR_COMBO,
+	PlayReq.REQ_TARGET_IF_AVAILABLE,
+	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND,
+	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_MINIONS,
+)
+
+
 # Requirements-based targeting
 def is_valid_target(self, target, requirements=None):
 	if target is self:
@@ -27,6 +36,13 @@ def is_valid_target(self, target, requirements=None):
 
 	if requirements is None:
 		requirements = self.requirements
+
+	# Check if the entity can ever target other entities
+	for req in TARGETING_PREREQUISITES:
+		if req in requirements:
+			break
+	else:
+		return False
 
 	for req, param in requirements.items():
 		if req == PlayReq.REQ_MINION_TARGET:

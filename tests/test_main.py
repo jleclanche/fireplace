@@ -4844,15 +4844,21 @@ def test_force_of_nature():
 
 def test_warlock():
 	game = prepare_game(WARLOCK, WARLOCK)
+	game.player1.discard_hand()
+	assert not game.player1.hero.power.targets
+	assert game.player1.hero.power.is_usable()
+	game.player1.hero.power.use()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hero.health == 28
+
 	sacpact = game.current_player.give("NEW1_003")
 	assert not sacpact.is_playable()
 	flameimp = game.current_player.give("EX1_319")
 	flameimp.play()
-	assert game.current_player.hero.health == 27
+	assert game.current_player.hero.health == 25
 	assert sacpact.is_playable()
 	sacpact.play(target=flameimp)
 	assert game.current_player.hero.health == 30
-	game.end_turn()
 
 
 def test_resurrect():
