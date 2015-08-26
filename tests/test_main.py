@@ -2984,16 +2984,18 @@ def test_holy_wrath():
 	assert game.player2.hero.health == 30 - 1
 	game.end_turn(); game.end_turn()
 
-	game.player2.hero.set_current_health(30)
-	for i in range(10):
+
+def test_holy_wrath_full_hand():
+	game = prepare_empty_game()
+	game.player1.give(GOLDSHIRE_FOOTMAN).shuffle_into_deck()
+	game.player1.give(GOLDSHIRE_FOOTMAN).shuffle_into_deck()
+	holywrath = game.player1.give("EX1_365")
+	for i in range(9):
 		game.player1.give(WISP)
-	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
-	goldshire.shuffle_into_deck()
-	assert game.player2.hero.health == 30
-	game.player1.give("EX1_365").play(target=game.player2.hero)
+	game.player1.temp_mana += 1
+	holywrath.play(target=game.player2.hero)
 	assert game.player2.hero.health == 30 - 1
-	assert goldshire not in game.player1.deck
-	assert goldshire not in game.player1.hand
+	assert len(game.player1.hand) == 10
 
 
 def test_illidan():

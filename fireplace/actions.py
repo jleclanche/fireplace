@@ -487,10 +487,15 @@ class Give(TargetedAction):
 
 	def do(self, source, target, cards):
 		logging.debug("Giving %r to %s", cards, target)
+		ret = []
 		for card in cards:
+			if len(target.hand) >= target.max_hand_size:
+				logging.info("Give(%r) fails because %r's hand is full", card, target)
+				continue
 			card.controller = target
 			card.zone = Zone.HAND
-		return cards
+			ret.append(card)
+		return ret
 
 
 class Hit(TargetedAction):
