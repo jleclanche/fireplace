@@ -815,7 +815,7 @@ class Weapon(rules.WeaponRules, PlayableCard):
 
 	@property
 	def exhausted(self):
-		return not self.controller.current_player
+		return self.zone == Zone.PLAY and not self.controller.current_player
 
 	@exhausted.setter
 	def exhausted(self, value):
