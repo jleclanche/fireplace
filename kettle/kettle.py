@@ -40,7 +40,8 @@ class KettleManager:
 		pass
 
 	def game_step(self, step, next_step):
-		pass
+		DEBUG("Game.STEP changes to %r (next step is %r)", step, next_step)
+		self.refresh_full_state()
 
 	def add_to_state(self, entity):
 		state = self.game_state[entity.entity_id] = {}
@@ -58,21 +59,30 @@ class KettleManager:
 		# Don't have a way of getting entities by ID in fireplace yet
 		state[GameTag.ENTITY_ID] = entity
 
+	def refresh_tag(self, entity, tag):
+		state = self.game_state[entity.entity_id]
+		value = entity.tags.get(tag, 0)
+		if isinstance(value, str):
+			return
+		if not value:
+			if state.get(tag, 0):
+				self.tag_change(entity, tag, 0)
+				del state[tag]
+		elif int(value) != state.get(tag, 0):
+			self.tag_change(entity, tag, int(value))
+			state[tag] = int(value)
+
+	def refresh_full_state(self):
+		for entity in self.game_state:
+			self.refresh_state(entity)
+
 	def refresh_state(self, entity_id):
 		assert entity_id in self.game_state
-		state = self.game_state[entity_id]
-		entity = state[GameTag.ENTITY_ID]
+		entity = self.game_state[entity_id][GameTag.ENTITY_ID]
+		state = self.game_state[entity.entity_id]
 
-		for tag, value in entity.tags.items():
-			if isinstance(value, str):
-				continue
-			if not value:
-				if state.get(tag, 0):
-					self.tag_change(entity, tag, 0)
-					del state[tag]
-			elif int(value) != state.get(tag, 0):
-				self.tag_change(entity, tag, int(value))
-				state[tag] = int(value)
+		for tag in entity.tags:
+			self.refresh_tag(entity, tag)
 
 		zone_pos = self.get_zone_position(entity)
 		if zone_pos != state.get(GameTag.ZONE_POSITION):
@@ -115,10 +125,16 @@ class KettleManager:
 		option = self.options[data["Index"]]
 		if option["Type"] == OptionType.END_TURN:
 			self.game.end_turn()
+
+			# CURRENT_PLAYER needs to change before turn. TODO: is this needed?
+			self.refresh_tag(self.game.current_player.opponent, GameTag.CURRENT_PLAYER)
+			self.refresh_tag(self.game.current_player, GameTag.CURRENT_PLAYER)
+			self.refresh_tag(self.game, GameTag.TURN)
 		else:
 			raise NotImplementedError
 
 	def tag_change(self, entity, tag, value):
+		DEBUG("Queueing a tag change for entity %r: %r -> %r", entity, tag, value)
 		payload = {
 			"Type": "TagChange",
 			"TagChange": {
@@ -171,8 +187,7 @@ class Kettle(socketserver.BaseRequestHandler):
 		manager = self.create_game(payload)
 
 		while True:
-			for entity in manager.game_state:
-				manager.refresh_state(entity)
+			manager.refresh_full_state()
 			manager.refresh_options()
 			self.send_payload(manager)
 			packet = self.read_packet()
