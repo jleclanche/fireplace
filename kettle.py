@@ -146,6 +146,7 @@ def main():
 	args = arguments.parse_args(sys.argv[1:])
 
 	INFO("Listening on %s:%i..." % (args.hostname, args.port))
+	socketserver.TCPServer.allow_reuse_address = True
 	kettle = socketserver.TCPServer((args.hostname, args.port), Kettle)
 	kettle.serve_forever()
 
