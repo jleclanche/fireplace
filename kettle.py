@@ -7,7 +7,7 @@ import struct
 import sys
 from argparse import ArgumentParser
 from fireplace.enums import CardType, GameTag, OptionType, Zone
-from fireplace.game import Game
+from fireplace.game import BaseGame as Game
 from fireplace.player import Player
 from fireplace.utils import CardList
 
