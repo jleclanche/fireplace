@@ -92,8 +92,49 @@ class KettleManager:
 				del state[GameTag.ZONE_POSITION]
 			self.tag_change(entity, GameTag.ZONE_POSITION, zone_pos)
 
+	def get_options(self, entity):
+		ret = []
+		if entity.zone == Zone.HAND:
+			if entity.type in (CardType.SPELL, CardType.MINION, CardType.WEAPON):
+				if entity.is_playable():
+					ret.append({
+						"Type": OptionType.POWER,
+						"MainOption": {
+							"ID": entity,
+							"Targets": entity.targets,
+						},
+					})
+
+		elif entity.zone == Zone.PLAY:
+			if entity.type == CardType.HERO_POWER:
+				if entity.is_usable():
+					ret.append({
+						"Type": OptionType.POWER,
+						"MainOption": {
+							"ID": entity,
+							"Targets": entity.targets,
+						}
+					})
+			elif entity.type in (CardType.HERO, CardType.MINION):
+				if entity.can_attack():
+					ret.append({
+						"Type": OptionType.POWER,
+						"MainOption": {
+							"ID": entity,
+							"Targets": entity.attack_targets,
+						}
+					})
+
+		return ret
+
 	def refresh_options(self):
+		DEBUG("Refreshing options...")
 		self.options = [{"Type": OptionType.END_TURN}]
+
+		for entity in self.game.current_player.actionable_entities:
+			for option in self.get_options(entity):
+				self.options.append(option)
+
 		payload = {
 			"Type": "Options",
 			"Options": self.options,
@@ -121,7 +162,13 @@ class KettleManager:
 		self.add_to_state(self.game)
 		self.queued_data.append(self.game_entity(self.game))
 
+	def get_entity(self, id):
+		if not id:
+			return None
+		return self.game_state[id][GameTag.ENTITY_ID]
+
 	def process_send_option(self, data):
+		DEBUG("Processing send option, data=%r", data)
 		option = self.options[data["Index"]]
 		if option["Type"] == OptionType.END_TURN:
 			self.game.end_turn()
@@ -130,6 +177,18 @@ class KettleManager:
 			self.refresh_tag(self.game.current_player.opponent, GameTag.CURRENT_PLAYER)
 			self.refresh_tag(self.game.current_player, GameTag.CURRENT_PLAYER)
 			self.refresh_tag(self.game, GameTag.TURN)
+		elif option["Type"] == OptionType.POWER:
+			entity = option["MainOption"]["ID"]
+			target = self.get_entity(data["Target"])
+			DEBUG("Using POWER entity %r target %r", entity, target)
+			DEBUG("data=%r", data)
+			if entity.zone == Zone.HAND:
+				entity.play(target=target)
+			elif entity.zone == Zone.PLAY:
+				if entity.type == CardType.HERO_POWER:
+					entity.use(target=target)
+				elif entity.type in (CardType.HERO, CardType.MINION):
+					entity.attack(target=target)
 		else:
 			raise NotImplementedError
 
