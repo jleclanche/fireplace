@@ -250,7 +250,7 @@ class BaseGame(Entity):
 
 	def _end_turn(self):
 		logging.info("%s ends turn %i", self.current_player, self.turn)
-		self.step, self.next_step = self.next_step, Step.MAIN_CLEANUP
+		self.manager.step(self.next_step, Step.MAIN_CLEANUP)
 
 		self.current_player.temp_mana = 0
 		for character in self.current_player.characters.filter(frozen=True):
@@ -260,18 +260,17 @@ class BaseGame(Entity):
 			logging.info("Ending One-Turn effect: %r", buff)
 			buff.destroy()
 
-		self.step, self.next_step = self.next_step, Step.MAIN_NEXT
+		self.manager.step(self.next_step, Step.MAIN_NEXT)
 		self.begin_turn(self.current_player.opponent)
 
 	def begin_turn(self, player):
 		return self.queue_actions(self, [BeginTurn(player)])
 
 	def _begin_turn(self, player):
-		self.step, self.next_step = self.next_step, Step.MAIN_START_TRIGGERS
-		self.step, self.next_step = self.next_step, Step.MAIN_START
+		self.manager.step(self.next_step, Step.MAIN_START)
 		self.turn += 1
 		logging.info("%s begins turn %i", player, self.turn)
-		self.step, self.next_step = self.next_step, Step.MAIN_ACTION
+		self.manager.step(self.next_step, Step.MAIN_ACTION)
 		self.current_player = player
 		self.minions_killed_this_turn = CardList()
 
@@ -296,6 +295,7 @@ class BaseGame(Entity):
 					entity.num_attacks = 0
 
 		player.draw()
+		self.manager.step(self.next_step, Step.MAIN_END)
 
 
 class CoinRules:

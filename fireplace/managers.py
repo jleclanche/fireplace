@@ -72,6 +72,12 @@ class GameManager(Manager):
 		for observer in self.observers:
 			observer.start_game()
 
+	def step(self, step, next_step):
+		for observer in self.observers:
+			observer.game_step(step, next_step)
+		self.obj.step = step
+		self.obj.next_step = next_step
+
 
 class PlayerManager(Manager):
 	map = {
