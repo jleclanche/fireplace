@@ -142,10 +142,6 @@ class PlayableCard(BaseCard):
 		return self.base_events + self._events
 
 	@property
-	def dead(self):
-		return self.zone == Zone.GRAVEYARD or self.to_be_destroyed
-
-	@property
 	def deathrattles(self):
 		ret = []
 		if not self.has_deathrattle:
@@ -169,14 +165,6 @@ class PlayableCard(BaseCard):
 				if minion.race == req:
 					return True
 		return False
-
-	@property
-	def to_be_destroyed(self):
-		return self.health == 0 or getattr(self, "_to_be_destroyed", False)
-
-	@to_be_destroyed.setter
-	def to_be_destroyed(self, value):
-		self._to_be_destroyed = value
 
 	@property
 	def entities(self):
@@ -338,7 +326,26 @@ class PlayableCard(BaseCard):
 		return [card for card in self.game.characters if is_valid_target(self, card)]
 
 
-class Character(PlayableCard):
+class LiveEntity(PlayableCard):
+	def __init__(self, *args):
+		super().__init__(*args)
+		self._to_be_destroyed = False
+
+	@property
+	def dead(self):
+		return self.zone == Zone.GRAVEYARD or self.to_be_destroyed
+
+	@property
+	def to_be_destroyed(self):
+		return getattr(self, self.health_attribute) == 0 or self._to_be_destroyed
+
+	@to_be_destroyed.setter
+	def to_be_destroyed(self, value):
+		self._to_be_destroyed = value
+
+
+class Character(LiveEntity):
+	health_attribute = "health"
 	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
 	immune = boolean_property("immune")
 	min_health = boolean_property("min_health")
@@ -794,7 +801,9 @@ class Enrage(object):
 		return i + getattr(self, attr, 0)
 
 
-class Weapon(rules.WeaponRules, PlayableCard):
+class Weapon(rules.WeaponRules, LiveEntity):
+	health_attribute = "durability"
+
 	def __init__(self, *args):
 		super().__init__(*args)
 		self.damage = 0
@@ -820,14 +829,6 @@ class Weapon(rules.WeaponRules, PlayableCard):
 	@exhausted.setter
 	def exhausted(self, value):
 		pass
-
-	@property
-	def to_be_destroyed(self):
-		return self.durability == 0 or getattr(self, "_to_be_destroyed", False)
-
-	@to_be_destroyed.setter
-	def to_be_destroyed(self, value):
-		self._to_be_destroyed = value
 
 	def _hit(self, source, amount):
 		self.damage += amount
