@@ -98,7 +98,6 @@ class BaseCard(Entity):
 				for aura in auras:
 					aura = Aura(aura, source=self)
 					aura.summon()
-					self.auras.append(aura)
 		else:
 			for aura in self.auras:
 				aura.to_be_destroyed = True
