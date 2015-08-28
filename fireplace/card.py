@@ -39,7 +39,7 @@ class BaseCard(Entity):
 	def __init__(self, id, data):
 		self.data = data
 		super().__init__()
-		self._auras = []
+		self.auras = []
 		self.requirements = data.requirements.copy()
 		self.id = id
 		self.controller = None
@@ -98,9 +98,9 @@ class BaseCard(Entity):
 				for aura in auras:
 					aura = Aura(aura, source=self)
 					aura.summon()
-					self._auras.append(aura)
+					self.auras.append(aura)
 		else:
-			for aura in self._auras:
+			for aura in self.auras:
 				aura.to_be_destroyed = True
 
 	def buff(self, target, buff, **kwargs):
@@ -614,7 +614,7 @@ class Minion(Character):
 
 	def silence(self):
 		logging.info("%r has been silenced" % (self))
-		for aura in self._auras:
+		for aura in self.auras:
 			aura.to_be_destroyed = True
 		self.clear_buffs()
 

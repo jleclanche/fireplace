@@ -70,4 +70,4 @@ class Aura:
 			buff.destroy()
 		del self._buffs
 		del self._buffed
-		self.source._auras.remove(self)
+		self.source.auras.remove(self)
