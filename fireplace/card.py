@@ -645,10 +645,6 @@ class Secret(Spell):
 	def exhausted(self):
 		return not self.controller.current_player
 
-	@exhausted.setter
-	def exhausted(self, value):
-		pass
-
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
 			# Move secrets to the SECRET Zone when played
@@ -754,10 +750,6 @@ class Weapon(rules.WeaponRules, LiveEntity):
 	@property
 	def exhausted(self):
 		return self.zone == Zone.PLAY and not self.controller.current_player
-
-	@exhausted.setter
-	def exhausted(self, value):
-		pass
 
 	def _hit(self, source, amount):
 		self.damage += amount
