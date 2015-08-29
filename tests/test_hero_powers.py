@@ -1,6 +1,19 @@
 from utils import *
 
 
+def test_druid():
+	game = prepare_game(DRUID, DRUID)
+	assert game.player1.hero.id is DRUID
+	assert game.player1.hero.health == 30
+	assert game.player1.hero.armor == 0
+	assert game.player1.hero.atk == 0
+	assert not game.player1.hero.can_attack()
+	game.player1.hero.power.use()
+	assert game.player1.hero.armor == 1
+	assert game.player1.hero.atk == 1
+	assert game.player1.hero.can_attack()
+
+
 def test_mage():
 	game = prepare_game(MAGE, MAGE)
 	assert game.player1.hero.id is MAGE
