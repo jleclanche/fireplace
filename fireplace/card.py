@@ -255,9 +255,6 @@ class PlayableCard(BaseCard):
 		return self.game.queue_actions(self, [Heal(target, amount)])
 
 	def hit(self, target, amount):
-		if getattr(target, "immune", False):
-			logging.info("%r is immune to %i damage from %r" % (target, amount, self))
-			return
 		return self.game.queue_actions(self, [Damage(target, amount)])
 
 	def is_playable(self):
@@ -449,6 +446,9 @@ class Character(LiveEntity):
 		return max(0, self.max_health - self.damage)
 
 	def _hit(self, source, amount):
+		if self.immune:
+			logging.info("%r is immune to %i damage from %r", self, amount, source)
+			return 0
 		self.damage += amount
 		return amount
 
