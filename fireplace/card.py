@@ -48,6 +48,7 @@ class BaseCard(Entity):
 		self.silenced = False
 		self.spellpower = 0
 		self.turns_in_play = 0
+		self._zone = Zone.INVALID
 		self.tags.update(data.tags)
 
 	def __str__(self):
@@ -69,7 +70,7 @@ class BaseCard(Entity):
 
 	@property
 	def zone(self):
-		return getattr(self, "_zone", Zone.INVALID)
+		return self._zone
 
 	@zone.setter
 	def zone(self, value):
@@ -327,6 +328,7 @@ class LiveEntity(PlayableCard):
 	def __init__(self, *args):
 		super().__init__(*args)
 		self._to_be_destroyed = False
+		self._damage = 0
 
 	@property
 	def dead(self):
@@ -422,7 +424,7 @@ class Character(LiveEntity):
 
 	@property
 	def damage(self):
-		return getattr(self, "_damage", 0)
+		return self._damage
 
 	@damage.setter
 	def damage(self, amount):
