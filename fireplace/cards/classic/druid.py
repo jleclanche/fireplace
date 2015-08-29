@@ -185,4 +185,4 @@ class NEW1_007a:
 
 # Starfall (5 Damage to One)
 class NEW1_007b:
-	play = Hit(TARGET, 2)
+	play = Hit(TARGET, 5)

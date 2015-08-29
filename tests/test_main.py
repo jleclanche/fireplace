@@ -5436,6 +5436,18 @@ def test_powermace():
 	assert dummy.atk == 0 + 2
 	assert dummy.health == 2 + 2
 
+def test_starfall_for_5():
+	game = prepare_game()
+
+	oasis_snapjaw = game.player1.give("CS2_119")
+	oasis_snapjaw.play()
+	assert oasis_snapjaw.atk == 2
+	assert oasis_snapjaw.health == 7
+
+	starfall = game.player1.give("NEW1_007")
+	starfall.play(choose="NEW1_007b", target=oasis_snapjaw)
+	assert oasis_snapjaw.atk == 2
+	assert oasis_snapjaw.health == 2
 
 def main():
 	for name, f in globals().items():
