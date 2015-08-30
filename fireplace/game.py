@@ -292,8 +292,9 @@ class BaseGame(Entity):
 				entity.turns_in_play += 1
 				if entity.type == CardType.HERO_POWER:
 					entity.exhausted = False
-				elif entity.type in (CardType.HERO, CardType.MINION):
-					entity.num_attacks = 0
+
+		for character in self.characters:
+			character.num_attacks = 0
 
 		player.draw()
 		self.manager.step(self.next_step, Step.MAIN_END)
