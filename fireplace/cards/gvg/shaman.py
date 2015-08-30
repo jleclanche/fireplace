@@ -16,7 +16,7 @@ class GVG_040:
 
 # Neptulon
 class GVG_042:
-	play = Give(CONTROLLER, RandomMinion(race=Race.MURLOC)) * 4
+	play = Give(CONTROLLER, RandomMurloc()) * 4
 
 
 ##
