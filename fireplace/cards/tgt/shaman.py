@@ -30,6 +30,11 @@ class AT_049:
 ##
 # Spells
 
+# Healing Wave
+class AT_048:
+	play = JOUST & Heal(TARGET, 7) | Heal(TARGET, 14)
+
+
 # Elemental Destruction
 class AT_051:
 	play = Hit(ALL_MINIONS, RandomNumber(4, 5))
