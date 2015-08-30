@@ -1,9 +1,6 @@
 import random
-from ..utils import get_logger
+from ..utils import fireplace_logger as logger
 from .lazynum import LazyNum
-
-
-logger = get_logger("fireplace.DSL")
 
 
 class Picker:

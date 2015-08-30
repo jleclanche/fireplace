@@ -2,10 +2,7 @@ from enum import IntEnum
 from .dsl import LazyNum, Picker, Selector
 from .enums import CardType, Mulligan, PowSubType, Zone
 from .entity import Entity
-from .utils import get_logger
-
-
-logger = get_logger("fireplace.Action")
+from .utils import fireplace_logger as logger
 
 
 def _eval_card(source, card):

@@ -1,15 +1,15 @@
 import uuid
-from .utils import get_logger
+from .utils import fireplace_logger
 
 
 class Entity(object):
 	base_events = []
+	logger = fireplace_logger
 
 	def __init__(self):
 		self.manager = self.Manager(self)
 		self.tags = self.manager
 		self.uuid = uuid.uuid4()
-		self.logger = get_logger("fireplace.%s" % (self.__class__.__name__))
 
 		scripts = getattr(self.data, "scripts", None)
 		events = getattr(scripts, "events", [])

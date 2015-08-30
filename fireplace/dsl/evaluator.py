@@ -1,8 +1,5 @@
 import copy
-from ..utils import get_logger
-
-
-logger = get_logger("fireplace.DSL")
+from ..utils import fireplace_logger as logger
 
 
 class Evaluator:

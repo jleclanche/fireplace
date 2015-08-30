@@ -93,7 +93,7 @@ def get_logger(name, level=logging.DEBUG):
 		ch.setLevel(level)
 
 		formatter = logging.Formatter(
-			"[%(asctime)s] [%(name)s] %(levelname)s: %(message)s",
+			"[%(name)s.%(module)s]: %(message)s",
 			datefmt="%H:%M:%S"
 		)
 		ch.setFormatter(formatter)
@@ -101,3 +101,6 @@ def get_logger(name, level=logging.DEBUG):
 		logger.addHandler(ch)
 
 	return logger
+
+
+fireplace_logger = get_logger("fireplace")

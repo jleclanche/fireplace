@@ -5,10 +5,8 @@ from fireplace.cards.heroes import *
 from fireplace.enums import *
 from fireplace.game import BaseGame, CoinRules, Game
 from fireplace.player import Player
-from fireplace.utils import random_draft, get_logger
+from fireplace.utils import random_draft, fireplace_logger as logger
 
-
-logger = get_logger("fireplace.Test")
 
 # Token minions
 GOLDSHIRE_FOOTMAN = "CS1_042"

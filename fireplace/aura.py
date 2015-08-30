@@ -1,7 +1,4 @@
-from .utils import CardList, get_logger
-
-
-logger = get_logger("fireplace.Aura")
+from .utils import CardList, fireplace_logger as logger
 
 
 class Aura:
