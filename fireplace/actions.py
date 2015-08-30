@@ -525,13 +525,9 @@ class Hit(TargetedAction):
 	class Args(Action.Args):
 		TARGETS = 0
 		AMOUNT = 1
-		SOURCE = 2
 
-	def do(self, source, target, amount, attack_source=None):
-		if attack_source is None:
-			# Actions can trigger a hit from a specific source (eg. Betrayal)
-			attack_source = source
-		attack_source.hit(target, amount)
+	def do(self, source, target, amount):
+		source.hit(target, amount)
 
 
 class Heal(TargetedAction):

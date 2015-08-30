@@ -84,8 +84,7 @@ class EX1_124:
 
 # Betrayal
 class EX1_126:
-	def play(self, target):
-		return Hit(TARGET_ADJACENT, target.atk, target)
+	play = Hit(SELF_ADJACENT, Attr(SELF, GameTag.ATK), source=TARGET)
 
 
 # Conceal
