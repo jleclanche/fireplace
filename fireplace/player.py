@@ -40,7 +40,7 @@ class Player(Entity):
 		self.hero = None
 		self.last_card_played = None
 		self.overloaded = 0
-		self.max_mana = 0
+		self._max_mana = 0
 		self.playstate = PlayState.INVALID
 		self.temp_mana = 0
 		self.timeout = 75
