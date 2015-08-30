@@ -1,8 +1,11 @@
-import logging
 from enum import IntEnum
 from .dsl import LazyNum, Picker, Selector
 from .enums import CardType, Mulligan, PowSubType, Zone
 from .entity import Entity
+from .utils import get_logger
+
+
+logger = get_logger("fireplace.Action")
 
 
 def _eval_card(source, card):
@@ -76,7 +79,7 @@ class Action:  # Lawsuit
 			if event.at != at:
 				continue
 			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, args):
-				logging.info("%r triggers off %r from %r", entity, self, source)
+				logger.info("%r triggers off %r from %r", entity, self, source)
 				entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
@@ -129,7 +132,7 @@ class Attack(GameAction):
 		defender.defending = True
 		source.game.proposed_attacker = attacker
 		source.game.proposed_defender = defender
-		logging.info("%r attacks %r", attacker, defender)
+		logger.info("%r attacks %r", attacker, defender)
 		self.broadcast(source, EventListener.ON, attacker, defender)
 		source.game._attack()
 
@@ -165,7 +168,7 @@ class Death(GameAction):
 		ENTITY = 0
 
 	def do(self, source, target):
-		logging.info("Processing Death for %r", target)
+		logger.info("Processing Death for %r", target)
 		self.broadcast(source, EventListener.ON, target)
 		if target.deathrattles:
 			source.game.queue_actions(source, [Deathrattle(target)])
@@ -238,7 +241,7 @@ class Play(GameAction):
 		if choose is not None:
 			# Choose One cards replace the action on the played card
 			chosen = player.card(choose)
-			logging.info("Choose One from %r: %r", card, chosen)
+			logger.info("Choose One from %r: %r", card, chosen)
 			if chosen.has_target():
 				chosen.target = target
 			card.chosen = chosen
@@ -332,7 +335,7 @@ class TargetedAction(Action):
 			targets = self.get_targets(source, args[0])
 			args = args[1:]
 			source.game.manager.action(self.type, source, targets, *args)
-			logging.info("%r triggering %r targeting %r", source, self, targets)
+			logger.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
 				target_args = self.get_target_args(source, target)
 				ret.append(self.do(source, target, *target_args))
@@ -396,7 +399,7 @@ class Deathrattle(TargetedAction):
 			source.game.queue_actions(target, actions)
 
 			if target.controller.extra_deathrattles:
-				logging.info("Triggering deathrattles for %r again", target)
+				logger.info("Triggering deathrattles for %r again", target)
 				source.game.queue_actions(target, actions)
 
 
@@ -499,11 +502,11 @@ class Give(TargetedAction):
 		CARDS = 1
 
 	def do(self, source, target, cards):
-		logging.debug("Giving %r to %s", cards, target)
+		logger.info("Giving %r to %s", cards, target)
 		ret = []
 		for card in cards:
 			if len(target.hand) >= target.max_hand_size:
-				logging.info("Give(%r) fails because %r's hand is full", card, target)
+				logger.info("Give(%r) fails because %r's hand is full", card, target)
 				continue
 			card.controller = target
 			card.zone = Zone.HAND
@@ -544,7 +547,7 @@ class Heal(TargetedAction):
 		amount = min(amount, target.damage)
 		if amount:
 			# Undamaged targets do not receive heals
-			logging.info("%r heals %r for %i", source, target, amount)
+			logger.info("%r heals %r for %i", source, target, amount)
 			target.damage -= amount
 			self.broadcast(source, EventListener.ON, target, amount)
 
@@ -589,7 +592,7 @@ class Morph(TargetedAction):
 		return (card, )
 
 	def do(self, source, target, card):
-		logging.info("Morphing %r into %r", target, card)
+		logger.info("Morphing %r into %r", target, card)
 		target.clear_buffs()
 		target.zone = Zone.SETASIDE
 		card.zone = Zone.PLAY
@@ -621,7 +624,7 @@ class Reveal(TargetedAction):
 	Reveal secret targets.
 	"""
 	def do(self, source, target):
-		logging.info("Revealing secret %r", target)
+		logger.info("Revealing secret %r", target)
 		self.broadcast(source, EventListener.ON, target)
 		target.zone = Zone.GRAVEYARD
 
@@ -635,7 +638,7 @@ class SetCurrentHealth(TargetedAction):
 		AMOUNT = 1
 
 	def do(self, source, target, amount):
-		logging.info("Setting current health on %r to %i", target, amount)
+		logger.info("Setting current health on %r to %i", target, amount)
 		maxhp = target.max_health
 		target.damage = max(0, maxhp - amount)
 
@@ -678,7 +681,7 @@ class Summon(TargetedAction):
 		return super()._broadcast(entity, source, at, *args)
 
 	def do(self, source, target, cards):
-		logging.info("%s summons %r", target, cards)
+		logger.info("%s summons %r", target, cards)
 		if not isinstance(cards, list):
 			cards = [cards]
 
@@ -704,7 +707,7 @@ class Shuffle(TargetedAction):
 		CARDS = 1
 
 	def do(self, source, target, cards):
-		logging.info("%r shuffles into %s's deck", cards, target)
+		logger.info("%r shuffles into %s's deck", cards, target)
 		if not isinstance(cards, list):
 			cards = [cards]
 
@@ -744,7 +747,7 @@ class Steal(TargetedAction):
 	The controller is the controller of the source of the action.
 	"""
 	def do(self, source, target):
-		logging.info("%s takes control of %r", self, target)
+		logger.info("%s takes control of %r", self, target)
 		zone = target.zone
 		target.zone = Zone.SETASIDE
 		target.controller = source.controller
@@ -756,6 +759,6 @@ class UnlockOverload(TargetedAction):
 	Unlock the target player's overload, both current and owed.
 	"""
 	def do(self, source, target):
-		logging.info("%s overload gets cleared", target)
+		logger.info("%s overload gets cleared", target)
 		target.overloaded = 0
 		target.overload_locked = 0

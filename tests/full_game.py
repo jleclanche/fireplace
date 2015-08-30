@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 import sys; sys.path.append("..")
-import logging
 import random
 from fireplace.cards.heroes import *
 from fireplace.game import Game
 from fireplace.player import Player
 from fireplace.utils import random_draft
-
-
-logging.getLogger().setLevel(logging.DEBUG)
 
 
 def main():

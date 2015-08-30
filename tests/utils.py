@@ -1,5 +1,4 @@
 import sys; sys.path.append("..")
-import logging
 import random
 import fireplace.cards
 from fireplace.cards.heroes import *
@@ -7,9 +6,6 @@ from fireplace.enums import *
 from fireplace.game import BaseGame, CoinRules, Game
 from fireplace.player import Player
 from fireplace.utils import random_draft
-
-
-logging.getLogger().setLevel(logging.DEBUG)
 
 
 # Token minions

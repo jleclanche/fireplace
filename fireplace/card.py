@@ -1,4 +1,3 @@
-import logging
 from itertools import chain
 from . import cards as CardDB, rules
 from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
@@ -79,7 +78,7 @@ class BaseCard(Entity):
 	def _set_zone(self, value):
 		old = self.zone
 		assert old != value
-		logging.debug("%r moves from %r to %r" % (self, old, value))
+		self.logger.debug("%r moves from %r to %r" % (self, old, value))
 		caches = {
 			Zone.HAND: self.controller.hand,
 			Zone.DECK: self.controller.deck,
@@ -183,24 +182,24 @@ class PlayableCard(BaseCard):
 
 	def action(self):
 		if self.cant_play:
-			logging.info("%r play action cannot continue", self)
+			self.log("%r play action cannot continue", self)
 			return
 
 		kwargs = {}
 		if self.target:
 			kwargs["target"] = self.target
 		elif self.has_target():
-			logging.info("%r has no target, action exits early" % (self))
+			self.log("%r has no target, action exits early", self)
 			return
 
 		if self.has_combo and self.controller.combo:
-			logging.info("Activating %r combo targeting %r" % (self, self.target))
+			self.log("Activating %r combo targeting %r", self, self.target)
 			actions = self.data.scripts.combo
 		elif hasattr(self.data.scripts, "play"):
-			logging.info("Activating %r action targeting %r" % (self, self.target))
+			self.log("Activating %r action targeting %r", self, self.target)
 			actions = self.data.scripts.play
 		elif self.choose:
-			logging.info("Activating %r Choose One: %r", self, self.chosen)
+			self.log("Activating %r Choose One: %r", self, self.chosen)
 			actions = self.chosen.data.scripts.play
 		else:
 			actions = []
@@ -215,12 +214,12 @@ class PlayableCard(BaseCard):
 			self.game.process_deaths()
 
 		if self.overload:
-			logging.info("%r overloads %s for %i", self, self.controller, self.overload)
+			self.log("%r overloads %s for %i", self, self.controller, self.overload)
 			self.controller.overloaded += self.overload
 
 	def clear_buffs(self):
 		if self.buffs:
-			logging.info("Clearing buffs from %r" % (self))
+			self.log("Clearing buffs from %r", self)
 			for buff in self.buffs[:]:
 				buff.destroy()
 
@@ -234,21 +233,21 @@ class PlayableCard(BaseCard):
 		be moved to the GRAVEYARD on the next Death event.
 		"""
 		if self.zone == Zone.PLAY:
-			logging.info("Marking %r for imminent death", self)
+			self.log("Marking %r for imminent death", self)
 			self.to_be_destroyed = True
 		else:
 			self.zone = Zone.GRAVEYARD
 
 	def discard(self):
-		logging.info("Discarding %r" % (self))
+		self.log("Discarding %r" % (self))
 		self.zone = Zone.DISCARD
 
 	def draw(self):
 		if len(self.controller.hand) >= self.controller.max_hand_size:
-			logging.info("%s overdraws and loses %r!", self.controller, self)
+			self.log("%s overdraws and loses %r!", self.controller, self)
 			self.discard()
 		else:
-			logging.info("%s draws %r", self.controller, self)
+			self.log("%s draws %r", self.controller, self)
 			self.zone = Zone.HAND
 			self.controller.cards_drawn_this_turn += 1
 
@@ -430,15 +429,9 @@ class Character(LiveEntity):
 	def damage(self, amount):
 		amount = max(0, amount)
 		dmg = self.damage
-		if amount < dmg:
-			logging.info("%r healed for %i health" % (self, dmg - amount))
-		elif amount == dmg:
-			logging.info("%r receives a no-op health change" % (self))
-		else:
-			logging.info("%r damaged for %i health" % (self, amount - dmg))
 
 		if self.min_health:
-			logging.info("%r has HEALTH_MINIMUM of %i", self, self.min_health)
+			self.log("%r has HEALTH_MINIMUM of %i", self, self.min_health)
 			amount = min(amount, self.max_health - self.min_health)
 
 		self._damage = amount
@@ -449,7 +442,7 @@ class Character(LiveEntity):
 
 	def _hit(self, source, amount):
 		if self.immune:
-			logging.info("%r is immune to %i damage from %r", self, amount, source)
+			self.log("%r is immune to %i damage from %r", self, amount, source)
 			return 0
 		self.damage += amount
 		return amount
@@ -576,7 +569,7 @@ class Minion(Character):
 			self.controller.field.append(self)
 
 		if self.zone == Zone.PLAY:
-			logging.info("%r is removed from the field" % (self))
+			self.log("%r is removed from the field", self)
 			self.controller.field.remove(self)
 			if self.damage:
 				self.damage = 0
@@ -584,9 +577,9 @@ class Minion(Character):
 		super()._set_zone(value)
 
 	def bounce(self):
-		logging.info("%r is bounced back to %s's hand" % (self, self.controller))
+		self.log("%r is bounced back to %s's hand", self, self.controller)
 		if len(self.controller.hand) == self.controller.max_hand_size:
-			logging.info("%s's hand is full and bounce fails" % (self.controller))
+			self.log("%s's hand is full and bounce fails", self.controller)
 			self.destroy()
 		else:
 			self.zone = Zone.HAND
@@ -599,7 +592,7 @@ class Minion(Character):
 	def _hit(self, source, amount):
 		if self.divine_shield:
 			self.divine_shield = False
-			logging.info("%r's divine shield prevents %i damage.", self, amount)
+			self.log("%r's divine shield prevents %i damage.", self, amount)
 			return
 
 		return super()._hit(source, amount)
@@ -614,7 +607,7 @@ class Minion(Character):
 		return playable
 
 	def silence(self):
-		logging.info("%r has been silenced" % (self))
+		self.log("Silencing %r", self)
 		for aura in self.auras:
 			aura.to_be_destroyed = True
 		self.clear_buffs()
@@ -692,7 +685,7 @@ class Enchantment(BaseCard):
 		super()._set_zone(zone)
 
 	def apply(self, target):
-		logging.info("Applying %r to %r" % (self, target))
+		self.log("Applying %r to %r", self, target)
 		self.owner = target
 		if self.attack_health_swap:
 			self._swapped_atk = target.health
@@ -700,12 +693,12 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "apply"):
 			self.data.scripts.apply(self, target)
 		if hasattr(self.data.scripts, "max_health") or self.attack_health_swap:
-			logging.info("%r removes all damage from %r", self, target)
+			self.log("%r removes all damage from %r", self, target)
 			target.damage = 0
 		self.zone = Zone.PLAY
 
 	def destroy(self):
-		logging.info("Destroying buff %r from %r" % (self, self.owner))
+		self.log("Destroying buff %r from %r", self, self.owner)
 		if hasattr(self.data.scripts, "destroy"):
 			self.data.scripts.destroy(self)
 		self.zone = Zone.REMOVEDFROMGAME
@@ -810,7 +803,7 @@ class HeroPower(PlayableCard):
 
 	def use(self, target=None):
 		assert self.is_usable()
-		logging.info("%s uses hero power %r on %r", self.controller, self, target)
+		self.log("%s uses hero power %r on %r", self.controller, self, target)
 
 		if self.has_target():
 			assert target

@@ -1,5 +1,7 @@
-import logging
-from .utils import CardList
+from .utils import CardList, get_logger
+
+
+logger = get_logger("fireplace.Aura")
 
 
 class Aura:
@@ -30,7 +32,7 @@ class Aura:
 		return CardList(self.selector.eval(self.source.game, self.source))
 
 	def summon(self):
-		logging.info("Summoning Aura %r", self)
+		logger.info("Summoning Aura %r", self)
 		self.source.auras.append(self)
 		self.source.game.auras.append(self)
 		self.source.game.refresh_auras()
@@ -65,7 +67,7 @@ class Aura:
 				self._buffed.remove(target)
 
 	def destroy(self):
-		logging.info("Removing %r affecting %r", self, self._buffed)
+		logger.info("Removing %r affecting %r", self, self._buffed)
 		self.source.game.auras.remove(self)
 		for buff in self._buffs[:]:
 			buff.destroy()

@@ -1,3 +1,6 @@
+import logging
+
+
 class CardList(list):
 	def __contains__(self, x):
 		for item in self:
@@ -79,3 +82,22 @@ def random_draft(hero, exclude=[]):
 			deck.append(card.id)
 
 	return deck
+
+
+def get_logger(name, level=logging.DEBUG):
+	logger = logging.getLogger(name)
+	logger.setLevel(level)
+
+	if not logger.handlers:
+		ch = logging.StreamHandler()
+		ch.setLevel(level)
+
+		formatter = logging.Formatter(
+			"[%(asctime)s] [%(name)s] %(levelname)s: %(message)s",
+			datefmt="%H:%M:%S"
+		)
+		ch.setFormatter(formatter)
+
+		logger.addHandler(ch)
+
+	return logger

@@ -1,4 +1,5 @@
 import uuid
+from .utils import get_logger
 
 
 class Entity(object):
@@ -8,6 +9,7 @@ class Entity(object):
 		self.manager = self.Manager(self)
 		self.tags = self.manager
 		self.uuid = uuid.uuid4()
+		self.logger = get_logger("fireplace.%s" % (self.__class__.__name__))
 
 		scripts = getattr(self.data, "scripts", None)
 		events = getattr(scripts, "events", [])
@@ -30,6 +32,9 @@ class Entity(object):
 		if self.silenced:
 			return i
 		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
+
+	def log(self, message, *args):
+		self.logger.info(message, *args)
 
 	def trigger_event(self, source, event, args):
 		"""
