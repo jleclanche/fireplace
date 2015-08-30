@@ -36,7 +36,7 @@ CARD_SETS = {
 	"naxxramas": None,
 	"gvg": None,
 	"blackrock": None,
-	"tourney": None,
+	"tgt": None,
 }
 
 
