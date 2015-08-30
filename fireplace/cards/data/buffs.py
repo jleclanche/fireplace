@@ -155,6 +155,11 @@ EX1_623e = buff(health=3)
 # Power Word: Shield
 CS2_004e = buff(health=2)
 
+# Shadow Madness
+EX1_334e = {
+	GameTag.CHARGE: True,
+}
+
 
 ##
 # Rogue
