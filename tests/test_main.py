@@ -1102,6 +1102,8 @@ def test_commanding_shout():
 	bender = game.current_player.give(SPELLBENDERT)
 	bender.play()
 	giant = game.current_player.opponent.summon("EX1_620")
+	game.end_turn(); game.end_turn()
+
 	assert wisp1.health == 1
 	assert bender.health == 3
 	assert not wisp1.min_health
@@ -2503,6 +2505,8 @@ def test_blessing_of_wisdom():
 	wisp.play()
 	blessing = game.player1.give("EX1_363")
 	blessing.play(target=wisp)
+	game.end_turn(); game.end_turn()
+
 	game.player1.discard_hand()
 	wisp.attack(target=game.current_player.opponent.hero)
 	assert len(game.current_player.hand) == 1
@@ -3600,8 +3604,8 @@ def test_reincarnate():
 	game.player1.give("FP1_025").play(target=leeroy1)
 	leeroy2 = game.player1.field[0]
 	assert leeroy2.can_attack()
-	leeroy1.attack(target=game.player2.hero)
-	assert not leeroy1.can_attack()
+	leeroy2.attack(target=game.player2.hero)
+	assert not leeroy2.can_attack()
 
 
 def test_reincarnate_kel_thuzad():

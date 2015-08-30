@@ -377,7 +377,7 @@ class Character(LiveEntity):
 			ret.append(self.controller.opponent.hero)
 		return ret
 
-	def can_attack(self):
+	def can_attack(self, target=None):
 		if not self.zone == Zone.PLAY:
 			return False
 		if self.cant_attack:
@@ -392,6 +392,9 @@ class Character(LiveEntity):
 			return False
 		if not self.targets:
 			return False
+		if target is not None and target not in self.targets:
+			return False
+
 		return True
 
 	@property
@@ -414,8 +417,7 @@ class Character(LiveEntity):
 		return False
 
 	def attack(self, target):
-		assert target.zone == Zone.PLAY
-		assert self.controller.current_player
+		assert self.can_attack(target)
 		self.game.attack(self, target)
 
 	@property

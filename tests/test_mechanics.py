@@ -309,8 +309,10 @@ def test_graveyard_weapons():
 	assert axe1 in game.player1.graveyard
 	assert axe1 not in game.player2.graveyard
 	assert axe1 in game.graveyard
-	for i in range(2):
-		game.player1.hero.attack(game.player2.hero)
+	game.player1.hero.attack(game.player2.hero)
+	game.end_turn(); game.end_turn()
+
+	game.player1.hero.attack(game.player2.hero)
 	assert axe2.dead
 	assert axe2 in game.player1.graveyard
 	assert axe2 not in game.player2.graveyard
