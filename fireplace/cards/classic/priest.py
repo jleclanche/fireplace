@@ -124,6 +124,10 @@ class EX1_334e:
 		TURN_END.on(Destroy(SELF))
 	]
 
+	def apply(self, target):
+		target.charge = True
+		target.num_attacks = 0
+
 	def destroy(self):
 		self.controller.opponent.steal(self.owner)
 

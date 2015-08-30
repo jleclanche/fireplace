@@ -5436,6 +5436,50 @@ def test_powermace():
 	assert dummy.atk == 0 + 2
 	assert dummy.health == 2 + 2
 
+# test that shadow madnessing a minion that attacked on the opponent's previous
+# turn allows it to attack
+def test_shadow_madness_attack():
+	game = prepare_game()
+
+	wisp = game.player1.give(WISP).play()
+	game.end_turn(); game.end_turn();
+	assert wisp.controller is game.player1
+	assert wisp.can_attack()
+	wisp.attack(game.player2.hero)
+	game.end_turn()
+
+	shadowmadness = game.player2.give("EX1_334")
+	shadowmadness.play(target=wisp)
+	assert wisp.controller is game.player2
+	assert wisp.can_attack()
+	wisp.attack(game.player1.hero)
+	game.end_turn();
+
+	# make sure it can attack when control returns
+	assert wisp.controller is game.player1
+	assert wisp.can_attack()
+	wisp.attack(game.player2.hero)
+
+# test that shadow madnessing a minion that was just played by the opponent
+# allows it to attack
+def test_shadow_madness_attack_2():
+	game = prepare_game()
+
+	wisp = game.player1.give(WISP).play()
+	game.end_turn()
+	assert wisp.controller is game.player1
+
+	shadowmadness = game.player2.give("EX1_334")
+	shadowmadness.play(target=wisp)
+	assert wisp.controller is game.player2
+	assert wisp.can_attack()
+	wisp.attack(game.player1.hero)
+	game.end_turn()
+
+	# make sure it can attack when control returns
+	assert wisp.controller is game.player1
+	assert wisp.can_attack()
+	wisp.attack(game.player2.hero)
 
 def main():
 	for name, f in globals().items():
