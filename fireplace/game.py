@@ -255,6 +255,7 @@ class BaseGame(Entity):
 		self.current_player.temp_mana = 0
 		for character in self.current_player.characters.filter(frozen=True):
 			if not character.num_attacks:
+				logging.info("Freeze fades from %r", character)
 				character.frozen = False
 		for buff in self.current_player.entities.filter(one_turn_effect=True):
 			logging.info("Ending One-Turn effect: %r", buff)
