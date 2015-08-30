@@ -269,6 +269,7 @@ class TargetedAction(Action):
 		TARGETS = 0
 
 	def __init__(self, *args, **kwargs):
+		self.source = kwargs.pop("source", None)
 		super().__init__(*args, **kwargs)
 		self.times = 1
 
@@ -323,6 +324,12 @@ class TargetedAction(Action):
 
 	def trigger(self, source):
 		ret = []
+
+		if self.source is not None:
+			source = self.source.eval(source.game, source)
+			assert len(source) == 1
+			source = source[0]
+
 		times = self.times
 		if isinstance(times, LazyNum):
 			times = times.evaluate(source)
