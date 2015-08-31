@@ -59,24 +59,26 @@ def main():
 	for id in sorted(cards.db):
 		card = cards.db[id]
 		description = cleanup_description(card.description)
+		color = RED
+
 		if not description:
 			# Minions without card text or with basic abilities are implemented
 			color = GREEN
 		elif card.type == CardType.ENCHANTMENT:
 			if id in buffs.__dict__:
 				color = GREEN
+			else:
+				color = RED
 		elif card.card_set == CardSet.CREDITS:
 			color = GREEN
+
+		for set in CARD_SETS.values():
+			if hasattr(set, id):
+				color = GREEN
+				break
 		else:
-			for set in CARD_SETS.values():
-				if hasattr(set, id):
-					color = GREEN
-					break
-			else:
-				if "Enrage" in card.description or card.choose_cards:
-					color = GREEN
-				else:
-					color = RED
+			if "Enrage" in card.description or card.choose_cards:
+				color = GREEN
 
 		name = color + "%s: %s" % (PREFIXES[color], card.name) + ENDC
 		print("%s (%s)" % (name, id))
