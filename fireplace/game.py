@@ -8,10 +8,7 @@ from .entity import Entity
 from .enums import CardType, PlayState, State, Step, Zone
 from .managers import GameManager
 from .utils import CardList
-
-
-class GameOver(Exception):
-	pass
+from .exceptions import GameOver
 
 
 class BaseGame(Entity):

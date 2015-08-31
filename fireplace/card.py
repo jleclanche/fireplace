@@ -7,6 +7,7 @@ from .enums import CardType, PlayReq, Race, Rarity, Zone
 from .managers import CardManager
 from .targeting import is_valid_target
 from .utils import CardList
+from .exceptions import InvalidAction
 
 
 THE_COIN = "GAME_005"
@@ -278,15 +279,20 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		"""
 		Queue a Play action on the card.
 		"""
-		if choose is not None:
-			assert choose in self.data.choose_cards
-		elif target is not None:
-			assert self.has_target()
-			assert target in self.targets
-		else:
-			assert not self.has_target()
-		assert self.is_playable()
-		assert self.zone == Zone.HAND
+		if self.has_target():
+			if not target:
+				raise InvalidAction("%r requires a target to play." % (self))
+			elif target not in self.targets:
+				raise InvalidAction("%r is not a valid target for %r." % (target, self))
+		if self.data.choose_cards:
+			if not choose:
+				raise InvalidAction("%r requires a choice to play." % (self))
+			if choose not in self.data.choose_cards:
+				raise InvalidAction("%r is not a valid choice for %r." % (choose, self))
+		if not self.zone == Zone.HAND:
+			raise InvalidAction("Attempted to play %r in %r." % (self, self.zone))
+		if not self.is_playable():
+			raise InvalidAction("%r isn't playable." % (self))
 		self.game.queue_actions(self.controller, [Play(self, target, choose)])
 		return self
 
@@ -406,7 +412,8 @@ class Character(LiveEntity):
 		return False
 
 	def attack(self, target):
-		assert self.can_attack(target)
+		if not self.can_attack(target):
+			raise InvalidAction("%r can't attack %r." % (self, target))
 		self.game.attack(self, target)
 
 	@property
@@ -800,11 +807,14 @@ class HeroPower(PlayableCard):
 		raise NotImplementedError
 
 	def use(self, target=None):
-		assert self.is_usable()
+		if not self.is_usable():
+			raise InvalidAction("%r can't be used." % (self))
+
 		self.log("%s uses hero power %r on %r", self.controller, self, target)
 
 		if self.has_target():
-			assert target
+			if not target:
+				raise InvalidAction("%r requires a target." % (self))
 			self.target = target
 
 		ret = self.activate()
