@@ -1,6 +1,6 @@
 from enum import IntEnum
 from .dsl import LazyNum, Picker, Selector
-from .enums import CardType, Mulligan, PowSubType, Zone
+from .enums import CardType, Mulligan, Zone
 from .entity import Entity
 from .utils import fireplace_logger as logger
 
@@ -46,8 +46,6 @@ class EventListener:
 
 
 class Action:  # Lawsuit
-	type = PowSubType.TRIGGER
-
 	class Args(IntEnum):
 		"""
 		Arguments given to Actions.
@@ -104,9 +102,9 @@ class Action:  # Lawsuit
 class GameAction(Action):
 	def trigger(self, source):
 		args = self.get_args(source)
-		source.game.manager.action(self.type, source, *args)
+		source.game.manager.action(self, source, *args)
 		self.do(source, *args)
-		source.game.manager.action_end(self.type, source, *args)
+		source.game.manager.action_end(self, source, *args)
 		source.game.process_deaths()
 
 
@@ -117,8 +115,6 @@ class Attack(GameAction):
 	class Args(Action.Args):
 		ATTACKER = 0
 		DEFENDER = 1
-
-	type = PowSubType.ATTACK
 
 	def get_args(self, source):
 		ret = super().get_args(source)
@@ -140,8 +136,6 @@ class BeginTurn(GameAction):
 	"""
 	class Args(Action.Args):
 		PLAYER = 0
-
-	type = None
 
 	def do(self, source, player):
 		self.broadcast(source, EventListener.ON, player)
@@ -178,8 +172,6 @@ class EndTurn(GameAction):
 	class Args(Action.Args):
 		PLAYER = 0
 
-	type = None
-
 	def do(self, source, player):
 		assert not player.choice, "Attempted to end a turn with a choice open"
 		self.broadcast(source, EventListener.ON, player)
@@ -189,8 +181,6 @@ class EndTurn(GameAction):
 class MulliganChoice(GameAction):
 	class Args(Action.Args):
 		PLAYER = 0
-
-	type = None
 
 	def do(self, source, player):
 		player.mulligan_state = Mulligan.INPUT
@@ -220,8 +210,6 @@ class Play(GameAction):
 		CARD = 1
 		TARGET = 2
 		CHOOSE = 3
-
-	type = PowSubType.PLAY
 
 	def _broadcast(self, entity, source, at, *args):
 		# Prevent cards from triggering off their own play
@@ -338,12 +326,12 @@ class TargetedAction(Action):
 			args = self.get_args(source)
 			targets = self.get_targets(source, args[0])
 			args = args[1:]
-			source.game.manager.action(self.type, source, targets, *args)
+			source.game.manager.action(self, source, targets, *args)
 			logger.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
 				target_args = self.get_target_args(source, target)
 				ret.append(self.do(source, target, *target_args))
-			source.game.manager.action_end(self.type, source, targets, *self._args)
+			source.game.manager.action_end(self, source, targets, *self._args)
 
 		return ret
 
