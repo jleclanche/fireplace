@@ -624,8 +624,8 @@ def test_avenging_wrath():
 	game = prepare_game()
 	game.current_player.give("EX1_384").play()
 	assert game.current_player.opponent.hero.health == 30 - 8
-
 	game.end_turn()
+
 	# Summon Malygos and test that spellpower only increases dmg by 5
 	game.current_player.summon("EX1_563")
 	game.current_player.give("EX1_384").play()
@@ -634,18 +634,20 @@ def test_avenging_wrath():
 
 def test_doomhammer():
 	game = prepare_game()
-	doomhammer = game.current_player.give("EX1_567")
-	assert not game.current_player.hero.atk
-	assert not game.current_player.hero.windfury
+	doomhammer = game.player1.give("EX1_567")
+	assert doomhammer.windfury
+	assert not game.player1.hero.atk
+	assert not game.player1.hero.windfury
 	doomhammer.play()
-	assert game.current_player.hero.atk == 2
-	assert game.current_player.hero.windfury
-	assert game.current_player.weapon.durability == 8
-	game.current_player.hero.attack(target=game.current_player.opponent.hero)
-	assert game.current_player.hero.can_attack()
-	game.current_player.hero.attack(target=game.current_player.opponent.hero)
-	assert not game.current_player.hero.can_attack()
-	assert game.current_player.weapon.durability == 6
+	assert doomhammer.windfury
+	assert game.player1.hero.atk == 2
+	assert game.player1.hero.windfury
+	assert game.player1.weapon.durability == 8
+	game.player1.hero.attack(target=game.player2.hero)
+	assert game.player1.hero.can_attack()
+	game.player1.hero.attack(target=game.player2.hero)
+	assert not game.player1.hero.can_attack()
+	assert game.player1.weapon.durability == 6
 
 
 def test_dragon_egg():

@@ -467,13 +467,6 @@ class Hero(Character):
 		super().__init__(id, data)
 
 	@property
-	def slots(self):
-		ret = super().slots[:]
-		if self.controller.weapon and not self.controller.weapon.exhausted:
-			ret.append(self.controller.weapon)
-		return ret
-
-	@property
 	def entities(self):
 		ret = [self]
 		if self.power:
@@ -481,6 +474,21 @@ class Hero(Character):
 		if self.controller.weapon:
 			ret.append(self.controller.weapon)
 		return chain(ret, self.buffs)
+
+	@property
+	def windfury(self):
+		ret = super().windfury
+		if self.controller.weapon:
+			# NOTE: As of 9786, Windfury is retained even when the weapon is exhausted.
+			return self.controller.weapon.windfury or ret
+		return ret
+
+	def _getattr(self, attr, i):
+		ret = super()._getattr(attr, i)
+		if attr == "atk":
+			if self.controller.weapon and not self.controller.weapon.exhausted:
+				ret += self.controller.weapon.atk
+		return ret
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:

@@ -16,7 +16,6 @@ def test_armor():
 	axe = game.current_player.give("CS2_106")
 	axe.play()
 	assert axe is game.current_player.weapon
-	assert axe in game.current_player.hero.slots
 	assert game.current_player.hero.atk == 3
 	game.current_player.hero.attack(game.current_player.opponent.hero)
 	assert game.current_player.opponent.hero.health == 29
