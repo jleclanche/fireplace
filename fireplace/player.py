@@ -102,6 +102,14 @@ class Player(Entity):
 		return ret
 
 	@property
+	def actionable_entities(self):
+		ret = CardList(chain(self.characters, self.hand))
+		if self.hero.power:
+			ret.append(self.hero.power)
+
+		return ret
+
+	@property
 	def minion_slots(self):
 		return max(0, self.game.MAX_MINIONS_ON_FIELD - len(self.field))
 
