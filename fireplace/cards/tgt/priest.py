@@ -33,3 +33,8 @@ class AT_015:
 # Confuse
 class AT_016:
 	play = Buff(ALL_MINIONS, "AT_016e")
+
+
+# Flash Heal
+class AT_055:
+	play = Heal(TARGET, 5)
