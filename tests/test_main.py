@@ -454,6 +454,24 @@ def test_animal_companion():
 	assert game.player1.field[0].id in ("NEW1_032", "NEW1_033", "NEW1_034")
 
 
+def test_angry_chicken():
+	game = prepare_game()
+	chicken = game.player1.give("EX1_009")
+	chicken.play()
+	stormwind = game.player1.give("CS2_222")
+	stormwind.play()
+	assert chicken.enrage
+	assert not chicken.enraged
+	assert chicken.atk == chicken.health == 2
+	game.player1.give(MOONFIRE).play(target=chicken)
+	assert chicken.enraged
+	assert chicken.atk == 1 + 1 + 5
+	assert chicken.health == 1
+	stormwind.destroy()
+	assert chicken.atk == chicken.health == 1
+	assert not chicken.enraged
+
+
 def test_anima_golem():
 	game = prepare_game()
 	anima = game.player1.give("GVG_077")
