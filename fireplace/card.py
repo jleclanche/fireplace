@@ -38,6 +38,7 @@ class BaseCard(Entity):
 	def __init__(self, id, data):
 		self.data = data
 		super().__init__()
+		self.slots = []
 		self.auras = []
 		self.requirements = data.requirements.copy()
 		self.id = id
@@ -170,10 +171,6 @@ class PlayableCard(BaseCard):
 	@property
 	def entities(self):
 		return chain([self], self.buffs)
-
-	@property
-	def slots(self):
-		return self.buffs
 
 	def _set_zone(self, zone):
 		old_zone = self.zone
@@ -357,6 +354,7 @@ class Character(LiveEntity):
 		self.cant_be_targeted_by_hero_powers = False
 		self.num_attacks = 0
 		self.race = Race.INVALID
+		self._enrage = None
 		super().__init__(*args)
 
 	@property
@@ -431,13 +429,22 @@ class Character(LiveEntity):
 	@damage.setter
 	def damage(self, amount):
 		amount = max(0, amount)
-		dmg = self.damage
 
 		if self.min_health:
 			self.log("%r has HEALTH_MINIMUM of %i", self, self.min_health)
 			amount = min(amount, self.max_health - self.min_health)
 
 		self._damage = amount
+
+		if self.enraged:
+			if not self._enrage:
+				self.log("Enraging %r", self)
+				self._enrage = Enrage(self.data.enrage_tags)
+				self.slots.append(self._enrage)
+		elif self._enrage:
+			self.log("Enrage fades from %r", self)
+			self.slots.remove(self._enrage)
+			self._enrage = None
 
 	@property
 	def enraged(self):
@@ -523,7 +530,6 @@ class Minion(Character):
 	)
 
 	def __init__(self, id, data):
-		self._enrage = None
 		self.always_wins_brawls = False
 		self.divine_shield = False
 		self.enrage = False
@@ -565,15 +571,6 @@ class Minion(Character):
 		if self.asleep:
 			return True
 		return super().exhausted
-
-	@property
-	def slots(self):
-		slots = super().slots[:]
-		if self.enraged:
-			if not self._enrage:
-				self._enrage = Enrage(self.data.enrage_tags)
-			slots.append(self._enrage)
-		return slots
 
 	@property
 	def enraged(self):
@@ -676,8 +673,6 @@ class Secret(Spell):
 
 
 class Enchantment(BaseCard):
-	slots = []
-
 	def __init__(self, *args):
 		self.aura_source = None
 		self.one_turn_effect = False
@@ -695,8 +690,10 @@ class Enchantment(BaseCard):
 	def _set_zone(self, zone):
 		if zone == Zone.PLAY:
 			self.owner.buffs.append(self)
+			self.owner.slots.append(self)
 		elif zone == Zone.REMOVEDFROMGAME:
 			self.owner.buffs.remove(self)
+			self.owner.slots.remove(self)
 		super()._set_zone(zone)
 
 	def apply(self, target):

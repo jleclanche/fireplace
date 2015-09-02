@@ -30,6 +30,7 @@ class Player(Entity):
 		self.graveyard = CardList()
 		self.secrets = CardList()
 		self.buffs = []
+		self.slots = []
 		self.choice = None
 		self.start_hand_size = 4
 		self.max_hand_size = 10
@@ -62,10 +63,6 @@ class Player(Entity):
 	@property
 	def controller(self):
 		return self
-
-	@property
-	def slots(self):
-		return self.buffs
 
 	@property
 	def mana(self):
