@@ -1,6 +1,7 @@
 import random
 from itertools import chain
 from .actions import Draw, Give, Steal, Summon
+from .aura import TargetableByAuras
 from .card import Card
 from .deck import Deck
 from .entity import Entity
@@ -11,7 +12,7 @@ from .targeting import *
 from .utils import CardList
 
 
-class Player(Entity):
+class Player(Entity, TargetableByAuras):
 	Manager = PlayerManager
 	extra_deathrattles = slot_property("extra_deathrattles")
 	healing_double = slot_property("healing_double", sum)

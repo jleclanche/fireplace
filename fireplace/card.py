@@ -1,7 +1,7 @@
 from itertools import chain
 from . import cards as CardDB, rules
 from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
-from .aura import Aura
+from .aura import Aura, TargetableByAuras
 from .entity import Entity, boolean_property, int_property
 from .enums import CardType, PlayReq, Race, Rarity, Zone
 from .managers import CardManager
@@ -120,7 +120,7 @@ class BaseCard(Entity):
 		return ret
 
 
-class PlayableCard(BaseCard):
+class PlayableCard(BaseCard, TargetableByAuras):
 	windfury = boolean_property("windfury")
 
 	def __init__(self, id, data):

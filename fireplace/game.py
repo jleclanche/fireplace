@@ -33,6 +33,8 @@ class BaseGame(Entity):
 		self.auras = []
 		self.minions_killed_this_turn = CardList()
 		self.no_aura_refresh = False
+		self.tick = 0
+		self.active_aura_buffs = []
 
 	def __repr__(self):
 		return "%s(players=%r)" % (self.__class__.__name__, self.players)
@@ -211,6 +213,14 @@ class BaseGame(Entity):
 			return
 		for aura in self.auras:
 			aura.update()
+		for entity in self.entities:
+			if entity.data and hasattr(entity.data.scripts, "update"):
+				if not entity.silenced:
+					entity.data.scripts.update.trigger(entity)
+		for buff in self.active_aura_buffs[:]:
+			if buff.tick < self.tick:
+				buff.destroy()
+		self.tick += 1
 
 	def prepare(self):
 		self.players[0].opponent = self.players[1]
