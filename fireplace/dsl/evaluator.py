@@ -39,6 +39,22 @@ class Evaluator:
 			action.trigger(source)
 
 
+class CurrentPlayer(Evaluator):
+	"""
+	Evaluates to True if the selector is the current player.
+	Selector must evaluate to only one player.
+	"""
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def evaluate(self, source):
+		for target in self.selector.eval(source.game, source):
+			if not target.controller.current_player:
+				return False
+		return True
+
+
 class Dead(Evaluator):
 	"""
 	Evaluates to True if every target in \a selector is dead
