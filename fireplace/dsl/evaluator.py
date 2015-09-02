@@ -21,17 +21,16 @@ class Evaluator:
 		return ret
 
 	def get_actions(self, source):
-		from ..actions import Action
 		ret = self.evaluate(source)
 		if ret:
 			if self._if:
-				if isinstance(self._if, Action):
+				if not hasattr(self._if, "__iter__"):
 					return [self._if]
 				return self._if
 		elif self._else:
-			if isinstance(self._else, Action):
+			if not hasattr(self._else, "__iter__"):
 				return [self._else]
-			return [self._else]
+			return self._else
 		return []
 
 	def trigger(self, source):
