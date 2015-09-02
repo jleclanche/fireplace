@@ -440,6 +440,10 @@ class Character(LiveEntity):
 		self._damage = amount
 
 	@property
+	def enraged(self):
+		return False
+
+	@property
 	def health(self):
 		return max(0, self.max_health - self.damage)
 
