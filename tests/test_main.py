@@ -1659,6 +1659,20 @@ def test_voidcaller():
 	assert len(game.current_player.hand) == 3
 
 
+def test_void_crusher():
+	game = prepare_game(WARLOCK, WARLOCK)
+	for i in range(3):
+		game.player2.summon(WISP)
+	crusher = game.player1.give("AT_023")
+	crusher.play()
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 3
+	game.player1.hero.power.use()
+	assert crusher.dead
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 2
+
+
 def test_void_terror():
 	game = prepare_game()
 	terror1 = game.current_player.give("EX1_304")
