@@ -39,6 +39,15 @@ CARD_SETS = {
 	"tgt": None,
 }
 
+DUMMY_CARDS = (
+	"CS1_113e",  # Mind Control
+	"CS2_022e",  # Polymorph
+	"EX1_246e",  # Hexxed
+	"Mekka4e",  # Transformed
+	"NEW1_025e",  # Bolstered (Unused)
+	"XXX_058e",  # Weapon Nerf Enchant
+)
+
 
 for cardset in CARD_SETS:
 	CARD_SETS[cardset] = importlib.import_module("fireplace.cards.%s" % (cardset))
@@ -70,6 +79,9 @@ def main():
 			else:
 				color = RED
 		elif card.card_set == CardSet.CREDITS:
+			color = GREEN
+
+		if id in DUMMY_CARDS:
 			color = GREEN
 
 		for set in CARD_SETS.values():
