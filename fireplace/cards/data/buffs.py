@@ -15,6 +15,8 @@ def buff(atk=0, health=0):
 # Game/Brawl set
 #
 
+TB_006e = buff(+2, +2)
+
 TB_007e = {
 	GameTag.ATTACK_HEALTH_SWAP: True,
 }
@@ -129,6 +131,11 @@ EX1_274e = buff(+2, +2)
 # Mana Gorged (Mana Wyrm)
 NEW1_012o = buff(atk=1)
 
+# Ice Block
+EX1_295o = {
+	GameTag.CANT_BE_DAMAGED: True,
+}
+
 
 ##
 # Paladin
@@ -175,6 +182,9 @@ CS2_073e2 = buff(atk=4)
 
 # Deadly Poison
 CS2_074e = buff(atk=2)
+
+# Sharpened (Unused)
+CS2_083e = buff(atk=1)
 
 # Conceal
 EX1_128e = {
@@ -285,6 +295,9 @@ EX1_399e = buff(atk=3)
 
 # Sharp! (Spiteful Smith)
 CS2_221e = buff(atk=2)
+
+# Full Strength (Unused)
+CS2_181e = buff(atk=2)
 
 # 'Inspired' (Abusive Seargent)
 CS2_188o = buff(atk=2)
@@ -499,7 +512,7 @@ GVG_022b = buff(atk=3)  # Minion
 GVG_023a = buff(atk=1)
 
 # Ironed Out (Iron Sensei)
-GVG_027 = buff(+2, +2)
+GVG_027e = buff(+2, +2)
 
 
 ##
