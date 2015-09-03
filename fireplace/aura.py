@@ -81,13 +81,14 @@ class AuraBuff:
 		self.tags = CardManager(self)
 
 	def __repr__(self):
-		return "<AuraBuff on %r from %r>" % (self.entity, self.source)
+		return "<AuraBuff %r -> %r>" % (self.source, self.entity)
 
 	def update_tags(self, tags):
 		self.tags.update(tags)
 		self.tick = self.source.game.tick
 
 	def destroy(self):
+		logger.info("Destroying %r", self)
 		self.entity.slots.remove(self)
 		self.source.game.active_aura_buffs.remove(self)
 
@@ -129,6 +130,7 @@ class TargetableByAuras:
 				break
 		else:
 			buff = AuraBuff(source, self)
+			logger.info("Creating %r", buff)
 			buff.update_tags(tags)
 			self.slots.append(buff)
 			source.game.active_aura_buffs.append(buff)
