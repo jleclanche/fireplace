@@ -1,3 +1,4 @@
+from .druid import *
 from .hunter import *
 from .mage import *
 from .priest import *
