@@ -30,7 +30,6 @@ class BaseGame(Entity):
 		self.next_step = None
 		self.turn = 0
 		self.current_player = None
-		self.auras = []
 		self.minions_killed_this_turn = CardList()
 		self.no_aura_refresh = False
 		self.tick = 0
@@ -211,8 +210,6 @@ class BaseGame(Entity):
 	def refresh_auras(self):
 		if self.no_aura_refresh:
 			return
-		for aura in self.auras:
-			aura.update()
 
 		refresh_queue = []
 		for entity in self.entities:

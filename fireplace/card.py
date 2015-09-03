@@ -1,7 +1,7 @@
 from itertools import chain
 from . import cards as CardDB, rules
 from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
-from .aura import Aura, TargetableByAuras
+from .aura import TargetableByAuras
 from .entity import Entity, boolean_property, int_property
 from .enums import CardType, PlayReq, Race, Rarity, Zone
 from .managers import CardManager
@@ -39,7 +39,6 @@ class BaseCard(Entity):
 		self.data = data
 		super().__init__()
 		self.slots = []
-		self.auras = []
 		self.requirements = data.requirements.copy()
 		self.id = id
 		self.controller = None
@@ -91,18 +90,6 @@ class BaseCard(Entity):
 		if caches.get(value) is not None:
 			caches[value].append(self)
 		self._zone = value
-
-		if value == Zone.PLAY:
-			if hasattr(self.data.scripts, "aura"):
-				auras = self.data.scripts.aura
-				if not hasattr(auras, "__iter__"):
-					auras = (auras, )
-				for aura in auras:
-					aura = Aura(aura, source=self)
-					aura.summon()
-		else:
-			for aura in self.auras:
-				aura.to_be_destroyed = True
 
 	def buff(self, target, buff, **kwargs):
 		"""
@@ -625,8 +612,6 @@ class Minion(Character):
 
 	def silence(self):
 		self.log("Silencing %r", self)
-		for aura in self.auras:
-			aura.to_be_destroyed = True
 		self.clear_buffs()
 
 		for attr in self.silenceable_attributes:
@@ -679,7 +664,6 @@ class Secret(Spell):
 
 class Enchantment(BaseCard):
 	def __init__(self, *args):
-		self.aura_source = None
 		self.one_turn_effect = False
 		self.attack_health_swap = False
 		super().__init__(*args)
@@ -719,9 +703,6 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "destroy"):
 			self.data.scripts.destroy(self)
 		self.zone = Zone.REMOVEDFROMGAME
-		if self.aura_source:
-			# Clean up the buff from its source auras
-			self.aura_source._buffs.remove(self)
 	_destroy = destroy
 
 
