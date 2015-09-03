@@ -237,6 +237,9 @@ class PlayableCard(BaseCard, TargetableByAuras):
 			self.log("%s draws %r", self.controller, self)
 			self.zone = Zone.HAND
 			self.controller.cards_drawn_this_turn += 1
+			actions = self.get_actions("draw")
+			if actions:
+				self.game.queue_actions(self, actions)
 
 	def heal(self, target, amount):
 		return self.game.queue_actions(self, [Heal(target, amount)])
