@@ -2026,6 +2026,21 @@ def test_mirror_entity_summon_trigger():
 	assert game.player2.field[0].id == "NEW1_041"
 
 
+def test_beneath_the_grounds():
+	game = prepare_empty_game()
+	game.player2.discard_hand()
+	assert len(game.player2.deck) == 0
+	grounds = game.player1.give("AT_035")
+	grounds.play()
+	assert len(game.player2.deck) == 3
+	assert len(game.player2.hand) == 0
+	game.end_turn()
+
+	assert len(game.player2.hand) == 0
+	assert len(game.player1.field) == 3
+	assert game.player1.field[0].id == game.player1.field[1].id == game.player1.field[2].id == "AT_036t"
+
+
 def test_bestial_wrath():
 	game = prepare_game()
 	wolf = game.current_player.give("DS1_175")
