@@ -267,3 +267,17 @@ class GrandTournamentBrawl(Game):
 		for player, deck in zip(players, decks):
 			player.prepare_deck(deck[0], hero=deck[1])
 		return cls(players)
+
+
+class RainingManaBrawl(Game):
+	"""
+	It's Raining Mana!
+
+	Dalaran floats overhead, it's soaking your deck with mana! On
+	your first turn you get 1 like normal, but then you get 3, then
+	5, then 7, etc
+	"""
+	def begin_turn(self, player):
+		super().begin_turn(player)
+		if self.turn > 2:
+			player.max_mana += 1
