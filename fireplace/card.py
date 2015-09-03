@@ -665,9 +665,6 @@ class Secret(Spell):
 			return False
 		return super().is_playable()
 
-	def reveal(self):
-		return self.game.queue_actions(self, [Reveal(self)])
-
 
 class Enchantment(BaseCard):
 	def __init__(self, *args):
