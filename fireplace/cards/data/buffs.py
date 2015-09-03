@@ -652,13 +652,155 @@ BRMC_98e = buff(atk=3)
 
 
 ##
-# The Grand Tournament
+# The Grand Tournament set
+
+# Power of Dalaran (Dalaran Aspirant)
+AT_006e = {
+	GameTag.SPELLPOWER: 1,
+}
+
+# Light's Blessing (Holy Champion)
+AT_011e = buff(atk=2)
+
+# Shadowfiended (Shadowfiend)
+AT_014e = {
+	GameTag.COST: -1,
+}
+
+# Confused (Confuse)
+AT_016e = {
+	GameTag.ATTACK_HEALTH_SWAP: True,
+}
+
+# Twilight's Embrace (Twilight Guardian)
+AT_017e = {
+	GameTag.ATK: 1,
+	GameTag.TAUNT: True,
+}
 
 # Felrage (Tiny Knight of Evil)
 AT_021e = buff(+1, +1)
 
 # Dark Fusion (Demonfuse)
 AT_024e = buff(+3, +3)
+
+# Chi Lance (Shado-Pan Rider)
+AT_028e = buff(atk=3)
+
+# Extra Stabby (Buccaneer)
+AT_029e = buff(atk=1)
+
+# Shady Deals (Shady Dealer)
+AT_032e = buff(+1, +1)
+
+# Laced (Poisoned Blade)
+AT_034e = buff(atk=1)
+
+# Savage (Savage Combatant)
+AT_039e = buff(atk=2)
+
+# Kindred Spirit (Wildwalker)
+AT_040e = buff(health=3)
+
+# Call of the Wild (Knight of the Wild)
+AT_041e = {
+	GameTag.COST: -1,
+}
+
+# Empowering Mist (The Mistcaller)
+AT_045e = buff(+1, +1)
+
+# Experienced (Draenei Totemcarver)
+AT_047e = buff(+1, +1)
+
+# Power of the Bluff (Thunder Bluff Valiant)
+AT_049e = buff(+1, +1)
+
+# Groomed (Stablemaster)
+AT_057o = {
+	GameTag.CANT_BE_DAMAGED: True,
+}
+
+# King's Defender
+AT_065e = buff(health=1)
+
+# Forges of Orgrimmar (Orgrimmar Aspirant)
+AT_066e = buff(atk=1)
+
+# Bolstered (Bolster)
+AT_068e = buff(+2, +2)
+
+# Alexstrasza's Boon (Alexstrasza's Champion)
+AT_071e = {
+	GameTag.ATK: 1,
+	GameTag.CHARGE: True,
+}
+
+# Competitive Spirit
+AT_073e = buff(+1, +1)
+
+# Seal of Champions
+AT_074e2 = {
+	GameTag.ATK: 3,
+	GameTag.DIVINE_SHIELD: True,
+}
+
+# Might of the Hostler (Warhorse Trainer)
+AT_075e = buff(atk=1)
+
+# Extra Poke (Argent Lance)
+AT_077e = buff(health=1)
+
+# Training (Lowly Squire)
+AT_082e = buff(atk=1)
+
+# Dragonhawkery (Dragonhawk Rider)
+AT_083e = {
+	GameTag.WINDFURY: True,
+}
+
+# Equipped (Lance Carrier)
+AT_084e = buff(atk=2)
+
+# Villainy (Saboteur)
+AT_086e = {
+	GameTag.COST: 5,
+}
+
+# Boneguarded (Boneguard Lieutenant)
+AT_089e = buff(health=1)
+
+# Might of the Monkey (Mukla's Champion)
+AT_090e = buff(+1, +1)
+
+# Wound Up (Clockwork Knight)
+AT_096e = buff(+1, +1)
+
+# Argent Watchman
+AT_109e = {
+	GameTag.CANT_ATTACK: False,
+}
+
+# Bring It On! (Wyrmrest Agent)
+AT_116e = {
+	GameTag.ATK: 1,
+	GameTag.TAUNT: True,
+}
+
+# Ceremony (Master of Ceremonies)
+AT_117e = buff(+2, +2)
+
+# Inspired (Kvaldir Raider)
+AT_119e = buff(+2, +2)
+
+# Huge Ego (Crowd Favorite)
+AT_121e = buff(+1, +1)
+
+# Victory! (Gadgetzan Jouster)
+AT_133e = buff(+1, +1)
+
+# Dire Claws (Dire Shapeshift) (Justicar Trueheart)
+AT_132_DRUIDe = buff(atk=2)
 
 
 ###
