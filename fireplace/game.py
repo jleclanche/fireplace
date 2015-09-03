@@ -34,7 +34,7 @@ class BaseGame(Entity):
 		self.minions_killed_this_turn = CardList()
 		self.no_aura_refresh = False
 		self.tick = 0
-		self.active_aura_buffs = []
+		self.active_aura_buffs = CardList()
 
 	def __repr__(self):
 		return "%s(players=%r)" % (self.__class__.__name__, self.players)
