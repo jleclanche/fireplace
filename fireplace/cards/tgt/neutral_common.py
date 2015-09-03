@@ -9,9 +9,19 @@ class AT_082:
 	inspire = Buff(SELF, "AT_082e")
 
 
+# Dragonhawk Rider
+class AT_083:
+	inspire = Buff(SELF, "AT_083e")
+
+
 # Lance Carrier
 class AT_084:
 	play = Buff(TARGET, "AT_084e")
+
+
+# Maiden of the Lake
+class AT_085:
+	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: lambda self, i: 1})
 
 
 # Boneguard Lieutenant
@@ -34,9 +44,9 @@ class AT_094:
 	play = Hit(RANDOM_ENEMY_CHARACTER, 1)
 
 
-# Kodorider
-class AT_099:
-	inspire = Summon(CONTROLLER, "AT_099t")
+# Clockwork Knight
+class AT_096:
+	play = Buff(TARGET, "AT_096e")
 
 
 # Silver Hand Regent
@@ -72,3 +82,8 @@ class AT_118:
 # Kvaldir Raider
 class AT_119:
 	inspire = Buff(SELF, "AT_119e")
+
+
+# Gadgetzan Jouster
+class AT_133:
+	play = JOUST & Buff(SELF, "AT_133e")
