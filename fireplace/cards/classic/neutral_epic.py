@@ -13,7 +13,7 @@ class EX1_105:
 
 # Murloc Warleader
 class EX1_507:
-	aura = Buff(ALL_MINIONS + MURLOC - SELF, "EX1_507e")
+	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_507e")
 
 
 # Faceless Manipulator
@@ -56,4 +56,4 @@ class NEW1_021:
 
 # Southsea Captain
 class NEW1_027:
-	aura = Buff(FRIENDLY_MINIONS + PIRATE - SELF, "NEW1_027e")
+	update = Refresh(FRIENDLY_MINIONS + PIRATE - SELF, buff="NEW1_027e")

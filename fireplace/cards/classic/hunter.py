@@ -28,12 +28,12 @@ class DS1_070:
 
 # Timber Wolf
 class DS1_175:
-	aura = Buff(FRIENDLY_MINIONS + BEAST - SELF, "DS1_175o")
+	update = Refresh(FRIENDLY_MINIONS + BEAST - SELF, buff="DS1_175o")
 
 
 # Tundra Rhino
 class DS1_178:
-	aura = Buff(FRIENDLY_MINIONS + BEAST, "DS1_178e")
+	update = Refresh(FRIENDLY_MINIONS + BEAST, buff="DS1_178e")
 
 
 # Scavenging Hyena
@@ -48,7 +48,7 @@ class EX1_534:
 
 # Leokk
 class NEW1_033:
-	aura = Buff(FRIENDLY_MINIONS - SELF, "NEW1_033o")
+	update = Refresh(FRIENDLY_MINIONS - SELF, buff="NEW1_033o")
 
 
 ##

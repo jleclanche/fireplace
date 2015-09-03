@@ -6,12 +6,12 @@ from ..utils import *
 
 # Raid Leader
 class CS2_122:
-	aura = Buff(FRIENDLY_MINIONS - SELF, "CS2_122e")
+	update = Refresh(FRIENDLY_MINIONS - SELF, buff="CS2_122e")
 
 
 # Stormwind Champion
 class CS2_222:
-	aura = Buff(FRIENDLY_MINIONS - SELF, "CS2_222o")
+	update = Refresh(FRIENDLY_MINIONS - SELF, buff="CS2_222o")
 
 
 # Frostwolf Warlord
@@ -41,7 +41,7 @@ class EX1_102:
 
 # Dire Wolf Alpha
 class EX1_162:
-	aura = Buff(SELF_ADJACENT, "EX1_162o")
+	update = Refresh(SELF_ADJACENT, buff="EX1_162o")
 
 
 # Arathi Weaponsmith
@@ -56,7 +56,7 @@ class EX1_399:
 
 # Grimscale Oracle
 class EX1_508:
-	aura = Buff(ALL_MINIONS + MURLOC - SELF, "EX1_508o")
+	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_508o")
 
 
 # Nightblade
@@ -124,7 +124,7 @@ class CS2_203:
 
 # Spiteful Smith
 class CS2_221:
-	aura = Buff(FRIENDLY_WEAPON, "CS2_221e")
+	update = (Attr(SELF, GameTag.DAMAGE) > 0) & Refresh(FRIENDLY_WEAPON, buff="CS2_221e")
 
 
 # Venture Co. Mercenary

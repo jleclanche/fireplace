@@ -29,7 +29,7 @@ class EX1_091:
 
 # Lightspawn
 class EX1_335:
-	update = Refresh(SELF, {GameTag.ATK: lambda self, i: self.health})
+	update = Refresh(SELF, {GameTag.ATK: lambda self, i: self.health}, priority=100)
 
 
 # Lightwell

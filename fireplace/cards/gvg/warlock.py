@@ -18,8 +18,10 @@ class GVG_020:
 
 # Mal'Ganis
 class GVG_021:
-	aura = Buff(FRIENDLY_MINIONS + DEMON - SELF, "GVG_021e"),
-	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+	update = (
+		Refresh(FRIENDLY_MINIONS + DEMON - SELF, buff="GVG_021e"),
+		Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True}),
+	)
 
 
 # Anima Golem

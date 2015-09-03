@@ -30,7 +30,7 @@ class EX1_258:
 
 # Flametongue Totem
 class EX1_565:
-	aura = Buff(SELF_ADJACENT, "EX1_565o")
+	update = Refresh(SELF_ADJACENT, buff="EX1_565o")
 
 
 # Mana Tide Totem
