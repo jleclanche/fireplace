@@ -22,7 +22,7 @@ SOLVED_KEYWORDS = [
 	"Can't be targeted by spells or Hero Powers",
 	"Destroy any minion damaged by this minion.",
 	"50% chance to attack the wrong enemy",
-	"Can't Attack",
+	"Can't attack",
 	"Always wins Brawls.",
 	r"Spell Damage \+\d+",
 	r"Overload: \(\d+\)",
