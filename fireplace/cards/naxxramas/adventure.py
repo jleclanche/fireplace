@@ -20,6 +20,14 @@ class NAX2_03H:
 	activate = Hit(RANDOM_ENEMY_MINION, 1) * Count(OPPONENT_HAND)
 
 
+# Worshipper
+class NAX2_05:
+	update = CurrentPlayer(CONTROLLER) & Refresh(FRIENDLY_HERO, {GameTag.ATK: +1})
+
+class NAX2_05H:
+	update = CurrentPlayer(CONTROLLER) & Refresh(FRIENDLY_HERO, {GameTag.ATK: +3})
+
+
 # Web Wrap
 class NAX3_02:
 	activate = Bounce(RANDOM_ENEMY_MINION)
@@ -134,6 +142,30 @@ class NAX8_05:
 # Spectral Rider
 class NAX8_05t:
 	events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 1))
+
+
+# Lady Blaumeux
+class NAX9_02:
+	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+
+class NAX9_02H:
+	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+
+
+# Thane Korth'azz
+class NAX9_03:
+	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+
+class NAX9_03H:
+	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+
+
+# Sir Zeliek
+class NAX9_04:
+	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+
+class NAX9_04H:
+	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
 
 
 # Necroknight
