@@ -212,7 +212,8 @@ def main():
 			print("%s: Italicizing description %r" % (id, description))
 			e = card._find_tag(GameTag.CARDTEXT_INHAND)
 			if e is not None:
-				e.text = "<i>%s</i>" % (e.text)
+				for desc in e:
+					desc.text = "<i>%s</i>" % (desc.text)
 			else:
 				print("WARNING: No CARDTEXT_INHAND tag found on %r" % (card))
 
