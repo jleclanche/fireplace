@@ -125,7 +125,6 @@ class PlayableCard(BaseCard, TargetableByAuras):
 	windfury = boolean_property("windfury")
 
 	def __init__(self, id, data):
-		self.buffs = CardList()
 		self.cant_play = False
 		self.entourage = CardList(data.entourage)
 		self.has_battlecry = False
@@ -168,6 +167,10 @@ class PlayableCard(BaseCard, TargetableByAuras):
 				if minion.race == req:
 					return True
 		return False
+
+	@property
+	def buffs(self):
+		return [slot for slot in self.slots if isinstance(slot, Enchantment)]
 
 	@property
 	def entities(self):
@@ -219,7 +222,7 @@ class PlayableCard(BaseCard, TargetableByAuras):
 	def clear_buffs(self):
 		if self.buffs:
 			self.log("Clearing buffs from %r", self)
-			for buff in self.buffs[:]:
+			for buff in self.buffs:
 				buff.destroy()
 
 	def destroy(self):
@@ -691,10 +694,8 @@ class Enchantment(BaseCard):
 
 	def _set_zone(self, zone):
 		if zone == Zone.PLAY:
-			self.owner.buffs.append(self)
 			self.owner.slots.append(self)
 		elif zone == Zone.REMOVEDFROMGAME:
-			self.owner.buffs.remove(self)
 			self.owner.slots.remove(self)
 		super()._set_zone(zone)
 
