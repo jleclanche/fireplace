@@ -103,10 +103,11 @@ class Refresh:
 	"""
 	Refresh a buff or a set of tags on an entity
 	"""
-	def __init__(self, selector, tags=None, buff=None):
+	def __init__(self, selector, tags=None, buff=None, priority=50):
 		self.selector = selector
 		self.tags = tags
 		self.buff = buff
+		self.priority = priority
 
 	def trigger(self, source):
 		entities = self.selector.eval(source.game, source)

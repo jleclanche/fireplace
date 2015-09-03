@@ -213,10 +213,18 @@ class BaseGame(Entity):
 			return
 		for aura in self.auras:
 			aura.update()
+
+		refresh_queue = []
 		for entity in self.entities:
 			if entity.data and hasattr(entity.data.scripts, "update"):
 				if not entity.silenced:
-					entity.data.scripts.update.trigger(entity)
+					refresh_queue.append(entity)
+
+		# Sort the refresh queue by refresh priority (used by eg. Lightspawn)
+		refresh_queue.sort(key=lambda e: getattr(e.data.scripts.update, "priority", 50))
+		for entity in refresh_queue:
+			entity.data.scripts.update.trigger(entity)
+
 		for buff in self.active_aura_buffs[:]:
 			if buff.tick < self.tick:
 				buff.destroy()
