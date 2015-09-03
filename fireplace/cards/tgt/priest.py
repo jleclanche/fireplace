@@ -14,6 +14,16 @@ class AT_012:
 	inspire = Hit(ALL_HEROES, 4)
 
 
+# Shadowfiend
+class AT_014:
+	events = Draw(CONTROLLER).on(Buff(Draw.Args.CARD, "AT_014e"))
+
+
+# Wyrmrest Agent
+class AT_116:
+	play = HOLDING_DRAGON & Buff(SELF, "AT_116e")
+
+
 ##
 # Spells
 
