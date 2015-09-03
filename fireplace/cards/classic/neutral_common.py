@@ -129,7 +129,7 @@ class CS2_221:
 
 # Venture Co. Mercenary
 class CS2_227:
-	aura = Buff(FRIENDLY + MINION + IN_HAND, "CS2_227a")
+	update = Refresh(FRIENDLY + MINION + IN_HAND, {GameTag.COST: +3})
 
 
 # Darkscale Healer

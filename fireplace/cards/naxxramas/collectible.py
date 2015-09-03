@@ -75,7 +75,7 @@ class FP1_016:
 
 # Nerub'ar Weblord
 class FP1_017:
-	aura = Buff(MINION + BATTLECRY + IN_HAND, "FP1_017a")
+	update = Refresh(MINION + BATTLECRY + IN_HAND, {GameTag.COST: +2})
 
 
 # Voidcaller
@@ -118,16 +118,13 @@ class FP1_030:
 	play = Buff(ENEMY_HERO, "FP1_030e")
 
 class FP1_030e:
-	aura = Buff(ENEMY + SPELL + IN_HAND, "FP1_030ea")
+	update = CurrentPlayer(OWNER) & Refresh(ENEMY + SPELL + IN_HAND, {GameTag.COST: +5})
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
-
-class FP1_030ea:
-	cost = lambda self, i: i + 5 if self.owner.controller.current_player else i
 
 
 # Baron Rivendare
 class FP1_031:
-	aura = Buff(CONTROLLER, "FP1_031a")
+	update = Refresh(CONTROLLER, {GameTag.EXTRA_DEATHRATTLES: True})
 
 
 ##

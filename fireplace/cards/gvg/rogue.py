@@ -44,12 +44,10 @@ class GVG_047:
 	play = Destroy(RANDOM_ENEMY_MINION)
 	combo = Destroy(ENEMY_WEAPON | RANDOM_ENEMY_MINION)
 
+
 ##
 # Weapons
 
 # Cogmaster's Wrench
 class GVG_024:
-	def atk(self, i):
-		if self.controller.field.filter(race=Race.MECHANICAL):
-			return i + 2
-		return i
+	update = Find(FRIENDLY_MINIONS + MECH) & Refresh(SELF, {GameTag.ATK: +2})

@@ -6,15 +6,12 @@ from ..utils import *
 
 # Mechwarper
 class GVG_006:
-	aura = Buff(FRIENDLY + MECH + IN_HAND, "GVG_006a")
+	update = Refresh(FRIENDLY + MECH + IN_HAND, {GameTag.COST: -1})
 
 
 # Cogmaster
 class GVG_013:
-	def atk(self, i):
-		if self.controller.field.filter(race=Race.MECHANICAL):
-			return i + 2
-		return i
+	update = Find(FRIENDLY_MINIONS + MECH) & Refresh(SELF, {GameTag.ATK: +2})
 
 
 # Stonesplinter Trogg

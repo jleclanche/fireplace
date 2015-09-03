@@ -48,13 +48,10 @@ class EX1_059:
 
 # Pint-Sized Summoner
 class EX1_076:
-	aura = Buff(FRIENDLY + MINION + IN_HAND, "EX1_076a")
-
-class EX1_076a:
-	def cost(self, i):
-		if not self.controller.minions_played_this_turn:
-			return i - 1
-		return i
+	update = (
+		(Attr(CONTROLLER, GameTag.NUM_MINIONS_PLAYED_THIS_TURN) == 0) &
+		Refresh(FRIENDLY + MINION + IN_HAND, {GameTag.COST: -1})
+	)
 
 
 # Secretkeeper
@@ -114,7 +111,7 @@ class EX1_597:
 
 # Mana Wraith
 class EX1_616:
-	aura = Buff(MINION + IN_HAND, "EX1_616a")
+	update = Refresh(MINION + IN_HAND, {GameTag.COST: +1})
 
 
 # Knife Juggler

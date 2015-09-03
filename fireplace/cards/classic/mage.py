@@ -35,18 +35,16 @@ class EX1_559:
 
 # Sorcerer's Apprentice
 class EX1_608:
-	aura = Buff(FRIENDLY + SPELL + IN_HAND, "EX1_608a")
+	update = Refresh(FRIENDLY + SPELL + IN_HAND, {GameTag.COST: -1})
 
 
 # Kirin Tor Mage
 class EX1_612:
-	play = Buff(FRIENDLY_HERO, "EX1_612oa")
-
-class EX1_612oa:
-	aura = Buff(FRIENDLY + SECRET + IN_HAND, "EX1_612o")
+	play = Buff(FRIENDLY_HERO, "EX1_612o")
 
 class EX1_612o:
-	cost = lambda self, i: 0
+	update = Refresh(FRIENDLY + SECRET + IN_HAND, {GameTag.COST: lambda self, i: 0})
+	events = Play(FRIENDLY + SECRET).on(Destroy(SELF))
 
 
 # Mana Wyrm

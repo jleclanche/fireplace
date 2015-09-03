@@ -44,4 +44,7 @@ class GVG_121:
 
 # Wee Spellstopper
 class GVG_122:
-	aura = Buff(SELF_ADJACENT, "GVG_122a")
+	update = Refresh(SELF_ADJACENT, {
+		GameTag.CANT_BE_TARGETED_BY_ABILITIES: True,
+		GameTag.CANT_BE_TARGETED_BY_HERO_POWERS: True,
+	})

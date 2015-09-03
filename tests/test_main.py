@@ -1689,7 +1689,10 @@ def test_mana_wyrm():
 def test_old_murkeye():
 	game = prepare_game()
 	murkeye = game.player1.give("EX1_062")
-	murloc = game.player1.summon("CS2_168")
+	assert murkeye.atk == 2
+	murloc = game.player1.give("CS2_168")
+	murloc.play()
+	assert murkeye.atk == 2
 	murkeye.play()
 	assert murkeye.charge
 	assert murkeye.can_attack()
@@ -3395,7 +3398,6 @@ def test_millhouse_manastorm():
 	millhouse.play()
 	# costs change as soon as millhouse is played
 	assert game.player2.hero.buffs
-	assert fireball1.buffs
 	assert fireball1.cost == 0
 	assert fireball2.cost == 0
 	assert moonfire.cost == 0

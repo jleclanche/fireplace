@@ -24,7 +24,7 @@ class GVG_049e:
 
 # Steamwheedle Sniper
 class GVG_087:
-	aura = Buff(CONTROLLER, "GVG_087a")
+	update = Refresh(CONTROLLER, {GameTag.STEADY_SHOT_CAN_TARGET: True})
 
 
 ##

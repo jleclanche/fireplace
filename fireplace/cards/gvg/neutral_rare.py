@@ -18,10 +18,7 @@ class GVG_094:
 
 # Goblin Sapper
 class GVG_095:
-	def atk(self, i):
-		if len(self.controller.opponent.hand) >= 6:
-			return i + 4
-		return i
+	update = (Count(OPPONENT_HAND) >= 6) & Refresh(SELF, {GameTag.ATK: +4})
 
 
 # Lil' Exorcist

@@ -27,9 +27,7 @@ class EX1_016:
 
 # Old Murk-Eye
 class EX1_062:
-	def atk(self, value):
-		murlocs = self.game.board.filter(race=Race.MURLOC).exclude(self)
-		return value + len(murlocs)
+	update = Refresh(SELF, {GameTag.ATK: Count(ALL_MINIONS + MURLOC - SELF)})
 
 
 # Tinkmaster Overspark
@@ -155,11 +153,8 @@ class NEW1_029:
 	play = Buff(ENEMY_HERO, "NEW1_029t")
 
 class NEW1_029t:
-	aura = Buff(ENEMY + SPELL + IN_HAND, "NEW1_029ta")
+	update = Refresh(ENEMY + SPELL + IN_HAND, {GameTag.COST: lambda self, i: 0})
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
-
-class NEW1_029ta:
-	cost = lambda self, i: 0
 
 
 # Deathwing

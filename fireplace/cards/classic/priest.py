@@ -29,7 +29,7 @@ class EX1_091:
 
 # Lightspawn
 class EX1_335:
-	atk = lambda self, i: self.health
+	update = Refresh(SELF, {GameTag.ATK: lambda self, i: self.health})
 
 
 # Lightwell
@@ -39,12 +39,18 @@ class EX1_341:
 
 # Prophet Velen
 class EX1_350:
-	aura = Buff(CONTROLLER, "EX1_350a")
+	update = Refresh(CONTROLLER, {
+		GameTag.HEALING_DOUBLE: 1,
+		GameTag.SPELLPOWER_DOUBLE: 1,
+		GameTag.TAG_HERO_POWER_DOUBLE: 1,
+	})
 
 
 # Auchenai Soulpriest
 class EX1_591:
-	aura = Buff(CONTROLLER, "EX1_591a")
+	update = Refresh(CONTROLLER, {
+		GameTag.OUTGOING_HEALING_ADJUSTMENT: -1,
+	})
 
 
 # Temple Enforcer
