@@ -103,24 +103,41 @@ class Refresh:
 	"""
 	Refresh a buff or a set of tags on an entity
 	"""
-	def __init__(self, selector, tags):
+	def __init__(self, selector, tags=None, buff=None):
 		self.selector = selector
 		self.tags = tags
+		self.buff = buff
 
 	def trigger(self, source):
 		entities = self.selector.eval(source.game, source)
 		for entity in entities:
-			tags = {}
-			for tag, value in self.tags.items():
-				if not isinstance(value, int) and not callable(value):
-					value = value.evaluate(source)
-				tags[tag] = value
+			if self.buff:
+				entity.refresh_buff(source, self.buff)
+			else:
+				tags = {}
+				for tag, value in self.tags.items():
+					if not isinstance(value, int) and not callable(value):
+						value = value.evaluate(source)
+					tags[tag] = value
 
-			entity.refresh_buff(source, tags)
+				entity.refresh_tags(source, tags)
 
 
 class TargetableByAuras:
-	def refresh_buff(self, source, tags):
+	def refresh_buff(self, source, id):
+		for slot in self.slots[:]:
+			if slot.source is source:
+				self.slots.remove(slot)
+				self.slots.append(slot)
+				slot.tick = source.game.tick
+				break
+		else:
+			logger.info("Aura from %r buffs %r with %r", source, self, id)
+			buff = source.buff(self, id)
+			buff.tick = source.game.tick
+			source.game.active_aura_buffs.append(buff)
+
+	def refresh_tags(self, source, tags):
 		for slot in self.slots[:]:
 			if slot.source is source:
 				slot.update_tags(tags)

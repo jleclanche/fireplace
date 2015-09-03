@@ -697,6 +697,8 @@ class Enchantment(BaseCard):
 			self.owner.slots.append(self)
 		elif zone == Zone.REMOVEDFROMGAME:
 			self.owner.slots.remove(self)
+			if self in self.game.active_aura_buffs:
+				self.game.active_aura_buffs.remove(self)
 		super()._set_zone(zone)
 
 	def apply(self, target):

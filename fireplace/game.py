@@ -220,6 +220,7 @@ class BaseGame(Entity):
 		for buff in self.active_aura_buffs[:]:
 			if buff.tick < self.tick:
 				buff.destroy()
+
 		self.tick += 1
 
 	def prepare(self):
