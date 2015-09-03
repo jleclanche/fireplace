@@ -324,6 +324,7 @@ DIVINE_SHIELD = Selector(GameTag.DIVINE_SHIELD)
 FROZEN = Selector(GameTag.FROZEN)
 OVERLOAD = Selector(GameTag.RECALL)
 SPELLPOWER = Selector(GameTag.SPELLPOWER)
+TAUNT = Selector(GameTag.TAUNT)
 ALWAYS_WINS_BRAWLS = Selector(GameTag.ALWAYS_WINS_BRAWLS)
 
 
