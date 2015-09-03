@@ -54,3 +54,16 @@ GVG_041 = ("GVG_041a", "GVG_041b")
 
 # Druid of the Flame
 BRM_010 = ("BRM_010a", "BRM_010b")
+
+
+##
+# The Grand Tournament
+
+# Living Roots
+AT_037 = ("AT_032a", "AT_037b")
+
+# Druid of the Saber
+AT_042 = ("AT_042a", "AT_042b")
+
+# Totemic Slam
+AT_132_SHAMAN = ("AT_132_SHAMANa", "AT_132_SHAMANb", "AT_132_SHAMANc", "AT_132_SHAMANd")
