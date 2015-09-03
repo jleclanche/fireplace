@@ -14,9 +14,15 @@ class AT_021:
 	events = Discard(FRIENDLY).on(Buff(SELF, "AT_021e"))
 
 
+# Void Crusher
+class AT_023:
+	inspire = Destroy(RANDOM_ENEMY_MINION | RANDOM_FRIENDLY_MINION)
+
+
 # Wrathguard
 class AT_026:
 	events = Damage(SELF).on(Hit(FRIENDLY_HERO, Damage.Args.AMOUNT))
+
 
 # Wilfred Fizzlebang
 class AT_027:
