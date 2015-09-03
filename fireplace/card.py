@@ -114,6 +114,7 @@ class BaseCard(Entity):
 		Card that buffs the target becomes the controller of the buff.
 		"""
 		ret = self.controller.card(buff, self)
+		ret.source = self
 		ret.apply(target)
 		for k, v in kwargs.items():
 			setattr(ret, k, v)
@@ -440,6 +441,7 @@ class Character(LiveEntity):
 			if not self._enrage:
 				self.log("Enraging %r", self)
 				self._enrage = Enrage(self.data.enrage_tags)
+				self._enrage.source = self
 				self.slots.append(self._enrage)
 		elif self._enrage:
 			self.log("Enrage fades from %r", self)

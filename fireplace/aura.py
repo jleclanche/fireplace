@@ -121,7 +121,7 @@ class Refresh:
 class TargetableByAuras:
 	def refresh_buff(self, source, tags):
 		for slot in self.slots[:]:
-			if isinstance(slot, AuraBuff) and slot.source is source:
+			if slot.source is source:
 				slot.update_tags(tags)
 				# Move the buff position at the end again
 				self.slots.remove(slot)
