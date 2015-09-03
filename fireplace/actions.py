@@ -240,6 +240,7 @@ class Play(GameAction):
 		self.broadcast(player, EventListener.ON, player, card, target, choose)
 		summon_action.broadcast(player, EventListener.ON, player, card)
 		player.game.no_aura_refresh = False
+		player.game.refresh_auras()
 		card.action()
 		summon_action.broadcast(player, EventListener.AFTER, player, card)
 		self.broadcast(player, EventListener.AFTER, player, card, target, choose)
