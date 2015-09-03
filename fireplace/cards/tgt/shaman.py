@@ -27,6 +27,12 @@ class AT_049:
 	inspire = Buff(FRIENDLY_MINIONS + TOTEM, "AT_049e")
 
 
+# The Mistcaller
+class AT_054:
+	# The Enchantment ID is correct
+	play = Buff(FRIENDLY + (IN_DECK | IN_HAND), "AT_045e")
+
+
 ##
 # Spells
 
