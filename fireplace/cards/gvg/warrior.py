@@ -20,7 +20,7 @@ class GVG_056:
 
 # Burrowing Mine
 class GVG_056t:
-	in_hand = Draw(CONTROLLER, SELF).on(Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER))
+	draw = Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER), Destroy(SELF)
 
 
 # Siege Engine
