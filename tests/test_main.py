@@ -1659,6 +1659,26 @@ def test_mad_scientist():
 	assert counterspell in game.player1.hand
 
 
+def test_malganis():
+	game = prepare_game(HUNTER, HUNTER)
+	voidwalker = game.player1.give("CS2_065")
+	voidwalker.play()
+	malganis = game.player1.give("GVG_021")
+	assert voidwalker.atk == 1
+	assert voidwalker.health == 3
+	malganis.play()
+	assert voidwalker.atk == 1 + 2
+	assert voidwalker.health == 3 + 2
+	assert game.player1.hero.immune
+	game.end_turn()
+
+	game.player2.hero.power.use()
+	assert game.player1.hero.health == 30
+	malganis.destroy()
+	assert voidwalker.atk == 1
+	assert voidwalker.health == 3
+
+
 def test_malorne():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
