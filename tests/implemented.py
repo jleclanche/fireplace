@@ -66,35 +66,48 @@ def cleanup_description(description):
 
 
 def main():
+	impl = 0
+	unimpl = 0
+
 	for id in sorted(cards.db):
 		card = cards.db[id]
 		description = cleanup_description(card.description)
-		color = RED
+		implemented = False
 
 		if not description:
 			# Minions without card text or with basic abilities are implemented
-			color = GREEN
+			implemented = True
 		elif card.type == CardType.ENCHANTMENT:
 			if id in buffs.__dict__:
-				color = GREEN
+				implemented = True
 			else:
-				color = RED
+				implemented = False
 		elif card.card_set == CardSet.CREDITS:
-			color = GREEN
+			implemented = True
 
 		if id in DUMMY_CARDS:
-			color = GREEN
+			implemented = True
 
 		for set in CARD_SETS.values():
 			if hasattr(set, id):
-				color = GREEN
+				implemented = True
 				break
 		else:
 			if "Enrage" in card.description or card.choose_cards:
-				color = GREEN
+				implemented = True
 
+		color = GREEN if implemented else RED
 		name = color + "%s: %s" % (PREFIXES[color], card.name) + ENDC
 		print("%s (%s)" % (name, id))
+
+		if implemented:
+			impl += 1
+		else:
+			unimpl += 1
+
+	total = impl + unimpl
+
+	print("%i / %i cards implemented (%i%%)" % (impl, total, (impl / total) * 100))
 
 
 if __name__ == "__main__":
