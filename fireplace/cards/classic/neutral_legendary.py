@@ -100,6 +100,11 @@ class EX1_558:
 	)
 
 
+# Nozdormu
+class EX1_560:
+	update = Refresh(ALL_PLAYERS, {GameTag.TIMEOUT: lambda self, i: 15})
+
+
 # Alexstrasza
 class EX1_561:
 	play = (
