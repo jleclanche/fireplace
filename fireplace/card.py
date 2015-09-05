@@ -360,7 +360,11 @@ class Character(LiveEntity):
 
 	@property
 	def attack_targets(self):
-		targets = self.controller.opponent.characters
+		script = getattr(self.data.scripts, "attack_targets", None)
+		if script:
+			targets = CardList(script.eval(self.game.characters, self))
+		else:
+			targets = self.controller.opponent.characters
 
 		taunts = targets.filter(taunt=True).filter(attackable=True)
 		return (taunts or targets).filter(attackable=True)
