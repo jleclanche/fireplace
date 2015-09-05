@@ -146,6 +146,7 @@ def load_dbf(path):
 
 	# Some hero powers are missing from the DBF, wtf :(
 	missing = {
+		"BRM_027h": "BRM_027p",
 		"EX1_323h": "EX1_tk33",
 	}
 

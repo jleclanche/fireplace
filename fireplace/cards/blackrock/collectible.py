@@ -85,7 +85,7 @@ class BRM_026:
 
 # Majordomo Executus
 class BRM_027:
-	deathrattle = Summon(CONTROLLER, "BRM_027h"), Summon(CONTROLLER, "BRM_027p")
+	deathrattle = Summon(CONTROLLER, "BRM_027h")
 
 # DIE, INSECT!
 class BRM_027p:
