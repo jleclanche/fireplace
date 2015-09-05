@@ -24,6 +24,11 @@ class AT_123:
 	deathrattle = HOLDING_DRAGON & Hit(ALL_MINIONS, 3)
 
 
+# Icehowl
+class AT_125:
+	attack_targets = ENEMY_MINIONS
+
+
 # Nexus-Champion Saraad
 class AT_127:
 	inspire = Give(CONTROLLER, RandomSpell())

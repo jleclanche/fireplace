@@ -4707,6 +4707,24 @@ def test_ice_lance():
 	assert not game.player2.hero.frozen
 
 
+def test_icehowl():
+	game = prepare_game()
+	icehowl = game.player1.give("AT_125")
+	icehowl.play()
+	assert icehowl.charge
+	assert not icehowl.can_attack()
+	assert not icehowl.can_attack(game.player2.hero)
+	assert not icehowl.can_attack(game.player1.hero)
+	game.end_turn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	assert icehowl.can_attack()
+	assert icehowl.attack_targets == [wisp]
+
+
 def test_vaporize():
 	game = prepare_game()
 	vaporize = game.player1.give("EX1_594")
