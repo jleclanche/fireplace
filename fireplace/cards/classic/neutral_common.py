@@ -84,7 +84,7 @@ class CS2_141:
 
 # Southsea Deckhand
 class CS2_146:
-	charge = lambda self, i: i or bool(self.controller.weapon)
+	update = Find(FRIENDLY_WEAPON) & Refresh(SELF, {GameTag.CHARGE: True})
 
 
 # Gnomish Inventor
