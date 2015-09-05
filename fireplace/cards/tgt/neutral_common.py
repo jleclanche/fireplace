@@ -71,7 +71,7 @@ class AT_111:
 
 # Recruiter
 class AT_113:
-	inspire = Draw(CONTROLLER, "CS2_152")
+	inspire = Give(CONTROLLER, "CS2_152")
 
 
 # Grand Crusader
