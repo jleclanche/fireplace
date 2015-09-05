@@ -27,7 +27,7 @@ class EX1_382:
 	play = Buff(TARGET, "EX1_382e")
 
 class EX1_382e:
-	atk = lambda self, i: 1
+	atk = SET(1)
 
 
 # Tirion Fordring
@@ -88,7 +88,7 @@ class EX1_360:
 	play = Buff(TARGET, "EX1_360e")
 
 class EX1_360e:
-	atk = lambda self, i: 1
+	atk = SET(1)
 
 
 # Blessing of Wisdom
@@ -120,7 +120,7 @@ class EX1_619:
 	play = Buff(ALL_MINIONS, "EX1_619e")
 
 class EX1_619e:
-	max_health = lambda self, i: 1
+	max_health = SET(1)
 
 
 ##
@@ -147,7 +147,7 @@ class EX1_379:
 	)
 
 class EX1_379e:
-	max_health = lambda self, i: 1
+	max_health = SET(1)
 
 
 ##

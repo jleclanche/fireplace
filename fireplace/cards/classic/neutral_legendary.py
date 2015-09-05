@@ -113,7 +113,7 @@ class EX1_561:
 	)
 
 class EX1_561e:
-	max_health = lambda self, i: 15
+	max_health = SET(15)
 
 
 # Ysera

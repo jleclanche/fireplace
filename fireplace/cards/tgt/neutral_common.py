@@ -21,7 +21,7 @@ class AT_084:
 
 # Maiden of the Lake
 class AT_085:
-	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: lambda self, i: 1})
+	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: SET(1)})
 
 
 # Boneguard Lieutenant

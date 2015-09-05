@@ -59,7 +59,7 @@ class CS2_084:
 	play = Buff(TARGET, "CS2_084e")
 
 class CS2_084e:
-	max_health = lambda self, i: 1
+	max_health = SET(1)
 
 
 # Multi-Shot

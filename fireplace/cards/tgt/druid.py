@@ -37,7 +37,7 @@ class AT_042b:
 
 # Aviana
 class AT_045:
-	update = Refresh(CONTROLLER_HAND + MINION, {GameTag.COST: lambda self, i: 1})
+	update = Refresh(CONTROLLER_HAND + MINION, {GameTag.COST: SET(1)})
 
 
 ##

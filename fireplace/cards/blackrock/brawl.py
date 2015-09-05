@@ -9,7 +9,7 @@ class TBA01_5:
 	activate = Buff(Give(CONTROLLER, RandomMinion()), "TBA01_5e")
 
 class TBA01_5e:
-	cost = lambda self, i: 0
+	cost = SET(0)
 
 
 # Molten Rage

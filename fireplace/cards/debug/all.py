@@ -113,7 +113,7 @@ class XXX_022:
 	play = Buff(FRIENDLY_HERO, "XXX_022e")
 
 class XXX_022e:
-	update = Refresh(FRIENDLY + IN_HAND, {GameTag.COST: lambda self, i: 0})
+	update = Refresh(FRIENDLY + IN_HAND, {GameTag.COST: SET(0)})
 
 
 # Destroy All Heroes

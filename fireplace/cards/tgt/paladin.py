@@ -19,7 +19,7 @@ class AT_081:
 	play = Buff(ENEMY_MINIONS, "AT_081e")
 
 class AT_081e:
-	atk = lambda self, i: 1
+	atk = SET(1)
 
 
 # Tuskarr Jouster

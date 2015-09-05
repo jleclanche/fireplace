@@ -31,7 +31,7 @@ class AT_027:
 	)
 
 class AT_027e:
-	cost = lambda self, i: 0
+	cost = SET(0)
 
 
 ##

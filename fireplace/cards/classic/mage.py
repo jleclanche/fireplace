@@ -43,7 +43,7 @@ class EX1_612:
 	play = Buff(FRIENDLY_HERO, "EX1_612o")
 
 class EX1_612o:
-	update = Refresh(FRIENDLY + SECRET + IN_HAND, {GameTag.COST: lambda self, i: 0})
+	update = Refresh(FRIENDLY + SECRET + IN_HAND, {GameTag.COST: SET(0)})
 	events = Play(FRIENDLY + SECRET).on(Destroy(SELF))
 
 

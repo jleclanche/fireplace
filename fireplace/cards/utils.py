@@ -24,3 +24,7 @@ class RandomEntourage(RandomCardPicker):
 
 HOLDING_DRAGON = Find(CONTROLLER_HAND + DRAGON)
 JOUST = Joust(FRIENDLY + MINION + IN_DECK, ENEMY + MINION + IN_DECK)
+
+
+def SET(amt):
+	return lambda self, i: amt
