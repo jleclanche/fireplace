@@ -311,6 +311,10 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		if PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND in self.requirements:
 			if self.controller.hand.filter(race=Race.DRAGON):
 				return bool(self.targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_MINIONS)
+		if req is not None:
+			if len(self.controller.field) >= req:
+				return bool(self.targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
 	@property
