@@ -606,7 +606,7 @@ def test_taunt():
 	game.end_turn(); game.end_turn()
 
 	assert wisp1.can_attack()
-	assert wisp1.targets == [wisp2, game.player2.hero]
+	assert wisp1.targets == [game.player2.hero, wisp2]
 	game.end_turn()
 
 	goldshire2.play()

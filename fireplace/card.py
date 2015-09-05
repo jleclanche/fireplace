@@ -360,17 +360,10 @@ class Character(LiveEntity):
 
 	@property
 	def attack_targets(self):
-		taunts = []
-		for target in self.controller.opponent.field:
-			if target.taunt:
-				taunts.append(target)
-		ret = []
-		for target in (taunts if taunts else self.controller.opponent.field):
-			if target.attackable:
-				ret.append(target)
-		if not taunts and self.controller.opponent.hero.attackable:
-			ret.append(self.controller.opponent.hero)
-		return ret
+		targets = self.controller.opponent.characters
+
+		taunts = targets.filter(taunt=True).filter(attackable=True)
+		return (taunts or targets).filter(attackable=True)
 
 	def can_attack(self, target=None):
 		if not self.zone == Zone.PLAY:
