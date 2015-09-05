@@ -789,7 +789,7 @@ class HeroPower(PlayableCard):
 				raise NotImplementedError("Missing inspire script for %r" % (minion))
 			actions = minion.data.scripts.inspire
 			if actions:
-				ret += self.game.queue_actions(self, actions)
+				ret += self.game.queue_actions(minion, actions)
 
 		return ret
 
