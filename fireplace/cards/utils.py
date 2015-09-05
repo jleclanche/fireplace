@@ -22,6 +22,7 @@ class RandomEntourage(RandomCardPicker):
 		return super().pick(source)
 
 
+CLEAVE = Hit(TARGET_ADJACENT, Attr(SELF, GameTag.ATK))
 HOLDING_DRAGON = Find(CONTROLLER_HAND + DRAGON)
 JOUST = Joust(FRIENDLY + MINION + IN_DECK, ENEMY + MINION + IN_DECK)
 

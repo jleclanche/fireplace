@@ -11,7 +11,7 @@ class AT_066:
 
 # Magnataur Alpha
 class AT_067:
-	events = Attack(SELF).on(Hit(TARGET_ADJACENT, Attr(SELF, GameTag.ATK)))
+	events = Attack(SELF).on(CLEAVE)
 
 
 # Sparring Partner

@@ -42,7 +42,7 @@ class BRMC_87:
 
 # Drakonid Slayer
 class BRMC_88:
-	events = Attack(SELF).on(Hit(TARGET_ADJACENT, Attr(SELF, GameTag.ATK)))
+	events = Attack(SELF).on(CLEAVE)
 
 
 # Son of the Flame

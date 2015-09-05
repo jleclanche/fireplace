@@ -13,6 +13,11 @@ class GVG_110t:
 	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, RandomNumber(1, 4))
 
 
+# Foe Reaper 4000
+class GVG_113:
+	events = Attack(SELF).on(CLEAVE)
+
+
 # Sneed's Old Shredder
 class GVG_114:
 	deathrattle = Summon(CONTROLLER, RandomMinion(rarity=Rarity.LEGENDARY))
