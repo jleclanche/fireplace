@@ -2,14 +2,6 @@ from ..utils import *
 
 
 ##
-# Hero Powers
-
-# Lightning Jolt
-class AT_050t:
-	play = Hit(TARGET, 2)
-
-
-##
 # Minions
 
 # Tuskarr Totemic
@@ -54,6 +46,9 @@ class AT_053:
 ##
 # Weapons
 
-#  Charged Hammer
+# Charged Hammer
 class AT_050:
 	deathrattle = Summon(CONTROLLER, "AT_050t")
+
+class AT_050t:
+	activate = Hit(TARGET, 2)
