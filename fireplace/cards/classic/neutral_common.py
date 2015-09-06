@@ -209,10 +209,7 @@ class EX1_583:
 
 # Bloodsail Raider
 class NEW1_018:
-	# TODO
-	def play(self):
-		if self.controller.weapon:
-			self.buff(self, "NEW1_018e", atk=self.controller.weapon.atk)
+	play = Find(FRIENDLY_WEAPON) & Buff(SELF, "NEW1_018e", atk=Attr(FRIENDLY_WEAPON, GameTag.ATK))
 
 
 # Dread Corsair

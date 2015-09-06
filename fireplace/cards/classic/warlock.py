@@ -29,16 +29,10 @@ class EX1_301:
 
 # Void Terror
 class EX1_304:
-	# TODO
-	def play(self):
-		if self.adjacent_minions:
-			atk = 0
-			health = 0
-			for minion in self.adjacent_minions:
-				atk += minion.atk
-				health += minion.health
-				minion.destroy()
-			self.buff(self, "EX1_304e", atk=atk, max_health=health)
+	play = (
+		Buff(SELF, "EX1_304e", atk=Attr(SELF_ADJACENT, GameTag.ATK), max_health=Attr(SELF_ADJACENT, "health")),
+		Destroy(SELF_ADJACENT)
+	)
 
 
 # Succubus

@@ -47,6 +47,10 @@ DUMMY_CARDS = (
 	"Mekka4e",  # Transformed
 	"NEW1_025e",  # Bolstered (Unused)
 	"XXX_058e",  # Weapon Nerf Enchant
+
+	# Dynamic buffs set by their parent
+	"EX1_304e",  # Consume (Void Terror)
+	"NEW1_018e",  # Treasure Crazed (Bloodsail Raider)
 )
 
 
