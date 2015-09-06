@@ -136,11 +136,16 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		ret = []
 		if not self.has_deathrattle:
 			return ret
-		if hasattr(self.data.scripts, "deathrattle"):
-			ret.append(self.data.scripts.deathrattle)
+		deathrattle = self.get_actions("deathrattle")
+		if deathrattle:
+			ret.append(deathrattle)
 		for buff in self.buffs:
-			if buff.has_deathrattle and hasattr(buff.data.scripts, "deathrattle"):
-				ret.append(buff.data.scripts.deathrattle)
+			if buff.has_deathrattle:
+				deathrattle = buff.get_actions("deathrattle")
+				if deathrattle:
+					ret.append(deathrattle)
+				else:
+					raise NotImplementedError("Missing deathrattle script for %r" % (buff))
 		return ret
 
 	@property
@@ -181,18 +186,13 @@ class PlayableCard(BaseCard, TargetableByAuras):
 
 		if self.has_combo and self.controller.combo:
 			self.log("Activating %r combo targeting %r", self, self.target)
-			actions = self.data.scripts.combo
-		elif hasattr(self.data.scripts, "play"):
-			self.log("Activating %r action targeting %r", self, self.target)
-			actions = self.data.scripts.play
+			actions = self.get_actions("combo")
 		elif self.choose:
 			self.log("Activating %r Choose One: %r", self, self.chosen)
-			actions = self.chosen.data.scripts.play
+			actions = self.chosen.get_actions("play")
 		else:
-			actions = []
-
-		if callable(actions):
-			actions = actions(self)
+			self.log("Activating %r action targeting %r", self, self.target)
+			actions = self.get_actions("play")
 
 		if actions:
 			self.game.queue_actions(self, actions)
@@ -774,18 +774,16 @@ class HeroPower(PlayableCard):
 		super()._set_zone(value)
 
 	def activate(self):
-		actions = self.data.scripts.activate
-		if callable(actions):
-			actions = actions(self)
+		actions = self.get_actions("activate")
 
 		ret = []
 		if actions:
 			ret += self.game.queue_actions(self, actions)
 
 		for minion in self.controller.field.filter(has_inspire=True):
-			if not hasattr(minion.data.scripts, "inspire"):
+			actions = self.get_actions("inspire")
+			if actions is None:
 				raise NotImplementedError("Missing inspire script for %r" % (minion))
-			actions = minion.data.scripts.inspire
 			if actions:
 				ret += self.game.queue_actions(minion, actions)
 

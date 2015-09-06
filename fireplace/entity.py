@@ -36,6 +36,14 @@ class Entity(object):
 	def log(self, message, *args):
 		self.logger.info(message, *args)
 
+	def get_actions(self, name):
+		actions = getattr(self.data.scripts, name, None)
+		if callable(actions):
+			actions = actions(self)
+		if actions and not hasattr(actions, "__iter__"):
+			actions = (actions, )
+		return actions
+
 	def trigger_event(self, source, event, args):
 		"""
 		Trigger an event on the Entity
