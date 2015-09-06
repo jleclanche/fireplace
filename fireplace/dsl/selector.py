@@ -263,6 +263,9 @@ class AdjacentSelector(Selector):
 		self.program.append(self.SelectAdjacent())
 		self.program.append(Selector.Unmerge)
 
+	def __repr__(self):
+		return "<ADJACENT>"
+
 SELF_ADJACENT = AdjacentSelector(SELF)
 TARGET_ADJACENT = AdjacentSelector(TARGET)
 
