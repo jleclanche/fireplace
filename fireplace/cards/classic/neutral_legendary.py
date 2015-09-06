@@ -87,9 +87,7 @@ class EX1_298:
 
 # Nat Pagle
 class EX1_557:
-	events = OWN_TURN_BEGIN.on(
-		lambda self, player: random.randint(0, 1) and Draw(CONTROLLER)
-	)
+	events = OWN_TURN_BEGIN.on(COINFLIP & Draw(CONTROLLER))
 
 
 # Harrison Jones
