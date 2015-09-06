@@ -58,6 +58,7 @@ class Action:  # Lawsuit
 
 	def __init__(self, *args, **kwargs):
 		self._args = args
+		self._kwargs = kwargs
 		self._argnames = []
 		for e, arg in zip(self.Args, self._args):
 			self._argnames.append(e.name)
@@ -349,7 +350,12 @@ class Buff(TargetedAction):
 		BUFF = 1
 
 	def do(self, source, target, buff):
-		source.buff(target, buff)
+		kwargs = self._kwargs.copy()
+		for k, v in kwargs.items():
+			logger.info("for %r, %r in %r.items()", k, v, kwargs)
+			if isinstance(v, LazyNum):
+				kwargs[k] = v.evaluate(source)
+		source.buff(target, buff, **kwargs)
 
 
 class Bounce(TargetedAction):
