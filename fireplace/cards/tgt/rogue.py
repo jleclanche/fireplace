@@ -48,3 +48,11 @@ class AT_035:
 
 class AT_035t:
 	in_hand = Summon(OPPONENT, "AT_036t")
+
+
+##
+# Weapons
+
+# Poisoned Blade
+class AT_034:
+	inspire = Buff(SELF, "AT_034e")

@@ -6,7 +6,7 @@ from ..utils import *
 
 # Dagger Mastery
 class CS2_083b:
-	activate = Summon(CONTROLLER, "CS2_082")
+	activate = Find(FRIENDLY_WEAPON + ID("AT_034")) | Summon(CONTROLLER, "CS2_082")
 
 
 ##
