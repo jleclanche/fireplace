@@ -611,6 +611,21 @@ class FillMana(TargetedAction):
 		target.used_mana -= amount
 
 
+class Retarget(TargetedAction):
+	class Args(Action.Args):
+		TARGETS = 0
+		CARDS = 1
+
+	def do(self, source, target, new_target):
+		assert len(new_target) == 1
+		new_target = new_target[0]
+		logger.info("Retargeting %r's attack to %r", source, new_target)
+		source.game.proposed_defender.defending = False
+		source.game.proposed_defender = new_target
+
+		return new_target
+
+
 class Reveal(TargetedAction):
 	"""
 	Reveal secret targets.
