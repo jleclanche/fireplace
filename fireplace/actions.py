@@ -619,9 +619,13 @@ class Retarget(TargetedAction):
 	def do(self, source, target, new_target):
 		assert len(new_target) == 1
 		new_target = new_target[0]
-		logger.info("Retargeting %r's attack to %r", source, new_target)
-		source.game.proposed_defender.defending = False
-		source.game.proposed_defender = new_target
+		if target.type in (CardType.HERO, CardType.MINION) and target.attacking:
+			logger.info("Retargeting %r's attack to %r", source, new_target)
+			source.game.proposed_defender.defending = False
+			source.game.proposed_defender = new_target
+		else:
+			logger.info("Retargeting %r from %r to %r", target, target.target, new_target)
+			target.target = new_target
 
 		return new_target
 
