@@ -99,8 +99,7 @@ class XXX_019:
 
 # Damage all but 1
 class XXX_020:
-	def play(self, target):
-		return Hit(TARGET, target.health - 1)
+	play = SetCurrentHealth(TARGET, 1)
 
 
 # Restore All Health
