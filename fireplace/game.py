@@ -217,7 +217,11 @@ class BaseGame(Entity):
 		# Sort the refresh queue by refresh priority (used by eg. Lightspawn)
 		refresh_queue.sort(key=lambda e: getattr(e.data.scripts.update, "priority", 50))
 		for entity in refresh_queue:
-			entity.data.scripts.update.trigger(entity)
+			actions = entity.data.scripts.update
+			if not hasattr(actions, "__iter__"):
+				actions = (actions, )
+			for action in actions:
+				action.trigger(entity)
 
 		for buff in self.active_aura_buffs[:]:
 			if buff.tick < self.tick:
