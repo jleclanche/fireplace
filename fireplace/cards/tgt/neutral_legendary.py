@@ -47,3 +47,25 @@ class AT_129:
 # Eydis Darkbane
 class AT_131:
 	events = Play(CONTROLLER, SPELL, SELF).on(Hit(RANDOM_ENEMY_CHARACTER, 3))
+
+
+# Justicar Trueheart
+class AT_132:
+	HERO_POWER_MAP = {
+		"CS2_017": "AT_132_DRUID",
+		"DS1h_292": "AT_132_HUNTER",
+		"DS1h_292_H1": "DS1h_292_H1_AT_132",
+		"CS2_034": "AT_132_MAGE",
+		"CS2_101": "AT_132_PALADIN",
+		"CS1h_001": "AT_132_PRIEST",
+		"CS2_083b": "AT_132_ROGUE",
+		"CS2_049": "AT_132_SHAMAN",
+		"CS2_056": "AT_132_WARLOCK",
+		"CS2_102": "AT_132_WARRIOR",
+		"CS2_102_H1": "CS2_102_H1_AT_132",
+	}
+
+	def play(self):
+		upgrade = AT_132.HERO_POWER_MAP.get(self.controller.hero.power.id)
+		if upgrade:
+			return Summon(CONTROLLER, upgrade)
