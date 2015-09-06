@@ -81,3 +81,11 @@ class BRMC_99:
 # Open the Gates
 class BRMC_83:
 	play = Summon(CONTROLLER, "BRMA09_2Ht") * 7
+
+
+# Core Hound Puppies
+class BRMC_95h:
+	play = Summon(CONTROLLER, "BRMC_95he") * 2
+
+class BRMC_95he:
+	events = TURN_END.on(Summon(CONTROLLER, Copy(ID("BRMC_95he") + KILLED_THIS_TURN)))
