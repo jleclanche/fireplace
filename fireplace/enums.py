@@ -145,6 +145,7 @@ class GameTag(IntEnum):
 	# Internal
 	ALWAYS_WINS_BRAWLS = -10
 	ATTACK_HEALTH_SWAP = -11
+	KILLED_THIS_TURN = -12
 
 	def test(self, entity, *args):
 		return bool(entity.tags.get(self))

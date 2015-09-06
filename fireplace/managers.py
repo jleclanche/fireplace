@@ -176,6 +176,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.WINDFURY: "windfury",
 	GameTag.ZONE: "zone",
 	GameTag.ATTACK_HEALTH_SWAP: "attack_health_swap",
+	GameTag.KILLED_THIS_TURN: "killed_this_turn",
 	GameTag.AFFECTED_BY_SPELL_POWER: None,
 	GameTag.ARTISTNAME: None,
 	GameTag.AttackVisualType: None,

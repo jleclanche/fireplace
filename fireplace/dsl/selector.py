@@ -326,6 +326,7 @@ OVERLOAD = Selector(GameTag.RECALL)
 SPELLPOWER = Selector(GameTag.SPELLPOWER)
 TAUNT = Selector(GameTag.TAUNT)
 ALWAYS_WINS_BRAWLS = Selector(GameTag.ALWAYS_WINS_BRAWLS)
+KILLED_THIS_TURN = Selector(GameTag.KILLED_THIS_TURN)
 
 
 IN_PLAY = Selector(Zone.PLAY)
