@@ -4,6 +4,11 @@ GAME set and other special cards
 from ..utils import *
 
 
+# AFK
+class GAME_004:
+	update = Refresh(CONTROLLER, {GameTag.TIMEOUT: 10})
+
+
 # The Coin
 class GAME_005:
 	play = ManaThisTurn(CONTROLLER, 1)
