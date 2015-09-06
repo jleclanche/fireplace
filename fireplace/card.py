@@ -337,6 +337,10 @@ class LiveEntity(PlayableCard):
 	def to_be_destroyed(self, value):
 		self._to_be_destroyed = value
 
+	@property
+	def killed_this_turn(self):
+		return self in self.game.minions_killed_this_turn
+
 
 class Character(LiveEntity):
 	health_attribute = "health"
