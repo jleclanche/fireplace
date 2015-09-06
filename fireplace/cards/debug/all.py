@@ -232,8 +232,7 @@ class XXX_059:
 
 # Damage All
 class XXX_060:
-	def play(self, target):
-		return Hit(TARGET, target.health)
+	play = Hit(TARGET, Attr(TARGET, "health"))
 
 
 # Armor 1
