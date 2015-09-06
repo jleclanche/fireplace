@@ -6,7 +6,7 @@ from ..utils import *
 
 # Warhorse Trainer
 class AT_075:
-	update = Refresh(FRIENDLY + ID("CS2_101t"), "AT_075e")
+	update = Refresh(FRIENDLY + ID("CS2_101t"), buff="AT_075e")
 
 
 # Murloc Knight
