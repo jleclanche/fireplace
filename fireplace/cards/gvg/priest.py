@@ -17,9 +17,9 @@ class GVG_011:
 # Vol'jin
 class GVG_014:
 	# TODO
-	def play(self, target):
-		health = target.health
-		self.buff(target, "GVG_014a", health=self.health)
+	def play(self):
+		health = self.target.health
+		self.buff(self.target, "GVG_014a", health=self.health)
 		self.buff(self, "GVG_014a", health=health)
 
 class GVG_014a:

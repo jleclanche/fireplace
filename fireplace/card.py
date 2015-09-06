@@ -175,10 +175,7 @@ class PlayableCard(BaseCard, TargetableByAuras):
 			self.log("%r play action cannot continue", self)
 			return
 
-		kwargs = {}
-		if self.target:
-			kwargs["target"] = self.target
-		elif self.has_target():
+		if self.has_target() and not self.target:
 			self.log("%r has no target, action exits early", self)
 			return
 
@@ -195,7 +192,7 @@ class PlayableCard(BaseCard, TargetableByAuras):
 			actions = []
 
 		if callable(actions):
-			actions = actions(self, **kwargs)
+			actions = actions(self)
 
 		if actions:
 			self.game.queue_actions(self, actions)
@@ -775,10 +772,7 @@ class HeroPower(PlayableCard):
 	def activate(self):
 		actions = self.data.scripts.activate
 		if callable(actions):
-			kwargs = {}
-			if self.target:
-				kwargs["target"] = self.target
-			actions = actions(self, **kwargs)
+			actions = actions(self)
 
 		ret = []
 		if actions:
