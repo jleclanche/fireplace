@@ -1,6 +1,6 @@
 import random
 from itertools import chain
-from .actions import Draw, Give, Steal, Summon
+from .actions import Concede, Draw, Give, Steal, Summon
 from .aura import TargetableByAuras
 from .card import Card
 from .deck import Deck
@@ -119,6 +119,9 @@ class Player(Entity, TargetableByAuras):
 			card.creator = source
 		self.game.manager.new_entity(card)
 		return card
+
+	def concede(self):
+		return self.game.queue_actions(self, [Concede(self)])
 
 	def get_spell_damage(self, amount: int) -> int:
 		"""

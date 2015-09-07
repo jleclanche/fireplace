@@ -1,6 +1,6 @@
 from enum import IntEnum
 from .dsl import LazyNum, Picker, Selector
-from .enums import CardType, Mulligan, Zone
+from .enums import CardType, Mulligan, PlayState, Zone
 from .entity import Entity
 from .utils import fireplace_logger as logger
 
@@ -144,6 +144,17 @@ class BeginTurn(GameAction):
 	def do(self, source, player):
 		self.broadcast(source, EventListener.ON, player)
 		source.game._begin_turn(player)
+
+
+class Concede(GameAction):
+	"""
+	Make \a player concede
+	"""
+	class Args(Action.Args):
+		PLAYER = 0
+
+	def do(self, source, player):
+		player.playstate = PlayState.QUIT
 
 
 class Deaths(GameAction):

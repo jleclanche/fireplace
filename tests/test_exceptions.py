@@ -1,7 +1,15 @@
 #!/usr/bin/env python
-from utils import *
-from fireplace.exceptions import InvalidAction
 import pytest
+from utils import *
+from fireplace.exceptions import GameOver, InvalidAction
+
+
+def test_concede():
+	game = prepare_game()
+	with pytest.raises(GameOver):
+		game.player1.concede()
+	assert game.player1.playstate == PlayState.LOST
+	assert game.player2.playstate == PlayState.WON
 
 
 def test_play_on_wrong_turn():
