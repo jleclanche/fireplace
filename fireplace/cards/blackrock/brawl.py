@@ -89,3 +89,11 @@ class BRMC_95h:
 
 class BRMC_95he:
 	events = TURN_END.on(Summon(CONTROLLER, Copy(ID("BRMC_95he") + KILLED_THIS_TURN)))
+
+
+##
+# Weapons
+
+# Sulfuras
+class BRMC_94:
+	deathrattle = Summon(CONTROLLER, "BRM_027p")
