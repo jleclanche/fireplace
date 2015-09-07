@@ -687,6 +687,29 @@ def test_dragon_egg():
 	assert len(game.player1.field.filter(id="BRM_022t")) == 3
 
 
+def test_dragonhawk_rider():
+	game = prepare_game()
+	rider = game.player1.give("AT_083")
+	rider.play()
+	game.end_turn(); game.end_turn()
+	
+	assert not rider.windfury
+	game.player1.hero.power.use()
+	assert rider.windfury
+	game.end_turn(); game.end_turn()
+
+	windfury = game.player1.give("CS2_039")
+	windfury.play(target=rider)
+	assert rider.windfury
+	game.end_turn(); game.end_turn()
+
+	assert rider.windfury
+	game.player1.hero.power.use()
+	rider.attack(game.player2.hero)
+	rider.attack(game.player2.hero)
+	assert not rider.can_attack()
+
+
 def test_dr_boom():
 	game = prepare_game()
 	boom = game.player1.give("GVG_110")
