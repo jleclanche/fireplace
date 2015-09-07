@@ -4,6 +4,11 @@ from ..utils import *
 ##
 # Minions
 
+# Injured Kvaldir
+class AT_105:
+	play = Hit(SELF, 3)
+
+
 # Light's Champion
 class AT_106:
 	play = Silence(TARGET)

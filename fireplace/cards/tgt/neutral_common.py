@@ -59,24 +59,9 @@ class AT_103:
 	play = Hit(TARGET, 4)
 
 
-# Injured Kvaldir
-class AT_105:
-	play = Hit(SELF, 3)
-
-
 # Refreshment Vendor
 class AT_111:
 	play = Heal(ALL_HEROES, 4)
-
-
-# Recruiter
-class AT_113:
-	inspire = Give(CONTROLLER, "CS2_152")
-
-
-# Grand Crusader
-class AT_118:
-	play = Give(CONTROLLER, RandomCollectible(card_class=CardClass.PALADIN))
 
 
 # Kvaldir Raider

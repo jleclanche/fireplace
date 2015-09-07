@@ -19,9 +19,19 @@ class AT_099:
 	inspire = Summon(CONTROLLER, "AT_099t")
 
 
+# Recruiter
+class AT_113:
+	inspire = Give(CONTROLLER, "CS2_152")
+
+
 # Master of Ceremonies
 class AT_117:
 	play = Find(FRIENDLY_MINIONS + SPELLPOWER) & Buff(SELF, "AT_117e")
+
+
+# Grand Crusader
+class AT_118:
+	play = Give(CONTROLLER, RandomCollectible(card_class=CardClass.PALADIN))
 
 
 # Frost Giant
