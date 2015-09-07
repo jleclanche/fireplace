@@ -4114,6 +4114,18 @@ def test_warsong_commander_faceless_manipulator_buffed():
 	assert not copy.charge
 
 
+def test_warsong_commander_stormwind_champion():
+	# test 9 - Warsong and Stormwind Champion on Play, then Raging Worgen
+	game = prepare_game()
+	game.player1.give(WARSONG_COMMANDER).play()
+	game.player1.give("CS2_222").play()
+	game.end_turn(); game.end_turn()
+
+	worgen = game.player1.give("EX1_412")
+	worgen.play()
+	assert not worgen.charge
+
+
 def test_warsong_commander_lightspawn():
 	# test 11 - Warsong, then Lightspawn
 	game = prepare_game()
