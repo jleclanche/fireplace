@@ -3045,6 +3045,17 @@ def test_gahzrilla():
 	# assert gahz.atk == (6*2*2) + 1
 
 
+def test_grand_crusader():
+	game = prepare_game(WARRIOR, WARRIOR)
+	game.player1.discard_hand()
+	crusader = game.player1.give("AT_118")
+	assert len(game.player1.hand) == 1
+	crusader.play()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].card_class == CardClass.PALADIN
+	assert game.player1.hand[0].data.collectible
+
+
 def test_grimscale_oracle():
 	game = prepare_game()
 	grimscale = game.player1.give("EX1_508")
