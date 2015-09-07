@@ -3253,6 +3253,23 @@ def test_iron_juggernaut():
 	assert len(game.player2.hand) == 0
 
 
+def test_lance_carrier():
+	game = prepare_game()
+	wisp = game.player2.summon(WISP)
+	carrier1 = game.player1.give("AT_084")
+	assert len(carrier1.targets) == 0
+	carrier1.play()
+	game.end_turn()
+
+	carrier2 = game.player2.give("AT_084")
+	assert wisp.atk == 1
+	carrier2.play(target=wisp)
+	assert wisp.atk == 3
+	game.end_turn(); game.end_turn()
+
+	assert wisp.atk == 3
+
+
 def test_leeroy():
 	game = prepare_game()
 	leeroy = game.player1.give("EX1_116")
