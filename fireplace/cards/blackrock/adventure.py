@@ -133,6 +133,12 @@ class BRMA04_3H:
 	deathrattle = Hit(ENEMY_HERO, Count(ID("BRMA04_3H") + KILLED_THIS_TURN))
 
 
+# Chromatic Dragonkin
+class BRMA12_8t:
+	# That ID is... correct. What?
+	events = Play(OPPONENT, SPELL).on(Buff(SELF, "GVG_100e"))
+
+
 # Son of the Flame
 class BRMA13_5:
 	play = Hit(TARGET, 6)
@@ -177,6 +183,11 @@ class BRMA04_4H:
 # Burning Adrenaline
 class BRMA11_3:
 	play = Hit(ENEMY_HERO, 2)
+
+
+# Chromatic Mutation (Unused)
+class BRMA12_8:
+	play = Morph(TARGET, "BRMA12_8t")
 
 
 # DIE, INSECT!
