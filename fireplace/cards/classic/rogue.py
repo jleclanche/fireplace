@@ -34,7 +34,7 @@ class NEW1_005:
 
 # Master of Disguise
 class NEW1_014:
-	play = SetTag(TARGET, {GameTag.STEALTH: False})
+	play = SetTag(TARGET, {GameTag.STEALTH: True})
 
 
 ##

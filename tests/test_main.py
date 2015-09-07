@@ -1767,6 +1767,17 @@ def test_mana_wyrm():
 	assert wyrm.atk == 3
 
 
+def test_master_of_disguise():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	masterofdisguise = game.player1.give("NEW1_014")
+	masterofdisguise.play(target=wisp)
+	assert wisp.stealthed
+	game.end_turn(); game.end_turn()
+	assert wisp.stealthed
+
+
 def test_old_murkeye():
 	game = prepare_game()
 	murkeye = game.player1.give("EX1_062")
