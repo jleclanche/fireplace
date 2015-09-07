@@ -70,6 +70,11 @@ class NAX8_02H:
 	activate = Draw(CONTROLLER), GainMana(CONTROLLER, 1)
 
 
+# Unholy Shadow
+class NAX9_06:
+	activate = Draw(CONTROLLER) * 2
+
+
 # Hateful Strike
 class NAX10_03:
 	activate = Destroy(TARGET)
