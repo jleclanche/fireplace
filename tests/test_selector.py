@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from fireplace.dsl import *
 from utils import *
+from fireplace.dsl import *
 
 
 def test_selector():
@@ -24,14 +24,3 @@ def test_empty_selector():
 
 	targets = selector.eval(game.player1.hand, game.player1)
 	assert not targets
-
-
-def main():
-	for name, f in globals().items():
-		if name.startswith("test_") and callable(f):
-			f()
-	print("All tests ran OK")
-
-
-if __name__ == "__main__":
-	main()
