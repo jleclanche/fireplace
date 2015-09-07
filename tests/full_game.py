@@ -35,10 +35,13 @@ def main():
 		# iterate over our hand and play whatever is playable
 		for card in game.current_player.hand:
 			if card.is_playable():
+				target = None
+				choice = None
 				if card.has_target():
-					card.play(target=random.choice(card.targets))
-				else:
-					card.play()
+					target = random.choice(card.targets)
+				if card.data.choose_cards:
+					choice = random.choice(card.data.choose_cards)
+				card.play(target=target, choose=choice)
 			else:
 				print("Not playing", card)
 
