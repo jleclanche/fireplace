@@ -103,6 +103,14 @@ class BRMA03_3H:
 	update = Refresh(ALL_HERO_POWERS + ID("BRMA03_2"), {GameTag.CANT_PLAY: True})
 
 
+# Corrupted Egg
+class BRMA10_4:
+	update = (Attr(SELF, "health") >= 4) & (Destroy(SELF), Summon(CONTROLLER, "BRMA10_5"))
+
+class BRMA10_4H:
+	update = (Attr(SELF, "health") >= 5) & (Destroy(SELF), Summon(CONTROLLER, "BRMA10_5H"))
+
+
 # Firesworn
 class BRMA04_3:
 	deathrattle = Hit(ENEMY_HERO, Count(ID("BRMA04_3") + KILLED_THIS_TURN))
