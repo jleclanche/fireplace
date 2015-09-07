@@ -784,7 +784,7 @@ class HeroPower(PlayableCard):
 			ret += self.game.queue_actions(self, actions)
 
 		for minion in self.controller.field.filter(has_inspire=True):
-			actions = self.get_actions("inspire")
+			actions = minion.get_actions("inspire")
 			if actions is None:
 				raise NotImplementedError("Missing inspire script for %r" % (minion))
 			if actions:
