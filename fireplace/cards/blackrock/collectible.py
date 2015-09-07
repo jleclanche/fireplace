@@ -53,6 +53,15 @@ class BRM_016:
 	events = SELF_DAMAGE.on(Hit(ENEMY_HERO, 2))
 
 
+# Dragon Consort
+class BRM_018:
+	play = Buff(CONTROLLER, "BRM_018e")
+
+
+class BRM_018e:
+	events = Play(CONTROLLER, DRAGON).on(Destroy(SELF))
+
+
 # Grim Patron
 class BRM_019:
 	events = SELF_DAMAGE.on(Dead(SELF) | Summon(CONTROLLER, "BRM_019"))
