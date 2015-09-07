@@ -126,9 +126,7 @@ class EX1_334:
 	play = Steal(TARGET), Buff(TARGET, "EX1_334e")
 
 class EX1_334e:
-	events = [
-		TURN_END.on(Destroy(SELF))
-	]
+	events = TURN_END.on(Destroy(SELF))
 
 	def destroy(self):
 		self.controller.opponent.steal(self.owner)
