@@ -984,6 +984,43 @@ def test_sword_of_justice():
 	assert not wisp2.buffs
 
 
+def test_sylvanas_windrunner():
+	game = prepare_game()
+	sylvanas1 = game.player1.give("EX1_016")
+	sylvanas1.play()
+	sylvanas1.destroy()
+	assert len(game.player1.field) == 0
+	game.end_turn(); game.end_turn()
+
+	wisp = game.player2.summon(WISP)
+	sylvanas2 = game.player1.give("EX1_016")
+	sylvanas2.play()
+	assert wisp in game.player2.field
+	sylvanas2.destroy()
+	assert wisp in game.player1.field
+
+
+def test_sylvanas_windrunner_kel_thuzad():
+	# Test for https://github.com/HearthSim/hs-bugs/issues/137
+	game = prepare_game()
+	sylvanas = game.player2.summon("EX1_016")
+	wisp = game.player1.summon(WISP)
+	game.player1.give(MOONFIRE).play(target=wisp)
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 1
+	sylvanas.destroy()
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 0
+	kel_thuzad = game.player1.give("FP1_013")
+	kel_thuzad.play()
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 0
+	game.end_turn()
+
+	assert len(game.player1.field) == 2
+	assert len(game.player2.field) == 0
+
+
 def test_emperor_thaurissan():
 	game = prepare_game()
 	thaurissan = game.player1.give("BRM_028")
