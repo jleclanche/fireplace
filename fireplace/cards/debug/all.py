@@ -120,6 +120,11 @@ class XXX_023:
 	play = Destroy(ALL_HEROES)
 
 
+# Damage Reflector
+class XXX_024:
+	events = Damage(SELF).on(Hit(ALL_CHARACTERS - SELF, 1))
+
+
 # Do Nothing
 class XXX_025:
 	pass
