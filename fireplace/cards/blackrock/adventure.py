@@ -103,6 +103,14 @@ class BRMA03_3H:
 	update = Refresh(ALL_HERO_POWERS + ID("BRMA03_2"), {GameTag.CANT_PLAY: True})
 
 
+# Firesworn
+class BRMA04_3:
+	deathrattle = Hit(ENEMY_HERO, Count(ID("BRMA04_3") + KILLED_THIS_TURN))
+
+class BRMA04_3H:
+	deathrattle = Hit(ENEMY_HERO, Count(ID("BRMA04_3H") + KILLED_THIS_TURN))
+
+
 # Son of the Flame
 class BRMA13_5:
 	play = Hit(TARGET, 6)
