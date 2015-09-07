@@ -139,6 +139,11 @@ class BRM_001:
 	cost = lambda self, i: i - len(self.game.minions_killed_this_turn)
 
 
+# Melt (Unused)
+class BRM_001e:
+	atk = SET(0)
+
+
 # Dragon's Breath
 class BRM_003:
 	play = Hit(TARGET, 4)
