@@ -825,6 +825,16 @@ def test_siltfin_spiritwalker():
 	assert len(game.player1.hand) == 1
 
 
+def test_silver_hand_regent():
+	game = prepare_game(HUNTER, HUNTER)
+	regent = game.player1.give("AT_100")
+	regent.play()
+	assert len(game.player1.field) == 1
+	game.player1.hero.power.use()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1].id == "CS2_101t"
+
+
 def test_skycapn_kragg():
 	game = prepare_game()
 	kragg = game.player1.give("AT_070")
