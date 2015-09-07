@@ -222,6 +222,11 @@ class NAX6_04:
 	play = Hit(ENEMY_MINIONS, 1), Summon(CONTROLLER, "NAX6_03t")
 
 
+# Mind Control Crystal
+class NAX7_05:
+	play = Steal(ENEMY_MINIONS + ID("NAX7_02"))
+
+
 # Mark of the Horsemen
 class NAX9_07:
 	play = Buff(FRIENDLY + (WEAPON | MINION), "NAX9_07e")
