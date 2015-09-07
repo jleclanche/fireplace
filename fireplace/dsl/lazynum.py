@@ -10,7 +10,7 @@ class LazyNum:
 
 	def _cmp(op):
 		def func(self, other):
-			if isinstance(other, int):
+			if isinstance(other, (int, LazyNum)):
 				# When comparing a LazyNum with an int, turn it into an
 				# Evaluator that compares the int to the result of the LazyNum
 				return LazyNumEvaluator(self, other, getattr(operator, op))
@@ -41,7 +41,10 @@ class LazyNumEvaluator(Evaluator):
 
 	def evaluate(self, source):
 		num = self.num.evaluate(source)
-		return self.cmp(num, self.other)
+		other = self.other
+		if isinstance(other, LazyNum):
+			other = other.evaluate(source)
+		return self.cmp(num, other)
 
 
 class Count(LazyNum):
