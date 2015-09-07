@@ -583,6 +583,31 @@ def test_stealth_windfury():
 	assert len(archer.targets) == 3
 
 
+def test_stealth_taunt():
+	game = prepare_game()
+	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire.play()
+	assert goldshire.taunt
+	masterofdisguise = game.player1.give("NEW1_014")
+	masterofdisguise.play(target=goldshire)
+	assert goldshire.taunt
+	assert goldshire.stealthed
+	wisp = game.player2.summon(WISP)
+	game.end_turn()
+
+	assert goldshire not in wisp.targets
+	assert game.player1.hero in wisp.targets
+	game.end_turn()
+	
+	goldshire.attack(game.player2.hero)
+	assert goldshire.taunt
+	assert not goldshire.stealthed
+	game.end_turn()
+	
+	assert goldshire in wisp.targets
+	assert game.player1.hero not in wisp.targets
+
+
 def test_tags():
 	game = prepare_game()
 	alakir = game.current_player.give("NEW1_010")
