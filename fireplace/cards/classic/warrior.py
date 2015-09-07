@@ -114,7 +114,10 @@ class EX1_607:
 
 # Commanding Shout
 class NEW1_036:
-	play = Buff(FRIENDLY_MINIONS, "NEW1_036e")
+	play = Buff(FRIENDLY_MINIONS, "NEW1_036e"), Buff(FRIENDLY_HERO, "NEW1_036e2")
+
+class NEW1_036e2:
+	events = Summon(CONTROLLER, MINION).on(Buff(Summon.Args.CARDS, "NEW1_036e"))
 
 
 # Warsong Commander
