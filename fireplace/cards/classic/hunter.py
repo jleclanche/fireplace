@@ -114,6 +114,13 @@ class NEW1_031:
 ##
 # Secrets
 
+# Misdirection
+class EX1_533:
+	events = Attack(ALL_CHARACTERS, FRIENDLY_HERO).on(
+		Retarget(Attack.Args.ATTACKER, RANDOM(ALL_CHARACTERS - FRIENDLY_HERO))
+	)
+
+
 # Snake Trap
 class EX1_554:
 	events = Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(
