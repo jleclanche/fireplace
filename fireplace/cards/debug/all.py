@@ -136,6 +136,11 @@ class XXX_027:
 		raise SystemError("Fool!")
 
 
+# Opponent Concede
+class XXX_029:
+	play = Concede(OPPONENT)
+
+
 # Become Hogger
 class XXX_039:
 	play = Summon(CONTROLLER, "XXX_040")
