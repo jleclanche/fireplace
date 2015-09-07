@@ -36,6 +36,20 @@ class BRMA04_2:
 	activate = Hit(ALL_MINIONS, 1)
 
 
+# Ignite Mana
+class BRMA05_2:
+	activate = (
+		(Attr(OPPONENT, GameTag.RESOURCES) <= Attr(OPPONENT, GameTag.RESOURCES_USED)) &
+		Hit(ENEMY_HERO, 5)
+	)
+
+class BRMA05_2H:
+	activate = (
+		(Attr(OPPONENT, GameTag.RESOURCES) <= Attr(OPPONENT, GameTag.RESOURCES_USED)) &
+		Hit(ENEMY_HERO, 10)
+	)
+
+
 # The Majordomo
 class BRMA06_2:
 	activate = Summon(CONTROLLER, "BRMA06_4")
