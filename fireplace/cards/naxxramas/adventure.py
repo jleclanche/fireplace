@@ -113,6 +113,15 @@ class NAX15_02H:
 
 
 # Chains
+class NAX15_04:
+	play = Steal(TARGET), Buff(TARGET, "NAX15_04a")
+
+class NAX15_04a:
+	events = TURN_END.on(Destroy(SELF))
+
+	def destroy(self):
+		self.controller.opponent.steal(self.owner)
+
 class NAX15_04H:
 	activate = Steal(RANDOM_ENEMY_MINION)
 
