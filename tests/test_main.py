@@ -3306,6 +3306,20 @@ def test_lorewalker_cho():
 	game.current_player.give(THE_COIN).play()
 
 
+def test_lowly_squire():
+	game = prepare_game(HUNTER, HUNTER)
+	squire = game.player1.give("AT_082")
+	squire.play()
+	assert squire.atk == 1
+	game.player1.hero.power.use()
+	assert squire.atk == 2
+	game.end_turn(); game.end_turn()
+
+	assert squire.atk == 2
+	game.player1.hero.power.use()
+	assert squire.atk == 3
+
+
 def test_lava_shock():
 	game = prepare_game()
 	game.player1.give("EX1_243").play()
