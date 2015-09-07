@@ -98,6 +98,14 @@ class BRMA11_2H:
 	activate = Draw(ALL_PLAYERS) * 3, GainMana(CONTROLLER, 1)
 
 
+# Wild Magic
+class BRMA13_4:
+	activate = Give(CONTROLLER, RandomSpell(card_class=Attr(TARGET, GameTag.CLASS)))
+
+class BRMA13_4H:
+	activate = Give(CONTROLLER, RandomSpell(card_class=Attr(TARGET, GameTag.CLASS)))
+
+
 # Echolocate
 class BRMA16_2:
 	activate = Summon(CONTROLLER, "BRMA16_5")
