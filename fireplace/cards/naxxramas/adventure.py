@@ -264,6 +264,20 @@ class NAX14_04:
 ##
 # Weapons
 
+# Runeblade
+class NAX9_05:
+	update = (
+		Find(ID("NAX9_02") | ID("NAX9_03") | ID("NAX9_04")) &
+		Refresh(SELF, {GameTag.ATK: +3})
+	)
+
+class NAX9_05H:
+	update = (
+		Find(ID("NAX9_02H") | ID("NAX9_03H") | ID("NAX9_04H")) &
+		Refresh(SELF, {GameTag.ATK: +6})
+	)
+
+
 # Hook
 class NAX10_02:
 	deathrattle = Give(CONTROLLER, "NAX10_02")
