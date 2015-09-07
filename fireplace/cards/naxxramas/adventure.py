@@ -90,6 +90,9 @@ class NAX12_02:
 class NAX12_02H:
 	activate = Buff(ENEMY_MINIONS, "NAX12_02e")
 
+class NAX12_02e:
+	max_health = SET(1)
+
 
 # Polarity Shift
 class NAX13_02:
