@@ -114,6 +114,11 @@ class EX1_561e:
 	max_health = SET(15)
 
 
+# Onyxia
+class EX1_562:
+	play = Summon(CONTROLLER, "ds1_whelptoken") * 7
+
+
 # Ysera
 class EX1_572:
 	events = OWN_TURN_END.on(
