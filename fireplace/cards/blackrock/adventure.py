@@ -66,6 +66,21 @@ class BRMA07_2H:
 	activate = Destroy(RANDOM_ENEMY_MINION)
 
 
+# Intense Gaze
+class BRMA08_2:
+	update = (
+		Refresh(ALL_PLAYERS, {GameTag.MAXRESOURCES: SET(1)}),
+		Refresh(IN_HAND, {GameTag.COST: SET(1)})
+	)
+
+class BRMA08_2H:
+	update = (
+		Refresh(CONTROLLER, {GameTag.MAXRESOURCES: SET(2)}),
+		Refresh(OPPONENT, {GameTag.MAXRESOURCES: SET(1)}),
+		Refresh(IN_HAND, {GameTag.COST: SET(1)})
+	)
+
+
 # The Rookery
 class BRMA10_3:
 	activate = Buff(ALL_MINIONS + ID("BRMA10_4"), "BRMA10_3e"), Summon(CONTROLLER, "BRMA10_4")
