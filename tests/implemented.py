@@ -47,6 +47,7 @@ DUMMY_CARDS = (
 	"EX1_246e",  # Hexxed
 	"Mekka4e",  # Transformed
 	"NEW1_025e",  # Bolstered (Unused)
+	"XXX_009e",  # Empty Enchant
 	"XXX_058e",  # Weapon Nerf Enchant
 
 	# Dynamic buffs set by their parent
