@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import argparse
 import importlib
 import re
 import string
@@ -73,6 +74,25 @@ def main():
 	impl = 0
 	unimpl = 0
 
+	p = argparse.ArgumentParser()
+	p.add_argument(
+		"--implemented",
+		action="store_true",
+		dest="implemented",
+		help="Show only implemented cards"
+	)
+	p.add_argument(
+		"--unimplemented",
+		action="store_true",
+		dest="unimplemented",
+		help="Show only unimplemented cards"
+	)
+	args = p.parse_args(sys.argv[1:])
+
+	if not args.implemented and not args.unimplemented:
+		args.implemented = True
+		args.unimplemented = True
+
 	for id in sorted(cards.db):
 		card = cards.db[id]
 		description = cleanup_description(card.description)
@@ -102,12 +122,15 @@ def main():
 
 		color = GREEN if implemented else RED
 		name = color + "%s: %s" % (PREFIXES[color], card.name) + ENDC
-		print("%s (%s)" % (name, id))
 
 		if implemented:
 			impl += 1
+			if args.implemented:
+				print("%s (%s)" % (name, id))
 		else:
 			unimpl += 1
+			if args.unimplemented:
+				print("%s (%s)" % (name, id))
 
 	total = impl + unimpl
 
