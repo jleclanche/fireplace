@@ -2189,6 +2189,44 @@ def test_betrayal_poisonous():
 	assert not cobra.dead
 	assert watcher2.dead
 
+def test_gormok_the_impaler():
+	game = prepare_game()
+	yeti = game.player1.give("CS2_182")
+	dummy1 = game.player1.give(TARGET_DUMMY)
+	yeti.play()
+	dummy1.play()
+	game.end_turn()
+
+	gormok1 = game.player2.give("AT_122")
+	assert not gormok1.has_target()
+	gormok1.play()
+	assert game.player1.hero.health == game.player1.hero.max_health
+	assert yeti.health == 5
+	assert dummy1.health == 2
+
+	game.player2.discard_hand()
+	gormok2 = game.player2.give("AT_122")
+	wisp1 = game.player2.give(WISP)
+	wisp2 = game.player2.give(WISP)
+	dummy2 = game.player2.give(TARGET_DUMMY)
+	wisp1.play()
+	wisp2.play()
+	dummy2.play()
+	assert len(game.player2.field) == 4
+	assert gormok2.has_target()
+	assert game.player1.hero in gormok2.targets
+	assert game.player2.hero in gormok2.targets
+	assert yeti in gormok2.targets
+	assert dummy1 in gormok2.targets
+	assert gormok1 in gormok2.targets
+	assert wisp1 in gormok2.targets
+	assert wisp2 in gormok2.targets
+	assert dummy2 in gormok2.targets
+
+	gormok2.play(target=yeti)
+	assert yeti.health == 1
+	assert gormok2.atk == 4
+	assert gormok2.health == 4
 
 def test_big_game_hunter():
 	game = prepare_game()
