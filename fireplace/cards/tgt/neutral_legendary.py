@@ -16,7 +16,7 @@ class AT_070:
 
 # Gormok the Impaler
 class AT_122:
-	play = Hit(TARGET, 4)
+	play = (Count(FRIENDLY_MINIONS) >= 4) & Hit(TARGET, 4)
 
 
 # Chillmaw
