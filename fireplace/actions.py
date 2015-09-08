@@ -268,6 +268,34 @@ class Play(GameAction):
 		card.choose = None
 
 
+class Activate(GameAction):
+	class Args(Action.Args):
+		PLAYER = 0
+		HEROPOWER = 1
+		TARGET = 2
+
+	def get_args(self, source):
+		return (source, ) + super().get_args(source)
+
+	def do(self, source, player, heropower, target=None):
+		ret = []
+
+		self.broadcast(source, EventListener.ON, heropower, target);
+
+		actions = heropower.get_actions("activate")
+		if actions:
+			ret += source.game.queue_actions(heropower, actions)
+
+		for minion in player.field.filter(has_inspire=True):
+			actions = minion.get_actions("inspire")
+			if actions is None:
+				raise NotImplementedError("Missing inspire script for %r" % (minion))
+			if actions:
+				ret += source.game.queue_actions(minion, actions)
+
+		return ret
+
+
 class TargetedAction(Action):
 	class Args(Action.Args):
 		TARGETS = 0

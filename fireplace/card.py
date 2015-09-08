@@ -1,6 +1,6 @@
 from itertools import chain
 from . import cards as CardDB, rules
-from .actions import Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
+from .actions import Activate, Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
 from .aura import TargetableByAuras
 from .entity import Entity, boolean_property, int_property
 from .enums import CardType, PlayReq, Race, Rarity, Zone
@@ -758,20 +758,7 @@ class HeroPower(PlayableCard):
 		super()._set_zone(value)
 
 	def activate(self):
-		actions = self.get_actions("activate")
-
-		ret = []
-		if actions:
-			ret += self.game.queue_actions(self, actions)
-
-		for minion in self.controller.field.filter(has_inspire=True):
-			actions = minion.get_actions("inspire")
-			if actions is None:
-				raise NotImplementedError("Missing inspire script for %r" % (minion))
-			if actions:
-				ret += self.game.queue_actions(minion, actions)
-
-		return ret
+		return self.game.queue_actions(self.controller, [Activate(self, self.target)])
 
 	def hit(self, target, amount):
 		amount += self.controller.heropower_damage
