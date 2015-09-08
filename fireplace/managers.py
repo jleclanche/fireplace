@@ -158,7 +158,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.INSPIRE: "has_inspire",
 	GameTag.NUM_ATTACKS_THIS_TURN: "num_attacks",
 	GameTag.NUM_TURNS_IN_PLAY: "turns_in_play",
-	GameTag.OneTurnEffect: "one_turn_effect",
+	GameTag.TAG_ONE_TURN_EFFECT: "one_turn_effect",
 	GameTag.OUTGOING_HEALING_ADJUSTMENT: "outgoing_healing_adjustment",
 	GameTag.POISONOUS: "poisonous",
 	GameTag.RARITY: "rarity",
