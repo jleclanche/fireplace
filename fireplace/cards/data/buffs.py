@@ -186,11 +186,6 @@ CS2_074e = buff(atk=2)
 # Sharpened (Unused)
 CS2_083e = buff(atk=1)
 
-# Conceal
-EX1_128e = {
-	GameTag.STEALTH: True,
-}
-
 
 ##
 # Shaman
@@ -582,11 +577,6 @@ GVG_106e = buff(+2, +2)
 
 # Armor Plating
 PART_001e = buff(health=1)
-
-# Cloaked (Finicky Cloakfield)
-PART_004e = {
-	GameTag.STEALTH: True,
-}
 
 # Switched (Reversing Switch)
 PART_006a = {
