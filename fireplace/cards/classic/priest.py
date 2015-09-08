@@ -42,7 +42,7 @@ class EX1_350:
 	update = Refresh(CONTROLLER, {
 		GameTag.HEALING_DOUBLE: 1,
 		GameTag.SPELLPOWER_DOUBLE: 1,
-		GameTag.TAG_HERO_POWER_DOUBLE: 1,
+		GameTag.HERO_POWER_DOUBLE: 1,
 	})
 
 
