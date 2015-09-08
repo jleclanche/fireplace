@@ -2717,6 +2717,18 @@ def test_auchenai_soulpriest():
 	assert auchenai.health == 1
 
 
+def test_auchenai_soulpriest_divine_shield():
+	game = prepare_game(PRIEST, PRIEST)
+	gurubashi =  game.player1.summon("EX1_399")
+	auchenai = game.player1.summon("EX1_591")
+	game.player1.give(HAND_OF_PROTECTION).play(target=gurubashi)
+	assert gurubashi.divine_shield
+	game.player1.hero.power.use(target=gurubashi)
+	assert not gurubashi.divine_shield
+	assert gurubashi.atk == 2
+	assert gurubashi.health == 7
+
+
 def test_blessing_of_wisdom():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)

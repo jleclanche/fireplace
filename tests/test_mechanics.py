@@ -229,27 +229,47 @@ def test_discard_enchanted_cards():
 
 
 def test_divine_shield():
-	game = prepare_game()
-	squire = game.current_player.give("EX1_008")
+	game = prepare_game(MAGE, MAGE)
+	squire = game.player1.give("EX1_008")
 	squire.play()
 	assert squire.divine_shield
-	game.current_player.give(MOONFIRE).play(target=squire)
-	assert len(game.current_player.field) == 1
+	game.player1.give(MOONFIRE).play(target=squire)
+	assert len(game.player1.field) == 1
 	assert not squire.divine_shield
-	game.current_player.give(MOONFIRE).play(target=squire)
-	assert len(game.current_player.field) == 0
+	game.player1.give(MOONFIRE).play(target=squire)
+	assert len(game.player1.field) == 0
 	assert not squire.divine_shield
 	game.end_turn(); game.end_turn()
 
-	# test damage events with Divine Shield
-	gurubashi = game.current_player.summon("EX1_399")
+	# test spell damage events with Divine Shield
+	gurubashi = game.player1.summon("EX1_399")
 	assert gurubashi.atk == 2
 	assert gurubashi.health == 7
 	assert not gurubashi.divine_shield
-	prot = game.current_player.give(HAND_OF_PROTECTION)
-	prot.play(target=gurubashi)
+	game.player1.give(HAND_OF_PROTECTION).play(target=gurubashi)
 	assert gurubashi.divine_shield
-	game.current_player.give(MOONFIRE).play(target=gurubashi)
+	game.player1.give(MOONFIRE).play(target=gurubashi)
+	assert not gurubashi.divine_shield
+	assert gurubashi.atk == 2
+	assert gurubashi.health == 7
+
+	# test hero power damage events with Divine Shield
+	game.player1.give(HAND_OF_PROTECTION).play(target=gurubashi)
+	assert gurubashi.divine_shield
+	game.end_turn()
+
+	game.player2.hero.power.use(target=gurubashi)
+	assert not gurubashi.divine_shield
+	assert gurubashi.atk == 2
+	assert gurubashi.health == 7
+	game.end_turn()
+
+	# test combat damage events with Divine Shield
+	wisp = game.player2.summon(WISP)
+	game.player1.give(HAND_OF_PROTECTION).play(target=gurubashi)
+	assert gurubashi.divine_shield
+	gurubashi.attack(target=wisp)
+	assert wisp.dead
 	assert not gurubashi.divine_shield
 	assert gurubashi.atk == 2
 	assert gurubashi.health == 7
