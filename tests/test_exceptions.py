@@ -59,6 +59,16 @@ def test_play_choose_without_choice():
 		powerofwild.play()
 
 
+def test_play_game_over():
+	game = prepare_game()
+	moonfire = game.player1.give(MOONFIRE)
+	game.player2.hero.set_current_health(1)
+	with pytest.raises(GameOver):
+		moonfire.play(target=game.player2.hero)
+	assert game.player1.playstate == PlayState.WON
+	assert game.player2.playstate == PlayState.LOST
+
+
 def test_attack_without_charge():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
@@ -113,6 +123,18 @@ def test_attack_own_minion():
 		game.player1.hero.attack(wisp)
 
 
+def test_attack_game_over():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn(); game.end_turn()
+	game.player2.hero.set_current_health(1)
+	with pytest.raises(GameOver):
+		wisp.attack(target=game.player2.hero)
+	assert game.player1.playstate == PlayState.WON
+	assert game.player2.playstate == PlayState.LOST
+
+
 def test_hero_power_on_wrong_turn():
 	game = prepare_game(WARRIOR, WARRIOR)
 	game.end_turn()
@@ -132,3 +154,20 @@ def test_hero_power_without_target():
 	game = prepare_game(MAGE, MAGE)
 	with pytest.raises(InvalidAction):
 		game.player1.hero.power.use()
+
+
+def test_hero_power_game_over():
+	game = prepare_game(MAGE, MAGE)
+	game.player2.hero.set_current_health(1)
+	with pytest.raises(GameOver):
+		game.player1.hero.power.use(target=game.player2.hero)
+	assert game.player1.playstate == PlayState.WON
+	assert game.player2.playstate == PlayState.LOST
+
+
+def test_hero_destroy_game_over():
+	game = prepare_game()
+	with pytest.raises(GameOver):
+		game.player2.hero.destroy()
+	assert game.player1.playstate == PlayState.WON
+	assert game.player2.playstate == PlayState.LOST
