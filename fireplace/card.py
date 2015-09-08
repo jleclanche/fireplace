@@ -13,9 +13,8 @@ from .exceptions import InvalidAction
 THE_COIN = "GAME_005"
 
 
-def Card(id, data=None):
-	if data is None:
-		data = getattr(CardDB, id)
+def Card(id):
+	data = getattr(CardDB, id)
 	subclass = {
 		CardType.HERO: Hero,
 		CardType.MINION: Minion,
@@ -26,7 +25,7 @@ def Card(id, data=None):
 	}[data.type]
 	if subclass is Spell and data.secret:
 		subclass = Secret
-	return subclass(id, data)
+	return subclass(data)
 
 
 class BaseCard(Entity):
@@ -36,12 +35,12 @@ class BaseCard(Entity):
 	max_health = int_property("max_health")
 	cost = int_property("cost")
 
-	def __init__(self, id, data):
+	def __init__(self, data):
 		self.data = data
 		super().__init__()
 		self.slots = []
 		self.requirements = data.requirements.copy()
-		self.id = id
+		self.id = data.id
 		self.controller = None
 		self.aura = False
 		self.heropower_damage = 0
@@ -112,7 +111,7 @@ class BaseCard(Entity):
 class PlayableCard(BaseCard, TargetableByAuras):
 	windfury = boolean_property("windfury")
 
-	def __init__(self, id, data):
+	def __init__(self, data):
 		self.cant_play = False
 		self.entourage = CardList(data.entourage)
 		self.has_battlecry = False
@@ -120,7 +119,7 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		self.overload = 0
 		self.target = None
 		self.rarity = Rarity.INVALID
-		super().__init__(id, data)
+		super().__init__(data)
 
 	@property
 	def events(self):
@@ -323,8 +322,8 @@ class PlayableCard(BaseCard, TargetableByAuras):
 
 
 class LiveEntity(PlayableCard):
-	def __init__(self, *args):
-		super().__init__(*args)
+	def __init__(self, data):
+		super().__init__(data)
 		self._to_be_destroyed = False
 		self._damage = 0
 
@@ -351,7 +350,7 @@ class Character(LiveEntity):
 	immune = boolean_property("immune")
 	min_health = boolean_property("min_health")
 
-	def __init__(self, *args):
+	def __init__(self, data):
 		self.attacking = False
 		self.frozen = False
 		self.cant_attack = False
@@ -360,7 +359,7 @@ class Character(LiveEntity):
 		self.num_attacks = 0
 		self.race = Race.INVALID
 		self._enrage = None
-		super().__init__(*args)
+		super().__init__(data)
 
 	@property
 	def attackable(self):
@@ -476,10 +475,10 @@ class Character(LiveEntity):
 
 
 class Hero(Character):
-	def __init__(self, id, data):
+	def __init__(self, data):
 		self.armor = 0
 		self.power = None
-		super().__init__(id, data)
+		super().__init__(data)
 
 	@property
 	def entities(self):
@@ -533,12 +532,12 @@ class Minion(Character):
 		"taunt", "windfury",
 	)
 
-	def __init__(self, id, data):
+	def __init__(self, data):
 		self.always_wins_brawls = False
 		self.divine_shield = False
 		self.enrage = False
 		self.poisonous = False
-		super().__init__(id, data)
+		super().__init__(data)
 
 	@property
 	def events(self):
@@ -636,10 +635,10 @@ class Minion(Character):
 
 
 class Spell(PlayableCard):
-	def __init__(self, *args):
+	def __init__(self, data):
 		self.immune_to_spellpower = False
 		self.receives_double_spelldamage_bonus = False
-		super().__init__(*args)
+		super().__init__(data)
 
 	def hit(self, target, amount):
 		if not self.immune_to_spellpower:
@@ -672,10 +671,10 @@ class Secret(Spell):
 
 
 class Enchantment(BaseCard):
-	def __init__(self, *args):
+	def __init__(self, data):
 		self.one_turn_effect = False
 		self.attack_health_swap = False
-		super().__init__(*args)
+		super().__init__(data)
 
 	def _getattr(self, attr, i):
 		if self.attack_health_swap:
