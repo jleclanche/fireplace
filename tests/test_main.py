@@ -5910,6 +5910,15 @@ def test_starfall_5_to_one():
 	assert snapjaw.health == 2
 
 
+def test_burgle():
+	game = prepare_empty_game()
+	burgle = game.player1.give("AT_033")
+	burgle.play()
+	assert len(game.player1.hand) == 2
+	assert game.player1.hand[0].card_class == game.player2.hero.card_class
+	assert game.player1.hand[1].card_class == game.player2.hero.card_class
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):
