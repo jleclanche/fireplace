@@ -51,6 +51,9 @@ class Refresh:
 
 				entity.refresh_tags(source, tags)
 
+	def __repr__(self):
+		return "Refresh(%r, %r, %r)" % (self.selector, self.tags or {}, self.buff or "")
+
 
 class TargetableByAuras:
 	def refresh_buff(self, source, id):

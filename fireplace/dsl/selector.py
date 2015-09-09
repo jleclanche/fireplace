@@ -40,12 +40,18 @@ class Selector:
 			name = ""
 			if hasattr(op, "__name__"):
 				name = op.__name__
+				if name == "_and":
+					name = "+"
+				elif name == "_not":
+					name = "-"
+				elif name == "_or":
+					name = "|"
 			elif isinstance(op, IntEnum):
 				name = op.name
 			else:
 				name = repr(op)
-			prog.append(name.lstrip("_"))
-		return "<{}: {}>".format(self.__class__.__name__, " ".join(prog))
+			prog.append(name)
+		return "<%s>" % (" ".join(prog))
 
 	def __or__(self, other):
 		result = Selector()
@@ -179,6 +185,9 @@ class SelfSelector(Selector):
 	Selects the source.
 	"""
 	class IsSelf:
+		def __repr__(self):
+			return "SELF"
+
 		def test(self, entity, source):
 			return entity is source
 
