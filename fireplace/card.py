@@ -355,7 +355,6 @@ class Character(LiveEntity):
 		self.cant_be_targeted_by_hero_powers = False
 		self.num_attacks = 0
 		self.race = Race.INVALID
-		self._enrage = None
 		super().__init__(data)
 
 	@property
@@ -434,21 +433,6 @@ class Character(LiveEntity):
 			amount = min(amount, self.max_health - self.min_health)
 
 		self._damage = amount
-
-		if self.enraged:
-			if not self._enrage:
-				self.log("Enraging %r", self)
-				self._enrage = Enrage(self.data.enrage_tags)
-				self._enrage.source = self
-				self.slots.append(self._enrage)
-		elif self._enrage:
-			self.log("Enrage fades from %r", self)
-			self.slots.remove(self._enrage)
-			self._enrage = None
-
-	@property
-	def enraged(self):
-		return False
 
 	@property
 	def health(self):
@@ -575,6 +559,14 @@ class Minion(Character):
 	@property
 	def enraged(self):
 		return self.enrage and self.damage
+
+	@property
+	def update_scripts(self):
+		ret = super().update_scripts
+		if self.enraged:
+			script = self.data.scripts.enrage
+			ret += (script, )
+		return ret
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
@@ -709,19 +701,6 @@ class Enchantment(BaseCard):
 			self.data.scripts.destroy(self)
 		self.zone = Zone.REMOVEDFROMGAME
 	_destroy = destroy
-
-
-class Enrage(object):
-	"""
-	Enrage class for Minion.enrage_tags
-	Enrage buffs are just a collection of tags for the enraged Minion's slots.
-	"""
-
-	def __init__(self, tags):
-		CardManager(self).update(tags)
-
-	def _getattr(self, attr, i):
-		return i + getattr(self, attr, 0)
 
 
 class Weapon(rules.WeaponRules, LiveEntity):

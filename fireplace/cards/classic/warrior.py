@@ -21,6 +21,11 @@ class EX1_402:
 	events = Damage(FRIENDLY_MINIONS).on(GainArmor(FRIENDLY_HERO, 1))
 
 
+# Grommash Hellscream
+class EX1_414:
+	enrage = Refresh(SELF, {GameTag.ATK: +6})
+
+
 # Cruel Taskmaster
 class EX1_603:
 	play = Buff(TARGET, "EX1_603e"), Hit(TARGET, 1)

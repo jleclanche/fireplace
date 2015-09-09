@@ -124,7 +124,7 @@ class CS2_203:
 
 # Spiteful Smith
 class CS2_221:
-	update = (Attr(SELF, GameTag.DAMAGE) > 0) & Refresh(FRIENDLY_WEAPON, buff="CS2_221e")
+	enrage = Refresh(FRIENDLY_WEAPON, buff="CS2_221e")
 
 
 # Venture Co. Mercenary
@@ -190,6 +190,21 @@ class EX1_096:
 # Frost Elemental
 class EX1_283:
 	play = Freeze(TARGET)
+
+
+# Tauren Warrior
+class EX1_390:
+	enrage = Refresh(SELF, {GameTag.ATK: +3})
+
+
+# Amani Berserker
+class EX1_393:
+	enrage = Refresh(SELF, {GameTag.ATK: +3})
+
+
+# Raging Worgen
+class EX1_412:
+	enrage = Refresh(SELF, {GameTag.ATK: +1, GameTag.WINDFURY: True})
 
 
 # Murloc Tidehunter

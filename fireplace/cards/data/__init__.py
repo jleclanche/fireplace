@@ -8,7 +8,6 @@ from xml.etree import ElementTree
 from fireplace.enums import GameTag
 import buffs
 import chooseone
-import enrage
 import missing_cards
 
 
@@ -27,14 +26,6 @@ def add_chooseone_tags(card, ids):
 		e.attrib["cardID"] = id
 		card.xml.append(e)
 	print("%s: Adding Choose One cards: %r" % (card.name, ids))
-
-
-def add_enrage_definition(card, tags):
-	definition = ElementTree.Element("EnrageDefinition")
-	for tag, value in tags.items():
-		e = _create_tag(tag, value)
-		definition.append(e)
-	card.xml.append(definition)
 
 
 def add_hero_power(card, id):
@@ -164,9 +155,6 @@ def main():
 
 		if hasattr(chooseone, id):
 			add_chooseone_tags(card, getattr(chooseone, id))
-
-		if hasattr(enrage, id):
-			add_enrage_definition(card, getattr(enrage, id))
 
 		if id in hero_powers:
 			add_hero_power(card, hero_powers[id])

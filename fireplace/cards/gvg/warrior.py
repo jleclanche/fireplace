@@ -4,6 +4,11 @@ from ..utils import *
 ##
 # Minions
 
+# Warbot
+class GVG_051:
+	enrage = Refresh(SELF, {GameTag.ATK: +1})
+
+
 # Shieldmaiden
 class GVG_053:
 	play = GainArmor(FRIENDLY_HERO, 5)
