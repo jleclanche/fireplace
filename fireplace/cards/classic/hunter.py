@@ -23,6 +23,7 @@ class CS2_237:
 
 # Houndmaster
 class DS1_070:
+	powered_up = Find(FRIENDLY_MINIONS + BEAST)
 	play = Buff(TARGET, "DS1_070o")
 
 
@@ -84,7 +85,8 @@ class EX1_538:
 
 # Kill Command
 class EX1_539:
-	play = Find(FRIENDLY_MINIONS + BEAST) & Hit(TARGET, 5) | Hit(TARGET, 3)
+	powered_up = Find(FRIENDLY_MINIONS + BEAST)
+	play = powered_up & Hit(TARGET, 5) | Hit(TARGET, 3)
 
 
 # Flare

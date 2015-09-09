@@ -151,13 +151,10 @@ class PlayableCard(BaseCard, TargetableByAuras):
 	def powered_up(self):
 		"""
 		Returns True whether the card is "powered up".
-		Currently, this only applies to some cards which require a minion with a
-		specific race on the field.
 		"""
-		for req in self.data.powerup_requirements:
-			for minion in self.controller.field:
-				if minion.race == req:
-					return True
+		script = getattr(self.data.scripts, "powered_up", None)
+		if script:
+			return script.evaluate(self)
 		return False
 
 	@property

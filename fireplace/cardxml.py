@@ -16,9 +16,6 @@ class CardXML(object):
 		e = self.xml.findall("Power[PlayRequirement]/PlayRequirement")
 		self.requirements = self._getRequirements(e)
 
-		e = self.xml.findall("PowerUpRequirement")
-		self.powerup_requirements = [Race(int(tag.attrib["param"])) for tag in e]
-
 		e = self.xml.findall("./EnrageDefinition/Tag")
 		self.enrage_tags = {
 			GameTag(int(tag.attrib["enumID"])): self._get_tag(tag) for tag in e

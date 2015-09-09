@@ -34,7 +34,8 @@ class GVG_035:
 
 # Druid of the Fang
 class GVG_080:
-	play = Find(FRIENDLY_MINIONS + BEAST) & Morph(SELF, "GVG_080t")
+	powered_up = Find(FRIENDLY_MINIONS + BEAST)
+	play = powered_up & Morph(SELF, "GVG_080t")
 
 
 ##

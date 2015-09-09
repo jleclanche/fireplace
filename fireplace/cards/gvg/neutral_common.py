@@ -61,9 +61,8 @@ class GVG_096:
 
 # Tinkertown Technician
 class GVG_102:
-	play = (Find(FRIENDLY_MINIONS + MECH) & (
-		Buff(SELF, "GVG_102e"), Give(CONTROLLER, RandomSparePart())
-	))
+	powered_up = Find(FRIENDLY_MINIONS + MECH)
+	play = powered_up & (Buff(SELF, "GVG_102e"), Give(CONTROLLER, RandomSparePart()))
 
 
 # Micro Machine

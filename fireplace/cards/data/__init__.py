@@ -10,7 +10,6 @@ import buffs
 import chooseone
 import enrage
 import missing_cards
-import powerups
 
 
 italicize = [
@@ -43,14 +42,6 @@ def add_hero_power(card, id):
 	e.attrib["cardID"] = id
 	card.xml.append(e)
 	print("%s: Adding hero power %r" % (card, id))
-
-
-def add_powerup_requirements(card, race):
-	req = ElementTree.Element("PowerUpRequirement")
-	req.attrib["reqID"] = "1"
-	req.attrib["param"] = str(int(race))
-	card.xml.append(req)
-	print("%s: Adding POWERED_UP definition of %r" % (card.name, race))
 
 
 def fix_entourage(card, guids):
@@ -179,9 +170,6 @@ def main():
 
 		if id in hero_powers:
 			add_hero_power(card, hero_powers[id])
-
-		if hasattr(powerups, id):
-			add_powerup_requirements(card, getattr(powerups, id))
 
 		if re.match(r"^PART_\d+$", id):
 			# Hearthstone uses entourage data to identify Spare Parts

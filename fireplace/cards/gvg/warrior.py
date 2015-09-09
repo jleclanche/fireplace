@@ -11,6 +11,7 @@ class GVG_053:
 
 # Screwjank Clunker
 class GVG_055:
+	powered_up = Find(FRIENDLY_MINIONS + MECH)
 	play = Buff(TARGET, "GVG_055e")
 
 
