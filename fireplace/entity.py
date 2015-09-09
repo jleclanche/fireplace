@@ -5,6 +5,7 @@ from .utils import fireplace_logger
 class Entity(object):
 	base_events = []
 	logger = fireplace_logger
+	ignore_scripts = False
 
 	def __init__(self):
 		self.manager = self.Manager(self)
@@ -28,7 +29,7 @@ class Entity(object):
 	@property
 	def update_scripts(self):
 		ret = []
-		if self.data and not self.silenced:
+		if self.data and not self.ignore_scripts:
 			scripts = getattr(self.data.scripts, "update", ())
 			if not hasattr(scripts, "__iter__"):
 				ret.append(scripts)
@@ -41,7 +42,7 @@ class Entity(object):
 		i += getattr(self, "_" + attr, 0)
 		for slot in self.slots:
 			i = slot._getattr(attr, i)
-		if self.silenced:
+		if self.ignore_scripts:
 			return i
 		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
 

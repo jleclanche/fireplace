@@ -44,7 +44,6 @@ class BaseCard(Entity):
 		self.controller = None
 		self.aura = False
 		self.heropower_damage = 0
-		self.silenced = False
 		self.spellpower = 0
 		self.turns_in_play = 0
 		self._zone = Zone.INVALID
@@ -518,6 +517,7 @@ class Minion(Character):
 		self.divine_shield = False
 		self.enrage = False
 		self.poisonous = False
+		self.silenced = False
 		super().__init__(data)
 
 	@property
@@ -526,6 +526,10 @@ class Minion(Character):
 		if self.poisonous:
 			ret += rules.Poisonous
 		return ret
+
+	@property
+	def ignore_scripts(self):
+		return self.silenced
 
 	@property
 	def adjacent_minions(self):
