@@ -149,9 +149,6 @@ class GameTag(IntEnum):
 	ATTACK_HEALTH_SWAP = -11
 	KILLED_THIS_TURN = -12
 
-	def test(self, entity, *args):
-		return bool(entity.tags.get(self))
-
 
 ##
 # Card enums
@@ -207,9 +204,6 @@ class CardType(IntEnum):
 	ITEM = 8
 	TOKEN = 9
 	HERO_POWER = 10
-
-	def test(self, entity, *args):
-		return self == entity.type
 
 
 class Faction(IntEnum):
@@ -311,9 +305,6 @@ class Race(IntEnum):
 	# Alias for PET
 	BEAST = 20
 
-	def test(self, entity, *args):
-		return self == getattr(entity, "race", Race.INVALID)
-
 
 class Rarity(IntEnum):
 	INVALID = 0
@@ -336,9 +327,6 @@ class Zone(IntEnum):
 
 	# Fireplace-specific zone
 	DISCARD = -1
-
-	def test(self, entity, *args):
-		return self == getattr(entity, "zone", Zone.INVALID)
 
 
 ##
