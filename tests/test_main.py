@@ -692,7 +692,7 @@ def test_dragonhawk_rider():
 	rider = game.player1.give("AT_083")
 	rider.play()
 	game.end_turn(); game.end_turn()
-	
+
 	assert not rider.windfury
 	game.player1.hero.power.use()
 	assert rider.windfury
@@ -2409,6 +2409,7 @@ def test_hunters_mark():
 	mark = game.current_player.give("CS2_084")
 	mark.play(target=token)
 	assert token.health == 1
+	assert not token.dead
 	game.current_player.give(SILENCE).play(target=token)
 	assert token.health == 3
 
