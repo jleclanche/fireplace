@@ -36,7 +36,7 @@ class PART_005:
 
 # Reversing Switch
 class PART_006:
-	play = Buff(TARGET, "PART_006a")
+	play = SwapAttackAndHealth(TARGET, "PART_006a")
 
 
 # Whirling Blades

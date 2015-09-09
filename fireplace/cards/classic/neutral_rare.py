@@ -48,7 +48,7 @@ class EX1_058:
 
 # Crazed Alchemist
 class EX1_059:
-	play = Buff(TARGET, "EX1_059e")
+	play = SwapAttackAndHealth(TARGET, "EX1_059e")
 
 
 # Pint-Sized Summoner

@@ -17,10 +17,6 @@ def buff(atk=0, health=0):
 
 TB_006e = buff(+2, +2)
 
-TB_007e = {
-	GameTag.ATTACK_HEALTH_SWAP: True,
-}
-
 TB_Pilot1 = {
 	GameTag.DEATHRATTLE: True,
 }
@@ -328,11 +324,6 @@ EX1_044e = buff(+1, +1)
 # Empowered (Mana Addict)
 EX1_055o = buff(atk=2)
 
-# Experiments! (Crazed Alchemist)
-EX1_059e = {
-	GameTag.ATTACK_HEALTH_SWAP: True,
-}
-
 # Keeping Secrets (Secretkeeper)
 EX1_080o = buff(+1, +1)
 
@@ -423,11 +414,6 @@ NAX12_03e = buff(atk=2)
 
 # Enrage
 NAX12_04e = buff(atk=6)
-
-# Polarity (Polarity Shift)
-NAX13_02e = {
-	GameTag.ATTACK_HEALTH_SWAP: True,
-}
 
 # Supercharge
 NAX13_03e = buff(health=2)
@@ -578,11 +564,6 @@ GVG_106e = buff(+2, +2)
 # Armor Plating
 PART_001e = buff(health=1)
 
-# Switched (Reversing Switch)
-PART_006a = {
-	GameTag.ATTACK_HEALTH_SWAP: True,
-}
-
 # Whirling Blades
 PART_007e = buff(atk=1)
 
@@ -668,11 +649,6 @@ AT_011e = buff(atk=2)
 # Shadowfiended (Shadowfiend)
 AT_014e = {
 	GameTag.COST: -1,
-}
-
-# Confused (Confuse)
-AT_016e = {
-	GameTag.ATTACK_HEALTH_SWAP: True,
 }
 
 # Twilight's Embrace (Twilight Guardian)

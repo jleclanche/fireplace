@@ -96,7 +96,7 @@ class NAX12_02e:
 
 # Polarity Shift
 class NAX13_02:
-	activate = Buff(ALL_MINIONS, "NAX13_02e")
+	activate = SwapAttackAndHealth(ALL_MINIONS, "NAX13_02e")
 
 
 # Frost Breath

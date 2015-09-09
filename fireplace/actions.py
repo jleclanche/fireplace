@@ -363,10 +363,21 @@ class Buff(TargetedAction):
 	def do(self, source, target, buff):
 		kwargs = self._kwargs.copy()
 		for k, v in kwargs.items():
-			logger.info("for %r, %r in %r.items()", k, v, kwargs)
 			if isinstance(v, LazyNum):
 				kwargs[k] = v.evaluate(source)
-		source.buff(target, buff, **kwargs)
+		return source.buff(target, buff, **kwargs)
+
+
+class SwapAttackAndHealth(Buff):
+	def do(self, source, target, buff):
+		logger.info("%r swaps attack and health for %r", source, target)
+		buff = super().do(source, target, buff)
+		atk = target.health - target.atk
+		health = target.atk - target.health
+		buff._atk = atk
+		buff._max_health = health
+		target.damage = 0
+		return buff
 
 
 class Bounce(TargetedAction):

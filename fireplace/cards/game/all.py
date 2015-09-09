@@ -21,7 +21,7 @@ class TB_006:
 
 # Deviate Banana
 class TB_007:
-	play = Buff(TARGET, "TB_007e")
+	play = SwapAttackAndHealth(TARGET, "TB_007e")
 
 
 # Rotten Banana
