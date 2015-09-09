@@ -25,6 +25,18 @@ class Entity(object):
 	def events(self):
 		return self.base_events + self._events
 
+	@property
+	def update_scripts(self):
+		ret = []
+		if self.data and not self.silenced:
+			scripts = getattr(self.data.scripts, "update", ())
+			if not hasattr(scripts, "__iter__"):
+				ret.append(scripts)
+			else:
+				for s in scripts:
+					ret.append(s)
+		return ret
+
 	def _getattr(self, attr, i):
 		i += getattr(self, "_" + attr, 0)
 		for slot in self.slots:

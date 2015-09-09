@@ -212,18 +212,13 @@ class BaseGame(Entity):
 
 		refresh_queue = []
 		for entity in self.entities:
-			if entity.data and hasattr(entity.data.scripts, "update"):
-				if not entity.silenced:
-					refresh_queue.append(entity)
+			for script in entity.update_scripts:
+				refresh_queue.append((entity, script))
 
 		# Sort the refresh queue by refresh priority (used by eg. Lightspawn)
-		refresh_queue.sort(key=lambda e: getattr(e.data.scripts.update, "priority", 50))
-		for entity in refresh_queue:
-			actions = entity.data.scripts.update
-			if not hasattr(actions, "__iter__"):
-				actions = (actions, )
-			for action in actions:
-				action.trigger(entity)
+		refresh_queue.sort(key=lambda e: getattr(e[1], "priority", 50))
+		for entity, action in refresh_queue:
+			action.trigger(entity)
 
 		for buff in self.active_aura_buffs[:]:
 			if buff.tick < self.tick:
