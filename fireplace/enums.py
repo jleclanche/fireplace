@@ -425,22 +425,3 @@ class Step(IntEnum):
 	FINAL_GAMEOVER = 15
 	MAIN_CLEANUP = 16
 	MAIN_START_TRIGGERS = 17
-
-
-##
-# Fireplace enums
-
-class Affiliation(IntEnum):
-	FRIENDLY = 1
-	HOSTILE = 2
-	TARGET = 3
-
-	def test(self, target, source):
-		if target.type == CardType.GAME:
-			return False
-		if self == self.__class__.FRIENDLY:
-			return target.controller == source.controller
-		elif self == self.__class__.HOSTILE:
-			return target.controller != source.controller
-		elif self == self.__class__.TARGET:
-			return target.controller == source.target.controller

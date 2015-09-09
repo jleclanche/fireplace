@@ -1,7 +1,7 @@
 import operator
 import random
 from enum import IntEnum
-from ..enums import Affiliation, CardType, GameTag, Race, Zone
+from ..enums import CardType, GameTag, Race, Zone
 from ..utils import CardList
 
 
@@ -327,6 +327,22 @@ class IdSelector(Selector):
 		self.program = [self.MatchesId(id)]
 
 ID = IdSelector
+
+
+class Affiliation(IntEnum):
+	FRIENDLY = 1
+	HOSTILE = 2
+	TARGET = 3
+
+	def test(self, target, source):
+		if target.type == CardType.GAME:
+			return False
+		if self == self.__class__.FRIENDLY:
+			return target.controller == source.controller
+		elif self == self.__class__.HOSTILE:
+			return target.controller != source.controller
+		elif self == self.__class__.TARGET:
+			return target.controller == source.target.controller
 
 
 BATTLECRY = Selector(GameTag.BATTLECRY)
