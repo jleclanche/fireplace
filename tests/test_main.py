@@ -55,6 +55,45 @@ def test_cobalt_guardian():
 	assert cobalt.divine_shield
 
 
+def test_the_skeleton_knight():
+	game = prepare_empty_game()
+	skeleton_knight = game.player1.give("AT_128")
+	assert not skeleton_knight.dead
+	skeleton_knight.play()
+	assert skeleton_knight.atk == 7
+	assert skeleton_knight.health == 4
+
+	# prepare joust
+	ancient = game.player1.give("EX1_045")
+	wisp = game.player2.give(WISP)
+	ancient.shuffle_into_deck()
+	wisp.shuffle_into_deck()
+
+	skeleton_knight.destroy()
+	assert len(game.player1.field) == 0
+	assert game.player1.hand.contains("AT_128")
+
+
+def test_the_skeleton_knight_full_hand():
+	game = prepare_empty_game()
+	skeleton_knight = game.player1.give("AT_128")
+	skeleton_knight.play()
+
+	# prepare joust
+	ancient = game.player1.give("EX1_045")
+	wisp = game.player2.give(WISP)
+	ancient.shuffle_into_deck()
+	wisp.shuffle_into_deck()
+
+	for i in range(0, 10):
+		game.player1.give(WISP)
+	assert len(game.player1.hand) == 10
+
+	skeleton_knight.destroy()
+	assert len(game.player1.field) == 0
+	assert not game.player1.hand.contains("AT_128")
+
+
 def test_cogmaster():
 	game = prepare_game()
 	cogmaster = game.current_player.give("GVG_013")
