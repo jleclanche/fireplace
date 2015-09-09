@@ -1,9 +1,11 @@
 import random
 from ..actions import Buff, Give, Summon
-from ..enums import CardClass, CardType
+from ..aura import Refresh
+from ..enums import CardClass, CardType, GameTag
 from ..game import Game
 from ..cards.utils import RandomMinion
 from ..dsl.picker import RandomCardPicker
+from ..dsl.selector import ALL_PLAYERS
 
 
 class BlackrockShowdownBrawl(Game):
@@ -281,3 +283,19 @@ class RainingManaBrawl(Game):
 		super().begin_turn(player)
 		if self.turn > 2:
 			player.max_mana += 1
+
+
+class DoubleDeathrattlerBattler(Game):
+	"""
+	Double Deathrattler Battler
+
+	Death is not quiet the end... because minions
+	with Deathrattle now rattle twice.
+	"""
+	class Data:
+		class scripts:
+			update = Refresh(ALL_PLAYERS, {GameTag.EXTRA_DEATHRATTLES: True})
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.data = self.Data()
