@@ -3827,6 +3827,26 @@ def test_recombobulator():
 	assert game.player1.field[0].cost == 0
 
 
+def test_recombobulator_molten_alarmobot():
+	game = prepare_empty_game()
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	molten = game.player1.give("EX1_620")
+	assert molten.cost == 19
+	alarmobot = game.player1.give("EX1_006")
+	alarmobot.play()
+	assert len(game.player1.hand) == 1
+	game.end_turn(); game.end_turn()
+
+	assert len(game.player1.field) == 1
+	assert molten in game.player1.field
+	recomb = game.player1.give("GVG_108")
+	recomb.play(target=molten)
+	recomb.destroy()
+
+	assert molten not in game.player1.field
+	assert game.player1.field[0].cost == 20
+
+
 def test_redemption():
 	game = prepare_game()
 	redemption = game.player1.give("EX1_136")
