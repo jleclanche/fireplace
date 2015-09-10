@@ -60,7 +60,7 @@ BRM_010 = ("BRM_010a", "BRM_010b")
 # The Grand Tournament
 
 # Living Roots
-AT_037 = ("AT_032a", "AT_037b")
+AT_037 = ("AT_037a", "AT_037b")
 
 # Druid of the Saber
 AT_042 = ("AT_042a", "AT_042b")
