@@ -3831,6 +3831,15 @@ def test_nerubar_weblord():
 	assert perdition1.cost == perdition2.cost == 3
 
 
+def test_lord_jaraxxus_molten():
+	game = prepare_game()
+	jaraxxus = game.player1.give("EX1_323")
+	molten = game.player1.give("EX1_620")
+	jaraxxus.play()
+	assert game.player1.hero.health == 15
+	assert molten.cost == 20
+
+
 def test_noble_sacrifice():
 	game = prepare_game()
 	sacrifice = game.player1.give("EX1_130")
