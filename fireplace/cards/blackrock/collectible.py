@@ -45,7 +45,7 @@ class BRM_012:
 
 # Core Rager
 class BRM_014:
-	play = Find(CONTROLLER_HAND) | Buff(SELF, "BRM_014e")
+	play = EMPTY_HAND & Buff(SELF, "BRM_014e")
 
 
 # Axe Flinger
@@ -167,7 +167,7 @@ class BRM_011:
 
 # Quick Shot
 class BRM_013:
-	play = Hit(TARGET, 3), Find(CONTROLLER_HAND) | Draw(CONTROLLER)
+	play = Hit(TARGET, 3), EMPTY_HAND & Draw(CONTROLLER)
 
 
 # Revenge

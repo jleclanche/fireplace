@@ -16,7 +16,7 @@ class AT_057:
 
 # Brave Archer
 class AT_059:
-	inspire = Find(CONTROLLER_HAND) | Hit(ENEMY_HERO, 2)
+	inspire = EMPTY_HAND & Hit(ENEMY_HERO, 2)
 
 
 # Acidmaw
