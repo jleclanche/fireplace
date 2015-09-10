@@ -33,7 +33,6 @@ class BaseCard(Entity):
 	has_deathrattle = boolean_property("has_deathrattle")
 	atk = int_property("atk")
 	max_health = int_property("max_health")
-	cost = int_property("cost")
 
 	def __init__(self, data):
 		self.data = data
@@ -128,6 +127,18 @@ class PlayableCard(BaseCard, TargetableByAuras):
 				ret = (ret, )
 			return ret
 		return self.base_events + self._events
+
+	@property
+	def cost(self):
+		ret = self._getattr("cost", 0)
+		mod = getattr(self.data.scripts, "cost_mod", None)
+		if mod is not None:
+			ret += mod.evaluate(self)
+		return max(0, ret)
+
+	@cost.setter
+	def cost(self, value):
+		self._cost = value
 
 	@property
 	def deathrattles(self):
@@ -664,6 +675,8 @@ class Secret(Spell):
 
 
 class Enchantment(BaseCard):
+	cost = int_property("cost")
+
 	def __init__(self, data):
 		self.one_turn_effect = False
 		super().__init__(data)
