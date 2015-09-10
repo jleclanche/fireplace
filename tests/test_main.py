@@ -5408,12 +5408,15 @@ def test_quick_shot():
 	quickshot1 = game.player1.give("BRM_013")
 	wisp = game.player1.give("CS2_231")
 	wisp.play()
+	assert quickshot1.powered_up
 	quickshot1.play(target=wisp)
 	assert wisp.dead
 	assert len(game.player1.hand) == 1
 	quickshot2 = game.player1.give("BRM_013")
-	quickshot2.play(target=game.current_player.opponent.hero)
-	assert game.current_player.opponent.hero.health == 27
+	assert len(game.player1.hand) == 2
+	assert not quickshot2.powered_up
+	quickshot2.play(target=game.player2.hero)
+	assert game.player2.hero.health == 27
 	assert len(game.player1.hand) == 1
 
 

@@ -45,6 +45,7 @@ class BRM_012:
 
 # Core Rager
 class BRM_014:
+	powered_up = Count(CONTROLLER_HAND - SELF) == 0
 	play = EMPTY_HAND & Buff(SELF, "BRM_014e")
 
 
@@ -167,6 +168,7 @@ class BRM_011:
 
 # Quick Shot
 class BRM_013:
+	powered_up = Count(CONTROLLER_HAND - SELF) == 0
 	play = Hit(TARGET, 3), EMPTY_HAND & Draw(CONTROLLER)
 
 
