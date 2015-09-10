@@ -375,6 +375,7 @@ FRIENDLY = Selector(Affiliation.FRIENDLY)
 ENEMY = Selector(Affiliation.HOSTILE)
 CONTROLLED_BY_TARGET = Selector(Affiliation.TARGET)
 
+GAME = Selector(CardType.GAME)
 PLAYER = Selector(CardType.PLAYER)
 HERO = Selector(CardType.HERO)
 MINION = Selector(CardType.MINION)
