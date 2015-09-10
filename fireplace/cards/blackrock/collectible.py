@@ -26,7 +26,7 @@ class BRM_008:
 
 # Volcanic Lumberer
 class BRM_009:
-	cost = lambda self, i: i - len(self.game.minions_killed_this_turn)
+	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
 # Druid of the Flame (Firecat Form)
@@ -84,7 +84,7 @@ class BRM_024:
 
 # Volcanic Drake
 class BRM_025:
-	cost = lambda self, i: i - len(self.game.minions_killed_this_turn)
+	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
 # Hungry Dragon
@@ -136,7 +136,7 @@ class BRM_034:
 # Solemn Vigil
 class BRM_001:
 	play = Draw(CONTROLLER) * 2
-	cost = lambda self, i: i - len(self.game.minions_killed_this_turn)
+	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
 # Melt (Unused)
@@ -147,7 +147,7 @@ class BRM_001e:
 # Dragon's Breath
 class BRM_003:
 	play = Hit(TARGET, 4)
-	cost = lambda self, i: i - len(self.game.minions_killed_this_turn)
+	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
 # Demonwrath

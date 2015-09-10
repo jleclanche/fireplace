@@ -39,7 +39,7 @@ class GVG_108:
 
 # Clockwork Giant
 class GVG_121:
-	cost = lambda self, i: i - len(self.controller.opponent.hand)
+	cost_mod = -Count(OPPONENT_HAND)
 
 
 # Wee Spellstopper

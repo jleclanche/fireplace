@@ -8,7 +8,7 @@ class EX1_005:
 
 # Mountain Giant
 class EX1_105:
-	cost = lambda self, i: i - (len(self.controller.hand) - 1)
+	cost_mod = -Count(CONTROLLER_HAND - SELF)
 
 
 # Murloc Warleader
@@ -23,7 +23,7 @@ class EX1_564:
 
 # Sea Giant
 class EX1_586:
-	cost = lambda self, i: i - len(self.game.board)
+	cost_mod = -Count(ALL_MINIONS)
 
 
 # Blood Knight
@@ -36,7 +36,7 @@ class EX1_590:
 
 # Molten Giant
 class EX1_620:
-	cost = lambda self, i: i - self.controller.hero.damage
+	cost_mod = -Attr(FRIENDLY_HERO, GameTag.DAMAGE)
 
 
 # Captain's Parrot

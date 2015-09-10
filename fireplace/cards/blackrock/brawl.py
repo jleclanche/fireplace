@@ -57,7 +57,7 @@ class BRMC_92:
 
 # Golemagg
 class BRMC_95:
-	cost = lambda self, i: i - self.controller.hero.damage
+	cost_mod = -Attr(FRIENDLY_HERO, GameTag.DAMAGE)
 
 
 # High Justice Grimstone

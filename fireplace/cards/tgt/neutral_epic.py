@@ -36,7 +36,7 @@ class AT_118:
 
 # Frost Giant
 class AT_120:
-	cost = lambda self, i: i - self.controller.times_hero_power_used_this_game
+	cost_mod = -Attr(CONTROLLER, GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME)
 
 
 # Crowd Favorite
