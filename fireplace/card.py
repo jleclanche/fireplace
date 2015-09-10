@@ -131,9 +131,10 @@ class PlayableCard(BaseCard, TargetableByAuras):
 	@property
 	def cost(self):
 		ret = self._getattr("cost", 0)
-		mod = getattr(self.data.scripts, "cost_mod", None)
-		if mod is not None:
-			ret += mod.evaluate(self)
+		if self.zone == Zone.HAND:
+			mod = getattr(self.data.scripts, "cost_mod", None)
+			if mod is not None:
+				ret += mod.evaluate(self)
 		return max(0, ret)
 
 	@cost.setter
