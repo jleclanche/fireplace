@@ -347,10 +347,10 @@ class Affiliation(IntEnum):
 
 
 # Enum tests
-GameTag.test = lambda self, entity, *args: bool(entity.tags.get(self))
-CardType.test = lambda self, entity, *args: self == entity.type
-Race.test = lambda self, entity, *args: self == getattr(entity, "race", Race.INVALID)
-Zone.test = lambda self, entity, *args: self == entity.zone
+GameTag.test = lambda self, entity, *args: entity is not None and bool(entity.tags.get(self))
+CardType.test = lambda self, entity, *args: entity is not None and self == entity.type
+Race.test = lambda self, entity, *args: entity is not None and self == getattr(entity, "race", Race.INVALID)
+Zone.test = lambda self, entity, *args: entity is not None and self == entity.zone
 
 
 BATTLECRY = Selector(GameTag.BATTLECRY)
