@@ -8,7 +8,6 @@ from .deck import Deck
 from .entity import Entity
 from .entity import slot_property
 from .managers import PlayerManager
-from .targeting import *
 from .utils import CardList
 
 
