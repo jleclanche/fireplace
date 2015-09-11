@@ -960,6 +960,24 @@ def test_spellbender():
 	assert target.health == 2
 
 
+def test_spellbender_echo_of_medivh():
+	game = prepare_game()
+	game.player1.discard_hand()
+	spellbender = game.player1.give("tt_010")
+	spellbender.play()
+	game.end_turn()
+
+	game.player2.discard_hand()
+	wisp = game.player2.give(WISP)
+	echo = game.player2.give("GVG_005")
+	wisp.play()
+	echo.play()
+
+	assert spellbender in game.player1.secrets
+	assert len(game.player2.hand) == 1
+	assert game.player2.hand[0].id == WISP
+
+
 def test_spiteful_smith():
 	game = prepare_game()
 	assert not game.current_player.hero.atk
