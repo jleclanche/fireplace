@@ -1146,6 +1146,27 @@ def test_emperor_thaurissan():
 	assert deathwing.cost == 10 - 2
 
 
+def test_emperor_thaurissan_molten_recombobulator():
+	game = prepare_empty_game()
+	molten = game.player1.give("EX1_620")
+	thaurissan = game.player1.give("BRM_028")
+	thaurissan.play()
+	game.end_turn(); game.end_turn()
+
+	assert molten.cost == 19
+	thaurissan.destroy()
+	ancestor = game.player1.give("GVG_029")
+	ancestor.play()
+	assert molten.cost == 20
+	assert molten in game.player1.field
+	game.end_turn(); game.end_turn()
+
+	recomb = game.player1.give("GVG_108")
+	recomb.play(target=molten)
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1].cost == 20
+
+
 def test_ethereal_arcanist():
 	game = prepare_game()
 	arcanist = game.player1.give("EX1_274")
