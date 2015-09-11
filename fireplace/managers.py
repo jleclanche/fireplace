@@ -1,4 +1,4 @@
-from .enums import GameTag
+from .enums import GameTag, ALWAYS_WINS_BRAWLS, KILLED_THIS_TURN
 
 
 class Manager(object):
@@ -115,7 +115,6 @@ class PlayerManager(Manager):
 
 CARD_ATTRIBUTE_MAP = {
 	GameTag.ADJACENT_BUFF: "adjacent_buff",
-	GameTag.ALWAYS_WINS_BRAWLS: "always_wins_brawls",
 	GameTag.ARMOR: "armor",
 	GameTag.ATK: "atk",
 	GameTag.ATTACKING: "attacking",
@@ -175,7 +174,8 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.TAUNT: "taunt",
 	GameTag.WINDFURY: "windfury",
 	GameTag.ZONE: "zone",
-	GameTag.KILLED_THIS_TURN: "killed_this_turn",
+	ALWAYS_WINS_BRAWLS: "always_wins_brawls",
+	KILLED_THIS_TURN: "killed_this_turn",
 	GameTag.AFFECTED_BY_SPELL_POWER: None,
 	GameTag.ARTISTNAME: None,
 	GameTag.AttackVisualType: None,

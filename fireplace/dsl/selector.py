@@ -1,6 +1,7 @@
 import operator
 import random
 from enum import IntEnum
+from .. import enums
 from ..enums import CardType, GameTag, Race, Zone
 from ..utils import CardList
 
@@ -361,8 +362,9 @@ OVERLOAD = Selector(GameTag.RECALL)
 SPELLPOWER = Selector(GameTag.SPELLPOWER)
 STEALTH = Selector(GameTag.STEALTH)
 TAUNT = Selector(GameTag.TAUNT)
-ALWAYS_WINS_BRAWLS = Selector(GameTag.ALWAYS_WINS_BRAWLS)
-KILLED_THIS_TURN = Selector(GameTag.KILLED_THIS_TURN)
+
+ALWAYS_WINS_BRAWLS = AttrSelector(enums.ALWAYS_WINS_BRAWLS) == True
+KILLED_THIS_TURN = AttrSelector(enums.KILLED_THIS_TURN) == True
 
 
 IN_PLAY = Selector(Zone.PLAY)

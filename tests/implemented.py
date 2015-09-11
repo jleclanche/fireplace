@@ -24,7 +24,6 @@ SOLVED_KEYWORDS = [
 	"Destroy any minion damaged by this minion.",
 	"50% chance to attack the wrong enemy",
 	"Can't attack",
-	"Always wins Brawls.",
 	r"Your Hero Power deals \d+ extra damage.",
 	r"Spell Damage \+\d+",
 	r"Overload: \(\d+\)",

@@ -180,9 +180,6 @@ def main():
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_ABILITIES, True)
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_HERO_POWERS, True)
 
-		if "Always wins Brawls." in card.description:
-			set_tag(card, GameTag.ALWAYS_WINS_BRAWLS, True)
-
 		if id in italicize:
 			description = card.description
 			assert description and not description.startswith("<i>")

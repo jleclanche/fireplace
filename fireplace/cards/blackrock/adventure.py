@@ -18,6 +18,13 @@ class BRMA01_2H:
 	)
 
 
+# Dark Iron Bouncer
+class BRMA01_3:
+	tags = {
+		enums.ALWAYS_WINS_BRAWLS: True,
+	}
+
+
 # Jeering Crowd
 class BRMA02_2:
 	activate = Summon(CONTROLLER, "BRMA02_2t")

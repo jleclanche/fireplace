@@ -2,6 +2,13 @@ from enum import IntEnum
 
 
 ##
+# Internal fireplace tags
+
+KILLED_THIS_TURN = -10
+ALWAYS_WINS_BRAWLS = -11
+
+
+##
 # Game Tags
 
 class GameTag(IntEnum):
@@ -143,11 +150,6 @@ class GameTag(IntEnum):
 	TAG_HERO_POWER_DOUBLE = 366
 	TAG_AI_MUST_PLAY = 367
 	OVERKILL = 380
-
-	# Internal
-	ALWAYS_WINS_BRAWLS = -10
-	ATTACK_HEALTH_SWAP = -11
-	KILLED_THIS_TURN = -12
 
 
 ##

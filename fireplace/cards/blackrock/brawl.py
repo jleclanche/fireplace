@@ -53,6 +53,9 @@ class BRMC_91:
 # Coren Direbrew
 class BRMC_92:
 	play = Give(CONTROLLER, "EX1_407")
+	tags = {
+		enums.ALWAYS_WINS_BRAWLS: True,
+	}
 
 
 # Golemagg
