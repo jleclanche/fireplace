@@ -47,6 +47,8 @@ class BaseCard(Entity):
 		self.turns_in_play = 0
 		self._zone = Zone.INVALID
 		self.tags.update(data.tags)
+		if hasattr(data.scripts, "tags"):
+			self.tags.update(data.scripts.tags)
 
 	def __str__(self):
 		return self.name
