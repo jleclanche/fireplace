@@ -1,5 +1,6 @@
 import os
 from pkg_resources import resource_filename
+from hearthstone import cardxml
 from .blackrock import *
 from .game import *
 from .classic import *
@@ -8,7 +9,6 @@ from .gvg import *
 from .naxxramas import *
 from .tgt import *
 from .tutorial import *
-from .. import cardxml
 
 
 def merge(id):
@@ -34,10 +34,11 @@ def filter(**kwargs):
 	Returns a list of card IDs matching the given filters. Each filter, if not
 	None, is matched against the registered card database.
 	cards.
+	Examples arguments:
 	\a collectible: Whether the card is collectible or not.
-	\a type: The type of the card (fireplace.enums.CardType)
-	\a race: The race (tribe) of the card (fireplace.enums.Race)
-	\a rarity: The rarity of the card (fireplace.enums.Rarity)
+	\a type: The type of the card (hearthstone.enums.CardType)
+	\a race: The race (tribe) of the card (hearthstone.enums.Race)
+	\a rarity: The rarity of the card (hearthstone.enums.Rarity)
 	\a cost: The mana cost of the card
 	"""
 	cards = db.values()

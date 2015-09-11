@@ -5,7 +5,7 @@ import re
 import sys; sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
 from xml.dom import minidom
 from xml.etree import ElementTree
-from fireplace.enums import GameTag
+from hearthstone.enums import GameTag
 import buffs
 import chooseone
 import missing_cards
@@ -140,7 +140,7 @@ def load_dbf(path):
 
 
 def main():
-	from fireplace.cardxml import load
+	from hearthstone.cardxml import load
 
 	if len(sys.argv) < 3:
 		print("Usage: %s <in> <out/CardDefs.xml>" % (sys.argv[0]))

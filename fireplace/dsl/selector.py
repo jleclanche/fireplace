@@ -1,8 +1,8 @@
 import operator
 import random
 from enum import IntEnum
+from hearthstone.enums import CardType, GameTag, Race, Zone
 from .. import enums
-from ..enums import CardType, GameTag, Race, Zone
 from ..utils import CardList
 
 

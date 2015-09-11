@@ -2,10 +2,10 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
+from hearthstone.enums import CardType, PlayState, State, Step, Zone
 from .actions import Attack, BeginTurn, Death, EndTurn, EventListener
 from .card import THE_COIN
 from .entity import Entity
-from .enums import CardType, PlayState, State, Step, Zone
 from .managers import GameManager
 from .utils import CardList
 from .exceptions import GameOver

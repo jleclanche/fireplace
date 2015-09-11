@@ -1,4 +1,5 @@
-from .enums import GameTag, ALWAYS_WINS_BRAWLS, KILLED_THIS_TURN
+from hearthstone.enums import GameTag
+from .enums import ALWAYS_WINS_BRAWLS, KILLED_THIS_TURN
 
 
 class Manager(object):

@@ -1,7 +1,7 @@
 import random
+from hearthstone.enums import CardClass, CardType, GameTag
 from ..actions import Buff, Give, Summon
 from ..aura import Refresh
-from ..enums import CardClass, CardType, GameTag
 from ..game import Game
 from ..cards.utils import RandomMinion
 from ..dsl.picker import RandomCardPicker

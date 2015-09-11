@@ -1,4 +1,4 @@
-from fireplace.enums import CardType, GameTag
+from hearthstone.enums import CardType, GameTag
 
 
 # Missing buffs

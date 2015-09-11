@@ -1,9 +1,9 @@
 from itertools import chain
+from hearthstone.enums import CardType, PlayReq, Race, Rarity, Zone
 from . import cards as CardDB, rules
 from .actions import Activate, Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
 from .aura import TargetableByAuras
 from .entity import Entity, boolean_property, int_property
-from .enums import CardType, PlayReq, Race, Rarity, Zone
 from .managers import CardManager
 from .targeting import is_valid_target
 from .utils import CardList

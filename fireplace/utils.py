@@ -55,7 +55,7 @@ def random_draft(hero, exclude=[]):
 	import random
 	from . import cards
 	from .deck import Deck
-	from .enums import CardType, Rarity
+	from hearthstone.enums import CardType, Rarity
 
 	deck = []
 	collection = []

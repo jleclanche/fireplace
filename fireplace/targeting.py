@@ -1,7 +1,7 @@
 """
 Targeting logic
 """
-from .enums import CardType, PlayReq, Rarity
+from hearthstone.enums import CardType, PlayReq, Rarity
 
 
 TARGETING_PREREQUISITES = (

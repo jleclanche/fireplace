@@ -1,4 +1,4 @@
-from fireplace.enums import GameTag
+from hearthstone.enums import GameTag
 
 
 # Buff helper

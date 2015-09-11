@@ -1,8 +1,8 @@
 import random
+from hearthstone.enums import CardClass, CardType, GameTag, Race, Rarity
 from ..actions import *
 from ..aura import Refresh
 from ..dsl import *
-from ..enums import CardClass, CardType, GameTag, Race, Rarity
 from ..events import *
 
 
