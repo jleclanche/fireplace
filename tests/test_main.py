@@ -5208,11 +5208,15 @@ def test_fist_of_jaraxxus():
 def test_far_sight():
 	game = prepare_game()
 	game.player1.discard_hand()
-	farsight = game.current_player.give("CS2_053")
+	farsight = game.player1.give("CS2_053")
 	farsight.play()
-	assert len(game.current_player.hand) == 1
-	assert game.current_player.hand[0].buffs
-	assert game.current_player.hand[0].cost >= 0
+	assert len(game.player1.hand) == 1
+	card1 = game.player1.hand[0]
+
+	assert card1.buffs
+	assert card1.cost >= 0
+	card2 = game.player1.give(card1.id)
+	assert card1.cost == max(card2.cost - 3, 0)
 
 
 def test_fatigue():
