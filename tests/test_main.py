@@ -5791,6 +5791,25 @@ def test_faceless_manipulator():
 	assert morphed.buffs
 
 
+def test_faceless_manipulator_voljin():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert wisp.health == 1
+	voljin = game.player1.give("GVG_014")
+	voljin.play(target=wisp)
+	assert wisp.health == 2
+	assert voljin.health == 1
+	game.end_turn()
+
+	faceless = game.player2.give("EX1_564")
+	faceless.play(target=wisp)
+	morphed = game.player2.field[0]
+	assert wisp.health == 2
+	assert voljin.health == 1
+	assert morphed.health == 2
+
+
 def test_fel_reaver():
 	game = prepare_game()
 	expected_size = len(game.player1.deck)
