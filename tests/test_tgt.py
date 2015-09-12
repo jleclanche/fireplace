@@ -256,6 +256,34 @@ def test_lowly_squire():
 	assert squire.atk == 3
 
 
+def test_power_word_glory():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP)
+	wisp1.play()
+	glory1 = game.player1.give("AT_013")
+	glory1.play(target=wisp1)
+	game.end_turn(); game.end_turn()
+
+	assert game.player1.hero.health == 30
+	wisp1.attack(game.player2.hero)
+	assert game.player1.hero.health == 30
+	game.end_turn(); game.end_turn()
+
+	game.player1.hero.set_current_health(15)
+	assert game.player1.hero.health == 15
+	wisp1.attack(game.player2.hero)
+	assert game.player1.hero.health == 15 + 4
+
+	wisp2 = game.player2.summon(WISP)
+	glory2 = game.player1.give("AT_013")
+	glory2.play(target=wisp2)
+	game.end_turn()
+
+	assert game.player1.hero.health == 15 + 4
+	wisp2.attack(wisp1)
+	assert game.player1.hero.health == 15 + 4 + 4
+
+
 def test_seal_of_champions():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
