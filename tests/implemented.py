@@ -5,7 +5,7 @@ import re
 import string
 import sys; sys.path.append(".."); sys.path.append("../fireplace/cards/data")
 from fireplace import cards
-from fireplace.enums import CardType, CardSet
+from hearthstone.enums import CardType, CardSet
 
 import buffs
 
