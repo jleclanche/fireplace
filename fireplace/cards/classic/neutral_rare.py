@@ -146,7 +146,4 @@ class NEW1_037:
 
 # Stampeding Kodo
 class NEW1_041:
-	def play(self):
-		targets = [t for t in self.controller.opponent.field if t.atk <= 2]
-		if targets:
-			return Destroy(random.choice(targets))
+	play = Destroy(RANDOM(ENEMY_MINIONS + (ATK <= 2)))
