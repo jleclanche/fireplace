@@ -167,21 +167,28 @@ def test_savagery():
 	watcher = game.player1.give("EX1_045")
 	watcher.play()
 	assert watcher.health == 5
-	savagery = game.player1.give("EX1_578")
-	savagery.play(watcher)
+	savagery1 = game.player1.give("EX1_578")
+	savagery1.play(watcher)
 	assert watcher.health == 5
 
-	game.player1.hero.power.use()
+	game.player1.give(HAND_OF_PROTECTION).play(target=watcher)
 	savagery2 = game.player1.give("EX1_578")
 	savagery2.play(watcher)
+	assert watcher.divine_shield
+	game.player1.give(MOONFIRE).play(target=watcher)
+	assert not watcher.divine_shield
+
+	game.player1.hero.power.use()
+	savagery3 = game.player1.give("EX1_578")
+	savagery3.play(watcher)
 	assert watcher.health == 5 - 1
 	game.end_turn(); game.end_turn()
 
-	# Play a kobold
 	game.current_player.give(KOBOLD_GEOMANCER).play()
-	savagery3 = game.player1.give("EX1_578")
-	savagery3.play(watcher)
+	savagery4 = game.player1.give("EX1_578")
+	savagery4.play(watcher)
 	assert watcher.health == 5 - 1 - 1
+
 
 
 def test_earth_shock():
@@ -783,16 +790,24 @@ def test_shield_slam():
 	shieldslam1 = game.player1.give("EX1_410")
 	shieldslam1.play(target=wisp)
 	assert not wisp.dead
+
 	game.player1.give(HAND_OF_PROTECTION).play(target=wisp)
 	assert wisp.divine_shield
 	shieldslam2 = game.player1.give("EX1_410")
 	shieldslam2.play(target=wisp)
 	assert wisp.divine_shield
-	game.player1.hero.power.use()
-	assert game.player1.hero.armor == 2
+
+	geomancer = game.player1.summon(KOBOLD_GEOMANCER)
 	shieldslam3 = game.player1.give("EX1_410")
 	shieldslam3.play(target=wisp)
 	assert not wisp.divine_shield
+	geomancer.destroy()
+
+	game.player1.hero.power.use()
+	assert game.player1.hero.armor == 2
+	shieldslam4 = game.player1.give("EX1_410")
+	shieldslam4.play(target=wisp)
+	assert wisp.dead
 
 
 def test_siege_engine():
