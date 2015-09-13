@@ -787,12 +787,12 @@ def test_shield_slam():
 	assert wisp.divine_shield
 	shieldslam2 = game.player1.give("EX1_410")
 	shieldslam2.play(target=wisp)
-	assert not wisp.divine_shield
+	assert wisp.divine_shield
 	game.player1.hero.power.use()
 	assert game.player1.hero.armor == 2
 	shieldslam3 = game.player1.give("EX1_410")
 	shieldslam3.play(target=wisp)
-	assert wisp.dead
+	assert not wisp.divine_shield
 
 
 def test_siege_engine():

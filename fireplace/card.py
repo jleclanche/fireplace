@@ -107,6 +107,9 @@ class BaseCard(Entity):
 			setattr(ret, k, v)
 		return ret
 
+	def get_damage(self, amount, target):
+		return amount
+
 
 class PlayableCard(BaseCard, TargetableByAuras):
 	windfury = boolean_property("windfury")
@@ -647,12 +650,12 @@ class Spell(PlayableCard):
 		self.receives_double_spelldamage_bonus = False
 		super().__init__(data)
 
-	def hit(self, target, amount):
+	def get_damage(self, amount, target):
 		if not self.immune_to_spellpower:
 			amount = self.controller.get_spell_damage(amount)
 		if self.receives_double_spelldamage_bonus:
 			amount *= 2
-		super().hit(target, amount)
+		return amount
 
 
 class Secret(Spell):
@@ -762,10 +765,10 @@ class HeroPower(PlayableCard):
 	def activate(self):
 		return self.game.queue_actions(self.controller, [Activate(self, self.target)])
 
-	def hit(self, target, amount):
+	def get_damage(self, amount, target):
 		amount += self.controller.heropower_damage
 		amount *= (self.controller.hero_power_double + 1)
-		super().hit(target, amount)
+		return amount
 
 	def is_playable(self):
 		return False

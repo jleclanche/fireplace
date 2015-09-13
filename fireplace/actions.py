@@ -575,7 +575,9 @@ class Hit(TargetedAction):
 		AMOUNT = 1
 
 	def do(self, source, target, amount):
-		source.hit(target, amount)
+		amount = source.get_damage(amount, target)
+		if amount:
+			source.hit(target, amount)
 
 
 class Heal(TargetedAction):
