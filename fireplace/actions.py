@@ -652,14 +652,6 @@ class Morph(TargetedAction):
 		return card
 
 
-class Freeze(TargetedAction):
-	"""
-	Freeze character targets.
-	"""
-	def do(self, source, target):
-		target.frozen = True
-
-
 class FillMana(TargetedAction):
 	"""
 	Refill \a amount mana crystals from player targets.

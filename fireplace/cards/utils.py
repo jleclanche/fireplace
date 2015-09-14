@@ -22,6 +22,9 @@ class RandomEntourage(RandomCardPicker):
 		return super().pick(source)
 
 
+Freeze = lambda target: SetTag(target, {GameTag.FROZEN: True})
+
+
 CLEAVE = Hit(TARGET_ADJACENT, Attr(SELF, GameTag.ATK))
 COINFLIP = RandomNumber(0, 1) == 1
 EMPTY_HAND = Count(CONTROLLER_HAND) == 0
