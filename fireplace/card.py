@@ -1,7 +1,7 @@
 from itertools import chain
 from hearthstone.enums import CardType, PlayReq, Race, Rarity, Zone
 from . import cards as CardDB, rules
-from .actions import Activate, Damage, Deaths, Destroy, Heal, Morph, Play, Shuffle, SetCurrentHealth
+from .actions import Activate, Deaths, Destroy, Heal, Hit, Morph, Play, Shuffle, SetCurrentHealth
 from .aura import TargetableByAuras
 from .entity import Entity, boolean_property, int_property
 from .managers import CardManager
@@ -256,9 +256,6 @@ class PlayableCard(BaseCard, TargetableByAuras):
 	def heal(self, target, amount):
 		return self.game.queue_actions(self, [Heal(target, amount)])
 
-	def hit(self, target, amount):
-		return self.game.queue_actions(self, [Damage(target, amount)])
-
 	def is_playable(self):
 		if self.controller.choice:
 			return False
@@ -355,6 +352,9 @@ class LiveEntity(PlayableCard):
 	@property
 	def killed_this_turn(self):
 		return self in self.game.minions_killed_this_turn
+
+	def hit(self, amount):
+		return self.game.queue_actions(self, [Hit(self, amount)])
 
 
 class Character(LiveEntity):
@@ -608,11 +608,6 @@ class Minion(Character):
 			self.destroy()
 		else:
 			self.zone = Zone.HAND
-
-	def hit(self, target, amount):
-		super().hit(target, amount)
-		if self.stealthed:
-			self.stealthed = False
 
 	def _hit(self, source, amount):
 		if self.divine_shield:

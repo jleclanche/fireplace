@@ -180,7 +180,7 @@ class Player(Entity, TargetableByAuras):
 			return
 		self.fatigue_counter += 1
 		self.log("%s takes %i fatigue damage", self, self.fatigue_counter)
-		self.hero.hit(self.hero, self.fatigue_counter)
+		self.hero.hit(self.fatigue_counter)
 
 	@property
 	def max_mana(self):

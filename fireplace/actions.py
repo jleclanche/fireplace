@@ -434,6 +434,9 @@ class Damage(TargetedAction):
 
 	def do(self, source, target, amount):
 		amount = target._hit(source, amount)
+		if source.type == CardType.MINION and source.stealthed:
+			# TODO this should be an event listener of sorts
+			source.stealthed = False
 		if amount:
 			self.broadcast(source, EventListener.ON, target, amount, source)
 
@@ -577,7 +580,7 @@ class Hit(TargetedAction):
 	def do(self, source, target, amount):
 		amount = source.get_damage(amount, target)
 		if amount:
-			source.hit(target, amount)
+			source.game.queue_actions(source, [Damage(target, amount)])
 
 
 class Heal(TargetedAction):
@@ -591,7 +594,7 @@ class Heal(TargetedAction):
 	def do(self, source, target, amount):
 		if source.controller.outgoing_healing_adjustment:
 			# "healing as damage" (hack-ish)
-			return source.hit(target, amount)
+			return source.game.queue_actions(source, Hit(target, amount))
 
 		amount *= (source.controller.healing_double + 1)
 		amount = min(amount, target.damage)
