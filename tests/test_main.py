@@ -2762,6 +2762,21 @@ def test_auchenai_soulpriest_divine_shield():
 	assert gurubashi.health == 7
 
 
+def test_power_word_glory_auchenai_soulpriest():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	pwglory = game.player1.give("AT_013")
+	pwglory.play(target=wisp)
+	auchenai = game.player1.give("EX1_591")
+	auchenai.play()
+	game.end_turn(); game.end_turn()
+
+	assert game.player1.hero.health == 30
+	wisp.attack(game.player2.hero)
+	assert game.player1.hero.health == 30 - 4
+
+
 def test_blessing_of_wisdom():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
