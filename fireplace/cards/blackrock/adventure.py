@@ -187,6 +187,20 @@ class BRMA01_4:
 	play = Summon(CONTROLLER, "BRMA01_4t") * 4
 
 
+# Living Bomb
+class BRMA05_3:
+	play = Buff(TARGET, "BRMA05_3e")
+
+class BRMA05_3e:
+	events = OWN_TURN_BEGIN.on(Hit(ENEMY_CHARACTERS, 5))
+
+class BRMA05_3H:
+	play = Buff(TARGET, "BRMA05_3He")
+
+class BRMA05_3He:
+	events = OWN_TURN_BEGIN.on(Hit(ENEMY_CHARACTERS, 10))
+
+
 # TIME FOR SMASH
 class BRMA07_3:
 	play = Hit(RANDOM_ENEMY_MINION, 5), GainArmor(FRIENDLY_HERO, 5)
