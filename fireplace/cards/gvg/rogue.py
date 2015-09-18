@@ -11,7 +11,7 @@ class GVG_023:
 
 # One-eyed Cheat
 class GVG_025:
-	events = Summon(CONTROLLER, PIRATE - SELF).on(SetTag(SELF, {GameTag.STEALTH: True}))
+	events = Summon(CONTROLLER, PIRATE - SELF).on(Stealth(SELF))
 
 
 # Iron Sensei

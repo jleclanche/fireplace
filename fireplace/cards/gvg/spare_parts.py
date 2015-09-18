@@ -26,7 +26,7 @@ class PART_004:
 
 
 class PART_004e:
-	events = OWN_TURN_BEGIN.on(SetTag(OWNER, {GameTag.STEALTH: False}), Destroy(SELF))
+	events = OWN_TURN_BEGIN.on(Unstealth(OWNER), Destroy(SELF))
 
 
 # Emergency Coolant

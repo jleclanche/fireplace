@@ -23,6 +23,8 @@ class RandomEntourage(RandomCardPicker):
 
 
 Freeze = lambda target: SetTag(target, {GameTag.FROZEN: True})
+Stealth = lambda target: SetTag(target, {GameTag.STEALTH: True})
+Unstealth = lambda target: SetTag(target, {GameTag.STEALTH: False})
 
 
 CLEAVE = Hit(TARGET_ADJACENT, Attr(SELF, GameTag.ATK))

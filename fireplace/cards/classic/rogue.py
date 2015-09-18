@@ -34,7 +34,7 @@ class NEW1_005:
 
 # Master of Disguise
 class NEW1_014:
-	play = SetTag(TARGET, {GameTag.STEALTH: True})
+	play = Stealth(TARGET)
 
 
 ##
@@ -91,11 +91,11 @@ class EX1_126:
 class EX1_128:
 	play = (
 		Buff(FRIENDLY_MINIONS - STEALTH, "EX1_128e"),
-		SetTag(FRIENDLY_MINIONS, {GameTag.STEALTH: True})
+		Stealth(FRIENDLY_MINIONS),
 	)
 
 class EX1_128e:
-	events = OWN_TURN_BEGIN.on(SetTag(OWNER, {GameTag.STEALTH: False}), Destroy(SELF))
+	events = OWN_TURN_BEGIN.on(Unstealth(OWNER), Destroy(SELF))
 
 
 # Fan of Knives

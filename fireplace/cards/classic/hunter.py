@@ -92,7 +92,7 @@ class EX1_539:
 # Flare
 class EX1_544:
 	play = (
-		SetTag(ALL_MINIONS, {GameTag.STEALTH: False}),
+		Unstealth(ALL_MINIONS),
 		Destroy(ENEMY_SECRETS),
 		Draw(CONTROLLER),
 	)
