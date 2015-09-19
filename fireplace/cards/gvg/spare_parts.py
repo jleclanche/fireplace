@@ -17,7 +17,7 @@ class PART_002:
 
 # Rusty Horn
 class PART_003:
-	play = SetTag(TARGET, {GameTag.TAUNT: True})
+	play = Taunt(TARGET)
 
 
 # Finicky Cloakfield

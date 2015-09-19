@@ -16,7 +16,7 @@ class AT_067:
 
 # Sparring Partner
 class AT_069:
-	play = SetTag(TARGET, {GameTag.TAUNT: True})
+	play = Taunt(TARGET)
 
 
 # Alexstrasza's Champion
