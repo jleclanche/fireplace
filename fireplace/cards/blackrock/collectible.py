@@ -110,6 +110,9 @@ class BRM_027pH:
 class BRM_028:
 	events = OWN_TURN_END.on(Buff(CONTROLLER_HAND, "BRM_028e"))
 
+class BRM_028e:
+	events = Play(CONTROLLER, OWNER).on(Destroy(SELF))
+
 
 # Rend Blackhand
 class BRM_029:
