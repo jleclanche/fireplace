@@ -113,6 +113,7 @@ class BaseCard(Entity):
 
 class PlayableCard(BaseCard, TargetableByAuras):
 	windfury = boolean_property("windfury")
+	playable_zone = Zone.HAND
 
 	def __init__(self, data):
 		self.cant_play = False
@@ -260,6 +261,8 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		if self.controller.choice:
 			return False
 		if not self.controller.current_player:
+			return False
+		if self.zone != self.playable_zone:
 			return False
 		if self.controller.mana < self.cost:
 			return False
@@ -749,6 +752,8 @@ class Weapon(rules.WeaponRules, LiveEntity):
 
 
 class HeroPower(PlayableCard):
+	playable_zone = Zone.PLAY
+
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
 			if self.controller.hero.power:
