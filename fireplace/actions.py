@@ -304,6 +304,7 @@ class TargetedAction(Action):
 		self.source = kwargs.pop("source", None)
 		super().__init__(*args, **kwargs)
 		self.times = 1
+		self.event_queue = []
 
 	def __repr__(self):
 		args = ["%s=%r" % (k, v) for k, v in zip(self._argnames[1:], self._args[1:])]
@@ -376,6 +377,10 @@ class TargetedAction(Action):
 				target_args = self.get_target_args(source, target)
 				ret.append(self.do(source, target, *target_args))
 			source.game.manager.action_end(self, source, targets, *self._args)
+
+		for args in self.event_queue:
+			self.broadcast(*args)
+		self.event_queue = []
 
 		return ret
 
@@ -602,7 +607,7 @@ class Heal(TargetedAction):
 			# Undamaged targets do not receive heals
 			logger.info("%r heals %r for %i", source, target, amount)
 			target.damage -= amount
-			self.broadcast(source, EventListener.ON, target, amount)
+			self.event_queue.append((source, EventListener.ON, target, amount))
 
 
 class ManaThisTurn(TargetedAction):
