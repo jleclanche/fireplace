@@ -235,36 +235,36 @@ class Play(GameAction):
 	def get_args(self, source):
 		return (source, ) + super().get_args(source)
 
-	def do(self, source, player, card, target=None, choose=None):
+	def do(self, source, player, card, target=None):
+		source_card = card
+		play_action = card.action
+
+		if card.parent_card:
+			# Get the "main" card from the Choose One
+			card.parent_card.choose = card
+			card = card.parent_card
+
 		card.target = target
-
-		if choose is not None:
-			# Choose One cards replace the action on the played card
-			chosen = player.card(choose)
-			logger.info("Choose One from %r: %r", card, chosen)
-			if chosen.has_target():
-				chosen.target = target
-			card.chosen = chosen
-		card.choose = choose
-
+		source_card.target = target
 		player.game.no_aura_refresh = True
 		player.game._play(card)
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
-		summon_action = Summon(player, card)
-		self.broadcast(player, EventListener.ON, player, card, target, choose)
-		summon_action.broadcast(player, EventListener.ON, player, card)
+		summon_action = Summon(player, source_card)
+		self.broadcast(player, EventListener.ON, player, source_card, target)
+		summon_action.broadcast(player, EventListener.ON, player, source_card)
 		player.game.no_aura_refresh = False
 		player.game.refresh_auras()
-		card.action()
-		summon_action.broadcast(player, EventListener.AFTER, player, card)
-		self.broadcast(player, EventListener.AFTER, player, card, target, choose)
+		play_action()
+		summon_action.broadcast(player, EventListener.AFTER, player, source_card)
+		self.broadcast(player, EventListener.AFTER, player, source_card, target)
 		player.combo = True
 		player.cards_played_this_turn += 1
-		if card.type == CardType.MINION:
+		if source_card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
 
 		card.target = None
+		source_card.target = None
 		card.choose = None
 
 

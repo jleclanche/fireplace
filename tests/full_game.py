@@ -36,12 +36,12 @@ def main():
 		for card in game.current_player.hand:
 			if card.is_playable():
 				target = None
-				choice = None
+				if card.choose_cards:
+					card = random.choice(card.choose_cards)
 				if card.has_target():
 					target = random.choice(card.targets)
-				if card.data.choose_cards:
-					choice = random.choice(card.data.choose_cards)
-				card.play(target=target, choose=choice)
+				print("Playing %r on %r" % (card, target))
+				card.play(target=target)
 			else:
 				print("Not playing", card)
 
