@@ -341,6 +341,19 @@ def test_demonfuse():
 	assert game.player2.max_mana == 10
 
 
+def test_sense_demons_demonfuse():
+	# https://github.com/HearthSim/hs-bugs/issues/111
+	game = prepare_empty_game()
+	demonfuse1 = game.player1.give("AT_024")
+	demonfuse1.shuffle_into_deck()
+	demonfuse2 = game.player1.give("AT_024")
+	demonfuse2.shuffle_into_deck()
+	sense = game.player1.give("EX1_317")
+	sense.play()
+	assert demonfuse1.zone == Zone.DECK
+	assert demonfuse2.zone == Zone.DECK
+
+
 def test_duplicate():
 	game = prepare_game()
 	game.player1.discard_hand()
