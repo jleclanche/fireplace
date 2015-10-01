@@ -23,7 +23,8 @@ echo "Fetching data files from $HSDATA_URL"
 if [ ! -e "$HSDATA_DIR" ]; then
 	git clone --depth=1 "$HSDATA_URL" "$HSDATA_DIR"
 else
-	git -C "$HSDATA_DIR" pull
+	git -C "$HSDATA_DIR" fetch &&
+	git -C "$HSDATA_DIR" reset --hard origin/master
 fi
 
 "$DATADIR/__init__.py" "$HSDATA_DIR" "$DATADIR/CardDefs.xml"
