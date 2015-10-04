@@ -174,10 +174,12 @@ class EX1_625:
 # Mind Spike
 class EX1_625t:
 	activate = Hit(TARGET, 2)
+	update = Refresh(CONTROLLER, {GameTag.SHADOWFORM: True})
 
 # Mind Shatter
 class EX1_625t2:
 	activate = Hit(TARGET, 3)
+	update = Refresh(CONTROLLER, {GameTag.SHADOWFORM: True})
 
 
 # Mass Dispel

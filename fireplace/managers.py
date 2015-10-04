@@ -165,6 +165,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.RECALL: "overload",
 	GameTag.RECEIVES_DOUBLE_SPELLDAMAGE_BONUS: "receives_double_spelldamage_bonus",
 	GameTag.SECRET: "secret",
+	GameTag.SHADOWFORM: "shadowform",
 	GameTag.SHOULDEXITCOMBAT: "should_exit_combat",
 	GameTag.SILENCED: "silenced",
 	GameTag.SPELLPOWER: "spellpower",

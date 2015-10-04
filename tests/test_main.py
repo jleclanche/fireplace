@@ -4777,32 +4777,38 @@ def test_shadow_word_pain_questing_adventurer():
 def test_shadowform():
 	game = prepare_game(PRIEST, PRIEST)
 	# Hero Power should reset
-	shadowform1 = game.current_player.give("EX1_625")
-	assert game.current_player.hero.power.id == "CS1h_001"
-	assert game.current_player.hero.power.is_usable()
-	game.current_player.hero.power.use(target=game.current_player.hero)
-	assert not game.current_player.hero.power.is_usable()
+	shadowform1 = game.player1.give("EX1_625")
+	assert game.player1.hero.power.id == "CS1h_001"
+	assert game.player1.hero.power.is_usable()
+	game.player1.hero.power.use(target=game.player1.hero)
+	assert not game.player1.hero.power.is_usable()
+	assert not game.player1.shadowform
 	assert shadowform1.is_playable()
+	print(game.player1.slots)
 	shadowform1.play()
-	assert game.current_player.hero.power.id == "EX1_625t"
-	assert game.current_player.hero.power.is_usable()
-	game.current_player.hero.power.use(target=game.current_player.opponent.hero)
-	assert not game.current_player.hero.power.is_usable()
-	assert game.current_player.opponent.hero.health == 28
+	print(game.player1.slots)
+	assert game.player1.shadowform
+	assert game.player1.hero.power.id == "EX1_625t"
+	assert game.player1.hero.power.is_usable()
+	game.player1.hero.power.use(target=game.player2.hero)
+	assert not game.player1.hero.power.is_usable()
+	assert game.player2.hero.health == 28
 	game.end_turn(); game.end_turn()
 
-	shadowform2 = game.current_player.give("EX1_625")
+	shadowform2 = game.player1.give("EX1_625")
 	shadowform2.play()
-	assert game.current_player.hero.power.id == "EX1_625t2"
-	assert game.current_player.hero.power.is_usable()
-	game.current_player.hero.power.use(target=game.current_player.opponent.hero)
-	assert not game.current_player.hero.power.is_usable()
-	assert game.current_player.opponent.hero.health == 25
+	assert game.player1.shadowform
+	assert game.player1.hero.power.id == "EX1_625t2"
+	assert game.player1.hero.power.is_usable()
+	game.player1.hero.power.use(target=game.player2.hero)
+	assert not game.player1.hero.power.is_usable()
+	assert game.player2.hero.health == 25
 
-	shadowform3 = game.current_player.give("EX1_625")
+	shadowform3 = game.player1.give("EX1_625")
 	shadowform3.play()
-	assert game.current_player.hero.power.id == "EX1_625t2"
-	assert not game.current_player.hero.power.is_usable()
+	assert game.player1.shadowform
+	assert game.player1.hero.power.id == "EX1_625t2"
+	assert not game.player1.hero.power.is_usable()
 
 
 def test_shadowstep():
