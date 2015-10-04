@@ -117,6 +117,8 @@ class BaseGame(Entity):
 			player.temp_mana = max(0, player.temp_mana - card.cost)
 		player.used_mana += cost
 		player.last_card_played = card
+		card.play_counter = self.play_counter
+		self.play_counter += 1
 		card.zone = Zone.PLAY
 
 	def check_for_end_game(self):

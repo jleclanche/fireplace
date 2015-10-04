@@ -115,6 +115,8 @@ class Player(Entity, TargetableByAuras):
 		card = Card(id)
 		card.controller = self
 		card.zone = zone
+		card.play_counter = self.game.play_counter
+		self.game.play_counter += 1
 		if source is not None:
 			card.creator = source
 		self.game.manager.new_entity(card)

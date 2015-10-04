@@ -9,6 +9,7 @@ class Entity(object):
 
 	def __init__(self):
 		self.manager = self.Manager(self)
+		self.play_counter = 0
 		self.tags = self.manager
 		self.uuid = uuid.uuid4()
 
