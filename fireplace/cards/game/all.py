@@ -29,6 +29,11 @@ class TB_008:
 	play = Hit(TARGET, 1)
 
 
+# Boom Bot Jr.
+class TB_MechWar_Boss2_HeroPower:
+	activate = Hit(RANDOM_ENEMY_CHARACTER, 1) * 2
+
+
 # Mysterious Pilot
 class TB_Pilot1:
 	deathrattle = Summon(CONTROLLER, RandomMinion(cost=Attr(SELF, GameTag.COST)))
