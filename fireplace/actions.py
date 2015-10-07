@@ -235,7 +235,7 @@ class Play(GameAction):
 	def get_args(self, source):
 		return (source, ) + super().get_args(source)
 
-	def do(self, source, player, card, target=None):
+	def do(self, source, player, card, target):
 		source_card = card
 		play_action = card.action
 
