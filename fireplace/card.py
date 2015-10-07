@@ -297,14 +297,14 @@ class PlayableCard(BaseCard, TargetableByAuras):
 				return False
 		return True
 
-	def play(self, target=None, choose=None):
+	def play(self, target=None, index=None, choose=None):
 		"""
 		Queue a Play action on the card.
 		"""
 		if choose:
 			# This is a helper so we can do keeper.play(choose=id)
 			# instead of having to mess with keeper.choose_cards.filter(...)
-			return self.choose_cards.filter(id=choose)[0].play(target=target)
+			return self.choose_cards.filter(id=choose)[0].play(target=target, index=index)
 		if self.has_target():
 			if not target:
 				raise InvalidAction("%r requires a target to play." % (self))
@@ -314,7 +314,7 @@ class PlayableCard(BaseCard, TargetableByAuras):
 			raise InvalidAction("Do not play %r! Play one of its Choose Cards instead" % (self))
 		if not self.is_playable():
 			raise InvalidAction("%r isn't playable." % (self))
-		self.game.queue_actions(self.controller, [Play(self, target)])
+		self.game.queue_actions(self.controller, [Play(self, target, index)])
 		return self
 
 	def shuffle_into_deck(self):
@@ -547,6 +547,7 @@ class Minion(Character):
 		self.enrage = False
 		self.poisonous = False
 		self.silenced = False
+		self._summon_index = None
 		super().__init__(data)
 
 	@property
@@ -603,7 +604,10 @@ class Minion(Character):
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
-			self.controller.field.append(self)
+			if self._summon_index is not None:
+				self.controller.field.insert(self._summon_index, self)
+			else:
+				self.controller.field.append(self)
 
 		if self.zone == Zone.PLAY:
 			self.log("%r is removed from the field", self)

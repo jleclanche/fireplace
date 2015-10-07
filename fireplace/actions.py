@@ -235,7 +235,7 @@ class Play(GameAction):
 	def get_args(self, source):
 		return (source, ) + super().get_args(source)
 
-	def do(self, source, player, card, target):
+	def do(self, source, player, card, target, index):
 		source_card = card
 		play_action = card.action
 
@@ -245,6 +245,7 @@ class Play(GameAction):
 			card = card.parent_card
 
 		card.target = target
+		card._summon_index = index
 		source_card.target = target
 		player.game.no_aura_refresh = True
 		player.game._play(card)
