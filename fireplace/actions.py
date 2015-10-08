@@ -281,7 +281,7 @@ class Activate(GameAction):
 	def do(self, source, player, heropower, target=None):
 		ret = []
 
-		self.broadcast(source, EventListener.ON, heropower, target);
+		self.broadcast(source, EventListener.ON, heropower, target)
 
 		actions = heropower.get_actions("activate")
 		if actions:
