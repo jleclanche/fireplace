@@ -266,8 +266,11 @@ class BaseGame(Entity):
 	def _end_turn(self):
 		self.log("%s ends turn %i", self.current_player, self.turn)
 		self.manager.step(self.next_step, Step.MAIN_CLEANUP)
-
 		self.current_player.temp_mana = 0
+		self.end_turn_cleanup()
+
+	def end_turn_cleanup(self):
+		self.manager.step(self.next_step, Step.MAIN_NEXT)
 		for character in self.current_player.characters.filter(frozen=True):
 			if not character.num_attacks:
 				self.log("Freeze fades from %r", character)
@@ -275,8 +278,6 @@ class BaseGame(Entity):
 		for buff in self.current_player.entities.filter(one_turn_effect=True):
 			self.log("Ending One-Turn effect: %r", buff)
 			buff.destroy()
-
-		self.manager.step(self.next_step, Step.MAIN_NEXT)
 		self.begin_turn(self.current_player.opponent)
 
 	def begin_turn(self, player):
