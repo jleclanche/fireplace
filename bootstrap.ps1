@@ -1,6 +1,6 @@
 $ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
 $DataDir = "$ScriptDir/fireplace/cards/data"
-$HsdataDir = "$ScriptDir/hs-data"
+$HsdataDir = "$DataDir/hs-data"
 $HsdataUrl = "https://github.com/HearthSim/hs-data.git"
 
 # check python version
