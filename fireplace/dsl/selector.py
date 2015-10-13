@@ -354,6 +354,7 @@ Zone.test = lambda self, entity, *args: entity is not None and self == entity.zo
 
 
 BATTLECRY = Selector(GameTag.BATTLECRY)
+CHARGE = Selector(GameTag.CHARGE)
 DAMAGED = Selector(GameTag.DAMAGE)
 DEATHRATTLE = Selector(GameTag.DEATHRATTLE)
 DIVINE_SHIELD = Selector(GameTag.DIVINE_SHIELD)
