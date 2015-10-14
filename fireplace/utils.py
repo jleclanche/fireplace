@@ -1,4 +1,4 @@
-import logging
+﻿import logging
 
 
 class CardList(list):
@@ -83,6 +83,59 @@ def random_draft(hero, exclude=[]):
 
 	return deck
 
+def pretty_format_game(game):
+	"""
+	Returns a detailed string representation of the board state from a game.
+	"""
+	return (pretty_format_player(game.player1)
+		 + "\n\n" + pretty_format_player(game.player2))
+
+def pretty_format_player(player):
+	hero = player.hero
+	power = hero.power
+	weapon = player.weapon
+	# This is a bit messy, consider using named parameters in the format string
+	return "%s%s - %s (%d / %d%s) (Mana %d / %d) %s%s\nHand: %s\nField: %s" % (
+		player.name,
+		"*" if player.current_player else "",
+		hero.name,
+		hero.atk, hero.health,
+		" + %d" % hero.armor if hero.armor > 0 else "",
+		player.mana, player.max_mana,
+		("(%s - %d)" % (power.name, power.cost)
+			if power.is_usable()
+			else "(%s)" % _strike(power.name)),
+		" (%s)" % (pretty_format_weapon(weapon)) if weapon else "",
+		pretty_format_hand(player.hand),
+		pretty_format_field(player.field))
+
+def pretty_format_weapon(weapon):
+	return "%s (%d / %d)" % (
+		weapon.name,
+		weapon.atk,
+		weapon.durability)
+
+def pretty_format_hand(hand):
+	return ", ".join([pretty_format_card(card) for card in hand])
+
+def pretty_format_card(card):
+	return "%s (%d)" % (card.name, card.cost)
+
+def pretty_format_field(field):
+	return ", ".join([pretty_format_minion(minion) for minion in field])
+
+def pretty_format_minion(minion):
+	# TODO(liujimj): Add more tags for can_attack, etc.
+	return "%s%s (%d)%s (%d / %d%s)" % (
+		minion.name,
+		"*" if minion.can_attack else "",
+		minion.cost,
+		" (S)" if minion.silenced else "",
+		minion.atk, minion.health,
+		"D" if minion.damaged else "")
+
+def _strike(text):
+	return '\u0336'.join(text) + '\u0336'
 
 def get_logger(name, level=logging.DEBUG):
 	logger = logging.getLogger(name)
