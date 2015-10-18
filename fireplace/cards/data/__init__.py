@@ -116,7 +116,7 @@ def load_dbf(path):
 			id = int(record.find("./Field[@column='ID']").text)
 			long_guid = record.find("./Field[@column='LONG_GUID']").text
 			mini_guid = record.find("./Field[@column='NOTE_MINI_GUID']").text
-			hero_power_id = int(record.find("./Field[@column='HERO_POWER_ID']").text)
+			hero_power_id = int(record.find("./Field[@column='HERO_POWER_ID']").text or 0)
 
 			guid_lookup[long_guid] = mini_guid
 			db[id] = mini_guid
