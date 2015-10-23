@@ -229,10 +229,7 @@ class NEW1_018:
 
 # Dread Corsair
 class NEW1_022:
-	def cost(self, value):
-		if self.controller.weapon:
-			value -= self.controller.weapon.atk
-		return value
+	cost_mod = -Attr(FRIENDLY_WEAPON, GameTag.ATK)
 
 
 # Flesheating Ghoul
