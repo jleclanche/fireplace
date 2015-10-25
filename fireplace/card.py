@@ -173,7 +173,7 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		"""
 		script = getattr(self.data.scripts, "powered_up", None)
 		if script:
-			return script.evaluate(self)
+			return script.check(self)
 		return False
 
 	@property

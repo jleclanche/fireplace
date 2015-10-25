@@ -20,8 +20,8 @@ class Evaluator:
 		ret._else = action
 		return ret
 
-	def get_actions(self, source):
-		ret = self.evaluate(source)
+	def evaluate(self, source):
+		ret = self.check(source)
 		if ret:
 			if self._if:
 				if not hasattr(self._if, "__iter__"):
@@ -34,7 +34,7 @@ class Evaluator:
 		return []
 
 	def trigger(self, source):
-		for action in self.get_actions(source):
+		for action in self.evaluate(source):
 			action.trigger(source)
 
 
@@ -47,7 +47,7 @@ class CurrentPlayer(Evaluator):
 		super().__init__()
 		self.selector = selector
 
-	def evaluate(self, source):
+	def check(self, source):
 		for target in self.selector.eval(source.game, source):
 			if not target.controller.current_player:
 				return False
@@ -62,7 +62,7 @@ class Dead(Evaluator):
 		super().__init__()
 		self.selector = selector
 
-	def evaluate(self, source):
+	def check(self, source):
 		for target in self.selector.eval(source.game, source):
 			if not target.dead:
 				return False
@@ -78,7 +78,7 @@ class Find(Evaluator):
 		self.selector = selector
 		self.count = count
 
-	def evaluate(self, source):
+	def check(self, source):
 		return len(self.selector.eval(source.game, source)) >= self.count
 
 
@@ -92,7 +92,7 @@ class Joust(Evaluator):
 		self.selector1 = selector1
 		self.selector2 = selector2
 
-	def evaluate(self, source):
+	def check(self, source):
 		t1 = self.selector1.eval(source.game, source)
 		t2 = self.selector2.eval(source.game, source)
 		diff = sum(t.cost for t in t1) - sum(t.cost for t in t2)

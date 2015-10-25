@@ -51,7 +51,7 @@ class LazyNumEvaluator(Evaluator):
 		self.other = other
 		self.cmp = cmp
 
-	def evaluate(self, source):
+	def check(self, source):
 		num = self.num.evaluate(source)
 		other = self.other
 		if isinstance(other, LazyNum):
