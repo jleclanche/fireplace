@@ -5904,6 +5904,19 @@ def test_crackle_malygos():
 	assert game.player1.overloaded == 1
 
 
+def test_crush():
+	game = prepare_game()
+	crush = game.player1.give("GVG_052")
+	assert crush.cost == 7
+	token = game.player1.give(SPELLBENDERT)
+	token.play()
+	assert crush.cost == 7
+	game.player1.give(MOONFIRE).play(token)
+	assert crush.cost == 3
+	token.destroy()
+	assert crush.cost == 7
+
+
 def test_i_am_murloc():
 	game = prepare_game()
 	iammurloc = game.player1.give("PRO_001a")
