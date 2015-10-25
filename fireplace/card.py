@@ -1,7 +1,6 @@
 from itertools import chain
 from hearthstone.enums import CardType, PlayReq, Race, Rarity, Zone
-from . import cards as CardDB, rules
-from .actions import Activate, Deaths, Destroy, Heal, Hit, Morph, Play, Shuffle, SetCurrentHealth
+from . import actions, cards as CardDB, rules
 from .aura import TargetableByAuras
 from .entity import Entity, boolean_property, int_property
 from .managers import CardManager
@@ -233,7 +232,7 @@ class PlayableCard(BaseCard, TargetableByAuras):
 				buff.destroy()
 
 	def destroy(self):
-		return self.game.queue_actions(self, [Destroy(self), Deaths()])
+		return self.game.queue_actions(self, [actions.Destroy(self), actions.Deaths()])
 
 	def _destroy(self):
 		"""
@@ -264,7 +263,7 @@ class PlayableCard(BaseCard, TargetableByAuras):
 				self.game.queue_actions(self, actions)
 
 	def heal(self, target, amount):
-		return self.game.queue_actions(self, [Heal(target, amount)])
+		return self.game.queue_actions(self, [actions.Heal(target, amount)])
 
 	def is_playable(self):
 		if self.controller.choice:
@@ -314,14 +313,14 @@ class PlayableCard(BaseCard, TargetableByAuras):
 			raise InvalidAction("Do not play %r! Play one of its Choose Cards instead" % (self))
 		if not self.is_playable():
 			raise InvalidAction("%r isn't playable." % (self))
-		self.game.queue_actions(self.controller, [Play(self, target, index)])
+		self.game.queue_actions(self.controller, [actions.Play(self, target, index)])
 		return self
 
 	def shuffle_into_deck(self):
 		"""
 		Shuffle the card into the controller's deck
 		"""
-		return self.game.queue_actions(self.controller, [Shuffle(self.controller, self)])
+		return self.game.queue_actions(self.controller, [actions.Shuffle(self.controller, self)])
 
 	def has_target(self):
 		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements:
@@ -366,7 +365,7 @@ class LiveEntity(PlayableCard):
 		return self in self.game.minions_killed_this_turn
 
 	def hit(self, amount):
-		return self.game.queue_actions(self, [Hit(self, amount)])
+		return self.game.queue_actions(self, [actions.Hit(self, amount)])
 
 
 class Character(LiveEntity):
@@ -480,7 +479,7 @@ class Character(LiveEntity):
 		return super().targets
 
 	def set_current_health(self, amount):
-		return self.game.queue_actions(self, [SetCurrentHealth(self, amount)])
+		return self.game.queue_actions(self, [actions.SetCurrentHealth(self, amount)])
 
 
 class Hero(Character):
@@ -634,7 +633,7 @@ class Minion(Character):
 		return super()._hit(source, amount)
 
 	def morph(self, into):
-		return self.game.queue_actions(self, [Morph(self, into)])
+		return self.game.queue_actions(self, [actions.Morph(self, into)])
 
 	def is_playable(self):
 		playable = super().is_playable()
@@ -776,7 +775,7 @@ class HeroPower(PlayableCard):
 		super()._set_zone(value)
 
 	def activate(self):
-		return self.game.queue_actions(self.controller, [Activate(self, self.target)])
+		return self.game.queue_actions(self.controller, [actions.Activate(self, self.target)])
 
 	def get_damage(self, amount, target):
 		amount += self.controller.heropower_damage
