@@ -76,10 +76,9 @@ class Find(Evaluator):
 	def __init__(self, selector, count=1):
 		super().__init__()
 		self.selector = selector
-		self.count = count
 
 	def check(self, source):
-		return len(self.selector.eval(source.game, source)) >= self.count
+		return bool(len(self.selector.eval(source.game, source)))
 
 
 class Joust(Evaluator):
