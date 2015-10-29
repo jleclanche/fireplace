@@ -6,6 +6,11 @@ from ..dsl import *
 from ..events import *
 
 
+# For buffs which are removed when the card is moved to play (eg. cost buffs)
+# This needs to be Summon, because of Summon from the hand
+REMOVED_IN_PLAY = Summon(PLAYER, OWNER).after(Destroy(SELF))
+
+
 RandomCard = lambda **kw: RandomCardPicker(**kw)
 RandomCollectible = lambda **kw: RandomCardPicker(collectible=True, **kw)
 RandomMinion = lambda **kw: RandomCollectible(type=CardType.MINION, **kw)

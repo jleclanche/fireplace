@@ -113,6 +113,9 @@ class EX1_137:
 class EX1_144:
 	play = Bounce(TARGET), Buff(TARGET, "EX1_144e")
 
+class EX1_144e:
+	events = REMOVED_IN_PLAY
+
 
 # Preparation
 class EX1_145:

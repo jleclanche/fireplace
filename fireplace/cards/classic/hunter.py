@@ -153,8 +153,7 @@ class EX1_611:
 	)
 
 class EX1_611e:
-	# Remove the buff when the card is played
-	events = Play(PLAYER, OWNER).after(Destroy(SELF))
+	events = REMOVED_IN_PLAY
 
 
 ##
