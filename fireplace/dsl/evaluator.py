@@ -34,21 +34,17 @@ class Evaluator:
 		ret = self.check(source)
 		if ret:
 			if self._if:
-				if not hasattr(self._if, "__iter__"):
-					return [self._if]
 				return self._if
 		elif self._else:
-			if not hasattr(self._else, "__iter__"):
-				return [self._else]
 			return self._else
-		return []
 
 	def trigger(self, source):
 		"""
 		Triggers all actions meant to trigger on the board state from `source`.
 		"""
-		for action in self.evaluate(source):
-			action.trigger(source)
+		actions = self.evaluate(source)
+		if actions:
+			source.game.trigger_actions(source, actions)
 
 
 class CurrentPlayer(Evaluator):
