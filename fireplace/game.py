@@ -177,11 +177,21 @@ class BaseGame(Entity):
 	def queue_actions(self, source, actions):
 		"""
 		Queue a list of \a actions for processing from \a source.
+		Triggers an aura refresh afterwards.
 		"""
-		ret = []
+		ret = self.trigger_actions(source, actions)
+		self.refresh_auras()
+		return ret
+
+	def trigger_actions(self, source, actions):
+		"""
+		Performs a list of `actions` from `source`.
+		This should seldom be called directly - use `queue_actions` instead.
+		"""
 		if not hasattr(actions, "__iter__"):
 			actions = (actions, )
 
+		ret = []
 		for action in actions:
 			if isinstance(action, EventListener):
 				# Queuing an EventListener registers it as a one-time event
@@ -196,8 +206,6 @@ class BaseGame(Entity):
 				listener._events.append(action)
 			else:
 				ret.append(action.trigger(source))
-		self.refresh_auras()
-
 		return ret
 
 	def pick_first_player(self):
