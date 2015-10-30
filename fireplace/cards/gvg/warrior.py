@@ -51,9 +51,4 @@ class GVG_050:
 # Crush
 class GVG_052:
 	play = Destroy(TARGET)
-
-	def cost(self, value):
-		for minion in self.controller.field:
-			if minion.damaged:
-				return value - 4
-		return value
+	cost_mod = Find(FRIENDLY_MINIONS + DAMAGED) & -4

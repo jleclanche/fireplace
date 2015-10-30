@@ -142,7 +142,10 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		if self.zone == Zone.HAND:
 			mod = getattr(self.data.scripts, "cost_mod", None)
 			if mod is not None:
-				ret += mod.evaluate(self)
+				r = mod.evaluate(self)
+				# evaluate() can return None if it's an Evaluator (Crush)
+				if r:
+					ret += r
 		return max(0, ret)
 
 	@cost.setter
