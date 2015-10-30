@@ -5,10 +5,16 @@ from ..utils import fireplace_logger as logger
 class Evaluator:
 	"""
 	Lazily evaluate a condition at runtime.
+
+	Evaluators must implement the check() method, which determines whether they
+	evaluate to True in the current state.
 	"""
 	def __init__(self):
 		self._if = None
 		self._else = None
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.selector)
 
 	def __and__(self, action):
 		ret = copy.copy(self)
@@ -21,6 +27,10 @@ class Evaluator:
 		return ret
 
 	def evaluate(self, source):
+		"""
+		Evaluates the board state from `source` and returns an iterable of
+		Actions as a result.
+		"""
 		ret = self.check(source)
 		if ret:
 			if self._if:
@@ -34,6 +44,9 @@ class Evaluator:
 		return []
 
 	def trigger(self, source):
+		"""
+		Triggers all actions meant to trigger on the board state from `source`.
+		"""
 		for action in self.evaluate(source):
 			action.trigger(source)
 
@@ -90,6 +103,9 @@ class Joust(Evaluator):
 		super().__init__()
 		self.selector1 = selector1
 		self.selector2 = selector2
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.selector1, self.selector2)
 
 	def check(self, source):
 		t1 = self.selector1.eval(source.game, source)
