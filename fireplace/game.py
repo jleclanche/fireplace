@@ -196,7 +196,7 @@ class BaseGame(Entity):
 				listener._events.append(action)
 			else:
 				ret.append(action.trigger(source))
-				self.refresh_auras()
+		self.refresh_auras()
 
 		return ret
 
