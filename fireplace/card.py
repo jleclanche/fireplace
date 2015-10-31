@@ -352,6 +352,22 @@ class LiveEntity(PlayableCard):
 		self._damage = 0
 
 	@property
+	def damaged(self):
+		return bool(self.damage)
+
+	@property
+	def damage(self):
+		return self._damage
+
+	@damage.setter
+	def damage(self, amount):
+		self._set_damage(amount)
+
+	def _set_damage(self, amount):
+		amount = max(0, amount)
+		self._damage = amount
+
+	@property
 	def dead(self):
 		return self.zone == Zone.GRAVEYARD or self.to_be_destroyed
 
@@ -445,24 +461,6 @@ class Character(LiveEntity):
 		if not self.can_attack(target):
 			raise InvalidAction("%r can't attack %r." % (self, target))
 		self.game.attack(self, target)
-
-	@property
-	def damaged(self):
-		return bool(self.damage)
-
-	@property
-	def damage(self):
-		return self._damage
-
-	@damage.setter
-	def damage(self, amount):
-		amount = max(0, amount)
-
-		if self.min_health:
-			self.log("%r has HEALTH_MINIMUM of %i", self, self.min_health)
-			amount = min(amount, self.max_health - self.min_health)
-
-		self._damage = amount
 
 	@property
 	def health(self):
@@ -603,6 +601,12 @@ class Minion(Character):
 			script = self.data.scripts.enrage
 			ret += (script, )
 		return ret
+
+	def _set_damage(self, amount):
+		if self.min_health:
+			self.log("%r has HEALTH_MINIMUM of %i", self, self.min_health)
+			amount = min(amount, self.max_health - self.min_health)
+		super()._set_damage(amount)
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
