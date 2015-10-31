@@ -5438,7 +5438,6 @@ def test_flame_leviathan():
 
 
 def test_floating_watcher():
-	game = prepare_game()
 	game = prepare_game(WARLOCK, WARLOCK)
 	watcher = game.player1.give("GVG_100")
 	watcher.play()
