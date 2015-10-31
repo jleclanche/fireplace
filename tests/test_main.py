@@ -639,6 +639,19 @@ def test_alexstrasza():
 	assert game.player2.hero.health == 15
 
 
+def test_alexstrasza_armor():
+	game = prepare_game(WARRIOR, WARRIOR)
+	game.player1.hero.power.use()
+	game.end_turn()
+
+	alex = game.player2.give("EX1_561")
+	assert game.player1.hero.health == 30
+	assert game.player1.hero.armor == 2
+	alex.play(target=game.player1.hero)
+	assert game.player1.hero.health == 15
+	assert game.player1.hero.armor == 2
+
+
 def test_alexstrasza_ragnaros():
 	game = prepare_game()
 	majordomo = game.player1.give("BRM_027")
