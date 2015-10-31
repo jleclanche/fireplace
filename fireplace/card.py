@@ -350,6 +350,7 @@ class LiveEntity(PlayableCard):
 		super().__init__(data)
 		self._to_be_destroyed = False
 		self._damage = 0
+		self.predamage = 0
 
 	@property
 	def damaged(self):
