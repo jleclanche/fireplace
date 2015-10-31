@@ -5463,6 +5463,22 @@ def test_floating_watcher():
 	assert watcher.atk == watcher.health == 4 + 4
 
 
+def test_floating_watcher_armor():
+	game = prepare_game()
+	watcher = game.player1.give("GVG_100")
+	watcher.play()
+	shieldblock = game.player1.give("EX1_606")
+	shieldblock.play()
+	assert watcher.atk == watcher.health == 4
+	assert game.player1.hero.armor == 5
+	assert not game.player1.hero.damaged
+	flameimp = game.player1.give("EX1_319")
+	flameimp.play()
+	assert watcher.atk == watcher.health == 6
+	assert game.player1.hero.armor == 2
+	assert not game.player1.hero.damaged
+
+
 def test_force_of_nature():
 	game = prepare_game()
 	game.player1.give("EX1_571").play()
