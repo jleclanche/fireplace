@@ -520,12 +520,13 @@ class Hero(Character):
 				self.controller.summon(self.data.hero_power)
 		super()._set_zone(value)
 
-	def _hit(self, source, amount):
+	def _set_damage(self, amount):
 		if self.armor:
 			new_amount = max(0, amount - self.armor)
 			self.armor -= min(self.armor, amount)
+			self.log("Damage on %r reduced to %r by armor", self, new_amount)
 			amount = new_amount
-		return super()._hit(source, amount)
+		return super()._set_damage(amount)
 
 
 class Minion(Character):
