@@ -3215,8 +3215,10 @@ def test_grand_crusader():
 	assert len(game.player1.hand) == 1
 	crusader.play()
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].card_class == CardClass.PALADIN
-	assert game.player1.hand[0].data.collectible
+	card = game.player1.hand[0]
+	assert card.card_class == CardClass.PALADIN
+	assert card.data.collectible
+	assert card.type != CardType.HERO
 
 
 def test_grimscale_oracle():
@@ -6024,7 +6026,9 @@ def test_burgle():
 	burgle.play()
 	assert len(game.player1.hand) == 2
 	assert game.player1.hand[0].card_class == game.player2.hero.card_class
+	assert game.player1.hand[0].type != CardType.HERO
 	assert game.player1.hand[1].card_class == game.player2.hero.card_class
+	assert game.player1.hand[1].type != CardType.HERO
 
 
 def main():
