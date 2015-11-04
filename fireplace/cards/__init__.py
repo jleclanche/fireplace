@@ -43,11 +43,14 @@ def filter(**kwargs):
 	"""
 	cards = db.values()
 
+	if "type" not in kwargs:
+		kwargs["type"] = [CardType.SPELL, CardType.WEAPON, CardType.MINION]
+
 	for attr, value in kwargs.items():
 		if value is not None:
 			# What? this doesn't work?
 			# cards = __builtins__["filter"](lambda c: getattr(c, attr) == value, cards)
-			cards = [card for card in cards if getattr(card, attr) == value]
+			cards = [card for card in cards if (isinstance(value, list) and getattr(card, attr) in value) or getattr(card, attr) == value]
 
 	return [card.id for card in cards]
 
