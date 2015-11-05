@@ -3543,6 +3543,22 @@ def test_jaraxxus():
 	assert game.player1.field[0].id == "EX1_tk34"
 
 
+def test_lock_and_load():
+	game = prepare_empty_game()
+	lockandload = game.player1.give("AT_061")
+	game.player1.give(THE_COIN).play()
+	assert len(game.player1.hand) == 1
+	lockandload.play()
+	assert game.player1.hero.buffs
+	assert len(game.player1.hand) == 0
+	game.player1.give(THE_COIN).play()
+	assert len(game.player1.hand) == 1
+	card = game.player1.hand[0]
+	assert card.card_class == CardClass.HUNTER
+	assert card.data.collectible
+	assert card.type != CardType.HERO
+
+
 def test_lorewalker_cho():
 	game = prepare_game()
 	cho = game.current_player.give("EX1_100")
