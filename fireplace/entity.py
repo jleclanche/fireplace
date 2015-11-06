@@ -2,7 +2,7 @@ import uuid
 from .utils import fireplace_logger
 
 
-class Entity(object):
+class BaseEntity(object):
 	base_events = []
 	logger = fireplace_logger
 	ignore_scripts = False
@@ -38,14 +38,6 @@ class Entity(object):
 				for s in scripts:
 					ret.append(s)
 		return ret
-
-	def _getattr(self, attr, i):
-		i += getattr(self, "_" + attr, 0)
-		for slot in self.slots:
-			i = slot._getattr(attr, i)
-		if self.ignore_scripts:
-			return i
-		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
 
 	def log(self, message, *args):
 		self.logger.info(message, *args)
@@ -86,6 +78,33 @@ class Entity(object):
 			self._events.remove(event)
 
 
+class BuffableEntity(BaseEntity):
+	def __init__(self):
+		super().__init__()
+		self.buffs = []
+		self.slots = []
+
+	def _getattr(self, attr, i):
+		i += getattr(self, "_" + attr, 0)
+		for buff in self.buffs:
+			i = buff._getattr(attr, i)
+		for slot in self.slots:
+			i = slot._getattr(attr, i)
+		if self.ignore_scripts:
+			return i
+		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
+
+	def clear_buffs(self):
+		if self.buffs:
+			self.log("Clearing buffs from %r", self)
+			for buff in self.buffs:
+				buff.destroy()
+
+
+class Entity(BuffableEntity):
+	pass
+
+
 def slot_property(attr, f=any):
 	@property
 	def func(self):
@@ -96,9 +115,12 @@ def slot_property(attr, f=any):
 def boolean_property(attr):
 	@property
 	def func(self):
-		return getattr(self, "_" + attr, False) \
-			or any(getattr(slot, attr, False) for slot in self.slots) \
-			or getattr(self.data.scripts, attr, lambda s, x: x)(self, False)
+		return (
+			getattr(self, "_" + attr, False) or
+			any(getattr(buff, attr, False) for buff in self.buffs) or
+			any(getattr(slot, attr, False) for slot in self.slots) or
+			getattr(self.data.scripts, attr, lambda s, x: x)(self, False)
+		)
 
 	@func.setter
 	def func(self, value):

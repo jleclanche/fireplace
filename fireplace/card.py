@@ -36,7 +36,6 @@ class BaseCard(Entity):
 	def __init__(self, data):
 		self.data = data
 		super().__init__()
-		self.slots = []
 		self.requirements = data.requirements.copy()
 		self.id = data.id
 		self.controller = None
@@ -180,10 +179,6 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		return False
 
 	@property
-	def buffs(self):
-		return [slot for slot in self.slots if isinstance(slot, Enchantment)]
-
-	@property
 	def entities(self):
 		return chain([self], self.buffs)
 
@@ -227,12 +222,6 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		if self.overload:
 			self.log("%r overloads %s for %i", self, self.controller, self.overload)
 			self.controller.overloaded += self.overload
-
-	def clear_buffs(self):
-		if self.buffs:
-			self.log("Clearing buffs from %r", self)
-			for buff in self.buffs:
-				buff.destroy()
 
 	def destroy(self):
 		return self.game.queue_actions(self, [actions.Destroy(self), actions.Deaths()])
@@ -708,9 +697,9 @@ class Enchantment(BaseCard):
 
 	def _set_zone(self, zone):
 		if zone == Zone.PLAY:
-			self.owner.slots.append(self)
+			self.owner.buffs.append(self)
 		elif zone == Zone.REMOVEDFROMGAME:
-			self.owner.slots.remove(self)
+			self.owner.buffs.remove(self)
 			if self in self.game.active_aura_buffs:
 				self.game.active_aura_buffs.remove(self)
 		super()._set_zone(zone)

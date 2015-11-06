@@ -30,8 +30,6 @@ class Player(Entity, TargetableByAuras):
 		self.field = CardList()
 		self.graveyard = CardList()
 		self.secrets = CardList()
-		self.buffs = []
-		self.slots = []
 		self.choice = None
 		self.start_hand_size = 4
 		self.max_hand_size = 10
