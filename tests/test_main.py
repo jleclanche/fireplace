@@ -5316,6 +5316,19 @@ def test_felguard():
 	assert game.player1.mana == 1
 
 
+def test_fencing_coach():
+	game = prepare_game(WARRIOR, WARRIOR)
+	coach = game.player1.give("AT_115")
+	assert game.player1.hero.power.cost == 2
+	coach.play()
+	assert game.player1.hero.power.cost == 0
+	game.end_turn(); game.end_turn()
+
+	assert game.player1.hero.power.cost == 0
+	game.player1.hero.power.activate()
+	assert game.player1.hero.power.cost == 2
+
+
 def test_fireguard_destroyer():
 	game = prepare_game()
 	fireguard = game.player1.give("BRM_012")

@@ -32,3 +32,12 @@ class AT_110:
 # Master Jouster
 class AT_112:
 	play = JOUST & SetTag(SELF, {GameTag.TAUNT: True, GameTag.DIVINE_SHIELD: True})
+
+
+# Fencing Coach
+class AT_115:
+	play = Buff(CONTROLLER, "AT_115e")
+
+class AT_115e:
+	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: -2})
+	events = Activate(CONTROLLER, HERO_POWER).on(Destroy(SELF))
