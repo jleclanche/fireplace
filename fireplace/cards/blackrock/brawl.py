@@ -6,7 +6,7 @@ from ..utils import *
 
 # Wild Magic
 class TBA01_5:
-	activate = Buff(Give(CONTROLLER, RandomMinion()), "TBA01_5e")
+	activate = Buff(Give(CONTROLLER, RandomSpell()), "TBA01_5e")
 
 class TBA01_5e:
 	cost = SET(0)
