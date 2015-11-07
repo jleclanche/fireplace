@@ -4,6 +4,15 @@ from ..utils import *
 ##
 # Minions
 
+# Saboteur
+class AT_086:
+	play = Buff(OPPONENT, "AT_086e")
+
+class AT_086e:
+	update = CurrentPlayer(OWNER) & Refresh(ENEMY_HERO_POWER, {GameTag.COST: +5})
+	events = OWN_TURN_BEGIN.on(Destroy(SELF))
+
+
 # Injured Kvaldir
 class AT_105:
 	play = Hit(SELF, 3)
