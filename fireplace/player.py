@@ -88,6 +88,7 @@ class Player(Entity, TargetableByAuras):
 		for entity in self.field:
 			ret += entity.entities
 		ret += self.secrets
+		ret += self.buffs
 		return CardList(chain(list(self.hero.entities) if self.hero else [], ret, [self]))
 
 	@property
