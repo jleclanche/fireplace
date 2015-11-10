@@ -43,6 +43,6 @@ class AT_005:
 # Effigy
 class AT_002:
 	events = Death(FRIENDLY + MINION).on(
-		Summon(CONTROLLER, RandomMinion(cost=Attr(Death.Args.ENTITY, GameTag.COST))),
-		Reveal(SELF)
+		Reveal(SELF),
+		Summon(CONTROLLER, RandomMinion(cost=Attr(Death.Args.ENTITY, GameTag.COST)))
 	)

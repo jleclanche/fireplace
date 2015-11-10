@@ -126,30 +126,30 @@ class EX1_533:
 # Snake Trap
 class EX1_554:
 	events = Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(
-		Summon(CONTROLLER, "EX1_554t") * 3, Reveal(SELF)
+		Reveal(SELF), Summon(CONTROLLER, "EX1_554t") * 3
 	)
 
 
 # Snipe
 class EX1_609:
 	events = Play(OPPONENT, MINION).after(
-		Hit(Play.Args.CARD, 4), Reveal(SELF)
+		Reveal(SELF), Hit(Play.Args.CARD, 4)
 	)
 
 
 # Explosive Trap
 class EX1_610:
 	events = Attack(ENEMY_CHARACTERS, FRIENDLY_HERO).on(
-		Hit(ENEMY_CHARACTERS, 2), Reveal(SELF)
+		Reveal(SELF), Hit(ENEMY_CHARACTERS, 2)
 	)
 
 
 # Freezing Trap
 class EX1_611:
 	events = Attack(ENEMY_MINIONS).on(
+		Reveal(SELF),
 		Bounce(Attack.Args.ATTACKER),
-		Buff(Attack.Args.ATTACKER, "EX1_611e"),
-		Reveal(SELF)
+		Buff(Attack.Args.ATTACKER, "EX1_611e")
 	)
 
 class EX1_611e:

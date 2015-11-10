@@ -41,7 +41,7 @@ class AT_074:
 # Competitive Spirit
 class AT_073:
 	events = OWN_TURN_BEGIN.on(
-		Buff(FRIENDLY_MINIONS, "AT_073e"), Reveal(SELF)
+		Reveal(SELF), Buff(FRIENDLY_MINIONS, "AT_073e")
 	)
 
 

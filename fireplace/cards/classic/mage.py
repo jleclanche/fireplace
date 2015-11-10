@@ -128,33 +128,33 @@ class EX1_279:
 # Spellbender
 class tt_010:
 	events = Play(OPPONENT, SPELL, MINION).on(
-		Retarget(Play.Args.CARD, Summon(CONTROLLER, "tt_010a")), Reveal(SELF)
+		Reveal(SELF), Retarget(Play.Args.CARD, Summon(CONTROLLER, "tt_010a"))
 	)
 
 
 # Counterspell
 class EX1_287:
 	events = Play(OPPONENT, SPELL).on(
-		Counter(Play.Args.CARD), Reveal(SELF)
+		Reveal(SELF), Counter(Play.Args.CARD)
 	)
 
 
 # Ice Barrier
 class EX1_289:
 	events = Attack(CHARACTER, FRIENDLY_HERO).on(
-		GainArmor(FRIENDLY_HERO, 8), Reveal(SELF)
+		Reveal(SELF), GainArmor(FRIENDLY_HERO, 8)
 	)
 
 
 # Mirror Entity
 class EX1_294:
 	events = Play(OPPONENT, MINION).after(
-		Summon(CONTROLLER, ExactCopy(Play.Args.CARD)), Reveal(SELF)
+		Reveal(SELF), Summon(CONTROLLER, ExactCopy(Play.Args.CARD))
 	)
 
 
 # Vaporize
 class EX1_594:
 	events = Attack(MINION, FRIENDLY_HERO).on(
-		Destroy(Attack.Args.ATTACKER), Reveal(SELF)
+		Reveal(SELF), Destroy(Attack.Args.ATTACKER)
 	)

@@ -142,7 +142,7 @@ class FP1_018:
 # Avenge
 class FP1_020:
 	events = Death(FRIENDLY + MINION).on(Find(FRIENDLY_MINIONS) & (
-		Buff(RANDOM_FRIENDLY_MINION, "FP1_020e"), Reveal(SELF)
+		Reveal(SELF), Buff(RANDOM_FRIENDLY_MINION, "FP1_020e")
 	))
 
 
