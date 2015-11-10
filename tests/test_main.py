@@ -256,6 +256,23 @@ def test_echo_of_medivh():
 	assert len(game.player1.field) == 4
 
 
+def test_effigy():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	effigy = game.player1.give("AT_002")
+	effigy.play()
+	assert effigy in game.player1.secrets
+	game.end_turn()
+
+	game.player2.give(MOONFIRE).play(target=wisp)
+	assert effigy not in game.player1.secrets
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].cost == wisp.cost == 0
+	assert wisp.dead
+	assert not game.player2.field
+
+
 def test_equality():
 	game = prepare_game()
 	equality = game.current_player.give("EX1_619")

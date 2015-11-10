@@ -36,8 +36,13 @@ class LazyNum:
 		return -n if self._neg else n
 
 	def get_entities(self, source):
+		from ..actions import Action
 		if isinstance(self.selector, Selector):
 			entities = self.selector.eval(source.game, source)
+		elif isinstance(self.selector, Action.Args):
+			# TODO cleanup DRY with actions.py
+			assert source.event_args
+			entities = [source.event_args[self.selector]]
 		else:
 			# TODO assert that self.selector is a TargetedAction
 			entities = sum(self.selector.trigger(source), [])
