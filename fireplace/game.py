@@ -281,7 +281,7 @@ class BaseGame(Entity):
 	def end_turn_cleanup(self):
 		self.manager.step(self.next_step, Step.MAIN_NEXT)
 		for character in self.current_player.characters.filter(frozen=True):
-			if not character.num_attacks:
+			if not character.num_attacks and not character.exhausted:
 				self.log("Freeze fades from %r", character)
 				character.frozen = False
 		for buff in self.current_player.entities.filter(one_turn_effect=True):

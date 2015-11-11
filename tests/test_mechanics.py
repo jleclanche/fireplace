@@ -279,8 +279,13 @@ def test_freeze():
 	game = prepare_game()
 	flameimp = game.current_player.give("EX1_319")
 	flameimp.play()
+	wisp = game.current_player.give(WISP)
+	wisp.play()
+	wisp2 = game.current_player.give(WISP)
+	wisp2.play()
 	game.end_turn()
-
+	
+	# Unfreeze at end of owner's turn, if it could have attacked (but didn't).
 	frostshock = game.current_player.give("CS2_037")
 	frostshock.play(target=flameimp)
 	assert flameimp.frozen
@@ -289,15 +294,28 @@ def test_freeze():
 	assert flameimp.frozen
 	assert not flameimp.can_attack()
 	game.end_turn()
+	
 	assert not flameimp.frozen
 	game.end_turn()
 
-	wisp = game.current_player.give(WISP)
-	wisp.play()
+	assert wisp.can_attack()
 	wisp.frozen = True
-	assert wisp.frozen
+	assert not wisp.can_attack()
+	
+	assert wisp2.can_attack()
+	wisp2.attack(target=game.current_player.opponent.hero)
+	assert not wisp2.can_attack()
+	wisp2.frozen = True
+	
+	wisp3 = game.current_player.give(WISP)
+	wisp3.play()
+	assert not wisp3.can_attack()
+	wisp3.frozen = True
+	assert wisp3.frozen
 	game.end_turn()
 	assert not wisp.frozen
+	assert wisp2.frozen
+	assert wisp3.frozen
 
 
 def test_graveyard_minions():
