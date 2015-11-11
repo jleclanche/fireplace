@@ -67,3 +67,10 @@ AT_042 = ("AT_042a", "AT_042b")
 
 # Totemic Slam
 AT_132_SHAMAN = ("AT_132_SHAMANa", "AT_132_SHAMANb", "AT_132_SHAMANc", "AT_132_SHAMANd")
+
+
+##
+# League of Explorers
+
+# Raven Idol
+LOE_115 = ("LOE_115a", "LOE_115b")
