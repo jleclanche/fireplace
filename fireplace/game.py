@@ -113,8 +113,9 @@ class BaseGame(Entity):
 		cost = card.cost
 		if player.temp_mana:
 			# The coin, Innervate etc
-			cost -= player.temp_mana
-			player.temp_mana = max(0, player.temp_mana - card.cost)
+			used_temp = min(player.temp_mana, cost)
+			cost -= used_temp
+			player.temp_mana -= used_temp
 		player.used_mana += cost
 		player.last_card_played = card
 		card.play_counter = self.play_counter

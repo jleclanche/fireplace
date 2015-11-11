@@ -389,14 +389,28 @@ def test_mana():
 	game = prepare_game(game_class=Game)
 	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
 	assert footman.cost == 1
+	assert game.player1.mana == 1
 	footman.play()
+	assert game.player1.mana == 0
 	assert footman.atk == 1
 	assert footman.health == 2
 	game.end_turn()
 
 	# Play the coin
 	coin = game.player2.hand.filter(id=THE_COIN)[0]
+	coin2 = game.player2.give(THE_COIN)
+	wisp = game.player2.give(WISP)
+	footman2 = game.player2.give(GOLDSHIRE_FOOTMAN)
+	assert game.player2.mana == 1
+	assert game.player2.temp_mana == 0
 	coin.play()
+	coin2.play()
+	assert game.player2.mana == 3
+	assert game.player2.temp_mana == 2
+	wisp.play()
+	assert game.player2.mana == 3
+	assert game.player2.temp_mana == 2
+	footman2.play()
 	assert game.player2.mana == 2
 	assert game.player2.temp_mana == 1
 	game.end_turn()
