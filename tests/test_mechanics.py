@@ -356,20 +356,33 @@ def test_graveyard_secrets():
 
 def test_joust():
 	game = prepare_empty_game()
+	
+	# Jouster loses by default if she has no minions left.
+	game.queue_actions(game.player1, [JOUST & Give(game.player1, TARGET_DUMMY)])
+	assert not game.player1.hand.filter(id=TARGET_DUMMY)
+	
 	wisp = game.player1.give(WISP)
 	wisp.shuffle_into_deck()
 	wisp2 = game.player1.give(WISP)
 	wisp2.shuffle_into_deck()
+	
+	# Jouster wins by default if opponent has no minions left.
+	game.queue_actions(game.player1, [JOUST & Give(game.player1, TARGET_DUMMY)])
+	assert game.player1.hand.filter(id=TARGET_DUMMY)
+	game.player1.hand.filter(id=TARGET_DUMMY)[0].play()
 	game.end_turn()
 
+	# Joust succeeds: 1 > 0
 	goldshire = game.player2.give(GOLDSHIRE_FOOTMAN)
 	goldshire.shuffle_into_deck()
 	game.queue_actions(game.player2, [JOUST & Give(game.player2, TARGET_DUMMY)])
 	assert game.player2.hand.filter(id=TARGET_DUMMY)
 	game.end_turn()
 
+	# Joust fails: 0 <= 1
 	game.queue_actions(game.player1, [JOUST & Give(game.player1, TARGET_DUMMY)])
 	assert not game.player1.hand.filter(id=TARGET_DUMMY)
+	
 
 
 def test_mana():
