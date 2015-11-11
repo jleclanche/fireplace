@@ -31,6 +31,7 @@ def test_auras():
 
 	webspinner = game.current_player.give("FP1_011")
 	webspinner.play()
+	assert webspinner.atk == 1
 	raidleader = game.current_player.give("CS2_122")
 	raidleader.play()
 	assert raidleader.aura
@@ -54,9 +55,12 @@ def test_auras():
 	timberwolf2.play()
 	assert timberwolf.atk == 3
 	assert timberwolf2.atk == 3
+	assert webspinner.atk == 4
 	game.current_player.give(MOONFIRE).play(target=timberwolf)
-	timberwolf2.atk == 2
+	assert timberwolf2.atk == 2
+	assert webspinner.atk == 3
 	game.current_player.give(MOONFIRE).play(target=timberwolf2)
+	assert webspinner.atk == 2
 
 
 def test_bounce():
@@ -90,6 +94,7 @@ def test_bounce():
 	vanish.play()
 	assert len(game.player1.hand) == 10
 	assert brewmaster2 not in game.player1.hand
+	assert brewmaster2 not in game.player1.field
 	assert brewmaster2 in game.player1.graveyard
 	assert brewmaster2 in game.graveyard
 
@@ -110,16 +115,23 @@ def test_card_draw():
 	assert game.current_player.cards_drawn_this_turn == 2
 	game.end_turn()
 
+	assert game.current_player.cards_drawn_this_turn == 1
 	# succubus should discard 1 card
 	card = game.current_player.give("EX1_306")
 	handlength = len(game.current_player.hand)
 	card.play()
 	assert len(game.current_player.hand) == handlength - 2
+	# Discarding a card should not effect the number of cards drawn.
+	assert game.current_player.cards_drawn_this_turn == 1
 
 
 def test_cant_draw():
 	game = prepare_game()
+	
+	assert len(game.player1.hand)
 	game.player1.discard_hand()
+	
+	assert len(game.player1.hand) == 0
 	game.player1.cant_draw = True
 	game.end_turn(); game.end_turn()
 
@@ -139,12 +151,13 @@ def test_charge():
 	wisp.play()
 	assert not wisp.charge
 	assert not wisp.can_attack()
-	# play Charge on wisp
+	# Play Charge on Wisp
 	game.current_player.give("CS2_103").play(target=wisp)
 	assert wisp.buffs[0].tags[GameTag.CHARGE]
 	assert wisp.charge
 	assert wisp.can_attack()
 	wisp.attack(game.current_player.opponent.hero)
+	assert wisp.charge
 	assert not wisp.can_attack()
 	game.end_turn()
 
@@ -153,6 +166,7 @@ def test_charge():
 	assert stonetusk.charge
 	assert stonetusk.can_attack()
 	game.end_turn()
+	assert wisp.charge
 	assert wisp.can_attack()
 	wisp.attack(game.current_player.opponent.hero)
 	assert not wisp.can_attack()
@@ -161,7 +175,10 @@ def test_charge():
 	watcher = game.current_player.give("EX1_045")
 	watcher.play()
 	assert not watcher.can_attack()
+	
+	# Play Charge on Ancient Watcher
 	game.current_player.give("CS2_103").play(target=watcher)
+	assert watcher.charge
 	assert not watcher.can_attack()
 	game.end_turn(); game.end_turn()
 
@@ -172,9 +189,9 @@ def test_charge():
 
 def test_combo():
 	game = prepare_game()
-	game.end_turn(); game.end_turn()
 	game.end_turn()
 
+	assert not game.current_player.combo
 	game.current_player.hand.filter(id=THE_COIN)[0].play()
 	# SI:7 with combo
 	assert game.current_player.combo
@@ -194,12 +211,15 @@ def test_deathrattle():
 	cardcount = len(game.current_player.hand)
 	game.end_turn()
 
+	assert loothoarder.damage == 0
+	assert not loothoarder.dead
 	archer = game.current_player.give("CS2_189")
 	archer.play(target=loothoarder)
-	assert loothoarder.dead
+	# Minions restore to full health when in graveyard.
+	assert loothoarder in game.player1.graveyard
 	assert loothoarder.damage == 0
+	assert loothoarder.dead
 	assert len(game.current_player.opponent.hand) == cardcount + 1
-	game.end_turn(); game.end_turn()
 	game.end_turn(); game.end_turn()
 
 	# test soul of the forest: deathrattle in slots
@@ -400,7 +420,6 @@ def test_joust():
 	# Joust fails: 0 <= 1
 	game.queue_actions(game.player1, [JOUST & Give(game.player1, TARGET_DUMMY)])
 	assert not game.player1.hand.filter(id=TARGET_DUMMY)
-	
 
 
 def test_mana():
@@ -629,7 +648,7 @@ def test_stealth_windfury():
 	game.end_turn()
 
 	archer = game.current_player.give("CS2_189")
-	assert len(archer.targets) == 2  # Only the heroes
+	assert len(archer.targets) == 2 # Only the heroes
 	assert len(game.current_player.hero.power.targets) == 2
 	game.end_turn()
 
