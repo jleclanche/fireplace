@@ -111,7 +111,7 @@ class FP1_029:
 
 # Loatheb
 class FP1_030:
-	play = Buff(ENEMY_HERO, "FP1_030e")
+	play = Buff(OPPONENT, "FP1_030e")
 
 class FP1_030e:
 	update = CurrentPlayer(OWNER) & Refresh(ENEMY + SPELL + IN_HAND, {GameTag.COST: +5})
