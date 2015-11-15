@@ -311,11 +311,12 @@ class BaseGame(Entity):
 		player.used_mana = 0
 		player.overload_locked = player.overloaded
 		player.overloaded = 0
-		for entity in player.entities:
+		for entity in self.live_entities:
 			if entity.type != CardType.PLAYER:
 				entity.turns_in_play += 1
-				if entity.type == CardType.HERO_POWER:
-					entity.exhausted = False
+
+		if player.hero.power:
+			player.hero.power.exhausted = False
 
 		for character in self.characters:
 			character.num_attacks = 0

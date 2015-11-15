@@ -44,7 +44,6 @@ class BaseCard(Entity):
 		self.aura = False
 		self.heropower_damage = 0
 		self.spellpower = 0
-		self.turns_in_play = 0
 		self._zone = Zone.INVALID
 		self.tags.update(data.tags)
 		if hasattr(data.scripts, "tags"):
@@ -340,6 +339,7 @@ class LiveEntity(PlayableCard):
 		self._to_be_destroyed = False
 		self._damage = 0
 		self.predamage = 0
+		self.turns_in_play = 0
 
 	@property
 	def damaged(self):
