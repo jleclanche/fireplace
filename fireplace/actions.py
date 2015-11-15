@@ -836,6 +836,7 @@ class Steal(TargetedAction):
 		zone = target.zone
 		target.zone = Zone.SETASIDE
 		target.controller = source.controller
+		target.turns_in_play = 0
 		target.zone = zone
 
 
