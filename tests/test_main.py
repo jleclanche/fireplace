@@ -76,7 +76,7 @@ def test_cogmaster():
 	assert cogmaster.atk == 3
 	blessedchamp = game.current_player.give("EX1_355")
 	blessedchamp.play(target=cogmaster)
-	cogmaster.atk == 6
+	assert cogmaster.atk == 4
 
 
 def test_cogmasters_wrench():
