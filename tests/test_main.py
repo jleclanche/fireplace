@@ -4982,6 +4982,22 @@ def test_unstable_portal():
 	assert minion.buffs
 
 
+def test_mind_control():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	assert wisp.controller is game.player1
+	assert wisp.zone == Zone.PLAY
+	assert not wisp.asleep
+	mc = game.player2.give("CS1_113")
+	mc.play(target=wisp)
+	assert wisp.controller is game.player2
+	assert wisp.zone == Zone.PLAY
+	assert wisp.asleep
+
+
 def test_mind_control_tech():
 	game = prepare_game()
 	for i in range(4):
