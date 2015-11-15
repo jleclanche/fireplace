@@ -94,5 +94,5 @@ class ExactCopy(Copy):
 		ret.damage = entity.damage
 		for buff in entity.buffs:
 			# Recreate the buff stack
-			entity.buff(ret, buff.id)
+			entity.buff(ret, buff.id, **vars(buff))
 		return ret
