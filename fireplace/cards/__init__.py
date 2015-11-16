@@ -1,14 +1,8 @@
 import os
 from pkg_resources import resource_filename
 from hearthstone import cardxml
-from .blackrock import *
-from .game import *
-from .classic import *
-from .debug import *
-from .gvg import *
-from .naxxramas import *
-from .tgt import *
-from .tutorial import *
+from hearthstone.enums import CardType
+from . import blackrock, classic, debug, game, gvg, naxxramas, tgt, tutorial
 
 
 def merge(id):
@@ -17,15 +11,15 @@ def merge(id):
 	Then return a merged class of the two
 	"""
 	card = db[id]
-	carddef = globals().get(id)
-	if not carddef:
-		cls = type(id, (), {})
+	carddef = None
+	for cardset in (blackrock, classic, debug, game, gvg, naxxramas, tgt, tutorial):
+		if hasattr(cardset, id):
+			carddef = getattr(cardset, id)
+			card.scripts = type(id, (carddef, ), {})
+			break
 	else:
-		if hasattr(carddef, "scripts"):
-			# This basically means the card has already been merged...
-			return card
-		cls = type(id, (carddef, ), {})
-	card.scripts = cls
+		card.scripts = type(id, (), {})
+
 	return card
 
 
