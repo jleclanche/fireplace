@@ -44,7 +44,7 @@ class EX1_612:
 
 class EX1_612o:
 	update = Refresh(FRIENDLY + SECRET + IN_HAND, {GameTag.COST: SET(0)})
-	events = Play(FRIENDLY + SECRET).on(Destroy(SELF))
+	events = Play(CONTROLLER, SECRET).on(Destroy(SELF))
 
 
 # Mana Wyrm
