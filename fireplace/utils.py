@@ -61,7 +61,7 @@ def random_draft(hero, exclude=[]):
 	collection = []
 	hero = getattr(cards, hero)
 
-	for card in cards.cardlist:
+	for card in cards.db.keys():
 		if card in exclude:
 			continue
 		cls = getattr(cards, card)

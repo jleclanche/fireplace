@@ -60,14 +60,12 @@ def filter(**kwargs):
 # it exists.
 # This code is only ran once, at initial import.
 
-if "cardlist" not in globals():
+if "db" not in globals():
 	xmlfile = resource_filename(__name__, "data/CardDefs.xml")
 	if not os.path.exists(xmlfile):
 		raise RuntimeError("%r does not exist - generate it!" % (xmlfile))
 
 	with open(xmlfile, "r") as f:
 		db, xml = cardxml.load(xmlfile)
-		cardlist = []
 		for id in db:
 			globals()[id] = merge(id)
-			cardlist.append(id)
