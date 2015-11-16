@@ -11,15 +11,6 @@ import chooseone
 import missing_cards
 
 
-italicize = [
-	"EX1_345t",  # Shadow of Nothing
-	"TU4c_005",  # Hidden Gnome
-	"TU4c_007",  # Mukla's Big Brother
-	"GAME_006",  # NOOOOOOOOOOOO
-	"PlaceholderCard",  # Placeholder Card
-]
-
-
 def add_chooseone_tags(card, ids):
 	for id in ids:
 		e = ElementTree.Element("ChooseCard")
@@ -179,17 +170,6 @@ def main():
 		if "Can't be targeted by spells or Hero Powers." in card.description:
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_ABILITIES, True)
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_HERO_POWERS, True)
-
-		if id in italicize:
-			description = card.description
-			assert description and not description.startswith("<i>")
-			print("%s: Italicizing description %r" % (id, description))
-			e = card._find_tag(GameTag.CARDTEXT_INHAND)
-			if e is not None:
-				for desc in e:
-					desc.text = "<i>%s</i>" % (desc.text)
-			else:
-				print("WARNING: No CARDTEXT_INHAND tag found on %r" % (card))
 
 	# xml = db[next(db.__iter__())].xml
 	with open(sys.argv[2], "w", encoding="utf8") as f:
