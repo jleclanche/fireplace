@@ -116,6 +116,9 @@ class BaseGame(Entity):
 			used_temp = min(player.temp_mana, cost)
 			cost -= used_temp
 			player.temp_mana -= used_temp
+		if card.overload:
+			self.log("%r overloads %s for %i", card, card.controller, card.overload)
+			card.controller.overloaded += card.overload
 		player.used_mana += cost
 		player.last_card_played = card
 		card.play_counter = self.play_counter
