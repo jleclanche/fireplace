@@ -11,7 +11,7 @@ A Hearthstone simulator and implementation, written in Python.
 ### Installation
 
 * `pip install -r requirements.txt`
-* `./bootstrap.sh`
+* `./bootstrap`
 * (optional) `./setup.py install` to install as a library
 
 ### Documentation

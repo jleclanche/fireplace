@@ -9,7 +9,7 @@ cache:
     - $HOME/virtualenv/python3.4
 script:
   - pip install -r requirements.txt
-  - ./bootstrap.sh
+  - ./bootstrap
   - ./setup.py install
   - py.test
 notifications:
