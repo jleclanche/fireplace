@@ -1367,8 +1367,7 @@ def test_counterspell():
 	bolt.play(target=game.player1.hero)
 	assert not game.player1.secrets
 	assert game.player2.used_mana == 1
-	# Overload is part of the manacost as of 10833
-	assert game.player2.overloaded == 1
+	assert game.player2.overloaded == 0
 	assert game.player1.hero.health == 30
 
 

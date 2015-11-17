@@ -218,6 +218,10 @@ class PlayableCard(BaseCard, TargetableByAuras):
 			# cf. test_knife_juggler()
 			self.game.process_deaths()
 
+		if self.overload:
+			self.log("%r overloads %s for %i", self, self.controller, self.overload)
+			self.controller.overloaded += self.overload
+
 	def destroy(self):
 		return self.game.queue_actions(self, [actions.Destroy(self), actions.Deaths()])
 
