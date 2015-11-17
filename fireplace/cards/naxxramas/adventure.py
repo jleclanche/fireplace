@@ -225,6 +225,8 @@ class NAX6_03:
 class NAX6_03t:
 	deathrattle = Buff(ENEMY_MINIONS, "NAX6_03te")
 
+NAX6_03te = buff(atk=8)
+
 
 # Sporeburst
 class NAX6_04:
@@ -240,20 +242,28 @@ class NAX7_05:
 class NAX9_07:
 	play = Buff(FRIENDLY + (WEAPON | MINION), "NAX9_07e")
 
+NAX9_07e = buff(+1, +1)
+
 
 # Mutating Injection
 class NAX11_04:
 	play = Buff(TARGET, "NAX11_04e")
+
+NAX11_04e = buff(+4, +4, taunt=True)
 
 
 # Enrage
 class NAX12_04:
 	play = Buff(SELF, "NAX12_04e")
 
+NAX12_04e = buff(atk=6)
 
-# Polarity Shift
+
+# Supercharge
 class NAX13_03:
 	play = Buff(FRIENDLY_MINIONS, "NAX13_03e")
+
+NAX13_03e = buff(health=2)
 
 
 # Pure Cold
@@ -292,3 +302,5 @@ class NAX12_03:
 
 class NAX12_03H:
 	events = Death(MINION + DEATHRATTLE).on(Buff(SELF, "NAX12_03e"))
+
+NAX12_03e = buff(atk=2)

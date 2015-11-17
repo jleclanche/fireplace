@@ -8,15 +8,21 @@ from ..utils import *
 class CS2_122:
 	update = Refresh(FRIENDLY_MINIONS - SELF, buff="CS2_122e")
 
+CS2_122e = buff(atk=1)
+
 
 # Stormwind Champion
 class CS2_222:
 	update = Refresh(FRIENDLY_MINIONS - SELF, buff="CS2_222o")
 
+CS2_222o = buff(+1, +1)
+
 
 # Frostwolf Warlord
 class CS2_226:
 	play = Buff(SELF, "CS2_226e") * Count(FRIENDLY_MINIONS)
+
+CS2_226e = buff(+1, +1)
 
 
 # Voodoo Doctor
@@ -43,6 +49,8 @@ class EX1_102:
 class EX1_162:
 	update = Refresh(SELF_ADJACENT, buff="EX1_162o")
 
+EX1_162o = buff(atk=1)
+
 
 # Arathi Weaponsmith
 class EX1_398:
@@ -53,10 +61,14 @@ class EX1_398:
 class EX1_399:
 	events = SELF_DAMAGE.on(Buff(SELF, "EX1_399e"))
 
+EX1_399e = buff(atk=3)
+
 
 # Grimscale Oracle
 class EX1_508:
 	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_508o")
+
+EX1_508o = buff(atk=1)
 
 
 # Nightblade
@@ -111,6 +123,8 @@ class CS2_189:
 class CS2_188:
 	play = Buff(TARGET, "CS2_188o")
 
+CS2_188o = buff(atk=2)
+
 
 # Razorfen Hunter
 class CS2_196:
@@ -125,6 +139,8 @@ class CS2_203:
 # Spiteful Smith
 class CS2_221:
 	enrage = Refresh(FRIENDLY_WEAPON, buff="CS2_221e")
+
+CS2_221e = buff(atk=2)
 
 
 # Venture Co. Mercenary
@@ -146,6 +162,8 @@ class EX1_007:
 class EX1_019:
 	play = Buff(TARGET, "EX1_019e")
 
+EX1_019e = buff(+1, +1)
+
 
 # Dragonling Mechanic
 class EX1_025:
@@ -160,6 +178,8 @@ class EX1_029:
 # Dark Iron Dwarf
 class EX1_046:
 	play = Buff(TARGET, "EX1_046e")
+
+EX1_046e = buff(atk=2)
 
 
 # Spellbreaker
@@ -235,3 +255,12 @@ class NEW1_022:
 # Flesheating Ghoul
 class tt_004:
 	events = Death(MINION).on(Buff(SELF, "tt_004o"))
+
+tt_004o = buff(atk=1)
+
+
+##
+# Unused buffs
+
+# Full Strength (Injured Blademaster)
+CS2_181e = buff(atk=2)

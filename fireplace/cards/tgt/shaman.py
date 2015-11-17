@@ -13,16 +13,22 @@ class AT_046:
 class AT_047:
 	play = Buff(SELF, "AT_047e") * Count(FRIENDLY_MINIONS + TOTEM)
 
+AT_047e = buff(+1, +1)
+
 
 # Thunder Bluff Valiant
 class AT_049:
 	inspire = Buff(FRIENDLY_MINIONS + TOTEM, "AT_049e")
+
+AT_049e = buff(+1, +1)
 
 
 # The Mistcaller
 class AT_054:
 	# The Enchantment ID is correct
 	play = Buff(FRIENDLY + (IN_DECK | IN_HAND), "AT_045e")
+
+AT_045e = buff(+1, +1)
 
 
 ##

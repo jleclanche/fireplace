@@ -8,10 +8,14 @@ from ..utils import *
 class GVG_046:
 	play = Buff(SELF, "GVG_046e") * Count(FRIENDLY_MINIONS + BEAST)
 
+GVG_046e = buff(atk=1)
+
 
 # Metaltooth Leaper
 class GVG_048:
 	play = Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_048e")
+
+GVG_048e = buff(atk=2)
 
 
 # Gahz'rilla
@@ -55,3 +59,5 @@ class GVG_073:
 # Glaivezooka
 class GVG_043:
 	play = Buff(RANDOM_FRIENDLY_MINION, "GVG_043e")
+
+GVG_043e = buff(atk=1)

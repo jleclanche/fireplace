@@ -27,6 +27,8 @@ class CS2_033:
 class EX1_274:
 	events = OWN_TURN_END.on(Find(FRIENDLY_SECRETS) & Buff(SELF, "EX1_274e"))
 
+EX1_274e = buff(+2, +2)
+
 
 # Archmage Antonidas
 class EX1_559:
@@ -50,6 +52,8 @@ class EX1_612o:
 # Mana Wyrm
 class NEW1_012:
 	events = OWN_SPELL_PLAY.on(Buff(SELF, "NEW1_012o"))
+
+NEW1_012o = buff(atk=1)
 
 
 ##
@@ -151,6 +155,9 @@ class EX1_294:
 	events = Play(OPPONENT, MINION).after(
 		Reveal(SELF), Summon(CONTROLLER, ExactCopy(Play.Args.CARD))
 	)
+
+
+EX1_295o = buff(immune=True)
 
 
 # Vaporize

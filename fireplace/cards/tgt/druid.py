@@ -14,15 +14,21 @@ class AT_038:
 class AT_039:
 	inspire = Buff(FRIENDLY_HERO, "AT_039e")
 
+AT_039e = buff(atk=2)
+
 
 # Wildwalker
 class AT_040:
 	play = Buff(TARGET, "AT_040e")
 
+AT_040e = buff(health=3)
+
 
 # Knight of the Wild
 class AT_041:
 	events = Summon(CONTROLLER, BEAST).on(Buff(SELF, "AT_041e"))
+
+AT_041e = buff(cost=-1)
 
 
 # Lion Form (Druid of the Saber)

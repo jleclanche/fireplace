@@ -11,6 +11,8 @@ from ..utils import *
 class AT_132_DRUID:
 	activate = Buff(FRIENDLY_HERO, "AT_132_DRUIDe"), GainArmor(FRIENDLY_HERO, 2)
 
+AT_132_DRUIDe = buff(atk=2)
+
 
 # Ballista Shot
 class AT_132_HUNTER:

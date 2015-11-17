@@ -8,6 +8,8 @@ from ..utils import *
 class AT_011:
 	events = Heal().on(Buff(SELF, "AT_011e"))
 
+AT_011e = buff(atk=2)
+
 
 # Spawn of Shadows
 class AT_012:
@@ -18,10 +20,14 @@ class AT_012:
 class AT_014:
 	events = Draw(CONTROLLER).on(Buff(Draw.Args.CARD, "AT_014e"))
 
+AT_014e = buff(cost=-1)
+
 
 # Wyrmrest Agent
 class AT_116:
 	play = HOLDING_DRAGON & Buff(SELF, "AT_116e")
+
+AT_116e = buff(atk=1, taunt=True)
 
 
 ##

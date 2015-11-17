@@ -8,9 +8,13 @@ from ..utils import *
 class GVG_030a:
 	play = Buff(SELF, "GVG_030ae")
 
+GVG_030ae = buff(atk=1)
+
 # Tank Mode (Anodized Robo Cub)
 class GVG_030b:
 	play = Buff(SELF, "GVG_030be")
+
+GVG_030be = buff(health=1)
 
 
 # Gift of Mana (Grove Tender)
@@ -54,6 +58,8 @@ class GVG_033:
 # Dark Wispers (+5/+5 and Taunt)
 class GVG_041a:
 	play = Buff(TARGET, "GVG_041c")
+
+GVG_041c = buff(+5, +5, taunt=True)
 
 # Dark Wispers (Summon 5 Wisps)
 class GVG_041b:

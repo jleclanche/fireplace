@@ -8,6 +8,8 @@ from ..utils import *
 class AT_006:
 	inspire = Buff(SELF, "AT_006e")
 
+AT_006e = buff(spellpower=1)
+
 
 # Spellslinger
 class AT_007:

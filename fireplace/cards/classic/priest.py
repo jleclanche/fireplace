@@ -21,6 +21,8 @@ class CS2_235:
 class EX1_001:
 	events = Heal().on(Buff(SELF, "EX1_001e"))
 
+EX1_001e = buff(atk=2)
+
 
 # Cabal Shadow Priest
 class EX1_091:
@@ -57,6 +59,8 @@ class EX1_591:
 class EX1_623:
 	play = Buff(TARGET, "EX1_623e")
 
+EX1_623e = buff(health=3)
+
 
 ##
 # Spells
@@ -64,6 +68,8 @@ class EX1_623:
 # Power Word: Shield
 class CS2_004:
 	play = Buff(TARGET, "CS2_004e"), Draw(CONTROLLER)
+
+CS2_004e = buff(health=2)
 
 
 # Holy Nova
@@ -127,6 +133,7 @@ class EX1_334:
 
 class EX1_334e:
 	events = TURN_END.on(Destroy(SELF))
+	tags = {GameTag.CHARGE: True}
 
 	def destroy(self):
 		self.controller.opponent.steal(self.owner)

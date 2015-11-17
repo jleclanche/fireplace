@@ -15,6 +15,8 @@ class EX1_105:
 class EX1_507:
 	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_507e")
 
+EX1_507e = buff(+2, +1)
+
 
 # Faceless Manipulator
 class EX1_564:
@@ -33,6 +35,8 @@ class EX1_590:
 		SetTag(ALL_MINIONS, {GameTag.DIVINE_SHIELD: False})
 	)
 
+EX1_590e = buff(+3, +3)
+
 
 # Molten Giant
 class EX1_620:
@@ -48,6 +52,8 @@ class NEW1_016:
 class NEW1_017:
 	play = Destroy(TARGET), Buff(SELF, "NEW1_017e")
 
+NEW1_017e = buff(+2, +2)
+
 
 # Doomsayer
 class NEW1_021:
@@ -57,3 +63,5 @@ class NEW1_021:
 # Southsea Captain
 class NEW1_027:
 	update = Refresh(FRIENDLY_MINIONS + PIRATE - SELF, buff="NEW1_027e")
+
+NEW1_027e = buff(+1, +1)

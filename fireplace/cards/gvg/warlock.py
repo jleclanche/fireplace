@@ -23,6 +23,8 @@ class GVG_021:
 		Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True}),
 	)
 
+GVG_021e = buff(+2, +2)
+
 
 # Anima Golem
 class GVG_077:
@@ -34,6 +36,8 @@ class GVG_100:
 	events = Damage(FRIENDLY_HERO).on(
 		lambda self, target, amount, source: self.controller.current_player and Buff(SELF, "GVG_100e")
 	)
+
+GVG_100e = buff(+2, +2)
 
 
 ##
@@ -47,3 +51,5 @@ class GVG_015:
 # Demonheart
 class GVG_019:
 	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "GVG_019e") | Hit(TARGET, 5)
+
+GVG_019e = buff(+5, +5)

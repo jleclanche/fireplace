@@ -30,7 +30,10 @@ class TU4f_007:
 	play = Give(OPPONENT, "TU4c_006")
 
 class TU4c_006:
-	play = Buff(TARGET, "TU4c_006")
+	play = Buff(TARGET, "TU4c_006e")
+
+# Bananas
+TU4c_006e = buff(+1, +1)
 
 
 ##
@@ -55,6 +58,9 @@ class TU4c_004:
 class TU4c_008:
 	play = Heal(FRIENDLY_HERO, 8)
 
+# Might of Mukla (Unused)
+TU4c_008e = buff(atk=8)
+
 
 # Flame Burst
 class TU4e_005:
@@ -65,6 +71,8 @@ class TU4e_005:
 class TU4f_004:
 	play = Buff(FRIENDLY_MINIONS, "TU4f_004o")
 
+TU4f_004o = buff(+2, +2)
+
 
 # Transcendence
 class TU4f_006:
@@ -74,3 +82,8 @@ class TU4f_006o:
 	events = Death(FRIENDLY + MINION).on(
 		Find(FRIENDLY_MINIONS) | Destroy(SELF)
 	)
+
+	tags = {
+		GameTag.CANT_BE_ATTACKED: True,
+		GameTag.CANT_BE_TARGETED_BY_OPPONENTS: True,
+	}

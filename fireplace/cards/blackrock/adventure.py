@@ -96,6 +96,8 @@ class BRMA10_3:
 class BRMA10_3H:
 	activate = Buff(ALL_MINIONS + ID("BRMA10_4"), "BRMA10_3e"), Summon(CONTROLLER, "BRMA10_4")
 
+BRMA10_3e = buff(health=1)
+
 
 # Essence of the Red
 class BRMA11_2:
@@ -111,6 +113,10 @@ class BRMA13_4:
 
 class BRMA13_4H:
 	activate = Give(CONTROLLER, RandomSpell(card_class=Attr(TARGET, GameTag.CLASS)))
+
+
+# Potion of Might (The Alchemist)
+BRMA15_2He = buff(+2, +2)
 
 
 # Echolocate
@@ -248,6 +254,8 @@ class BRMA15_3:
 class BRMA16_3:
 	play = Hit(TARGET, 3), Buff(FRIENDLY_WEAPON, "BRMA16_3e")
 
+BRMA16_3e = buff(atk=3)
+
 
 # Reverberating Gong
 class BRMA16_4:
@@ -266,7 +274,11 @@ class BRMA17_4:
 class BRMA10_6:
 	events = Death(MINION + ID("BRMA10_4")).on(Buff(SELF, "BRMA10_6e"))
 
+BRMA10_6e = buff(atk=1)
+
 
 # Dragonteeth
 class BRMA16_5:
 	events = Play(OPPONENT).on(Buff(SELF, "BRMA16_5e"))
+
+BRMA16_5e = buff(atk=1)

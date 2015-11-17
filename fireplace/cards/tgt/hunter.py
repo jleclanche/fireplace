@@ -13,6 +13,8 @@ class AT_010:
 class AT_057:
 	play = Buff(TARGET, "AT_057o")
 
+AT_057o = buff(immune=True)
+
 
 # Brave Archer
 class AT_059:

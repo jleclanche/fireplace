@@ -8,6 +8,9 @@ from ..utils import *
 class CS2_083b:
 	activate = Find(FRIENDLY_WEAPON + ID("AT_034")) | Summon(CONTROLLER, "CS2_082")
 
+# Sharpened (Unused)
+CS2_083e = buff(atk=1)
+
 
 ##
 # Minions
@@ -25,6 +28,8 @@ class EX1_134:
 # Edwin VanCleef
 class EX1_613:
 	combo = Buff(SELF, "EX1_613e") * Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
+
+EX1_613e = buff(+2, +2)
 
 
 # Kidnapper
@@ -50,10 +55,15 @@ class CS2_073:
 	play = Buff(TARGET, "CS2_073e")
 	combo = Buff(TARGET, "CS2_073e2")
 
+CS2_073e = buff(atk=2)
+CS2_073e2 = buff(atk=4)
+
 
 # Deadly Poison
 class CS2_074:
 	play = Buff(FRIENDLY_WEAPON, "CS2_074e")
+
+CS2_074e = buff(atk=2)
 
 
 # Sinister Strike

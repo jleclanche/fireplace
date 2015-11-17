@@ -34,6 +34,7 @@ class BRMC_85:
 class BRMC_86:
 	events = Play(OPPONENT).on(Buff(SELF, "BRMC_86e"))
 
+BRMC_86e = buff(atk=2)
 
 # Moira Bronzebeard
 class BRMC_87:
@@ -71,6 +72,8 @@ class BRMC_96:
 # Razorgore
 class BRMC_98:
 	events = OWN_TURN_BEGIN.on(Buff(FRIENDLY_MINIONS, "BRMC_98e"))
+
+BRMC_98e = buff(atk=3)
 
 
 # Garr

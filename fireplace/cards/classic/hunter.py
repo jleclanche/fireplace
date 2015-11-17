@@ -26,20 +26,28 @@ class DS1_070:
 	powered_up = Find(FRIENDLY_MINIONS + BEAST)
 	play = Buff(TARGET, "DS1_070o")
 
+DS1_070o = buff(+2, +2, taunt=True)
+
 
 # Timber Wolf
 class DS1_175:
 	update = Refresh(FRIENDLY_MINIONS + BEAST - SELF, buff="DS1_175o")
+
+DS1_175o = buff(atk=1)
 
 
 # Tundra Rhino
 class DS1_178:
 	update = Refresh(FRIENDLY_MINIONS + BEAST, buff="DS1_178e")
 
+DS1_178e = buff(charge=True)
+
 
 # Scavenging Hyena
 class EX1_531:
 	events = Death(FRIENDLY + BEAST).on(Buff(SELF, "EX1_531e"))
+
+EX1_531e = buff(+2, +1)
 
 
 # Savannah Highmane
@@ -50,6 +58,8 @@ class EX1_534:
 # Leokk
 class NEW1_033:
 	update = Refresh(FRIENDLY_MINIONS - SELF, buff="NEW1_033o")
+
+NEW1_033o = buff(atk=1)
 
 
 ##
@@ -101,6 +111,8 @@ class EX1_544:
 # Bestial Wrath
 class EX1_549:
 	play = Buff(TARGET, "EX1_549o")
+
+EX1_549o = buff(atk=2, immune=True)
 
 
 # Deadly Shot
@@ -154,6 +166,7 @@ class EX1_611:
 
 class EX1_611e:
 	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: +2}
 
 
 ##
@@ -162,3 +175,5 @@ class EX1_611e:
 # Eaglehorn Bow
 class EX1_536:
 	events = Reveal(FRIENDLY_SECRETS).on(Buff(SELF, "EX1_536e"))
+
+EX1_536e = buff(health=1)

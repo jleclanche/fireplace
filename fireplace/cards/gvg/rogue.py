@@ -8,6 +8,8 @@ from ..utils import *
 class GVG_023:
 	play = Buff(FRIENDLY_WEAPON, "GVG_023a")
 
+GVG_023a = buff(atk=1)
+
 
 # One-eyed Cheat
 class GVG_025:
@@ -17,6 +19,8 @@ class GVG_025:
 # Iron Sensei
 class GVG_027:
 	events = OWN_TURN_END.on(Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_027e"))
+
+GVG_027e = buff(+2, +2)
 
 
 # Trade Prince Gallywix
@@ -37,6 +41,9 @@ class GVG_028t:
 class GVG_022:
 	play = Buff(FRIENDLY_WEAPON, "GVG_022a")
 	combo = Buff(FRIENDLY_WEAPON, "GVG_022a"), Buff(RANDOM_FRIENDLY_CHARACTER, "GVG_022b")
+
+GVG_022a = buff(atk=3)  # Weapon
+GVG_022b = buff(atk=3)  # Minion
 
 
 # Sabotage

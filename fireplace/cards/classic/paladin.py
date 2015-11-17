@@ -46,6 +46,8 @@ class EX1_383:
 class CS2_087:
 	play = Buff(TARGET, "CS2_087e")
 
+CS2_087e = buff(atk=3)
+
 
 # Holy Light
 class CS2_089:
@@ -55,6 +57,8 @@ class CS2_089:
 # Blessing of Kings
 class CS2_092:
 	play = Buff(TARGET, "CS2_092e")
+
+CS2_092e = buff(+4, +4)
 
 
 # Consecration
@@ -175,3 +179,5 @@ class EX1_366:
 		Buff(Summon.Args.CARDS, "EX1_366e"),
 		Hit(SELF, 1)
 	)
+
+EX1_366e = buff(+1, +1)

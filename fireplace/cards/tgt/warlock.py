@@ -13,6 +13,8 @@ class AT_019:
 class AT_021:
 	events = Discard(FRIENDLY).on(Buff(SELF, "AT_021e"))
 
+AT_021e = buff(+1, +1)
+
 
 # Void Crusher
 class AT_023:
@@ -46,6 +48,8 @@ class AT_022:
 # Demonfuse
 class AT_024:
 	play = Buff(TARGET, "AT_024e"), GainMana(OPPONENT, 1)
+
+AT_024e = buff(+3, +3)
 
 
 # Dark Bargain

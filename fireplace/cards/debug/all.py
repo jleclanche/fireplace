@@ -211,10 +211,14 @@ class XXX_053:
 class XXX_054:
 	play = Buff(FRIENDLY_WEAPON, "XXX_054e")
 
+XXX_054e = buff(+100, +100)
+
 
 # 1000 Stats
 class XXX_055:
 	play = Buff(TARGET, "XXX_055e")
+
+XXX_055e = buff(+1000, +1000)
 
 
 # Silence Destroy

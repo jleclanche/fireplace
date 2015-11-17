@@ -16,6 +16,8 @@ class CS2_056:
 class CS2_059:
 	events = OWN_TURN_END.on(Buff(RANDOM_OTHER_FRIENDLY_MINION, "CS2_059o"))
 
+CS2_059o = buff(health=1)
+
 
 # Dread Infernal
 class CS2_064:
@@ -132,6 +134,10 @@ class EX1_316:
 
 class EX1_316e:
 	events = TURN_END.on(Destroy(OWNER))
+	tags = {
+		GameTag.ATK: +4,
+		GameTag.HEALTH: +4,
+	}
 
 
 # Sense Demons
@@ -151,6 +157,8 @@ class EX1_320:
 # Demonfire
 class EX1_596:
 	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "EX1_596e") | Hit(TARGET, 2)
+
+EX1_596e = buff(+2, +2)
 
 
 # Sacrificial Pact

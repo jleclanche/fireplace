@@ -2,12 +2,10 @@
 import argparse
 import re
 import string
-import sys; sys.path.append(".."); sys.path.append("../fireplace/cards/data")
+import sys; sys.path.append("..")
 from fireplace import cards
 from fireplace.utils import get_script_definition
-from hearthstone.enums import CardType, CardSet
-
-import buffs
+from hearthstone.enums import CardSet
 
 
 GREEN = "\033[92m"
@@ -91,11 +89,6 @@ def main():
 		if not description:
 			# Minions without card text or with basic abilities are implemented
 			implemented = True
-		elif card.type == CardType.ENCHANTMENT:
-			if id in buffs.__dict__:
-				implemented = True
-			else:
-				implemented = False
 		elif card.card_set == CardSet.CREDITS:
 			implemented = True
 

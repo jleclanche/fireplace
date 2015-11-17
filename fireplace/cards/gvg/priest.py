@@ -13,6 +13,8 @@ class GVG_009:
 class GVG_011:
 	play = Buff(TARGET, "GVG_011a")
 
+GVG_011a = buff(atk=-2)
+
 
 # Vol'jin
 class GVG_014:
@@ -36,6 +38,9 @@ class GVG_083:
 	# The Enchantment ID is correct
 	play = Buff(TARGET, "GVG_069a")
 
+GVG_069a = buff(health=4)
+
+
 ##
 # Spells
 
@@ -48,6 +53,8 @@ class GVG_008:
 # Velen's Chosen
 class GVG_010:
 	play = Buff(TARGET, "GVG_010b")
+
+GVG_010b = buff(+2, +4, spellpower=1)
 
 
 # Light of the Naaru

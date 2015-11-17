@@ -28,6 +28,8 @@ class FP1_004:
 class FP1_005:
 	events = OWN_TURN_BEGIN.on(Buff(SELF, "FP1_005e"))
 
+FP1_005e = buff(+1, +1)
+
 
 # Nerubian Egg
 class FP1_007:
@@ -83,6 +85,8 @@ class FP1_022:
 class FP1_023:
 	deathrattle = Buff(RANDOM_FRIENDLY_MINION, "FP1_023e")
 
+FP1_023e = buff(health=3)
+
 
 # Unstable Ghoul
 class FP1_024:
@@ -102,6 +106,8 @@ class FP1_027:
 # Undertaker
 class FP1_028:
 	events = Summon(CONTROLLER, MINION + DEATHRATTLE).on(Buff(SELF, "FP1_028e"))
+
+FP1_028e = buff(atk=1)
 
 
 # Dancing Swords
@@ -144,6 +150,8 @@ class FP1_020:
 	events = Death(FRIENDLY + MINION).on(Find(FRIENDLY_MINIONS) & (
 		Reveal(SELF), Buff(RANDOM_FRIENDLY_MINION, "FP1_020e")
 	))
+
+FP1_020e = buff(+3, +2)
 
 
 ##

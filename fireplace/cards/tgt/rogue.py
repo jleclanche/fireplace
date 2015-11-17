@@ -8,10 +8,14 @@ from ..utils import *
 class AT_028:
 	combo = Buff(SELF, "AT_028e")
 
+AT_028e = buff(atk=3)
+
 
 # Buccaneer
 class AT_029:
 	events = Summon(FRIENDLY_WEAPON).on(Buff(Summon.Args.TARGETS, "AT_029e"))
+
+AT_029e = buff(atk=1)
 
 
 # Undercity Valiant
@@ -27,6 +31,8 @@ class AT_031:
 # Shady Dealer
 class AT_032:
 	play = Find(FRIENDLY_MINIONS + PIRATE) & Buff(SELF, "AT_032e")
+
+AT_032e = buff(+1, +1)
 
 
 # Anub'arak
@@ -56,3 +62,5 @@ class AT_035t:
 # Poisoned Blade
 class AT_034:
 	inspire = Buff(SELF, "AT_034e")
+
+AT_034e = buff(atk=1)

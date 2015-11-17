@@ -30,10 +30,13 @@ class EX1_414:
 class EX1_603:
 	play = Buff(TARGET, "EX1_603e"), Hit(TARGET, 1)
 
+EX1_603e = buff(atk=2)
 
 # Frothing Berserker
 class EX1_604:
 	events = Damage(ALL_MINIONS).on(Buff(SELF, "EX1_604o"))
+
+EX1_604o = buff(atk=1)
 
 
 ##
@@ -43,16 +46,21 @@ class EX1_604:
 class CS2_103:
 	play = Buff(TARGET, "CS2_103e2")
 
+CS2_103e2 = buff(atk=2, charge=True)
+
 
 # Rampage
 class CS2_104:
 	play = Buff(TARGET, "CS2_104e")
+
+CS2_104e = buff(+3, +3)
 
 
 # Heroic Strike
 class CS2_105:
 	play = Buff(FRIENDLY_HERO, "CS2_105e")
 
+CS2_105e = buff(atk=4)
 
 # Execute
 class CS2_108:
@@ -101,6 +109,8 @@ class EX1_409:
 		Summon(CONTROLLER, "EX1_409t")
 	)
 
+EX1_409e = buff(+1, +1)
+
 
 # Shield Slam
 class EX1_410:
@@ -116,6 +126,8 @@ class EX1_606:
 class EX1_607:
 	play = Buff(TARGET, "EX1_607e"), Hit(TARGET, 1)
 
+EX1_607e = buff(atk=2)
+
 
 # Commanding Shout
 class NEW1_036:
@@ -124,7 +136,11 @@ class NEW1_036:
 class NEW1_036e2:
 	events = Summon(CONTROLLER, MINION).on(Buff(Summon.Args.CARDS, "NEW1_036e"))
 
+NEW1_036e = buff(health_minimum=1)
+
 
 # Warsong Commander
 class EX1_084:
 	events = Summon(CONTROLLER, MINION + (ATK <= 3)).after(Buff(Summon.Args.CARDS, "EX1_084e"))
+
+EX1_084e = buff(charge=True)

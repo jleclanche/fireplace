@@ -42,3 +42,29 @@ JOUST = Joust(FRIENDLY + MINION + IN_DECK, ENEMY + MINION + IN_DECK)
 
 def SET(amt):
 	return lambda self, i: amt
+
+
+# Buff helper
+def buff(atk=0, health=0, **kwargs):
+	buff_tags = {}
+	if atk:
+		buff_tags[GameTag.ATK] = atk
+	if health:
+		buff_tags[GameTag.HEALTH] = health
+
+	for tag in GameTag:
+		if tag.name.lower() in kwargs.copy():
+			buff_tags[tag] = kwargs.pop(tag.name.lower())
+
+	if "immune" in kwargs:
+		value = kwargs.pop("immune")
+		buff_tags[GameTag.CANT_BE_DAMAGED] = value
+		buff_tags[GameTag.CANT_BE_TARGETED_BY_OPPONENTS] = value
+
+	if kwargs:
+		raise NotImplementedError(kwargs)
+
+	class Buff:
+		tags = buff_tags
+
+	return Buff

@@ -19,6 +19,8 @@ class GVG_055:
 	powered_up = Find(FRIENDLY_MINIONS + MECH)
 	play = Buff(TARGET, "GVG_055e")
 
+GVG_055e = buff(+2, +2)
+
 
 # Iron Juggernaut
 class GVG_056:
@@ -32,6 +34,8 @@ class GVG_056t:
 # Siege Engine
 class GVG_086:
 	events = GainArmor(FRIENDLY_HERO).on(Buff(SELF, "GVG_086e"))
+
+GVG_086e = buff(atk=1)
 
 
 ##

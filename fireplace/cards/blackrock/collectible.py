@@ -13,6 +13,8 @@ class BRM_002:
 class BRM_004:
 	play = HOLDING_DRAGON & Buff(SELF, "BRM_004e")
 
+BRM_004e = buff(health=2)
+
 
 # Imp Gang Boss
 class BRM_006:
@@ -42,11 +44,15 @@ class BRM_010b:
 class BRM_012:
 	play = Buff(SELF, "BRM_012e") * RandomNumber(1, 2, 3, 4)
 
+BRM_012e = buff(atk=1)
+
 
 # Core Rager
 class BRM_014:
 	powered_up = Count(CONTROLLER_HAND - SELF) == 0
 	play = EMPTY_HAND & Buff(SELF, "BRM_014e")
+
+BRM_014e = buff(+3, +3)
 
 
 # Axe Flinger
@@ -57,6 +63,8 @@ class BRM_016:
 # Dragon Consort
 class BRM_018:
 	play = Buff(CONTROLLER, "BRM_018e")
+
+BRM_018e = buff(cost=-3)
 
 
 class BRM_018e:
@@ -72,6 +80,8 @@ class BRM_019:
 class BRM_020:
 	events = Play(CONTROLLER, SPELL, SELF).on(Buff(SELF, "BRM_020e"))
 
+BRM_020e = buff(+1, +1)
+
 
 # Dragon Egg
 class BRM_022:
@@ -81,6 +91,8 @@ class BRM_022:
 # Drakonid Crusher
 class BRM_024:
 	play = (Attr(ENEMY_HERO, "health") <= 15) & Buff(SELF, "BRM_024e")
+
+BRM_024e = buff(+3, +3)
 
 
 # Volcanic Drake
@@ -112,6 +124,7 @@ class BRM_028:
 
 class BRM_028e:
 	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -1}
 
 
 # Rend Blackhand
@@ -127,6 +140,8 @@ class BRM_031:
 # Blackwing Technician
 class BRM_033:
 	play = HOLDING_DRAGON & Buff(SELF, "BRM_033e")
+
+BRM_033e = buff(+1, +1)
 
 
 # Blackwing Corruptor
@@ -152,6 +167,9 @@ class BRM_001e:
 class BRM_003:
 	play = Hit(TARGET, 4)
 	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
+
+# Dragon's Might (Unused)
+BRM_003e = buff(cost=-3)
 
 
 # Demonwrath

@@ -19,6 +19,8 @@ class EX1_014:
 class EX1_014t:
 	play = Buff(TARGET, "EX1_014te")
 
+EX1_014te = buff(+1, +1)
+
 
 # Sylvanas Windrunner
 class EX1_016:
@@ -64,6 +66,8 @@ class Mekka2:
 # Emboldener 3000
 class Mekka3:
 	events = OWN_TURN_END.on(Buff(RANDOM_MINION, "Mekka3e"))
+
+Mekka3e = buff(+1, +1)
 
 # Poultryizer
 class Mekka4:
@@ -155,6 +159,7 @@ class EX1_614:
 class NEW1_024:
 	play = Buff(FRIENDLY_WEAPON, "NEW1_024o")
 
+NEW1_024o = buff(+1, +1)
 
 # Millhouse Manastorm
 class NEW1_029:
@@ -173,6 +178,8 @@ class NEW1_030:
 # Gruul
 class NEW1_038:
 	events = TURN_END.on(Buff(SELF, "NEW1_038o"))
+
+NEW1_038o = buff(+1, +1)
 
 
 # Hogger

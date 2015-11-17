@@ -6,7 +6,6 @@ import sys; sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
 from xml.dom import minidom
 from xml.etree import ElementTree
 from hearthstone.enums import GameTag
-import buffs
 import chooseone
 import missing_cards
 
@@ -122,6 +121,7 @@ def load_dbf(path):
 
 def main():
 	from hearthstone.cardxml import load
+	from fireplace.utils import get_script_definition
 
 	if len(sys.argv) < 3:
 		print("Usage: %s <in> <out/CardDefs.xml>" % (sys.argv[0]))
@@ -130,8 +130,9 @@ def main():
 	db, xml = load(os.path.join(sys.argv[1], "CardDefs.xml"))
 	guids, hero_powers = load_dbf(os.path.join(sys.argv[1], "DBF", "CARD.xml"))
 	for id, card in db.items():
-		if hasattr(buffs, id):
-			for tag, value in getattr(buffs, id).items():
+		carddef = get_script_definition(id)
+		if carddef and hasattr(carddef, "tags"):
+			for tag, value in carddef.tags.items():
 				set_tag(card, tag, value)
 
 		if hasattr(chooseone, id):

@@ -32,6 +32,8 @@ class AT_108:
 class AT_109:
 	inspire = Buff(SELF, "AT_109e")
 
+AT_109e = buff(cant_attack=False)
+
 
 # Coliseum Manager
 class AT_110:

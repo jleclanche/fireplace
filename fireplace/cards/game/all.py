@@ -18,6 +18,8 @@ class GAME_005:
 class TB_006:
 	play = Buff(TARGET, "TB_006e")
 
+TB_006e = buff(+2, +2)
+
 
 # Deviate Banana
 class TB_007:
@@ -37,6 +39,7 @@ class TB_MechWar_Boss2_HeroPower:
 # Mysterious Pilot
 class TB_Pilot1:
 	deathrattle = Summon(CONTROLLER, RandomMinion(cost=Attr(SELF, GameTag.COST)))
+	tags = {GameTag.DEATHRATTLE: True}
 
 
 ##

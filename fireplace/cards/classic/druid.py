@@ -8,6 +8,8 @@ from ..utils import *
 class CS2_017:
 	activate = Buff(FRIENDLY_HERO, "CS2_017o"), GainArmor(FRIENDLY_HERO, 1)
 
+CS2_017o = buff(atk=1)
+
 
 ##
 # Minions
@@ -34,14 +36,20 @@ class EX1_166b:
 class EX1_178a:
 	play = Buff(SELF, "EX1_178ae")
 
+EX1_178ae = buff(health=5, taunt=True)
+
 # Uproot (Ancient of War)
 class EX1_178b:
 	play = Buff(SELF, "EX1_178be")
+
+EX1_178be = buff(atk=5)
 
 
 # Demigod's Favor (Cenarius)
 class EX1_573a:
 	play = Buff(FRIENDLY_MINIONS, "EX1_573ae")
+
+EX1_573ae = buff(+2, +2)
 
 # Shan'do's Lesson (Cenarius)
 class EX1_573b:
@@ -64,6 +72,8 @@ class NEW1_008b:
 class CS2_005:
 	play = Buff(FRIENDLY_HERO, "CS2_005o"), GainArmor(FRIENDLY_HERO, 2)
 
+CS2_005o = buff(atk=2)
+
 
 # Healing Touch
 class CS2_007:
@@ -79,10 +89,14 @@ class CS2_008:
 class CS2_009:
 	play = Buff(TARGET, "CS2_009e")
 
+CS2_009e = buff(+2, +2, taunt=True)
+
 
 # Savage Roar
 class CS2_011:
 	play = Buff(FRIENDLY_CHARACTERS, "CS2_011o")
+
+CS2_011o = buff(atk=2)
 
 
 # Swipe
@@ -115,9 +129,13 @@ class EX1_154b:
 class EX1_155a:
 	play = Buff(TARGET, "EX1_155ae")
 
+EX1_155ae = buff(atk=4)
+
 # Mark of Nature (Health)
 class EX1_155b:
 	play = Buff(TARGET, "EX1_155be")
+
+EX1_155be = buff(health=4, taunt=True)
 
 
 # Soul of the Forest
@@ -126,7 +144,7 @@ class EX1_158:
 
 class EX1_158e:
 	deathrattle = Summon(CONTROLLER, "EX1_158t")
-
+	tags = {GameTag.DEATHRATTLE: True}
 
 # Summon a Panther (Power of the Wild)
 class EX1_160a:
@@ -135,6 +153,8 @@ class EX1_160a:
 # Leader of the Pack (Power of the Wild)
 class EX1_160b:
 	play = Buff(FRIENDLY_MINIONS, "EX1_160be")
+
+EX1_160be = buff(+1, +1)
 
 
 # Naturalize
@@ -164,6 +184,8 @@ class EX1_173:
 # Bite
 class EX1_570:
 	play = Buff(FRIENDLY_HERO, "EX1_570e"), GainArmor(FRIENDLY_HERO, 4)
+
+EX1_570e = buff(atk=4)
 
 
 # Force of Nature

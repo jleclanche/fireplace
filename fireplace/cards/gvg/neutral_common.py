@@ -18,10 +18,14 @@ class GVG_013:
 class GVG_067:
 	events = Play(OPPONENT, SPELL).on(Buff(SELF, "GVG_067a"))
 
+GVG_067a = buff(atk=1)
+
 
 # Burly Rockjaw Trogg
 class GVG_068:
 	events = Play(OPPONENT, SPELL).on(Buff(SELF, "GVG_068a"))
+
+GVG_068a = buff(atk=2)
 
 
 # Antique Healbot
@@ -64,8 +68,12 @@ class GVG_102:
 	powered_up = Find(FRIENDLY_MINIONS + MECH)
 	play = powered_up & (Buff(SELF, "GVG_102e"), Give(CONTROLLER, RandomSparePart()))
 
+GVG_102e = buff(+1, +1)
+
 
 # Micro Machine
 class GVG_103:
 	# That card ID is not a mistake
 	events = TURN_BEGIN.on(Buff(SELF, "GVG_076a"))
+
+GVG_076a = buff(atk=1)

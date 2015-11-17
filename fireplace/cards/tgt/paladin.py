@@ -8,6 +8,8 @@ from ..utils import *
 class AT_075:
 	update = Refresh(FRIENDLY + ID("CS2_101t"), buff="AT_075e")
 
+AT_075e = buff(atk=1)
+
 
 # Murloc Knight
 class AT_076:
@@ -32,7 +34,9 @@ class AT_104:
 
 # Seal of Champions
 class AT_074:
-	play = Buff(TARGET, "AT_074e2")
+	play = Buff(TARGET, "AT_074e2"), SetTag(TARGET, {GameTag.DIVINE_SHIELD: True})
+
+AT_074e2 = buff(atk=3)
 
 
 ##
@@ -44,6 +48,8 @@ class AT_073:
 		Reveal(SELF), Buff(FRIENDLY_MINIONS, "AT_073e")
 	)
 
+AT_073e = buff(+1, +1)
+
 
 ##
 # Weapons
@@ -51,3 +57,5 @@ class AT_073:
 # Argent Lance
 class AT_077:
 	play = JOUST & Buff(SELF, "AT_077e")
+
+AT_077e = buff(health=1)
