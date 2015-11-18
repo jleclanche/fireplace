@@ -284,7 +284,7 @@ class BaseGame(Entity):
 			if not character.num_attacks and not character.exhausted:
 				self.log("Freeze fades from %r", character)
 				character.frozen = False
-		for buff in self.current_player.entities.filter(one_turn_effect=True):
+		for buff in self.entities.filter(one_turn_effect=True):
 			self.log("Ending One-Turn effect: %r", buff)
 			buff.destroy()
 		self.begin_turn(self.current_player.opponent)
