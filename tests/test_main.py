@@ -851,6 +851,41 @@ def test_shield_slam():
 	assert wisp.dead
 
 
+def test_shrinkmeister():
+    game = prepare_game()
+    dummy = game.player1.give(TARGET_DUMMY)
+    dummy.play()
+    wisp = game.player1.give(WISP)
+    wisp.play()
+    boulderfist = game.player1.give("CS2_200")
+    boulderfist.play()
+    game.end_turn()
+
+    assert dummy.atk == 0
+    game.player2.give("GVG_011").play(target=dummy)
+    assert dummy.buffs
+    assert dummy.atk == 0
+
+    assert wisp.atk == 1
+    game.player2.give("GVG_011").play(target=wisp)
+    assert wisp.buffs
+    assert wisp.atk == 0
+
+    assert boulderfist.atk == 6
+    game.player2.give("GVG_011").play(target=boulderfist)
+    assert boulderfist.buffs
+    assert boulderfist.atk == 6 - 2
+    game.end_turn()
+
+    # ensure buffs are gone after end of turn
+    assert not dummy.buffs
+    assert dummy.atk == 0
+    assert not wisp.buffs
+    assert wisp.atk == 1
+    assert not boulderfist.buffs
+    assert boulderfist.atk == 6
+
+
 def test_siege_engine():
 	game = prepare_game(WARRIOR, WARRIOR)
 	engine = game.player1.give("GVG_086")
