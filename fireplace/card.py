@@ -148,23 +148,6 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self._cost = value
 
 	@property
-	def deathrattles(self):
-		ret = []
-		if not self.has_deathrattle:
-			return ret
-		deathrattle = self.get_actions("deathrattle")
-		if deathrattle:
-			ret.append(deathrattle)
-		for buff in self.buffs:
-			if buff.has_deathrattle:
-				deathrattle = buff.get_actions("deathrattle")
-				if deathrattle:
-					ret.append(deathrattle)
-				else:
-					raise NotImplementedError("Missing deathrattle script for %r" % (buff))
-		return ret
-
-	@property
 	def powered_up(self):
 		"""
 		Returns True whether the card is "powered up".
@@ -357,6 +340,23 @@ class LiveEntity(PlayableCard, Entity):
 	def _set_damage(self, amount):
 		amount = max(0, amount)
 		self._damage = amount
+
+	@property
+	def deathrattles(self):
+		ret = []
+		if not self.has_deathrattle:
+			return ret
+		deathrattle = self.get_actions("deathrattle")
+		if deathrattle:
+			ret.append(deathrattle)
+		for buff in self.buffs:
+			if buff.has_deathrattle:
+				deathrattle = buff.get_actions("deathrattle")
+				if deathrattle:
+					ret.append(deathrattle)
+				else:
+					raise NotImplementedError("Missing deathrattle script for %r" % (buff))
+		return ret
 
 	@property
 	def dead(self):
