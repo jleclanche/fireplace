@@ -5160,6 +5160,32 @@ def test_stoneskin_gargoyle():
 	assert gargoyle.dead
 
 
+def test_stormwind_champion():
+	game = prepare_game()
+
+	wisp = game.player1.summon(WISP)
+	assert wisp.atk == wisp.health == 1
+	stormwind = game.player1.give("CS2_222")
+	stormwind.play()
+	assert wisp.atk == wisp.health == 2
+	game.end_turn(); game.end_turn()
+
+	# ensure bounce removes the buff
+	assert wisp.atk == wisp.health == 2
+	game.player1.give(TIME_REWINDER).play(target=stormwind)
+	assert stormwind not in game.player1.field
+	assert wisp.atk == wisp.health == 1
+	stormwind.play()
+	assert wisp.atk == wisp.health == 2
+	game.end_turn(); game.end_turn()
+
+	# destroy Stormwind Champion
+	assert wisp.atk == wisp.health == 2
+	stormwind.destroy()
+	assert stormwind.dead
+	assert wisp.atk == wisp.health == 1
+
+
 def test_summoning_portal():
 	game = prepare_game()
 	game.player1.discard_hand()
