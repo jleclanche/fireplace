@@ -2,7 +2,7 @@ from itertools import chain
 from hearthstone.enums import CardType, PlayReq, Race, Rarity, Zone
 from . import actions, cards as CardDB, rules
 from .aura import TargetableByAuras
-from .entity import Entity, boolean_property, int_property
+from .entity import BaseEntity, Entity, boolean_property, int_property
 from .managers import CardManager
 from .targeting import is_valid_target
 from .utils import CardList
@@ -27,11 +27,8 @@ def Card(id):
 	return subclass(data)
 
 
-class BaseCard(Entity):
+class BaseCard(BaseEntity):
 	Manager = CardManager
-	has_deathrattle = boolean_property("has_deathrattle")
-	atk = int_property("atk")
-	max_health = int_property("max_health")
 
 	def __init__(self, data):
 		self.data = data
@@ -110,7 +107,7 @@ class BaseCard(Entity):
 		return amount
 
 
-class PlayableCard(BaseCard, TargetableByAuras):
+class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	windfury = boolean_property("windfury")
 	playable_zone = Zone.HAND
 
@@ -333,7 +330,11 @@ class PlayableCard(BaseCard, TargetableByAuras):
 		return [card for card in self.game.characters if is_valid_target(self, card)]
 
 
-class LiveEntity(PlayableCard):
+class LiveEntity(PlayableCard, Entity):
+	has_deathrattle = boolean_property("has_deathrattle")
+	atk = int_property("atk")
+	max_health = int_property("max_health")
+
 	def __init__(self, data):
 		super().__init__(data)
 		self._to_be_destroyed = False
@@ -689,11 +690,21 @@ class Secret(Spell):
 
 
 class Enchantment(BaseCard):
+	atk = int_property("atk")
 	cost = int_property("cost")
+	has_deathrattle = boolean_property("has_deathrattle")
+	max_health = int_property("max_health")
+
+	buffs = []
+	slots = []
 
 	def __init__(self, data):
 		self.one_turn_effect = False
 		super().__init__(data)
+
+	def _getattr(self, attr, i):
+		i += getattr(self, "_" + attr, 0)
+		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
 
 	def _set_zone(self, zone):
 		if zone == Zone.PLAY:
