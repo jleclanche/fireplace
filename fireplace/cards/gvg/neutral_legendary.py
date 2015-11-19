@@ -10,7 +10,7 @@ class GVG_110:
 
 # Boom Bot
 class GVG_110t:
-	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, RandomNumber(1, 4))
+	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, RandomNumber(1, 2, 3, 4))
 
 
 # Foe Reaper 4000
