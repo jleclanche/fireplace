@@ -1448,6 +1448,41 @@ def test_dire_wolf_alpha():
 	frostwolf.attack(direwolf2)
 
 
+def test_dragonhawk_rider():
+	game = prepare_game(WARRIOR, WARRIOR)
+	rider = game.player1.give("AT_083")
+	game.player1.hero.power.use()
+	rider.play()
+	assert not rider.windfury
+	game.end_turn()
+
+	# do not trigger on enemy hero power
+	game.player2.hero.power.use()
+	assert not rider.windfury
+	game.end_turn()
+
+	# should gain windfury on inspire for single turn
+	game.player1.hero.power.use()
+	assert rider.windfury
+	rider.attack(game.player2.hero)
+	rider.attack(game.player2.hero)
+	game.end_turn()
+	assert not rider.windfury
+	game.end_turn()
+
+	# should lose windfury and effect when silenced
+	game.player1.hero.power.use()
+	assert rider.windfury
+	rider.attack(game.player2.hero)
+	assert rider.can_attack()
+	game.player1.give(SILENCE).play(target=rider)
+	assert not rider.windfury
+	assert not rider.can_attack()
+	game.end_turn(); game.end_turn()
+	game.player1.hero.power.use()
+	assert not rider.windfury
+
+
 def test_dragonkin_sorcerer():
 	game = prepare_game()
 	dragonkin = game.player1.give("BRM_020")
