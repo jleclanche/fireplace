@@ -594,6 +594,20 @@ def test_silence_deathrattle():
 	assert len(game.player1.field) == 0
 
 
+def test_silence_multiple_buffs():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert wisp.atk == 1
+	# Play Blessing of Might (+3 attack) twice
+	game.player1.give("CS2_087").play(target=wisp)
+	assert wisp.atk == 1 + 3
+	game.player1.give("CS2_087").play(target=wisp)
+	assert wisp.atk == 1 + 3 + 3
+	game.player1.give(SILENCE).play(target=wisp)
+	assert wisp.atk == 1
+
+
 def test_spell_power():
 	game = prepare_game(HUNTER, HUNTER)
 

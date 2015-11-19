@@ -97,7 +97,7 @@ class BuffableEntity(BaseEntity):
 	def clear_buffs(self):
 		if self.buffs:
 			self.log("Clearing buffs from %r", self)
-			for buff in self.buffs:
+			for buff in self.buffs[:]:
 				buff.destroy()
 
 
