@@ -3920,6 +3920,47 @@ def test_sea_giant():
 	assert seagiant.cost == 0
 
 
+def test_seal_of_champions():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert wisp.atk == 1
+	seal1 = game.player1.give("AT_074")
+	seal1.play(target=wisp)
+	assert wisp.divine_shield
+	assert wisp.atk == 1 + 3
+	game.end_turn(); game.end_turn()
+
+	assert wisp.divine_shield
+	assert wisp.atk == 1 + 3
+	game.player1.give(MOONFIRE).play(target=wisp)
+	assert not wisp.divine_shield
+	assert wisp.atk == 1 + 3
+
+	seal2 = game.player1.give("AT_074")
+	seal2.play(target=wisp)
+	assert wisp.atk == 1 + 3 + 3
+	assert wisp.divine_shield
+	game.player1.give(SILENCE).play(target=wisp)
+	assert wisp.atk == 1
+	assert not wisp.divine_shield
+
+
+def test_seal_of_champions_shrinkmeister():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert wisp.atk == 1
+	seal = game.player1.give("AT_074")
+	seal.play(target=wisp)
+	assert wisp.atk == 1 + 3
+	shrinkmeister = game.player1.give("GVG_011")
+	shrinkmeister.play(target=wisp)
+	assert wisp.atk == 1 + 3 - 2
+	game.end_turn()
+	assert wisp.atk == 1 + 3
+
+
 def test_murloc_tidecaller():
 	game = prepare_game()
 	tidecaller = game.current_player.give("EX1_509")
