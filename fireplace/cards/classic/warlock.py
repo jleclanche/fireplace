@@ -14,7 +14,7 @@ class CS2_056:
 
 # Blood Imp
 class CS2_059:
-	events = OWN_TURN_END.on(Buff(FRIENDLY_MINIONS - SELF, "CS2_059o"))
+	events = OWN_TURN_END.on(Buff(RANDOM_OTHER_FRIENDLY_MINION, "CS2_059o"))
 
 
 # Dread Infernal

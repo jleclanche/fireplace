@@ -3022,20 +3022,23 @@ def test_blingtron_3000():
 
 def test_blood_imp():
 	game = prepare_game()
-	wisp = game.current_player.give(WISP)
-	imp = game.current_player.give("CS2_059")
+	wisp1 = game.player1.give(WISP)
+	wisp2 = game.player1.give(WISP)
+	imp = game.player1.give("CS2_059")
 	imp.play()
 	assert imp.health == 1
 	game.end_turn(); game.end_turn()
 
 	assert imp.health == 1
-	wisp.play()
-	assert wisp.health == 1
+	wisp1.play()
+	wisp2.play()
+	assert wisp1.health + wisp2.health == 2
 	game.end_turn()
+	assert wisp1.health + wisp2.health == 3
 
 	assert imp.health == 1
-	assert wisp.atk == 1
-	assert wisp.health == 2
+	assert wisp1.atk == 1
+	assert wisp2.atk == 1
 
 
 def test_blood_knight():
