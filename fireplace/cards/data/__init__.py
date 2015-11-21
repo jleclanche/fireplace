@@ -26,16 +26,6 @@ def add_hero_power(card, id):
 	print("%s: Adding hero power %r" % (card, id))
 
 
-def fix_entourage(card, guids):
-	for entourage in card.xml.findall("EntourageCard"):
-		guid = entourage.attrib["cardID"]
-		if len(guid) < 34:
-			# Still using mini guids, don't need to convert anything
-			return
-		entourage.attrib["cardID"] = guids[guid]
-	print("%s: Converting long guid to mini guids" % (card))
-
-
 def guess_spellpower(card):
 	sre = re.search(r"Spell Damage \+(\d+)", card.description)
 	dmg = int(sre.groups()[0])
@@ -154,9 +144,6 @@ def main():
 			# Hearthstone uses entourage data to identify Spare Parts
 			# We're better than that.
 			set_tag(card, GameTag.SPARE_PART, True)
-
-		if card.xml.findall("EntourageCard"):
-			fix_entourage(card, guids)
 
 		if card.tags.get(GameTag.SPELLPOWER):
 			guess_spellpower(card)
