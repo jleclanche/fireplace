@@ -740,7 +740,7 @@ class Heal(TargetedAction):
 			# "healing as damage" (hack-ish)
 			return source.game.queue_actions(source, [Hit(target, amount)])
 
-		amount *= (source.controller.healing_double + 1)
+		amount <<= source.controller.healing_double
 		amount = min(amount, target.damage)
 		if amount:
 			# Undamaged targets do not receive heals

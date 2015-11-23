@@ -2260,6 +2260,43 @@ def test_prophet_velen():
 	assert game.player2.hero.health == expected_health
 
 
+def test_prophet_velen_multiple():
+	game = prepare_game(PRIEST, PRIEST)
+
+	expected_health = 30
+	assert game.player2.hero.health == expected_health
+	assert game.player1.healing_double == 0
+	assert game.player1.hero_power_double == 0
+	assert game.player1.spellpower_double == 0
+	velen1 = game.player1.give("EX1_350")
+	velen1.play()
+	game.end_turn(); game.end_turn()
+	velen2 = game.player1.give("EX1_350")
+	velen2.play()
+	assert game.player1.healing_double == 2
+	assert game.player1.hero_power_double == 2
+	assert game.player1.spellpower_double == 2
+
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	expected_health -= 4 * 1
+	assert game.player2.hero.health == expected_health
+
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	expected_health -= 4 * 1
+	assert game.player2.hero.health == expected_health
+
+	game.player1.hero.power.use(target=game.player2.hero)
+	expected_health += 4 * 2
+	assert game.player2.hero.health == expected_health
+	game.end_turn(); game.end_turn()
+
+	kobold = game.current_player.give(KOBOLD_GEOMANCER)
+	kobold.play()
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	expected_health -= 4 * (1 + 1)
+	assert game.player2.hero.health == expected_health
+
+
 def test_questing_adventurer():
 	game = prepare_game()
 	adventurer = game.player1.give("EX1_044")

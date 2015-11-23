@@ -133,7 +133,7 @@ class Player(Entity, TargetableByAuras):
 		SPELLPOWER and SPELLPOWER_DOUBLE into account.
 		"""
 		amount += self.spellpower
-		amount *= (self.controller.spellpower_double + 1)
+		amount <<= self.controller.spellpower_double
 		return amount
 
 	def give(self, id):

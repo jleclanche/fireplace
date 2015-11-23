@@ -803,7 +803,7 @@ class HeroPower(PlayableCard):
 
 	def get_damage(self, amount, target):
 		amount += self.controller.heropower_damage
-		amount *= (self.controller.hero_power_double + 1)
+		amount <<= self.controller.hero_power_double
 		return amount
 
 	def use(self, target=None):
