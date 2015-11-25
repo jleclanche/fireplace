@@ -2,7 +2,7 @@ import os
 from pkg_resources import resource_filename
 from hearthstone import cardxml
 from hearthstone.enums import CardType
-from . import blackrock, classic, debug, game, gvg, naxxramas, tgt, tutorial
+from ..utils import get_script_definition
 
 
 def merge(id):
@@ -11,12 +11,9 @@ def merge(id):
 	Then return a merged class of the two
 	"""
 	card = db[id]
-	carddef = None
-	for cardset in (blackrock, classic, debug, game, gvg, naxxramas, tgt, tutorial):
-		if hasattr(cardset, id):
-			carddef = getattr(cardset, id)
-			card.scripts = type(id, (carddef, ), {})
-			break
+	carddef = get_script_definition(id)
+	if carddef:
+		card.scripts = type(id, (carddef, ), {})
 	else:
 		card.scripts = type(id, (), {})
 

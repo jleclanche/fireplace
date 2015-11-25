@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import argparse
-import importlib
 import re
 import string
 import sys; sys.path.append(".."); sys.path.append("../fireplace/cards/data")
 from fireplace import cards
+from fireplace.utils import get_script_definition
 from hearthstone.enums import CardType, CardSet
 
 import buffs
@@ -29,17 +29,6 @@ SOLVED_KEYWORDS = [
 	r"Overload: \(\d+\)",
 ]
 
-CARD_SETS = {
-	"debug": None,
-	"game": None,
-	"tutorial": None,
-	"classic": None,
-	"naxxramas": None,
-	"gvg": None,
-	"blackrock": None,
-	"tgt": None,
-}
-
 DUMMY_CARDS = (
 	"PlaceholderCard",  # Placeholder Card
 	"CS1_113e",  # Mind Control
@@ -58,10 +47,6 @@ DUMMY_CARDS = (
 	"EX1_304e",  # Consume (Void Terror)
 	"NEW1_018e",  # Treasure Crazed (Bloodsail Raider)
 )
-
-
-for cardset in CARD_SETS:
-	CARD_SETS[cardset] = importlib.import_module("fireplace.cards.%s" % (cardset))
 
 
 def cleanup_description(description):
@@ -117,10 +102,9 @@ def main():
 		if id in DUMMY_CARDS:
 			implemented = True
 
-		for set in CARD_SETS.values():
-			if hasattr(set, id):
-				implemented = True
-				break
+		carddef = get_script_definition(id)
+		if carddef:
+			implemented = True
 		else:
 			if "Enrage" in card.description or card.choose_cards:
 				implemented = True

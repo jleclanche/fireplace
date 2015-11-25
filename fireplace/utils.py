@@ -1,6 +1,18 @@
 import logging
 
 
+CARD_SETS = (
+	"game",
+	"debug",
+	"tutorial",
+	"classic",
+	"naxxramas",
+	"gvg",
+	"blackrock",
+	"tgt",
+)
+
+
 class CardList(list):
 	def __contains__(self, x):
 		for item in self:
@@ -104,3 +116,15 @@ def get_logger(name, level=logging.DEBUG):
 
 
 fireplace_logger = get_logger("fireplace")
+
+
+def get_script_definition(id):
+	"""
+	Find and return the script definition for card \a id
+	"""
+	from importlib import import_module
+
+	for cardset in CARD_SETS:
+		module = import_module("fireplace.cards.%s" % (cardset))
+		if hasattr(module, id):
+			return getattr(module, id)
