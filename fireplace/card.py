@@ -1,6 +1,6 @@
 from itertools import chain
 from hearthstone.enums import CardType, PlayReq, Race, Rarity, Zone
-from . import actions, cards as CardDB, rules
+from . import actions, cards, rules
 from .aura import TargetableByAuras
 from .entity import BaseEntity, Entity, boolean_property, int_property
 from .managers import CardManager
@@ -13,7 +13,7 @@ THE_COIN = "GAME_005"
 
 
 def Card(id):
-	data = getattr(CardDB, id)
+	data = cards.db[id]
 	subclass = {
 		CardType.HERO: Hero,
 		CardType.MINION: Minion,

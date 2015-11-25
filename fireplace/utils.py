@@ -71,12 +71,12 @@ def random_draft(hero, exclude=[]):
 
 	deck = []
 	collection = []
-	hero = getattr(cards, hero)
+	hero = cards.db[hero]
 
 	for card in cards.db.keys():
 		if card in exclude:
 			continue
-		cls = getattr(cards, card)
+		cls = cards.db[card]
 		if not cls.collectible:
 			continue
 		if cls.type == CardType.HERO:
