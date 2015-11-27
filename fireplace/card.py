@@ -280,6 +280,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				raise InvalidAction("%r requires a target to play." % (self))
 			elif target not in self.targets:
 				raise InvalidAction("%r is not a valid target for %r." % (target, self))
+		elif target:
+			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
 		if self.choose_cards:
 			raise InvalidAction("Do not play %r! Play one of its Choose Cards instead" % (self))
 		if not self.is_playable():
@@ -807,6 +809,8 @@ class HeroPower(PlayableCard):
 			if not target:
 				raise InvalidAction("%r requires a target." % (self))
 			self.target = target
+		elif target:
+			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
 
 		ret = self.activate()
 
