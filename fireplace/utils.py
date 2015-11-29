@@ -11,6 +11,7 @@ CARD_SETS = (
 	"blackrock",
 	"tgt",
 )
+_custom_cards = {}
 
 
 class CardList(list):
@@ -116,6 +117,10 @@ def get_logger(name, level=logging.DEBUG):
 
 
 fireplace_logger = get_logger("fireplace")
+
+
+def custom_card(cls):
+	_custom_cards[cls.__name__] = cls
 
 
 def get_script_definition(id):

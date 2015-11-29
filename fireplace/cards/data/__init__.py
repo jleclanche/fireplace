@@ -7,7 +7,6 @@ from xml.dom import minidom
 from xml.etree import ElementTree
 from hearthstone.enums import GameTag
 import chooseone
-import missing_cards
 
 
 def add_chooseone_tags(card, ids):
@@ -48,10 +47,11 @@ def guess_overload(card):
 	print("%s: Setting Overload to %i" % (card.name, amount))
 
 
-def create_card(id, card):
+def create_card(id, tags):
+	print("%s: Creating card with %r" % (id, tags))
 	e = ElementTree.Element("Entity")
 	e.attrib["CardID"] = id
-	for tag, value in card.items():
+	for tag, value in tags.items():
 		e.append(_create_tag(tag, value))
 	return e
 
@@ -121,7 +121,7 @@ def load_dbf(path):
 
 def main():
 	from hearthstone.cardxml import load
-	from fireplace.utils import get_script_definition
+	from fireplace.utils import _custom_cards, get_script_definition
 
 	if len(sys.argv) < 3:
 		print("Usage: %s <in> <out/CardDefs.xml>" % (sys.argv[0]))
@@ -168,11 +168,9 @@ def main():
 			card = db[id]
 			root.append(card.xml)
 
-		for id, obj in missing_cards.__dict__.items():
-			if id.startswith("_") or not isinstance(obj, dict):
-				# skip the imports
-				continue
-			e = create_card(id, obj)
+		# Create all registered custom cards
+		for id, cls in _custom_cards.items():
+			e = create_card(id, cls.tags)
 			root.append(e)
 
 		outstr = ElementTree.tostring(root)

@@ -4,6 +4,7 @@ from ..actions import *
 from ..aura import Refresh
 from ..dsl import *
 from ..events import *
+from ..utils import custom_card
 
 
 # For buffs which are removed when the card is moved to play (eg. cost buffs)

@@ -8,7 +8,12 @@ from ..utils import *
 class TBA01_5:
 	activate = Buff(Give(CONTROLLER, RandomSpell()), "TBA01_5e")
 
+@custom_card
 class TBA01_5e:
+	tags = {
+		GameTag.CARDNAME: "Wild Magic Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+	}
 	cost = SET(0)
 
 

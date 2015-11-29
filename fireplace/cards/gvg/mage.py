@@ -39,6 +39,14 @@ class GVG_001:
 class GVG_003:
 	play = Buff(Give(CONTROLLER, RandomMinion()), "GVG_003e")
 
+@custom_card
+class GVG_003e:
+	tags = {
+		GameTag.CARDNAME: "Unstable Portal Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+		GameTag.COST: -3,
+	}
+
 
 # Echo of Medivh
 class GVG_005:

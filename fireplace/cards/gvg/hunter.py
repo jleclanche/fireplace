@@ -42,6 +42,14 @@ class GVG_017:
 		if card.type == CardType.MINION and card.race == Race.BEAST:
 			self.buff(card, "GVG_017e")
 
+@custom_card
+class GVG_017e:
+	tags = {
+		GameTag.CARDNAME: "Call Pet Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+		GameTag.COST: -4,
+	}
+
 
 # Feign Death
 class GVG_026:

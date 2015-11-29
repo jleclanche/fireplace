@@ -123,7 +123,13 @@ class EX1_137:
 class EX1_144:
 	play = Bounce(TARGET), Buff(TARGET, "EX1_144e")
 
+@custom_card
 class EX1_144e:
+	tags = {
+		GameTag.CARDNAME: "Shadowstep Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+		GameTag.COST: -2,
+	}
 	events = REMOVED_IN_PLAY
 
 
