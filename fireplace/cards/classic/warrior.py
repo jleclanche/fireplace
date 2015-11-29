@@ -141,6 +141,6 @@ NEW1_036e = buff(health_minimum=1)
 
 # Warsong Commander
 class EX1_084:
-	events = Summon(CONTROLLER, MINION + (ATK <= 3)).after(Buff(Summon.Args.CARDS, "EX1_084e"))
+	update = Refresh(FRIENDLY_MINIONS + CHARGE, "EX1_084e")
 
-EX1_084e = buff(charge=True)
+EX1_084e = buff(atk=1)

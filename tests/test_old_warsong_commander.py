@@ -1,7 +1,9 @@
 from utils import *
 
 
-WARSONG_COMMANDER = "EX1_084"
+# Use the old Warsong Commander as it was nerfed
+# implemented in fireplace.cards.custom
+WARSONG_COMMANDER = "FIREPLACE_EX1_084"
 
 
 def test_warsong_commander():
@@ -16,6 +18,7 @@ def test_warsong_commander():
 	# test 15 - Warsong, Harvest Golem, then kill Harvest Golem to summon Damaged Golem
 	golem = game.player1.give("EX1_556")
 	golem.play()
+	assert golem.buffs
 	assert golem.charge
 	for i in range(3):
 		game.player1.give(MOONFIRE).play(target=golem)
