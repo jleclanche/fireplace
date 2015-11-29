@@ -4489,6 +4489,23 @@ def test_water_elemental():
 	game.end_turn()
 
 
+def test_warsong_commander():
+	game = prepare_game()
+	wisp = game.player1.summon(WISP)
+	boar = game.player1.summon("CS2_171")
+	assert wisp.atk == boar.atk == 1
+	assert not wisp.charge
+	assert boar.charge
+	warsong = game.player1.summon("EX1_084")
+	assert wisp.atk == 1
+	assert boar.atk == 1 + 1
+	assert not wisp.charge
+	assert boar.charge
+	game.player1.give(SILENCE).play(target=boar)
+	assert boar.atk == 1
+	assert not boar.charge
+
+
 def test_whirlwind():
 	game = prepare_game()
 	token = game.player1.give(SPELLBENDERT)

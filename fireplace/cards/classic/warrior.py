@@ -141,6 +141,6 @@ NEW1_036e = buff(health_minimum=1)
 
 # Warsong Commander
 class EX1_084:
-	update = Refresh(FRIENDLY_MINIONS + CHARGE, "EX1_084e")
+	update = Refresh(FRIENDLY_MINIONS + CHARGE, buff="EX1_084e")
 
 EX1_084e = buff(atk=1)
