@@ -156,6 +156,9 @@ class AttrSelector(Selector):
 			self.op = op
 			self.value = value
 
+		def __repr__(self):
+			return "Attr(%s(%r, %r))" % (self.op.__name__, self.tag, self.value)
+
 		def test(self, entity, source):
 			return self.op(entity.tags.get(self.tag, 0), self.value)
 
