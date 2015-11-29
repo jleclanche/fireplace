@@ -31,11 +31,13 @@ class BRM_009:
 	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
-# Druid of the Flame (Firecat Form)
+# Druid of the Flame
+class BRM_010:
+	choose = ("BRM_010a", "BRM_010b")
+
 class BRM_010a:
 	play = Morph(SELF, "BRM_010t")
 
-# Druid of the Flame (Firehawk Form)
 class BRM_010b:
 	play = Morph(SELF, "BRM_010t2")
 

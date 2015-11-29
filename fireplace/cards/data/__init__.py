@@ -6,7 +6,6 @@ import sys; sys.path.append(os.path.join(os.path.dirname(__file__), "../../.."))
 from xml.dom import minidom
 from xml.etree import ElementTree
 from hearthstone.enums import GameTag
-import chooseone
 
 
 def add_chooseone_tags(card, ids):
@@ -131,12 +130,13 @@ def main():
 	guids, hero_powers = load_dbf(os.path.join(sys.argv[1], "DBF", "CARD.xml"))
 	for id, card in db.items():
 		carddef = get_script_definition(id)
-		if carddef and hasattr(carddef, "tags"):
-			for tag, value in carddef.tags.items():
-				set_tag(card, tag, value)
+		if carddef:
+			if hasattr(carddef, "tags"):
+				for tag, value in carddef.tags.items():
+					set_tag(card, tag, value)
 
-		if hasattr(chooseone, id):
-			add_chooseone_tags(card, getattr(chooseone, id))
+			if hasattr(carddef, "choose"):
+				add_chooseone_tags(card, carddef.choose)
 
 		if id in hero_powers:
 			add_hero_power(card, hero_powers[id])

@@ -4,24 +4,28 @@ from ..utils import *
 ##
 # Minions
 
-# Attack Mode (Anodized Robo Cub)
+# Anodized Robo Cub
+class GVG_030:
+	choose = ("GVG_030a", "GVG_030b")
+
 class GVG_030a:
 	play = Buff(SELF, "GVG_030ae")
 
 GVG_030ae = buff(atk=1)
 
-# Tank Mode (Anodized Robo Cub)
 class GVG_030b:
 	play = Buff(SELF, "GVG_030be")
 
 GVG_030be = buff(health=1)
 
 
-# Gift of Mana (Grove Tender)
+# Grove Tender
+class GVG_032:
+	choose = ("GVG_032a", "GVG_032b")
+
 class GVG_032a:
 	play = GainMana(ALL_PLAYERS, 1)
 
-# Gift of Cards (Grove Tender)
 class GVG_032b:
 	play = Draw(ALL_PLAYERS)
 
@@ -55,12 +59,14 @@ class GVG_033:
 	play = FullHeal(ALL_CHARACTERS)
 
 
-# Dark Wispers (+5/+5 and Taunt)
+# Dark Wispers
+class GVG_041:
+	choose = ("GVG_041a", "GVG_041b")
+
 class GVG_041a:
 	play = Buff(TARGET, "GVG_041c")
 
 GVG_041c = buff(+5, +5, taunt=True)
 
-# Dark Wispers (Summon 5 Wisps)
 class GVG_041b:
 	play = Summon(CONTROLLER, "CS2_231") * 5

@@ -61,8 +61,10 @@ class AT_132_WARLOCK:
 	activate = Draw(CONTROLLER)
 
 
-##
-# Totemic Slam choices
+# Totemic Slam
+class AT_132_SHAMAN:
+	choose = ("AT_132_SHAMANa", "AT_132_SHAMANb", "AT_132_SHAMANc", "AT_132_SHAMANd")
+
 
 # Healing Totem
 class AT_132_SHAMANa:

@@ -18,3 +18,8 @@ class LOE_002:
 
 class LOE_002t:
 	play = Hit(TARGET, 6)
+
+
+# Raven Idol
+class LOE_115:
+	choose = ("LOE_115a", "LOE_115b")
