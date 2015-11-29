@@ -98,9 +98,6 @@ def main():
 		carddef = get_script_definition(id)
 		if carddef:
 			implemented = True
-		else:
-			if "Enrage" in card.description or card.choose_cards:
-				implemented = True
 
 		color = GREEN if implemented else RED
 		name = color + "%s: %s" % (PREFIXES[color], card.name) + ENDC
