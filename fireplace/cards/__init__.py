@@ -38,13 +38,13 @@ class CardDB(dict):
 		log.info("Initializing card database")
 		self.initialized = True
 		if not os.path.exists(self.filename):
-			raise RuntimeError("%r does not exist - generate it!" % (xmlfile))
+			raise RuntimeError("%r does not exist. Create it with `bootstrap`." % (self.filename))
 
 		db, xml = cardxml.load(self.filename)
 		for id, card in db.items():
 			self[id] = self.merge(id, card)
 
-		log.info("Merged %i cards" % (len(self)))
+		log.info("Merged %i cards", len(self))
 
 	def filter(self, **kwargs):
 		"""
