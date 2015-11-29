@@ -17,7 +17,6 @@ SPELLBENDERT = "tt_010a"
 IMP = "EX1_598"
 WISP = "CS2_231"
 WHELP = "ds1_whelptoken"
-WARSONG_COMMANDER = "EX1_084"
 
 # Token spells
 MOONFIRE = "CS2_008"
