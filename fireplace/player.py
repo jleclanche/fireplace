@@ -23,8 +23,9 @@ class Player(Entity, TargetableByAuras):
 
 	def __init__(self, name):
 		self.data = None
-		super().__init__()
 		self.name = name
+		self.hero = None
+		super().__init__()
 		self.deck = Deck()
 		self.hand = CardList()
 		self.field = CardList()
@@ -37,7 +38,6 @@ class Player(Entity, TargetableByAuras):
 		self.cant_draw = False
 		self.cant_fatigue = False
 		self.fatigue_counter = 0
-		self.hero = None
 		self.last_card_played = None
 		self.overloaded = 0
 		self.overload_locked = 0

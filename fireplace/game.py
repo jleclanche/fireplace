@@ -18,8 +18,8 @@ class BaseGame(Entity):
 
 	def __init__(self, players):
 		self.data = None
-		super().__init__()
 		self.players = players
+		super().__init__()
 		for player in players:
 			player.game = self
 		self.state = State.INVALID
