@@ -5286,25 +5286,6 @@ def test_far_sight():
 	assert card1.cost == max(card2.cost - 3, 0)
 
 
-def test_fatigue():
-	game = prepare_game()
-	game.player1.fatigue()
-	assert game.player1.hero.health == 30 - 1
-	game.player1.fatigue()
-	assert game.player1.hero.health == 30 - 1 - 2
-	game.player1.fatigue()
-	assert game.player1.hero.health == 30 - 1 - 2 - 3
-	assert game.player2.hero.health == 30
-
-	# Draw the deck
-	game.player1.draw(26)
-	assert game.player1.hero.health == 30 - 1 - 2 - 3
-	game.player1.draw(1)
-	assert game.player1.hero.health == 30 - 1 - 2 - 3 - 4
-	game.end_turn(); game.end_turn()
-	assert game.player1.hero.health == 30 - 1 - 2 - 3 - 4 - 5
-
-
 def test_flare():
 	game = prepare_game(HUNTER, HUNTER)
 	flare = game.current_player.give("EX1_544")
