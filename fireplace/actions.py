@@ -2,7 +2,7 @@ from enum import IntEnum
 from hearthstone.enums import CardType, Mulligan, PlayState, Zone
 from .dsl import LazyNum, Picker, Selector
 from .entity import Entity
-from .utils import fireplace_logger as logger
+from .logging import log
 
 
 def _eval_card(source, card):
@@ -78,7 +78,7 @@ class Action:  # Lawsuit
 			if event.at != at:
 				continue
 			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, args):
-				logger.info("%r triggers off %r from %r", entity, self, source)
+				log.info("%r triggers off %r from %r", entity, self, source)
 				entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
@@ -129,7 +129,7 @@ class Attack(GameAction):
 		defender.defending = True
 		source.game.proposed_attacker = attacker
 		source.game.proposed_defender = defender
-		logger.info("%r attacks %r", attacker, defender)
+		log.info("%r attacks %r", attacker, defender)
 		self.broadcast(source, EventListener.ON, attacker, defender)
 		source.game._attack()
 
@@ -174,7 +174,7 @@ class Death(GameAction):
 		ENTITY = 0
 
 	def do(self, source, target):
-		logger.info("Processing Death for %r", target)
+		log.info("Processing Death for %r", target)
 		self.broadcast(source, EventListener.ON, target)
 		if target.deathrattles:
 			source.game.queue_actions(source, [Deathrattle(target)])
@@ -373,7 +373,7 @@ class TargetedAction(Action):
 			targets = self.get_targets(source, args[0])
 			args = args[1:]
 			source.game.manager.action(self, source, targets, *args)
-			logger.info("%r triggering %r targeting %r", source, self, targets)
+			log.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
 				target_args = self.get_target_args(source, target)
 				ret.append(self.do(source, target, *target_args))
@@ -404,7 +404,7 @@ class Buff(TargetedAction):
 
 class SwapAttackAndHealth(Buff):
 	def do(self, source, target, buff):
-		logger.info("%r swaps attack and health for %r", source, target)
+		log.info("%r swaps attack and health for %r", source, target)
 		buff = super().do(source, target, buff)
 		atk = target.health - target.atk
 		health = target.atk - target.health
@@ -475,7 +475,7 @@ class Deathrattle(TargetedAction):
 			source.game.queue_actions(target, actions)
 
 			if target.controller.extra_deathrattles:
-				logger.info("Triggering deathrattles for %r again", target)
+				log.info("Triggering deathrattles for %r again", target)
 				source.game.queue_actions(target, actions)
 
 
@@ -578,11 +578,11 @@ class Give(TargetedAction):
 		CARDS = 1
 
 	def do(self, source, target, cards):
-		logger.info("Giving %r to %s", cards, target)
+		log.info("Giving %r to %s", cards, target)
 		ret = []
 		for card in cards:
 			if len(target.hand) >= target.max_hand_size:
-				logger.info("Give(%r) fails because %r's hand is full", card, target)
+				log.info("Give(%r) fails because %r's hand is full", card, target)
 				continue
 			card.controller = target
 			card.zone = Zone.HAND
@@ -621,7 +621,7 @@ class Heal(TargetedAction):
 		amount = min(amount, target.damage)
 		if amount:
 			# Undamaged targets do not receive heals
-			logger.info("%r heals %r for %i", source, target, amount)
+			log.info("%r heals %r for %i", source, target, amount)
 			target.damage -= amount
 			self.event_queue.append((source, EventListener.ON, target, amount))
 
@@ -666,7 +666,7 @@ class Morph(TargetedAction):
 		return (card, )
 
 	def do(self, source, target, card):
-		logger.info("Morphing %r into %r", target, card)
+		log.info("Morphing %r into %r", target, card)
 		target.clear_buffs()
 		target.zone = Zone.SETASIDE
 		card.zone = Zone.PLAY
@@ -694,11 +694,11 @@ class Retarget(TargetedAction):
 		assert len(new_target) == 1
 		new_target = new_target[0]
 		if target.type in (CardType.HERO, CardType.MINION) and target.attacking:
-			logger.info("Retargeting %r's attack to %r", source, new_target)
+			log.info("Retargeting %r's attack to %r", source, new_target)
 			source.game.proposed_defender.defending = False
 			source.game.proposed_defender = new_target
 		else:
-			logger.info("Retargeting %r from %r to %r", target, target.target, new_target)
+			log.info("Retargeting %r from %r to %r", target, target.target, new_target)
 			target.target = new_target
 
 		return new_target
@@ -709,7 +709,7 @@ class Reveal(TargetedAction):
 	Reveal secret targets.
 	"""
 	def do(self, source, target):
-		logger.info("Revealing secret %r", target)
+		log.info("Revealing secret %r", target)
 		self.broadcast(source, EventListener.ON, target)
 		target.zone = Zone.GRAVEYARD
 
@@ -723,7 +723,7 @@ class SetCurrentHealth(TargetedAction):
 		AMOUNT = 1
 
 	def do(self, source, target, amount):
-		logger.info("Setting current health on %r to %i", target, amount)
+		log.info("Setting current health on %r to %i", target, amount)
 		maxhp = target.max_health
 		target._damage = max(0, maxhp - amount)
 
@@ -766,7 +766,7 @@ class Summon(TargetedAction):
 		return super()._broadcast(entity, source, at, *args)
 
 	def do(self, source, target, cards):
-		logger.info("%s summons %r", target, cards)
+		log.info("%s summons %r", target, cards)
 		if not isinstance(cards, list):
 			cards = [cards]
 
@@ -792,7 +792,7 @@ class Shuffle(TargetedAction):
 		CARDS = 1
 
 	def do(self, source, target, cards):
-		logger.info("%r shuffles into %s's deck", cards, target)
+		log.info("%r shuffles into %s's deck", cards, target)
 		if not isinstance(cards, list):
 			cards = [cards]
 
@@ -832,7 +832,7 @@ class Steal(TargetedAction):
 	The controller is the controller of the source of the action.
 	"""
 	def do(self, source, target):
-		logger.info("%s takes control of %r", self, target)
+		log.info("%s takes control of %r", self, target)
 		zone = target.zone
 		target.zone = Zone.SETASIDE
 		target.controller = source.controller
@@ -845,6 +845,6 @@ class UnlockOverload(TargetedAction):
 	Unlock the target player's overload, both current and owed.
 	"""
 	def do(self, source, target):
-		logger.info("%s overload gets cleared", target)
+		log.info("%s overload gets cleared", target)
 		target.overloaded = 0
 		target.overload_locked = 0

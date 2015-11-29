@@ -98,28 +98,6 @@ def random_draft(hero, exclude=[]):
 	return deck
 
 
-def get_logger(name, level=logging.DEBUG):
-	logger = logging.getLogger(name)
-	logger.setLevel(level)
-
-	if not logger.handlers:
-		ch = logging.StreamHandler()
-		ch.setLevel(level)
-
-		formatter = logging.Formatter(
-			"[%(name)s.%(module)s]: %(message)s",
-			datefmt="%H:%M:%S"
-		)
-		ch.setFormatter(formatter)
-
-		logger.addHandler(ch)
-
-	return logger
-
-
-fireplace_logger = get_logger("fireplace")
-
-
 def custom_card(cls):
 	_custom_cards[cls.__name__] = cls
 

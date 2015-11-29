@@ -1,5 +1,5 @@
+from .logging import log
 from .managers import CardManager
-from .utils import fireplace_logger as logger
 
 
 class AuraBuff:
@@ -16,7 +16,7 @@ class AuraBuff:
 		self.tick = self.source.game.tick
 
 	def destroy(self):
-		logger.info("Destroying %r", self)
+		log.info("Destroying %r", self)
 		self.entity.slots.remove(self)
 		self.source.game.active_aura_buffs.remove(self)
 
@@ -64,7 +64,7 @@ class TargetableByAuras:
 				slot.tick = source.game.tick
 				break
 		else:
-			logger.info("Aura from %r buffs %r with %r", source, self, id)
+			log.info("Aura from %r buffs %r with %r", source, self, id)
 			buff = source.buff(self, id)
 			buff.tick = source.game.tick
 			source.game.active_aura_buffs.append(buff)
@@ -79,7 +79,7 @@ class TargetableByAuras:
 				break
 		else:
 			buff = AuraBuff(source, self)
-			logger.info("Creating %r", buff)
+			log.info("Creating %r", buff)
 			buff.update_tags(tags)
 			self.slots.append(buff)
 			source.game.active_aura_buffs.append(buff)

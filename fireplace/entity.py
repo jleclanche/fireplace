@@ -1,10 +1,10 @@
 import uuid
-from .utils import fireplace_logger
+from . import logging
 
 
 class BaseEntity(object):
 	base_events = []
-	logger = fireplace_logger
+	logger = logging.log
 	ignore_scripts = False
 
 	def __init__(self):

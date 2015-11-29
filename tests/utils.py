@@ -5,7 +5,8 @@ from fireplace.cards.heroes import *
 from hearthstone.enums import *
 from fireplace.game import BaseGame, CoinRules, Game
 from fireplace.player import Player
-from fireplace.utils import random_draft, fireplace_logger as logger
+from fireplace.utils import random_draft
+from fireplace.logging import log
 
 
 # Token minions
@@ -80,7 +81,7 @@ def _empty_mulligan(game):
 
 
 def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
-	logger.info("Initializing a new game")
+	log.info("Initializing a new game")
 	heroes = _select_heroes(hero1, hero2)
 	player1 = _prepare_player("Player1", heroes[0], _draft(hero=heroes[0], exclude=exclude))
 	player2 = _prepare_player("Player2", heroes[1], _draft(hero=heroes[1], exclude=exclude))
@@ -92,7 +93,7 @@ def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
 
 
 def prepare_empty_game(hero1=None, hero2=None, game_class=BaseTestGame):
-	logger.info("Initializing a new game with empty decks")
+	log.info("Initializing a new game with empty decks")
 	heroes = _select_heroes(hero1, hero2)
 	player1 = _prepare_player("Player1", heroes[0])
 	player1.cant_fatigue = True

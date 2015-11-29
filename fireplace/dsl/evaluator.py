@@ -1,5 +1,5 @@
 import copy
-from ..utils import fireplace_logger as logger
+from ..logging import log
 
 
 class Evaluator:
@@ -111,5 +111,5 @@ class Joust(Evaluator):
 		elif not t2:
 			return True
 		diff = sum(t.cost for t in t1) - sum(t.cost for t in t2)
-		logger.info("Jousting %r vs %r -> %i difference", t1, t2, diff)
+		log.info("Jousting %r vs %r -> %i difference", t1, t2, diff)
 		return diff > 0

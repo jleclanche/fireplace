@@ -2,7 +2,8 @@ import os
 from pkg_resources import resource_filename
 from hearthstone import cardxml
 from hearthstone.enums import CardType
-from ..utils import fireplace_logger as log, get_script_definition
+from ..logging import log
+from ..utils import get_script_definition
 
 
 class CardDB(dict):

@@ -1,5 +1,5 @@
 import random
-from ..utils import fireplace_logger as logger
+from ..logging import log
 from .lazynum import LazyNum
 
 
@@ -65,7 +65,7 @@ class Copy(Picker):
 		"""
 		Return a copy of \a entity
 		"""
-		logger.info("Creating a copy of %r", entity)
+		log.info("Creating a copy of %r", entity)
 		return source.controller.card(entity.id, source)
 
 	def pick(self, source) -> [str]:
