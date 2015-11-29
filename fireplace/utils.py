@@ -96,6 +96,7 @@ def random_draft(hero, exclude=[]):
 
 def custom_card(cls):
 	_custom_cards[cls.__name__] = cls
+	return cls
 
 
 def get_script_definition(id):
