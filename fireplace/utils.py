@@ -1,17 +1,13 @@
-import logging
+import os.path
+from importlib import import_module
+from pkgutil import iter_modules
 
 
-CARD_SETS = (
-	"game",
-	"debug",
-	"tutorial",
-	"classic",
-	"naxxramas",
-	"gvg",
-	"blackrock",
-	"tgt",
-	"league",
-)
+# Autogenerate the list of cardset modules
+_cards_module = os.path.join(os.path.dirname(__file__), "cards")
+CARD_SETS = [cs for _, cs, ispkg in iter_modules([_cards_module]) if ispkg]
+
+# Dict of registered custom cards, by id. for @custom_card
 _custom_cards = {}
 
 
@@ -106,8 +102,6 @@ def get_script_definition(id):
 	"""
 	Find and return the script definition for card \a id
 	"""
-	from importlib import import_module
-
 	for cardset in CARD_SETS:
 		module = import_module("fireplace.cards.%s" % (cardset))
 		if hasattr(module, id):
