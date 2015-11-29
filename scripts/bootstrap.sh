@@ -2,8 +2,7 @@
 set -e
 
 BASEDIR="$(readlink -f $(dirname $0))"
-DATADIR="$BASEDIR/../fireplace/cards/data"
-HSDATA_DIR="$DATADIR/hs-data"
+HSDATA_DIR="$BASEDIR/hs-data"
 HSDATA_URL="https://github.com/HearthSim/hs-data.git"
 
 # check python version
@@ -21,11 +20,11 @@ command -v git &>/dev/null || {
 }
 
 echo "Fetching data files from $HSDATA_URL"
-if [ ! -e "$HSDATA_DIR" ]; then
+if [[ ! -e "$HSDATA_DIR" ]]; then
 	git clone --depth=1 "$HSDATA_URL" "$HSDATA_DIR"
 else
 	git -C "$HSDATA_DIR" fetch &&
 	git -C "$HSDATA_DIR" reset --hard origin/master
 fi
 
-"$DATADIR/__init__.py" "$HSDATA_DIR" "$DATADIR/CardDefs.xml"
+"$BASEDIR/bootstrap.py" "$HSDATA_DIR" "$BASEDIR/../fireplace/CardDefs.xml"

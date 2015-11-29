@@ -1,5 +1,4 @@
-$ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
-$DataDir = "$ScriptDir/../fireplace/cards/data"
+$BaseDir = Split-Path $script:MyInvocation.MyCommand.Path
 $HsdataDir = "$DataDir/hs-data"
 $HsdataUrl = "https://github.com/HearthSim/hs-data.git"
 
@@ -25,4 +24,4 @@ if (!(Test-Path $HsdataDir)) {
 	}
 }
 
-python "$DataDir/__init__.py" $HsdataDir "$DataDir/CardDefs.xml"
+python "$BaseDir/bootstrap.py" $HsdataDir "$BaseDir/../fireplace/CardDefs.xml"

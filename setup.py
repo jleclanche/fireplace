@@ -21,7 +21,7 @@ setup(
 	name="fireplace",
 	version=fireplace.__version__,
 	packages=find_packages(exclude="tests"),
-	package_data={"": ["*.xml"]},
+	package_data={"": ["CardDefs.xml"]},
 	include_package_data=True,
 	tests_require=["pytest"],
 	author=fireplace.__author__,

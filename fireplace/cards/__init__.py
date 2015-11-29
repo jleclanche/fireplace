@@ -82,6 +82,6 @@ class CardDB(dict):
 # For every card, we will "merge" the class with its Python definition if
 # it exists.
 if "db" not in globals():
-	xmlfile = resource_filename(__name__, "data/CardDefs.xml")
+	xmlfile = resource_filename("fireplace", "CardDefs.xml")
 	db = CardDB(xmlfile)
 	filter = db.filter
