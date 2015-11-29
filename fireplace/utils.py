@@ -10,6 +10,7 @@ CARD_SETS = (
 	"gvg",
 	"blackrock",
 	"tgt",
+	"league",
 )
 _custom_cards = {}
 
