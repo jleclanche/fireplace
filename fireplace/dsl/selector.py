@@ -315,22 +315,23 @@ class RandomSelector(Selector):
 RANDOM = RandomSelector
 
 
-class IdSelector(Selector):
+class FuncSelector(Selector):
 	"""
-	Selects any card matching the given id
+	Selects cards after applying a filter function to them
 	"""
-	class MatchesId:
-		def __init__(self, id):
-			super().__init__()
-			self.id = id
+	class MatchesFunc:
+		def __init__(self, func):
+			self.func = func
 
 		def test(self, entity, source):
-			return getattr(entity, "id", None) == self.id
+			return self.func(entity, source)
 
-	def __init__(self, id):
-		self.program = [self.MatchesId(id)]
+	def __init__(self, func):
+		self.program = [self.MatchesFunc(func)]
 
-ID = IdSelector
+
+def ID(id):
+	return FuncSelector(lambda entity, source: getattr(entity, "id", None) == id)
 
 
 class Affiliation(IntEnum):
