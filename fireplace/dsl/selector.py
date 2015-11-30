@@ -204,9 +204,6 @@ class SelfSelector(Selector):
 	def eval(self, entities, source):
 		return [source]
 
-	def test(self, entity, source):
-		return entity is source
-
 SELF = SelfSelector()
 
 
@@ -229,9 +226,6 @@ class OwnerSelector(Selector):
 			return [source.owner]
 		return []
 
-	def test(self, entity, source):
-		return entity is source.owner
-
 OWNER = OwnerSelector()
 
 
@@ -251,9 +245,6 @@ class TargetSelector(Selector):
 
 	def eval(self, entities, source):
 		return [source.target]
-
-	def test(self, entity, source):
-		return entity is source.target
 
 TARGET = TargetSelector()
 
