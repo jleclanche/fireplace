@@ -160,7 +160,12 @@ class AttrSelector(Selector):
 			return "Attr(%s(%r, %r))" % (self.op.__name__, self.tag, self.value)
 
 		def test(self, entity, source):
-			return self.op(entity.tags.get(self.tag, 0), self.value)
+			value = self.value
+			if isinstance(value, Controller):
+				# Support AttrSelector(SELF, GameTag.CONTROLLER) == Controller(...)
+				# TODO: Should be a generic lazy value...
+				value = self.value.evaluate(source)
+			return self.op(entity.tags.get(self.tag, 0), value)
 
 	def __init__(self, tag):
 		super().__init__()
@@ -180,6 +185,7 @@ class AttrSelector(Selector):
 	__le__ = _cmp("le")
 	__lt__ = _cmp("lt")
 
+CONTROLLER = AttrSelector(GameTag.CONTROLLER)
 ATK = AttrSelector(GameTag.ATK)
 COST = AttrSelector(GameTag.COST)
 
@@ -325,20 +331,33 @@ def ID(id):
 	return FuncSelector(lambda entity, source: getattr(entity, "id", None) == id)
 
 
-class Affiliation(IntEnum):
-	FRIENDLY = 1
-	HOSTILE = 2
-	TARGET = 3
+class Controller:
+	def __init__(self, selector=None):
+		self.selector = selector
 
-	def test(self, target, source):
-		if target.type == CardType.GAME:
-			return False
-		if self == self.__class__.FRIENDLY:
-			return target.controller == source.controller
-		elif self == self.__class__.HOSTILE:
-			return target.controller != source.controller
-		elif self == self.__class__.TARGET:
-			return target.controller == source.target.controller
+	def __repr__(self):
+		return "%s(%s)" % (self.__class__.__name__, self.selector or "<SELF>")
+
+	def _get_entity_attr(self, entity):
+		return entity.controller
+
+	def evaluate(self, source):
+		if self.selector is None:
+			# If we don't have an argument, we default to SELF
+			# This allows us to skip selector evaluation altogether.
+			return self._get_entity_attr(source)
+		entities = self.selector.eval(source.game, source)
+		assert len(entities) == 1
+		return self._get_entity_attr(entities[0])
+
+
+class Opponent(Controller):
+	def _get_entity_attr(self, entity):
+		return entity.controller.opponent
+
+FRIENDLY = CONTROLLER == Controller()
+ENEMY = CONTROLLER == Opponent()
+CONTROLLED_BY_TARGET = CONTROLLER == Controller(TARGET)
 
 
 # Enum tests
@@ -368,10 +387,6 @@ IN_DECK = Selector(Zone.DECK)
 IN_HAND = Selector(Zone.HAND)
 HIDDEN = Selector(Zone.SECRET)
 KILLED = Selector(Zone.GRAVEYARD)
-
-FRIENDLY = Selector(Affiliation.FRIENDLY)
-ENEMY = Selector(Affiliation.HOSTILE)
-CONTROLLED_BY_TARGET = Selector(Affiliation.TARGET)
 
 GAME = Selector(CardType.GAME)
 PLAYER = Selector(CardType.PLAYER)
