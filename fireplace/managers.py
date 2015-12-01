@@ -85,6 +85,7 @@ class PlayerManager(Manager):
 		GameTag.CANT_DRAW: "cant_draw",
 		GameTag.CARDTYPE: "type",
 		GameTag.COMBO_ACTIVE: "combo",
+		GameTag.CONTROLLER: "controller",
 		GameTag.CURRENT_PLAYER: "current_player",
 		GameTag.CURRENT_SPELLPOWER: "spellpower",
 		GameTag.FATIGUE: "fatigue_counter",
