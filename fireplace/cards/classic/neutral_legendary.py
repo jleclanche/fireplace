@@ -41,9 +41,7 @@ class EX1_083:
 
 # Lorewalker Cho
 class EX1_100:
-	events = Play(ALL_PLAYERS, SPELL).on(
-		lambda self, player, card, *args: Give(player.opponent, card.id)
-	)
+	events = Play(ALL_PLAYERS, SPELL).on(Give(Opponent(Play.PLAYER), Copy(Play.CARD)))
 
 
 # Cairne Bloodhoof
