@@ -1,6 +1,6 @@
 from inspect import isclass
 from hearthstone.enums import CardType, Mulligan, PlayState, Zone
-from .dsl import LazyNum, Picker, Selector
+from .dsl import LazyNum, LazyValue, Picker, Selector
 from .entity import Entity
 from .logging import log
 
@@ -95,7 +95,7 @@ class Action:  # Lawsuit
 		return True
 
 
-class ActionArg:
+class ActionArg(LazyValue):
 	"""
 	The argument passed to an Action, lazily evaluated
 	"""
@@ -106,6 +106,14 @@ class ActionArg:
 
 	def __repr__(self):
 		return "<%s.%s>" % (self.cls.__name__, self.name)
+
+	def evaluate(self, source):
+		# This is used when an event listener triggers and the callback
+		# Action has arguments of the type Action.FOO
+		# XXX we rely on source.event_args to be set, but it's very racey.
+		# If multiple events happen on an entity at once, stuff will go wrong.
+		assert source.event_args
+		return source.event_args[self.index]
 
 
 class GameAction(Action):
@@ -318,15 +326,7 @@ class TargetedAction(Action):
 			elif isinstance(v, Selector):
 				# evaluate Selector arguments
 				v = v.eval(source.game, source)
-			elif isinstance(v, ActionArg):
-				# This is used when an event listener triggers and the callback
-				# Action has arguments of the type Action.FOO
-				# XXX we rely on source.event_args to be set, but it's very racey.
-				# If multiple events happen on an entity at once, stuff will go wrong.
-				assert source.event_args
-				v = source.event_args[v.index]
-			elif isinstance(v, LazyNum):
-				# evaluate LazyNum arguments into ints
+			elif isinstance(v, LazyValue):
 				v = v.evaluate(source)
 			elif k.startswith("CARD"):
 				# HACK: card-likes are always named CARDS
@@ -337,8 +337,8 @@ class TargetedAction(Action):
 	def get_targets(self, source, t):
 		if isinstance(t, Entity):
 			return [t]
-		elif isinstance(t, ActionArg):
-			return [source.event_args[t.index]]
+		elif isinstance(t, LazyValue):
+			return [t.evaluate(source)]
 		elif isinstance(t, Action):
 			# eg. Unstable Portal: Buff(Give(...), ...)
 			return t.trigger(source)[0]

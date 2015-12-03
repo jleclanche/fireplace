@@ -1,6 +1,6 @@
 import random
 from ..logging import log
-from .lazynum import LazyNum
+from .lazynum import LazyNum, LazyValue
 
 
 class Picker:
@@ -69,11 +69,8 @@ class Copy(Picker):
 		return source.controller.card(entity.id, source)
 
 	def pick(self, source) -> [str]:
-		from ..actions import ActionArg
-		if isinstance(self.selector, ActionArg):
-			# TODO cleanup DRY with actions.py
-			assert source.event_args
-			entities = [source.event_args[self.selector.index]]
+		if isinstance(self.selector, LazyValue):
+			entities = [self.selector.evaluate(source)]
 		else:
 			entities = self.selector.eval(source.game, source)
 
