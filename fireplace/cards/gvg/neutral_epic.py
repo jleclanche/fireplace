@@ -11,7 +11,7 @@ class GVG_016:
 
 # Hobgoblin
 class GVG_104:
-	events = Play(CONTROLLER, MINION + (ATK == 1)).on(Buff(Play.Args.CARD, "GVG_104a"))
+	events = Play(CONTROLLER, MINION + (ATK == 1)).on(Buff(Play.CARD, "GVG_104a"))
 
 GVG_104a = buff(+2, +2)
 

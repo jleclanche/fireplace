@@ -137,28 +137,28 @@ class EX1_619e:
 # Noble Sacrifice
 class EX1_130:
 	events = Attack(ENEMY_MINIONS).on(
-		Reveal(SELF), Retarget(Attack.Args.ATTACKER, Summon(CONTROLLER, "EX1_130a"))
+		Reveal(SELF), Retarget(Attack.ATTACKER, Summon(CONTROLLER, "EX1_130a"))
 	)
 
 
 # Eye for an Eye
 class EX1_132:
 	events = Damage(FRIENDLY_HERO).on(
-		Reveal(SELF), Hit(ENEMY_HERO, Damage.Args.AMOUNT)
+		Reveal(SELF), Hit(ENEMY_HERO, Damage.AMOUNT)
 	)
 
 
 # Redemption
 class EX1_136:
 	events = Death(FRIENDLY + MINION).on(
-		Reveal(SELF), SetCurrentHealth(Summon(CONTROLLER, Copy(Death.Args.ENTITY)), 1)
+		Reveal(SELF), SetCurrentHealth(Summon(CONTROLLER, Copy(Death.ENTITY)), 1)
 	)
 
 
 # Repentance
 class EX1_379:
 	events = Play(OPPONENT, MINION).after(
-		Reveal(SELF), Buff(Play.Args.CARD, "EX1_379e")
+		Reveal(SELF), Buff(Play.CARD, "EX1_379e")
 	)
 
 class EX1_379e:
@@ -176,7 +176,7 @@ class CS2_097:
 # Sword of Justice
 class EX1_366:
 	events = Summon(CONTROLLER, MINION).after(
-		Buff(Summon.Args.CARDS, "EX1_366e"),
+		Buff(Summon.CARDS, "EX1_366e"),
 		Hit(SELF, 1)
 	)
 

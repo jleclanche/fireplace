@@ -69,11 +69,11 @@ class Copy(Picker):
 		return source.controller.card(entity.id, source)
 
 	def pick(self, source) -> [str]:
-		from ..actions import Action
-		if isinstance(self.selector, Action.Args):
+		from ..actions import ActionArg
+		if isinstance(self.selector, ActionArg):
 			# TODO cleanup DRY with actions.py
 			assert source.event_args
-			entities = [source.event_args[self.selector]]
+			entities = [source.event_args[self.selector.index]]
 		else:
 			entities = self.selector.eval(source.game, source)
 

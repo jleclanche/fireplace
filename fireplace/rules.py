@@ -6,7 +6,7 @@ from .dsl.selector import FRIENDLY_HERO, MINION, SELF
 
 
 Poisonous = [
-	Damage(MINION, None, SELF).on(Destroy(Damage.Args.TARGETS))
+	Damage(MINION, None, SELF).on(Destroy(Damage.TARGETS))
 ]
 
 

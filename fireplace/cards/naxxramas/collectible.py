@@ -142,7 +142,7 @@ class FP1_025:
 
 # Duplicate
 class FP1_018:
-	events = Death(FRIENDLY + MINION).on(Give(CONTROLLER, Copy(Death.Args.ENTITY)) * 2)
+	events = Death(FRIENDLY + MINION).on(Give(CONTROLLER, Copy(Death.ENTITY)) * 2)
 
 
 # Avenge

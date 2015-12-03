@@ -136,7 +136,7 @@ class BRM_029:
 
 # Chromaggus
 class BRM_031:
-	events = Draw(CONTROLLER).on(Give(CONTROLLER, Copy(Draw.Args.CARD)))
+	events = Draw(CONTROLLER).on(Give(CONTROLLER, Copy(Draw.CARD)))
 
 
 # Blackwing Technician

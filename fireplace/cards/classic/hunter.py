@@ -131,7 +131,7 @@ class NEW1_031:
 # Misdirection
 class EX1_533:
 	events = Attack(ALL_CHARACTERS, FRIENDLY_HERO).on(
-		Retarget(Attack.Args.ATTACKER, RANDOM(ALL_CHARACTERS - FRIENDLY_HERO))
+		Retarget(Attack.ATTACKER, RANDOM(ALL_CHARACTERS - FRIENDLY_HERO))
 	)
 
 
@@ -145,7 +145,7 @@ class EX1_554:
 # Snipe
 class EX1_609:
 	events = Play(OPPONENT, MINION).after(
-		Reveal(SELF), Hit(Play.Args.CARD, 4)
+		Reveal(SELF), Hit(Play.CARD, 4)
 	)
 
 
@@ -160,8 +160,8 @@ class EX1_610:
 class EX1_611:
 	events = Attack(ENEMY_MINIONS).on(
 		Reveal(SELF),
-		Bounce(Attack.Args.ATTACKER),
-		Buff(Attack.Args.ATTACKER, "EX1_611e")
+		Bounce(Attack.ATTACKER),
+		Buff(Attack.ATTACKER, "EX1_611e")
 	)
 
 class EX1_611e:

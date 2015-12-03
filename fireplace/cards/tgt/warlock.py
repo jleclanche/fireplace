@@ -23,7 +23,7 @@ class AT_023:
 
 # Wrathguard
 class AT_026:
-	events = Damage(SELF).on(Hit(FRIENDLY_HERO, Damage.Args.AMOUNT))
+	events = Damage(SELF).on(Hit(FRIENDLY_HERO, Damage.AMOUNT))
 
 
 # Wilfred Fizzlebang

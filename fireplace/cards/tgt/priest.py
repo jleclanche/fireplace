@@ -18,7 +18,7 @@ class AT_012:
 
 # Shadowfiend
 class AT_014:
-	events = Draw(CONTROLLER).on(Buff(Draw.Args.CARD, "AT_014e"))
+	events = Draw(CONTROLLER).on(Buff(Draw.CARD, "AT_014e"))
 
 AT_014e = buff(cost=-1)
 

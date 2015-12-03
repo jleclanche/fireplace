@@ -26,7 +26,7 @@ GVG_027e = buff(+2, +2)
 # Trade Prince Gallywix
 class GVG_028:
 	events = Play(OPPONENT, SPELL - ID("GVG_028t")).on(
-		Give(CONTROLLER, Copy(Play.Args.CARD)),
+		Give(CONTROLLER, Copy(Play.CARD)),
 		Give(OPPONENT, "GVG_028t")
 	)
 
