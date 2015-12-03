@@ -336,14 +336,18 @@ class TargetedAction(Action):
 
 	def get_targets(self, source, t):
 		if isinstance(t, Entity):
-			return [t]
+			ret = t
 		elif isinstance(t, LazyValue):
-			return [t.evaluate(source)]
+			ret = t.evaluate(source)
 		elif isinstance(t, Action):
 			# eg. Unstable Portal: Buff(Give(...), ...)
-			return t.trigger(source)[0]
+			ret = t.trigger(source)[0]
 		else:
-			return t.eval(source.game, source)
+			ret = t.eval(source.game, source)
+		if not hasattr(ret, "__iter__"):
+			# Bit of a hack to ensure we always get a list back
+			ret = [ret]
+		return ret
 
 	def trigger(self, source):
 		ret = []
@@ -553,6 +557,9 @@ class Give(TargetedAction):
 	def do(self, source, target, cards):
 		log.info("Giving %r to %s", cards, target)
 		ret = []
+		if not hasattr(cards, "__iter__"):
+			# Support Give on multiple cards at once (eg. Echo of Medivh)
+			cards = [cards]
 		for card in cards:
 			if len(target.hand) >= target.max_hand_size:
 				log.info("Give(%r) fails because %r's hand is full", card, target)
