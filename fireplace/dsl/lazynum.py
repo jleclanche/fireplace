@@ -2,7 +2,6 @@ import copy
 import operator
 import random
 from .evaluator import Evaluator
-from .selector import Selector
 
 
 class LazyValue:
@@ -40,6 +39,7 @@ class LazyNum(LazyValue):
 		return -n if self._neg else n
 
 	def get_entities(self, source):
+		from .selector import Selector
 		if isinstance(self.selector, Selector):
 			entities = self.selector.eval(source.game, source)
 		elif isinstance(self.selector, LazyValue):

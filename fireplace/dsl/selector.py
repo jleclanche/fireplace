@@ -4,6 +4,7 @@ from enum import IntEnum
 from hearthstone.enums import CardType, GameTag, Race, Zone
 from .. import enums
 from ..utils import CardList
+from .lazynum import LazyValue
 
 
 class Selector:
@@ -331,7 +332,7 @@ def ID(id):
 	return FuncSelector(lambda entity, source: getattr(entity, "id", None) == id)
 
 
-class Controller:
+class Controller(LazyValue):
 	def __init__(self, selector=None):
 		self.selector = selector
 
@@ -346,7 +347,10 @@ class Controller:
 			# If we don't have an argument, we default to SELF
 			# This allows us to skip selector evaluation altogether.
 			return self._get_entity_attr(source)
-		entities = self.selector.eval(source.game, source)
+		if isinstance(self.selector, LazyValue):
+			entities = [self.selector.evaluate(source)]
+		else:
+			entities = self.selector.eval(source.game, source)
 		assert len(entities) == 1
 		return self._get_entity_attr(entities[0])
 
