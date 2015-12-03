@@ -3596,24 +3596,26 @@ def test_lock_and_load():
 
 def test_lorewalker_cho():
 	game = prepare_game()
-	cho = game.current_player.give("EX1_100")
+	game.player1.discard_hand()
+	game.player2.discard_hand()
+	cho = game.player1.give("EX1_100")
 	cho.play()
-	game.current_player.discard_hand()
-	game.current_player.opponent.discard_hand()
-	assert len(game.current_player.hand) == 0
-	assert len(game.current_player.opponent.hand) == 0
-	game.current_player.give(THE_COIN).play()
-	assert len(game.current_player.hand) == 0
-	assert len(game.current_player.opponent.hand) == 1
-	assert game.current_player.opponent.hand[0].id == THE_COIN
-
+	assert len(game.player1.hand) == len(game.player2.hand) == 0
+	coin1 = game.player1.give(THE_COIN)
+	coin1.play()
+	assert len(game.player1.hand) == 0
+	assert len(game.player2.hand) == 1
+	assert game.player2.hand[0].id == THE_COIN
+	assert game.player2.hand[0] is not coin1
 	game.end_turn()
-	game.current_player.discard_hand()
-	game.current_player.give(THE_COIN).play()
-	assert len(game.current_player.hand) == 0
-	assert len(game.current_player.opponent.hand) == 1
-	assert game.current_player.opponent.hand[0].id == THE_COIN
-	game.current_player.give(THE_COIN).play()
+
+	coin2 = game.player2.hand[0]
+	coin2.play()
+	assert len(game.player2.hand) == 1
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0] is not coin1
+	assert game.player1.hand[0] is not coin2
+	assert game.player1.hand[0].id == THE_COIN
 
 
 def test_lowly_squire():
