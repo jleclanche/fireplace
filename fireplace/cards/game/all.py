@@ -31,6 +31,11 @@ class TB_008:
 	play = Hit(TARGET, 1)
 
 
+# Tarnished Coin
+class TB_011:
+	play = ManaThisTurn(CONTROLLER, 1)
+
+
 # Boom Bot Jr.
 class TB_MechWar_Boss2_HeroPower:
 	activate = Hit(RANDOM_ENEMY_CHARACTER, 1) * 2
@@ -84,6 +89,11 @@ class BRMA14_10H_TB:
 # Wild Magic
 class BRMA13_4_2_TB:
 	activate = Give(CONTROLLER, RandomSpell(card_class=Attr(ENEMY_HERO, GameTag.CLASS)))
+
+
+# Bone Minions
+class BRMA17_5_TB:
+	activate = Summon(CONTROLLER, "BRMA17_6") * 2
 
 
 # Web Wrap

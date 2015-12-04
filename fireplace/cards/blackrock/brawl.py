@@ -74,6 +74,15 @@ class BRMC_96:
 	events = OWN_TURN_BEGIN.on(Summon(CONTROLLER, RandomMinion(rarity=Rarity.LEGENDARY)))
 
 
+# Vaelastrasz
+class BRMC_97:
+	update = Refresh(FRIENDLY + IN_HAND, {GameTag.COST: -3})
+
+
+# Burning Adrenaline (Unused)
+BRMC_97e = buff(cost=-2)
+
+
 # Razorgore
 class BRMC_98:
 	events = OWN_TURN_BEGIN.on(Buff(FRIENDLY_MINIONS, "BRMC_98e"))
