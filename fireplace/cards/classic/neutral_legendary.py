@@ -36,7 +36,7 @@ class EX1_062:
 class EX1_083:
 	def play(self):
 		choice = random.choice(("EX1_tk28", "EX1_tk29"))
-		return Morph(RANDOM_MINION, choice)
+		return Morph(RANDOM(ALL_MINIONS - SELF), choice)
 
 
 # Lorewalker Cho

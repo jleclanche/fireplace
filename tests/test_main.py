@@ -4264,6 +4264,18 @@ def test_tiny_knight_of_evil():
 	assert knight.health == 2 + 1
 
 
+def test_tinkmaster_overspark():
+	game = prepare_game()
+	tinkmaster1 = game.player1.give("EX1_083")
+	tinkmaster1.play()
+	assert tinkmaster1 in game.board
+	tinkmaster2 = game.player1.give("EX1_083")
+	tinkmaster2.play()
+	assert tinkmaster1 not in game.board
+	assert len(game.player1.field) == 2
+	assert game.board.contains("EX1_tk28") or game.board.contains("EX1_tk29")
+
+
 def test_tinkertown_technician():
 	game = prepare_game()
 	game.player1.discard_hand()
