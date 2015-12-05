@@ -9,6 +9,11 @@ class LOE_009:
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOE_009t"))
 
 
+# Huge Toad
+class LOE_046:
+	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, 1)
+
+
 ##
 # Spells
 

@@ -68,6 +68,21 @@ def test_curse_of_rafaam():
 	assert game.player2.hero.health == 30 - 2 - 2
 
 
+def test_huge_toad():
+	game = prepare_game()
+	dummy = game.player1.give(TARGET_DUMMY)
+	dummy.play()
+	game.end_turn()
+
+	assert game.player2.hero.health == 30
+	assert dummy.health == 2
+	toad = game.player2.give("LOE_046")
+	toad.play()
+	for i in range(2):
+		game.player2.give(MOONFIRE).play(target=toad)
+	assert game.player1.hero.health + dummy.health == 30 + 2 - 1
+
+
 ##
 # Adventure tests
 
