@@ -694,14 +694,24 @@ class SetCurrentHealth(TargetedAction):
 
 class SetTag(TargetedAction):
 	"""
-	Sets various targets' tags to \a values.
+	Sets targets' given tags.
 	"""
-	ARGS = ("TARGETS", "VALUES")
+	ARGS = ("TARGETS", "TAGS")
 
-	def do(self, source, target, values):
-		for k, v in values.items():
-			if target.tags[k] != v:
-				target.tags[k] = v
+	def do(self, source, target, tags):
+		for tag in tags:
+			target.tags[tag] = True
+
+
+class UnsetTag(TargetedAction):
+	"""
+	Unset targets' given tags.
+	"""
+	ARGS = ("TARGETS", "TAGS")
+
+	def do(self, source, target, tags):
+		for tag in tags:
+			target.tags[tag] = False
 
 
 class Silence(TargetedAction):

@@ -34,7 +34,7 @@ class AT_104:
 
 # Seal of Champions
 class AT_074:
-	play = Buff(TARGET, "AT_074e2"), SetTag(TARGET, {GameTag.DIVINE_SHIELD: True})
+	play = Buff(TARGET, "AT_074e2"), GiveDivineShield(TARGET)
 
 AT_074e2 = buff(atk=3)
 

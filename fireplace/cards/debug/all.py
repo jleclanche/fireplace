@@ -33,7 +33,7 @@ class XXX_006:
 
 # Enable for Attack
 class XXX_007:
-	play = SetTag(TARGET, {GameTag.CHARGE: True})
+	play = GiveCharge(TARGET)
 
 
 # Freeze
@@ -94,7 +94,7 @@ class XXX_018:
 
 # Molasses
 class XXX_019:
-	play = SetTag(CONTROLLER, {GameTag.TIMEOUT: 0})
+	play = UnsetTag(CONTROLLER, (GameTag.TIMEOUT, ))
 
 
 # Damage all but 1
@@ -173,7 +173,7 @@ class XXX_045:
 
 # Force AI to Use Hero Power
 class XXX_046:
-	play = SetTag(ENEMY_HERO, {GameTag.TAG_AI_MUST_PLAY: True})
+	play = SetTag(ENEMY_HERO_POWER, (GameTag.TAG_AI_MUST_PLAY, ))
 
 
 # Destroy Deck
@@ -199,7 +199,7 @@ class XXX_050:
 
 # Make Immune
 class XXX_051:
-	play = SetTag(TARGET, {GameTag.CANT_BE_DAMAGED: True})
+	play = SetTag(TARGET, (GameTag.CANT_BE_DAMAGED, ))
 
 
 # Armor 100

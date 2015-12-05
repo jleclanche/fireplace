@@ -35,10 +35,13 @@ class RandomID(RandomCardPicker):
 		return super().pick(source)
 
 
-Freeze = lambda target: SetTag(target, {GameTag.FROZEN: True})
-Stealth = lambda target: SetTag(target, {GameTag.STEALTH: True})
-Unstealth = lambda target: SetTag(target, {GameTag.STEALTH: False})
-Taunt = lambda target: SetTag(target, {GameTag.TAUNT: True})
+Freeze = lambda target: SetTag(target, (GameTag.FROZEN, ))
+Stealth = lambda target: SetTag(target, (GameTag.STEALTH, ))
+Unstealth = lambda target: UnsetTag(target, (GameTag.STEALTH, ))
+Taunt = lambda target: SetTag(target, (GameTag.TAUNT, ))
+GiveCharge = lambda target: SetTag(target, (GameTag.CHARGE, ))
+GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD, ))
+GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
 
 
 CLEAVE = Hit(TARGET_ADJACENT, Attr(SELF, GameTag.ATK))

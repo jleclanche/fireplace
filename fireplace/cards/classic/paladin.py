@@ -23,7 +23,7 @@ class CS2_088:
 
 # Argent Protector
 class EX1_362:
-	play = SetTag(TARGET, {GameTag.DIVINE_SHIELD: True})
+	play = GiveDivineShield(TARGET)
 
 
 # Aldor Peacekeeper
@@ -111,9 +111,10 @@ class EX1_363e:
 class EX1_365:
 	play = Hit(TARGET, Attr(Draw(CONTROLLER), GameTag.COST))
 
+
 # Hand of Protection
 class EX1_371:
-	play = SetTag(TARGET, {GameTag.DIVINE_SHIELD: True})
+	play = GiveDivineShield(TARGET)
 
 
 # Avenging Wrath

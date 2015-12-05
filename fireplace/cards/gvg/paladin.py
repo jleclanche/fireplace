@@ -13,7 +13,7 @@ GVG_060e = buff(+2, +2)
 
 # Cobalt Guardian
 class GVG_062:
-	events = Summon(CONTROLLER, MECH).on(SetTag(SELF, {GameTag.DIVINE_SHIELD: True}))
+	events = Summon(CONTROLLER, MECH).on(GiveDivineShield(SELF))
 
 
 # Bolvar Fordragon
@@ -48,4 +48,4 @@ class GVG_061:
 
 # Coghammer
 class GVG_059:
-	play = SetTag(RANDOM_FRIENDLY_MINION, {GameTag.TAUNT: True, GameTag.DIVINE_SHIELD: True})
+	play = SetTag(RANDOM_FRIENDLY_MINION, (GameTag.TAUNT, GameTag.DIVINE_SHIELD))

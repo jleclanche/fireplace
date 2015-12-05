@@ -33,7 +33,7 @@ class GVG_107:
 	def play(self):
 		for target in self.controller.field.exclude(self):
 			tag = random.choice((GameTag.WINDFURY, GameTag.TAUNT, GameTag.DIVINE_SHIELD))
-			yield SetTag(target, {tag: True})
+			yield SetTag(target, (tag, ))
 
 
 # Recombobulator

@@ -32,7 +32,7 @@ class EX1_586:
 class EX1_590:
 	play = (
 		Buff(SELF, "EX1_590e") * Count(ALL_MINIONS + DIVINE_SHIELD),
-		SetTag(ALL_MINIONS, {GameTag.DIVINE_SHIELD: False})
+		UnsetTag(ALL_MINIONS, (GameTag.DIVINE_SHIELD, ))
 	)
 
 EX1_590e = buff(+3, +3)

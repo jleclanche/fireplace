@@ -41,7 +41,7 @@ class AT_128:
 
 # Fjola Lightbane
 class AT_129:
-	events = Play(CONTROLLER, SPELL, SELF).on(SetTag(SELF, {GameTag.DIVINE_SHIELD: True}))
+	events = Play(CONTROLLER, SPELL, SELF).on(GiveDivineShield(SELF))
 
 
 # Eydis Darkbane
