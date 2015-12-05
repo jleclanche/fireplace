@@ -22,9 +22,16 @@ RandomTotem = lambda **kw: RandomCardPicker(race=Race.TOTEM)
 RandomWeapon = lambda **kw: RandomCollectible(type=CardType.WEAPON, **kw)
 RandomSparePart = lambda **kw: RandomCardPicker(spare_part=True, **kw)
 
+
 class RandomEntourage(RandomCardPicker):
 	def pick(self, source):
 		self._cards = source.entourage
+		return super().pick(source)
+
+
+class RandomID(RandomCardPicker):
+	def pick(self, source):
+		self._cards = self.args
 		return super().pick(source)
 
 

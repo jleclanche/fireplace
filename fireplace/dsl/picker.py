@@ -12,7 +12,8 @@ class RandomCardPicker(Picker):
 	"""
 	Store filters and generate a random card matching the filters on pick()
 	"""
-	def __init__(self, **filters):
+	def __init__(self, *args, **filters):
+		self.args = args
 		self.filters = filters
 		self._cards = None
 		self.lazy_filters = False
