@@ -3556,6 +3556,38 @@ def test_leeroy():
 	assert game.player2.field[0].id == game.player2.field[1].id == "EX1_116t"
 
 
+def test_lightbomb():
+	game = prepare_game()
+
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert wisp.health == wisp.atk
+
+	game.player1.give(LIGHTS_JUSTICE).play()
+	assert game.player1.hero.atk > 0
+	assert game.player1.hero.health == 30
+	game.end_turn()
+
+	dummy = game.player2.give(TARGET_DUMMY)
+	dummy.play()
+	assert dummy.health == 2
+	assert dummy.atk == 0
+
+	goldshire = game.player2.give(GOLDSHIRE_FOOTMAN)
+	goldshire.play()
+	assert goldshire.atk == 1
+	assert goldshire.health == 2
+	game.end_turn()
+
+	lightbomb = game.player1.give("GVG_008")
+	lightbomb.play()
+	assert wisp.dead
+	assert not dummy.dead
+	assert dummy.health == 2
+	assert goldshire.health == 1
+	assert game.player1.hero.health == 30
+
+
 def test_jaraxxus():
 	game = prepare_game(WARRIOR, WARRIOR)
 	game.player1.hero.power.use()
