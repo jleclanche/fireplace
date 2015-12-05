@@ -30,6 +30,11 @@ class LOE_007t:
 		events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 2))
 
 
+# Anyfin Can Happen
+class LOE_026:
+	play = Summon(CONTROLLER, Copy(RANDOM(KILLED + MURLOC) * 7))
+
+
 # Raven Idol
 class LOE_115:
 	choose = ("LOE_115a", "LOE_115b")

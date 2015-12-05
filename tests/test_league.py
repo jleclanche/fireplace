@@ -1,6 +1,47 @@
 from utils import *
 
 
+def test_anyfin_can_happen():
+	game = prepare_game()
+
+	# kill a Wisp
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.player1.give(MOONFIRE).play(target=wisp)
+	game.end_turn(); game.end_turn()
+
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 0
+	game.player1.give("LOE_026").play()
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 0
+	game.end_turn()
+
+	# kill a single Murloc twice
+	murloc = game.player2.give(MURLOC)
+	murloc.play()
+	game.player2.give(MOONFIRE).play(target=murloc)
+	game.player2.give("LOE_026").play()
+	assert len(game.player2.field) == 1
+	game.player2.field[0].destroy()
+	game.end_turn()
+
+	# kill another 4 Murloc Tinyfins and 1 Murloc Raider
+	for i in range(4):
+		murloc = game.player1.give(MURLOC)
+		murloc.play()
+		game.player1.give(MOONFIRE).play(target=murloc)
+	othermurloc = game.player1.give("CS2_168")
+	othermurloc.play()
+	game.player1.give(MOONFIRE).play(target=othermurloc)
+	game.end_turn(); game.end_turn()
+
+	assert len(game.player1.field) == 0
+	game.player1.give("LOE_026").play()
+	assert len(game.player1.field.filter(id=MURLOC)) == 6
+	assert len(game.player1.field.filter(id="CS2_168")) == 1
+
+
 def test_curse_of_rafaam():
 	game = prepare_game()
 	game.player2.discard_hand()
