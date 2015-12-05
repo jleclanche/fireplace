@@ -4218,6 +4218,31 @@ def test_reincarnate_kel_thuzad():
 	assert len(game.player1.field.filter(id="FP1_013")) == 2
 
 
+def test_thoughtsteal():
+	game = prepare_empty_game()
+
+	assert len(game.player1.hand) == 0
+	assert len(game.player2.deck) == 0
+	game.player1.give("EX1_339").play()
+	assert len(game.player1.hand) == 0
+
+	game.player2.give(WISP).shuffle_into_deck()
+	assert len(game.player2.deck) == 1
+	game.player1.give("EX1_339").play()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].id == WISP
+	game.player1.discard_hand()
+
+	assert len(game.player1.hand) == 0
+	game.player2.give(TARGET_DUMMY).shuffle_into_deck()
+	assert len(game.player2.deck) == 2
+	game.player1.give("EX1_339").play()
+	assert len(game.player1.hand) == 2
+
+	assert game.player1.hand.contains(WISP)
+	assert game.player1.hand.contains(TARGET_DUMMY)
+
+
 def test_tree_of_life():
 	game = prepare_game()
 	token1 = game.player1.give(SPELLBENDERT)
