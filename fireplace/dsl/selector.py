@@ -290,6 +290,9 @@ class RandomSelector(Selector):
 		def __init__(self, times):
 			self.times = times
 
+		def __repr__(self):
+			return "<RANDOM(%s)>" % (self.times)
+
 		def merge(self, selector, entities):
 			return random.sample(entities, min(len(entities), self.times))
 
