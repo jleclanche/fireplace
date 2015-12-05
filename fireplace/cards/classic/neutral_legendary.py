@@ -34,9 +34,7 @@ class EX1_062:
 
 # Tinkmaster Overspark
 class EX1_083:
-	def play(self):
-		choice = random.choice(("EX1_tk28", "EX1_tk29"))
-		return Morph(RANDOM(ALL_MINIONS - SELF), choice)
+	play = Morph(RANDOM(ALL_MINIONS - SELF), RandomID("EX1_tk28", "EX1_tk29"))
 
 
 # Lorewalker Cho
