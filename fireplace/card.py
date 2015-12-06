@@ -692,11 +692,11 @@ class Secret(Spell):
 			self.controller.secrets.append(self)
 		super()._set_zone(value)
 
-	def is_playable(self):
+	def is_summonable(self):
 		# secrets are all unique
 		if self.controller.secrets.contains(self):
 			return False
-		return super().is_playable()
+		return super().is_summonable()
 
 
 class Enchantment(BaseCard):
