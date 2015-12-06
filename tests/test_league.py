@@ -166,6 +166,21 @@ def test_huge_toad():
 	assert game.player1.hero.health + dummy.health == 30 + 2 - 1
 
 
+def test_naga_sea_witch():
+	game = prepare_game()
+	game.player1.give(MOONFIRE)
+	game.player1.give(WISP)
+	game.player1.give(GOLDSHIRE_FOOTMAN)
+	game.player1.give("EX1_586")  # Sea Giant
+	naga = game.player1.give("LOE_038")
+	naga.play()
+	for card in game.player1.hand:
+		assert card.cost == 5
+	naga.destroy()
+	for card in game.player1.hand:
+		assert card.cost == card.data.cost
+
+
 def test_obsidian_destroyer():
 	game = prepare_game()
 	destroy = game.player1.give("LOE_009")

@@ -42,6 +42,11 @@ class LOE_029:
 	play = Discover(CONTROLLER, RandomCollectible(cost=3))
 
 
+# Naga Sea Witch
+class LOE_038:
+	update = Refresh(FRIENDLY_HAND, {GameTag.COST: SET(5)})
+
+
 # Gorillabot A-3
 class LOE_039:
 	powered_up = Find(FRIENDLY_MINIONS + MECH)
