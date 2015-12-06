@@ -500,6 +500,21 @@ class Draw(TargetedAction):
 		return [card]
 
 
+class Fatigue(TargetedAction):
+	"""
+	Hit a player with a tick of fatigue
+	"""
+	ARGS = ("TARGETS", )
+
+	def do(self, source, target):
+		if target.cant_fatigue:
+			log.info("%s can't fatigue and does not take damage", target)
+			return
+		target.fatigue_counter += 1
+		log.info("%s takes %i fatigue damage", target, target.fatigue_counter)
+		return source.game.queue_actions(source, Hit(target.hero, target.fatigue_counter))
+
+
 class ForceDraw(TargetedAction):
 	"""
 	Draw card targets into their owners hand

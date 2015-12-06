@@ -1,7 +1,7 @@
 import random
 from itertools import chain
 from hearthstone.enums import CardType, PlayState, Zone
-from .actions import Concede, Draw, Give, Steal, Summon
+from .actions import Concede, Draw, Fatigue, Give, Steal, Summon
 from .aura import TargetableByAuras
 from .card import Card
 from .deck import Deck
@@ -179,12 +179,7 @@ class Player(Entity, TargetableByAuras):
 			return ret
 
 	def fatigue(self):
-		if self.cant_fatigue:
-			self.log("%s can't fatigue and does not take damage", self)
-			return
-		self.fatigue_counter += 1
-		self.log("%s takes %i fatigue damage", self, self.fatigue_counter)
-		self.hero.hit(self.fatigue_counter)
+		return self.game.queue_actions(self, [Fatigue(self)])[0]
 
 	@property
 	def max_mana(self):
