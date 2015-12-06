@@ -1,4 +1,5 @@
 import uuid
+from hearthstone.enums import CardType
 from . import logging
 
 
@@ -6,6 +7,7 @@ class BaseEntity(object):
 	base_events = []
 	logger = logging.log
 	ignore_scripts = False
+	type = CardType.INVALID
 
 	def __init__(self):
 		self.manager = self.Manager(self)
@@ -22,6 +24,13 @@ class BaseEntity(object):
 
 	def __int__(self):
 		return self.entity_id
+
+	@property
+	def is_card(self):
+		"""
+		True if the Entity is a real card (as opposed to a Player, Game, ...)
+		"""
+		return self.type > CardType.PLAYER
 
 	@property
 	def events(self):
