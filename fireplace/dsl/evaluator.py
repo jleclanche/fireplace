@@ -90,6 +90,19 @@ class Find(Evaluator):
 		return bool(len(self.selector.eval(source.game, source)))
 
 
+class FindDuplicates(Evaluator):
+	"""
+	Evaluates to True if \a selector has duplicates.
+	"""
+	def __init__(self, selector, count=1):
+		super().__init__()
+		self.selector = selector
+
+	def check(self, source):
+		entities = self.selector.eval(source.game, source)
+		return len(set(entities)) < len(entities)
+
+
 class Joust(Evaluator):
 	"""
 	Compare the sum of the costs of \a selector1 versus \a selector2.
