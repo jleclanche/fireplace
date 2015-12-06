@@ -688,14 +688,14 @@ def test_alexstrasza_ragnaros():
 
 def test_avenging_wrath():
 	game = prepare_game()
-	game.current_player.give("EX1_384").play()
-	assert game.current_player.opponent.hero.health == 30 - 8
+	game.player1.give("EX1_384").play()
+	assert game.player2.hero.health == 30 - 8
 	game.end_turn()
 
 	# Summon Malygos and test that spellpower only increases dmg by 5
-	game.current_player.summon("EX1_563")
-	game.current_player.give("EX1_384").play()
-	assert game.current_player.opponent.hero.health == 30 - (8 + 5)
+	game.player2.summon("EX1_563")
+	game.player2.give("EX1_384").play()
+	assert game.player1.hero.health == 30 - (8 + 5)
 
 
 def test_doomhammer():
@@ -738,24 +738,37 @@ def test_dragon_egg():
 def test_dragonhawk_rider():
 	game = prepare_game(WARRIOR, WARRIOR)
 	rider = game.player1.give("AT_083")
+	game.player1.hero.power.use()
 	rider.play()
-	game.end_turn(); game.end_turn()
+	assert not rider.windfury
+	game.end_turn()
+
+	# do not trigger on enemy hero power
+	game.player2.hero.power.use()
+	assert not rider.windfury
+	game.end_turn()
+
+	# should gain windfury on inspire for single turn
+	game.player1.hero.power.use()
+	assert rider.windfury
+	rider.attack(game.player2.hero)
+	rider.attack(game.player2.hero)
+	game.end_turn()
 
 	assert not rider.windfury
+	game.end_turn()
+
+	# should lose windfury and effect when silenced
 	game.player1.hero.power.use()
 	assert rider.windfury
-	game.end_turn(); game.end_turn()
-
-	windfury = game.player1.give("CS2_039")
-	windfury.play(target=rider)
-	assert rider.windfury
-	game.end_turn(); game.end_turn()
-
-	assert rider.windfury
-	game.player1.hero.power.use()
 	rider.attack(game.player2.hero)
-	rider.attack(game.player2.hero)
+	assert rider.can_attack()
+	game.player1.give(SILENCE).play(target=rider)
+	assert not rider.windfury
 	assert not rider.can_attack()
+	game.end_turn(); game.end_turn()
+	game.player1.hero.power.use()
+	assert not rider.windfury
 
 
 def test_dr_boom():
@@ -772,13 +785,14 @@ def test_dr_boom():
 
 def test_raging_worgen():
 	game = prepare_game()
-	worgen = game.current_player.summon("EX1_412")
+	worgen = game.player1.give("EX1_412")
+	worgen.play()
 	assert worgen.health == 3
-	game.current_player.give(MOONFIRE).play(target=worgen)
+	game.player1.give(MOONFIRE).play(target=worgen)
 	assert worgen.health == 2
 	assert worgen.atk == 4
 	assert worgen.windfury
-	game.current_player.give(CIRCLE_OF_HEALING).play()
+	game.player1.give(CIRCLE_OF_HEALING).play()
 	assert worgen.atk == 3
 	assert not worgen.windfury
 
@@ -852,38 +866,38 @@ def test_shield_slam():
 
 
 def test_shrinkmeister():
-    game = prepare_game()
-    dummy = game.player1.give(TARGET_DUMMY)
-    dummy.play()
-    wisp = game.player1.give(WISP)
-    wisp.play()
-    boulderfist = game.player1.give("CS2_200")
-    boulderfist.play()
-    game.end_turn()
+	game = prepare_game()
+	dummy = game.player1.give(TARGET_DUMMY)
+	dummy.play()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	boulderfist = game.player1.give("CS2_200")
+	boulderfist.play()
+	game.end_turn()
 
-    assert dummy.atk == 0
-    game.player2.give("GVG_011").play(target=dummy)
-    assert dummy.buffs
-    assert dummy.atk == 0
+	assert dummy.atk == 0
+	game.player2.give("GVG_011").play(target=dummy)
+	assert dummy.buffs
+	assert dummy.atk == 0
 
-    assert wisp.atk == 1
-    game.player2.give("GVG_011").play(target=wisp)
-    assert wisp.buffs
-    assert wisp.atk == 0
+	assert wisp.atk == 1
+	game.player2.give("GVG_011").play(target=wisp)
+	assert wisp.buffs
+	assert wisp.atk == 0
 
-    assert boulderfist.atk == 6
-    game.player2.give("GVG_011").play(target=boulderfist)
-    assert boulderfist.buffs
-    assert boulderfist.atk == 6 - 2
-    game.end_turn()
+	assert boulderfist.atk == 6
+	game.player2.give("GVG_011").play(target=boulderfist)
+	assert boulderfist.buffs
+	assert boulderfist.atk == 6 - 2
+	game.end_turn()
 
-    # ensure buffs are gone after end of turn
-    assert not dummy.buffs
-    assert dummy.atk == 0
-    assert not wisp.buffs
-    assert wisp.atk == 1
-    assert not boulderfist.buffs
-    assert boulderfist.atk == 6
+	# ensure buffs are gone after end of turn
+	assert not dummy.buffs
+	assert dummy.atk == 0
+	assert not wisp.buffs
+	assert wisp.atk == 1
+	assert not boulderfist.buffs
+	assert boulderfist.atk == 6
 
 
 def test_siege_engine():
@@ -999,31 +1013,26 @@ def test_sorcerers_apprentice():
 
 def test_southsea_deckhand():
 	game = prepare_game(ROGUE, ROGUE)
-	deckhand = game.current_player.give("CS2_146")
+	deckhand = game.player1.give("CS2_146")
 	deckhand.play()
 	assert not deckhand.charge
 	# Play rogue hero power (gives a weapon)
-	game.current_player.hero.power.use()
+	game.player1.hero.power.use()
 	assert deckhand.charge
-	game.end_turn(); game.end_turn()
-
+	game.player1.give(LIGHTS_JUSTICE).play()
 	assert deckhand.charge
-	axe = game.current_player.give("CS2_106")
-	axe.play()
-	assert deckhand.charge
-	axe.destroy()
+	game.player1.weapon.destroy()
 	assert not deckhand.charge
 
-	game.end_turn(); game.end_turn()
 	# play charge
-	game.current_player.give("CS2_103").play(target=deckhand)
+	game.player1.give("CS2_103").play(target=deckhand)
 	assert deckhand.charge
 	game.end_turn(); game.end_turn()
 
 	assert deckhand.charge
-	game.current_player.hero.power.use()
+	game.player1.hero.power.use()
 	assert deckhand.charge
-	game.current_player.weapon.destroy()
+	game.player1.weapon.destroy()
 	# No longer have weapon, but still have the charge buff from earlier
 	assert deckhand.charge
 
@@ -1072,28 +1081,27 @@ def test_spellbender_echo_of_medivh():
 
 def test_spiteful_smith():
 	game = prepare_game()
-	assert not game.current_player.hero.atk
-	smith = game.current_player.summon("CS2_221")
-	assert smith.health == 6
-	assert not game.current_player.hero.atk
-	axe = game.current_player.give("CS2_106")
-	axe.play()
-	assert axe.atk == 3
-	assert game.current_player.hero.atk == 3
-	assert not game.current_player.opponent.hero.atk
-	game.current_player.give(MOONFIRE).play(target=smith)
-	assert smith.health == 5
-	assert axe.atk == 5
-	assert axe.buffs
-	assert game.current_player.hero.atk == 5
-	assert not game.current_player.opponent.hero.atk
-	game.current_player.give(CIRCLE_OF_HEALING).play()
-	assert axe.atk == 3
-	assert game.current_player.hero.atk == 3
-	game.current_player.give(MOONFIRE).play(target=smith)
-	assert smith.health == 5
-	assert axe.atk == 5
-	assert game.current_player.hero.atk == 5
+	smith = game.player1.give("CS2_221")
+	smith.play()
+	assert not game.player1.hero.atk
+	weapon = game.player1.give(LIGHTS_JUSTICE)
+	weapon.play()
+	assert game.player1.hero.atk == weapon.atk == 1
+	assert not game.player2.hero.atk
+	game.player1.give(MOONFIRE).play(target=smith)
+	assert smith.damaged
+	assert smith.enraged
+	assert weapon.atk == 1 + 2
+	assert weapon.buffs
+	assert game.player1.hero.atk == 1 + 2
+	assert not game.player2.hero.atk
+	game.player1.give(CIRCLE_OF_HEALING).play()
+	assert not smith.enraged
+	assert game.player1.hero.atk == weapon.atk == 1
+	assert not weapon.buffs
+	game.player1.give(MOONFIRE).play(target=smith)
+	assert smith.enraged
+	assert weapon.atk == game.player1.hero.atk == 1 + 2
 
 
 def test_sword_of_justice():
@@ -1448,41 +1456,6 @@ def test_dire_wolf_alpha():
 	frostwolf.attack(direwolf2)
 
 
-def test_dragonhawk_rider():
-	game = prepare_game(WARRIOR, WARRIOR)
-	rider = game.player1.give("AT_083")
-	game.player1.hero.power.use()
-	rider.play()
-	assert not rider.windfury
-	game.end_turn()
-
-	# do not trigger on enemy hero power
-	game.player2.hero.power.use()
-	assert not rider.windfury
-	game.end_turn()
-
-	# should gain windfury on inspire for single turn
-	game.player1.hero.power.use()
-	assert rider.windfury
-	rider.attack(game.player2.hero)
-	rider.attack(game.player2.hero)
-	game.end_turn()
-	assert not rider.windfury
-	game.end_turn()
-
-	# should lose windfury and effect when silenced
-	game.player1.hero.power.use()
-	assert rider.windfury
-	rider.attack(game.player2.hero)
-	assert rider.can_attack()
-	game.player1.give(SILENCE).play(target=rider)
-	assert not rider.windfury
-	assert not rider.can_attack()
-	game.end_turn(); game.end_turn()
-	game.player1.hero.power.use()
-	assert not rider.windfury
-
-
 def test_dragonkin_sorcerer():
 	game = prepare_game()
 	dragonkin = game.player1.give("BRM_020")
@@ -1522,6 +1495,9 @@ def test_dread_corsair():
 	game = prepare_game()
 	corsair = game.player1.give("NEW1_022")
 	assert corsair.cost == 4
+	weapon = game.player1.give(LIGHTS_JUSTICE)
+	weapon.play()
+	assert corsair.cost == 4 - 1
 	axe = game.player1.give("CS2_106")
 	axe.play()
 	assert corsair.cost == 4 - 3
@@ -1656,32 +1632,6 @@ def test_deaths_bite():
 	assert wisp.dead
 	assert wisp2.dead
 	assert token.health == 2
-
-
-def test_weapon_sheathing():
-	game = prepare_game()
-	axe = game.player1.give("CS2_106")
-	game.end_turn(); game.end_turn()
-
-	axe.play()
-	assert not axe.exhausted
-	assert game.player1.hero.atk == 3
-	assert game.player1.hero.can_attack()
-	game.player1.hero.attack(target=game.player2.hero)
-	assert not axe.exhausted
-	assert game.player1.hero.atk == 3
-	game.end_turn()
-
-	assert axe.exhausted
-	assert game.player1.hero.atk == 0
-	assert game.player2.hero.health == 27
-	game.player2.give("CS2_106").play()
-	game.player2.hero.attack(target=game.player1.hero)
-	assert game.player1.hero.health == 27
-	assert game.player2.hero.health == 27
-	game.end_turn()
-
-	assert not axe.exhausted
 
 
 def test_arcane_explosion():
@@ -2098,12 +2048,12 @@ def test_mana_wraith():
 	goldshire2 = game.player2.give(GOLDSHIRE_FOOTMAN)
 	fireball1 = game.player1.give("CS2_029")
 	fireball2 = game.player2.give("CS2_029")
-	axe1 = game.player1.give("CS2_106")
-	axe2 = game.player2.give("CS2_106")
+	weapon1 = game.player1.give(LIGHTS_JUSTICE)
+	weapon2 = game.player2.give(LIGHTS_JUSTICE)
 	assert wisp1.cost == wisp2.cost == 0
 	assert goldshire1.cost == goldshire2.cost == 1
 	assert fireball1.cost == fireball2.cost == 4
-	assert axe1.cost == axe2.cost == 2
+	assert weapon1.cost == weapon2.cost == 1
 	assert game.player1.hero.power.cost == game.player2.hero.power.cost == 2
 
 	wraith = game.current_player.give("EX1_616")
@@ -2111,14 +2061,14 @@ def test_mana_wraith():
 	assert wisp1.cost == wisp2.cost == 0 + 1
 	assert goldshire1.cost == goldshire2.cost == 1 + 1
 	assert fireball1.cost == fireball2.cost == 4
-	assert axe1.cost == axe2.cost == 2
+	assert weapon1.cost == weapon2.cost == 1
 	assert game.player1.hero.power.cost == game.player2.hero.power.cost == 2
 
 	wraith.destroy()
 	assert wisp1.cost == wisp2.cost == 0
 	assert goldshire1.cost == goldshire2.cost == 1
 	assert fireball1.cost == fireball2.cost == 4
-	assert axe1.cost == axe2.cost == 2
+	assert weapon1.cost == weapon2.cost == 1
 	assert game.player1.hero.power.cost == game.player2.hero.power.cost == 2
 
 
@@ -4444,15 +4394,12 @@ def test_unstable_ghoul():
 	assert len(game.player2.hand) == 0
 	assert game.player1.hero.health == 30
 	assert game.player2.hero.health == 30
-	axe = game.player2.give("CS2_106")
-	axe.play()
-	game.player2.hero.attack(target=ghoul)
+	ghoul.destroy()
 	assert wisp.dead
 	assert not acolyte.dead
 	assert acolyte.health == 3 - 1
 	assert len(game.player2.hand) == 1
-	assert game.player1.hero.health == 30
-	assert game.player2.hero.health == 30 - 1
+	assert game.player1.hero.health == game.player2.hero.health == 30
 
 
 def test_vancleef():
@@ -4494,8 +4441,7 @@ def test_water_elemental():
 	assert not game.player2.hero.frozen
 	game.end_turn()
 
-	axe = game.player2.give("CS2_106")
-	axe.play()
+	game.player2.give(LIGHTS_JUSTICE).play()
 	game.player2.hero.attack(target=elem)
 	assert game.player2.hero.frozen
 	game.end_turn()
@@ -4690,20 +4636,20 @@ def test_sabotage():
 	sabotage2.play()
 	game.end_turn()
 
-	axe = game.player2.give("CS2_106")
-	axe.play()
+	weapon = game.player2.give(LIGHTS_JUSTICE)
+	weapon.play()
 	wisp = game.player2.give(WISP)
 	wisp.play()
 	game.end_turn()
 
 	sabotage3 = game.player1.give("GVG_047")
 	sabotage3.play()
-	assert not axe.dead
+	assert not weapon.dead
 	assert wisp.dead
 
 	sabotage4 = game.player1.give("GVG_047")
 	sabotage4.play()
-	assert axe.dead
+	assert weapon.dead
 
 
 def test_savage_roar():
@@ -4990,38 +4936,37 @@ def test_cleave():
 
 def test_upgrade():
 	game = prepare_game()
-	axe = game.current_player.give("CS2_106")
-	axe.play()
-	assert game.current_player.weapon.atk == 3
-	assert game.current_player.weapon.durability == 2
-	game.current_player.hero.attack(game.current_player.opponent.hero)
-	assert game.current_player.weapon.atk == 3
-	assert game.current_player.weapon.durability == 1
-	assert game.current_player.opponent.hero.health == 27
-
-	game.end_turn()
-	upgrade = game.current_player.give("EX1_409")
+	weapon = game.player1.give(LIGHTS_JUSTICE)
+	weapon.play()
+	assert game.player1.weapon.atk == 1
+	assert game.player1.weapon.durability == 4
+	game.player1.hero.attack(game.player2.hero)
+	assert game.player1.weapon.durability == 4 - 1
+	upgrade = game.player1.give("EX1_409")
 	upgrade.play()
-	assert game.current_player.hero.atk == 1
-	assert game.current_player.weapon.atk == 1
-	game.end_turn()
+	assert game.player1.weapon.atk == 1 + 1
+	assert game.player1.weapon.durability == 4 - 1 + 1
+	game.end_turn(); game.end_turn()
 
-	assert game.current_player.weapon.atk == 3
-	assert game.current_player.weapon.durability == 1
-	upgrade2 = game.current_player.give("EX1_409")
-	upgrade2.play()
-	assert game.current_player.weapon.atk == 4
-	assert game.current_player.weapon.durability == 2
-	game.current_player.hero.attack(game.current_player.opponent.hero)
-	assert game.current_player.opponent.hero.health == 23
-	assert game.current_player.weapon.durability == 1
+	game.player1.hero.attack(game.player2.hero)
+	assert game.player2.hero.health == 30 - 1 - 2
+	game.end_turn()
 
 	# test Bloodsail Corsair
-	game.end_turn()
-	corsair = game.current_player.give("NEW1_025")
+	corsair = game.player2.give("NEW1_025")
 	corsair.play()
-	assert axe.dead
-	assert not game.current_player.opponent.weapon
+	assert game.player1.weapon.atk == 1 + 1
+	assert game.player1.weapon.durability == 4 - 1 + 1 - 1 - 1
+
+
+def test_upgrade_no_weapon():
+	game = prepare_game()
+	# Upgrade without a weapon
+	upgrade = game.player1.give("EX1_409")
+	upgrade.play()
+	assert game.player1.hero.atk == 1
+	assert game.player1.weapon.atk == 1
+	assert game.player1.weapon.id == "EX1_409t"
 
 
 def test_unstable_portal():
@@ -5197,8 +5142,7 @@ def test_ice_lance():
 	assert game.player2.hero.frozen
 	game.end_turn()
 
-	axe = game.player2.give("CS2_106")
-	axe.play()
+	game.player2.give(LIGHTS_JUSTICE).play()
 	assert game.player2.hero.frozen
 	assert not game.player2.hero.can_attack()
 	game.end_turn()
@@ -5237,16 +5181,15 @@ def test_vaporize():
 	assert game.player1.secrets[0] == vaporize
 	game.end_turn()
 
-	assert len(game.current_player.opponent.secrets) == 1
-	# Play an axe and hit the hero ourselves
-	game.player2.give("CS2_106").play()
+	assert len(game.player1.secrets) == 1
+	game.player2.give(LIGHTS_JUSTICE).play()
 	game.player2.hero.attack(target=game.player1.hero)
-	assert game.player1.hero.health == 27
+	assert game.player1.hero.health == 30 - 1
 	assert vaporize in game.player1.secrets
 	wisp.attack(target=game.player1.hero)
 	assert vaporize not in game.player1.secrets
 	assert wisp.dead
-	assert game.current_player.opponent.hero.health == 27
+	assert game.player1.hero.health == 30 - 1
 
 
 def test_slam():
@@ -5338,8 +5281,8 @@ def test_summoning_portal():
 	game.player1.discard_hand()
 	wisp = game.player1.give(WISP)
 	assert wisp.cost == 0
-	axe = game.player1.give("CS2_106")
-	assert axe.cost == 2
+	weapon = game.player1.give(LIGHTS_JUSTICE)
+	assert weapon.cost == 1
 	molten = game.player1.give("EX1_620")
 	assert molten.cost == 20
 	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
@@ -5350,7 +5293,7 @@ def test_summoning_portal():
 	portal = game.player1.give("EX1_315")
 	portal.play()
 	assert wisp.cost == 0
-	assert axe.cost == 2
+	assert weapon.cost == 1
 	assert molten.cost == 18
 	assert goldshire.cost == 1
 	assert frostwolf.cost == 1
@@ -5604,9 +5547,8 @@ def test_resurrect():
 	game = prepare_game()
 	resurrect = game.player1.give("BRM_017")
 	assert not resurrect.is_playable()
-	axe = game.player1.give("CS2_106")
-	axe.play()
-	axe.destroy()
+	game.player1.give(LIGHTS_JUSTICE).play()
+	game.player1.weapon.destroy()
 	assert not resurrect.is_playable()
 
 	# Summons something
@@ -5968,11 +5910,11 @@ def test_explosive_trap_weapon():
 
 	wisp = game.player2.give(WISP)
 	wisp.play()
-	# Fiery War Axe
-	game.player2.give("CS2_106").play()
+	game.player2.give(LIGHTS_JUSTICE).play()
 	assert not wisp.dead
 	game.player2.hero.attack(game.player1.hero)
 	assert wisp.dead
+	assert game.player1.hero.health == 30 - 1
 
 
 def test_stalagg_feugen():
