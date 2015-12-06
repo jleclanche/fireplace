@@ -68,6 +68,13 @@ class LOE_047:
 	play = Discover(CONTROLLER, RandomBeast())
 
 
+# Anubisath Sentinel
+class LOE_061:
+	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "LOE_061e")
+
+LOE_061e = buff(+3, +3)
+
+
 # Fossilized Devilsaur
 class LOE_073:
 	play = Find(FRIENDLY_MINIONS + BEAST) & Taunt(SELF)

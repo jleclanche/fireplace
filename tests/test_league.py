@@ -16,6 +16,23 @@ def test_ancient_shade():
 	assert game.player1.hero.health == 30 - 7
 
 
+def test_anubisath_sentinel():
+	game = prepare_game()
+	wisp = game.player2.summon(WISP)
+	sentinel1 = game.player1.give("LOE_061")
+	sentinel1.play()
+	sentinel2 = game.player1.give("LOE_061")
+	sentinel2.play()
+	game.end_turn(); game.end_turn()
+
+	assert sentinel2.atk == sentinel2.health == 4
+	game.player1.give("CS2_029").play(target=sentinel1)
+	assert sentinel2.atk == sentinel2.health == 4 + 3
+	assert wisp.atk == wisp.health == 1
+	game.player1.give("CS2_029").play(target=sentinel2)
+	assert wisp.atk == wisp.health == 1
+
+
 def test_anyfin_can_happen():
 	game = prepare_game()
 
