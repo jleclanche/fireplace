@@ -3106,7 +3106,7 @@ def test_bomb_lobber():
 	game.end_turn()
 
 	lobber2.play()
-	assert wisp.dead or warden.health == 7 - 4
+	assert wisp.dead ^ (warden.health == 7 - 4)
 
 
 def test_defias():
@@ -4280,7 +4280,7 @@ def test_tinkmaster_overspark():
 	tinkmaster2.play()
 	assert tinkmaster1 not in game.board
 	assert len(game.player1.field) == 2
-	assert game.board.contains("EX1_tk28") or game.board.contains("EX1_tk29")
+	assert game.board.contains("EX1_tk28") ^ game.board.contains("EX1_tk29")
 
 
 def test_tinkertown_technician():
