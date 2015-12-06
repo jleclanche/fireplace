@@ -135,6 +135,19 @@ def test_everyfin_is_awesome():
 	assert not murloc2.buffs
 
 
+def test_excavated_evil():
+	game = prepare_empty_game()
+	evil = game.player1.give("LOE_111")
+	wisp1 = game.player1.summon(WISP)
+	wisp2 = game.player2.summon(WISP)
+	assert len(game.player2.deck) == 0
+	evil.play()
+	assert wisp1.dead and wisp2.dead
+	assert game.player1.hero.health == game.player2.hero.health == 30
+	assert len(game.player2.deck) == 1
+	assert game.player2.deck[0].id == "LOE_111"
+
+
 def test_fossilized_devilsaur():
 	game = prepare_game()
 	game.player1.give(WISP).play()

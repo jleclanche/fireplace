@@ -108,6 +108,11 @@ class LOE_026:
 	play = Summon(CONTROLLER, Copy(RANDOM(KILLED + MURLOC) * 7))
 
 
+# Excavated Evil
+class LOE_111:
+	play = Hit(ALL_MINIONS, 5), Shuffle(OPPONENT, Copy(SELF))
+
+
 # Everyfin is Awesome
 class LOE_113:
 	cost_mod = -Count(FRIENDLY_MINIONS + MURLOC)
