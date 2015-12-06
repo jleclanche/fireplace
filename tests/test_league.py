@@ -247,6 +247,44 @@ def test_reno_jackson():
 	assert game.player1.hero.health == 30
 
 
+def test_rumbling_elemental():
+	game = prepare_game()
+
+	elemental = game.player1.give("LOE_016")
+	wisp1 = game.player2.summon(WISP)
+
+	# Rumbling Elemental should not trigger in hand
+	vodoo1 = game.player1.give("EX1_011")
+	vodoo1.play(target=game.player1.hero)
+	assert not wisp1.dead and game.player2.hero.health == 30
+	vodoo1.destroy()
+
+	elemental.play()
+
+	# vanilla minions should not trigger
+	wisp2 = game.player1.give(WISP)
+	wisp2.play()
+	wisp2.destroy()
+	assert not wisp1.dead and game.player2.hero.health == 30
+	game.end_turn()
+
+	# opponent's battlecries should not trigger
+	vodoo2 = game.player2.give("EX1_011")
+	vodoo2.play(target=game.player2.hero)
+	assert not wisp1.dead and game.player2.hero.health == 30
+	vodoo2.destroy()
+	game.end_turn()
+
+	# Elemental should not trigger on battlecry weapon
+	perditionsblade = game.player1.give("EX1_133")
+	perditionsblade.play(target=game.player1.hero)
+	assert not wisp1.dead and game.player2.hero.health == 30
+
+	vodoo3 = game.player1.give("EX1_011")
+	vodoo3.play(target=game.player1.hero)
+	assert wisp1.dead ^ (game.player2.hero.health == 28)
+
+
 def test_tomb_pillager():
 	game = prepare_game()
 	game.player1.discard_hand()

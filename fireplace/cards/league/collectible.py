@@ -29,6 +29,11 @@ class LOE_012:
 	deathrattle = Give(CONTROLLER, "GAME_005")
 
 
+# Rumbling Elemental
+class LOE_016:
+	events = Play(CONTROLLER, MINION + BATTLECRY).after(Hit(RANDOM_ENEMY_CHARACTER, 2))
+
+
 # Desert Camel
 class LOE_020:
 	play = (
