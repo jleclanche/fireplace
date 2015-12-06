@@ -194,6 +194,29 @@ def test_obsidian_destroyer():
 	assert scarab.taunt
 
 
+def test_reno_jackson():
+	game = prepare_empty_game()
+
+	game.player1.hero.set_current_health(10)
+	assert game.player1.hero.health == 10
+	game.player1.give(WISP).shuffle_into_deck()
+	game.player1.give(WISP).shuffle_into_deck()
+	game.player1.give("LOE_011").play()
+	assert game.player1.hero.health == 10
+	game.end_turn(); game.end_turn()
+
+	assert len(game.player1.deck) == 1
+	game.player1.give("LOE_011").play()
+	assert game.player1.hero.health == 30
+	game.end_turn(); game.end_turn()
+
+	assert len(game.player1.deck) == 0
+	game.player1.hero.set_current_health(10)
+	assert game.player1.hero.health == 10
+	game.player1.give("LOE_011").play()
+	assert game.player1.hero.health == 30
+
+
 def test_tomb_pillager():
 	game = prepare_game()
 	game.player1.discard_hand()

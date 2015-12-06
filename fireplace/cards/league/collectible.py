@@ -19,6 +19,11 @@ class LOE_009:
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOE_009t"))
 
 
+# Reno Jackson
+class LOE_011:
+	play = FindDuplicates(FRIENDLY_DECK) | FullHeal(FRIENDLY_HERO)
+
+
 # Tomb Pillager
 class LOE_012:
 	deathrattle = Give(CONTROLLER, "GAME_005")
