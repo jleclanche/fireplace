@@ -86,6 +86,12 @@ class BaseEntity(object):
 		if event.once:
 			self._events.remove(event)
 
+	def get_damage(self, amount: int, target) -> int:
+		"""
+		Override to modify the damage dealt to a target from the given amount.
+		"""
+		return amount
+
 
 class BuffableEntity(BaseEntity):
 	def __init__(self):

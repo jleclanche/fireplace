@@ -106,9 +106,6 @@ class BaseCard(BaseEntity):
 			setattr(ret, k, v)
 		return ret
 
-	def get_damage(self, amount, target):
-		return amount
-
 
 class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	windfury = boolean_property("windfury")
