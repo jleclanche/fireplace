@@ -49,6 +49,9 @@ class BaseCard(BaseEntity):
 	def __str__(self):
 		return self.name
 
+	def __hash__(self):
+		return self.id.__hash__()
+
 	def __repr__(self):
 		return "<%s (%r)>" % (self.__class__.__name__, self.__str__())
 
