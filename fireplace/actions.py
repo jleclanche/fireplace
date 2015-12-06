@@ -756,10 +756,10 @@ class Summon(TargetedAction):
 			cards = [cards]
 
 		for card in cards:
+			if not card.is_summonable():
+				continue
 			if card.controller != target:
 				card.controller = target
-			if card.type == CardType.MINION and not target.minion_slots:
-				continue
 			self.broadcast(source, EventListener.ON, target, card)
 			if card.zone != Zone.PLAY:
 				card.zone = Zone.PLAY

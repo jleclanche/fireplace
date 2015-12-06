@@ -265,7 +265,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if PlayReq.REQ_FRIENDLY_MINION_DIED_THIS_GAME in self.requirements:
 			if not self.controller.graveyard.filter(type=CardType.MINION):
 				return False
-		return True
+
+		return self.is_summonable()
 
 	def play(self, target=None, index=None, choose=None):
 		"""
@@ -288,6 +289,13 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			raise InvalidAction("%r isn't playable." % (self))
 		self.game.queue_actions(self.controller, [actions.Play(self, target, index)])
 		return self
+
+	def is_summonable(self) -> bool:
+		"""
+		Return whether the card can be summoned.
+		Do not confuse with is_playable()
+		"""
+		return True
 
 	def shuffle_into_deck(self):
 		"""
@@ -636,11 +644,11 @@ class Minion(Character):
 	def morph(self, into):
 		return self.game.queue_actions(self, [actions.Morph(self, into)])
 
-	def is_playable(self):
-		playable = super().is_playable()
+	def is_summonable(self):
+		summonable = super().is_summonable()
 		if len(self.controller.field) >= self.game.MAX_MINIONS_ON_FIELD:
 			return False
-		return playable
+		return summonable
 
 	def silence(self):
 		self.log("Silencing %r", self)
