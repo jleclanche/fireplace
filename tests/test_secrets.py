@@ -91,6 +91,21 @@ def test_counterspell_wild_pyromancer():
 	assert pyromancer.health == 2
 
 
+def test_dart_trap():
+	game = prepare_game(WARRIOR, WARRIOR)
+	darttrap = game.player1.give("LOE_021")
+	darttrap.play()
+	game.end_turn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	assert darttrap in game.player1.secrets
+	assert game.player2.hero.health == 30
+	game.player2.hero.power.use()
+	assert darttrap not in game.player1.secrets
+	assert wisp.dead ^ (game.player2.hero.health == 25)
+
+
 def test_eaglehorn_bow():
 	game = prepare_game()
 	bow = game.player1.give("EX1_536")

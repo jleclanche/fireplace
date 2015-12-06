@@ -48,6 +48,13 @@ class LOE_115:
 ##
 # Secrets
 
+# Dart Trap
+class LOE_021:
+	secret = Activate(OPPONENT, HERO_POWER).on(
+		Reveal(SELF), Hit(RANDOM_ENEMY_CHARACTER, 5)
+	)
+
+
 # Sacred Trial
 class LOE_027:
 	secret = Play(OPPONENT, MINION | HERO).after(
