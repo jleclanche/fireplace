@@ -430,7 +430,7 @@ class Predamage(TargetedAction):
 	def do(self, source, target, amount):
 		if amount:
 			target.predamage += amount
-			source.game.trigger_actions(source, [Damage(target, amount)])
+			return source.game.trigger_actions(source, [Damage(target, amount)])
 
 
 class Damage(TargetedAction):
@@ -579,7 +579,7 @@ class Hit(TargetedAction):
 	def do(self, source, target, amount):
 		amount = source.get_damage(amount, target)
 		if amount:
-			source.game.queue_actions(source, [Predamage(target, amount)])
+			return source.game.queue_actions(source, [Predamage(target, amount)])
 
 
 class Heal(TargetedAction):
