@@ -16,6 +16,11 @@ class AT_076:
 	inspire = Summon(CONTROLLER, RandomMurloc())
 
 
+# Mysterious Challenger
+class AT_079:
+	play = Summon(CONTROLLER, CONTROLLER_DECK + SECRET)
+
+
 # Eadric the Pure
 class AT_081:
 	play = Buff(ENEMY_MINIONS, "AT_081e")
