@@ -144,7 +144,7 @@ class EX1_554:
 
 # Snipe
 class EX1_609:
-	events = Play(OPPONENT, MINION).after(
+	events = Play(OPPONENT, MINION | HERO).after(
 		Reveal(SELF), Hit(Play.CARD, 4)
 	)
 

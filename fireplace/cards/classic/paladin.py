@@ -158,7 +158,7 @@ class EX1_136:
 
 # Repentance
 class EX1_379:
-	events = Play(OPPONENT, MINION).after(
+	events = Play(OPPONENT, MINION | HERO).after(
 		Reveal(SELF), Buff(Play.CARD, "EX1_379e")
 	)
 

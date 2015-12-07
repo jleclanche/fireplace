@@ -11,7 +11,7 @@ class LOE_009:
 
 # Sacred Trial
 class LOE_027:
-	events = Play(OPPONENT, MINION).after(
+	events = Play(OPPONENT, MINION | HERO).after(
 		(Count(ENEMY_MINIONS) >= 4) &
 		(Reveal(SELF), Destroy(Play.CARD))
 	)

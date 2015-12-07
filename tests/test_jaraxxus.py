@@ -1,4 +1,6 @@
+import pytest
 from utils import *
+from fireplace.exceptions import GameOver
 
 
 LORD_JARAXXUS = "EX1_323"
@@ -38,3 +40,54 @@ def test_jaraxxus_cult_master():
 	game.player1.give(LORD_JARAXXUS).play()
 	assert len(game.player1.field) == 1
 	assert not game.player1.hand
+
+
+def test_jaraxxus_repentance():
+	game = prepare_game()
+	repentance = game.player1.give("EX1_379")
+	repentance.play()
+	game.end_turn()
+
+	jaraxxus = game.player2.give(LORD_JARAXXUS)
+	jaraxxus.play()
+	assert not game.player1.secrets
+	assert game.player2.hero.id == LORD_JARAXXUS_HERO
+	assert game.player2.hero.health == game.player2.hero.max_health == 1
+
+
+def test_jaraxxus_snipe():
+	game = prepare_game()
+	snipe = game.player1.give("EX1_609")
+	snipe.play()
+	game.end_turn()
+
+	jaraxxus = game.player2.give(LORD_JARAXXUS)
+	jaraxxus.play()
+	assert not game.player1.secrets
+	assert game.player2.hero.damage == 4
+	assert game.player2.hero.health == 11
+
+
+def test_jaraxxus_sacred_trial():
+	game = prepare_game()
+	trial = game.player1.give("LOE_027")
+	trial.play()
+	game.end_turn()
+
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	jaraxxus = game.player2.give(LORD_JARAXXUS)
+	jaraxxus.play()
+	# Will not trigger as 4th minion due to timing
+	assert trial in game.player1.secrets
+	assert not game.player2.hero.dead
+	game.end_turn(); game.end_turn()
+
+	wisp4 = game.player2.summon(WISP)
+	assert not wisp4.dead
+	jaraxxus = game.player2.give(LORD_JARAXXUS)
+	with pytest.raises(GameOver):
+		jaraxxus.play()
+		assert trial not in game.player1.secrets
+		assert game.player2.hero.dead
