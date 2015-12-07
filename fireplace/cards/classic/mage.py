@@ -152,9 +152,14 @@ class EX1_289:
 
 # Mirror Entity
 class EX1_294:
-	events = Play(OPPONENT, MINION).after(
-		Reveal(SELF), Summon(CONTROLLER, ExactCopy(Play.CARD))
-	)
+	events = [
+		Play(OPPONENT, MINION).after(
+			Reveal(SELF), Summon(CONTROLLER, ExactCopy(Play.CARD))
+		),
+		Play(OPPONENT, ID("EX1_323h")).after(
+			Reveal(SELF), Summon(CONTROLLER, "EX1_323")
+		)  # :-)
+	]
 
 
 EX1_295o = buff(immune=True)

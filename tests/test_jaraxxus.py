@@ -42,6 +42,21 @@ def test_jaraxxus_cult_master():
 	assert not game.player1.hand
 
 
+def test_jaraxxus_mirror_entity():
+	game = prepare_game(MAGE, MAGE)
+	mirror = game.player1.give("EX1_294")
+	mirror.play()
+	game.end_turn()
+
+	jaraxxus = game.player2.give(LORD_JARAXXUS)
+	jaraxxus.play()
+	assert not game.player1.secrets
+	assert game.player2.hero.id == LORD_JARAXXUS_HERO
+	assert game.player1.hero.id == MAGE
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == LORD_JARAXXUS
+
+
 def test_jaraxxus_repentance():
 	game = prepare_game()
 	repentance = game.player1.give("EX1_379")
