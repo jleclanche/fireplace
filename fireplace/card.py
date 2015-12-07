@@ -187,10 +187,6 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				self.choose_cards.append(card)
 
 	def action(self):
-		if self.cant_play:
-			self.log("%r play action cannot continue", self)
-			return
-
 		if self.has_target() and not self.target:
 			self.log("%r has no target, action exits early", self)
 			return

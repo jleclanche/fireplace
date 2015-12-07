@@ -259,17 +259,19 @@ class Play(GameAction):
 		player.game.no_aura_refresh = False
 		player.game.refresh_auras()
 
-		# Battlecry etc
-		play_action()
+		# "Can't Play" (aka Counter) means triggers don't happen either
+		if not card.cant_play:
+			# Battlecry etc
+			play_action()
 
-		# If the play action transforms the card (eg. Druid of the Claw), we
-		# have to broadcast the morph result as minion instead.
-		if card.morphed:
-			played_minion = card.morphed
-		else:
-			played_minion = card
-		summon_action.broadcast(player, EventListener.AFTER, player, played_minion)
-		self.broadcast(player, EventListener.AFTER, player, played_minion, target)
+			# If the play action transforms the card (eg. Druid of the Claw), we
+			# have to broadcast the morph result as minion instead.
+			if card.morphed:
+				played_minion = card.morphed
+			else:
+				played_minion = card
+			summon_action.broadcast(player, EventListener.AFTER, player, played_minion)
+			self.broadcast(player, EventListener.AFTER, player, played_minion, target)
 
 		player.combo = True
 		player.cards_played_this_turn += 1

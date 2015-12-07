@@ -1454,6 +1454,21 @@ def test_counterspell():
 	assert game.player1.hero.health == 30
 
 
+def test_counterspell_wild_pyromancer():
+	# Test for bug #12
+	game = prepare_game()
+	counterspell = game.player1.give("EX1_287")
+	counterspell.play()
+	game.end_turn()
+
+	pyromancer = game.player2.give("NEW1_020")
+	pyromancer.play()
+	assert counterspell in game.player1.secrets
+	moonfire = game.player2.give(MOONFIRE)
+	moonfire.play(target=game.player1.hero)
+	assert pyromancer.health == 2
+
+
 def test_cruel_taskmaster():
 	game = prepare_game()
 	taskmaster1 = game.current_player.give("EX1_603")
