@@ -740,8 +740,9 @@ class Silence(TargetedAction):
 	"""
 	def do(self, source, target):
 		log.info("Silencing %r", self)
-		target.clear_buffs()
+		self.broadcast(source, EventListener.ON, target)
 
+		target.clear_buffs()
 		for attr in target.silenceable_attributes:
 			if getattr(target, attr):
 				setattr(target, attr, False)

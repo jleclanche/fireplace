@@ -4726,6 +4726,34 @@ def test_shadowflame():
 	assert dummy1.health == 1
 
 
+def test_shadow_madness_bounce():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	game.player2.discard_hand()
+	shadowmadness = game.player2.give("EX1_334")
+	assert wisp.controller is game.player1
+	shadowmadness.play(target=wisp)
+	assert wisp.controller is game.player2
+	game.player2.give(TIME_REWINDER).play(target=wisp)
+	assert wisp in game.player2.hand
+	assert wisp.controller is game.player2
+	game.end_turn()
+
+	assert wisp in game.player2.hand
+	assert wisp.controller is game.player2
+	game.end_turn()
+
+	assert wisp in game.player2.hand
+	assert wisp.controller is game.player2
+	game.end_turn()
+
+	assert wisp in game.player2.hand
+	assert wisp.controller is game.player2
+
+
 def test_shadow_madness_wild_pyro():
 	game = prepare_game()
 	pyromancer = game.current_player.give("NEW1_020")
