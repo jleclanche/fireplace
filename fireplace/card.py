@@ -308,6 +308,12 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		return True
 
+	def morph(self, into):
+		"""
+		Morph the card into another card
+		"""
+		return self.game.queue_actions(self, [actions.Morph(self, into)])
+
 	def shuffle_into_deck(self):
 		"""
 		Shuffle the card into the controller's deck
@@ -646,9 +652,6 @@ class Minion(Character):
 
 	def bounce(self):
 		return self.game.queue_actions(self, [actions.Bounce(self)])
-
-	def morph(self, into):
-		return self.game.queue_actions(self, [actions.Morph(self, into)])
 
 	def is_summonable(self):
 		summonable = super().is_summonable()
