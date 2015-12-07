@@ -29,3 +29,12 @@ def test_jaraxxus():
 	game.player1.hero.power.use()
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == INFERNO_TOKEN
+
+
+def test_jaraxxus_cult_master():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player1.summon("EX1_595")
+	game.player1.give(LORD_JARAXXUS).play()
+	assert len(game.player1.field) == 1
+	assert not game.player1.hand

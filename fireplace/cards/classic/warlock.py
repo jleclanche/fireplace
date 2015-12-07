@@ -67,8 +67,7 @@ class EX1_319:
 # Lord Jaraxxus
 class EX1_323:
 	play = (
-		Destroy(SELF),
-		Summon(CONTROLLER, "EX1_323h"),
+		Morph(SELF, Summon(CONTROLLER, "EX1_323h")),
 		Summon(CONTROLLER, "EX1_323w")
 	)
 
