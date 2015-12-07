@@ -651,16 +651,7 @@ class Minion(Character):
 		return summonable
 
 	def silence(self):
-		self.log("Silencing %r", self)
-		self.clear_buffs()
-
-		for attr in self.silenceable_attributes:
-			if getattr(self, attr):
-				setattr(self, attr, False)
-
-		# Wipe the event listeners
-		self._events = []
-		self.silenced = True
+		return self.game.queue_actions(self, [actions.Silence(self)])
 
 
 class Spell(PlayableCard):

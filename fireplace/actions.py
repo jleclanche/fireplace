@@ -734,7 +734,16 @@ class Silence(TargetedAction):
 	Silence minion targets.
 	"""
 	def do(self, source, target):
-		target.silence()
+		log.info("Silencing %r", self)
+		target.clear_buffs()
+
+		for attr in target.silenceable_attributes:
+			if getattr(target, attr):
+				setattr(target, attr, False)
+
+		# Wipe the event listeners
+		target._events = []
+		target.silenced = True
 
 
 class Summon(TargetedAction):
