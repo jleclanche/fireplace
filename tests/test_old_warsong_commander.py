@@ -6,7 +6,7 @@ from utils import *
 WARSONG_COMMANDER = "FIREPLACE_EX1_084"
 
 
-def test_warsong_commander():
+def test_old_warsong_commander():
 	# test 1 - Any minion, then Warsong
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
@@ -27,7 +27,7 @@ def test_warsong_commander():
 	assert damaged.charge
 
 
-def test_warsong_commander_buffed():
+def test_old_warsong_commander_buffed():
 	# test 4 - Warsong, Fiery War Axe, then Bloodsail Raider
 	game = prepare_game()
 	game.player1.give(WARSONG_COMMANDER).play()
@@ -50,7 +50,7 @@ def test_warsong_commander_buffed():
 	assert not bloodknight.charge
 
 
-def test_warsong_commander_faceless_manipulator():
+def test_old_warsong_commander_faceless_manipulator():
 	# test 7 - Warsong, then Faceless Manipulator on 6/7 Boulderfist Ogre
 	game = prepare_game()
 	game.player1.give(WARSONG_COMMANDER).play()
@@ -76,7 +76,7 @@ def test_warsong_commander_faceless_manipulator():
 	assert copy.charge
 
 
-def test_warsong_commander_faceless_manipulator_buffed():
+def test_old_warsong_commander_faceless_manipulator_buffed():
 	# test 6 - Warsong, then Faceless Manipulator on 5/6 damaged Gurubashi Berseker
 	game = prepare_game()
 	game.player1.give(WARSONG_COMMANDER).play()
@@ -96,7 +96,7 @@ def test_warsong_commander_faceless_manipulator_buffed():
 	assert not copy.charge
 
 
-def test_warsong_commander_stormwind_champion():
+def test_old_warsong_commander_stormwind_champion():
 	# test 9 - Warsong and Stormwind Champion on Play, then Raging Worgen
 	game = prepare_game()
 	game.player1.give(WARSONG_COMMANDER).play()
@@ -108,7 +108,7 @@ def test_warsong_commander_stormwind_champion():
 	assert not worgen.charge
 
 
-def test_warsong_commander_lightspawn():
+def test_old_warsong_commander_lightspawn():
 	# test 11 - Warsong, then Lightspawn
 	game = prepare_game()
 	game.player1.give(WARSONG_COMMANDER).play()
@@ -117,7 +117,7 @@ def test_warsong_commander_lightspawn():
 	assert not lightspawn.charge
 
 
-def test_warsong_commander_bounce():
+def test_old_warsong_commander_bounce():
 	# test 12 - Warsong, then play Youthful Brewmaster targeting the Warsong
 	game = prepare_game()
 	warsong = game.player1.give(WARSONG_COMMANDER)
@@ -128,7 +128,7 @@ def test_warsong_commander_bounce():
 	assert not game.player1.field[0].charge
 
 
-def test_warsong_commander_spell_summon():
+def test_old_warsong_commander_spell_summon():
 	# test 13 - Warsong, then play Hex targeting the Warsong
 	game = prepare_game()
 	warsong = game.player1.give(WARSONG_COMMANDER)
@@ -139,7 +139,7 @@ def test_warsong_commander_spell_summon():
 	assert not game.player1.field[0].charge
 
 
-def test_warsong_commander_mind_control_tech():
+def test_old_warsong_commander_mind_control_tech():
 	# test 14 - Enemy Warsong and 3 other minions, the Mind Control Tech stealing Warsong
 	game = prepare_game()
 	for i in range(4):
