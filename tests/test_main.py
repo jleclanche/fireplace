@@ -5855,7 +5855,7 @@ def test_fel_reaver():
 
 
 def test_snipe():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game()
 	snipe1 = game.player1.give("EX1_609")
 	snipe1.play()
 	game.end_turn()
@@ -5873,6 +5873,22 @@ def test_snipe():
 	assert not watcher.can_attack()
 	assert not watcher.dead
 	assert watcher.health == 1
+
+
+def test_snipe_druid_of_the_claw():
+	game = prepare_game()
+	snipe = game.player1.give("EX1_609")
+	snipe.play()
+	game.end_turn()
+
+	druid = game.player2.give("EX1_165")
+	druid.play(choose="EX1_165b")
+	assert snipe not in game.player1.secrets
+	assert len(game.player2.field) == 1
+	assert druid.morphed is game.player2.field[0]
+	assert druid.morphed.id == "EX1_165t2"
+	assert druid.morphed.damage == 4
+	assert not druid.damage
 
 
 def test_snake_trap():

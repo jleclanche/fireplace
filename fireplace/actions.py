@@ -250,16 +250,27 @@ class Play(GameAction):
 		source_card.target = target
 		player.game.no_aura_refresh = True
 		player.game._play(card)
+
+		self.broadcast(player, EventListener.ON, player, card, target)
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
-		summon_action = Summon(player, source_card)
-		self.broadcast(player, EventListener.ON, player, source_card, target)
-		summon_action.broadcast(player, EventListener.ON, player, source_card)
+		summon_action = Summon(player, card)
+		summon_action.broadcast(player, EventListener.ON, player, card)
 		player.game.no_aura_refresh = False
 		player.game.refresh_auras()
+
+		# Battlecry etc
 		play_action()
-		summon_action.broadcast(player, EventListener.AFTER, player, source_card)
-		self.broadcast(player, EventListener.AFTER, player, source_card, target)
+
+		# If the play action transforms the card (eg. Druid of the Claw), we
+		# have to broadcast the morph result as minion instead.
+		if card.morphed:
+			played_minion = card.morphed
+		else:
+			played_minion = card
+		summon_action.broadcast(player, EventListener.AFTER, player, played_minion)
+		self.broadcast(player, EventListener.AFTER, player, played_minion, target)
+
 		player.combo = True
 		player.cards_played_this_turn += 1
 		if source_card.type == CardType.MINION:
