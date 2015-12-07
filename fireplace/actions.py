@@ -826,12 +826,25 @@ class Steal(TargetedAction):
 	Make the controller take control of targets.
 	The controller is the controller of the source of the action.
 	"""
-	def do(self, source, target):
-		log.info("%s takes control of %r", self, target)
+	ARGS = ("TARGETS", "CONTROLLER")
+
+	def get_target_args(self, source, target):
+		if len(self._args) > 1:
+			# Controller was specified
+			controller = self.eval(self._args[1], source)
+			assert len(controller) == 1
+			controller = controller[0]
+		else:
+			# Default to the source's controller
+			controller = source.controller
+		return (controller, )
+
+	def do(self, source, target, controller):
+		log.info("%s takes control of %r", controller, target)
 		zone = target.zone
 		target.zone = Zone.SETASIDE
-		target.controller = source.controller
-		target.turns_in_play = 0
+		target.controller = controller
+		target.turns_in_play = 0  # To ensure summoning sickness
 		target.zone = zone
 
 
