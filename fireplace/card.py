@@ -106,6 +106,16 @@ class BaseCard(BaseEntity):
 			setattr(ret, k, v)
 		return ret
 
+	def is_playable(self) -> bool:
+		"""
+		Return whether the card can be played.
+		Do not confuse with is_summonable()
+		"""
+		return False
+
+	def play(self, *args):
+		raise NotImplementedError
+
 
 class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	windfury = boolean_property("windfury")
@@ -786,12 +796,6 @@ class HeroPower(PlayableCard):
 		amount += self.controller.heropower_damage
 		amount *= (self.controller.hero_power_double + 1)
 		return amount
-
-	def is_playable(self):
-		return False
-
-	def play(self, target=None):
-		raise NotImplementedError
 
 	def use(self, target=None):
 		if not self.is_usable():
