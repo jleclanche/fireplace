@@ -662,6 +662,7 @@ class Morph(TargetedAction):
 		if card.zone != Zone.PLAY:
 			# In-place morph is OK, eg. in the case of Lord Jaraxxus
 			card.zone = Zone.PLAY
+		target.morphed = card
 		return card
 
 
