@@ -143,6 +143,18 @@ def test_huge_toad():
 	assert game.player1.hero.health + dummy.health == 30 + 2 - 1
 
 
+def test_tomb_pillager():
+	game = prepare_game()
+	game.player1.discard_hand()
+	pillager = game.player1.give("LOE_012")
+	pillager.play()
+	fireball = game.player1.give("CS2_029")
+	fireball.play(target=pillager)
+	assert pillager.dead
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].id == "GAME_005"
+
+
 ##
 # Adventure tests
 

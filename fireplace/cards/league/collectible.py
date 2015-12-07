@@ -19,6 +19,11 @@ class LOE_009:
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOE_009t"))
 
 
+# Tomb Pillager
+class LOE_012:
+	deathrattle = Give(CONTROLLER, "GAME_005")
+
+
 # Dark Peddler
 class LOE_023:
 	play = Discover(CONTROLLER, RandomCollectible(cost=1))
