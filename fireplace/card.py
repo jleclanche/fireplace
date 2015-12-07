@@ -286,6 +286,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			# This is a helper so we can do keeper.play(choose=id)
 			# instead of having to mess with keeper.choose_cards.filter(...)
 			return self.choose_cards.filter(id=choose)[0].play(target=target, index=index)
+		if self.choose_cards:
+			raise InvalidAction("Do not play %r! Play one of its Choose Cards instead" % (self))
+		if not self.is_playable():
+			raise InvalidAction("%r isn't playable." % (self))
 		if self.has_target():
 			if not target:
 				raise InvalidAction("%r requires a target to play." % (self))
@@ -293,10 +297,6 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				raise InvalidAction("%r is not a valid target for %r." % (target, self))
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
-		if self.choose_cards:
-			raise InvalidAction("Do not play %r! Play one of its Choose Cards instead" % (self))
-		if not self.is_playable():
-			raise InvalidAction("%r isn't playable." % (self))
 		self.game.queue_actions(self.controller, [actions.Play(self, target, index)])
 		return self
 
