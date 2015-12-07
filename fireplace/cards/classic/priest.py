@@ -134,9 +134,7 @@ class EX1_334:
 class EX1_334e:
 	events = TURN_END.on(Destroy(SELF))
 	tags = {GameTag.CHARGE: True}
-
-	def destroy(self):
-		self.controller.opponent.steal(self.owner)
+	destroy = Steal(OWNER, OPPONENT)
 
 
 # Thoughtsteal

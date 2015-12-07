@@ -733,8 +733,10 @@ class Enchantment(BaseCard):
 
 	def destroy(self):
 		self.log("Destroying buff %r from %r", self, self.owner)
+		# Only used in Shadow Madness right now
 		if hasattr(self.data.scripts, "destroy"):
-			self.data.scripts.destroy(self)
+			action = getattr(self.data.scripts, "destroy")
+			self.game.queue_actions(self, (action, ))
 		self.zone = Zone.REMOVEDFROMGAME
 	_destroy = destroy
 
