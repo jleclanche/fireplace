@@ -57,60 +57,54 @@ def test_cobalt_guardian():
 
 def test_cogmaster():
 	game = prepare_game()
-	cogmaster = game.current_player.give("GVG_013")
+	cogmaster = game.player1.give("GVG_013")
 	cogmaster.play()
 	assert cogmaster.atk == 1
-	dummy = game.current_player.give(TARGET_DUMMY)
+	dummy = game.player1.give(TARGET_DUMMY)
 	dummy.play()
 	assert cogmaster.atk == 3
-	humility = game.current_player.give("EX1_360")
+	humility = game.player1.give("EX1_360")
 	humility.play(target=cogmaster)
 	assert cogmaster.atk == 3
 	dummy.destroy()
 	assert cogmaster.atk == 1
-	game.end_turn(); game.end_turn()
-	game.end_turn(); game.end_turn()
-	game.end_turn(); game.end_turn()
-
-	game.current_player.give(TARGET_DUMMY).play()
+	game.player1.give(TARGET_DUMMY).play()
 	assert cogmaster.atk == 3
-	blessedchamp = game.current_player.give("EX1_355")
+	blessedchamp = game.player1.give("EX1_355")
 	blessedchamp.play(target=cogmaster)
 	assert cogmaster.atk == 4
 
 
 def test_cogmasters_wrench():
 	game = prepare_game()
-	wrench = game.current_player.summon("GVG_024")
-	assert wrench.atk == game.current_player.hero.atk == 1
-	game.end_turn(); game.end_turn()
-
-	dummy = game.current_player.give(TARGET_DUMMY)
+	wrench = game.player1.summon("GVG_024")
+	assert wrench.atk == game.player1.hero.atk == 1
+	dummy = game.player1.give(TARGET_DUMMY)
 	dummy.play()
-	assert wrench.atk == game.current_player.hero.atk == 3
+	assert wrench.atk == game.player1.hero.atk == 3
 	dummy.destroy()
-	assert wrench.atk == game.current_player.hero.atk == 1
+	assert wrench.atk == game.player1.hero.atk == 1
 
 
 def test_cult_master():
 	game = prepare_game()
-	wisp1 = game.current_player.give(WISP)
+	wisp1 = game.player1.give(WISP)
 	wisp1.play()
-	wisp2 = game.current_player.give(WISP)
+	wisp2 = game.player1.give(WISP)
 	wisp2.play()
-	cultmaster = game.current_player.give("EX1_595")
+	cultmaster = game.player1.give("EX1_595")
 	cultmaster.play()
-	assert len(game.current_player.hand) == 4
-	game.current_player.give(MOONFIRE).play(target=wisp1)
-	assert len(game.current_player.hand) == 4 + 1
+	assert len(game.player1.hand) == 4
+	game.player1.give(MOONFIRE).play(target=wisp1)
+	assert len(game.player1.hand) == 4 + 1
 
 	# Make sure cult master doesn't draw off itself
-	game.current_player.give(MOONFIRE).play(target=cultmaster)
-	game.current_player.give(MOONFIRE).play(target=cultmaster)
-	assert len(game.current_player.hand) == 4 + 1
+	game.player1.give(MOONFIRE).play(target=cultmaster)
+	game.player1.give(MOONFIRE).play(target=cultmaster)
+	assert len(game.player1.hand) == 4 + 1
 
-	game.current_player.give(MOONFIRE).play(target=wisp2)
-	assert len(game.current_player.hand) == 4 + 1
+	game.player1.give(MOONFIRE).play(target=wisp2)
+	assert len(game.player1.hand) == 4 + 1
 
 
 def test_cult_master_board_clear():
@@ -224,7 +218,7 @@ def test_savagery():
 	assert watcher.health == 5 - 1
 	game.end_turn(); game.end_turn()
 
-	game.current_player.give(KOBOLD_GEOMANCER).play()
+	game.player1.give(KOBOLD_GEOMANCER).play()
 	savagery4 = game.player1.give("EX1_578")
 	savagery4.play(watcher)
 	assert watcher.health == 5 - 1 - 1
@@ -232,11 +226,12 @@ def test_savagery():
 
 def test_earth_shock():
 	game = prepare_game()
-	crusader = game.current_player.give("EX1_020")
+	crusader = game.player1.give("EX1_020")
 	crusader.play()
 	assert crusader.divine_shield
 	game.end_turn()
-	earthshock = game.current_player.give("EX1_245")
+
+	earthshock = game.player2.give("EX1_245")
 	earthshock.play(target=crusader)
 	assert crusader.dead
 
@@ -245,11 +240,11 @@ def test_eaglehorn_bow():
 	game = prepare_game()
 	bow = game.player1.give("EX1_536")
 	icebarrier = game.player1.give("EX1_289")
-	wisp = game.player2.give(WISP)
 	bow.play()
 	assert bow.durability == 2
 	game.end_turn()
 
+	wisp = game.player2.give(WISP)
 	wisp.play()
 	game.end_turn()
 
@@ -257,9 +252,9 @@ def test_eaglehorn_bow():
 	assert bow.durability == 2
 	game.end_turn()
 
-	assert game.current_player.opponent.secrets
+	assert icebarrier in game.player1.secrets
 	wisp.attack(target=game.player1.hero)
-	assert not game.current_player.opponent.secrets
+	assert not game.player1.secrets
 	assert game.player1.hero.health == 30
 	assert game.player1.hero.armor == 7
 	assert bow.buffs
@@ -348,15 +343,15 @@ def test_elite_tauren_chieftain():
 
 def test_deadly_poison():
 	game = prepare_game(ROGUE, ROGUE)
-	poison = game.current_player.give("CS2_074")
+	poison = game.player1.give("CS2_074")
 	assert not poison.is_playable()
-	game.current_player.hero.power.use()
-	assert game.current_player.weapon.atk == 1
-	assert game.current_player.hero.atk == 1
+	game.player1.hero.power.use()
+	assert game.player1.weapon.atk == 1
+	assert game.player1.hero.atk == 1
 	assert poison.is_playable()
 	poison.play()
-	assert game.current_player.weapon.atk == 3
-	assert game.current_player.hero.atk == 3
+	assert game.player1.weapon.atk == 3
+	assert game.player1.hero.atk == 3
 
 
 def test_demonfire():
@@ -430,24 +425,21 @@ def test_deathwing():
 	game.player1.give(WISP).play()
 	deathwing = game.player1.give("NEW1_030")
 	deathwing.play()
-	assert not game.current_player.hand
+	assert not game.player1.hand
 	assert len(game.board) == 1
 	assert not deathwing.dead
 
 
 def test_power_word_shield():
 	game = prepare_game()
-	wisp = game.current_player.give(WISP)
+	game.player1.discard_hand()
+	wisp = game.player1.give(WISP)
 	wisp.play()
-	assert wisp.health == 1
-	assert len(game.current_player.hand) == 4
-
-	pwshield = game.current_player.give("CS2_004")
+	pwshield = game.player1.give("CS2_004")
 	pwshield.play(target=wisp)
 	assert wisp.health == 3
-	assert len(game.current_player.hand) == 5
-
-	wisp.silence()
+	assert len(game.player1.hand) == 1
+	game.player1.give(SILENCE).play(target=wisp)
 	assert wisp.health == 1
 
 
@@ -498,16 +490,14 @@ def test_preparation():
 
 def test_kill_command():
 	game = prepare_game(HUNTER, HUNTER)
-	kc = game.current_player.give("EX1_539")
-	kc.play(target=game.current_player.opponent.hero)
-	assert game.current_player.opponent.hero.health == 27
-	game.end_turn(); game.end_turn()
+	kc = game.player1.give("EX1_539")
+	kc.play(target=game.player1.opponent.hero)
+	assert game.player2.hero.health == 30 - 3
 
-	# play a timber wolf before this time
-	game.current_player.give("DS1_175").play()
-	kc = game.current_player.give("EX1_539")
-	kc.play(target=game.current_player.opponent.hero)
-	assert game.current_player.opponent.hero.health == 22
+	game.player1.give(CHICKEN).play()
+	kc = game.player1.give("EX1_539")
+	kc.play(target=game.player1.hero)
+	assert game.player1.hero.health == 30 - 5
 
 
 def test_abusive_sergeant():
@@ -580,13 +570,13 @@ def test_ancestors_call():
 
 def test_ancestral_healing():
 	game = prepare_empty_game()
-	watcher = game.current_player.give("EX1_045")
+	watcher = game.player1.give("EX1_045")
 	watcher.play()
 	assert not watcher.taunt
 	assert watcher.health == 5
 	watcher.set_current_health(1)
 	assert watcher.health == 1
-	game.current_player.give("CS2_041").play(watcher)
+	game.player1.give("CS2_041").play(watcher)
 	assert watcher.taunt
 	assert watcher.health == 5
 
@@ -606,28 +596,25 @@ def test_ancestral_spirit():
 
 def test_ancient_of_lore():
 	game = prepare_game()
-	game.current_player.discard_hand()
+	game.player1.discard_hand()
 
 	# damage the hero with 6 moonfires
 	for i in range(6):
 		game.player1.give(MOONFIRE).play(target=game.player1.hero)
-	assert game.current_player.hero.health == 30 - 6
+	assert game.player1.hero.health == 30 - 6
 
-	ancient1 = game.current_player.give("NEW1_008")
-	assert len(game.current_player.hand) == 1
-	assert ancient1.cost == 7
-	# Play to draw 2 cards
-	ancient1.play(choose="NEW1_008a")
-	assert len(game.current_player.hand) == 2
-	assert game.current_player.hero.health == 30 - 6
+	ancient1 = game.player1.give("NEW1_008")
+	ancient1.play(choose="NEW1_008a")  # Draw 2 Cards
+	assert len(game.player1.hand) == 2
+	assert game.player1.hero.health == 30 - 6
 	game.end_turn(); game.end_turn()
 
-	game.current_player.discard_hand()
-	ancient2 = game.current_player.give("NEW1_008")
+	game.player1.discard_hand()
+	ancient2 = game.player1.give("NEW1_008")
 	# Play to heal hero by 5
-	ancient2.play(target=game.current_player.hero, choose="NEW1_008b")
-	assert not game.current_player.hand
-	assert game.current_player.hero.health == 30 - 6 + 5
+	ancient2.play(target=game.player1.hero, choose="NEW1_008b")
+	assert not game.player1.hand
+	assert game.player1.hero.health == 30 - 6 + 5
 
 
 def test_ancient_watcher():
@@ -652,31 +639,29 @@ def test_anubar_ambusher():
 
 def test_alarmobot():
 	game = prepare_game()
-	bot = game.current_player.give("EX1_006")
-	game.end_turn(); game.end_turn()
-	game.end_turn(); game.end_turn()
+	game.player1.discard_hand()
+	bot = game.player1.give("EX1_006")
 	bot.play()
-	game.current_player.discard_hand()
-	wisp = game.current_player.give(WISP)
+	wisp = game.player1.give(WISP)
 	for i in range(9):
-		game.current_player.give(MOONFIRE)
-	assert len(game.current_player.hand) == 10
+		game.player1.give(MOONFIRE)
+	assert len(game.player1.hand) == 10
 	assert bot.zone == Zone.PLAY
 	assert wisp.zone == Zone.HAND
 	game.end_turn(); game.end_turn()
-	assert bot.zone == Zone.HAND
-	assert wisp.zone == Zone.PLAY
-	assert len(game.current_player.field) == 1
-	assert len(game.current_player.hand) == 10
+	assert bot in game.player1.hand
+	assert wisp in game.player1.field
+	assert len(game.player1.field) == 1
+	assert len(game.player1.hand) == 10
 
 	# bot should not trigger if hand has no minions
 	bot.play()
-	game.current_player.give(MOONFIRE)
-	assert len(game.current_player.hand) == 10
+	game.player1.give(MOONFIRE)
+	assert len(game.player1.hand) == 10
 	game.end_turn(); game.end_turn()
-	assert len(game.current_player.hand) == 10
+	assert len(game.player1.hand) == 10
 	assert bot.zone == Zone.PLAY
-	assert len(game.current_player.field) == 2
+	assert len(game.player1.field) == 2
 
 
 def test_alexstrasza():
@@ -868,12 +853,12 @@ def test_secretkeeper():
 	secretkeeper.play()
 	assert secretkeeper.atk == 1
 	assert secretkeeper.health == 2
-	icebarrier = game.current_player.give("EX1_289")
+	icebarrier = game.player1.give("EX1_289")
 	icebarrier.play()
 	assert secretkeeper.atk == 2
 	assert secretkeeper.health == 3
-	game.current_player.give(THE_COIN).play()
-	game.current_player.give(WISP).play()
+	game.player1.give(THE_COIN).play()
+	game.player1.give(WISP).play()
 	assert secretkeeper.atk == 2
 	assert secretkeeper.health == 3
 
@@ -964,7 +949,7 @@ def test_siltfin_spiritwalker():
 	game.player1.discard_hand()
 	siltfin = game.player1.give("GVG_040")
 	siltfin.play()
-	murloc = game.player1.give("CS2_168")
+	murloc = game.player1.give(MURLOC)
 	murloc.play()
 	game.player1.give(MOONFIRE).play(target=murloc)
 	assert len(game.player1.hand) == 1
@@ -1146,10 +1131,10 @@ def test_spiteful_smith():
 
 def test_sword_of_justice():
 	game = prepare_game(PALADIN, PALADIN)
-	sword = game.current_player.give("EX1_366")
+	sword = game.player1.give("EX1_366")
 	sword.play()
 	assert sword.durability == 5
-	wisp = game.current_player.give(WISP)
+	wisp = game.player1.give(WISP)
 	wisp.play()
 	assert wisp.atk == 2
 	assert wisp.health == 2
@@ -1347,8 +1332,9 @@ def test_captains_parrot():
 
 def test_crazed_alchemist():
 	game = prepare_game()
-	alchemist = game.current_player.give("EX1_059")
-	warden = game.current_player.summon("EX1_396")
+	warden = game.player1.give("EX1_396")
+	warden.play()
+	alchemist = game.player1.give("EX1_059")
 	assert warden.atk == 1
 	assert not warden.damage
 	assert warden.max_health == 7
@@ -1389,12 +1375,12 @@ def test_reversing_switch():
 
 def test_commanding_shout():
 	game = prepare_game()
-	shout = game.current_player.give("NEW1_036")
-	wisp1 = game.current_player.give(WISP)
+	shout = game.player1.give("NEW1_036")
+	wisp1 = game.player1.give(WISP)
 	wisp1.play()
-	bender = game.current_player.give(SPELLBENDERT)
+	bender = game.player1.give(SPELLBENDERT)
 	bender.play()
-	giant = game.current_player.opponent.summon("EX1_620")
+	giant = game.player2.summon("EX1_620")
 	game.end_turn(); game.end_turn()
 
 	assert wisp1.health == 1
@@ -1409,7 +1395,7 @@ def test_commanding_shout():
 	assert wisp1.health == 1
 	assert not wisp1.damage
 	assert wisp1.zone == Zone.PLAY
-	game.current_player.give(MOONFIRE).play(target=bender)
+	game.player1.give(MOONFIRE).play(target=bender)
 	assert bender.health == 2
 	assert bender.damage == 1
 	bender.attack(target=giant)
@@ -1422,10 +1408,10 @@ def test_commanding_shout():
 
 def test_conceal():
 	game = prepare_game()
-	conceal = game.current_player.give("EX1_128")
-	wisp1 = game.current_player.give(WISP)
+	conceal = game.player1.give("EX1_128")
+	wisp1 = game.player1.give(WISP)
 	wisp1.play()
-	wisp2 = game.current_player.give(WISP)
+	wisp2 = game.player1.give(WISP)
 	wisp2.play()
 	conceal.play()
 	assert wisp1.stealthed
@@ -1589,19 +1575,18 @@ def test_druid_of_the_flame():
 
 def test_druid_of_the_fang():
 	game = prepare_game()
-	fang = game.current_player.give("GVG_080")
+	fang = game.player1.give("GVG_080")
 	fang.play()
 	assert not fang.powered_up
-	druid = game.current_player.field[0]
+	druid = game.player1.field[0]
 	assert druid.id == "GVG_080"
 	assert druid.atk == 4
 	assert druid.health == 4
-
 	game.end_turn(); game.end_turn()
+
 	fang2 = game.current_player.give("GVG_080")
 	assert not fang2.powered_up
-	webspinner = game.current_player.give("FP1_011")
-	webspinner.play()
+	game.player1.give(CHICKEN).play()
 	assert fang2.powered_up
 	fang2.play()
 	druid2 = game.current_player.field[-1]
@@ -1653,7 +1638,7 @@ def test_bouncing_blade_commanding_shout():
 	game = prepare_game()
 	acolyte = game.player1.give("EX1_007")
 	acolyte.play()
-	shout = game.current_player.give("NEW1_036")
+	shout = game.player1.give("NEW1_036")
 	shout.play()
 	game.player1.discard_hand()
 	assert acolyte.min_health == 1
@@ -1719,20 +1704,20 @@ def test_arcane_golem():
 
 def test_arcane_missiles():
 	game = prepare_game()
-	missiles = game.current_player.give("EX1_277")
+	missiles = game.player1.give("EX1_277")
 	missiles.play()
-	assert game.current_player.opponent.hero.health == 27
+	assert game.player2.hero.health == 27
 
 
 def test_power_overwhelming():
 	game = prepare_game()
-	power = game.current_player.give("EX1_316")
-	wisp = game.current_player.give(WISP)
+	power = game.player1.give("EX1_316")
+	wisp = game.player1.give(WISP)
 	wisp.play()
 	power.play(target=wisp)
-	assert wisp.atk == 5
-	assert wisp.health == 5
+	assert wisp.atk == wisp.health == 1 + 4
 	game.end_turn()
+
 	assert wisp not in game.board
 
 
@@ -1758,23 +1743,21 @@ def test_power_of_the_wild():
 
 def test_questing_adventurer():
 	game = prepare_game()
-	adventurer = game.current_player.give("EX1_044")
+	adventurer = game.player1.give("EX1_044")
 	game.end_turn(); game.end_turn()
 	game.end_turn(); game.end_turn()
 	adventurer.play()
 	assert adventurer.atk == 2
 	assert adventurer.health == 2
-	game.current_player.give(THE_COIN).play()
+	game.player1.give(THE_COIN).play()
 	assert adventurer.atk == 3
 	assert adventurer.health == 3
-	game.current_player.give(THE_COIN).play()
-	game.current_player.give(THE_COIN).play()
-	game.current_player.give(THE_COIN).play()
-	assert adventurer.atk == 6
-	assert adventurer.health == 6
+	for i in range(1, 5):
+		game.player1.give(THE_COIN).play()
+		assert adventurer.atk == adventurer.health == 3 + i
 
 
-def test_venture_co():
+def test_venture_co_mercenary():
 	game = prepare_game()
 	fireball = game.player1.give("CS2_029")
 	wisp = game.player1.give(WISP)
@@ -1811,23 +1794,23 @@ def test_violet_teacher():
 
 def test_voidcaller():
 	game = prepare_game()
-	game.current_player.discard_hand()
-	voidcaller = game.current_player.give("FP1_022")
+	game.player1.discard_hand()
+	voidcaller = game.player1.give("FP1_022")
 	voidcaller.play()
 
 	# give the player a Doomguard and a couple of wisps
-	doomguard = game.current_player.give("EX1_310")
-	game.current_player.give(WISP)
-	game.current_player.give(WISP)
-	game.current_player.give(WISP)
-	assert len(game.current_player.hand) == 4
+	doomguard = game.player1.give("EX1_310")
+	game.player1.give(WISP)
+	game.player1.give(WISP)
+	game.player1.give(WISP)
+	assert len(game.player1.hand) == 4
 
 	# sacrificial pact on the voidcaller, should summon the Doomguard w/o discards
-	game.current_player.give("NEW1_003").play(target=voidcaller)
+	game.player1.give("NEW1_003").play(target=voidcaller)
 	assert voidcaller.dead
 	assert doomguard.zone == Zone.PLAY
 	assert doomguard.can_attack()
-	assert len(game.current_player.hand) == 3
+	assert len(game.player1.hand) == 3
 
 
 def test_void_crusher():
@@ -1846,10 +1829,10 @@ def test_void_crusher():
 
 def test_void_terror():
 	game = prepare_game()
-	terror1 = game.current_player.give("EX1_304")
-	terror2 = game.current_player.give("EX1_304")
-	terror3 = game.current_player.give("EX1_304")
-	power = game.current_player.give("EX1_316")
+	terror1 = game.player1.give("EX1_304")
+	terror2 = game.player1.give("EX1_304")
+	terror3 = game.player1.give("EX1_304")
+	power = game.player1.give("EX1_316")
 	terror1.play()
 	assert terror1.atk == 3
 	assert terror1.health == 3
@@ -1948,22 +1931,23 @@ def test_malorne():
 
 def test_mana_addict():
 	game = prepare_game()
-	manaaddict = game.current_player.give("EX1_055")
-	manaaddict.play()
-	assert manaaddict.atk == 1
+	addict = game.player1.give("EX1_055")
+	addict.play()
+	assert addict.atk == 1
 	game.end_turn()
 
-	assert manaaddict.atk == 1
-	game.current_player.give(THE_COIN).play()
-	assert manaaddict.atk == 1
+	assert addict.atk == 1
+	game.player2.give(THE_COIN).play()
+	assert addict.atk == 1
 	game.end_turn()
 
-	game.current_player.give(THE_COIN).play()
-	assert manaaddict.atk == 3
-	game.current_player.give(THE_COIN).play()
-	assert manaaddict.atk == 5
+	game.player1.give(THE_COIN).play()
+	assert addict.atk == 3
+	game.player1.give(THE_COIN).play()
+	assert addict.atk == 5
 	game.end_turn()
-	assert manaaddict.atk == 1
+
+	assert addict.atk == 1
 
 
 def test_mana_wyrm():
@@ -1973,13 +1957,13 @@ def test_mana_wyrm():
 	assert wyrm.atk == 1
 	game.player1.give(THE_COIN).play()
 	assert wyrm.atk == 2
-
 	game.end_turn()
+
 	assert wyrm.atk == 2
 	game.player2.give(THE_COIN).play()
 	assert wyrm.atk == 2
-
 	game.end_turn()
+
 	assert wyrm.atk == 2
 	game.player1.give(THE_COIN).play()
 	assert wyrm.atk == 3
@@ -2000,7 +1984,7 @@ def test_old_murkeye():
 	game = prepare_game()
 	murkeye = game.player1.give("EX1_062")
 	assert murkeye.atk == 2
-	murloc = game.player1.give("CS2_168")
+	murloc = game.player1.give(MURLOC)
 	murloc.play()
 	assert murkeye.atk == 2
 	murkeye.play()
@@ -2449,16 +2433,15 @@ def test_big_game_hunter_questing_adventurer():
 
 def test_cold_blood():
 	game = prepare_game()
-	wisp = game.current_player.give(WISP)
+	wisp = game.player1.give(WISP)
 	wisp.play()
 	assert wisp.atk == 1
 	game.end_turn(); game.end_turn()
 
-	cb1 = game.current_player.give("CS2_073")
+	cb1 = game.player1.give("CS2_073")
 	cb1.play(target=wisp)
 	assert wisp.atk == 1 + 2
-
-	cb2 = game.current_player.give("CS2_073")
+	cb2 = game.player1.give("CS2_073")
 	cb2.play(target=wisp)
 	assert wisp.atk == 1 + 2 + 4
 
@@ -2797,11 +2780,26 @@ def test_mind_vision():
 
 def test_mirror_image():
 	game = prepare_game()
-	mirror = game.current_player.give("CS2_027")
+	mirror = game.player1.give("CS2_027")
 	mirror.play()
-	assert len(game.current_player.field) == 2
-	assert game.current_player.field[0].id == "CS2_mirror"
-	assert game.current_player.field[1].id == "CS2_mirror"
+	assert len(game.player1.field) == 2
+	assert game.player1.field[0].id == game.player1.field[1].id == "CS2_mirror"
+
+
+def test_mortal_coil():
+	game = prepare_game()
+	dummy = game.player1.summon(TARGET_DUMMY)
+	assert dummy.health == 2
+	game.end_turn()
+	game.player2.discard_hand()
+	assert len(game.player2.hand) == 0
+	coil1 = game.player2.give("EX1_302")
+	assert len(game.player2.hand) == 1
+	coil1.play(target=dummy)
+	assert len(game.player2.hand) == 0
+	coil2 = game.player2.give("EX1_302")
+	coil2.play(target=dummy)
+	assert len(game.player2.hand) == 1
 
 
 def test_mortal_strike():
@@ -2822,22 +2820,6 @@ def test_mortal_strike():
 	ms.play(target=game.player1.hero)
 	expected_health -= 6
 	assert game.player1.hero.health == expected_health
-
-
-def test_mortal_coil():
-	game = prepare_game()
-	dummy = game.player1.summon(TARGET_DUMMY)
-	assert dummy.health == 2
-	game.end_turn()
-	game.player2.discard_hand()
-	assert len(game.player2.hand) == 0
-	coil1 = game.player2.give("EX1_302")
-	assert len(game.player2.hand) == 1
-	coil1.play(target=dummy)
-	assert len(game.player2.hand) == 0
-	coil2 = game.player2.give("EX1_302")
-	coil2.play(target=dummy)
-	assert len(game.player2.hand) == 1
 
 
 def test_archmage_antonidas():
@@ -3292,15 +3274,16 @@ def test_goblin_blastmage():
 
 def test_gahzrilla():
 	game = prepare_game()
-	gahz = game.current_player.summon("GVG_049")
+	gahz = game.player1.give("GVG_049")
+	gahz.play()
 	assert gahz.atk == 6
-	game.current_player.give(MOONFIRE).play(target=gahz)
+	game.player1.give(MOONFIRE).play(target=gahz)
 	assert gahz.atk == 6 * 2
-	timberwolf = game.current_player.give("DS1_175")
+	timberwolf = game.player1.give("DS1_175")
 	timberwolf.play()
 	assert gahz.atk == (6 * 2) + 1
 	# TODO: Buffs are always taken into account at the end
-	# game.current_player.give(MOONFIRE).play(target=gahz)
+	# game.player1.give(MOONFIRE).play(target=gahz)
 	# assert gahz.atk == (6*2*2) + 1
 
 
@@ -3320,18 +3303,18 @@ def test_grand_crusader():
 def test_grimscale_oracle():
 	game = prepare_game()
 	grimscale = game.player1.give("EX1_508")
-	murloc1 = game.player1.summon("CS2_168")
-	murloc2 = game.player2.summon("CS2_168")
-	assert murloc1.atk == 2
-	assert murloc2.atk == 2
+	murloc1 = game.player1.summon(MURLOC)
+	murloc2 = game.player2.summon(MURLOC)
+	assert murloc1.atk == 1
+	assert murloc2.atk == 1
 	grimscale.play()
-	assert murloc1.atk == 2 + 1
-	assert murloc2.atk == 2 + 1
+	assert murloc1.atk == 1 + 1
+	assert murloc2.atk == 1 + 1
 	assert grimscale.atk == 1
 
 	game.player1.give(TIME_REWINDER).play(target=grimscale)
-	assert murloc1.atk == 2
-	assert murloc2.atk == 2
+	assert murloc1.atk == 1
+	assert murloc2.atk == 1
 
 
 def test_grove_tender():
@@ -3980,18 +3963,18 @@ def test_seal_of_champions_shrinkmeister():
 
 def test_murloc_tidecaller():
 	game = prepare_game()
-	tidecaller = game.current_player.give("EX1_509")
+	tidecaller = game.player1.give("EX1_509")
 	tidecaller.play()
 	assert tidecaller.atk == 1
 	game.end_turn()
 
-	game.current_player.give("CS2_168").play()
-	assert tidecaller.atk == 2
+	game.player2.give(MURLOC).play()
+	assert tidecaller.atk == 1 + 1
 	game.end_turn()
 
 	# Play a tidehunter. Summons two murlocs.
-	game.current_player.give("EX1_506").play()
-	assert tidecaller.atk == 4
+	game.player1.give("EX1_506").play()
+	assert tidecaller.atk == 1 + 1 + 2
 
 
 def test_neptulon():
@@ -4055,8 +4038,7 @@ def test_noble_sacrifice():
 	wisp.attack(game.player1.hero)
 	assert sacrifice not in game.player1.secrets
 	assert wisp.dead
-	assert len(game.player1.field) == 0
-	assert len(game.player2.field) == 0
+	assert len(game.player1.field) == len(game.player2.field) == 0
 
 
 def test_northshire_cleric():
@@ -4082,21 +4064,6 @@ def test_northshire_cleric():
 	assert not game.player2.hand
 
 
-def test_ragnaros():
-	game = prepare_game()
-	ragnaros = game.current_player.give("EX1_298")
-	ragnaros.play()
-	assert not ragnaros.can_attack()
-	assert game.current_player.opponent.hero.health == 30
-	game.end_turn()
-
-	assert game.current_player.hero.health == 22
-	game.end_turn()
-
-	assert game.current_player.opponent.hero.health == 22
-	assert not ragnaros.can_attack()
-
-
 def test_raid_leader():
 	game = prepare_game()
 	wisp1 = game.player1.give(WISP)
@@ -4111,6 +4078,20 @@ def test_raid_leader():
 	raidleader.destroy()
 
 	assert wisp1.atk == wisp2.atk == 1
+
+
+def test_ragnaros():
+	game = prepare_game()
+	ragnaros = game.player1.give("EX1_298")
+	ragnaros.play()
+	assert not ragnaros.can_attack()
+	game.end_turn()
+
+	assert game.player2.hero.health == 22
+	game.end_turn()
+
+	assert game.player2.hero.health == 22
+	assert not ragnaros.can_attack()
 
 
 def test_recombobulator():
@@ -4491,12 +4472,15 @@ def test_water_elemental():
 
 def test_warsong_commander():
 	game = prepare_game()
-	wisp = game.player1.summon(WISP)
-	boar = game.player1.summon("CS2_171")
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	boar = game.player1.give("CS2_171")
+	boar.play()
 	assert wisp.atk == boar.atk == 1
 	assert not wisp.charge
 	assert boar.charge
-	warsong = game.player1.summon("EX1_084")
+	warsong = game.player1.give("EX1_084")
+	warsong.play()
 	assert wisp.atk == 1
 	assert boar.atk == 1 + 1
 	assert not wisp.charge
@@ -4806,7 +4790,7 @@ def test_shadow_madness_bounce():
 
 def test_shadow_madness_wild_pyro():
 	game = prepare_game()
-	pyromancer = game.current_player.give("NEW1_020")
+	pyromancer = game.player1.give("NEW1_020")
 	pyromancer.play()
 	game.end_turn()
 
@@ -4826,15 +4810,15 @@ def test_shadow_madness_wild_pyro():
 
 def test_shadow_madness_silence():
 	game = prepare_game()
-	wisp = game.current_player.give(WISP)
+	wisp = game.player1.give(WISP)
 	wisp.play()
 	game.end_turn()
 
 	assert wisp.controller == game.player1
-	shadowmadness = game.current_player.give("EX1_334")
+	shadowmadness = game.player2.give("EX1_334")
 	shadowmadness.play(target=wisp)
 	assert wisp.controller == game.player2
-	game.current_player.give(SILENCE).play(target=wisp)
+	game.player2.give(SILENCE).play(target=wisp)
 	assert wisp.controller == game.player1
 	game.end_turn()
 
@@ -4953,13 +4937,13 @@ def test_shadowform():
 
 def test_shadowstep():
 	game = prepare_game()
-	shadowstep = game.current_player.give("EX1_144")
-	deathwing = game.current_player.summon("NEW1_030")
+	shadowstep = game.player1.give("EX1_144")
+	deathwing = game.player1.summon("NEW1_030")
 	assert deathwing.zone == Zone.PLAY
 	assert deathwing.cost == 10
 	shadowstep.play(target=deathwing)
 	assert deathwing.zone == Zone.HAND
-	assert deathwing in game.current_player.hand
+	assert deathwing in game.player1.hand
 	assert deathwing.cost == 8
 
 
@@ -4985,11 +4969,11 @@ def test_acolyte_of_pain():
 	acolyte.play()
 	game.player1.discard_hand()
 	assert len(game.player1.hand) == 0
-	game.current_player.give(MOONFIRE).play(target=acolyte)
+	game.player1.give(MOONFIRE).play(target=acolyte)
 	assert len(game.player1.hand) == 1
-	game.current_player.give(MOONFIRE).play(target=acolyte)
+	game.player1.give(MOONFIRE).play(target=acolyte)
 	assert len(game.player1.hand) == 2
-	game.current_player.give(MOONFIRE).play(target=acolyte)
+	game.player1.give(MOONFIRE).play(target=acolyte)
 	assert len(game.player1.hand) == 3
 	assert acolyte.dead
 
@@ -4997,8 +4981,8 @@ def test_acolyte_of_pain():
 def test_cleave():
 	game = prepare_game()
 	# play some wisps
-	game.current_player.give(WISP).play()
-	game.current_player.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
 	game.end_turn()
 
 	cleave = game.current_player.give("CS2_114")
@@ -5008,7 +4992,7 @@ def test_cleave():
 	game.current_player.give(WISP).play()
 	game.end_turn()
 
-	cleave2 = game.current_player.give("CS2_114")
+	cleave2 = game.player1.give("CS2_114")
 	assert not cleave2.is_playable()
 
 
@@ -5303,22 +5287,27 @@ def test_stampeding_kodo():
 
 def test_stoneskin_gargoyle():
 	game = prepare_game()
-	gargoyle = game.current_player.give("FP1_027")
+	gargoyle = game.player1.give("FP1_027")
 	gargoyle.play()
 	assert gargoyle.health == 4
 	# damage the gargoyle by 1
-	game.current_player.give(MOONFIRE).play(target=gargoyle)
+	game.player1.give(MOONFIRE).play(target=gargoyle)
 	assert gargoyle.health == 3
 	game.end_turn(); game.end_turn()
 
 	assert gargoyle.health == 4
-	# Test auchenai interaction
-	soulpriest = game.current_player.give("EX1_591")
+
+
+def test_stoneskin_gargoyle_auchenai_soulpriest():
+	game = prepare_game()
+	gargoyle = game.player1.give("FP1_027")
+	gargoyle.play()
+	soulpriest = game.player1.give("EX1_591")
 	soulpriest.play()
 	game.end_turn(); game.end_turn()
 
 	assert gargoyle.health == 4
-	game.current_player.give(MOONFIRE).play(target=gargoyle)
+	game.player1.give(MOONFIRE).play(target=gargoyle)
 	assert gargoyle.health == 3
 	game.end_turn(); game.end_turn()
 
@@ -5330,27 +5319,22 @@ def test_stoneskin_gargoyle():
 
 def test_stormwind_champion():
 	game = prepare_game()
-
-	wisp = game.player1.summon(WISP)
-	assert wisp.atk == wisp.health == 1
+	wisp = game.player1.give(WISP)
+	wisp.play()
 	stormwind = game.player1.give("CS2_222")
 	stormwind.play()
-	assert wisp.atk == wisp.health == 2
+	assert wisp.atk == wisp.health == 1 + 1
 	game.end_turn(); game.end_turn()
 
 	# ensure bounce removes the buff
-	assert wisp.atk == wisp.health == 2
 	game.player1.give(TIME_REWINDER).play(target=stormwind)
 	assert stormwind not in game.player1.field
 	assert wisp.atk == wisp.health == 1
 	stormwind.play()
-	assert wisp.atk == wisp.health == 2
-	game.end_turn(); game.end_turn()
+	assert wisp.atk == wisp.health == 1 + 1
 
 	# destroy Stormwind Champion
-	assert wisp.atk == wisp.health == 2
 	stormwind.destroy()
-	assert stormwind.dead
 	assert wisp.atk == wisp.health == 1
 
 
@@ -5399,11 +5383,11 @@ def test_sunfury_protector():
 
 def test_faerie_dragon():
 	game = prepare_game(MAGE, MAGE)
-	dragon = game.current_player.give("NEW1_023")
+	dragon = game.player1.give("NEW1_023")
 	dragon.play()
-	moonfire = game.current_player.give(MOONFIRE)
+	moonfire = game.player1.give(MOONFIRE)
 	assert dragon not in moonfire.targets
-	assert dragon not in game.current_player.hero.power.targets
+	assert dragon not in game.player1.hero.power.targets
 	game.end_turn()
 
 	assert dragon not in game.current_player.hero.power.targets
@@ -5498,17 +5482,17 @@ def test_far_sight():
 
 def test_flare():
 	game = prepare_game(HUNTER, HUNTER)
-	flare = game.current_player.give("EX1_544")
-	worgen = game.current_player.give("EX1_010")
+	flare = game.player1.give("EX1_544")
+	worgen = game.player1.give("EX1_010")
 	worgen.play()
 	game.end_turn()
 
-	avenge = game.current_player.give("FP1_020")
-	avenge.play()
+	redemption = game.player2.give("EX1_136")
+	redemption.play()
 	game.end_turn()
 
 	flare.play()
-	assert not game.current_player.opponent.secrets
+	assert not game.player1.opponent.secrets
 	assert not worgen.stealthed
 
 
@@ -5698,7 +5682,7 @@ def test_majordomo_executus():
 	assert game.player1.hero.power.id == "BRM_027p"
 	assert not game.player1.hero.power.exhausted
 	assert game.player1.hero.power.controller is game.player1
-	game.current_player.hero.power.use()
+	game.player1.hero.power.use()
 	assert game.player1.hero.power.exhausted
 	assert game.player2.hero.health == 22
 
@@ -5745,7 +5729,7 @@ def test_quick_shot_gallywix():
 	assert len(game.player2.hand) == 0
 	quickshot = game.player2.give("BRM_013")
 	assert len(game.player2.hand) == 1
-	quickshot.play(target=game.current_player.opponent.hero)
+	quickshot.play(target=game.player1.hero)
 	assert len(game.player2.hand) == 1
 	assert game.player2.hand[0].id == "GVG_028t"
 
@@ -5969,7 +5953,7 @@ def test_feign_death_baron_rivendare():
 
 
 def test_explosive_trap():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game()
 	explosivetrap = game.player1.give("EX1_610")
 	explosivetrap.play()
 	huffer = game.player1.give("NEW1_034")
