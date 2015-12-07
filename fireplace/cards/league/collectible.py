@@ -9,6 +9,14 @@ class LOE_009:
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOE_009t"))
 
 
+# Sacred Trial
+class LOE_027:
+	events = Play(OPPONENT, MINION).after(
+		(Count(ENEMY_MINIONS) >= 4) &
+		(Reveal(SELF), Destroy(Play.CARD))
+	)
+
+
 ##
 # Spells
 

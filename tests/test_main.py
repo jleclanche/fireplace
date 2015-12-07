@@ -162,6 +162,46 @@ def test_divine_spirit():
 	game.end_turn()
 
 
+def test_sacred_trial():
+	game = prepare_game()
+	trial = game.player1.give("LOE_027")
+	trial.play()
+	game.end_turn()
+
+	for i in range(4):
+		game.player2.give(WISP).play()
+	assert trial not in game.player1.secrets
+	assert len(game.player2.field) == 3
+
+
+def test_sacred_trial_dr_boom():
+	game = prepare_game()
+	trial = game.player1.give("LOE_027")
+	trial.play()
+	game.end_turn()
+
+	game.player2.give(WISP).play()
+	boom = game.player2.give("GVG_110")
+	boom.play()
+	assert trial not in game.player1.secrets
+	assert len(game.player2.field) == 3
+	assert boom.dead
+
+
+def test_sacred_trial_deathwing():
+	game = prepare_game()
+	trial = game.player1.give("LOE_027")
+	trial.play()
+	game.end_turn()
+
+	for i in range(3):
+		game.player2.give(WISP).play()
+	deathwing = game.player2.give("NEW1_030")
+	deathwing.play()
+	assert trial in game.player1.secrets
+	assert len(game.player2.field) == 1
+
+
 def test_savagery():
 	game = prepare_game(DRUID, DRUID)
 	watcher = game.player1.give("EX1_045")
