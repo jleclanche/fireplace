@@ -94,6 +94,22 @@ def test_shaman():
 	assert not game.player1.hero.power.is_usable()
 
 
+def test_healing_totem():
+	game = prepare_game()
+	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
+	footman.play()
+	game.player1.give(MOONFIRE).play(target=footman)
+	healtotem = game.player1.give("NEW1_009")
+	healtotem.play()
+	assert footman.health == 1
+	game.end_turn()
+
+	assert footman.health == 2
+	game.end_turn()
+
+	assert footman.health == 2
+
+
 def test_warlock():
 	game = prepare_game(WARLOCK, WARLOCK)
 	assert game.player1.hero.id == WARLOCK

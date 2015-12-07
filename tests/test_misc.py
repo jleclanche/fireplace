@@ -1,6 +1,20 @@
 from utils import *
 
 
+def test_cheat_destroy_deck():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player2.discard_hand()
+	game.player1.give(DESTROY_DECK).play(target=game.player2.hero)
+	assert not game.player2.deck
+	game.end_turn()
+
+	assert not game.player2.hand
+	assert game.player2.hero.health == 29
+	game.player2.give(DESTROY_DECK).play(target=game.player1.hero)
+	assert not game.player1.deck
+
+
 def test_event_queue_heal():
 	"""
 	Test the event queue for mass hits.

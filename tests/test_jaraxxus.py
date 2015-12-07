@@ -42,6 +42,15 @@ def test_jaraxxus_cult_master():
 	assert not game.player1.hand
 
 
+def test_jaraxxus_molten_giant():
+	game = prepare_game()
+	jaraxxus = game.player1.give("EX1_323")
+	molten = game.player1.give("EX1_620")
+	jaraxxus.play()
+	assert game.player1.hero.health == 15
+	assert molten.cost == 20
+
+
 def test_jaraxxus_mirror_entity():
 	game = prepare_game(MAGE, MAGE)
 	mirror = game.player1.give("EX1_294")
