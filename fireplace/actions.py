@@ -410,7 +410,12 @@ class Bounce(TargetedAction):
 	Bounce minion targets on the field back into the hand.
 	"""
 	def do(self, source, target):
-		target.bounce()
+		if len(target.controller.hand) >= target.controller.max_hand_size:
+			log.info("%r is bounced to a full hand and gets destroyed", target)
+			return source.game.queue_actions(source, Destroy(target))
+		else:
+			log.info("%r is bounced back to %s's hand", target, target.controller)
+			target.zone = Zone.HAND
 
 
 class Counter(TargetedAction):

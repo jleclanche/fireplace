@@ -625,14 +625,6 @@ class Minion(Character):
 
 		super()._set_zone(value)
 
-	def bounce(self):
-		self.log("%r is bounced back to %s's hand", self, self.controller)
-		if len(self.controller.hand) >= self.controller.max_hand_size:
-			self.log("%s's hand is full and bounce fails", self.controller)
-			self.destroy()
-		else:
-			self.zone = Zone.HAND
-
 	def _hit(self, source, amount):
 		if self.divine_shield:
 			self.divine_shield = False
@@ -640,6 +632,9 @@ class Minion(Character):
 			return
 
 		return super()._hit(source, amount)
+
+	def bounce(self):
+		return self.game.queue_actions(self, [actions.Bounce(self)])
 
 	def morph(self, into):
 		return self.game.queue_actions(self, [actions.Morph(self, into)])
