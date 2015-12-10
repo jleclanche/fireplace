@@ -73,6 +73,11 @@ class LOE_047:
 	play = Discover(CONTROLLER, RandomBeast())
 
 
+# Mounted Raptor
+class LOE_050:
+	deathrattle = Summon(CONTROLLER, RandomMinion(cost=1))
+
+
 # Anubisath Sentinel
 class LOE_061:
 	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "LOE_061e")
