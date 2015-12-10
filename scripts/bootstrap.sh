@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-BASEDIR="$(readlink -f $(dirname $0))"
+BASEDIR="$(dirname $0)"
 HSDATA_DIR="$BASEDIR/hs-data"
 HSDATA_URL="https://github.com/HearthSim/hs-data.git"
 
@@ -27,4 +27,10 @@ else
 	git -C "$HSDATA_DIR" reset --hard origin/master
 fi
 
-"$BASEDIR/bootstrap.py" "$HSDATA_DIR" "$BASEDIR/../fireplace/CardDefs.xml"
+CARDDEFS_OUT="$BASEDIR/../fireplace/CardDefs.xml"
+
+command -v readlink &>/dev/null && {
+	CARDDEFS_OUT=$(readlink -f "$CARDDEFS_OUT")
+}
+
+"$BASEDIR/bootstrap.py" "$HSDATA_DIR" "$CARDDEFS_OUT"
