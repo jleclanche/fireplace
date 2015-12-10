@@ -34,6 +34,15 @@ class LOE_016:
 	events = Play(CONTROLLER, MINION + BATTLECRY).after(Hit(RANDOM_ENEMY_CHARACTER, 2))
 
 
+# Keeper of Uldaman
+class LOE_017:
+	play = Buff(TARGET, "LOE_017e")
+
+class LOE_017e:
+	atk = SET(3)
+	max_health = SET(3)
+
+
 # Desert Camel
 class LOE_020:
 	play = (

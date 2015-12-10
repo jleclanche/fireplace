@@ -196,6 +196,25 @@ def test_huge_toad():
 	assert game.player1.hero.health + dummy.health == 30 + 2 - 1
 
 
+def test_keeper_of_uldaman():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire.play()
+	game.player1.give(MOONFIRE).play(target=goldshire)
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	game.end_turn(); game.end_turn()
+
+	for minion in (wisp, goldshire, statue):
+		keeper = game.player1.give("LOE_017")
+		keeper.play(target=minion)
+		assert minion.atk == minion.health == 3
+		assert not minion.damaged
+		game.end_turn(); game.end_turn()
+
+
 def test_naga_sea_witch():
 	game = prepare_game()
 	game.player1.give(MOONFIRE)
