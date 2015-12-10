@@ -285,6 +285,25 @@ def test_rumbling_elemental():
 	assert wisp1.dead ^ (game.player2.hero.health == 28)
 
 
+def test_summoning_stone():
+	game = prepare_game()
+	stone = game.player1.give("LOE_086")
+	stone.play()
+	game.end_turn()
+
+	game.player2.give(MOONFIRE).play(target=game.player1.hero)
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 0
+	game.end_turn()
+
+	moonfire = game.player1.give(MOONFIRE)
+	assert moonfire.cost == 0
+	moonfire.play(target=game.player2.hero)
+	assert len(game.player1.field) == 2
+	assert stone is game.player1.field[0]
+	assert game.player1.field[1].cost == 0
+
+
 def test_tomb_pillager():
 	game = prepare_game()
 	game.player1.discard_hand()

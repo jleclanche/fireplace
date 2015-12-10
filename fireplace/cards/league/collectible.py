@@ -85,6 +85,13 @@ class LOE_073:
 	play = Find(FRIENDLY_MINIONS + BEAST) & Taunt(SELF)
 
 
+# Summoning Stone
+class LOE_086:
+	events = OWN_SPELL_PLAY.on(
+		Summon(CONTROLLER, RandomMinion(cost=Attr(Play.CARD, GameTag.COST)))
+	)
+
+
 # Ancient Shade
 class LOE_110:
 	play = Shuffle(CONTROLLER, "LOE_110t")
