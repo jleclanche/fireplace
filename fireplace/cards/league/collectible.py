@@ -14,6 +14,11 @@ class LOE_046:
 	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, 1)
 
 
+# Fossilized Devilsaur
+class LOE_073:
+	play = Find(FRIENDLY_MINIONS + BEAST) & Taunt(SELF)
+
+
 ##
 # Spells
 

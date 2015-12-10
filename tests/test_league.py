@@ -68,6 +68,22 @@ def test_curse_of_rafaam():
 	assert game.player2.hero.health == 30 - 2 - 2
 
 
+def test_fossilized_devilsaur():
+	game = prepare_game()
+	game.player1.give(WISP).play()
+	game.player2.summon(CHICKEN)
+	devilsaur1 = game.player1.give("LOE_073")
+	devilsaur1.play()
+	assert not devilsaur1.taunt
+	game.end_turn(); game.end_turn()
+
+	chicken = game.player1.give(CHICKEN)
+	chicken.play()
+	devilsaur2 = game.player1.give("LOE_073")
+	devilsaur2.play()
+	assert devilsaur2.taunt
+
+
 def test_huge_toad():
 	game = prepare_game()
 	dummy = game.player1.give(TARGET_DUMMY)
