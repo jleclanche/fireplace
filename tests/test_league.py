@@ -166,6 +166,19 @@ def test_huge_toad():
 	assert game.player1.hero.health + dummy.health == 30 + 2 - 1
 
 
+def test_obsidian_destroyer():
+	game = prepare_game()
+	destroy = game.player1.give("LOE_009")
+	destroy.play()
+	assert len(game.player1.field) == 1
+	game.end_turn()
+
+	assert len(game.player1.field) == 2
+	scarab = game.player1.field[1]
+	assert scarab.id == "LOE_009t"
+	assert scarab.taunt
+
+
 def test_tomb_pillager():
 	game = prepare_game()
 	game.player1.discard_hand()
