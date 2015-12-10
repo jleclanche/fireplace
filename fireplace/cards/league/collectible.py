@@ -24,6 +24,14 @@ class LOE_012:
 	deathrattle = Give(CONTROLLER, "GAME_005")
 
 
+# Desert Camel
+class LOE_020:
+	play = (
+		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + (COST == 1))),
+		Summon(OPPONENT, RANDOM(ENEMY_DECK + (COST == 1)))
+	)
+
+
 # Dark Peddler
 class LOE_023:
 	play = Discover(CONTROLLER, RandomCollectible(cost=1))

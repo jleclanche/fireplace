@@ -83,6 +83,29 @@ def test_curse_of_rafaam():
 	assert game.player2.hero.health == 30 - 2 - 2
 
 
+def test_desert_camel():
+	game = prepare_empty_game()
+	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
+	assert goldshire1.cost == 1
+	goldshire1.shuffle_into_deck()
+	game.player1.give(WISP).shuffle_into_deck()
+	game.player2.give(WISP).shuffle_into_deck()
+	camel1 = game.player1.give("LOE_020")
+	camel1.play()
+	assert len(game.player1.field) == 2
+	assert camel1 in game.player1.field
+	assert goldshire1 in game.player1.field
+	assert len(game.player2.field) == 0
+	game.end_turn(); game.end_turn()
+
+	goldshire2 = game.player2.give(GOLDSHIRE_FOOTMAN)
+	goldshire2.shuffle_into_deck()
+	camel2 = game.player1.give("LOE_020")
+	camel2.play()
+	assert len(game.player2.field) == 1
+	assert goldshire2 in game.player2.field
+
+
 def test_ethereal_conjurer():
 	game = prepare_game(MAGE, MAGE)
 	conjurer = game.player1.give("LOE_003")
