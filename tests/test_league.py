@@ -1,6 +1,21 @@
 from utils import *
 
 
+def test_ancient_shade():
+	game = prepare_empty_game()
+	shade = game.player1.give("LOE_110")
+	assert len(game.player1.deck) == 0
+	shade.play()
+	assert len(game.player1.deck) == 1
+	assert game.player1.deck[0].id == "LOE_110t"
+	game.end_turn()
+
+	assert game.player1.hero.health == 30
+	game.end_turn()
+
+	assert game.player1.hero.health == 30 - 7
+
+
 def test_anyfin_can_happen():
 	game = prepare_game()
 

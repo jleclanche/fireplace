@@ -19,6 +19,15 @@ class LOE_073:
 	play = Find(FRIENDLY_MINIONS + BEAST) & Taunt(SELF)
 
 
+# Ancient Shade
+class LOE_110:
+	play = Shuffle(CONTROLLER, "LOE_110t")
+
+# Ancient Curse
+class LOE_110t:
+	draw = Destroy(SELF), Hit(FRIENDLY_HERO, 7), Draw(CONTROLLER)
+
+
 ##
 # Spells
 
