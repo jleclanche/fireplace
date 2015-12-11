@@ -339,6 +339,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 class LiveEntity(PlayableCard, Entity):
 	has_deathrattle = boolean_property("has_deathrattle")
 	atk = int_property("atk")
+	immune = boolean_property("immune")
 	max_health = int_property("max_health")
 
 	def __init__(self, data):
@@ -392,7 +393,6 @@ class LiveEntity(PlayableCard, Entity):
 class Character(LiveEntity):
 	health_attribute = "health"
 	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
-	immune = boolean_property("immune")
 	min_health = boolean_property("min_health")
 
 	def __init__(self, data):
