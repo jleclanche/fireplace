@@ -36,7 +36,11 @@ class CardDB(dict):
 		for script in ("activate", "combo", "deathrattle", "draw", "inspire", "play"):
 			actions = getattr(card.scripts, script, None)
 			if actions is None:
+				# Set the action by default to avoid runtime hasattr() calls
 				setattr(card.scripts, script, ())
+			elif not hasattr(actions, "__iter__") and not callable(actions):
+				# Ensure the actions are always iterable
+				setattr(card.scripts, script, (actions, ))
 
 		return card
 

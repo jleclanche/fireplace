@@ -189,9 +189,6 @@ class BaseGame(Entity):
 		Performs a list of `actions` from `source`.
 		This should seldom be called directly - use `queue_actions` instead.
 		"""
-		if not hasattr(actions, "__iter__"):
-			actions = (actions, )
-
 		ret = []
 		for action in actions:
 			if isinstance(action, EventListener):

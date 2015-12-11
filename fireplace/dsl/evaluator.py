@@ -45,6 +45,8 @@ class Evaluator:
 		"""
 		actions = self.evaluate(source)
 		if actions:
+			if not hasattr(actions, "__iter__"):
+				actions = (actions, )
 			source.game.trigger_actions(source, actions)
 
 
