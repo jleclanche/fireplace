@@ -107,6 +107,19 @@ class BRMA11_2H:
 	activate = Draw(ALL_PLAYERS) * 3, GainMana(CONTROLLER, 1)
 
 
+# Brood Affliction
+class BRMA12_2:
+	activate = Give(OPPONENT, RandomEntourage())
+
+class BRMA12_2H:
+	activate = Give(OPPONENT, RandomEntourage())
+
+
+# Mutation (Unused)
+class BRMA12_10:
+	activate = Discard(RANDOM(CONTROLLER_HAND))
+
+
 # Wild Magic
 class BRMA13_4:
 	activate = Give(CONTROLLER, RandomSpell(card_class=Attr(TARGET, GameTag.CLASS)))
@@ -125,11 +138,6 @@ class BRMA16_2:
 
 class BRMA16_2H:
 	activate = Summon(CONTROLLER, "BRMA16_5")
-
-
-# Mutation (Unused)
-class BRMA12_10:
-	activate = Discard(RANDOM(CONTROLLER_HAND))
 
 
 # Bone Minions
