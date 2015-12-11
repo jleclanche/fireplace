@@ -196,6 +196,7 @@ def test_icehowl():
 	icehowl = game.player1.give("AT_125")
 	icehowl.play()
 	assert icehowl.charge
+	assert icehowl.cannot_attack_heroes
 	assert not icehowl.can_attack()
 	assert not icehowl.can_attack(game.player2.hero)
 	assert not icehowl.can_attack(game.player1.hero)
@@ -206,7 +207,12 @@ def test_icehowl():
 	game.end_turn()
 
 	assert icehowl.can_attack()
-	assert icehowl.attack_targets == [wisp]
+	assert len(icehowl.attack_targets) == 1
+	assert game.player2.hero not in icehowl.attack_targets
+	game.player1.give(SILENCE).play(target=icehowl)
+	assert not icehowl.cannot_attack_heroes
+	assert len(icehowl.attack_targets) == 2
+	assert game.player2.hero in icehowl.attack_targets
 
 
 def test_lance_carrier():

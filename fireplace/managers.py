@@ -123,6 +123,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.ATTACHED: "owner",
 	GameTag.AURA: "aura",
 	GameTag.BATTLECRY: "has_battlecry",
+	GameTag.CANNOT_ATTACK_HEROES: "cannot_attack_heroes",
 	GameTag.CANT_ATTACK: "cant_attack",
 	GameTag.CANT_BE_ATTACKED: "cant_be_attacked",
 	GameTag.CANT_BE_DAMAGED: "immune",

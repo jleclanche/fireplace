@@ -396,6 +396,7 @@ class Character(LiveEntity):
 		self.cant_attack = False
 		self.cant_be_targeted_by_abilities = False
 		self.cant_be_targeted_by_hero_powers = False
+		self.cannot_attack_heroes = False
 		self.num_attacks = 0
 		self.race = Race.INVALID
 		super().__init__(data)
@@ -406,9 +407,8 @@ class Character(LiveEntity):
 
 	@property
 	def attack_targets(self):
-		script = getattr(self.data.scripts, "attack_targets", None)
-		if script:
-			targets = CardList(script.eval(self.game.characters, self))
+		if self.cannot_attack_heroes:
+			targets = self.controller.opponent.field
 		else:
 			targets = self.controller.opponent.characters
 
@@ -534,7 +534,7 @@ class Minion(Character):
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
 		"frozen", "has_deathrattle", "has_inspire", "poisonous", "stealthed",
-		"taunt", "windfury",
+		"taunt", "windfury", "cannot_attack_heroes",
 	)
 
 	def __init__(self, data):

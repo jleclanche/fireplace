@@ -154,8 +154,6 @@ class BRMA17_5H:
 # Moira Bronzebeard
 class BRMA03_3:
 	update = Refresh(ALL_HERO_POWERS + ID("BRMA03_2"), {GameTag.CANT_PLAY: True})
-	# The attack targeting is done at the AI level. But we could do this:
-	# attack_targets = ENEMY_HERO | TAUNT
 
 class BRMA03_3H:
 	update = Refresh(ALL_HERO_POWERS + ID("BRMA03_2"), {GameTag.CANT_PLAY: True})
