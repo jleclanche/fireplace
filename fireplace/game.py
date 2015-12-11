@@ -358,7 +358,7 @@ class MulliganRules:
 		self.step, self.next_step = self.next_step, Step.MAIN_READY
 
 		for player in self.players:
-			self.queue_actions(self, MulliganChoice(player))
+			self.queue_actions(self, [MulliganChoice(player)])
 
 
 class Game(MulliganRules, CoinRules, BaseGame):

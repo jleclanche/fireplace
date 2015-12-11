@@ -425,7 +425,7 @@ class Bounce(TargetedAction):
 	def do(self, source, target):
 		if len(target.controller.hand) >= target.controller.max_hand_size:
 			log.info("%r is bounced to a full hand and gets destroyed", target)
-			return source.game.queue_actions(source, Destroy(target))
+			return source.game.queue_actions(source, [Destroy(target)])
 		else:
 			log.info("%r is bounced back to %s's hand", target, target.controller)
 			target.zone = Zone.HAND
@@ -535,7 +535,7 @@ class Fatigue(TargetedAction):
 			return
 		target.fatigue_counter += 1
 		log.info("%s takes %i fatigue damage", target, target.fatigue_counter)
-		return source.game.queue_actions(source, Hit(target.hero, target.fatigue_counter))
+		return source.game.queue_actions(source, [Hit(target.hero, target.fatigue_counter)])
 
 
 class ForceDraw(TargetedAction):
@@ -629,7 +629,7 @@ class Heal(TargetedAction):
 	def do(self, source, target, amount):
 		if source.controller.outgoing_healing_adjustment:
 			# "healing as damage" (hack-ish)
-			return source.game.queue_actions(source, Hit(target, amount))
+			return source.game.queue_actions(source, [Hit(target, amount)])
 
 		amount *= (source.controller.healing_double + 1)
 		amount = min(amount, target.damage)
