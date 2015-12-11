@@ -189,7 +189,7 @@ class XXX_048:
 # Destroy All Mana
 class XXX_049:
 	def play(self):
-		return GainMana(-self.target.controller.max_mana)
+		yield GainMana(-self.target.controller.max_mana)
 
 
 # Destroy a Mana Crystal

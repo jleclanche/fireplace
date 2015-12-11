@@ -68,4 +68,4 @@ class AT_132:
 	def play(self):
 		upgrade = AT_132.HERO_POWER_MAP.get(self.controller.hero.power.id)
 		if upgrade:
-			return Summon(CONTROLLER, upgrade)
+			yield Summon(CONTROLLER, upgrade)

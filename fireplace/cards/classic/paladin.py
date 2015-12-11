@@ -75,7 +75,7 @@ class CS2_094:
 class EX1_349:
 	def play(self):
 		diff = len(self.controller.opponent.hand) - len(self.controller.hand)
-		return Draw(CONTROLLER) * max(0, diff)
+		yield Draw(CONTROLLER) * max(0, diff)
 
 
 # Lay on Hands
@@ -121,7 +121,7 @@ class EX1_371:
 class EX1_384:
 	def play(self):
 		count = self.controller.get_spell_damage(8)
-		return Hit(RANDOM_ENEMY_CHARACTER, 1) * count
+		yield Hit(RANDOM_ENEMY_CHARACTER, 1) * count
 
 
 # Equality

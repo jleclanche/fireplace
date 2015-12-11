@@ -8,7 +8,7 @@ from ..utils import *
 class CS2_049:
 	def activate(self):
 		totems = [t for t in self.entourage if not self.controller.field.contains(t)]
-		return Summon(CONTROLLER, random.choice(totems))
+		yield Summon(CONTROLLER, random.choice(totems))
 
 # Healing Totem
 class NEW1_009:

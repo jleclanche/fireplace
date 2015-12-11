@@ -47,7 +47,8 @@ GVG_069a = buff(health=4)
 # Lightbomb
 class GVG_008:
 	def play(self):
-		return [Hit(target, target.atk) for target in self.game.board]
+		for target in self.game.board:
+			yield Hit(target, target.atk)
 
 
 # Velen's Chosen

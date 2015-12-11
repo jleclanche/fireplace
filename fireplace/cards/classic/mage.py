@@ -118,7 +118,7 @@ class EX1_275:
 class EX1_277:
 	def play(self):
 		count = self.controller.get_spell_damage(3)
-		return Hit(RANDOM_ENEMY_CHARACTER, 1) * count
+		yield Hit(RANDOM_ENEMY_CHARACTER, 1) * count
 
 
 # Pyroblast

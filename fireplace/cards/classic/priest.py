@@ -172,11 +172,11 @@ class EX1_624:
 class EX1_625:
 	def play(self):
 		if self.controller.hero.power.id == "EX1_625t":
-			return Summon(CONTROLLER, "EX1_625t2")
+			yield Summon(CONTROLLER, "EX1_625t2")
 		elif self.controller.hero.power.id == "EX1_625t2":
 			pass
 		else:
-			return Summon(CONTROLLER, "EX1_625t")
+			yield Summon(CONTROLLER, "EX1_625t")
 
 # Mind Spike
 class EX1_625t:
