@@ -6,6 +6,10 @@ from ..logging import log
 from ..utils import get_script_definition
 
 
+ACTION_SCRIPTS = ("activate", "combo", "deathrattle", "draw", "inspire", "play")
+EVENT_SCRIPTS = ("events", "in_hand", "update")
+
+
 class CardDB(dict):
 	def __init__(self, filename):
 		self.filename = filename
@@ -33,7 +37,7 @@ class CardDB(dict):
 		else:
 			card.scripts = type(id, (), {})
 
-		for script in ("activate", "combo", "deathrattle", "draw", "inspire", "play"):
+		for script in ACTION_SCRIPTS:
 			actions = getattr(card.scripts, script, None)
 			if actions is None:
 				# Set the action by default to avoid runtime hasattr() calls
@@ -41,6 +45,14 @@ class CardDB(dict):
 			elif not hasattr(actions, "__iter__") and not callable(actions):
 				# Ensure the actions are always iterable
 				setattr(card.scripts, script, (actions, ))
+
+		# TODO: Merge with ACTION_SCRIPTS
+		for script in EVENT_SCRIPTS:
+			actions = getattr(card.scripts, script, None)
+			if actions is None:
+				setattr(card.scripts, script, [])
+			elif not hasattr(actions, "__iter__") and not callable(actions):
+				setattr(card.scripts, script, [actions])
 
 		return card
 

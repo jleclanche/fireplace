@@ -15,12 +15,10 @@ class BaseEntity(object):
 		self.tags = self.manager
 		self.uuid = uuid.uuid4()
 
-		scripts = getattr(self.data, "scripts", None)
-		events = getattr(scripts, "events", [])
-		if not isinstance(events, list):
-			self._events = [events]
+		if self.data:
+			self._events = self.data.scripts.events[:]
 		else:
-			self._events = events[:]
+			self._events = []
 
 	def __int__(self):
 		return self.entity_id
@@ -40,12 +38,8 @@ class BaseEntity(object):
 	def update_scripts(self):
 		ret = []
 		if self.data and not self.ignore_scripts:
-			scripts = getattr(self.data.scripts, "update", ())
-			if not hasattr(scripts, "__iter__"):
-				ret.append(scripts)
-			else:
-				for s in scripts:
-					ret.append(s)
+			for script in self.data.scripts.update:
+				ret.append(script)
 		return ret
 
 	def log(self, message, *args):

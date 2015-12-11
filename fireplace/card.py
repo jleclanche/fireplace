@@ -134,10 +134,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	@property
 	def events(self):
 		if self.zone == Zone.HAND:
-			ret = getattr(self.data.scripts, "in_hand", [])
-			if not hasattr(ret, "__iter__"):
-				ret = (ret, )
-			return ret
+			return self.data.scripts.in_hand
 		return self.base_events + self._events
 
 	@property
