@@ -29,6 +29,33 @@ def test_avenge():
 	assert wisp2.health == 3
 
 
+def test_bear_trap():
+	game = prepare_game()
+	trap = game.player1.give("AT_060")
+	trap.play()
+	wisp1 = game.player1.give(WISP)
+	wisp1.play()
+	game.end_turn()
+
+	wisp2 = game.player2.give(WISP)
+	wisp2.play()
+	wisp3 = game.player2.give(WISP)
+	wisp3.play()
+	game.end_turn(); game.end_turn()
+
+	assert trap in game.player1.secrets
+	wisp2.attack(wisp1)
+	assert wisp1.dead
+	assert wisp2.dead
+	assert trap in game.player1.secrets
+	assert len(game.player1.field) == 0
+	wisp3.attack(game.player1.hero)
+	assert game.player1.hero.health == 30 - 1
+	assert trap not in game.player1.secrets
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0] == "CS2_125"
+
+
 def test_counterspell():
 	game = prepare_game()
 	counterspell = game.player1.give("EX1_287")
