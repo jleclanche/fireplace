@@ -690,6 +690,7 @@ def test_commanding_shout():
 	assert bender.health == 2
 	assert bender.damage == 1
 	bender.attack(target=giant)
+	assert not bender.dead
 	assert bender.health == 1
 	assert bender.damage == 2
 	assert bender.zone == Zone.PLAY

@@ -344,25 +344,13 @@ class LiveEntity(PlayableCard, Entity):
 	def __init__(self, data):
 		super().__init__(data)
 		self._to_be_destroyed = False
-		self._damage = 0
+		self.damage = 0
 		self.predamage = 0
 		self.turns_in_play = 0
 
 	@property
 	def damaged(self):
 		return bool(self.damage)
-
-	@property
-	def damage(self):
-		return self._damage
-
-	@damage.setter
-	def damage(self, amount):
-		self._set_damage(amount)
-
-	def _set_damage(self, amount):
-		amount = max(0, amount)
-		self._damage = amount
 
 	@property
 	def deathrattles(self):
@@ -534,13 +522,14 @@ class Hero(Character):
 				self.controller.summon(self.data.hero_power)
 		super()._set_zone(value)
 
-	def _set_damage(self, amount):
+	def _hit(self, source, amount):
+		amount = super()._hit(source, amount)
 		if self.armor:
-			new_amount = max(0, amount - self.armor)
-			self.armor -= min(self.armor, amount)
-			self.log("Damage on %r reduced to %r by armor", self, new_amount)
-			amount = new_amount
-		return super()._set_damage(amount)
+			reduced_damage = min(amount, self.armor)
+			self.log("%r loses %r armor instead of damage", self, reduced_damage)
+			self.damage -= reduced_damage
+			self.armor -= reduced_damage
+		return amount
 
 
 class Minion(Character):
@@ -617,12 +606,6 @@ class Minion(Character):
 			ret += (script, )
 		return ret
 
-	def _set_damage(self, amount):
-		if self.min_health:
-			self.log("%r has HEALTH_MINIMUM of %i", self, self.min_health)
-			amount = min(amount, self.max_health - self.min_health)
-		super()._set_damage(amount)
-
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
 			if self._summon_index is not None:
@@ -644,7 +627,13 @@ class Minion(Character):
 			self.log("%r's divine shield prevents %i damage.", self, amount)
 			return
 
-		return super()._hit(source, amount)
+		amount = super()._hit(source, amount)
+
+		if self.health < self.min_health:
+			self.log("%r has HEALTH_MINIMUM of %i", self, self.min_health)
+			self.damage = self.max_health - self.min_health
+
+		return amount
 
 	def bounce(self):
 		return self.game.queue_actions(self, [actions.Bounce(self)])

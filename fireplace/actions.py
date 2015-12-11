@@ -726,7 +726,7 @@ class SetCurrentHealth(TargetedAction):
 	def do(self, source, target, amount):
 		log.info("Setting current health on %r to %i", target, amount)
 		maxhp = target.max_health
-		target._damage = max(0, maxhp - amount)
+		target.damage = max(0, maxhp - amount)
 
 
 class SetTag(TargetedAction):
