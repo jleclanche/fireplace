@@ -469,9 +469,6 @@ class Character(LiveEntity):
 		return max(0, self.max_health - self.damage)
 
 	def _hit(self, source, amount):
-		if self.immune:
-			self.log("%r is immune to %i damage from %r", self, amount, source)
-			return 0
 		self.damage += amount
 		return amount
 
