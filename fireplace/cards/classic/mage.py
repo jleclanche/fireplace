@@ -162,6 +162,14 @@ class EX1_294:
 	]
 
 
+# Ice Block
+class EX1_295:
+	events = Predamage(FRIENDLY_HERO).on(
+		Lethal(FRIENDLY_HERO, Predamage.AMOUNT) & (
+			Reveal(SELF), Buff(FRIENDLY_HERO, "EX1_295o")
+		)
+	)
+
 EX1_295o = buff(immune=True)
 
 

@@ -254,6 +254,40 @@ def test_ice_barrier():
 	assert game.player1.hero.armor == 7
 
 
+def test_ice_block():
+	game = prepare_game(WARRIOR, WARRIOR)
+	ib = game.player1.give("EX1_295")
+	ib.play()
+	game.end_turn()
+
+	game.player1.hero.set_current_health(1)
+	assert ib in game.player1.secrets
+	assert game.player1.hero.health == 1
+	game.player2.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 1
+	assert game.player1.hero.immune
+	assert ib not in game.player1.secrets
+	game.end_turn()
+
+	assert not game.player1.hero.immune
+	ib2 = game.player1.give("EX1_295")
+	ib2.play()
+	game.player1.hero.power.use()
+	game.end_turn()
+
+	assert game.player1.hero.armor == 2
+	assert game.player1.hero.health == 1
+	game.player2.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.armor == 1
+	assert game.player1.hero.health == 1
+	assert ib2 in game.player1.secrets
+	game.player2.give(DAMAGE_5).play(target=game.player1.hero)
+	assert game.player1.hero.armor == 1
+	assert game.player1.hero.health == 1
+	assert game.player1.hero.immune
+	assert ib2 not in game.player1.secrets
+
+
 def test_kezan_mystic():
 	game = prepare_game()
 	kezan = game.player1.give("GVG_074")
