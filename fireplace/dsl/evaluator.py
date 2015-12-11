@@ -1,4 +1,5 @@
 import copy
+from hearthstone.enums import CardType
 from ..logging import log
 
 
@@ -126,3 +127,25 @@ class Joust(Evaluator):
 		diff = sum(t.cost for t in t1) - sum(t.cost for t in t2)
 		log.info("Jousting %r vs %r -> %i difference", t1, t2, diff)
 		return diff > 0
+
+
+class Lethal(Evaluator):
+	"""
+	Evaluates to True if \a amount damage would destroy *all* entities
+	in \a selector (including armor).
+	"""
+	def __init__(self, selector, amount):
+		super().__init__()
+		self.selector = selector
+		self.amount = amount
+
+	def check(self, source):
+		entities = self.selector.eval(source.game, source)
+		amount = self.amount.evaluate(source)
+		for entity in entities:
+			health = entity.health
+			if entity.type == CardType.HERO:
+				health += entity.armor
+			if health > amount:
+				return False
+		return True
