@@ -54,6 +54,14 @@ class LOE_026:
 	play = Summon(CONTROLLER, Copy(RANDOM(KILLED + MURLOC) * 7))
 
 
+# Everyfin is Awesome
+class LOE_113:
+	cost_mod = -Count(FRIENDLY_MINIONS + MURLOC)
+	play = Buff(FRIENDLY_MINIONS, "LOE_113e")
+
+LOE_113e = buff(+2, +2)
+
+
 # Raven Idol
 class LOE_115:
 	choose = ("LOE_115a", "LOE_115b")

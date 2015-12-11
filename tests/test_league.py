@@ -83,6 +83,25 @@ def test_curse_of_rafaam():
 	assert game.player2.hero.health == 30 - 2 - 2
 
 
+def test_everyfin_is_awesome():
+	game = prepare_game()
+	awesome = game.player1.give("LOE_113")
+	assert awesome.cost == 7
+	game.player1.give(MURLOC)
+	assert awesome.cost == 7
+	murloc1 = game.player1.give(MURLOC)
+	murloc1.play()
+	assert awesome.cost == 6
+	murloc2 = game.player2.summon(MURLOC)
+	assert awesome.cost == 6
+
+	assert murloc1.atk == murloc1.health == 1
+	awesome.play()
+	assert murloc1.buffs
+	assert murloc1.atk == murloc1.health == 1 + 2
+	assert not murloc2.buffs
+
+
 def test_fossilized_devilsaur():
 	game = prepare_game()
 	game.player1.give(WISP).play()
