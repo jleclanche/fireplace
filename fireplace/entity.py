@@ -52,7 +52,7 @@ class BaseEntity(object):
 		self.logger.info(message, *args)
 
 	def get_actions(self, name):
-		actions = getattr(self.data.scripts, name, None)
+		actions = getattr(self.data.scripts, name)
 		if callable(actions):
 			actions = actions(self)
 		if actions and not hasattr(actions, "__iter__"):

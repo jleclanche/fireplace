@@ -33,6 +33,11 @@ class CardDB(dict):
 		else:
 			card.scripts = type(id, (), {})
 
+		for script in ("activate", "combo", "deathrattle", "draw", "inspire", "play"):
+			actions = getattr(card.scripts, script, None)
+			if actions is None:
+				setattr(card.scripts, script, ())
+
 		return card
 
 	def initialize(self):
