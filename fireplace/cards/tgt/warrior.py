@@ -30,7 +30,7 @@ AT_071e = buff(atk=1, charge=True)
 
 # Sea Reaver
 class AT_130:
-	in_hand = Draw(CONTROLLER, SELF).on(Hit(FRIENDLY_MINIONS, 1))
+	draw = Hit(FRIENDLY_MINIONS, 1)
 
 
 ##
