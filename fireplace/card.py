@@ -443,9 +443,7 @@ class Character(LiveEntity):
 
 	@property
 	def max_attacks(self):
-		if self.windfury:
-			return 2
-		return 1
+		return self.windfury + 1
 
 	@property
 	def exhausted(self):
