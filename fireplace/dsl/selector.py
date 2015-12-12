@@ -367,6 +367,7 @@ OVERLOAD = Selector(GameTag.RECALL)
 SPELLPOWER = Selector(GameTag.SPELLPOWER)
 STEALTH = Selector(GameTag.STEALTH)
 TAUNT = Selector(GameTag.TAUNT)
+WINDFURY = Selector(GameTag.WINDFURY)
 
 ALWAYS_WINS_BRAWLS = AttrSelector(enums.ALWAYS_WINS_BRAWLS) == True
 KILLED_THIS_TURN = AttrSelector(enums.KILLED_THIS_TURN) == True
