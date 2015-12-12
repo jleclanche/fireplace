@@ -15,7 +15,8 @@ AT_082e = buff(atk=1)
 class AT_083:
 	inspire = Buff(SELF, "AT_083e")
 
-AT_083e = buff(windfury=True)
+class AT_083e:
+	windfury = SET(1)
 
 
 # Lance Carrier
