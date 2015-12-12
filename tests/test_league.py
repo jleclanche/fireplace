@@ -25,3 +25,16 @@ def test_curse_of_rafaam():
 	game.end_turn(); game.end_turn()
 
 	assert game.player2.hero.health == 30 - 2 - 2
+
+
+##
+# Adventure tests
+
+def test_medivhs_locket():
+	game = prepare_game()
+	assert len(game.player1.hand) == 4
+	locket = game.player1.give("LOEA16_12")
+	locket.play()
+	assert len(game.player1.hand) == 4
+	for card in game.player1.hand:
+		assert card.id == UNSTABLE_PORTAL
