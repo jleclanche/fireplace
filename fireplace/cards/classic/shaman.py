@@ -44,7 +44,7 @@ class EX1_575:
 
 # Windspeaker
 class EX1_587:
-	play = GiveWindfury(TARGET)
+	play = GiveWindfury(TARGET - WINDFURY)
 
 
 ##
@@ -66,7 +66,7 @@ class CS2_038e:
 
 # Windfury
 class CS2_039:
-	play = GiveWindfury(TARGET)
+	play = GiveWindfury(TARGET - WINDFURY)
 
 
 # Ancestral Healing
