@@ -24,7 +24,7 @@ class PART_003:
 
 # Finicky Cloakfield
 class PART_004:
-	play = Buff(TARGET + STEALTH, "PART_004e")
+	play = Buff(TARGET - STEALTH, "PART_004e")
 
 
 class PART_004e:
