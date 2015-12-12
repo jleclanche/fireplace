@@ -134,7 +134,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	@property
 	def events(self):
 		if self.zone == Zone.HAND:
-			return self.data.scripts.in_hand
+			return self.data.scripts.Hand.events
 		return self.base_events + self._events
 
 	@property

@@ -36,7 +36,7 @@ class CardDB(dict):
 
 		scriptnames = (
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
-			"enrage", "in_hand", "update",
+			"enrage", "update",
 		)
 
 		for script in scriptnames:
@@ -59,6 +59,15 @@ class CardDB(dict):
 			func = getattr(card.scripts, script, None)
 			if func is None:
 				setattr(card.scripts, script, None)
+
+		if not hasattr(card.scripts, "Hand"):
+			card.scripts.Hand = type("Hand", (), {})
+
+		if not hasattr(card.scripts.Hand, "events"):
+			card.scripts.Hand.events = []
+
+		if not hasattr(card.scripts.Hand.events, "__iter__"):
+			card.scripts.Hand.events = [card.scripts.Hand.events]
 
 		# Set some additional events based on the base tags...
 		if card.poisonous:

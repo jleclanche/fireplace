@@ -18,7 +18,8 @@ class GVG_062:
 
 # Bolvar Fordragon
 class GVG_063:
-	in_hand = Death(FRIENDLY + MINION).on(Buff(SELF, "GVG_063a"))
+	class Hand:
+		events = Death(FRIENDLY + MINION).on(Buff(SELF, "GVG_063a"))
 
 GVG_063a = buff(atk=1)
 

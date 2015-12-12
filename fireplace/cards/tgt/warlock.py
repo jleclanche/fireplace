@@ -40,7 +40,9 @@ class AT_027e:
 # Fist of Jaraxxus
 class AT_022:
 	play = Hit(RANDOM_ENEMY_CHARACTER, 4)
-	in_hand = Discard(SELF).on(play)
+
+	class Hand:
+		events = Discard(SELF).on(Hit(RANDOM_ENEMY_CHARACTER, 4))
 
 
 # Demonfuse

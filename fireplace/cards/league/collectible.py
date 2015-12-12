@@ -26,7 +26,8 @@ class LOE_007:
 
 # Cursed!
 class LOE_007t:
-	in_hand = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 2))
+	class Hand:
+		events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 2))
 
 
 # Raven Idol
