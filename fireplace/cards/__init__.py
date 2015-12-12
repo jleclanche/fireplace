@@ -7,11 +7,6 @@ from ..rules import POISONOUS
 from ..utils import get_script_definition
 
 
-ACTION_SCRIPTS = ("activate", "combo", "deathrattle", "draw", "inspire", "play")
-EVENT_SCRIPTS = ("enrage", "events", "in_hand", "update")
-EVAL_SCRIPTS = ("cost_mod", "powered_up")
-
-
 class CardDB(dict):
 	def __init__(self, filename):
 		self.filename = filename
@@ -39,24 +34,28 @@ class CardDB(dict):
 		else:
 			card.scripts = type(id, (), {})
 
-		for script in ACTION_SCRIPTS:
+		scriptnames = (
+			"activate", "combo", "deathrattle", "draw", "inspire", "play",
+			"enrage", "in_hand", "update",
+		)
+
+		for script in scriptnames:
 			actions = getattr(card.scripts, script, None)
 			if actions is None:
 				# Set the action by default to avoid runtime hasattr() calls
-				setattr(card.scripts, script, ())
-			elif not hasattr(actions, "__iter__") and not callable(actions):
-				# Ensure the actions are always iterable
-				setattr(card.scripts, script, (actions, ))
-
-		# TODO: Merge with ACTION_SCRIPTS
-		for script in EVENT_SCRIPTS:
-			actions = getattr(card.scripts, script, None)
-			if actions is None:
 				setattr(card.scripts, script, [])
-			elif not hasattr(actions, "__iter__") and not callable(actions):
-				setattr(card.scripts, script, [actions])
+			elif not callable(actions):
+				if not hasattr(actions, "__iter__"):
+					# Ensure the actions are always iterable
+					setattr(card.scripts, script, (actions, ))
 
-		for script in EVAL_SCRIPTS:
+		events = getattr(card.scripts, "events", None)
+		if events is None:
+			card.scripts.events = []
+		elif not hasattr(events, "__iter__"):
+			card.scripts.events = [events]
+
+		for script in ("cost_mod", "powered_up"):
 			func = getattr(card.scripts, script, None)
 			if func is None:
 				setattr(card.scripts, script, None)
