@@ -415,6 +415,29 @@ def test_solemn_vigil():
 ##
 # Adventure
 
+def test_brood_affliction_bronze():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
+	deathwing = game.player1.give("NEW1_030")
+
+	brood1 = game.player1.give("BRMA12_7")
+	assert wisp.cost == 0
+	assert footman.cost == 1
+	assert deathwing.cost == 10
+	brood1.discard()
+
+	game.player2.give("BRMA12_7")
+	assert wisp.cost == 0
+	assert footman.cost == 1 - 1
+	assert deathwing.cost == 10 - 1
+
+	game.player2.give("BRMA12_7H")
+	assert wisp.cost == 0
+	assert footman.cost == 1 - 1
+	assert deathwing.cost == 10 - 1 - 3
+
+
 def test_dark_iron_bouncer_brawl():
 	game = prepare_game()
 	bouncer = game.player1.give("BRMA01_3")

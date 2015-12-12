@@ -288,3 +288,56 @@ class BRMA16_5:
 	events = Play(OPPONENT).on(Buff(SELF, "BRMA16_5e"))
 
 BRMA16_5e = buff(atk=1)
+
+
+##
+# Brood Afflictions (Chromaggus)
+
+# Brood Affliction: Red
+class BRMA12_3:
+	class Hand:
+		events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 1))
+
+class BRMA12_3H:
+	class Hand:
+		events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 3))
+
+
+# Brood Affliction: Green
+class BRMA12_4:
+	class Hand:
+		events = OWN_TURN_BEGIN.on(Heal(ENEMY_HERO, 2))
+
+class BRMA12_4H:
+	class Hand:
+		events = OWN_TURN_BEGIN.on(Heal(ENEMY_HERO, 6))
+
+
+# Brood Affliction: Blue
+class BRMA12_5:
+	class Hand:
+		update = Refresh(IN_HAND + ENEMY + SPELL, {GameTag.COST: -1})
+
+class BRMA12_5H:
+	class Hand:
+		update = Refresh(IN_HAND + ENEMY + SPELL, {GameTag.COST: -3})
+
+
+# Brood Affliction: Black
+class BRMA12_6:
+	class Hand:
+		events = Draw(OPPONENT).on(Give(OPPONENT, Copy(Draw.CARD)))
+
+class BRMA12_6H:
+	class Hand:
+		events = Draw(OPPONENT).on(Give(OPPONENT, Copy(Draw.CARD)))
+
+
+# Brood Affliction: Bronze
+class BRMA12_7:
+	class Hand:
+		update = Refresh(IN_HAND + ENEMY + MINION, {GameTag.COST: -1})
+
+class BRMA12_7H:
+	class Hand:
+		update = Refresh(IN_HAND + ENEMY + MINION, {GameTag.COST: -3})
