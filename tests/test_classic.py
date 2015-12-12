@@ -1146,6 +1146,28 @@ def test_gadgetzan_auctioneer():
 	assert len(game.player1.hand) == 1
 
 
+def test_gladiators_longbow():
+	game = prepare_game()
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	game.end_turn()
+
+	bow = game.player2.give("DS1_188")
+	bow.play()
+	assert game.player2.hero.immune_while_attacking
+	assert not game.player1.hero.immune_while_attacking
+	assert not game.player2.hero.immune
+	game.player2.give(MOONFIRE).play(game.player2.hero)
+	assert game.player2.hero.health == 30 - 1
+	game.player2.hero.attack(statue)
+	assert game.player2.hero.health == 30 - 1
+	assert statue.damage == 5
+	game.end_turn()
+
+	statue.attack(game.player2.hero)
+	assert game.player2.hero.health == 30 - 1 - 10
+
+
 def test_grimscale_oracle():
 	game = prepare_game()
 	grimscale = game.player1.give("EX1_508")

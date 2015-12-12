@@ -172,6 +172,11 @@ class EX1_611e:
 ##
 # Weapons
 
+# Gladiator's Longbow
+class DS1_188:
+	update = Refresh(FRIENDLY_HERO, {GameTag.IMMUNE_WHILE_ATTACKING: True})
+
+
 # Eaglehorn Bow
 class EX1_536:
 	events = Reveal(FRIENDLY_SECRETS).on(Buff(SELF, "EX1_536e"))
