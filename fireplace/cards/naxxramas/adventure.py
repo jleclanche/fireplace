@@ -14,10 +14,10 @@ class NAX1h_04:
 
 # Rain of Fire
 class NAX2_03:
-	activate = Hit(RANDOM_ENEMY_MINION, 1) * Count(OPPONENT_HAND)
+	activate = Hit(RANDOM_ENEMY_MINION, 1) * Count(ENEMY_HAND)
 
 class NAX2_03H:
-	activate = Hit(RANDOM_ENEMY_MINION, 1) * Count(OPPONENT_HAND)
+	activate = Hit(RANDOM_ENEMY_MINION, 1) * Count(ENEMY_HAND)
 
 
 # Worshipper

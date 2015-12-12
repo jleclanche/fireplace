@@ -145,7 +145,7 @@ CS2_221e = buff(atk=2)
 
 # Venture Co. Mercenary
 class CS2_227:
-	update = Refresh(FRIENDLY + MINION + IN_HAND, {GameTag.COST: +3})
+	update = Refresh(FRIENDLY_HAND + MINION, {GameTag.COST: +3})
 
 
 # Darkscale Healer

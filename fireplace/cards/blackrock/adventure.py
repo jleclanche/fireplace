@@ -7,14 +7,14 @@ from ..utils import *
 # Pile On!
 class BRMA01_2:
 	activate = (
-		Summon(CONTROLLER, RANDOM(CONTROLLER_DECK + MINION)),
-		Summon(OPPONENT, RANDOM(OPPONENT_DECK + MINION))
+		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION)),
+		Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION))
 	)
 
 class BRMA01_2H:
 	activate = (
-		Summon(CONTROLLER, RANDOM(CONTROLLER_DECK + MINION) * 2),
-		Summon(OPPONENT, RANDOM(OPPONENT_DECK + MINION))
+		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION) * 2),
+		Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION))
 	)
 
 
@@ -117,7 +117,7 @@ class BRMA12_2H:
 
 # Mutation (Unused)
 class BRMA12_10:
-	activate = Discard(RANDOM(CONTROLLER_HAND))
+	activate = Discard(RANDOM(FRIENDLY_HAND))
 
 
 # Wild Magic
@@ -316,11 +316,11 @@ class BRMA12_4H:
 # Brood Affliction: Blue
 class BRMA12_5:
 	class Hand:
-		update = Refresh(IN_HAND + ENEMY + SPELL, {GameTag.COST: -1})
+		update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: -1})
 
 class BRMA12_5H:
 	class Hand:
-		update = Refresh(IN_HAND + ENEMY + SPELL, {GameTag.COST: -3})
+		update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: -3})
 
 
 # Brood Affliction: Black
@@ -336,8 +336,8 @@ class BRMA12_6H:
 # Brood Affliction: Bronze
 class BRMA12_7:
 	class Hand:
-		update = Refresh(IN_HAND + ENEMY + MINION, {GameTag.COST: -1})
+		update = Refresh(ENEMY_HAND + MINION, {GameTag.COST: -1})
 
 class BRMA12_7H:
 	class Hand:
-		update = Refresh(IN_HAND + ENEMY + MINION, {GameTag.COST: -3})
+		update = Refresh(ENEMY_HAND + MINION, {GameTag.COST: -3})

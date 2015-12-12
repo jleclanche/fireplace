@@ -6,7 +6,7 @@ from ..utils import *
 
 # Mechwarper
 class GVG_006:
-	update = Refresh(FRIENDLY + MECH + IN_HAND, {GameTag.COST: -1})
+	update = Refresh(FRIENDLY_HAND + MECH, {GameTag.COST: -1})
 
 
 # Cogmaster

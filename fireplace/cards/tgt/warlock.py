@@ -54,4 +54,4 @@ AT_024e = buff(+3, +3)
 
 # Dark Bargain
 class AT_025:
-	play = Destroy(RANDOM(ENEMY_MINIONS) * 2), Discard(RANDOM(CONTROLLER_HAND) * 2)
+	play = Destroy(RANDOM(ENEMY_MINIONS) * 2), Discard(RANDOM(FRIENDLY_HAND) * 2)

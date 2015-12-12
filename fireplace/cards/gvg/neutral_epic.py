@@ -43,7 +43,7 @@ class GVG_108:
 
 # Clockwork Giant
 class GVG_121:
-	cost_mod = -Count(OPPONENT_HAND)
+	cost_mod = -Count(ENEMY_HAND)
 
 
 # Wee Spellstopper

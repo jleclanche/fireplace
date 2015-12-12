@@ -8,7 +8,7 @@ class EX1_005:
 
 # Mountain Giant
 class EX1_105:
-	cost_mod = -Count(CONTROLLER_HAND - SELF)
+	cost_mod = -Count(FRIENDLY_HAND - SELF)
 
 
 # Murloc Warleader
@@ -45,7 +45,7 @@ class EX1_620:
 
 # Captain's Parrot
 class NEW1_016:
-	play = ForceDraw(RANDOM(CONTROLLER_DECK + PIRATE))
+	play = ForceDraw(RANDOM(FRIENDLY_DECK + PIRATE))
 
 
 # Hungry Crab

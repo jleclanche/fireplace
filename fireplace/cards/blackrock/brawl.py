@@ -76,7 +76,7 @@ class BRMC_96:
 
 # Vaelastrasz
 class BRMC_97:
-	update = Refresh(FRIENDLY + IN_HAND, {GameTag.COST: -3})
+	update = Refresh(FRIENDLY_HAND, {GameTag.COST: -3})
 
 
 # Burning Adrenaline (Unused)

@@ -18,7 +18,7 @@ class AT_076:
 
 # Mysterious Challenger
 class AT_079:
-	play = Summon(CONTROLLER, CONTROLLER_DECK + SECRET)
+	play = Summon(CONTROLLER, FRIENDLY_DECK + SECRET)
 
 
 # Eadric the Pure

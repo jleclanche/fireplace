@@ -18,7 +18,7 @@ class GVG_094:
 
 # Goblin Sapper
 class GVG_095:
-	update = (Count(OPPONENT_HAND) >= 6) & Refresh(SELF, {GameTag.ATK: +4})
+	update = (Count(ENEMY_HAND) >= 6) & Refresh(SELF, {GameTag.ATK: +4})
 
 
 # Lil' Exorcist

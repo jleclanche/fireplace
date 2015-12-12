@@ -162,13 +162,13 @@ class NEW1_029:
 	play = Buff(ENEMY_HERO, "NEW1_029t")
 
 class NEW1_029t:
-	update = Refresh(ENEMY + SPELL + IN_HAND, {GameTag.COST: lambda self, i: 0})
+	update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: lambda self, i: 0})
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
 
 
 # Deathwing
 class NEW1_030:
-	play = Destroy(ALL_MINIONS - SELF), Discard(CONTROLLER_HAND)
+	play = Destroy(ALL_MINIONS - SELF), Discard(FRIENDLY_HAND)
 
 
 # Gruul

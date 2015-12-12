@@ -53,7 +53,7 @@ class XXX_010:
 
 # Summon a random Secret
 class XXX_011:
-	play = Summon(CONTROLLER, RANDOM(CONTROLLER_DECK + SECRET))
+	play = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + SECRET))
 
 
 # Bounce
@@ -63,7 +63,7 @@ class XXX_012:
 
 # Discard
 class XXX_013:
-	play = Discard(CONTROLLER_HAND)
+	play = Discard(FRIENDLY_HAND)
 
 
 # Mill 10
@@ -112,7 +112,7 @@ class XXX_022:
 	play = Buff(FRIENDLY_HERO, "XXX_022e")
 
 class XXX_022e:
-	update = Refresh(FRIENDLY + IN_HAND, {GameTag.COST: SET(0)})
+	update = Refresh(FRIENDLY_HAND, {GameTag.COST: SET(0)})
 
 
 # Destroy All Heroes
@@ -163,12 +163,12 @@ class XXX_043:
 
 # Hand Swapper Minion
 class XXX_044:
-	play = Discard(RANDOM(CONTROLLER_HAND) * 3), Draw(CONTROLLER) * 3
+	play = Discard(RANDOM(FRIENDLY_HAND) * 3), Draw(CONTROLLER) * 3
 
 
 # Steal Card
 class XXX_045:
-	play = Steal(RANDOM(OPPONENT_HAND))
+	play = Steal(RANDOM(ENEMY_HAND))
 
 
 # Force AI to Use Hero Power
@@ -240,7 +240,7 @@ class XXX_058:
 class XXX_059:
 	play = (
 		Destroy(CONTROLLED_BY_TARGET + (HERO_POWER | IN_DECK)),
-		Discard(CONTROLLED_BY_TARGET + IN_HAND),
+		Discard(IN_HAND + CONTROLLED_BY_TARGET),
 	)
 
 

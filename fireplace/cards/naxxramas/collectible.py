@@ -21,7 +21,7 @@ class FP1_003:
 
 # Mad Scientist
 class FP1_004:
-	deathrattle = Summon(CONTROLLER, RANDOM(CONTROLLER_DECK + SECRET))
+	deathrattle = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + SECRET))
 
 
 # Shade of Naxxramas
@@ -38,7 +38,7 @@ class FP1_007:
 
 # Deathlord
 class FP1_009:
-	deathrattle = Summon(OPPONENT, RANDOM(OPPONENT_DECK + MINION))
+	deathrattle = Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION))
 
 
 # Webspinner
@@ -73,12 +73,12 @@ class FP1_016:
 
 # Nerub'ar Weblord
 class FP1_017:
-	update = Refresh(MINION + BATTLECRY + IN_HAND, {GameTag.COST: +2})
+	update = Refresh(IN_HAND + MINION + BATTLECRY, {GameTag.COST: +2})
 
 
 # Voidcaller
 class FP1_022:
-	deathrattle = Summon(CONTROLLER, RANDOM(CONTROLLER_HAND + DEMON))
+	deathrattle = Summon(CONTROLLER, RANDOM(FRIENDLY_HAND + DEMON))
 
 
 # Dark Cultist
@@ -120,7 +120,7 @@ class FP1_030:
 	play = Buff(OPPONENT, "FP1_030e")
 
 class FP1_030e:
-	update = CurrentPlayer(OWNER) & Refresh(ENEMY + SPELL + IN_HAND, {GameTag.COST: +5})
+	update = CurrentPlayer(OWNER) & Refresh(ENEMY_HAND + SPELL, {GameTag.COST: +5})
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
 
 

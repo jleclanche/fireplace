@@ -44,7 +44,7 @@ class AT_042b:
 
 # Aviana
 class AT_045:
-	update = Refresh(CONTROLLER_HAND + MINION, {GameTag.COST: SET(1)})
+	update = Refresh(FRIENDLY_HAND + MINION, {GameTag.COST: SET(1)})
 
 
 ##
@@ -63,7 +63,7 @@ class AT_037b:
 
 # Astral Communion
 class AT_043:
-	play = GainMana(CONTROLLER, 10), Discard(CONTROLLER_HAND)
+	play = GainMana(CONTROLLER, 10), Discard(FRIENDLY_HAND)
 
 
 # Mulch

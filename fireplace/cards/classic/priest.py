@@ -100,7 +100,7 @@ class CS1_130:
 
 # Mind Vision
 class CS2_003:
-	play = Give(CONTROLLER, Copy(RANDOM(OPPONENT_HAND)))
+	play = Give(CONTROLLER, Copy(RANDOM(ENEMY_HAND)))
 
 
 # Shadow Word: Pain
@@ -141,14 +141,14 @@ class EX1_334e:
 
 # Thoughtsteal
 class EX1_339:
-	play = Give(CONTROLLER, Copy(RANDOM(OPPONENT_DECK) * 2))
+	play = Give(CONTROLLER, Copy(RANDOM(ENEMY_DECK) * 2))
 
 
 # Mindgames
 class EX1_345:
 	play = (
-		Find(OPPONENT_DECK + MINION) &
-		Summon(CONTROLLER, Copy(RANDOM(OPPONENT_DECK + MINION))) |
+		Find(ENEMY_DECK + MINION) &
+		Summon(CONTROLLER, Copy(RANDOM(ENEMY_DECK + MINION))) |
 		Summon(CONTROLLER, "EX1_345t")
 	)
 

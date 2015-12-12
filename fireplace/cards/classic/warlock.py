@@ -39,12 +39,12 @@ class EX1_304:
 
 # Succubus
 class EX1_306:
-	play = Discard(RANDOM(CONTROLLER_HAND))
+	play = Discard(RANDOM(FRIENDLY_HAND))
 
 
 # Doomguard
 class EX1_310:
-	play = Discard(RANDOM(CONTROLLER_HAND) * 2)
+	play = Discard(RANDOM(FRIENDLY_HAND) * 2)
 
 
 # Pit Lord
@@ -54,7 +54,7 @@ class EX1_313:
 
 # Summoning Portal
 class EX1_315:
-	update = Refresh(FRIENDLY + MINION + IN_HAND, {
+	update = Refresh(FRIENDLY_HAND + MINION, {
 		GameTag.COST: lambda self, i: min(i, max(1, i - 2))
 	})
 
@@ -114,7 +114,7 @@ class EX1_303:
 
 # Soulfire
 class EX1_308:
-	play = Hit(TARGET, 4), Discard(RANDOM(CONTROLLER_HAND))
+	play = Hit(TARGET, 4), Discard(RANDOM(FRIENDLY_HAND))
 
 
 # Siphon Soul
@@ -142,8 +142,8 @@ class EX1_316e:
 # Sense Demons
 class EX1_317:
 	play = (
-		Find(CONTROLLER_DECK + DEMON) &
-		ForceDraw(RANDOM(CONTROLLER_DECK + DEMON)) |
+		Find(FRIENDLY_DECK + DEMON) &
+		ForceDraw(RANDOM(FRIENDLY_DECK + DEMON)) |
 		Give(CONTROLLER, "EX1_317t"),
 	) * 2
 

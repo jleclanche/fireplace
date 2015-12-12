@@ -35,7 +35,7 @@ class EX1_559:
 
 # Sorcerer's Apprentice
 class EX1_608:
-	update = Refresh(FRIENDLY + SPELL + IN_HAND, {GameTag.COST: -1})
+	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -1})
 
 
 # Kirin Tor Mage
@@ -43,7 +43,7 @@ class EX1_612:
 	play = Buff(FRIENDLY_HERO, "EX1_612o")
 
 class EX1_612o:
-	update = Refresh(FRIENDLY + SECRET + IN_HAND, {GameTag.COST: SET(0)})
+	update = Refresh(FRIENDLY_HAND + SECRET, {GameTag.COST: SET(0)})
 	events = Play(CONTROLLER, SECRET).on(Destroy(SELF))
 
 

@@ -15,7 +15,7 @@ EX1_004e = buff(health=1)
 
 # Alarm-o-Bot
 class EX1_006:
-	events = OWN_TURN_BEGIN.on(Swap(SELF, RANDOM(CONTROLLER_HAND + MINION)))
+	events = OWN_TURN_BEGIN.on(Swap(SELF, RANDOM(FRIENDLY_HAND + MINION)))
 
 
 # Angry Chicken
@@ -25,7 +25,7 @@ class EX1_009:
 
 # Twilight Drake
 class EX1_043:
-	play = Buff(SELF, "EX1_043e") * Count(CONTROLLER_HAND)
+	play = Buff(SELF, "EX1_043e") * Count(FRIENDLY_HAND)
 
 EX1_043e = buff(health=1)
 
@@ -62,7 +62,7 @@ class EX1_059:
 class EX1_076:
 	update = (
 		(Attr(CONTROLLER, GameTag.NUM_MINIONS_PLAYED_THIS_TURN) == 0) &
-		Refresh(FRIENDLY + MINION + IN_HAND, {GameTag.COST: -1})
+		Refresh(FRIENDLY_HAND + MINION, {GameTag.COST: -1})
 	)
 
 
@@ -131,7 +131,7 @@ class EX1_597:
 
 # Mana Wraith
 class EX1_616:
-	update = Refresh(MINION + IN_HAND, {GameTag.COST: +1})
+	update = Refresh(IN_HAND + MINION, {GameTag.COST: +1})
 
 
 # Knife Juggler

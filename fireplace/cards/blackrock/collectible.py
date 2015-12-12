@@ -51,7 +51,7 @@ BRM_012e = buff(atk=1)
 
 # Core Rager
 class BRM_014:
-	powered_up = Count(CONTROLLER_HAND - SELF) == 0
+	powered_up = Count(FRIENDLY_HAND - SELF) == 0
 	play = EMPTY_HAND & Buff(SELF, "BRM_014e")
 
 BRM_014e = buff(+3, +3)
@@ -122,7 +122,7 @@ class BRM_027pH:
 
 # Emperor Thaurissan
 class BRM_028:
-	events = OWN_TURN_END.on(Buff(CONTROLLER_HAND, "BRM_028e"))
+	events = OWN_TURN_END.on(Buff(FRIENDLY_HAND, "BRM_028e"))
 
 class BRM_028e:
 	events = REMOVED_IN_PLAY
@@ -191,7 +191,7 @@ class BRM_011:
 
 # Quick Shot
 class BRM_013:
-	powered_up = Count(CONTROLLER_HAND - SELF) == 0
+	powered_up = Count(FRIENDLY_HAND - SELF) == 0
 	play = Hit(TARGET, 3), EMPTY_HAND & Draw(CONTROLLER)
 
 
