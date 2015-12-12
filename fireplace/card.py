@@ -397,8 +397,8 @@ class Character(LiveEntity):
 	min_health = boolean_property("min_health")
 
 	def __init__(self, data):
-		self.attacking = False
 		self.frozen = False
+		self.attack_target = None
 		self.cant_attack = False
 		self.cant_be_targeted_by_abilities = False
 		self.cant_be_targeted_by_hero_powers = False
@@ -410,6 +410,10 @@ class Character(LiveEntity):
 	@property
 	def attackable(self):
 		return not self.immune
+
+	@property
+	def attacking(self):
+		return bool(self.attack_target)
 
 	@property
 	def attack_targets(self):

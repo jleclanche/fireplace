@@ -136,7 +136,7 @@ class Attack(GameAction):
 		return ret
 
 	def do(self, source, attacker, defender):
-		attacker.attacking = True
+		attacker.attack_target = defender
 		defender.defending = True
 		source.game.proposed_attacker = attacker
 		source.game.proposed_defender = defender

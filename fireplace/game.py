@@ -91,7 +91,7 @@ class BaseGame(Entity):
 		self.proposed_defender = None
 		if attacker.should_exit_combat:
 			self.log("Attack has been interrupted.")
-			attacker.attacking = False
+			attacker.attack_target = None
 			defender.defending = False
 			return
 		# Save the attacker/defender atk values in case they change during the attack
@@ -100,7 +100,7 @@ class BaseGame(Entity):
 		self.queue_actions(attacker, [Hit(defender, attacker.atk)])
 		if def_atk:
 			self.queue_actions(defender, [Hit(attacker, def_atk)])
-		attacker.attacking = False
+		attacker.attack_target = None
 		defender.defending = False
 		attacker.num_attacks += 1
 
