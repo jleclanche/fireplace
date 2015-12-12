@@ -31,9 +31,7 @@ class GVG_077:
 
 # Floating Watcher
 class GVG_100:
-	events = Damage(FRIENDLY_HERO).on(
-		lambda self, target, amount, source: self.controller.current_player and Buff(SELF, "GVG_100e")
-	)
+	events = Damage(FRIENDLY_HERO).on(CurrentPlayer(CONTROLLER) & Buff(SELF, "GVG_100e"))
 
 GVG_100e = buff(+2, +2)
 

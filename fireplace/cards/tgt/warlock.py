@@ -28,9 +28,7 @@ class AT_026:
 
 # Wilfred Fizzlebang
 class AT_027:
-	events = Draw(CONTROLLER).on(
-		lambda self, target, card, source: source is self.controller.hero.power and Buff(card, "AT_027e")
-	)
+	events = Draw(CONTROLLER, None, FRIENDLY_HERO_POWER).on(Buff(Draw.CARD, "AT_027e"))
 
 class AT_027e:
 	cost = SET(0)
