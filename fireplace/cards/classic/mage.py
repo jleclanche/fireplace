@@ -18,9 +18,7 @@ class CS2_034_H1:
 
 # Water Elemental
 class CS2_033:
-	events = Damage().on(
-		lambda self, target, amount, source: source is self and Freeze(target)
-	)
+	events = Damage(CHARACTER, None, SELF).on(Freeze(Damage.TARGETS))
 
 
 # Ethereal Arcanist

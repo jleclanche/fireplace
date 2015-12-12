@@ -6,9 +6,7 @@ from ..utils import *
 
 # Mistress of Pain
 class GVG_018:
-	events = Damage().on(
-		lambda self, target, amount, source: source is self and Heal(FRIENDLY_HERO, amount)
-	)
+	events = Damage(CHARACTER, None, SELF).on(Heal(FRIENDLY_HERO, Damage.AMOUNT))
 
 
 # Fel Cannon
