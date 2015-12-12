@@ -236,24 +236,26 @@ class OwnerSelector(Selector):
 OWNER = OwnerSelector()
 
 
-class TargetSelector(Selector):
+class FuncSelector(Selector):
 	"""
-	Selects the source's target as target.
+	Selects cards after applying a filter function to them
 	"""
-	class IsTarget:
+	class MatchesFunc:
+		def __init__(self, func):
+			self.func = func
+
 		def test(self, entity, source):
-			return entity is source.target
+			return self.func(entity, source)
 
-	def __init__(self):
-		self.program = [self.IsTarget()]
+	def __init__(self, func):
+		self.program = [self.MatchesFunc(func)]
 
-	def __repr__(self):
-		return "<TARGET>"
 
-	def eval(self, entities, source):
-		return [source.target]
+def ID(id):
+	return FuncSelector(lambda entity, source: getattr(entity, "id", None) == id)
 
-TARGET = TargetSelector()
+TARGET = FuncSelector(lambda entity, source: entity is source.target)
+TARGET.eval = lambda entity, source: [source.target]
 
 
 class AdjacentSelector(Selector):
@@ -314,25 +316,6 @@ class RandomSelector(Selector):
 		return result
 
 RANDOM = RandomSelector
-
-
-class FuncSelector(Selector):
-	"""
-	Selects cards after applying a filter function to them
-	"""
-	class MatchesFunc:
-		def __init__(self, func):
-			self.func = func
-
-		def test(self, entity, source):
-			return self.func(entity, source)
-
-	def __init__(self, func):
-		self.program = [self.MatchesFunc(func)]
-
-
-def ID(id):
-	return FuncSelector(lambda entity, source: getattr(entity, "id", None) == id)
 
 
 class Controller(LazyValue):
