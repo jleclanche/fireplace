@@ -635,6 +635,36 @@ def test_micro_machine():
 	assert micro.atk == 4
 
 
+def test_mimirons_head():
+	game = prepare_game()
+	head = game.player1.give("GVG_111")
+	head.play()
+	game.end_turn(); game.end_turn()
+
+	assert not head.dead
+	dummy1 = game.player1.give(TARGET_DUMMY)
+	dummy1.play()
+	dummy2 = game.player1.give(TARGET_DUMMY)
+	dummy2.play()
+	dummy3 = game.player1.give(TARGET_DUMMY)
+	dummy3.play()
+	game.end_turn()
+
+	assert not head.dead
+	game.end_turn()
+
+	assert head.dead
+	assert len(game.player1.field) == 1
+	voltron = game.player1.field[0]
+	assert voltron.id == "GVG_111t"
+	assert voltron.windfury == 3
+	assert voltron.charge
+	for i in range(4):
+		assert voltron.can_attack()
+		voltron.attack(game.player2.hero)
+	assert not voltron.can_attack()
+
+
 def test_neptulon():
 	game = prepare_game()
 	game.player1.discard_hand()
