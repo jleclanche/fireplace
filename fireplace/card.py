@@ -116,7 +116,7 @@ class BaseCard(BaseEntity):
 
 
 class PlayableCard(BaseCard, Entity, TargetableByAuras):
-	windfury = boolean_property("windfury")
+	windfury = int_property("windfury")
 	playable_zone = Zone.HAND
 
 	def __init__(self, data):
