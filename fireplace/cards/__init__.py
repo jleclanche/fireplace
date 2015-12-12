@@ -69,6 +69,12 @@ class CardDB(dict):
 		if not hasattr(card.scripts.Hand.events, "__iter__"):
 			card.scripts.Hand.events = [card.scripts.Hand.events]
 
+		if not hasattr(card.scripts.Hand, "update"):
+			card.scripts.Hand.update = ()
+
+		if not hasattr(card.scripts.Hand.update, "__iter__"):
+			card.scripts.Hand.update = (card.scripts.Hand.update, )
+
 		# Set some additional events based on the base tags...
 		if card.poisonous:
 			card.scripts.events.append(POISONOUS)
