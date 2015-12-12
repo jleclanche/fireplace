@@ -2,7 +2,7 @@ from itertools import chain
 from hearthstone.enums import CardType, PlayReq, Race, Rarity, Zone
 from . import actions, cards, rules
 from .aura import TargetableByAuras
-from .entity import BaseEntity, Entity, boolean_property, int_property
+from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
 from .managers import CardManager
 from .targeting import is_valid_target
 from .utils import CardList
@@ -334,6 +334,7 @@ class LiveEntity(PlayableCard, Entity):
 	has_deathrattle = boolean_property("has_deathrattle")
 	atk = int_property("atk")
 	cant_be_damaged = boolean_property("cant_be_damaged")
+	immune_while_attacking = slot_property("immune_while_attacking")
 	max_health = int_property("max_health")
 
 	def __init__(self, data):
@@ -345,6 +346,8 @@ class LiveEntity(PlayableCard, Entity):
 
 	@property
 	def immune(self):
+		if self.immune_while_attacking and self.attacking:
+			return True
 		return self.cant_be_damaged
 
 	@property
