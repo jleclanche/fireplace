@@ -546,13 +546,6 @@ class Minion(Character):
 		super().__init__(data)
 
 	@property
-	def events(self):
-		ret = super().events
-		if self.poisonous:
-			ret += rules.Poisonous
-		return ret
-
-	@property
 	def ignore_scripts(self):
 		return self.silenced
 
