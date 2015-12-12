@@ -50,6 +50,28 @@ class Evaluator:
 			source.game.trigger_actions(source, actions)
 
 
+class Attacking(Evaluator):
+	"""
+	Evaluates to True if any target in \a selector1 is attacking
+	any target in \a selector2.
+	"""
+	def __init__(self, selector1, selector2):
+		super().__init__()
+		self.selector1 = selector1
+		self.selector2 = selector2
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.selector1, self.selector2)
+
+	def check(self, source):
+		t1 = self.selector1.eval(source.game, source)
+		t2 = self.selector2.eval(source.game, source)
+		for entity in t1:
+			if entity.attacking:
+				return entity.attack_target in t2
+		return False
+
+
 class CurrentPlayer(Evaluator):
 	"""
 	Evaluates to True if the selector is the current player.
