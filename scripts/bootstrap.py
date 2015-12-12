@@ -162,6 +162,9 @@ def main():
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_ABILITIES, True)
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_HERO_POWERS, True)
 
+		if "<b>Mega-Windfury</b>" in card.description:
+			set_tag(card, GameTag.WINDFURY, 3)
+
 	# xml = db[next(db.__iter__())].xml
 	with open(sys.argv[2], "w", encoding="utf8") as f:
 		root = ElementTree.Element("CardDefs")

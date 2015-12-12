@@ -18,6 +18,7 @@ PREFIXES = {
 
 SOLVED_KEYWORDS = [
 	"Windfury", "Charge", "Divine Shield", "Taunt", "Stealth",
+	"Mega-Windfury",
 	"Can't be targeted by spells or Hero Powers",
 	"Destroy any minion damaged by this minion.",
 	"50% chance to attack the wrong enemy",
