@@ -129,15 +129,15 @@ def test_amani_berserker():
 
 def test_ancestral_healing():
 	game = prepare_empty_game()
-	watcher = game.player1.give("EX1_045")
-	watcher.play()
-	assert not watcher.taunt
-	assert watcher.health == 5
-	watcher.set_current_health(1)
-	assert watcher.health == 1
-	game.player1.give("CS2_041").play(watcher)
-	assert watcher.taunt
-	assert watcher.health == 5
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	game.player1.give(DAMAGE_5).play(target=statue)
+	assert not statue.taunt
+	assert statue.damage == 5
+	assert statue.health == 10 - 5
+	game.player1.give("CS2_041").play(statue)
+	assert statue.taunt
+	assert statue.health == 10
 
 
 def test_ancestral_spirit():
@@ -397,15 +397,17 @@ def test_betrayal():
 
 def test_betrayal_poisonous():
 	game = prepare_game()
-	watcher1 = game.player1.give("EX1_045").play()
+	statue1 = game.player1.give(ANIMATED_STATUE)
+	statue1.play()
 	cobra = game.player1.give("EX1_170").play()
-	watcher2 = game.player1.give("EX1_045").play()
+	statue2 = game.player1.give(ANIMATED_STATUE)
+	statue2.play()
 	game.end_turn()
 
 	game.player2.give("EX1_126").play(target=cobra)
-	assert watcher1.dead
+	assert statue1.dead
 	assert not cobra.dead
-	assert watcher2.dead
+	assert statue2.dead
 
 
 def test_big_game_hunter():
@@ -2286,30 +2288,30 @@ def test_savage_roar():
 
 def test_savagery():
 	game = prepare_game(DRUID, DRUID)
-	watcher = game.player1.give("EX1_045")
-	watcher.play()
-	assert watcher.health == 5
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	assert statue.health == 10
 	savagery1 = game.player1.give("EX1_578")
-	savagery1.play(watcher)
-	assert watcher.health == 5
+	savagery1.play(statue)
+	assert statue.health == 10
 
-	game.player1.give(HAND_OF_PROTECTION).play(target=watcher)
+	game.player1.give(HAND_OF_PROTECTION).play(target=statue)
 	savagery2 = game.player1.give("EX1_578")
-	savagery2.play(watcher)
-	assert watcher.divine_shield
-	game.player1.give(MOONFIRE).play(target=watcher)
-	assert not watcher.divine_shield
+	savagery2.play(statue)
+	assert statue.divine_shield
+	game.player1.give(MOONFIRE).play(target=statue)
+	assert not statue.divine_shield
 
 	game.player1.hero.power.use()
 	savagery3 = game.player1.give("EX1_578")
-	savagery3.play(watcher)
-	assert watcher.health == 5 - 1
+	savagery3.play(statue)
+	assert statue.damage == 1
 	game.end_turn(); game.end_turn()
 
 	game.player1.give(KOBOLD_GEOMANCER).play()
 	savagery4 = game.player1.give("EX1_578")
-	savagery4.play(watcher)
-	assert watcher.health == 5 - 1 - 1
+	savagery4.play(statue)
+	assert statue.damage == 1 + 1
 
 
 def test_sea_giant():
@@ -2688,17 +2690,17 @@ def test_stampeding_kodo():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
 	wisp.play()
-	watcher = game.player1.give("EX1_045")
-	watcher.play()
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
 	game.end_turn()
 
 	kodo = game.player2.give("NEW1_041")
 	kodo.play()
 	assert wisp.dead
-	assert not watcher.dead
+	assert not statue.dead
 	kodo2 = game.player2.give("NEW1_041")
 	kodo2.play()
-	assert not watcher.dead
+	assert not statue.dead
 
 
 def test_starfall_5_to_one():

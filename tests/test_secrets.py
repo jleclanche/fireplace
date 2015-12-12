@@ -565,11 +565,10 @@ def test_snipe():
 	snipe2.play()
 	game.end_turn()
 
-	watcher = game.player1.give("EX1_045")
-	watcher.play()
-	assert not watcher.can_attack()
-	assert not watcher.dead
-	assert watcher.health == 1
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	assert not statue.dead
+	assert statue.health == 10 - 4
 
 
 def test_snipe_druid_of_the_claw():

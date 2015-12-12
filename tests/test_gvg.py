@@ -68,23 +68,19 @@ def test_bolvar_fordragon():
 def test_bomb_lobber():
 	game = prepare_game()
 	lobber1 = game.player1.give("GVG_099")
-	lobber2 = game.player1.give("GVG_099")
-	game.end_turn()
-
-	wisp = game.player2.give(WISP)
-	warden = game.player2.give("EX1_396")
-	game.end_turn()
-
 	lobber1.play()
 	assert game.player2.hero.health == 30
 	game.end_turn()
 
+	wisp = game.player2.give(WISP)
 	wisp.play()
-	warden.play()
+	statue = game.player2.give(ANIMATED_STATUE)
+	statue.play()
 	game.end_turn()
 
+	lobber2 = game.player1.give("GVG_099")
 	lobber2.play()
-	assert wisp.dead ^ (warden.health == 7 - 4)
+	assert wisp.dead ^ (statue.health == 10 - 4)
 
 
 def test_bouncing_blade():
@@ -862,12 +858,12 @@ def test_unstable_portal():
 def test_voljin():
 	game = prepare_game()
 	voljin = game.player1.give("GVG_014")
-	deathwing = game.player1.summon("NEW1_030")
+	statue = game.player1.summon(ANIMATED_STATUE)
 	assert voljin.health == 2
-	assert deathwing.health == 12
-	voljin.play(target=deathwing)
-	assert voljin.health == 12
-	assert deathwing.health == 2
+	assert statue.health == 10
+	voljin.play(target=statue)
+	assert voljin.health == 10
+	assert statue.health == 2
 
 
 def test_voljin_stealth():

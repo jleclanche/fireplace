@@ -10,6 +10,7 @@ from fireplace.logging import log
 
 
 # Token minions
+ANIMATED_STATUE = "LOEA04_27"
 GOLDSHIRE_FOOTMAN = "CS1_042"
 TARGET_DUMMY = "GVG_093"
 KOBOLD_GEOMANCER = "CS2_142"
