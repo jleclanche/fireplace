@@ -141,7 +141,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	def cost(self):
 		ret = self._getattr("cost", 0)
 		if self.zone == Zone.HAND:
-			mod = getattr(self.data.scripts, "cost_mod", None)
+			mod = self.data.scripts.cost_mod
 			if mod is not None:
 				r = mod.evaluate(self)
 				# evaluate() can return None if it's an Evaluator (Crush)
@@ -158,9 +158,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		Returns True whether the card is "powered up".
 		"""
-		script = getattr(self.data.scripts, "powered_up", None)
-		if script:
-			return script.check(self)
+		if self.data.scripts.powered_up:
+			return self.data.scripts.powered_up.check(self)
 		return False
 
 	@property
@@ -594,8 +593,7 @@ class Minion(Character):
 	def update_scripts(self):
 		ret = super().update_scripts
 		if self.enraged:
-			script = self.data.scripts.enrage
-			ret += (script, )
+			ret += self.data.scripts.enrage
 		return ret
 
 	def _set_zone(self, value):

@@ -7,7 +7,8 @@ from ..utils import get_script_definition
 
 
 ACTION_SCRIPTS = ("activate", "combo", "deathrattle", "draw", "inspire", "play")
-EVENT_SCRIPTS = ("events", "in_hand", "update")
+EVENT_SCRIPTS = ("enrage", "events", "in_hand", "update")
+EVAL_SCRIPTS = ("cost_mod", "powered_up")
 
 
 class CardDB(dict):
@@ -53,6 +54,11 @@ class CardDB(dict):
 				setattr(card.scripts, script, [])
 			elif not hasattr(actions, "__iter__") and not callable(actions):
 				setattr(card.scripts, script, [actions])
+
+		for script in EVAL_SCRIPTS:
+			func = getattr(card.scripts, script, None)
+			if func is None:
+				setattr(card.scripts, script, None)
 
 		return card
 
