@@ -30,7 +30,7 @@ fi
 CARDDEFS_OUT="$BASEDIR/../fireplace/CardDefs.xml"
 
 command -v readlink &>/dev/null && {
-	CARDDEFS_OUT=$(readlink -f "$CARDDEFS_OUT")
+	CARDDEFS_OUT=$(readlink -f "$CARDDEFS_OUT" || stat -f "%Y" "$CARDDEFS_OUT")
 }
 
 "$BASEDIR/bootstrap.py" "$HSDATA_DIR" "$CARDDEFS_OUT"
