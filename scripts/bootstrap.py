@@ -166,7 +166,8 @@ def main():
 			set_tag(card, GameTag.WINDFURY, 3)
 
 	# xml = db[next(db.__iter__())].xml
-	with open(sys.argv[2], "w", encoding="utf8") as f:
+	path = os.path.realpath(sys.argv[2])
+	with open(path, "w", encoding="utf8") as f:
 		root = ElementTree.Element("CardDefs")
 		for e in xml.findall("Entity"):
 			# We want to retain the order so we can't just use db.keys()
@@ -184,7 +185,7 @@ def main():
 		outstr = minidom.parseString(outstr).toprettyxml(indent="\t")
 		outstr = "\n".join(line for line in outstr.split("\n") if line.strip())
 		f.write(outstr)
-		print("Written to", f.name)
+		print("Written to", path)
 
 
 if __name__ == "__main__":

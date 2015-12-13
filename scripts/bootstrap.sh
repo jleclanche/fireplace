@@ -3,6 +3,7 @@ set -e
 
 BASEDIR="$(dirname $0)"
 HSDATA_DIR="$BASEDIR/hs-data"
+CARDDEFS_OUT="$BASEDIR/../fireplace/CardDefs.xml"
 HSDATA_URL="https://github.com/HearthSim/hs-data.git"
 
 # check python version
@@ -27,10 +28,4 @@ else
 	git -C "$HSDATA_DIR" reset --hard origin/master
 fi
 
-CARDDEFS_OUT="$BASEDIR/../fireplace/CardDefs.xml"
-
-command -v readlink &>/dev/null && {
-	CARDDEFS_OUT=$(readlink -f "$CARDDEFS_OUT" || stat -f "%Y" "$CARDDEFS_OUT")
-}
-
-"$BASEDIR/bootstrap.py" "$HSDATA_DIR" "$CARDDEFS_OUT"
+python "$BASEDIR/bootstrap.py" "$HSDATA_DIR" "$CARDDEFS_OUT"
