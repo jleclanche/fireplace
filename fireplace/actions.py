@@ -142,8 +142,28 @@ class Attack(GameAction):
 		source.game.proposed_defender = defender
 		log.info("%r attacks %r", attacker, defender)
 		self.broadcast(source, EventListener.ON, attacker, defender)
-		source.game._attack()
+
+		defender = source.game.proposed_defender
+		source.game.proposed_attacker = None
+		source.game.proposed_defender = None
+		if attacker.should_exit_combat:
+			log.info("Attack has been interrupted.")
+			attacker.attack_target = None
+			defender.defending = False
+			return
+
+		# Save the attacker/defender atk values in case they change during the attack
+		# (eg. in case of Enrage)
+		def_atk = defender.atk
+		source.game.queue_actions(attacker, [Hit(defender, attacker.atk)])
+		if def_atk:
+			source.game.queue_actions(defender, [Hit(attacker, def_atk)])
+
 		self.broadcast(source, EventListener.AFTER, attacker, defender)
+
+		attacker.attack_target = None
+		defender.defending = False
+		attacker.num_attacks += 1
 
 
 class BeginTurn(GameAction):

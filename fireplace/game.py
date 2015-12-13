@@ -80,30 +80,6 @@ class BaseGame(Entity):
 	def attack(self, source, target):
 		return self.queue_actions(source, [Attack(source, target)])
 
-	def _attack(self):
-		"""
-		See https://github.com/jleclanche/fireplace/wiki/Combat
-		for information on how attacking works
-		"""
-		attacker = self.proposed_attacker
-		defender = self.proposed_defender
-		self.proposed_attacker = None
-		self.proposed_defender = None
-		if attacker.should_exit_combat:
-			self.log("Attack has been interrupted.")
-			attacker.attack_target = None
-			defender.defending = False
-			return
-		# Save the attacker/defender atk values in case they change during the attack
-		# (eg. in case of Enrage)
-		def_atk = defender.atk
-		self.queue_actions(attacker, [Hit(defender, attacker.atk)])
-		if def_atk:
-			self.queue_actions(defender, [Hit(attacker, def_atk)])
-		attacker.attack_target = None
-		defender.defending = False
-		attacker.num_attacks += 1
-
 	def _play(self, card):
 		"""
 		Plays \a card from a Player's hand
