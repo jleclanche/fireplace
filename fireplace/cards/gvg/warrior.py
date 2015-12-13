@@ -28,7 +28,7 @@ class GVG_056:
 
 # Burrowing Mine
 class GVG_056t:
-	draw = Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER), Destroy(SELF)
+	draw = Destroy(SELF), Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER)
 
 
 # Siege Engine
