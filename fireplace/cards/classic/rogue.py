@@ -83,7 +83,7 @@ class CS2_077:
 
 # Blade Flurry
 class CS2_233:
-	play = Hit(ENEMY_CHARACTERS, Attr(FRIENDLY_WEAPON, GameTag.ATK)), Destroy(FRIENDLY_WEAPON)
+	play = Hit(ENEMY_CHARACTERS, ATK(FRIENDLY_WEAPON)), Destroy(FRIENDLY_WEAPON)
 
 
 # Eviscerate
@@ -94,7 +94,7 @@ class EX1_124:
 
 # Betrayal
 class EX1_126:
-	play = Hit(SELF_ADJACENT, Attr(SELF, GameTag.ATK), source=TARGET)
+	play = Hit(SELF_ADJACENT, ATK(SELF), source=TARGET)
 
 
 # Conceal

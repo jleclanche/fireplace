@@ -219,7 +219,7 @@ class EX1_tk9:
 
 # Savagery
 class EX1_578:
-	play = Hit(TARGET, Attr(FRIENDLY_HERO, GameTag.ATK))
+	play = Hit(TARGET, ATK(FRIENDLY_HERO))
 
 
 # Starfall

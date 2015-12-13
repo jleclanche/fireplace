@@ -100,7 +100,7 @@ class FP1_026:
 
 # Stoneskin Gargoyle
 class FP1_027:
-	events = OWN_TURN_BEGIN.on(Heal(SELF, Attr(SELF, GameTag.DAMAGE)))
+	events = OWN_TURN_BEGIN.on(Heal(SELF, DAMAGE(SELF)))
 
 
 # Undertaker

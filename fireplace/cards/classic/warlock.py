@@ -32,7 +32,7 @@ class EX1_301:
 # Void Terror
 class EX1_304:
 	play = (
-		Buff(SELF, "EX1_304e", atk=Attr(SELF_ADJACENT, GameTag.ATK), max_health=Attr(SELF_ADJACENT, "health")),
+		Buff(SELF, "EX1_304e", atk=ATK(SELF_ADJACENT), max_health=Attr(SELF_ADJACENT, "health")),
 		Destroy(SELF_ADJACENT)
 	)
 
@@ -109,7 +109,7 @@ class EX1_302:
 
 # Shadowflame
 class EX1_303:
-	play = Hit(ENEMY_MINIONS, Attr(TARGET, GameTag.ATK)), Destroy(TARGET)
+	play = Hit(ENEMY_MINIONS, ATK(TARGET)), Destroy(TARGET)
 
 
 # Soulfire

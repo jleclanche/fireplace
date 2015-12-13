@@ -40,7 +40,7 @@ EX1_590e = buff(+3, +3)
 
 # Molten Giant
 class EX1_620:
-	cost_mod = -Attr(FRIENDLY_HERO, GameTag.DAMAGE)
+	cost_mod = -DAMAGE(FRIENDLY_HERO)
 
 
 # Captain's Parrot

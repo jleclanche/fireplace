@@ -54,7 +54,7 @@ class TB_MechWar_Boss2_HeroPower:
 
 # Mysterious Pilot
 class TB_Pilot1:
-	deathrattle = Summon(CONTROLLER, RandomMinion(cost=Attr(SELF, GameTag.COST)))
+	deathrattle = Summon(CONTROLLER, RandomMinion(cost=COST(SELF)))
 	tags = {GameTag.DEATHRATTLE: True}
 
 

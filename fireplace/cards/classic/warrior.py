@@ -115,7 +115,7 @@ EX1_409e = buff(+1, +1)
 
 # Shield Slam
 class EX1_410:
-	play = Hit(TARGET, Attr(FRIENDLY_HERO, GameTag.ARMOR))
+	play = Hit(TARGET, ARMOR(FRIENDLY_HERO))
 
 
 # Shield Block

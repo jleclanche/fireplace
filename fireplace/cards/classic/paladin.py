@@ -113,7 +113,7 @@ class EX1_363e2:
 
 # Holy Wrath
 class EX1_365:
-	play = Hit(TARGET, Attr(Draw(CONTROLLER), GameTag.COST))
+	play = Hit(TARGET, COST(Draw(CONTROLLER)))
 
 
 # Hand of Protection

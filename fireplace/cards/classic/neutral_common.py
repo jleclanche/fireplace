@@ -244,12 +244,12 @@ class EX1_583:
 
 # Bloodsail Raider
 class NEW1_018:
-	play = Find(FRIENDLY_WEAPON) & Buff(SELF, "NEW1_018e", atk=Attr(FRIENDLY_WEAPON, GameTag.ATK))
+	play = Find(FRIENDLY_WEAPON) & Buff(SELF, "NEW1_018e", atk=ATK(FRIENDLY_WEAPON))
 
 
 # Dread Corsair
 class NEW1_022:
-	cost_mod = -Attr(FRIENDLY_WEAPON, GameTag.ATK)
+	cost_mod = -ATK(FRIENDLY_WEAPON)
 
 
 # Flesheating Ghoul

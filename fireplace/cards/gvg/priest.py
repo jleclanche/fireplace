@@ -60,4 +60,4 @@ GVG_010b = buff(+2, +4, spellpower=1)
 
 # Light of the Naaru
 class GVG_012:
-	play = Heal(TARGET, 3), (Attr(TARGET, GameTag.DAMAGE) >= 1) & Summon(CONTROLLER, "EX1_001")
+	play = Heal(TARGET, 3), (DAMAGE(TARGET) >= 1) & Summon(CONTROLLER, "EX1_001")

@@ -66,7 +66,7 @@ class BRMC_92:
 
 # Golemagg
 class BRMC_95:
-	cost_mod = -Attr(FRIENDLY_HERO, GameTag.DAMAGE)
+	cost_mod = -DAMAGE(FRIENDLY_HERO)
 
 
 # High Justice Grimstone

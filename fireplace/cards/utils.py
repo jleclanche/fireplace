@@ -46,7 +46,7 @@ GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD, ))
 GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
 
 
-CLEAVE = Hit(TARGET_ADJACENT, Attr(SELF, GameTag.ATK))
+CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))
 COINFLIP = RandomNumber(0, 1) == 1
 EMPTY_HAND = Count(FRIENDLY_HAND) == 0
 HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON)

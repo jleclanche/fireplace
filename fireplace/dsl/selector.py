@@ -205,9 +205,11 @@ class AttrSelector(Selector):
 	__le__ = _cmp("le")
 	__lt__ = _cmp("lt")
 
-CONTROLLER = AttrSelector(GameTag.CONTROLLER)
+ARMOR = AttrSelector(GameTag.ARMOR)
 ATK = AttrSelector(GameTag.ATK)
+CONTROLLER = AttrSelector(GameTag.CONTROLLER)
 COST = AttrSelector(GameTag.COST)
+DAMAGE = AttrSelector(GameTag.DAMAGE)
 
 
 class SelfSelector(Selector):

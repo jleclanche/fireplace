@@ -46,5 +46,5 @@ class AT_005:
 class AT_002:
 	events = Death(FRIENDLY + MINION).on(
 		Reveal(SELF),
-		Summon(CONTROLLER, RandomMinion(cost=Attr(Death.ENTITY, GameTag.COST)))
+		Summon(CONTROLLER, RandomMinion(cost=COST(Death.ENTITY)))
 	)

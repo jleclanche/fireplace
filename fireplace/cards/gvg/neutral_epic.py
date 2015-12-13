@@ -38,7 +38,7 @@ class GVG_107:
 
 # Recombobulator
 class GVG_108:
-	play = Morph(TARGET, RandomMinion(cost=Attr(TARGET, GameTag.COST)))
+	play = Morph(TARGET, RandomMinion(cost=COST(TARGET)))
 
 
 # Clockwork Giant
