@@ -220,6 +220,28 @@ class EndTurn(GameAction):
 		source.game._end_turn()
 
 
+class GenericChoice(GameAction):
+	ARGS = ("PLAYER", "CARDS")
+
+	def get_args(self, source):
+		player = self._args[0].eval(source.game.players, source)
+		assert len(player) == 1
+		cards = self._args[1].eval(source.game, source)
+		return player[0], cards
+
+	def do(self, source, player, cards):
+		player.choice = self
+		self.player = player
+		self.cards = cards
+
+	def choose(self, card):
+		for _card in self.cards:
+			if _card is card and len(self.player.hand) < self.player.max_hand_size:
+				_card.zone = Zone.HAND
+			else:
+				_card.discard()
+
+
 class MulliganChoice(GameAction):
 	ARGS = ("PLAYER", )
 
