@@ -1,5 +1,5 @@
 from itertools import chain
-from hearthstone.enums import CardType, PlayReq, Race, Rarity, Zone
+from hearthstone.enums import CardType, PlayReq, Race, Rarity, Step, Zone
 from . import actions, cards, rules
 from .aura import TargetableByAuras
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
@@ -236,9 +236,12 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			self.log("%s draws %r", self.controller, self)
 			self.zone = Zone.HAND
 			self.controller.cards_drawn_this_turn += 1
-			actions = self.get_actions("draw")
-			if actions:
-				self.game.queue_actions(self, actions)
+
+			if self.game.step > Step.BEGIN_MULLIGAN:
+				# Proc the draw script, but only if we are past mulligan
+				actions = self.get_actions("draw")
+				if actions:
+					self.game.queue_actions(self, actions)
 
 	def heal(self, target, amount):
 		return self.game.queue_actions(self, [actions.Heal(target, amount)])
