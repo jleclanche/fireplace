@@ -23,13 +23,16 @@ def test_blackwing_technician():
 	game = prepare_game()
 	game.player1.discard_hand()
 	blackwing1 = game.player1.give("BRM_033")
+	assert not blackwing1.powered_up
 	blackwing1.play()
 	assert not blackwing1.buffs
 	assert blackwing1.atk == 2
 	assert blackwing1.health == 4
 
-	game.player1.give(WHELP)
 	blackwing2 = game.player1.give("BRM_033")
+	assert not blackwing2.powered_up
+	game.player1.give(WHELP)
+	assert blackwing2.powered_up
 	blackwing2.play()
 	assert blackwing2.buffs
 	assert blackwing2.atk == 3
@@ -355,10 +358,13 @@ def test_resurrect_wild_pyro():
 def test_rend_blackhand():
 	game = prepare_empty_game()
 	rend1 = game.player1.give("BRM_029")
+	assert not rend1.powered_up
 	assert not rend1.has_target()
 	game.player1.give(WHELP)
+	assert not rend1.powered_up
 	assert not rend1.has_target()
 	pagle = game.player2.summon("EX1_557")
+	assert rend1.powered_up
 	assert rend1.has_target()
 	assert rend1.targets == [pagle]
 	rend1.play(target=pagle)
@@ -377,13 +383,18 @@ def test_revenge():
 	dummy1 = game.player1.summon(TARGET_DUMMY)
 	assert dummy1.health == 2
 	assert game.player1.hero.health == 30
-	game.player1.give("BRM_015").play()
+	revenge = game.player1.give("BRM_015")
+	assert not revenge.powered_up
+	revenge.play()
 	assert dummy1.health == 1
 	assert game.player1.hero.health == 30
 	dummy2 = game.player1.summon(TARGET_DUMMY)
-	game.player1.hero.set_current_health(12)
 	assert dummy2.health == 2
-	game.player1.give("BRM_015").play()
+	revenge2 = game.player1.give("BRM_015")
+	assert not revenge2.powered_up
+	game.player1.hero.set_current_health(12)
+	assert revenge2.powered_up
+	revenge2.play()
 	assert dummy1.dead
 	assert dummy2.dead
 

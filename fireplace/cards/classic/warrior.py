@@ -98,7 +98,8 @@ class EX1_407:
 
 # Mortal Strike
 class EX1_408:
-	play = (Attr(FRIENDLY_HERO, "health") <= 12) & Hit(TARGET, 6) | Hit(TARGET, 4)
+	powered_up = Attr(FRIENDLY_HERO, "health") <= 12
+	play = powered_up & Hit(TARGET, 6) | Hit(TARGET, 4)
 
 
 # Upgrade!

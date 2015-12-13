@@ -92,7 +92,8 @@ class BRM_022:
 
 # Drakonid Crusher
 class BRM_024:
-	play = (Attr(ENEMY_HERO, "health") <= 15) & Buff(SELF, "BRM_024e")
+	powered_up = Attr(ENEMY_HERO, "health") <= 15
+	play = powered_up & Buff(SELF, "BRM_024e")
 
 BRM_024e = buff(+3, +3)
 
@@ -131,6 +132,7 @@ class BRM_028e:
 
 # Rend Blackhand
 class BRM_029:
+	powered_up = HOLDING_DRAGON, Find(ENEMY_MINIONS + LEGENDARY)
 	play = HOLDING_DRAGON & Destroy(TARGET)
 
 
@@ -154,6 +156,7 @@ class BRM_031:
 
 # Blackwing Technician
 class BRM_033:
+	powered_up = HOLDING_DRAGON
 	play = HOLDING_DRAGON & Buff(SELF, "BRM_033e")
 
 BRM_033e = buff(+1, +1)
@@ -161,6 +164,7 @@ BRM_033e = buff(+1, +1)
 
 # Blackwing Corruptor
 class BRM_034:
+	powered_up = HOLDING_DRAGON
 	play = HOLDING_DRAGON & Hit(TARGET, 3)
 
 
@@ -214,7 +218,8 @@ class BRM_013:
 
 # Revenge
 class BRM_015:
-	play = (Attr(FRIENDLY_HERO, "health") <= 12) & Hit(ALL_MINIONS, 3) | Hit(ALL_MINIONS, 1)
+	powered_up = Attr(FRIENDLY_HERO, "health") <= 12
+	play = powered_up & Hit(ALL_MINIONS, 3) | Hit(ALL_MINIONS, 1)
 
 
 # Resurrect

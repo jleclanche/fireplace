@@ -1986,7 +1986,7 @@ def test_mortal_strike():
 			game.end_turn(); game.end_turn()
 
 	ms = game.player1.give("EX1_408")
-	# assert ms.powered_up  # TODO
+	assert ms.powered_up
 	ms.play(target=game.player1.hero)
 	expected_health -= 6
 	assert game.player1.hero.health == expected_health
