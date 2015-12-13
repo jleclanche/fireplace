@@ -1,7 +1,7 @@
 import operator
 import random
 from enum import IntEnum
-from hearthstone.enums import CardType, GameTag, Race, Zone
+from hearthstone.enums import CardType, GameTag, Race, Rarity, Zone
 from .. import enums
 from ..utils import CardList
 from .lazynum import LazyValue
@@ -374,6 +374,7 @@ CONTROLLED_BY_TARGET = CONTROLLER == Controller(TARGET)
 GameTag.test = lambda self, entity, *args: entity is not None and bool(entity.tags.get(self))
 CardType.test = lambda self, entity, *args: entity is not None and self == entity.type
 Race.test = lambda self, entity, *args: entity is not None and self == getattr(entity, "race", Race.INVALID)
+Rarity.test = lambda self, entity, *args: entity is not None and self == getattr(entity, "rarity", Rarity.INVALID)
 Zone.test = lambda self, entity, *args: entity is not None and self == entity.zone
 
 
@@ -417,6 +418,11 @@ MECH = Selector(Race.MECHANICAL)
 MURLOC = Selector(Race.MURLOC)
 PIRATE = Selector(Race.PIRATE)
 TOTEM = Selector(Race.TOTEM)
+
+COMMON = Selector(Rarity.COMMON)
+RARE = Selector(Rarity.RARE)
+EPIC = Selector(Rarity.EPIC)
+LEGENDARY = Selector(Rarity.LEGENDARY)
 
 ALL_PLAYERS = IN_PLAY + PLAYER
 ALL_HEROES = IN_PLAY + HERO
