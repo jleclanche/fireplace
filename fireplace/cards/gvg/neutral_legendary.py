@@ -17,7 +17,7 @@ class GVG_110t:
 class GVG_111:
 	events = OWN_TURN_BEGIN.on(
 		(Count(FRIENDLY_MINIONS + MECH) >= 4) &
-		Destroy(FRIENDLY_MINIONS + MECH), Summon(CONTROLLER, "GVG_111t")
+		Destroy(FRIENDLY_MINIONS + MECH), Deaths(), Summon(CONTROLLER, "GVG_111t")
 	)
 
 

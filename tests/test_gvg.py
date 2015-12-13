@@ -665,6 +665,19 @@ def test_mimirons_head():
 	assert not voltron.can_attack()
 
 
+def test_mimirons_head_full_board():
+	game = prepare_game()
+	head = game.player1.give("GVG_111")
+	head.play()
+	for i in range(6):
+		game.player1.give(TARGET_DUMMY).play()
+	game.end_turn(); game.end_turn()
+
+	assert head.dead
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "GVG_111t"
+
+
 def test_neptulon():
 	game = prepare_game()
 	game.player1.discard_hand()
