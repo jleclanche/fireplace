@@ -106,6 +106,10 @@ class EX1_363:
 class EX1_363e:
 	events = Attack(OWNER).on(Draw(CONTROLLER))
 
+# Blessing of Wisdom (Unused)
+class EX1_363e2:
+	events = Attack(OWNER).on(Draw(OWNER_OPPONENT))
+
 
 # Holy Wrath
 class EX1_365:
