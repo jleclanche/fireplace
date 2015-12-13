@@ -202,6 +202,11 @@ class XXX_051:
 	play = SetTag(TARGET, (GameTag.CANT_BE_DAMAGED, ))
 
 
+# Grant Mega-Windfury
+class XXX_052:
+	play = SetTag(TARGET, {GameTag.WINDFURY: 3})
+
+
 # Armor 100
 class XXX_053:
 	play = GainArmor(TARGET, 100)
@@ -262,3 +267,8 @@ class XXX_062:
 # Destroy ALL Secrets
 class XXX_063:
 	play = Destroy(ALL_SECRETS)
+
+
+# Remove All Immune
+class XXX_065:
+	play = UnsetTag(TARGET, (GameTag.CANT_BE_DAMAGED, ))
