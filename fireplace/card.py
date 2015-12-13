@@ -669,7 +669,7 @@ class Spell(PlayableCard):
 class Secret(Spell):
 	@property
 	def exhausted(self):
-		return not self.controller.current_player
+		return self.zone == Zone.SECRET and self.controller.current_player
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:

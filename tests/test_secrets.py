@@ -7,20 +7,24 @@ def test_avenge():
 	wisp1 = game.player1.give(WISP)
 	avenge.play()
 	wisp1.play()
+	assert avenge.exhausted
 	game.end_turn()
 
+	assert not avenge.exhausted
 	stonetusk1 = game.player2.give("CS2_171")
 	stonetusk1.play()
 	stonetusk1.attack(wisp1)
 	assert avenge in game.player1.secrets
 	game.end_turn()
 
+	assert avenge.exhausted
 	wisp2 = game.player1.give(WISP)
 	wisp3 = game.player1.give(WISP)
 	wisp2.play()
 	wisp3.play()
 	game.end_turn()
 
+	assert not avenge.exhausted
 	stonetusk2 = game.player2.give("CS2_171")
 	stonetusk2.play()
 	stonetusk2.attack(wisp3)
