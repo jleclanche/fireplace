@@ -780,8 +780,12 @@ class SetTag(TargetedAction):
 	ARGS = ("TARGETS", "TAGS")
 
 	def do(self, source, target, tags):
-		for tag in tags:
-			target.tags[tag] = True
+		if isinstance(tags, dict):
+			for tag, value in tags.items():
+				target.tags[tag] = value
+		else:
+			for tag in tags:
+				target.tags[tag] = True
 
 
 class UnsetTag(TargetedAction):
