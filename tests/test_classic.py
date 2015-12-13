@@ -2928,6 +2928,18 @@ def test_totemic_might():
 	assert searing.health == 3
 
 
+def test_tracking():
+	game = prepare_game()
+	game.player1.discard_hand()
+	tracking = game.player1.give("DS1_184")
+	tracking.play()
+	assert game.player1.choice
+	assert len(game.player1.choice.cards) == 3
+	pick = game.player1.choice.cards[0]
+	game.player1.choice.choose(pick)
+	assert game.player1.hand == [pick]
+
+
 def test_truesilver_champion():
 	game = prepare_game()
 	truesilver = game.current_player.give("CS2_097")

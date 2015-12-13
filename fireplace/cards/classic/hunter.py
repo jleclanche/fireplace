@@ -78,6 +78,11 @@ class DS1_183:
 	play = Hit(RANDOM_ENEMY_MINION * 2, 3)
 
 
+# Tracking
+class DS1_184:
+	play = GenericChoice(CONTROLLER, FRIENDLY_DECK[:3])
+
+
 # Arcane Shot
 class DS1_185:
 	play = Hit(TARGET, 2)
