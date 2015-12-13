@@ -143,6 +143,7 @@ class Attack(GameAction):
 		log.info("%r attacks %r", attacker, defender)
 		self.broadcast(source, EventListener.ON, attacker, defender)
 		source.game._attack()
+		self.broadcast(source, EventListener.AFTER, attacker, defender)
 
 
 class BeginTurn(GameAction):
