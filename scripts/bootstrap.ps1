@@ -1,27 +1,32 @@
-$BaseDir = Split-Path $script:MyInvocation.MyCommand.Path
-$HsdataDir = "$DataDir/hs-data"
-$HsdataUrl = "https://github.com/HearthSim/hs-data.git"
+#!PowerShell
+
+$BASEDIR=Split-Path $script:MyInvocation.MyCommand.Path
+$HSDATA_URL="https://github.com/HearthSim/hs-data.git"
+$HSDATA_DIR="$BASEDIR/hs-data"
+$CARDDEFS_OUT="$BASEDIR/../fireplace/CardDefs.xml"
 
 # check python version
-$PyMajor = $(python -c 'import sys; print(sys.version_info[0])')
-$PyMinor = $(python -c 'import sys; print(sys.version_info[1])')
+$PY_MAJOR=$(python -c 'import sys; print(sys.version_info[0])')
+$PY_MINOR=$(python -c 'import sys; print(sys.version_info[1])')
 
-if ($PyMajor -lt 3) {
-	Throw "ERROR: Python 3 and above is required to run Fireplace."
+if ($PY_MAJOR -lt 3 -Or $PY_MINOR -lt 4) {
+	Write-Error "ERROR: Python 3.4 is required to run Fireplace."
+	exit 1
 }
 
-if ($PyMinor -lt 4) {
-	Write-Error "WARNING: Python versions older than 3.4 are known to have issues."
+if ((Get-Command "git.exe" -ErrorAction SilentlyContinue) -eq $null) {
+	Write-Error "ERROR: git is required to bootstrap Fireplace."
+	exit 1
 }
 
-Write-Output "Fetching data files from $HsdataUrl"
-if (!(Test-Path $HsdataDir)) {
-	git clone --depth=1 $HsdataUrl $HsdataDir
+Write-Output "Fetching data files from $HSDATA_URL"
+if (!(Test-Path $HSDATA_DIR)) {
+	git clone --depth=1 $HSDATA_URL $HSDATA_DIR
 } else {
-	git -C $HsdataDir fetch | Write-Output
+	git -C $HSDATA_DIR fetch | Write-Output
 	if ($?) {
-		git -C $HsdataDir reset --hard origin/master | Write-Output
+		git -C $HSDATA_DIR reset --hard origin/master | Write-Output
 	}
 }
 
-python "$BaseDir/bootstrap.py" $HsdataDir "$BaseDir/../fireplace/CardDefs.xml"
+python "$BASEDIR/bootstrap.py" $HSDATA_DIR $CARDDEFS_OUT

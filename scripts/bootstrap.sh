@@ -1,10 +1,9 @@
 #!/bin/bash
-set -e
 
 BASEDIR="$(dirname $0)"
+HSDATA_URL="https://github.com/HearthSim/hs-data.git"
 HSDATA_DIR="$BASEDIR/hs-data"
 CARDDEFS_OUT="$BASEDIR/../fireplace/CardDefs.xml"
-HSDATA_URL="https://github.com/HearthSim/hs-data.git"
 
 # check python version
 PY_MAJOR=$(python -c 'import sys; print(sys.version_info[0])')
