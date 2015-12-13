@@ -187,6 +187,11 @@ class AttrSelector(Selector):
 		self.tag = tag
 		self.program = []
 
+	def __call__(self, selector):
+		from .lazynum import Attr
+
+		return Attr(selector, self.tag)
+
 	def _cmp(op):
 		def func(self, other):
 			sel = self.__class__(self.tag)
