@@ -109,7 +109,7 @@ class NAX13_02:
 
 # Frost Breath
 class NAX14_02:
-	activate = Destroy(ENEMY_MINIONS - FROZEN)
+	activate = Destroy(ENEMY_MINIONS - FROZEN - ADJACENT(ID("NAX14_03")))
 
 
 # Frost Blast
@@ -191,6 +191,11 @@ class NAX9_04:
 
 class NAX9_04H:
 	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+
+
+# Frozen Champion
+class NAX14_03:
+	update = Refresh(SELF, {GameTag.FROZEN: True})
 
 
 # Necroknight
