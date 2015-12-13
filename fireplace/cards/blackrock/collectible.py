@@ -134,6 +134,19 @@ class BRM_029:
 	play = HOLDING_DRAGON & Destroy(TARGET)
 
 
+# Nefarian
+class BRM_030:
+	play = Find(ENEMY_HERO + CLASS_CARD) & (
+		Give(CONTROLLER, RandomSpell(card_class=ENEMY_CLASS)) * 2
+	) | (
+		Give(CONTROLLER, "BRM_030t") * 2
+	)
+
+# Tail Swipe
+class BRM_030t:
+	play = Hit(TARGET, 4)
+
+
 # Chromaggus
 class BRM_031:
 	events = Draw(CONTROLLER).on(Give(CONTROLLER, Copy(Draw.CARD)))
