@@ -318,6 +318,19 @@ def test_reincarnate():
 	assert not leeroy2.can_attack()
 
 
+def test_reincarnate_explosive_sheep():
+	"""
+	Test Reincarnate's forced deaths by playing it on an Explosive Sheep
+	"""
+	game = prepare_game()
+	sheep = game.player1.give("GVG_076")
+	sheep.play()
+	reincarnate = game.player1.give("FP1_025")
+	reincarnate.play(target=sheep)
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "GVG_076"
+
+
 def test_reincarnate_kel_thuzad():
 	game = prepare_game()
 	kelthuzad = game.player1.give("FP1_013")

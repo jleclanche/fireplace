@@ -145,7 +145,7 @@ class FP1_019:
 
 # Reincarnate
 class FP1_025:
-	play = Destroy(TARGET), Summon(CONTROLLER, Copy(TARGET))
+	play = Destroy(TARGET), Deaths(), Summon(CONTROLLER, Copy(TARGET))
 
 
 ##
