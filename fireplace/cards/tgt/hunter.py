@@ -59,6 +59,6 @@ class AT_062:
 
 # Bear Trap
 class AT_060:
-	events = Attack(CHARACTER, FRIENDLY_HERO).after(
+	secret = Attack(CHARACTER, FRIENDLY_HERO).after(
 		Reveal(SELF), Summon(CONTROLLER, "CS2_125")
 	)

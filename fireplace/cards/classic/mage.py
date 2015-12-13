@@ -129,28 +129,28 @@ class EX1_279:
 
 # Spellbender
 class tt_010:
-	events = Play(OPPONENT, SPELL, MINION).on(
+	secret = Play(OPPONENT, SPELL, MINION).on(
 		Reveal(SELF), Retarget(Play.CARD, Summon(CONTROLLER, "tt_010a"))
 	)
 
 
 # Counterspell
 class EX1_287:
-	events = Play(OPPONENT, SPELL).on(
+	secret = Play(OPPONENT, SPELL).on(
 		Reveal(SELF), Counter(Play.CARD)
 	)
 
 
 # Ice Barrier
 class EX1_289:
-	events = Attack(CHARACTER, FRIENDLY_HERO).on(
+	secret = Attack(CHARACTER, FRIENDLY_HERO).on(
 		Reveal(SELF), GainArmor(FRIENDLY_HERO, 8)
 	)
 
 
 # Mirror Entity
 class EX1_294:
-	events = [
+	secret = [
 		Play(OPPONENT, MINION).after(
 			Reveal(SELF), Summon(CONTROLLER, ExactCopy(Play.CARD))
 		),
@@ -162,7 +162,7 @@ class EX1_294:
 
 # Ice Block
 class EX1_295:
-	events = Predamage(FRIENDLY_HERO).on(
+	secret = Predamage(FRIENDLY_HERO).on(
 		Lethal(FRIENDLY_HERO, Predamage.AMOUNT) & (
 			Reveal(SELF), Buff(FRIENDLY_HERO, "EX1_295o")
 		)
@@ -173,6 +173,6 @@ EX1_295o = buff(immune=True)
 
 # Vaporize
 class EX1_594:
-	events = Attack(MINION, FRIENDLY_HERO).on(
+	secret = Attack(MINION, FRIENDLY_HERO).on(
 		Reveal(SELF), Destroy(Attack.ATTACKER)
 	)

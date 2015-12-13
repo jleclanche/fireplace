@@ -668,6 +668,13 @@ class Spell(PlayableCard):
 
 class Secret(Spell):
 	@property
+	def events(self):
+		ret = super().events
+		if self.zone == Zone.SECRET and not self.exhausted:
+			ret += self.data.scripts.secret
+		return ret
+
+	@property
 	def exhausted(self):
 		return self.zone == Zone.SECRET and self.controller.current_player
 

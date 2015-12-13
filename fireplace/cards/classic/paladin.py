@@ -141,28 +141,28 @@ class EX1_619e:
 
 # Noble Sacrifice
 class EX1_130:
-	events = Attack(ENEMY_MINIONS).on(
+	secret = Attack(ENEMY_MINIONS).on(
 		Reveal(SELF), Retarget(Attack.ATTACKER, Summon(CONTROLLER, "EX1_130a"))
 	)
 
 
 # Eye for an Eye
 class EX1_132:
-	events = Damage(FRIENDLY_HERO).on(
+	secret = Damage(FRIENDLY_HERO).on(
 		Reveal(SELF), Hit(ENEMY_HERO, Damage.AMOUNT)
 	)
 
 
 # Redemption
 class EX1_136:
-	events = Death(FRIENDLY + MINION).on(
+	secret = Death(FRIENDLY + MINION).on(
 		Reveal(SELF), SetCurrentHealth(Summon(CONTROLLER, Copy(Death.ENTITY)), 1)
 	)
 
 
 # Repentance
 class EX1_379:
-	events = Play(OPPONENT, MINION | HERO).after(
+	secret = Play(OPPONENT, MINION | HERO).after(
 		Reveal(SELF), Buff(Play.CARD, "EX1_379e")
 	)
 

@@ -49,11 +49,12 @@ class CardDB(dict):
 					# Ensure the actions are always iterable
 					setattr(card.scripts, script, (actions, ))
 
-		events = getattr(card.scripts, "events", None)
-		if events is None:
-			card.scripts.events = []
-		elif not hasattr(events, "__iter__"):
-			card.scripts.events = [events]
+		for script in ("events", "secret"):
+			events = getattr(card.scripts, script, None)
+			if events is None:
+				setattr(card.scripts, script, [])
+			elif not hasattr(events, "__iter__"):
+				setattr(card.scripts, script, [events])
 
 		if not hasattr(card.scripts, "cost_mod"):
 			card.scripts.cost_mod = None
