@@ -46,6 +46,14 @@ class NAX4_04H:
 	events = Death(ENEMY + MINION).on(Summon(CONTROLLER, "NAX4_03H"))
 
 
+# Eruption
+class NAX5_02:
+	activate = Hit(ENEMY_MINIONS[0], 2)
+
+class NAX5_02H:
+	activate = Hit(ENEMY_MINIONS[0], 3)
+
+
 # Necrotic Aura
 class NAX6_02:
 	activate = Hit(ENEMY_HERO, 3)
