@@ -388,6 +388,9 @@ class LiveEntity(PlayableCard, Entity):
 		return self in self.game.minions_killed_this_turn
 
 	def _hit(self, source, amount):
+		if self.immune:
+			self.log("%r is immune to %i damage from %r", self, amount, source)
+			return 0
 		self.damage += amount
 		return amount
 

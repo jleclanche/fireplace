@@ -480,11 +480,7 @@ class Damage(TargetedAction):
 	ARGS = ("TARGETS", "AMOUNT")
 
 	def do(self, source, target, amount):
-		if target.immune:
-			log.info("%r is immune to %i damage from %r", self, amount, source)
-			amount = 0
-		else:
-			amount = target._hit(source, target.predamage)
+		amount = target._hit(source, target.predamage)
 		target.predamage = 0
 		if source.type == CardType.MINION and source.stealthed:
 			# TODO this should be an event listener of sorts
