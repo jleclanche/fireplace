@@ -295,8 +295,9 @@ class AdjacentSelector(Selector):
 	def __repr__(self):
 		return "<ADJACENT>"
 
-SELF_ADJACENT = AdjacentSelector(SELF)
-TARGET_ADJACENT = AdjacentSelector(TARGET)
+ADJACENT = AdjacentSelector
+SELF_ADJACENT = ADJACENT(SELF)
+TARGET_ADJACENT = ADJACENT(TARGET)
 
 
 class RandomSelector(Selector):
