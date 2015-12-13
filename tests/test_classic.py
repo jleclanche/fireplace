@@ -1168,6 +1168,39 @@ def test_gladiators_longbow():
 	assert game.player2.hero.health == 30 - 1 - 10
 
 
+def test_gorehowl():
+	game = prepare_game()
+	gorehowl = game.player1.give("EX1_411")
+	gorehowl.play()
+	game.end_turn()
+
+	wisp1 = game.player2.give(WISP)
+	wisp1.play()
+	wisp2 = game.player2.give(WISP)
+	wisp2.play()
+	game.end_turn()
+
+	assert gorehowl.atk == game.player1.hero.atk == 7
+	game.player1.hero.attack(wisp1)
+	assert wisp1.dead
+	assert gorehowl.atk == game.player1.hero.atk == 7 - 1
+	assert gorehowl.durability == 1
+	assert game.player1.hero.health == 30 - 1
+	game.end_turn(); game.end_turn()
+
+	game.player1.hero.attack(wisp2)
+	assert wisp2.dead
+	assert gorehowl.atk == game.player1.hero.atk == 7 - 1 - 1
+	assert gorehowl.durability == 1
+	assert game.player1.hero.health == 30 - 1 - 1
+
+	game.end_turn(); game.end_turn()
+	game.player1.hero.attack(game.player2.hero)
+	assert game.player2.hero.health == 30 - (7 - 1 - 1)
+	assert not game.player1.weapon
+	assert not game.player1.hero.atk
+
+
 def test_grimscale_oracle():
 	game = prepare_game()
 	grimscale = game.player1.give("EX1_508")

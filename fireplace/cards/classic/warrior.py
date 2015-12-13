@@ -144,3 +144,15 @@ class EX1_084:
 	update = Refresh(FRIENDLY_MINIONS + CHARGE, buff="EX1_084e")
 
 EX1_084e = buff(atk=1)
+
+
+##
+# Weapons
+
+# Gorehowl
+class EX1_411:
+	update = Attacking(FRIENDLY_HERO, MINION) & Refresh(SELF, buff="EX1_411e")
+	events = Attack(FRIENDLY_HERO, MINION).after(Buff(SELF, "EX1_411e2"))
+
+EX1_411e = buff(immune=True)
+EX1_411e2 = buff(atk=-1)
