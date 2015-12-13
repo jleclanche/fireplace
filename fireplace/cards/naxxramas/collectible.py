@@ -132,6 +132,17 @@ class FP1_031:
 ##
 # Spells
 
+# Poison Seeds
+class FP1_019:
+	def play(self):
+		friendly_count = len(self.controller.field)
+		enemy_count = len(self.controller.opponent.field)
+		yield Destroy(ALL_MINIONS)
+		yield Deaths()
+		yield Summon(CONTROLLER, "FP1_019t") * friendly_count
+		yield Summon(OPPONENT, "FP1_019t") * enemy_count
+
+
 # Reincarnate
 class FP1_025:
 	play = Destroy(TARGET), Summon(CONTROLLER, Copy(TARGET))
