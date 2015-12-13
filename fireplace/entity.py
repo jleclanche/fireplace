@@ -78,6 +78,8 @@ class BaseEntity(object):
 		if event.once:
 			self._events.remove(event)
 
+		return actions
+
 	def get_damage(self, amount: int, target) -> int:
 		"""
 		Override to modify the damage dealt to a target from the given amount.
