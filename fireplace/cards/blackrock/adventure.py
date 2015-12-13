@@ -122,10 +122,10 @@ class BRMA12_10:
 
 # Wild Magic
 class BRMA13_4:
-	activate = Give(CONTROLLER, RandomSpell(card_class=Attr(TARGET, GameTag.CLASS)))
+	activate = Give(CONTROLLER, RandomSpell(card_class=ENEMY_CLASS))
 
 class BRMA13_4H:
-	activate = Give(CONTROLLER, RandomSpell(card_class=Attr(TARGET, GameTag.CLASS)))
+	activate = Give(CONTROLLER, RandomSpell(card_class=ENEMY_CLASS))
 
 
 # Potion of Might (The Alchemist)

@@ -45,7 +45,7 @@ class AT_036:
 
 # Burgle
 class AT_033:
-	play = Give(CONTROLLER, RandomCollectible(card_class=Attr(ENEMY_HERO, GameTag.CLASS))) * 2
+	play = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS)) * 2
 
 
 # Beneath the Grounds

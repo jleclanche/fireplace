@@ -11,6 +11,8 @@ from ..utils import custom_card
 # This needs to be Summon, because of Summon from the hand
 REMOVED_IN_PLAY = Summon(PLAYER, OWNER).after(Destroy(SELF))
 
+ENEMY_CLASS = Attr(ENEMY_HERO, GameTag.CLASS)
+
 
 RandomCard = lambda **kw: RandomCardPicker(**kw)
 RandomCollectible = lambda **kw: RandomCardPicker(collectible=True, **kw)
