@@ -387,6 +387,10 @@ class LiveEntity(PlayableCard, Entity):
 	def killed_this_turn(self):
 		return self in self.game.minions_killed_this_turn
 
+	def _hit(self, source, amount):
+		self.damage += amount
+		return amount
+
 	def hit(self, amount):
 		return self.game.queue_actions(self, [actions.Hit(self, amount)])
 
@@ -470,10 +474,6 @@ class Character(LiveEntity):
 	@property
 	def health(self):
 		return max(0, self.max_health - self.damage)
-
-	def _hit(self, source, amount):
-		self.damage += amount
-		return amount
 
 	@property
 	def targets(self):
@@ -741,10 +741,6 @@ class Weapon(rules.WeaponRules, LiveEntity):
 	@property
 	def exhausted(self):
 		return self.zone == Zone.PLAY and not self.controller.current_player
-
-	def _hit(self, source, amount):
-		self.damage += amount
-		return amount
 
 	def _set_zone(self, zone):
 		if zone == Zone.PLAY:
