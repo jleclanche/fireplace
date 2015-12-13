@@ -36,7 +36,7 @@ class CardDB(dict):
 
 		scriptnames = (
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
-			"enrage", "update",
+			"enrage", "update", "powered_up"
 		)
 
 		for script in scriptnames:
@@ -55,10 +55,8 @@ class CardDB(dict):
 		elif not hasattr(events, "__iter__"):
 			card.scripts.events = [events]
 
-		for script in ("cost_mod", "powered_up"):
-			func = getattr(card.scripts, script, None)
-			if func is None:
-				setattr(card.scripts, script, None)
+		if not hasattr(card.scripts, "cost_mod"):
+			card.scripts.cost_mod = None
 
 		if not hasattr(card.scripts, "Hand"):
 			card.scripts.Hand = type("Hand", (), {})
