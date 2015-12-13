@@ -6,3 +6,4 @@ from enum import IntEnum
 
 KILLED_THIS_TURN = -10
 ALWAYS_WINS_BRAWLS = -11
+CANT_OVERLOAD = -12

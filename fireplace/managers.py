@@ -1,5 +1,5 @@
 from hearthstone.enums import GameTag
-from .enums import ALWAYS_WINS_BRAWLS, KILLED_THIS_TURN
+from .enums import ALWAYS_WINS_BRAWLS, CANT_OVERLOAD, KILLED_THIS_TURN
 
 
 class Manager(object):
@@ -112,6 +112,7 @@ class PlayerManager(Manager):
 		GameTag.TEMP_RESOURCES: "temp_mana",
 		GameTag.TIMEOUT: "timeout",
 		GameTag.TURN_START: "turn_start",
+		CANT_OVERLOAD: "cant_overload",
 	}
 
 

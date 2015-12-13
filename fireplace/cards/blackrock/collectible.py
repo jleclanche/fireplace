@@ -188,6 +188,10 @@ class BRM_007:
 class BRM_011:
 	play = Hit(TARGET, 2), UnlockOverload(CONTROLLER)
 
+# Lava Shock (Unused)
+class BRM_011t:
+	tags = {enums.CANT_OVERLOAD: True}
+
 
 # Quick Shot
 class BRM_013:
