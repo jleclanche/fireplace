@@ -33,6 +33,7 @@ class Selector:
 
 	def __init__(self, tag=None):
 		self.program = []
+		self.slice = None
 		if tag is not None:
 			self.program.append(tag)
 
@@ -72,6 +73,15 @@ class Selector:
 		result.program = self.program + other.program
 		result.program += [Selector._not, Selector._and]
 		return result
+
+	def __getitem__(self, val):
+		ret = Selector()
+		ret.program = self.program
+		if isinstance(val, int):
+			ret.slice = slice(val)
+		else:
+			ret.slice = val
+		return ret
 
 	def eval(self, entities, source):
 		if not entities:
@@ -115,6 +125,10 @@ class Selector:
 			if not combined:
 				# assume or
 				result += merge_output
+
+		if self.slice:
+			result = result[self.slice]
+
 		return result
 
 	def test(self, entity, source):
@@ -249,6 +263,7 @@ class FuncSelector(Selector):
 
 	def __init__(self, func):
 		self.program = [self.MatchesFunc(func)]
+		self.slice = None
 
 
 def ID(id):
@@ -270,6 +285,7 @@ class AdjacentSelector(Selector):
 			return result
 
 	def __init__(self, selector):
+		self.slice = None
 		self.program = [Selector.MergeFilter]
 		self.program.extend(selector.program)
 		self.program.append(Selector.Merge)
@@ -299,6 +315,7 @@ class RandomSelector(Selector):
 			return random.sample(entities, min(len(entities), self.times))
 
 	def __init__(self, selector):
+		self.slice = None
 		self.random = self.SelectRandom(1)
 		self.selector = selector
 		self.program = [Selector.MergeFilter]
