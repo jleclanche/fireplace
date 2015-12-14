@@ -718,6 +718,22 @@ def test_conceal():
 	assert not wisp2.stealthed
 
 
+def test_conceal_alarmobot():
+	# Test for bug #186
+	game = prepare_empty_game()
+	alarmobot = game.player1.give("EX1_006")
+	alarmobot.play()
+	conceal = game.player1.give("EX1_128")
+	conceal.play()
+	assert alarmobot.stealthed
+	wisp = game.player1.give(WISP)
+	game.end_turn(); game.end_turn()
+
+	assert alarmobot in game.player1.hand
+	assert wisp in game.player1.field
+	assert not alarmobot.stealthed
+
+
 def test_cruel_taskmaster():
 	game = prepare_game()
 	taskmaster1 = game.current_player.give("EX1_603")

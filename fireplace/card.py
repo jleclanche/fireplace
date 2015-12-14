@@ -716,6 +716,10 @@ class Enchantment(BaseCard):
 		if zone == Zone.PLAY:
 			self.owner.buffs.append(self)
 		elif zone == Zone.REMOVEDFROMGAME:
+			if self.zone == zone:
+				# Can happen if a Destroy is queued after a bounce, for example
+				self.logger.warning("Trying to remove %r which is already gone", self)
+				return
 			self.owner.buffs.remove(self)
 			if self in self.game.active_aura_buffs:
 				self.game.active_aura_buffs.remove(self)
