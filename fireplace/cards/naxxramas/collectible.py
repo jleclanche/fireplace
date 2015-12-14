@@ -83,7 +83,7 @@ class FP1_022:
 
 # Dark Cultist
 class FP1_023:
-	deathrattle = Buff(RANDOM_FRIENDLY_MINION, "FP1_023e")
+	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "FP1_023e")
 
 FP1_023e = buff(health=3)
 
