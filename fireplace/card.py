@@ -410,14 +410,14 @@ class LiveEntity(PlayableCard, Entity):
 class Character(LiveEntity):
 	health_attribute = "health"
 	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
+	cant_be_targeted_by_abilities = boolean_property("cant_be_targeted_by_abilities")
+	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
 	min_health = boolean_property("min_health")
 
 	def __init__(self, data):
 		self.frozen = False
 		self.attack_target = None
 		self.cant_attack = False
-		self.cant_be_targeted_by_abilities = False
-		self.cant_be_targeted_by_hero_powers = False
 		self.cannot_attack_heroes = False
 		self.num_attacks = 0
 		self.race = Race.INVALID

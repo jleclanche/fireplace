@@ -921,3 +921,21 @@ def test_voljin_stealth():
 	assert not voljin.dead
 	assert voljin.health == 2
 	assert tiger.health == 5
+
+
+def test_wee_spellstopper():
+	game = prepare_game(MAGE, MAGE)
+	outside = game.player1.give(WISP)
+	outside.play(index=0)
+	left = game.player1.give(TARGET_DUMMY)
+	left.play(index=1)
+
+	moonfire = game.player1.give(MOONFIRE)
+	assert outside in moonfire.targets
+	assert not left.cant_be_targeted_by_abilities
+	assert left in moonfire.targets
+	spellstopper = game.player1.give("GVG_122")
+	spellstopper.play(index=2)
+	assert outside in moonfire.targets
+	assert left.cant_be_targeted_by_abilities
+	assert left not in moonfire.targets
