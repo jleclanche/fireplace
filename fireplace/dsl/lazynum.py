@@ -57,6 +57,9 @@ class LazyNumEvaluator(Evaluator):
 		self.other = other
 		self.cmp = cmp
 
+	def __repr__(self):
+		return "%s(%r, %r)" % (self.cmp.__name__, self.num, self.other)
+
 	def check(self, source):
 		num = self.num.evaluate(source)
 		other = self.other
