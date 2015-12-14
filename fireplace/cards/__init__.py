@@ -117,8 +117,8 @@ class CardDB(dict):
 				# What? this doesn't work?
 				# cards = __builtins__["filter"](lambda c: getattr(c, attr) == value, cards)
 				cards = [
-					card for card in cards if (isinstance(value, list) and
-					getattr(card, attr) in value) or getattr(card, attr) == value
+					card for card in cards if (isinstance(value, list) and getattr(card, attr) in value) or
+					getattr(card, attr) == value
 				]
 
 		return [card.id for card in cards]
