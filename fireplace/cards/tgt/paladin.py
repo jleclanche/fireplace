@@ -49,9 +49,9 @@ AT_074e2 = buff(atk=3)
 
 # Competitive Spirit
 class AT_073:
-	events = OWN_TURN_BEGIN.on(
+	events = OWN_TURN_BEGIN.on(EMPTY_BOARD | (
 		Reveal(SELF), Buff(FRIENDLY_MINIONS, "AT_073e")
-	)
+	))
 
 AT_073e = buff(+1, +1)
 

@@ -142,9 +142,9 @@ class EX1_533:
 
 # Snake Trap
 class EX1_554:
-	secret = Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(
+	secret = Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(FULL_BOARD | (
 		Reveal(SELF), Summon(CONTROLLER, "EX1_554t") * 3
-	)
+	))
 
 
 # Snipe

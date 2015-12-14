@@ -153,12 +153,14 @@ class FP1_025:
 
 # Duplicate
 class FP1_018:
-	secret = Death(FRIENDLY + MINION).on(Give(CONTROLLER, Copy(Death.ENTITY)) * 2)
+	secret = Death(FRIENDLY + MINION).on(FULL_HAND | (
+		Reveal(SELF), Give(CONTROLLER, Copy(Death.ENTITY)) * 2
+	))
 
 
 # Avenge
 class FP1_020:
-	secret = Death(FRIENDLY + MINION).on(Find(FRIENDLY_MINIONS) & (
+	secret = Death(FRIENDLY + MINION).on(EMPTY_BOARD | (
 		Reveal(SELF), Buff(RANDOM_FRIENDLY_MINION, "FP1_020e")
 	))
 

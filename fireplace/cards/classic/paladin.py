@@ -141,9 +141,9 @@ class EX1_619e:
 
 # Noble Sacrifice
 class EX1_130:
-	secret = Attack(ENEMY_MINIONS).on(
+	secret = Attack(ENEMY_MINIONS).on(FULL_BOARD | (
 		Reveal(SELF), Retarget(Attack.ATTACKER, Summon(CONTROLLER, "EX1_130a"))
-	)
+	))
 
 
 # Eye for an Eye
@@ -155,9 +155,9 @@ class EX1_132:
 
 # Redemption
 class EX1_136:
-	secret = Death(FRIENDLY + MINION).on(
+	secret = Death(FRIENDLY + MINION).on(FULL_BOARD | (
 		Reveal(SELF), SetCurrentHealth(Summon(CONTROLLER, Copy(Death.ENTITY)), 1)
-	)
+	))
 
 
 # Repentance

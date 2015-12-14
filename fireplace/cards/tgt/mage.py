@@ -44,7 +44,7 @@ class AT_005:
 
 # Effigy
 class AT_002:
-	secret = Death(FRIENDLY + MINION).on(
+	secret = Death(FRIENDLY + MINION).on(FULL_BOARD | (
 		Reveal(SELF),
 		Summon(CONTROLLER, RandomMinion(cost=COST(Death.ENTITY)))
-	)
+	))

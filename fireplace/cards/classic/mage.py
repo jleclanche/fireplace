@@ -129,9 +129,9 @@ class EX1_279:
 
 # Spellbender
 class tt_010:
-	secret = Play(OPPONENT, SPELL, MINION).on(
+	secret = Play(OPPONENT, SPELL, MINION).on(FULL_BOARD | (
 		Reveal(SELF), Retarget(Play.CARD, Summon(CONTROLLER, "tt_010a"))
-	)
+	))
 
 
 # Counterspell
