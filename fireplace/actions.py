@@ -54,6 +54,7 @@ class Action:  # Lawsuit
 	def __init__(self, *args, **kwargs):
 		self._args = args
 		self._kwargs = kwargs
+		self.callback = ()
 
 	def __repr__(self):
 		args = ["%s=%r" % (k, v) for k, v in zip(self.ARGS, self._args)]
@@ -370,6 +371,15 @@ class TargetedAction(Action):
 		self.times = value
 		return self
 
+	def then(self, *args):
+		"""
+		Create a callback containing an action queue, called upon the
+		action's trigger with the action's arguments available.
+		"""
+		ret = self.__class__(*self._args, **self._kwargs)
+		ret.callback = args
+		return ret
+
 	def eval(self, selector, source):
 		if isinstance(selector, Entity):
 			return [selector]
@@ -430,6 +440,11 @@ class TargetedAction(Action):
 			for target in targets:
 				target_args = self.get_target_args(source, target)
 				ret.append(self.do(source, target, *target_args))
+
+				for action in self.callback:
+					log.info("%r queues up callback %r", self, action)
+					ret += source.game.queue_actions(source, [action], event_args=(target, ) + target_args)
+
 			source.game.manager.action_end(self, source, targets, *self._args)
 
 		for args in self.event_queue:
