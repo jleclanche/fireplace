@@ -58,18 +58,24 @@ class Selector:
 
 	def __or__(self, other):
 		result = Selector()
+		if isinstance(other, LazyValue):
+			other = LazySelector(other)
 		result.program = self.program + other.program
 		result.program.append(Selector._or)
 		return result
 
 	def __add__(self, other):
 		result = Selector()
+		if isinstance(other, LazyValue):
+			other = LazySelector(other)
 		result.program = self.program + other.program
 		result.program.append(Selector._and)
 		return result
 
 	def __sub__(self, other):
 		result = Selector()
+		if isinstance(other, LazyValue):
+			other = LazySelector(other)
 		result.program = self.program + other.program
 		result.program += [Selector._not, Selector._and]
 		return result
@@ -275,6 +281,15 @@ class FuncSelector(Selector):
 
 def ID(id):
 	return FuncSelector(lambda entity, source: getattr(entity, "id", None) == id)
+
+
+def LazySelector(value):
+	"""
+	Returns a selector that evaluates the value at selection time
+	Useful for eg. `ALL_CHARACTERS - Attack.TARGET`
+	"""
+	return FuncSelector(lambda entity, source: entity is value.evaluate(source))
+
 
 TARGET = FuncSelector(lambda entity, source: entity is source.target)
 TARGET.eval = lambda entity, source: [source.target]
