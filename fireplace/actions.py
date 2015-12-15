@@ -494,7 +494,7 @@ class Predamage(TargetedAction):
 		if amount:
 			self.broadcast(source, EventListener.ON, target, amount)
 			target.predamage += amount
-			return source.game.trigger_actions(source, [Damage(target, amount)])
+			return source.game.trigger_actions(source, [Damage(target, amount)])[0][0]
 
 
 class Damage(TargetedAction):
@@ -511,6 +511,7 @@ class Damage(TargetedAction):
 			source.stealthed = False
 		if amount:
 			self.broadcast(source, EventListener.ON, target, amount, source)
+		return amount
 
 
 class Deathrattle(TargetedAction):
@@ -658,7 +659,7 @@ class Hit(TargetedAction):
 	def do(self, source, target, amount):
 		amount = source.get_damage(amount, target)
 		if amount:
-			return source.game.queue_actions(source, [Predamage(target, amount)])
+			return source.game.queue_actions(source, [Predamage(target, amount)])[0][0]
 
 
 class Heal(TargetedAction):
