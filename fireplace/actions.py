@@ -152,6 +152,8 @@ class Attack(GameAction):
 			defender.defending = False
 			return
 
+		assert attacker is not defender, "Why are you hitting yourself %r?" % (attacker)
+
 		# Save the attacker/defender atk values in case they change during the attack
 		# (eg. in case of Enrage)
 		def_atk = defender.atk
