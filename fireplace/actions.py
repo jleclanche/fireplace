@@ -416,7 +416,7 @@ class TargetedAction(Action):
 			source = source[0]
 
 		times = self.times
-		if isinstance(times, LazyNum):
+		if isinstance(times, LazyValue):
 			times = times.evaluate(source)
 		elif isinstance(times, Action):
 			times = times.trigger(source)[0]
