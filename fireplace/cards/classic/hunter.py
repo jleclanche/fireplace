@@ -136,7 +136,8 @@ class NEW1_031:
 # Misdirection
 class EX1_533:
 	secret = Attack(ALL_CHARACTERS, FRIENDLY_HERO).on(
-		Retarget(Attack.ATTACKER, RANDOM(ALL_CHARACTERS - FRIENDLY_HERO))
+		Reveal(SELF),
+		Retarget(Attack.ATTACKER, RANDOM(ALL_CHARACTERS - FRIENDLY_HERO - Attack.ATTACKER))
 	)
 
 

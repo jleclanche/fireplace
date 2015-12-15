@@ -454,6 +454,22 @@ def test_mirror_entity_summon_trigger():
 	assert game.player2.field[0].id == "NEW1_041"
 
 
+def test_misdirection():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	misdirect = game.player2.give("EX1_533")
+	misdirect.play()
+	game.end_turn()
+
+	wisp.attack(game.player2.hero)
+	assert game.player2.hero.health == 30
+	assert game.player1.hero.health == 30 - 1
+	assert misdirect not in game.player2.secrets
+
+
 def test_noble_sacrifice():
 	game = prepare_game()
 	sacrifice = game.player1.give("EX1_130")
