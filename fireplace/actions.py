@@ -571,11 +571,17 @@ class Draw(TargetedAction):
 	"""
 	ARGS = ("TARGETS", "CARD")
 
-	def do(self, source, target):
-		if not target.deck:
+	def get_target_args(self, source, target):
+		if target.deck:
+			card = target.deck[-1]
+		else:
+			card = None
+		return (card, )
+
+	def do(self, source, target, card):
+		if card is None:
 			target.fatigue()
 			return []
-		card = target.deck[-1]
 		card.draw()
 		self.broadcast(source, EventListener.ON, target, card, source)
 
