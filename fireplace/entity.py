@@ -72,9 +72,7 @@ class BaseEntity(object):
 			else:
 				actions.append(action)
 		# XXX This is racey. Replace with something more solid.
-		self.event_args = args
-		source.game.queue_actions(self, actions)
-		self.event_args = None
+		source.game.queue_actions(self, actions, event_args=args)
 		if event.once:
 			self._events.remove(event)
 

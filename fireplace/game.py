@@ -151,12 +151,14 @@ class BaseGame(Entity):
 
 		return [Death(card)]
 
-	def queue_actions(self, source, actions):
+	def queue_actions(self, source, actions, event_args=None):
 		"""
 		Queue a list of \a actions for processing from \a source.
 		Triggers an aura refresh afterwards.
 		"""
+		source.event_args = event_args
 		ret = self.trigger_actions(source, actions)
+		source.event_args = None
 		self.refresh_auras()
 		return ret
 
