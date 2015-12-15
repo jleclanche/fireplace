@@ -381,6 +381,7 @@ class TargetedAction(Action):
 		"""
 		ret = self.__class__(*self._args, **self._kwargs)
 		ret.callback = args
+		ret.times = self.times
 		return ret
 
 	def eval(self, selector, source):
