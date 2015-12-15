@@ -36,11 +36,9 @@ class GVG_087:
 
 # Call Pet
 class GVG_017:
-	# TODO
-	def play(self):
-		card = self.controller.draw()
-		if card.type == CardType.MINION and card.race == Race.BEAST:
-			self.buff(card, "GVG_017e")
+	play = Draw(CONTROLLER).then(
+		Find(BEAST + Draw.CARD) & Buff(Draw.CARD, "GVG_017e")
+	)
 
 @custom_card
 class GVG_017e:
