@@ -383,6 +383,23 @@ def test_tiny_knight_of_evil():
 	assert knight.health == 2 + 1
 
 
+def test_varian_wrynn():
+	game = prepare_empty_game()
+	wisp1 = game.player1.give(WISP)
+	wisp1.shuffle_into_deck()
+	wisp2 = game.player1.give(WISP)
+	wisp2.shuffle_into_deck()
+	moonfire = game.player1.give(MOONFIRE)
+	moonfire.shuffle_into_deck()
+	wrynn = game.player1.give("AT_072")
+	wrynn.play()
+	assert len(game.player1.hand) == 1
+	assert moonfire in game.player1.hand
+	assert wrynn in game.player1.field
+	assert wisp1 in game.player1.field
+	assert wisp2 in game.player1.field
+
+
 def test_void_crusher():
 	game = prepare_game(WARLOCK, WARLOCK)
 	for i in range(3):

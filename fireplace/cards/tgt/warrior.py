@@ -28,6 +28,13 @@ class AT_071:
 AT_071e = buff(atk=1, charge=True)
 
 
+# Varian Wrynn
+class AT_072:
+	play = (Draw(CONTROLLER) * 3).then(
+		Find(MINION + Draw.CARD) & Summon(CONTROLLER, Draw.CARD)
+	)
+
+
 # Sea Reaver
 class AT_130:
 	draw = Hit(FRIENDLY_MINIONS, 1)
