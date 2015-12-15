@@ -9,6 +9,13 @@ class GVG_016:
 	events = Play(OPPONENT).on(Mill(CONTROLLER, 3))
 
 
+# Gnomish Experimenter
+class GVG_092:
+	play = Draw(CONTROLLER).then(
+		Find(MINION + Draw.CARD) & Morph(Draw.CARD, "GVG_092t")
+	)
+
+
 # Hobgoblin
 class GVG_104:
 	events = Play(CONTROLLER, MINION + (ATK == 1)).on(Buff(Play.CARD, "GVG_104a"))

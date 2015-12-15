@@ -366,6 +366,22 @@ def test_gazlowe_preparation():
 	assert game.player1.hand[0].race == Race.MECHANICAL
 
 
+def test_gnomish_experimenter():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	wisp.shuffle_into_deck()
+	gnomish = game.player1.give("GVG_092")
+	gnomish.play()
+	assert len(game.player1.hand) == 1
+	assert wisp.morphed
+	assert wisp.morphed.id == "GVG_092t"
+	assert wisp.morphed in game.player1.hand
+
+	gnomish2 = game.player1.give("GVG_092")
+	gnomish2.play()
+	assert len(game.player1.hand) == 1
+
+
 def test_goblin_blastmage():
 	game = prepare_game()
 	blastmage1 = game.player1.give("GVG_004")
