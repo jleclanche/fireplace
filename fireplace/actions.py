@@ -16,6 +16,9 @@ def _eval_card(source, card):
 	if isinstance(card, Picker):
 		card = card.pick(source)
 
+	if isinstance(card, LazyValue):
+		card = card.evaluate(source)
+
 	if isinstance(card, Action):
 		card = card.trigger(source)[0]
 
