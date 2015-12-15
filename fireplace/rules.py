@@ -1,10 +1,12 @@
 """
 Base game rules (events, etc)
 """
-from .actions import Attack, Damage, Destroy, Hit
-from .dsl.selector import FRIENDLY_HERO, MINION, SELF
+from .cards.utils import *
 
 
+FORGETFUL = Attack(SELF).on(
+	COINFLIP & Retarget(SELF, RANDOM(ENEMY_CHARACTERS - Attack.DEFENDER))
+)
 POISONOUS = Damage(MINION, None, SELF).on(Destroy(Damage.TARGETS))
 
 

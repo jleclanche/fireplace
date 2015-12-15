@@ -350,6 +350,7 @@ class LiveEntity(PlayableCard, Entity):
 		super().__init__(data)
 		self._to_be_destroyed = False
 		self.damage = 0
+		self.forgetful = False
 		self.predamage = 0
 		self.turns_in_play = 0
 
@@ -553,8 +554,8 @@ class Minion(Character):
 	silenceable_attributes = (
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
-		"frozen", "has_deathrattle", "has_inspire", "poisonous", "stealthed",
-		"taunt", "windfury", "cannot_attack_heroes",
+		"forgetful", "frozen", "has_deathrattle", "has_inspire", "poisonous",
+		"stealthed", "taunt", "windfury", "cannot_attack_heroes",
 	)
 
 	def __init__(self, data):
