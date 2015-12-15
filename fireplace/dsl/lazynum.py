@@ -98,10 +98,10 @@ class Attr(LazyNum):
 	def evaluate(self, source):
 		entities = self.get_entities(source)
 		if isinstance(self.tag, str):
-			ret = sum(getattr(e, self.tag) for e in entities)
+			ret = sum(getattr(e, self.tag) for e in entities if e)
 		else:
 			# XXX: int() because of CardList counter tags
-			ret = sum(int(e.tags[self.tag]) for e in entities)
+			ret = sum(int(e.tags[self.tag]) for e in entities if e)
 		return self.num(ret)
 
 
