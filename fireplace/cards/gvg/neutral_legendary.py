@@ -21,6 +21,13 @@ class GVG_111:
 	)
 
 
+# Mogor the Ogre
+class GVG_112:
+	events = Attack(MINION).on(
+		Retarget(Attack.ATTACKER, RANDOM(ENEMY_CHARACTERS - Attack.DEFENDER))
+	)
+
+
 # Foe Reaper 4000
 class GVG_113:
 	events = Attack(SELF).on(CLEAVE)
