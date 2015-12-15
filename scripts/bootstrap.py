@@ -162,6 +162,10 @@ def main():
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_ABILITIES, True)
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_HERO_POWERS, True)
 
+		if "50% chance to attack the wrong enemy." in card.description:
+			if not card.forgetful and id != "GVG_112":
+				set_tag(card, GameTag.FORGETFUL, True)
+
 		if "<b>Mega-Windfury</b>" in card.description:
 			set_tag(card, GameTag.WINDFURY, 3)
 
