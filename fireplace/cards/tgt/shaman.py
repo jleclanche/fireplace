@@ -36,7 +36,7 @@ AT_045e = buff(+1, +1)
 
 # Healing Wave
 class AT_048:
-	play = JOUST & Heal(TARGET, 7) | Heal(TARGET, 14)
+	play = JOUST & Heal(TARGET, 14) | Heal(TARGET, 7)
 
 
 # Elemental Destruction
