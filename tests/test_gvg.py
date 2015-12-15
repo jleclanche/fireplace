@@ -446,6 +446,19 @@ def test_hobgoblin():
 	# assert faceless.health == 1
 
 
+def test_implosion():
+	game = prepare_game()
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	game.end_turn()
+
+	implosion = game.player2.give("GVG_045")
+	implosion.play(target=statue)
+	statue.damage in (2, 3, 4)
+	assert len(game.player2.field) == statue.damage
+	assert game.player2.field.contains("GVG_045t")
+
+
 def test_iron_juggernaut():
 	game = prepare_empty_game()
 	game.player2.discard_hand()
