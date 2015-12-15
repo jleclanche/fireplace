@@ -443,7 +443,7 @@ class TargetedAction(Action):
 
 				for action in self.callback:
 					log.info("%r queues up callback %r", self, action)
-					ret += source.game.queue_actions(source, [action], event_args=(target, ) + target_args)
+					ret += source.game.queue_actions(source, [action], event_args=[target] + target_args)
 
 			source.game.manager.action_end(self, source, targets, *self._args)
 
@@ -576,7 +576,7 @@ class Draw(TargetedAction):
 			card = target.deck[-1]
 		else:
 			card = None
-		return (card, )
+		return [card]
 
 	def do(self, source, target, card):
 		if card is None:
@@ -736,7 +736,7 @@ class Morph(TargetedAction):
 		assert len(card) == 1
 		card = card[0]
 		card.controller = target.controller
-		return (card, )
+		return [card]
 
 	def do(self, source, target, card):
 		log.info("Morphing %r into %r", target, card)
@@ -904,7 +904,7 @@ class Swap(TargetedAction):
 		if not other:
 			return (None, )
 		assert len(other) == 1
-		return (other[0], )
+		return [other[0]]
 
 	def do(self, source, target, other):
 		if other is not None:
@@ -929,7 +929,7 @@ class Steal(TargetedAction):
 		else:
 			# Default to the source's controller
 			controller = source.controller
-		return (controller, )
+		return [controller]
 
 	def do(self, source, target, controller):
 		log.info("%s takes control of %r", controller, target)
