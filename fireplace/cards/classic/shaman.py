@@ -92,7 +92,7 @@ CS2_046e = buff(atk=3)
 
 # Far Sight
 class CS2_053:
-	play = Buff(Draw(CONTROLLER), "CS2_053e")
+	play = Draw(CONTROLLER).then(Buff(Draw.CARD, "CS2_053e"))
 
 CS2_053e = buff(cost=-3)
 
