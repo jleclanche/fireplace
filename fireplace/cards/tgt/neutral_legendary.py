@@ -24,6 +24,13 @@ class AT_123:
 	deathrattle = HOLDING_DRAGON & Hit(ALL_MINIONS, 3)
 
 
+# Bolf Ramshield
+class AT_124:
+	events = Predamage(FRIENDLY_HERO).on(
+		Predamage(FRIENDLY_HERO, 0), Hit(SELF, Predamage.AMOUNT)
+	)
+
+
 # Nexus-Champion Saraad
 class AT_127:
 	inspire = Give(CONTROLLER, RandomSpell())

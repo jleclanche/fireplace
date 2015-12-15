@@ -17,6 +17,21 @@ def test_beneath_the_grounds():
 		assert minion.id == "AT_036t"
 
 
+def test_bolf_ramshield():
+	game = prepare_game()
+	bolf = game.player1.give("AT_124")
+	bolf.play()
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 30
+	assert bolf.damage == 1
+	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	assert game.player1.hero.health == 30
+	assert bolf.damage == 1 + 5
+	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	assert bolf.dead
+	assert game.player1.hero.health == 30
+
+
 def test_burgle():
 	game = prepare_empty_game()
 	burgle = game.player1.give("AT_033")
