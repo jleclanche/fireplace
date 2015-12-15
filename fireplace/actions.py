@@ -418,6 +418,8 @@ class TargetedAction(Action):
 		times = self.times
 		if isinstance(times, LazyNum):
 			times = times.evaluate(source)
+		elif isinstance(times, Action):
+			times = times.trigger(source)[0]
 
 		for i in range(times):
 			args = self.get_args(source)
