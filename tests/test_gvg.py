@@ -475,6 +475,18 @@ def test_implosion():
 	assert game.player2.field.contains("GVG_045t")
 
 
+def test_implosion_commanding_shout():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	shout = game.player1.give("NEW1_036")
+	shout.play()
+	implosion = game.player1.give("GVG_045")
+	implosion.play(target=wisp)
+	assert not wisp.dead
+	assert len(game.player1.field) in (3, 4, 5)
+
+
 def test_iron_juggernaut():
 	game = prepare_empty_game()
 	game.player2.discard_hand()
