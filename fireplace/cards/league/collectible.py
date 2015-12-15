@@ -43,6 +43,13 @@ class LOE_017e:
 	max_health = SET(3)
 
 
+# Tunnel Trogg
+class LOE_018:
+	events = Overload(CONTROLLER).on(Buff(SELF, "LOE_018e") * Overload.AMOUNT)
+
+LOE_018e = buff(atk=1)
+
+
 # Desert Camel
 class LOE_020:
 	play = (

@@ -335,6 +335,20 @@ def test_tomb_pillager():
 	assert game.player1.hand[0].id == "GAME_005"
 
 
+def test_tunnel_trogg():
+	game = prepare_game()
+	trogg = game.player1.give("LOE_018")
+	dustdevil = game.player1.give("EX1_243")
+	dustdevil.play()
+	assert trogg.atk == 1
+	trogg.play()
+	assert trogg.atk == 1
+	dustdevil = game.player1.give("EX1_243")
+	assert dustdevil.overload == 2
+	dustdevil.play()
+	assert trogg.atk == 3
+
+
 ##
 # Adventure tests
 
