@@ -40,7 +40,6 @@ class BaseCard(BaseEntity):
 		self.parent_card = None
 		self.aura = False
 		self.heropower_damage = 0
-		self.spellpower = 0
 		self._zone = Zone.INVALID
 		self.tags.update(data.tags)
 
@@ -548,6 +547,7 @@ class Hero(Character):
 class Minion(Character):
 	charge = boolean_property("charge")
 	has_inspire = boolean_property("has_inspire")
+	spellpower = int_property("spellpower")
 	stealthed = boolean_property("stealthed")
 	taunt = boolean_property("taunt")
 
@@ -701,6 +701,7 @@ class Enchantment(BaseCard):
 	cost = int_property("cost")
 	has_deathrattle = boolean_property("has_deathrattle")
 	max_health = int_property("max_health")
+	spellpower = int_property("spellpower")
 
 	buffs = []
 	slots = []

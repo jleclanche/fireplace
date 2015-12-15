@@ -939,6 +939,32 @@ def test_unstable_portal():
 	assert minion.buffs
 
 
+def test_velens_chosen():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.player1.give("GVG_010").play(target=wisp)
+	assert wisp.atk == 1 + 2
+	assert wisp.health == 1 + 4
+	assert wisp.spellpower == 0 + 1
+	assert game.player1.spellpower == 1
+	game.player1.give("GVG_010").play(target=wisp)
+	assert wisp.atk == 1 + 2 + 2
+	assert wisp.health == 1 + 4 + 4
+	assert wisp.spellpower == 0 + 1 + 1
+	assert game.player1.spellpower == 2
+	game.end_turn()
+
+	assert game.player2.spellpower == 0
+	kobold = game.player2.give(KOBOLD_GEOMANCER)
+	kobold.play()
+	assert game.player2.spellpower == 1
+	game.player2.give("GVG_010").play(target=kobold)
+	assert kobold.spellpower == 2
+	assert game.player2.spellpower == 2
+	assert game.player1.spellpower == 2
+
+
 def test_voljin():
 	game = prepare_game()
 	voljin = game.player1.give("GVG_014")
