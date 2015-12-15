@@ -113,7 +113,7 @@ class EX1_363e2:
 
 # Holy Wrath
 class EX1_365:
-	play = Hit(TARGET, COST(Draw(CONTROLLER)))
+	play = Draw(CONTROLLER).then(Hit(TARGET, COST(Draw.CARD)))
 
 
 # Hand of Protection

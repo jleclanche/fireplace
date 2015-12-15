@@ -67,7 +67,7 @@ class EX1_319:
 # Lord Jaraxxus
 class EX1_323:
 	play = (
-		Morph(SELF, Summon(CONTROLLER, "EX1_323h")),
+		Summon(CONTROLLER, "EX1_323h").then(Morph(SELF, Summon.CARDS)),
 		Summon(CONTROLLER, "EX1_323w")
 	)
 
