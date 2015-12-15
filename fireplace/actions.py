@@ -396,6 +396,14 @@ class Activate(GameAction):
 		return ret
 
 
+class Overload(GameAction):
+	ARGS = ("PLAYER", "AMOUNT")
+
+	def do(self, source, player, amount):
+		self.broadcast(source, EventListener.ON, player, amount)
+		player.overloaded += amount
+
+
 class TargetedAction(Action):
 	ARGS = ("TARGETS", )
 

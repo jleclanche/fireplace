@@ -190,14 +190,14 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 		if self.has_combo and self.controller.combo:
 			self.log("Activating %r combo targeting %r", self, self.target)
-			actions = self.get_actions("combo")
+			_actions = self.get_actions("combo")
 		else:
 			self.log("Activating %r action targeting %r", self, self.target)
-			actions = self.get_actions("play")
+			_actions = self.get_actions("play")
 
-		if actions:
+		if _actions:
 			source = self.parent_card or self
-			self.game.queue_actions(source, actions)
+			self.game.queue_actions(source, _actions)
 			# Hard-process deaths after a battlecry.
 			# cf. test_knife_juggler()
 			self.game.process_deaths()
@@ -207,7 +207,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				self.log("%r cannot overload %s", self, self.controller)
 			else:
 				self.log("%r overloads %s for %i", self, self.controller, self.overload)
-				self.controller.overloaded += self.overload
+				self.game.queue_actions(self, [actions.Overload(self.controller, self.overload)])
 
 	def destroy(self):
 		return self.game.queue_actions(self, [actions.Destroy(self), actions.Deaths()])
