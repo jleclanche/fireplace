@@ -1063,6 +1063,18 @@ def test_faceless_manipulator():
 	assert morphed.buffs
 
 
+def test_faceless_manipulator_velens_chosen():
+	game = prepare_game()
+	kobold = game.player1.give(KOBOLD_GEOMANCER)
+	kobold.play()
+	game.player1.give("GVG_010").play(target=kobold)
+	assert game.player1.spellpower == 2
+	faceless = game.player1.give("EX1_564")
+	faceless.play(target=kobold)
+	assert faceless.morphed.spellpower == kobold.spellpower == 2
+	assert game.player1.spellpower == 2 + 2
+
+
 def test_faerie_dragon():
 	game = prepare_game(MAGE, MAGE)
 	dragon = game.player1.give("NEW1_023")
