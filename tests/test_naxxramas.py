@@ -102,34 +102,6 @@ def test_echoing_ooze():
 	assert game.player1.field[1].health == ooze.health
 
 
-def test_feign_death():
-	game = prepare_game()
-	game.player1.discard_hand()
-	feigndeath = game.player1.give("GVG_026")
-	hauntedcreeper = game.player1.give("FP1_002")
-	webspinner = game.player1.give("FP1_011")
-	hauntedcreeper.play()
-	webspinner.play()
-	feigndeath.play()
-	assert not hauntedcreeper.dead
-	assert not webspinner.dead
-	assert len(game.player1.field) == 4
-	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].race == Race.BEAST
-
-
-def test_feign_death_baron_rivendare():
-	game = prepare_game()
-	feigndeath = game.player1.give("GVG_026")
-	rivendare = game.player1.give("FP1_031")
-	rivendare.play()
-	hauntedcreeper = game.player1.give("FP1_002")
-	hauntedcreeper.play()
-	feigndeath.play()
-	assert not hauntedcreeper.dead
-	assert len(game.player1.field) == 6
-
-
 def test_kel_thuzad():
 	game = prepare_game()
 	kt = game.player1.summon("FP1_013")
