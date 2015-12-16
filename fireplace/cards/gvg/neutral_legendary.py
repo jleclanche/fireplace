@@ -51,7 +51,7 @@ class GVG_116:
 # Gazlowe
 class GVG_117:
 	events = Play(CONTROLLER, SPELL + (COST == 1)).on(
-		Give(Play.PLAYER, RandomMinion(race=Race.MECHANICAL))
+		Give(Play.PLAYER, RandomMech())
 	)
 
 
