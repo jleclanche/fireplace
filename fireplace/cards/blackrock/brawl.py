@@ -103,6 +103,11 @@ class BRMC_83:
 	play = Summon(CONTROLLER, "BRMA09_2Ht") * 7
 
 
+# Omnotron Defense System
+class BRMC_93:
+	play = Summon(CONTROLLER, RandomEntourage())
+
+
 # Core Hound Puppies
 class BRMC_95h:
 	play = Summon(CONTROLLER, "BRMC_95he") * 2
