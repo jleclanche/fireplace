@@ -591,6 +591,22 @@ class Discard(TargetedAction):
 		target.discard()
 
 
+class Discover(TargetedAction):
+	"""
+	Opens a generic choice for three random cards matching a filter.
+	"""
+	ARGS = ("TARGETS", "CARDS")
+
+	def get_target_args(self, source, target):
+		picker = self._args[1]
+		cards = picker.pick(source, count=3)
+		return [[target.card(card) for card in cards]]
+
+	def do(self, source, target, cards):
+		log.info("%r discovers %r for %s", source, cards, target)
+		source.game.queue_actions(source, [GenericChoice(target, cards)])
+
+
 class Draw(TargetedAction):
 	"""
 	Make player targets draw a card from their deck.
