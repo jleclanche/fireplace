@@ -16,6 +16,11 @@ class AT_057:
 AT_057o = buff(immune=True)
 
 
+# King's Elekk
+class AT_058:
+	play = JOUST & Draw(CONTROLLER, Joust.CHALLENGER)
+
+
 # Brave Archer
 class AT_059:
 	inspire = EMPTY_HAND & Hit(ENEMY_HERO, 2)

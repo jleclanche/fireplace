@@ -230,6 +230,24 @@ def test_icehowl():
 	assert game.player2.hero in icehowl.attack_targets
 
 
+def test_kings_elekk():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	wisp.shuffle_into_deck()
+	elekk = game.player1.give("AT_058")
+	elekk.play()
+	assert wisp in game.player1.hand
+
+	deathwing = game.player2.give("NEW1_030")
+	deathwing.shuffle_into_deck()
+	wisp2 = game.player1.give(WISP)
+	wisp2.shuffle_into_deck()
+	elekk2 = game.player1.give("AT_058")
+	elekk2.play()
+	assert wisp2 in game.player1.deck
+	assert deathwing in game.player2.deck
+
+
 def test_lance_carrier():
 	game = prepare_game()
 	wisp = game.player2.summon(WISP)
