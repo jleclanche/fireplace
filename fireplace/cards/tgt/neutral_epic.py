@@ -11,6 +11,11 @@ class AT_017:
 AT_017e = buff(atk=1, taunt=True)
 
 
+# Garrison Commander
+class AT_080:
+	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.HEROPOWER_ADDITIONAL_ACTIVATIONS: 1})
+
+
 # Sideshow Spelleater
 class AT_098:
 	play = Summon(CONTROLLER, Copy(ENEMY_HERO_POWER))

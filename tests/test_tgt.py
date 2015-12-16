@@ -154,6 +154,26 @@ def test_fist_of_jaraxxus():
 	assert game.player2.hero.health == 30 - 4 - 4
 
 
+def test_garrison_commander():
+	game = prepare_game(HUNTER, HUNTER)
+	heropower = game.player1.hero.power
+	heropower.use()
+	assert not heropower.is_usable()
+	commander = game.player1.give("AT_080")
+	commander.play()
+	assert heropower.additional_activations == 1
+	assert heropower.is_usable()
+	heropower.use()
+	assert not heropower.is_usable()
+	game.end_turn(); game.end_turn()
+
+	assert heropower.is_usable()
+	heropower.use()
+	assert heropower.is_usable()
+	commander.destroy()
+	assert not heropower.is_usable()
+
+
 def test_gormok_the_impaler():
 	game = prepare_game()
 	yeti = game.player1.give("CS2_182")
