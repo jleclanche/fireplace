@@ -56,6 +56,11 @@ class AT_073:
 AT_073e = buff(+1, +1)
 
 
+# Enter the Coliseum
+class AT_078:
+	play = Destroy(ALL_MINIONS - HIGHEST_ATK(FRIENDLY_MINIONS) - HIGHEST_ATK(ENEMY_MINIONS))
+
+
 ##
 # Weapons
 
