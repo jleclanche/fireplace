@@ -326,6 +326,33 @@ def test_reincarnate_kel_thuzad():
 	assert len(game.player1.field.filter(id="FP1_013")) == 2
 
 
+def test_shade_of_naxxramas():
+	game = prepare_game()
+	shade = game.player1.give("FP1_005")
+	shade.play()
+	assert shade.atk == shade.health == 2
+	game.end_turn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	assert shade.atk == shade.health == 2
+	game.end_turn()
+
+	assert shade.stealthed
+	assert shade.atk == shade.health == 3
+	shade.attack(game.player2.hero)
+	assert not shade.stealthed
+	game.end_turn()
+
+	wisp.attack(target=shade)
+	assert shade.health == 2
+	game.end_turn()
+
+	assert shade.atk == 4
+	assert shade.health == 3
+	assert not shade.stealthed
+
+
 def test_stalagg_feugen():
 	game = prepare_game()
 	stalagg1 = game.player1.give("FP1_014")
