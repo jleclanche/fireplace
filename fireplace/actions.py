@@ -58,6 +58,7 @@ class Action:  # Lawsuit
 		self._args = args
 		self._kwargs = kwargs
 		self.callback = ()
+		self.times = 1
 
 	def __repr__(self):
 		args = ["%s=%r" % (k, v) for k, v in zip(self.ARGS, self._args)]
@@ -363,7 +364,6 @@ class TargetedAction(Action):
 	def __init__(self, *args, **kwargs):
 		self.source = kwargs.pop("source", None)
 		super().__init__(*args, **kwargs)
-		self.times = 1
 		self.event_queue = []
 
 	def __repr__(self):
