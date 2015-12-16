@@ -148,12 +148,12 @@ class XXX_039:
 
 # Destroy Hero Power
 class XXX_041:
-	play = Destroy(HERO_POWER + CONTROLLED_BY_TARGET)
+	play = Destroy(HERO_POWER + CONTROLLED_BY(TARGET))
 
 
 # Hand to Deck
 class XXX_042:
-	play = Shuffle(TARGET_PLAYER, IN_HAND + CONTROLLED_BY_TARGET)
+	play = Shuffle(TARGET_PLAYER, IN_HAND + CONTROLLED_BY(TARGET))
 
 
 # Mill 30
@@ -178,12 +178,12 @@ class XXX_046:
 
 # Destroy Deck
 class XXX_047:
-	play = Destroy(IN_DECK + CONTROLLED_BY_TARGET)
+	play = Destroy(IN_DECK + CONTROLLED_BY(TARGET))
 
 
 # -1 Durability
 class XXX_048:
-	play = Hit(ALL_WEAPONS + CONTROLLED_BY_TARGET, 1)
+	play = Hit(ALL_WEAPONS + CONTROLLED_BY(TARGET), 1)
 
 
 # Destroy All Mana
@@ -233,19 +233,19 @@ class XXX_056:
 
 # Destroy Secrets
 class XXX_057:
-	play = Destroy(ALL_SECRETS + CONTROLLED_BY_TARGET)
+	play = Destroy(ALL_SECRETS + CONTROLLED_BY(TARGET))
 
 
 # Weapon Nerf
 class XXX_058:
-	play = Buff(WEAPON + CONTROLLED_BY_TARGET, "XXX_058e")
+	play = Buff(WEAPON + CONTROLLED_BY(TARGET), "XXX_058e")
 
 
 # Destroy All
 class XXX_059:
 	play = (
-		Destroy(CONTROLLED_BY_TARGET + (HERO_POWER | IN_DECK)),
-		Discard(IN_HAND + CONTROLLED_BY_TARGET),
+		Destroy(CONTROLLED_BY(TARGET) + (HERO_POWER | IN_DECK)),
+		Discard(IN_HAND + CONTROLLED_BY(TARGET)),
 	)
 
 
