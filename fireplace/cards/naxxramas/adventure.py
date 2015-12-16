@@ -91,6 +91,18 @@ class NAX10_03H:
 	activate = Destroy(TARGET)
 
 
+# Poison Cloud
+class NAX11_02:
+	activate = Hit(ALL_MINIONS, 1).then(
+		Dead(Hit.TARGETS) & Summon(CONTROLLER, "NAX11_03")
+	)
+
+class NAX11_02H:
+	activate = Hit(ENEMY_CHARACTERS, 2).then(
+		Dead(Hit.TARGETS) & Summon(CONTROLLER, "NAX11_03")
+	)
+
+
 # Decimate
 class NAX12_02:
 	activate = Buff(ENEMY_MINIONS, "NAX12_02e")
