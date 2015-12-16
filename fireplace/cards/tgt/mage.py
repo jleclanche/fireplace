@@ -16,6 +16,11 @@ class AT_007:
 	play = Give(ALL_PLAYERS, RandomSpell())
 
 
+# Coldarra Drake
+class AT_008:
+	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.HEROPOWER_ADDITIONAL_ACTIVATIONS: SET(-1)})
+
+
 # Rhonin
 class AT_009:
 	deathrattle = Give(CONTROLLER, "EX1_277") * 3

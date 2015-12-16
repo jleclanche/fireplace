@@ -787,6 +787,8 @@ class HeroPower(PlayableCard):
 
 	@property
 	def exhausted(self):
+		if self.additional_activations == -1:
+			return False
 		return self.activations_this_turn >= 1 + self.additional_activations
 
 	def _set_zone(self, value):
