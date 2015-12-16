@@ -295,6 +295,42 @@ TARGET = FuncSelector(lambda entity, source: entity is source.target)
 TARGET.eval = lambda entity, source: [source.target]
 
 
+class MinMaxSelector(Selector):
+	"""
+	Selects the entities in \a selector whose \a tag match \a func comparison
+	"""
+	class SelectFunc:
+		def __init__(self, tag, func):
+			self.tag = tag
+			self.func = func
+
+		def __repr__(self):
+			return "<%s(%s)>" % (self.func.__name__, self.tag)
+
+		def merge(self, selector, entities):
+			key = lambda x: x.tags.get(self.tag, 0)
+			highest = self.func(entities, key=key).tags.get(self.tag, 0)
+			ret = [e for e in entities if e.tags.get(self.tag) == highest]
+			return random.sample(ret, min(len(ret), 1))
+
+	def __init__(self, selector, tag, func):
+		self.slice = None
+		self.select = self.SelectFunc(tag, func)
+		self.selector = selector
+		self.program = [Selector.MergeFilter]
+		self.program.extend(selector.program)
+		self.program.append(Selector.Merge)
+		self.program.append(self.select)
+		self.program.append(Selector.Unmerge)
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.selector)
+
+
+HIGHEST_ATK = lambda sel: MinMaxSelector(sel, GameTag.ATK, max)
+LOWEST_ATK = lambda sel: MinMaxSelector(sel, GameTag.ATK, min)
+
+
 class AdjacentSelector(Selector):
 	"""
 	Selects the minions adjacent to the targets.
