@@ -495,6 +495,21 @@ def test_voidcaller():
 	assert len(game.player1.hand) == 3
 
 
+def test_wailing_soul():
+	game = prepare_game()
+	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire1.play()
+	goldshire2 = game.player2.summon(GOLDSHIRE_FOOTMAN)
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	soul = game.player1.give("FP1_016")
+	soul.play()
+	assert goldshire1.silenced
+	assert not goldshire1.taunt
+	assert not goldshire2.silenced
+	assert wisp.silenced
+
+
 def test_webspinner():
 	game = prepare_game()
 	game.player1.discard_hand()
