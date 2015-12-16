@@ -128,6 +128,38 @@ class BRMA13_4H:
 	activate = Give(CONTROLLER, RandomSpell(card_class=ENEMY_CLASS))
 
 
+# Activate Arcanotron
+class BRMA14_2:
+	activate = Summon(CONTROLLER, "BRMA14_3")
+
+class BRMA14_2H:
+	activate = Summon(CONTROLLER, "BRMA14_3")
+
+
+# Activate Toxitron
+class BRMA14_4:
+	activate = Summon(CONTROLLER, "BRMA14_5")
+
+class BRMA14_4H:
+	activate = Summon(CONTROLLER, "BRMA14_5H")
+
+
+# Activate Electron
+class BRMA14_6:
+	activate = Summon(CONTROLLER, "BRMA14_7")
+
+class BRMA14_6H:
+	activate = Summon(CONTROLLER, "BRMA14_7H")
+
+
+# Activate Magmatron
+class BRMA14_8:
+	activate = Summon(CONTROLLER, "BRMA14_9")
+
+class BRMA14_8H:
+	activate = Summon(CONTROLLER, "BRMA14_9H")
+
+
 # Potion of Might (The Alchemist)
 BRMA15_2He = buff(+2, +2)
 
@@ -254,6 +286,36 @@ class BRMA13_8:
 # Release the Aberrations!
 class BRMA15_3:
 	play = Summon(CONTROLLER, "BRMA15_4") * 3
+
+
+# Arcanotron
+class BRMA14_3:
+	update = Refresh(ALL_PLAYERS, {GameTag.SPELLPOWER: +2})
+
+
+# Toxitron
+class BRMA14_5:
+	events = OWN_TURN_BEGIN.on(Hit(ALL_MINIONS - SELF, 1))
+
+class BRMA14_5H:
+	events = OWN_TURN_BEGIN.on(Hit(ALL_MINIONS - SELF, 1))
+
+
+# Electron
+class BRMA14_7:
+	update = Refresh(IN_HAND + SPELL, {GameTag.COST: -3})
+
+class BRMA14_7H:
+	update = Refresh(IN_HAND + SPELL, {GameTag.COST: -3})
+
+
+# Magmatron
+class BRMA14_9:
+	events = Play().on(Hit(ALL_HEROES + CONTROLLED_BY(Play.PLAYER)))
+
+# Magmatron
+class BRMA14_9H:
+	events = Play().on(Hit(ALL_HEROES + CONTROLLED_BY(Play.PLAYER)))
 
 
 # Sonic Breath
