@@ -94,20 +94,6 @@ def test_deathlord():
 	assert len(game.player2.deck) == 2
 
 
-def test_duplicate():
-	game = prepare_game()
-	game.player1.discard_hand()
-	duplicate = game.player1.give("FP1_018")
-	duplicate.play()
-	wisp = game.player1.give(WISP)
-	wisp.play()
-	game.end_turn()
-
-	game.player2.give(MOONFIRE).play(target=wisp)
-	assert len(game.player1.hand) == 2
-	assert game.player1.hand[0] == game.player1.hand[1] == WISP
-
-
 def test_echoing_ooze():
 	game = prepare_game()
 	ooze = game.player1.give("FP1_003")

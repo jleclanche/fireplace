@@ -106,6 +106,22 @@ def test_dart_trap():
 	assert wisp.dead ^ (game.player2.hero.health == 25)
 
 
+def test_duplicate():
+	game = prepare_game()
+	game.player1.discard_hand()
+	duplicate = game.player1.give("FP1_018")
+	duplicate.play()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	assert duplicate in game.player1.secrets
+	game.player2.give(MOONFIRE).play(target=wisp)
+	assert duplicate not in game.player1.secrets
+	assert len(game.player1.hand) == 2
+	assert game.player1.hand[0] == game.player1.hand[1] == WISP
+
+
 def test_eaglehorn_bow():
 	game = prepare_game()
 	bow = game.player1.give("EX1_536")
