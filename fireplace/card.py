@@ -778,14 +778,16 @@ class Weapon(rules.WeaponRules, LiveEntity):
 
 
 class HeroPower(PlayableCard):
+	additional_activations = slot_property("additional_activations", sum)
 	playable_zone = Zone.PLAY
+
 	def __init__(self, data):
 		super().__init__(data)
 		self.activations_this_turn = 0
 
 	@property
 	def exhausted(self):
-		return self.activations_this_turn >= 1
+		return self.activations_this_turn >= 1 + self.additional_activations
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
