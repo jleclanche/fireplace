@@ -299,6 +299,14 @@ class NAX14_04:
 ##
 # Weapons
 
+# Massive Runeblade
+class NAX7_04:
+	update = Attacking(FRIENDLY_HERO, HERO) & Refresh(SELF, {GameTag.ATK: +5})
+
+class NAX7_04H:
+	update = Attacking(FRIENDLY_HERO, HERO) & Refresh(SELF, {GameTag.ATK: +10})
+
+
 # Runeblade
 class NAX9_05:
 	update = (
