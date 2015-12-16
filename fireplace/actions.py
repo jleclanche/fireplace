@@ -70,6 +70,16 @@ class Action:  # Lawsuit
 	def on(self, *actions):
 		return EventListener(self, actions, EventListener.ON)
 
+	def then(self, *args):
+		"""
+		Create a callback containing an action queue, called upon the
+		action's trigger with the action's arguments available.
+		"""
+		ret = self.__class__(*self._args, **self._kwargs)
+		ret.callback = args
+		ret.times = self.times
+		return ret
+
 	def _broadcast(self, entity, source, at, *args):
 		for event in entity.events:
 			if event.at != at:
@@ -373,16 +383,6 @@ class TargetedAction(Action):
 	def __mul__(self, value):
 		self.times = value
 		return self
-
-	def then(self, *args):
-		"""
-		Create a callback containing an action queue, called upon the
-		action's trigger with the action's arguments available.
-		"""
-		ret = self.__class__(*self._args, **self._kwargs)
-		ret.callback = args
-		ret.times = self.times
-		return ret
 
 	def eval(self, selector, source):
 		if isinstance(selector, Entity):
