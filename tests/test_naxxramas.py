@@ -102,6 +102,17 @@ def test_echoing_ooze():
 	assert game.player1.field[1].health == ooze.health
 
 
+def test_haunted_creeper():
+	game = prepare_game()
+	creeper = game.player1.give("FP1_002")
+	creeper.play()
+	assert len(game.player1.field) == 1
+	game.player1.give(MOONFIRE).play(target=creeper)
+	game.player1.give(MOONFIRE).play(target=creeper)
+	assert creeper.dead
+	assert len(game.player1.field) == 2
+
+
 def test_kel_thuzad():
 	game = prepare_game()
 	kt = game.player1.summon("FP1_013")
