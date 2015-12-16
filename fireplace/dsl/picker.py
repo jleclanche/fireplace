@@ -1,6 +1,6 @@
 import random
 from ..logging import log
-from .lazynum import LazyNum, LazyValue
+from .lazynum import LazyValue
 
 
 class Picker:
@@ -18,7 +18,7 @@ class RandomCardPicker(Picker):
 		self._cards = None
 		self.lazy_filters = False
 		for v in filters.values():
-			if isinstance(v, LazyNum):
+			if isinstance(v, LazyValue):
 				self.lazy_filters = True
 				break
 
@@ -37,9 +37,9 @@ class RandomCardPicker(Picker):
 
 	def get_cards(self, source):
 		filters = self.filters.copy()
-		# Iterate through the filters, evaluating the LazyNums as we go
+		# Iterate through the filters, evaluating the LazyValues as we go
 		for k, v in filters.items():
-			if isinstance(v, LazyNum):
+			if isinstance(v, LazyValue):
 				filters[k] = v.evaluate(source)
 		return self._filter_cards(filters)
 

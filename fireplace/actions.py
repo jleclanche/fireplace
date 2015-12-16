@@ -1,6 +1,6 @@
 from inspect import isclass
 from hearthstone.enums import CardType, Mulligan, PlayState, Zone
-from .dsl import LazyNum, LazyValue, Picker, Selector
+from .dsl import LazyValue, Picker, Selector
 from .entity import Entity
 from .logging import log
 
@@ -491,7 +491,7 @@ class Buff(TargetedAction):
 	def do(self, source, target, buff):
 		kwargs = self._kwargs.copy()
 		for k, v in kwargs.items():
-			if isinstance(v, LazyNum):
+			if isinstance(v, LazyValue):
 				kwargs[k] = v.evaluate(source)
 		return source.buff(target, buff, **kwargs)
 

@@ -182,9 +182,8 @@ class AttrSelector(Selector):
 
 		def test(self, entity, source):
 			value = self.value
-			if isinstance(value, Controller):
+			if isinstance(value, LazyValue):
 				# Support AttrSelector(SELF, GameTag.CONTROLLER) == Controller(...)
-				# TODO: Should be a generic lazy value...
 				value = self.value.evaluate(source)
 			return self.op(entity.tags.get(self.tag, 0), value)
 
