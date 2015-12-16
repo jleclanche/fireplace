@@ -122,6 +122,31 @@ def test_duplicate():
 	assert game.player1.hand[0] == game.player1.hand[1] == WISP
 
 
+def test_duplicate_full_hand():
+	game = prepare_game()
+	game.player1.discard_hand()
+	duplicate = game.player1.give("FP1_018")
+	duplicate.play()
+	wisp1 = game.player1.give(WISP)
+	wisp1.play()
+	wisp2 = game.player1.give(WISP)
+	wisp2.play()
+	for i in range(10):
+		game.player1.give(TARGET_DUMMY)
+	assert len(game.player1.hand) == 10
+	game.end_turn()
+
+	assert duplicate in game.player1.secrets
+	wisp1.destroy()
+	assert duplicate in game.player1.secrets
+	game.player1.hand[0].discard()
+	assert len(game.player1.hand) == 9
+	wisp2.destroy()
+	assert duplicate not in game.player1.secrets
+	assert len(game.player1.hand) == 10
+	assert len(game.player1.hand.filter(id=WISP)) == 1
+
+
 def test_eaglehorn_bow():
 	game = prepare_game()
 	bow = game.player1.give("EX1_536")
