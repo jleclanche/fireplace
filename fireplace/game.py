@@ -296,7 +296,7 @@ class BaseGame(Entity):
 				entity.turns_in_play += 1
 
 		if player.hero.power:
-			player.hero.power.exhausted = False
+			player.hero.power.activations_this_turn = 0
 
 		for character in self.characters:
 			character.num_attacks = 0

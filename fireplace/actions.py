@@ -390,6 +390,8 @@ class Activate(GameAction):
 			if actions:
 				ret += source.game.queue_actions(minion, actions)
 
+		heropower.activations_this_turn += 1
+
 		return ret
 
 

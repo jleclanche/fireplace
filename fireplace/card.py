@@ -779,13 +779,19 @@ class Weapon(rules.WeaponRules, LiveEntity):
 
 class HeroPower(PlayableCard):
 	playable_zone = Zone.PLAY
+	def __init__(self, data):
+		super().__init__(data)
+		self.activations_this_turn = 0
+
+	@property
+	def exhausted(self):
+		return self.activations_this_turn >= 1
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
 			if self.controller.hero.power:
 				self.controller.hero.power.destroy()
 			self.controller.hero.power = self
-			self.exhausted = False
 		super()._set_zone(value)
 
 	def activate(self):
@@ -811,7 +817,6 @@ class HeroPower(PlayableCard):
 
 		ret = self.activate()
 
-		self.exhausted = True
 		self.controller.times_hero_power_used_this_game += 1
 		self.controller.used_mana += self.cost
 		self.target = None
