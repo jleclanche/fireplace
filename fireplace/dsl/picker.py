@@ -43,13 +43,13 @@ class RandomCardPicker(Picker):
 				filters[k] = v.evaluate(source)
 		return self._filter_cards(filters)
 
-	def pick(self, source) -> str:
+	def pick(self, source, count=1) -> str:
 		if self.lazy_filters:
 			# If the card has lazy filters, we need to evaluate them
 			cards = self.get_cards(source)
 		else:
 			cards = self.cards
-		return [random.choice(cards)]
+		return random.sample(cards, count)
 
 
 class Copy(Picker):
