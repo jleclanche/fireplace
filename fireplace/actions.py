@@ -431,9 +431,6 @@ class TargetedAction(Action):
 			ret = t
 		elif isinstance(t, LazyValue):
 			ret = t.evaluate(source)
-		elif isinstance(t, Action):
-			# eg. Unstable Portal: Buff(Give(...), ...)
-			ret = t.trigger(source)[0]
 		else:
 			ret = t.eval(source.game, source)
 		if not hasattr(ret, "__iter__"):

@@ -156,7 +156,8 @@ class EX1_132:
 # Redemption
 class EX1_136:
 	secret = Death(FRIENDLY + MINION).on(FULL_BOARD | (
-		Reveal(SELF), SetCurrentHealth(Summon(CONTROLLER, Copy(Death.ENTITY)), 1)
+		Reveal(SELF),
+		Summon(CONTROLLER, Copy(Death.ENTITY)).then(SetCurrentHealth(Summon.CARDS, 1))
 	))
 
 

@@ -35,7 +35,7 @@ class GVG_001:
 
 # Unstable Portal
 class GVG_003:
-	play = Buff(Give(CONTROLLER, RandomMinion()), "GVG_003e")
+	play = Give(CONTROLLER, RandomMinion()).then(Buff(Give.CARD, "GVG_003e"))
 
 @custom_card
 class GVG_003e:
