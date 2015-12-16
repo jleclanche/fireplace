@@ -4,6 +4,11 @@ from ..utils import *
 ##
 # Minions
 
+# Ethereal Conjurer
+class LOE_003:
+	play = Discover(CONTROLLER, RandomSpell())
+
+
 # Obsidian Destroyer
 class LOE_009:
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOE_009t"))

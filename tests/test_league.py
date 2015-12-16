@@ -83,6 +83,16 @@ def test_curse_of_rafaam():
 	assert game.player2.hero.health == 30 - 2 - 2
 
 
+def test_ethereal_conjurer():
+	game = prepare_game(MAGE, MAGE)
+	conjurer = game.player1.give("LOE_003")
+	conjurer.play()
+	assert len(game.player1.choice.cards) == 3
+	for card in game.player1.choice.cards:
+		assert card.type == CardType.SPELL
+		# assert card.card_class == CardClass.MAGE  # TODO
+
+
 def test_everyfin_is_awesome():
 	game = prepare_game()
 	awesome = game.player1.give("LOE_113")
