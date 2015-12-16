@@ -261,10 +261,15 @@ class GenericChoice(GameAction):
 	ARGS = ("PLAYER", "CARDS")
 
 	def get_args(self, source):
-		player = self._args[0].eval(source.game.players, source)
-		assert len(player) == 1
-		cards = self._args[1].eval(source.game, source)
-		return player[0], cards
+		player = self._args[0]
+		if isinstance(player, Selector):
+			player = player.eval(source.game.players, source)
+			assert len(player) == 1
+			player = player[0]
+		cards = self._args[1]
+		if isinstance(cards, Selector):
+			cards = cards.eval(source.game, source)
+		return player, cards
 
 	def do(self, source, player, cards):
 		player.choice = self
