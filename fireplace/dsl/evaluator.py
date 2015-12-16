@@ -128,10 +128,12 @@ class FindDuplicates(Evaluator):
 		return len(set(entities)) < len(entities)
 
 
-class Joust(Evaluator):
+class JoustEvaluator(Evaluator):
 	"""
-	Compare the sum of the costs of \a selector1 versus \a selector2.
-	Evaluates to True if the mana cost of \a selector1 is higher.
+	Compare the sum of the costs of \a selector versus \a selector2.
+	Considers the joust won if the mana cost of \a selector1 is higher.
+	If a side is empty, it automatically loses.
+	A draw is treated as a loss.
 	"""
 	def __init__(self, selector1, selector2):
 		super().__init__()
@@ -142,15 +144,13 @@ class Joust(Evaluator):
 		return "%s(%r, %r)" % (self.__class__.__name__, self.selector1, self.selector2)
 
 	def check(self, source):
-		t1 = self.selector1.eval(source.game, source)
-		t2 = self.selector2.eval(source.game, source)
-		if not t1:
+		challenger = self.selector1.evaluate(source)
+		defender = self.selector2.evaluate(source)
+		if not challenger:
 			return False
-		elif not t2:
+		if not defender:
 			return True
-		diff = sum(t.cost for t in t1) - sum(t.cost for t in t2)
-		log.info("Jousting %r vs %r -> %i difference", t1, t2, diff)
-		return diff > 0
+		return challenger.cost > defender.cost
 
 
 class Lethal(Evaluator):

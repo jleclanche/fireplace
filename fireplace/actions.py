@@ -237,6 +237,26 @@ class EndTurn(GameAction):
 		source.game._end_turn()
 
 
+class Joust(GameAction):
+	"""
+	Perform a joust between \a challenger and \a defender.
+	Note that this does not evaluate the results of the joust. For that,
+	see dsl.evaluators.JoustEvaluator.
+	"""
+	ARGS = ("CHALLENGER", "DEFENDER")
+
+	def get_args(self, source):
+		challenger = self._args[0].eval(source.game, source)
+		defender = self._args[1].eval(source.game, source)
+		return challenger and challenger[0], defender and defender[0]
+
+	def do(self, source, challenger, defender):
+		log.info("Jousting %r vs %r", challenger, defender)
+		for action in self.callback:
+			log.debug("%r joust callback: %r", self, action)
+			source.game.queue_actions(source, [action], event_args=[challenger, defender])
+
+
 class GenericChoice(GameAction):
 	ARGS = ("PLAYER", "CARDS")
 
