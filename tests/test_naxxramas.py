@@ -74,6 +74,26 @@ def test_deaths_bite():
 	assert token.health == 2
 
 
+def test_deathlord():
+	game = prepare_empty_game()
+	deathlord1 = game.player1.give("FP1_009")
+	deathlord1.play()
+	assert len(game.player2.field) == 0
+	deathlord1.destroy()
+	assert len(game.player2.field) == 0
+	game.player2.give(WISP).shuffle_into_deck()
+	game.player2.give(WISP).shuffle_into_deck()
+	game.player2.give(MOONFIRE).shuffle_into_deck()
+	deathlord2 = game.player1.give("FP1_009")
+	deathlord2.play()
+	assert len(game.player2.field) == 0
+	assert len(game.player2.deck) == 3
+	deathlord2.destroy()
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].id == WISP
+	assert len(game.player2.deck) == 2
+
+
 def test_duplicate():
 	game = prepare_game()
 	game.player1.discard_hand()
