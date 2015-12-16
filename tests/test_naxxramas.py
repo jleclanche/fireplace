@@ -446,3 +446,21 @@ def test_webspinner():
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].race == Race.BEAST
 	assert game.player1.hand[0].type == CardType.MINION
+
+
+def test_zombie_chow():
+	game = prepare_game()
+	chow1 = game.player1.give("FP1_001")
+	chow1.play()
+	chow2 = game.player1.give("FP1_001")
+	chow2.play()
+	chow3 = game.player1.give("FP1_001")
+	chow3.play()
+	game.player2.hero.set_current_health(24)
+	assert game.player2.hero.health == 24
+	chow1.destroy()
+	assert game.player2.hero.health == 24 + 5
+	chow2.destroy()
+	assert game.player2.hero.health == 30
+	chow3.destroy()
+	assert game.player2.hero.health == 30
