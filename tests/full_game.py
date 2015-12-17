@@ -2,6 +2,7 @@
 import sys; sys.path.append("..")
 import random
 from fireplace.cards.heroes import *
+from fireplace.exceptions import GameOver
 from fireplace.game import Game
 from fireplace.player import Player
 from fireplace.utils import random_draft
@@ -11,7 +12,7 @@ def percent_chance(i):
 	return random.randint(1, 100) < i
 
 
-def main():
+def play_full_game():
 	deck1 = random_draft(hero=MAGE)
 	deck2 = random_draft(hero=WARRIOR)
 	player1 = Player(name="Player1")
@@ -64,6 +65,17 @@ def main():
 			continue
 
 		game.end_turn()
+
+
+def test_full_game():
+	try:
+		play_full_game()
+	except GameOver:
+		print("Game completed normally.")
+
+
+def main():
+	test_full_game()
 
 
 if __name__ == "__main__":
