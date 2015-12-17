@@ -282,6 +282,7 @@ class GenericChoice(GameAction):
 				_card.zone = Zone.HAND
 			else:
 				_card.discard()
+		self.player.choice = None
 
 
 class MulliganChoice(GameAction):
