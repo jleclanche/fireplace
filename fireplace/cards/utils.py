@@ -14,16 +14,16 @@ REMOVED_IN_PLAY = Summon(PLAYER, OWNER).after(Destroy(SELF))
 ENEMY_CLASS = Attr(ENEMY_HERO, GameTag.CLASS)
 
 
-RandomCard = lambda **kw: RandomCardPicker(**kw)
-RandomCollectible = lambda **kw: RandomCardPicker(collectible=True, **kw)
-RandomMinion = lambda **kw: RandomCollectible(type=CardType.MINION, **kw)
-RandomBeast = lambda **kw: RandomMinion(race=Race.BEAST)
-RandomMech = lambda **kw: RandomMinion(race=Race.MECHANICAL)
-RandomMurloc = lambda **kw: RandomMinion(race=Race.MURLOC)
-RandomSpell = lambda **kw: RandomCollectible(type=CardType.SPELL, **kw)
-RandomTotem = lambda **kw: RandomCardPicker(race=Race.TOTEM)
-RandomWeapon = lambda **kw: RandomCollectible(type=CardType.WEAPON, **kw)
-RandomSparePart = lambda **kw: RandomCardPicker(spare_part=True, **kw)
+RandomCard = lambda *a, **kw: RandomCardPicker(*a, **kw)
+RandomCollectible = lambda *a, **kw: RandomCardPicker(*a, collectible=True, **kw)
+RandomMinion = lambda *a, **kw: RandomCollectible(*a, type=CardType.MINION, **kw)
+RandomBeast = lambda *a, **kw: RandomMinion(*a, race=Race.BEAST)
+RandomMech = lambda *a, **kw: RandomMinion(*a, race=Race.MECHANICAL)
+RandomMurloc = lambda *a, **kw: RandomMinion(*a, race=Race.MURLOC)
+RandomSpell = lambda *a, **kw: RandomCollectible(*a, type=CardType.SPELL, **kw)
+RandomTotem = lambda *a, **kw: RandomCardPicker(*a, race=Race.TOTEM)
+RandomWeapon = lambda *a, **kw: RandomCollectible(*a, type=CardType.WEAPON, **kw)
+RandomSparePart = lambda: RandomCardPicker(spare_part=True)
 
 
 class RandomEntourage(RandomCardPicker):
