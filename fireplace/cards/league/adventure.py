@@ -62,3 +62,31 @@ class LOEA04_30a:
 # Do Nothing
 class LOEA04_31b:
 	pass
+
+
+##
+# Mine Cart Rush
+
+# Dynamite
+class LOEA07_18:
+	play = Hit(TARGET, 10)
+
+
+# Boom!
+class LOEA07_20:
+	play = Hit(ENEMY_MINIONS, 3)
+
+
+# Consult Brann
+class LOEA07_26:
+	play = Draw(CONTROLLER) * 3
+
+
+# Repairs
+class LOEA07_28:
+	play = Heal(TARGET, 10)
+
+
+# Throw Rocks
+class LOEA07_29:
+	play = Hit(RANDOM_ENEMY_MINION, 3)
