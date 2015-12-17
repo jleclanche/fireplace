@@ -116,6 +116,14 @@ class BRMC_95he:
 	events = TURN_END.on(Summon(CONTROLLER, Copy(ID("BRMC_95he") + KILLED_THIS_TURN)))
 
 
+# Living Bomb
+class BRMC_100:
+	play = Buff(TARGET, "BRMC_100e")
+
+class BRMC_100e:
+	events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_MINIONS, 5))
+
+
 ##
 # Weapons
 
