@@ -88,6 +88,38 @@ class BRMA08_2H:
 	)
 
 
+# Open the Gates
+class BRMA09_2:
+	activate = Summon(CONTROLLER, "BRMA09_2t") * 3, Summon(CONTROLLER, RandomEntourage())
+
+class BRMA09_2H:
+	activate = Summon(CONTROLLER, "BRMA09_2Ht") * 3, Summon(CONTROLLER, RandomEntourage())
+
+
+# Old Horde
+class BRMA09_3:
+	activate = Summon(CONTROLLER, "BRMA09_3t") * 2, Summon(CONTROLLER, RandomEntourage())
+
+class BRMA09_3H:
+	activate = Summon(CONTROLLER, "BRMA09_3Ht") * 2, Summon(CONTROLLER, RandomEntourage())
+
+
+# Blackwing
+class BRMA09_4:
+	activate = Summon(CONTROLLER, "BRMA09_4t"), Summon(CONTROLLER, RandomEntourage())
+
+class BRMA09_4H:
+	activate = Summon(CONTROLLER, "BRMA09_4Ht"), Summon(CONTROLLER, RandomEntourage())
+
+
+# Dismount
+class BRMA09_5:
+	activate = Summon(CONTROLLER, "BRMA09_5t"), Summon(CONTROLLER, RandomEntourage())
+
+class BRMA09_5H:
+	activate = Summon(CONTROLLER, "BRMA09_5Ht"), Summon(CONTROLLER, RandomEntourage())
+
+
 # The Rookery
 class BRMA10_3:
 	activate = Buff(ALL_MINIONS + ID("BRMA10_4"), "BRMA10_3e"), Summon(CONTROLLER, "BRMA10_4")
