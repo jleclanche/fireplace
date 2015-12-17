@@ -853,6 +853,8 @@ class Retarget(TargetedAction):
 	ARGS = ("TARGETS", "CARDS")
 
 	def do(self, source, target, new_target):
+		if not new_target:
+			return
 		assert len(new_target) == 1
 		new_target = new_target[0]
 		if target.type in (CardType.HERO, CardType.MINION) and target.attacking:
