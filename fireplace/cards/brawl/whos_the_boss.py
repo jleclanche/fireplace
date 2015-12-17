@@ -35,6 +35,11 @@ class BRMA07_2_2c_TB:
 	play = Destroy(RANDOM_ENEMY_MINION)
 
 
+# Open the Gates
+class BRMA09_2_TB:
+	play = Summon(CONTROLLER, "BRMA09_2t") * 3
+
+
 # Activate!
 class BRMA14_10H_TB:
 	Summon(CONTROLLER, RandomEntourage())
