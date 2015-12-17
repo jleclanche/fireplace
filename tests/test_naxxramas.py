@@ -74,18 +74,24 @@ def test_deaths_bite():
 	assert token.health == 2
 
 
-def test_duplicate():
-	game = prepare_game()
-	game.player1.discard_hand()
-	duplicate = game.player1.give("FP1_018")
-	duplicate.play()
-	wisp = game.player1.give(WISP)
-	wisp.play()
-	game.end_turn()
-
-	game.player2.give(MOONFIRE).play(target=wisp)
-	assert len(game.player1.hand) == 2
-	assert game.player1.hand[0] == game.player1.hand[1] == WISP
+def test_deathlord():
+	game = prepare_empty_game()
+	deathlord1 = game.player1.give("FP1_009")
+	deathlord1.play()
+	assert len(game.player2.field) == 0
+	deathlord1.destroy()
+	assert len(game.player2.field) == 0
+	game.player2.give(WISP).shuffle_into_deck()
+	game.player2.give(WISP).shuffle_into_deck()
+	game.player2.give(MOONFIRE).shuffle_into_deck()
+	deathlord2 = game.player1.give("FP1_009")
+	deathlord2.play()
+	assert len(game.player2.field) == 0
+	assert len(game.player2.deck) == 3
+	deathlord2.destroy()
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].id == WISP
+	assert len(game.player2.deck) == 2
 
 
 def test_echoing_ooze():
@@ -100,6 +106,17 @@ def test_echoing_ooze():
 	assert game.player1.field[1].id == ooze.id
 	assert game.player1.field[1].atk == ooze.atk
 	assert game.player1.field[1].health == ooze.health
+
+
+def test_haunted_creeper():
+	game = prepare_game()
+	creeper = game.player1.give("FP1_002")
+	creeper.play()
+	assert len(game.player1.field) == 1
+	game.player1.give(MOONFIRE).play(target=creeper)
+	game.player1.give(MOONFIRE).play(target=creeper)
+	assert creeper.dead
+	assert len(game.player1.field) == 2
 
 
 def test_kel_thuzad():
@@ -315,6 +332,33 @@ def test_reincarnate_kel_thuzad():
 	assert len(game.player1.field.filter(id="FP1_013")) == 2
 
 
+def test_shade_of_naxxramas():
+	game = prepare_game()
+	shade = game.player1.give("FP1_005")
+	shade.play()
+	assert shade.atk == shade.health == 2
+	game.end_turn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+	assert shade.atk == shade.health == 2
+	game.end_turn()
+
+	assert shade.stealthed
+	assert shade.atk == shade.health == 3
+	shade.attack(game.player2.hero)
+	assert not shade.stealthed
+	game.end_turn()
+
+	wisp.attack(target=shade)
+	assert shade.health == 2
+	game.end_turn()
+
+	assert shade.atk == 4
+	assert shade.health == 3
+	assert not shade.stealthed
+
+
 def test_stalagg_feugen():
 	game = prepare_game()
 	stalagg1 = game.player1.give("FP1_014")
@@ -437,6 +481,21 @@ def test_voidcaller():
 	assert len(game.player1.hand) == 3
 
 
+def test_wailing_soul():
+	game = prepare_game()
+	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
+	goldshire1.play()
+	goldshire2 = game.player2.summon(GOLDSHIRE_FOOTMAN)
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	soul = game.player1.give("FP1_016")
+	soul.play()
+	assert goldshire1.silenced
+	assert not goldshire1.taunt
+	assert not goldshire2.silenced
+	assert wisp.silenced
+
+
 def test_webspinner():
 	game = prepare_game()
 	game.player1.discard_hand()
@@ -446,3 +505,21 @@ def test_webspinner():
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].race == Race.BEAST
 	assert game.player1.hand[0].type == CardType.MINION
+
+
+def test_zombie_chow():
+	game = prepare_game()
+	chow1 = game.player1.give("FP1_001")
+	chow1.play()
+	chow2 = game.player1.give("FP1_001")
+	chow2.play()
+	chow3 = game.player1.give("FP1_001")
+	chow3.play()
+	game.player2.hero.set_current_health(24)
+	assert game.player2.hero.health == 24
+	chow1.destroy()
+	assert game.player2.hero.health == 24 + 5
+	chow2.destroy()
+	assert game.player2.hero.health == 30
+	chow3.destroy()
+	assert game.player2.hero.health == 30
