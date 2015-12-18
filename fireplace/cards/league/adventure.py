@@ -102,6 +102,11 @@ class LOEA04_31b:
 ##
 # Mine Cart Rush
 
+# Throw Rocks
+class LOEA07_29:
+	activate = Hit(RANDOM_ENEMY_MINION, 3)
+
+
 # Dynamite
 class LOEA07_18:
 	play = Hit(TARGET, 10)
@@ -120,11 +125,6 @@ class LOEA07_26:
 # Repairs
 class LOEA07_28:
 	play = Heal(TARGET, 10)
-
-
-# Throw Rocks
-class LOEA07_29:
-	play = Hit(RANDOM_ENEMY_MINION, 3)
 
 
 ##

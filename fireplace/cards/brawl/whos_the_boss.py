@@ -37,7 +37,7 @@ class BRMA07_2_2c_TB:
 
 # Open the Gates
 class BRMA09_2_TB:
-	play = Summon(CONTROLLER, "BRMA09_2t") * 3
+	activate = Summon(CONTROLLER, "BRMA09_2t") * 3
 
 
 # Activate!

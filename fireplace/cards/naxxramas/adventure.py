@@ -134,7 +134,7 @@ class NAX15_02H:
 
 # Chains
 class NAX15_04:
-	play = Steal(TARGET), Buff(TARGET, "NAX15_04a")
+	activate = Steal(TARGET), Buff(TARGET, "NAX15_04a")
 
 class NAX15_04a:
 	events = TURN_END.on(Destroy(SELF))

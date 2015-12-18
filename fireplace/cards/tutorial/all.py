@@ -9,12 +9,12 @@ from ..utils import *
 
 # Shotgun Blast
 class TU4d_003:
-	play = Damage(TARGET, 1)
+	activate = Hit(TARGET, 1)
 
 
 # Flames of Azzinoth
 class TU4e_002:
-	play = Summon(CONTROLLER, "TU4e_002t") * 2
+	activate = Summon(CONTROLLER, "TU4e_002t") * 2
 
 
 ##
