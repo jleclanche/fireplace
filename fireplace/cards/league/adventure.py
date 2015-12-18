@@ -2,14 +2,6 @@ from ..utils import *
 
 
 ##
-# Spells
-
-# Medivh's Locket
-class LOEA16_12:
-	play = Morph(FRIENDLY_HAND, "GVG_003")
-
-
-##
 # Zinaar
 
 RandomWish = RandomID("LOEA02_03", "LOEA02_04", "LOEA02_05", "LOEA02_06", "LOEA02_10")
@@ -133,3 +125,70 @@ class LOEA07_28:
 # Throw Rocks
 class LOEA07_29:
 	play = Hit(RANDOM_ENEMY_MINION, 3)
+
+
+##
+# Rafaam Unleashed
+
+# Rummage
+class LOEA16_16:
+	activate = Give(CONTROLLER, RandomEntourage())
+
+class LOEA16_16H:
+	activate = Give(CONTROLLER, RandomEntourage())
+
+
+# Shard of Sulfuras
+class LOEA16_6:
+	play = Hit(ALL_CHARACTERS, 5)
+
+
+# Benediction Splinter
+class LOEA16_7:
+	play = Heal(ALL_CHARACTERS, 10)
+
+
+# Putress' Vial
+class LOEA16_8:
+	play = Destroy(RANDOM_ENEMY_MINION)
+
+
+# Lothar's Left Greave
+class LOEA16_9:
+	play = Hit(ENEMY_CHARACTERS, 3)
+
+
+# Hakkari Blood Goblet
+class LOEA16_10:
+	play = Morph(TARGET, "LOE_010")
+
+
+# Crown of Kael'thas
+class LOEA16_11:
+	play = Hit(RANDOM_CHARACTER, 1) * 10
+
+
+# Medivh's Locket
+class LOEA16_12:
+	play = Morph(FRIENDLY_HAND, "GVG_003")
+
+
+# Khadgar's Pipe
+class LOEA16_14:
+	play = (
+		Give(OPPONENT, RandomSpell()),
+		Give(PLAYER, RandomSpell()).then(Buff(Give.CARD, "LOEA16_14e"))
+	)
+
+@custom_card
+class LOEA16_14e:
+	tags = {
+		GameTag.CARDNAME: "Khadgar's Pipe Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+	}
+	cost = SET(0)
+
+
+# Ysera's Tear
+class LOEA16_15:
+	play = ManaThisTurn(CONTROLLER, 4)
