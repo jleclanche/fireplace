@@ -92,7 +92,7 @@ class BRM_022:
 
 # Drakonid Crusher
 class BRM_024:
-	powered_up = Attr(ENEMY_HERO, "health") <= 15
+	powered_up = CURRENT_HEALTH(ENEMY_HERO) <= 15
 	play = powered_up & Buff(SELF, "BRM_024e")
 
 BRM_024e = buff(+3, +3)
@@ -218,7 +218,7 @@ class BRM_013:
 
 # Revenge
 class BRM_015:
-	powered_up = Attr(FRIENDLY_HERO, "health") <= 12
+	powered_up = CURRENT_HEALTH(FRIENDLY_HERO) <= 12
 	play = powered_up & Hit(ALL_MINIONS, 3) | Hit(ALL_MINIONS, 1)
 
 

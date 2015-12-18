@@ -225,10 +225,10 @@ class BRMA03_3H:
 
 # Corrupted Egg
 class BRMA10_4:
-	update = (Attr(SELF, "health") >= 4) & (Destroy(SELF), Summon(CONTROLLER, "BRMA10_5"))
+	update = (CURRENT_HEALTH(SELF) >= 4) & (Destroy(SELF), Summon(CONTROLLER, "BRMA10_5"))
 
 class BRMA10_4H:
-	update = (Attr(SELF, "health") >= 5) & (Destroy(SELF), Summon(CONTROLLER, "BRMA10_5H"))
+	update = (CURRENT_HEALTH(SELF) >= 5) & (Destroy(SELF), Summon(CONTROLLER, "BRMA10_5H"))
 
 
 # Firesworn

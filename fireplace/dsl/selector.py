@@ -213,6 +213,7 @@ class AttrSelector(Selector):
 ARMOR = AttrSelector(GameTag.ARMOR)
 ATK = AttrSelector(GameTag.ATK)
 CONTROLLER = AttrSelector(GameTag.CONTROLLER)
+CURRENT_HEALTH = AttrSelector("health")
 COST = AttrSelector(GameTag.COST)
 DAMAGE = AttrSelector(GameTag.DAMAGE)
 

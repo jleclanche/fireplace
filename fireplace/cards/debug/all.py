@@ -251,7 +251,7 @@ class XXX_059:
 
 # Damage All
 class XXX_060:
-	play = Hit(TARGET, Attr(TARGET, "health"))
+	play = Hit(TARGET, CURRENT_HEALTH(TARGET))
 
 
 # Armor 1

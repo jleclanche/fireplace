@@ -32,7 +32,7 @@ class EX1_301:
 # Void Terror
 class EX1_304:
 	play = (
-		Buff(SELF, "EX1_304e", atk=ATK(SELF_ADJACENT), max_health=Attr(SELF_ADJACENT, "health")),
+		Buff(SELF, "EX1_304e", atk=ATK(SELF_ADJACENT), max_health=CURRENT_HEALTH(SELF_ADJACENT)),
 		Destroy(SELF_ADJACENT)
 	)
 

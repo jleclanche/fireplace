@@ -98,7 +98,7 @@ class EX1_407:
 
 # Mortal Strike
 class EX1_408:
-	powered_up = Attr(FRIENDLY_HERO, "health") <= 12
+	powered_up = CURRENT_HEALTH(FRIENDLY_HERO) <= 12
 	play = powered_up & Hit(TARGET, 6) | Hit(TARGET, 4)
 
 
