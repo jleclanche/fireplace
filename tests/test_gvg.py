@@ -908,6 +908,17 @@ def test_shrinkmeister():
 	assert boulderfist.atk == 6
 
 
+def test_sneeds_old_shredder():
+	game = prepare_game()
+	sneeds = game.player1.give("GVG_114")
+	sneeds.play()
+	sneeds.destroy()
+	assert len(game.player1.field) == 1
+	pilot = game.player1.field[0]
+	assert pilot.rarity == Rarity.LEGENDARY
+	assert pilot.data.collectible
+
+
 def test_tinkertown_technician():
 	game = prepare_game()
 	game.player1.discard_hand()
