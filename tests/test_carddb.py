@@ -1,6 +1,9 @@
-from hearthstone.enums import GameTag, Rarity
+from hearthstone.enums import CardType, GameTag, Rarity
 
 import utils
+
+
+CARDS = utils.fireplace.cards.db
 
 
 def test_all_tags_known():
@@ -15,7 +18,7 @@ def test_all_tags_known():
 	# Check the db loaded correctly
 	assert utils.fireplace.cards.db
 
-	for card in utils.fireplace.cards.db.values():
+	for card in CARDS.values():
 		card_tags = [int(e.attrib["enumID"]) for e in card.xml.findall("./Tag")]
 		for tag in card_tags:
 			# We have fake tags in fireplace.enums which are always negative
@@ -26,3 +29,11 @@ def test_all_tags_known():
 		assert card.rarity in known_rarities
 
 	assert not unknown_tags
+
+
+def test_play_scripts():
+	for card in CARDS.values():
+		if card.scripts.activate:
+			assert card.type == CardType.HERO_POWER
+		elif card.scripts.play:
+			assert card.type not in (CardType.HERO, CardType.HERO_POWER, CardType.ENCHANTMENT)
