@@ -4,5 +4,6 @@ from .gift_exchange import *
 from .masked_ball import *
 from .mechwar import *
 from .southshore_tarren_mill import *
+from .underdog_rules import *
 from .unite_against_mechazod import *
 from .whos_the_boss import *
