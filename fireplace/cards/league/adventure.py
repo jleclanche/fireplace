@@ -132,6 +132,34 @@ class LOEA04_31b:
 
 
 ##
+# Chieftain Scarvash
+
+# Trogg Hate Minions!
+class LOEA05_02:
+	# Hearthstone implements Scarvash's Hero Power with LOEA05_02(h) which
+	# switches every turn between LOEA05_02a and LOEA05_03. We don't need
+	# to do that, we implement it as a Summon every turn instead.
+	pass
+
+class LOEA05_02a:
+	update = Refresh(ENEMY_HAND + MINION, {GameTag.COST: +2})
+
+class LOEA05_02h:
+	pass
+
+class LOEA05_02ha:
+	update = Refresh(ENEMY_HAND + MINION, {GameTag.COST: SET(11)})
+
+
+# Trogg Hate Spells
+class LOEA05_03:
+	update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: +2})
+
+class LOEA05_03h:
+	update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: SET(11)})
+
+
+##
 # Mine Cart Rush
 
 # Throw Rocks
