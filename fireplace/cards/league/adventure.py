@@ -45,7 +45,39 @@ class LOEA02_10a:
 
 
 ##
-# Temple Escape events
+# Sun Raider Phaerix
+
+# Blessings of the Sun
+class LOEA01_02:
+	update = (
+		Find(FRIENDLY_MINIONS + ID("LOEA01_11")) & (
+			Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+		),
+		Find(ENEMY_MINIONS + ID("LOEA01_11")) & (
+			Refresh(ENEMY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+		)
+	)
+
+class LOEA01_02h:
+	events = Summon(CONTROLLER, ID("LOEA01_11h")).on(Buff(Summon.CARDS, "LOEA01_11he"))
+	update = (
+		Find(FRIENDLY_MINIONS + ID("LOEA01_11h")) & (
+			Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+		)
+	)
+
+# Rod of the Sun
+class LOEA01_11:
+	deathrattle = Summon(OPPONENT, "LOEA01_11")
+
+class LOEA01_11h:
+	deathrattle = Summon(OPPONENT, "LOEA01_11h")
+
+LOEA01_11he = buff(+3, +3)
+
+
+##
+# Temple Escape
 
 # Pit of Spikes
 class LOEA04_06:
