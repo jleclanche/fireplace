@@ -162,34 +162,42 @@ class BRMA13_4H:
 
 # Activate Arcanotron
 class BRMA14_2:
-	activate = Summon(CONTROLLER, "BRMA14_3")
+	activate = Summon(CONTROLLER, "BRMA14_3"), Summon(CONTROLLER, "BRMA14_4")
 
 class BRMA14_2H:
-	activate = Summon(CONTROLLER, "BRMA14_3")
+	activate = Summon(CONTROLLER, "BRMA14_3"), Summon(CONTROLLER, "BRMA14_4H")
 
 
 # Activate Toxitron
 class BRMA14_4:
-	activate = Summon(CONTROLLER, "BRMA14_5")
+	activate = Summon(CONTROLLER, "BRMA14_5"), Summon(CONTROLLER, "BRMA14_6")
 
 class BRMA14_4H:
-	activate = Summon(CONTROLLER, "BRMA14_5H")
+	activate = Summon(CONTROLLER, "BRMA14_5H"), Summon(CONTROLLER, "BRMA14_6H")
 
 
 # Activate Electron
 class BRMA14_6:
-	activate = Summon(CONTROLLER, "BRMA14_7")
+	activate = Summon(CONTROLLER, "BRMA14_7"), Summon(CONTROLLER, "BRMA14_8")
 
 class BRMA14_6H:
-	activate = Summon(CONTROLLER, "BRMA14_7H")
+	activate = Summon(CONTROLLER, "BRMA14_7H"), Summon(CONTROLLER, "BRMA14_8H")
 
 
 # Activate Magmatron
 class BRMA14_8:
-	activate = Summon(CONTROLLER, "BRMA14_9")
+	activate = Summon(CONTROLLER, "BRMA14_9"), Summon(CONTROLLER, "BRMA14_10")
 
 class BRMA14_8H:
-	activate = Summon(CONTROLLER, "BRMA14_9H")
+	activate = Summon(CONTROLLER, "BRMA14_9H"), Summon(CONTROLLER, "BRMA14_10H")
+
+
+# Activate!
+class BRMA14_10:
+	activate = Summon(CONTROLLER, RandomEntourage())
+
+class BRMA14_10H:
+	activate = Summon(CONTROLLER, RandomEntourage())
 
 
 # Potion of Might (The Alchemist)
