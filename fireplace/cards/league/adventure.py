@@ -224,3 +224,14 @@ class LOEA16_14e:
 # Ysera's Tear
 class LOEA16_15:
 	play = ManaThisTurn(CONTROLLER, 4)
+
+
+##
+# Unused
+
+# Eye of Hakkar
+class LOE_008:
+	play = Summon(CONTROLLER, RANDOM(ENEMY_DECK + SECRET))
+
+class LOE_008H:
+	play = Summon(CONTROLLER, RANDOM(ENEMY_DECK + SECRET))
