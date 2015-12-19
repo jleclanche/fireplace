@@ -39,6 +39,9 @@ class KettleManager:
 	def action_end(self, type, args):
 		pass
 
+	def game_step(self, step, next_step):
+		pass
+
 	def add_to_state(self, entity):
 		state = self.game_state[entity.entity_id] = {}
 		for tag, value in entity.tags.items():
