@@ -2945,6 +2945,22 @@ def test_sylvanas_windrunner():
 	assert wisp in game.player1.field
 
 
+def test_the_black_knight():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	dummy1 = game.player1.give(TARGET_DUMMY)
+	dummy1.play()
+	game.end_turn()
+
+	dummy2 = game.player2.give(TARGET_DUMMY)
+	dummy2.play()
+	blackknight = game.player2.give("EX1_002")
+	assert blackknight.targets == [dummy1]
+	blackknight.play(target=dummy1)
+	assert dummy1.dead
+
+
 def test_thoughtsteal():
 	game = prepare_empty_game()
 
