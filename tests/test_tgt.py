@@ -1,6 +1,30 @@
 from utils import *
 
 
+def test_aviana():
+	game = prepare_game()
+	aviana = game.player1.give("AT_045")
+	wisp1 = game.player1.give(WISP)
+	assert wisp1.cost == 0
+	deathwing = game.player1.give("NEW1_030")
+	assert deathwing.cost == 10
+	molten = game.player1.give("EX1_620")
+	assert molten.cost == 20
+	game.player1.give(MOONFIRE).play(game.player1.hero)
+	assert molten.cost == 19
+	aviana.play()
+	for minion in (wisp1, deathwing, molten):
+		assert minion.cost == 1
+
+	wisp2 = game.player2.give(WISP)
+	assert wisp2.cost == 0
+
+	aviana.destroy()
+	assert wisp1.cost == 0
+	assert deathwing.cost == 10
+	assert molten.cost == 19
+
+
 def test_beneath_the_grounds():
 	game = prepare_empty_game()
 	game.player2.discard_hand()
