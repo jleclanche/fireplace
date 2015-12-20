@@ -254,6 +254,53 @@ class LOEA16_15:
 	play = ManaThisTurn(CONTROLLER, 4)
 
 
+# Zinaar
+class LOEA16_18:
+	events = OWN_TURN_END.on(Give(CONTROLLER, RandomWish))
+
+class LOEA16_18H:
+	events = OWN_TURN_END.on(Give(CONTROLLER, RandomWish))
+
+
+# Sun Raider Phaerix
+class LOEA16_19:
+	events = OWN_TURN_END.on(Give(CONTROLLER, "LOEA16_20"))
+
+class LOEA16_19H:
+	update = Refresh(FRIENDLY_MINIONS - SELF, {GameTag.CANT_BE_DAMAGED: True})
+
+
+# Chieftain Scarvash
+class LOEA16_21:
+	update = Refresh(ENEMY_HAND, {GameTag.COST: +1})
+
+class LOEA16_21H:
+	update = Refresh(ENEMY_HAND, {GameTag.COST: +2})
+
+
+# Archaedas
+class LOEA16_22:
+	events = OWN_TURN_END.on(Morph(RANDOM_ENEMY_MINION, "LOEA06_02t"))
+
+class LOEA16_22H:
+	events = OWN_TURN_END.on(Morph(RANDOM_ENEMY_MINION, "LOEA06_02t"))
+
+
+# Lord Slitherspear
+class LOEA16_23:
+	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOEA09_5") * Count(ENEMY_MINIONS))
+
+class LOEA16_23H:
+	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOEA09_5") * Count(ENEMY_MINIONS))
+
+
+# Blessing of the Sun
+class LOEA16_20:
+	play = Buff(TARGET, "LOEA16_20e")
+
+LOEA16_20e = buff(immune=True)
+
+
 ##
 # Unused
 
