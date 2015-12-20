@@ -1,4 +1,4 @@
-## Fireplace
+## <img src="/logo.png" height="32" width="32"/> Fireplace
 [![AGPLv3](https://www.gnu.org/graphics/agplv3-88x31.png)](http://choosealicense.com/licenses/agpl-3.0/)
 [![Build Status](https://travis-ci.org/jleclanche/fireplace.svg)](https://travis-ci.org/jleclanche/fireplace)
 
