@@ -543,6 +543,7 @@ class Predamage(TargetedAction):
 		if amount:
 			self.broadcast(source, EventListener.ON, target, amount)
 			return source.game.trigger_actions(source, [Damage(target, amount)])[0][0]
+		return 0
 
 
 class Damage(TargetedAction):
@@ -730,6 +731,7 @@ class Hit(TargetedAction):
 		amount = source.get_damage(amount, target)
 		if amount:
 			return source.game.queue_actions(source, [Predamage(target, amount)])[0][0]
+		return 0
 
 
 class Heal(TargetedAction):

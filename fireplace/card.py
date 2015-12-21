@@ -630,7 +630,7 @@ class Minion(Character):
 		if self.divine_shield:
 			self.divine_shield = False
 			self.log("%r's divine shield prevents %i damage.", self, amount)
-			return
+			return 0
 
 		amount = super()._hit(source, amount)
 
