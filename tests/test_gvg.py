@@ -537,6 +537,17 @@ def test_iron_juggernaut():
 	assert len(game.player2.hand) == 0
 
 
+def test_jeeves():
+	game = prepare_game()
+	game.player1.discard_hand()
+	jeeves = game.player1.give("GVG_094")
+	jeeves.play()
+	assert len(game.player1.hand) == 0
+	game.end_turn()
+
+	assert len(game.player1.hand) == 3
+
+
 def test_light_of_the_naaru():
 	game = prepare_game()
 	naaru1 = game.player1.give("GVG_012")

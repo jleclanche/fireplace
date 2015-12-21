@@ -11,9 +11,7 @@ class GVG_074:
 
 # Jeeves
 class GVG_094:
-	events = TURN_END.on(
-		lambda self, player: Draw(player) * max(0, 3 - len(player.hand))
-	)
+	events = EndTurn().on(DrawUntil(EndTurn.PLAYER, 3))
 
 
 # Goblin Sapper
