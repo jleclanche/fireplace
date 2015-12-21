@@ -655,6 +655,18 @@ class ForceDraw(TargetedAction):
 		target.draw()
 
 
+class DrawUntil(TargetedAction):
+	"""
+	Make target player target draw up to \a amount cards minus their hand count.
+	"""
+	ARGS = ("TARGETS", "AMOUNT")
+
+	def do(self, source, target, amount):
+		difference = max(0, amount - len(target.hand))
+		if difference > 0:
+			return source.game.queue_actions(source, [Draw(target) * difference])
+
+
 class FullHeal(TargetedAction):
 	"""
 	Fully heal character targets.
