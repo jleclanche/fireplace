@@ -113,6 +113,15 @@ class LOE_086:
 	)
 
 
+# Wobbling Runts
+class LOE_089:
+	deathrattle = (
+		Summon(CONTROLLER, "LOE_089t"),
+		Summon(CONTROLLER, "LOE_089t2"),
+		Summon(CONTROLLER, "LOE_089t3")
+	)
+
+
 # Ancient Shade
 class LOE_110:
 	play = Shuffle(CONTROLLER, "LOE_110t")

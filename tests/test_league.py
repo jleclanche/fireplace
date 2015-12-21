@@ -365,6 +365,16 @@ def test_tunnel_trogg():
 	assert trogg.atk == 3
 
 
+def test_wobbling_runts():
+	game = prepare_game()
+	runts = game.player1.give("LOE_089")
+	runts.play()
+	assert len(game.player1.field) == 1
+	runts.destroy()
+	assert len(game.player1.field) == 3
+	assert game.player1.field == ["LOE_089t", "LOE_089t2", "LOE_089t3"]
+
+
 ##
 # Adventure tests
 
