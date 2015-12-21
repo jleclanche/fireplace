@@ -764,6 +764,18 @@ def test_mimirons_head_full_board():
 	assert game.player1.field[0].id == "GVG_111t"
 
 
+def test_mogor_the_ogre():
+	game = prepare_game()
+	mogor = game.player1.give("GVG_112").play()
+	game.end_turn()
+
+	wisp = game.player2.give(WISP).play()
+	game.end_turn(); game.end_turn()
+
+	wisp.attack(game.player1.hero)
+	assert (mogor.health == 5 and wisp.dead) ^ (game.player1.hero.health == 29 and not wisp.dead)
+
+
 def test_neptulon():
 	game = prepare_game()
 	game.player1.discard_hand()

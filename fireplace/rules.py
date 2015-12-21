@@ -4,9 +4,7 @@ Base game rules (events, etc)
 from .cards.utils import *
 
 
-FORGETFUL = Attack(SELF).on(
-	COINFLIP & Retarget(SELF, RANDOM(ENEMY_CHARACTERS - Attack.DEFENDER))
-)
+FORGETFUL = Attack(SELF).on(COINFLIP & Retarget(SELF, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(SELF))))
 POISONOUS = Damage(MINION, None, SELF).on(Destroy(Damage.TARGETS))
 
 
