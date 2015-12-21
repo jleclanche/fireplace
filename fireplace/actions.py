@@ -403,6 +403,7 @@ class TargetedAction(Action):
 		self.source = kwargs.pop("source", None)
 		super().__init__(*args, **kwargs)
 		self.event_queue = []
+		self.trigger_index = 0
 
 	def __repr__(self):
 		args = ["%s=%r" % (k, v) for k, v in zip(self.ARGS[1:], self._args[1:])]
@@ -461,6 +462,7 @@ class TargetedAction(Action):
 			times = times.trigger(source)[0]
 
 		for i in range(times):
+			self.trigger_index = i
 			args = self.get_args(source)
 			targets = self.get_targets(source, args[0])
 			args = args[1:]
@@ -913,6 +915,9 @@ class Summon(TargetedAction):
 				card.controller = target
 			self.broadcast(source, EventListener.ON, target, card)
 			if card.zone != Zone.PLAY:
+				if source.type == CardType.MINION and source.zone == Zone.PLAY:
+					source_index = source.controller.field.index(source)
+					card._summon_index = source_index + ((self.trigger_index + 1) % 2)
 				card.zone = Zone.PLAY
 			self.broadcast(source, EventListener.AFTER, target, card)
 
