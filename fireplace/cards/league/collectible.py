@@ -148,6 +148,11 @@ class LOE_026:
 	play = Summon(CONTROLLER, Copy(RANDOM(KILLED + MURLOC) * 7))
 
 
+# Entomb
+class LOE_104:
+	play = Steal(TARGET), Shuffle(CONTROLLER, TARGET)
+
+
 # Excavated Evil
 class LOE_111:
 	play = Hit(ALL_MINIONS, 5), Shuffle(OPPONENT, Copy(SELF))

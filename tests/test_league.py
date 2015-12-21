@@ -123,6 +123,22 @@ def test_desert_camel():
 	assert goldshire2 in game.player2.field
 
 
+def test_entomb():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	entomb = game.player2.give("LOE_104")
+	assert wisp in game.player1.field
+	assert len(game.player1.field) == 1
+	assert len(game.player2.deck) == 0
+	entomb.play(target=wisp)
+	assert len(game.player1.field) == 0
+	assert len(game.player2.deck) == 1
+	assert wisp in game.player2.deck
+
+
 def test_ethereal_conjurer():
 	game = prepare_game(MAGE, MAGE)
 	conjurer = game.player1.give("LOE_003")
