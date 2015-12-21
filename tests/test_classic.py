@@ -2092,6 +2092,15 @@ def test_old_murkeye():
 	assert murkeye.atk == murkeye2.atk == 2 + 3
 
 
+def test_onyxia():
+	game = prepare_game()
+	onyxia = game.player1.give("EX1_562")
+	assert len(game.player1.field) == 0
+	onyxia.play()
+	assert len(game.player1.field) == 7
+	assert game.player1.field == ["ds1_whelptoken"] * 3 + ["EX1_562"] + ["ds1_whelptoken"] * 3
+
+
 def test_pint_sized_summoner():
 	game = prepare_game()
 	goldshire1 = game.current_player.give(GOLDSHIRE_FOOTMAN)
