@@ -874,6 +874,22 @@ def test_dire_wolf_alpha():
 	frostwolf.attack(direwolf2)
 
 
+def test_divine_favor():
+	game = prepare_game()
+	game.player1.discard_hand()
+	for i in range(5):
+		game.player1.give(WISP)
+	assert len(game.player1.hand) == 5
+	game.end_turn()
+
+	game.player2.discard_hand()
+	game.player2.give(WISP)
+	assert len(game.player2.hand) == 1
+	favor = game.player2.give("EX1_349")
+	favor.play()
+	assert len(game.player2.hand) == len(game.player1.hand)
+
+
 def test_divine_spirit():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)

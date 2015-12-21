@@ -73,9 +73,7 @@ class CS2_094:
 
 # Divine Favor
 class EX1_349:
-	def play(self):
-		diff = len(self.controller.opponent.hand) - len(self.controller.hand)
-		yield Draw(CONTROLLER) * max(0, diff)
+	play = DrawUntil(CONTROLLER, Count(ENEMY_HAND))
 
 
 # Lay on Hands
