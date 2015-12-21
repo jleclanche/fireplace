@@ -228,6 +228,25 @@ class LOEA09_7H:
 
 
 ##
+# Giantfin
+
+# Mrglmrgl MRGL!
+class LOEA16_2:
+	activate = DrawUntil(CONTROLLER, Count(ENEMY_HAND))
+
+class LOEA16_2H:
+	activate = Draw(CONTROLLER) * 2
+
+
+# Mrgl Mrgl Nyah Nyah
+class LOEA10_5:
+	play = Summon(CONTROLLER, Copy(RANDOM(KILLED + MURLOC) * 5))
+
+class LOEA10_5H:
+	play = Summon(CONTROLLER, Copy(RANDOM(KILLED + MURLOC) * 5))
+
+
+##
 # Arch-Thief Rafaam
 
 # Unstable Portal
@@ -351,6 +370,14 @@ class LOEA16_23:
 
 class LOEA16_23H:
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOEA09_5") * Count(ENEMY_MINIONS))
+
+
+# Giantfin
+class LOEA16_24:
+	events = OWN_TURN_END.on(DrawUntil(CONTROLLER, Count(ENEMY_HAND)))
+
+class LOEA16_24H:
+	events = OWN_TURN_END.on(Draw(CONTROLLER) * 2)
 
 
 # Blessing of the Sun
