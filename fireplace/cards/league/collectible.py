@@ -127,6 +127,30 @@ class LOE_089:
 	)
 
 
+# Arch-Thief Rafaam
+class LOE_092:
+	play = Discover(CONTROLLER, RandomID("LOEA16_3", "LOEA16_5", "LOEA16_4"))
+
+
+# Lantern of Power
+class LOEA16_3:
+	play = Buff(TARGET, "LOEA16_3e")
+
+LOEA16_3e = buff(+10, +10)
+
+
+# Timepiece of Horror
+class LOEA16_4:
+	def play(self):
+		count = self.controller.get_spell_damage(10)
+		yield Hit(RANDOM_ENEMY_CHARACTER, 1) * count
+
+
+# Mirror of Doom
+class LOEA16_5:
+	play = Summon(CONTROLLER, "LOEA16_5t")
+
+
 # Ancient Shade
 class LOE_110:
 	play = Shuffle(CONTROLLER, "LOE_110t")
