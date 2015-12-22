@@ -157,15 +157,14 @@ def test_ancient_of_lore():
 	game = prepare_game()
 	game.player1.discard_hand()
 
-	# damage the hero with 6 moonfires
-	for i in range(6):
-		game.player1.give(MOONFIRE).play(target=game.player1.hero)
-	assert game.player1.hero.health == 30 - 6
+	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	assert game.player1.hero.health == 30 - 10
 
 	ancient1 = game.player1.give("NEW1_008")
 	ancient1.play(choose="NEW1_008a")  # Draw 2 Cards
 	assert len(game.player1.hand) == 2
-	assert game.player1.hero.health == 30 - 6
+	assert game.player1.hero.health == 30 - 10
 	game.end_turn(); game.end_turn()
 
 	game.player1.discard_hand()
@@ -173,7 +172,7 @@ def test_ancient_of_lore():
 	# Play to heal hero by 5
 	ancient2.play(target=game.player1.hero, choose="NEW1_008b")
 	assert not game.player1.hand
-	assert game.player1.hero.health == 30 - 6 + 5
+	assert game.player1.hero.health == 30 - 10 + 5
 
 
 def test_ancient_watcher():
@@ -300,15 +299,19 @@ def test_avenging_wrath():
 
 def test_bane_of_doom():
 	game = prepare_game()
-	doom = game.current_player.give("EX1_320")
-	token = game.player2.summon(SPELLBENDERT)
-	assert not game.player1.field
-	doom.play(target=token)
-	assert not game.player1.field
+	doom = game.player1.give("EX1_320")
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	doom.play(target=statue)
+	assert len(game.player1.field) == 1
+	assert statue.health == 10 - 2
+	statue.destroy()
 	game.end_turn(); game.end_turn()
 
-	doom2 = game.current_player.give("EX1_320")
-	doom2.play(target=token)
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	doom2 = game.player1.give("EX1_320")
+	doom2.play(target=wisp)
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].race == Race.DEMON
 	assert game.player1.field[0].data.collectible
@@ -453,15 +456,15 @@ def test_blessing_of_wisdom():
 
 def test_blizzard():
 	game = prepare_game()
-	for i in range(6):
-		game.player1.give(SPELLBENDERT).play()
+	for i in range(4):
+		game.player1.give(ANIMATED_STATUE).play()
 	game.end_turn()
 
 	blizzard = game.player2.give("CS2_028")
 	blizzard.play()
-	for spellbendert in game.current_player.opponent.field:
-		assert spellbendert.health == 1
-		assert spellbendert.frozen
+	for statue in game.player1.field:
+		assert statue.damage == 2
+		assert statue.frozen
 
 
 def test_blood_imp():
@@ -1427,17 +1430,16 @@ def test_humility():
 
 def test_hunters_mark():
 	game = prepare_game()
-	token = game.current_player.give(SPELLBENDERT)
-	token.play()
-	assert token.health == 3
-	game.current_player.give(MOONFIRE).play(target=token)
-	assert token.health == 2
-	mark = game.current_player.give("CS2_084")
-	mark.play(target=token)
-	assert token.health == 1
-	assert not token.dead
-	game.current_player.give(SILENCE).play(target=token)
-	assert token.health == 3
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	game.player1.give(MOONFIRE).play(target=statue)
+	assert statue.health == 10 - 1
+	mark = game.player1.give("CS2_084")
+	mark.play(target=statue)
+	assert statue.health == statue.max_health == 1
+	assert not statue.dead
+	game.player1.give(SILENCE).play(target=statue)
+	assert statue.health == 10
 
 
 def test_i_am_murloc():
@@ -2078,7 +2080,7 @@ def test_northshire_cleric():
 	game.player1.give(CIRCLE_OF_HEALING).play()
 	assert not game.player1.hand
 
-	game.player2.summon(SPELLBENDERT)
+	game.player2.summon(ANIMATED_STATUE)
 	game.player1.give(CIRCLE_OF_HEALING).play()
 	assert len(game.player1.hand) == 2
 
@@ -3334,20 +3336,20 @@ def test_wild_pyromancer():
 
 def test_whirlwind():
 	game = prepare_game()
-	token = game.player1.give(SPELLBENDERT)
-	token.play()
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
 	wisp = game.player1.give(WISP)
 	wisp.play()
 	game.end_turn()
+
 	wisp2 = game.player2.give(WISP)
 	wisp2.play()
-
 	game.player2.give("EX1_400").play()
 	assert game.player1.hero.health == 30
 	assert game.player2.hero.health == 30
 	assert wisp.dead
 	assert wisp2.dead
-	assert token.health == 2
+	assert statue.health == 10 - 1
 
 
 def test_young_priestess():
@@ -3368,8 +3370,8 @@ def test_young_priestess():
 	wisp1 = game.player1.give(WISP)
 	wisp1.play()
 	assert wisp1.health == 1
-
 	game.end_turn()
+
 	assert wisp1.health == 2
 
 
