@@ -183,28 +183,6 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				card.parent_card = self
 				self.choose_cards.append(card)
 
-	def action(self):
-		if self.has_target() and not self.target:
-			self.log("%r has no target, action exits early", self)
-			return
-
-		if self.has_combo and self.controller.combo:
-			self.log("Activating %r combo targeting %r", self, self.target)
-			_actions = self.get_actions("combo")
-		else:
-			self.log("Activating %r action targeting %r", self, self.target)
-			_actions = self.get_actions("play")
-
-		if _actions:
-			source = self.parent_card or self
-			self.game.queue_actions(source, _actions)
-			# Hard-process deaths after a battlecry.
-			# cf. test_knife_juggler()
-			self.game.process_deaths()
-
-		if self.overload:
-			self.game.queue_actions(self, [actions.Overload(self.controller, self.overload)])
-
 	def destroy(self):
 		return self.game.queue_actions(self, [actions.Destroy(self), actions.Deaths()])
 

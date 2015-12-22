@@ -324,7 +324,6 @@ class Play(GameAction):
 
 	def do(self, source, player, card, target, index):
 		source_card = card
-		play_action = card.action
 
 		if card.parent_card:
 			# Get the "main" card from the Choose One
@@ -347,8 +346,7 @@ class Play(GameAction):
 
 		# "Can't Play" (aka Counter) means triggers don't happen either
 		if not card.cant_play:
-			# Battlecry etc
-			play_action()
+			source.game.queue_actions(source_card, [Battlecry(card)])
 
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.
@@ -578,6 +576,33 @@ class Deathrattle(TargetedAction):
 			if target.controller.extra_deathrattles:
 				log.info("Triggering deathrattles for %r again", target)
 				source.game.queue_actions(target, actions)
+
+
+class Battlecry(TargetedAction):
+	"""
+	Trigger Battlecry on card targets
+	"""
+	def do(self, source, card):
+		player = card.controller
+
+		if source.has_target() and not source.target:
+			log.info("%r has no target, action exits early", card)
+			return
+
+		if source.has_combo and player.combo:
+			log.info("Activating %r combo targeting %r", source, source.target)
+			actions = source.get_actions("combo")
+		else:
+			log.info("Activating %r action targeting %r", source, source.target)
+			actions = source.get_actions("play")
+
+		if actions:
+			source.game.queue_actions(card, actions)
+
+		source.game.process_deaths()
+
+		if card.overload:
+			source.game.queue_actions(card, [Overload(player, card.overload)])
 
 
 class Destroy(TargetedAction):
