@@ -1,5 +1,5 @@
 from hearthstone.enums import GameTag
-from .enums import ALWAYS_WINS_BRAWLS, CANT_OVERLOAD, KILLED_THIS_TURN
+from . import enums
 
 
 class Manager(object):
@@ -112,7 +112,7 @@ class PlayerManager(Manager):
 		GameTag.TEMP_RESOURCES: "temp_mana",
 		GameTag.TIMEOUT: "timeout",
 		GameTag.TURN_START: "turn_start",
-		CANT_OVERLOAD: "cant_overload",
+		enums.CANT_OVERLOAD: "cant_overload",
 	}
 
 
@@ -181,8 +181,8 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.TAUNT: "taunt",
 	GameTag.WINDFURY: "windfury",
 	GameTag.ZONE: "zone",
-	ALWAYS_WINS_BRAWLS: "always_wins_brawls",
-	KILLED_THIS_TURN: "killed_this_turn",
+	enums.ALWAYS_WINS_BRAWLS: "always_wins_brawls",
+	enums.KILLED_THIS_TURN: "killed_this_turn",
 	GameTag.AFFECTED_BY_SPELL_POWER: None,
 	GameTag.ARTISTNAME: None,
 	GameTag.AttackVisualType: None,
