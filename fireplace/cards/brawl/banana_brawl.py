@@ -14,7 +14,9 @@ TB_006e = buff(+2, +2)
 
 # Deviate Banana
 class TB_007:
-	play = SwapAttackAndHealth(TARGET, "TB_007e")
+	play = Buff(TARGET, "TB_007e")
+
+TB_007e = AttackHealthSwapBuff()
 
 
 # Rotten Banana

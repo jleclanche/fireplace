@@ -106,3 +106,17 @@ def buff(atk=0, health=0, **kwargs):
 		tags = buff_tags
 
 	return Buff
+
+
+def AttackHealthSwapBuff():
+	def apply(self, target):
+		self._xatk = target.health
+		self._xhealth = target.atk
+		target.damage = 0
+
+	cls = buff()
+	cls.atk = lambda self, i: self._xatk
+	cls.max_health = lambda self, i: self._xhealth
+	cls.apply = apply
+
+	return cls

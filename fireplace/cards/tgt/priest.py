@@ -48,7 +48,9 @@ class AT_015:
 
 # Confuse
 class AT_016:
-	play = SwapAttackAndHealth(ALL_MINIONS, "AT_016e")
+	play = Buff(ALL_MINIONS, "AT_016e")
+
+AT_016e = AttackHealthSwapBuff()
 
 
 # Flash Heal

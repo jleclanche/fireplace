@@ -507,18 +507,6 @@ class Buff(TargetedAction):
 		return source.buff(target, buff, **kwargs)
 
 
-class SwapAttackAndHealth(Buff):
-	def do(self, source, target, buff):
-		log.info("%r swaps attack and health for %r", source, target)
-		buff = super().do(source, target, buff)
-		atk = target.health - target.atk
-		health = target.atk - target.health
-		buff._atk = atk
-		buff._max_health = health
-		target.damage = 0
-		return buff
-
-
 class Bounce(TargetedAction):
 	"""
 	Bounce minion targets on the field back into the hand.
