@@ -76,6 +76,14 @@ class LOEA01_11h:
 LOEA01_11he = buff(+3, +3)
 
 
+# Tol'vir Hoplite
+class LOEA01_12:
+	deathrattle = Hit(ALL_HEROES, 5)
+
+class LOEA01_12h:
+	deathrattle = Hit(ALL_HEROES, 5)
+
+
 ##
 # Temple Escape
 
@@ -185,6 +193,25 @@ class LOEA07_26:
 # Repairs
 class LOEA07_28:
 	play = Heal(TARGET, 10)
+
+
+##
+# Arch-Thief Rafaam
+
+# Unstable Portal
+class LOEA15_2:
+	activate = Give(CONTROLLER, RandomMinion()).then(Buff(Give.CARD, "GVG_003e"))
+
+class LOEA15_2H:
+	activate = Give(CONTROLLER, RandomMinion()).then(Buff(Give.CARD, "GVG_003e"))
+
+
+# Rare Spear
+class LOEA09_4:
+	events = Play(OPPONENT, RARE).on(Buff(SELF, "EX1_409e"))
+
+class LOEA09_4H:
+	events = Play(OPPONENT, RARE).on(Buff(SELF, "EX1_409e"))
 
 
 ##
