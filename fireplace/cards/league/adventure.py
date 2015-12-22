@@ -196,6 +196,38 @@ class LOEA07_28:
 
 
 ##
+# Lord Slitherspear
+
+# Enraged!
+class LOEA09_2:
+	activate = Buff(FRIENDLY_HERO, "LOEA09_2e")
+
+LOEA09_2e = buff(atk=2)
+
+class LOEA09_2H:
+	activate = Buff(FRIENDLY_HERO, "LOEA09_2e")
+
+LOEA09_2eH = buff(atk=5)
+
+
+# Slithering Archer
+class LOEA09_6:
+	play = Hit(TARGET, 1)
+
+class LOEA09_6H:
+	play = Hit(ENEMY_MINIONS, 2)
+
+
+# Cauldron
+class LOEA09_7:
+	deathrattle = Give(OPPONENT, "LOE_076"), Summon(CONTROLLER, "LOEA09_2")
+
+# Cauldron (Unused)
+class LOEA09_7H:
+	deathrattle = Give(OPPONENT, "LOE_076"), Summon(CONTROLLER, "LOEA09_2H")
+
+
+##
 # Arch-Thief Rafaam
 
 # Unstable Portal
