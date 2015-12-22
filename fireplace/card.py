@@ -203,11 +203,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			self.game.process_deaths()
 
 		if self.overload:
-			if self.controller.cant_overload:
-				self.log("%r cannot overload %s", self, self.controller)
-			else:
-				self.log("%r overloads %s for %i", self, self.controller, self.overload)
-				self.game.queue_actions(self, [actions.Overload(self.controller, self.overload)])
+			self.game.queue_actions(self, [actions.Overload(self.controller, self.overload)])
 
 	def destroy(self):
 		return self.game.queue_actions(self, [actions.Destroy(self), actions.Deaths()])

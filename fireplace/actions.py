@@ -400,6 +400,10 @@ class Overload(GameAction):
 	ARGS = ("PLAYER", "AMOUNT")
 
 	def do(self, source, player, amount):
+		if player.cant_overload:
+			log.info("%r cannot overload %s", source, player)
+			return
+		log.info("%r overloads %s for %i", source, player, amount)
 		self.broadcast(source, EventListener.ON, player, amount)
 		player.overloaded += amount
 
