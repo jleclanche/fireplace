@@ -103,7 +103,12 @@ LOE_061e = buff(+3, +3)
 
 # Fossilized Devilsaur
 class LOE_073:
-	play = Find(FRIENDLY_MINIONS + BEAST) & Taunt(SELF)
+	powered_up = Find(FRIENDLY_MINIONS + BEAST)
+	play = powered_up & Taunt(SELF)
+
+
+# Fossilized (Unused)
+LOE_073e = buff(taunt=True)
 
 
 # Summoning Stone
