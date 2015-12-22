@@ -41,6 +41,9 @@ class NEW1_005:
 class NEW1_014:
 	play = Stealth(TARGET)
 
+# Disguised (Unused)
+NEW1_014e = buff(stealth=True)
+
 
 ##
 # Spells
