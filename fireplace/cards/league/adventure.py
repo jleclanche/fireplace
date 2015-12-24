@@ -396,3 +396,11 @@ class LOE_008:
 
 class LOE_008H:
 	play = Summon(CONTROLLER, RANDOM(ENEMY_DECK + SECRET))
+
+
+# Boneraptor
+class LOEA15_3:
+	play = Steal(ENEMY_WEAPON)
+
+class LOEA15_3H:
+	play = Steal(ENEMY_WEAPON)
