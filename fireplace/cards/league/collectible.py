@@ -221,6 +221,19 @@ class LOE_104:
 	play = Steal(TARGET), Shuffle(CONTROLLER, TARGET)
 
 
+# Explorer's Hat
+class LOE_105:
+	play = Buff(TARGET, "LOE_105")
+
+class LOE_105e:
+	deathrattle = Give(OWNER_CONTROLLER, "LOE_105")
+	tags = {
+		GameTag.ATK: +1,
+		GameTag.HEALTH: +1,
+		GameTag.DEATHRATTLE: True,
+	}
+
+
 # Excavated Evil
 class LOE_111:
 	play = Hit(ALL_MINIONS, 5), Shuffle(OPPONENT, Copy(SELF))
