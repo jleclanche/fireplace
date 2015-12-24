@@ -28,15 +28,15 @@ RandomSparePart = lambda: RandomCardPicker(spare_part=True)
 
 
 class RandomEntourage(RandomCardPicker):
-	def pick(self, source):
+	def pick(self, source, **kwargs):
 		self._cards = source.entourage
-		return super().pick(source)
+		return super().pick(source, **kwargs)
 
 
 class RandomID(RandomCardPicker):
-	def pick(self, source):
+	def pick(self, source, **kwargs):
 		self._cards = self.args
-		return super().pick(source)
+		return super().pick(source, **kwargs)
 
 
 Freeze = lambda target: SetTag(target, (GameTag.FROZEN, ))
