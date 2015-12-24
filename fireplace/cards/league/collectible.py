@@ -94,6 +94,11 @@ class LOE_050:
 	deathrattle = Summon(CONTROLLER, RandomMinion(cost=1))
 
 
+# Jungle Moonkin
+class LOE_051:
+	update = Refresh(ALL_PLAYERS, {GameTag.SPELLPOWER: +2})
+
+
 # Anubisath Sentinel
 class LOE_061:
 	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "LOE_061e")
