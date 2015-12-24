@@ -434,10 +434,8 @@ class TargetedAction(Action):
 
 	def get_target_args(self, source, target):
 		ret = []
-		for k, v in zip(self.ARGS, self._args):
-			if k == "TARGETS":
-				continue
-			elif isinstance(v, Selector):
+		for k, v in zip(self.ARGS[1:], self._args[1:]):
+			if isinstance(v, Selector):
 				# evaluate Selector arguments
 				v = v.eval(source.game, source)
 			elif isinstance(v, LazyValue):
