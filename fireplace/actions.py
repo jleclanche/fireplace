@@ -452,6 +452,8 @@ class TargetedAction(Action):
 			ret = t.evaluate(source)
 		else:
 			ret = t.eval(source.game, source)
+		if not ret:
+			return []
 		if not hasattr(ret, "__iter__"):
 			# Bit of a hack to ensure we always get a list back
 			ret = [ret]
