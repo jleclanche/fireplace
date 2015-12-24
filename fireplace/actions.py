@@ -583,6 +583,14 @@ class Battlecry(TargetedAction):
 
 	ARGS = ("CARD", "TARGET")
 
+	def get_target_args(self, source, target):
+		arg = self._args[1]
+		if isinstance(arg, Selector):
+			arg = arg.eval(source.game, source)
+			assert len(arg) == 1
+			arg = arg[0]
+		return [arg]
+
 	def do(self, source, card, target):
 		player = card.controller
 
