@@ -155,7 +155,7 @@ class EX1_132:
 class EX1_136:
 	secret = Death(FRIENDLY + MINION).on(FULL_BOARD | (
 		Reveal(SELF),
-		Summon(CONTROLLER, Copy(Death.ENTITY)).then(SetCurrentHealth(Summon.CARDS, 1))
+		Summon(CONTROLLER, Copy(Death.ENTITY)).then(SetCurrentHealth(Summon.CARD, 1))
 	))
 
 
@@ -180,7 +180,7 @@ class CS2_097:
 # Sword of Justice
 class EX1_366:
 	events = Summon(CONTROLLER, MINION).after(
-		Buff(Summon.CARDS, "EX1_366e"),
+		Buff(Summon.CARD, "EX1_366e"),
 		Hit(SELF, 1)
 	)
 

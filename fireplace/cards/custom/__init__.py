@@ -13,7 +13,7 @@ class FIREPLACE_EX1_084:
 		GameTag.HEALTH: 3,
 	}
 	events = Summon(CONTROLLER, MINION + (ATK <= 3)).after(
-		Buff(Summon.CARDS, "FIREPLACE_EX1_084e")
+		Buff(Summon.CARD, "FIREPLACE_EX1_084e")
 	)
 
 

@@ -68,7 +68,7 @@ class NAX8_02H_TB:
 # Poison Cloud
 class NAX11_02H_2_TB:
 	activate = Hit(ENEMY_MINIONS, 1).then(
-		Dead(Hit.TARGETS) & Summon(CONTROLLER, "NAX11_03")
+		Dead(Hit.TARGET) & Summon(CONTROLLER, "NAX11_03")
 	)
 
 

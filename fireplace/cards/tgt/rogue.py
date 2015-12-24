@@ -13,7 +13,7 @@ AT_028e = buff(atk=3)
 
 # Buccaneer
 class AT_029:
-	events = Summon(FRIENDLY_WEAPON).on(Buff(Summon.TARGETS, "AT_029e"))
+	events = Summon(FRIENDLY_WEAPON).on(Buff(Summon.TARGET, "AT_029e"))
 
 AT_029e = buff(atk=1)
 

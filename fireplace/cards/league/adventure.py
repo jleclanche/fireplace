@@ -59,7 +59,7 @@ class LOEA01_02:
 	)
 
 class LOEA01_02h:
-	events = Summon(CONTROLLER, ID("LOEA01_11h")).on(Buff(Summon.CARDS, "LOEA01_11he"))
+	events = Summon(CONTROLLER, ID("LOEA01_11h")).on(Buff(Summon.CARD, "LOEA01_11he"))
 	update = (
 		Find(FRIENDLY_MINIONS + ID("LOEA01_11h")) & (
 			Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})

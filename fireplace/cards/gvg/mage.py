@@ -6,7 +6,7 @@ from ..utils import *
 
 # Snowchugger
 class GVG_002:
-	events = Damage(CHARACTER, None, SELF).on(Freeze(Damage.TARGETS))
+	events = Damage(CHARACTER, None, SELF).on(Freeze(Damage.TARGET))
 
 
 # Goblin Blastmage

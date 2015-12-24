@@ -410,7 +410,7 @@ class Overload(GameAction):
 
 
 class TargetedAction(Action):
-	ARGS = ("TARGETS", )
+	ARGS = ("TARGET", )
 
 	def __init__(self, *args, **kwargs):
 		self.source = kwargs.pop("source", None)
@@ -502,7 +502,7 @@ class Buff(TargetedAction):
 	"""
 	Buff character targets with Enchantment \a id
 	"""
-	ARGS = ("TARGETS", "BUFF")
+	ARGS = ("TARGET", "BUFF")
 
 	def do(self, source, target, buff):
 		kwargs = self._kwargs.copy()
@@ -537,7 +537,7 @@ class Predamage(TargetedAction):
 	"""
 	Predamage target by \a amount.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		target.predamage = amount
@@ -551,7 +551,7 @@ class Damage(TargetedAction):
 	"""
 	Damage target by \a amount.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		amount = target._hit(source, target.predamage)
@@ -586,7 +586,7 @@ class Battlecry(TargetedAction):
 	Trigger Battlecry on card targets
 	"""
 
-	ARGS = ("TARGETS", "TARGET")
+	ARGS = ("CARD", "TARGET")
 
 	def do(self, source, card, target):
 		player = card.controller
@@ -636,7 +636,7 @@ class Discover(TargetedAction):
 	"""
 	Opens a generic choice for three random cards matching a filter.
 	"""
-	ARGS = ("TARGETS", "CARDS")
+	ARGS = ("TARGET", "CARDS")
 
 	def get_target_args(self, source, target):
 		picker = self._args[1]
@@ -652,7 +652,7 @@ class Draw(TargetedAction):
 	"""
 	Make player targets draw a card from their deck.
 	"""
-	ARGS = ("TARGETS", "CARD")
+	ARGS = ("TARGET", "CARD")
 
 	def get_target_args(self, source, target):
 		if target.deck:
@@ -675,7 +675,7 @@ class Fatigue(TargetedAction):
 	"""
 	Hit a player with a tick of fatigue
 	"""
-	ARGS = ("TARGETS", )
+	ARGS = ("TARGET", )
 
 	def do(self, source, target):
 		if target.cant_fatigue:
@@ -698,7 +698,7 @@ class DrawUntil(TargetedAction):
 	"""
 	Make target player target draw up to \a amount cards minus their hand count.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		difference = max(0, amount - len(target.hand))
@@ -718,7 +718,7 @@ class GainArmor(TargetedAction):
 	"""
 	Make hero targets gain \a amount armor.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		target.armor += amount
@@ -729,7 +729,7 @@ class GainMana(TargetedAction):
 	"""
 	Give player targets \a Mana crystals.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		target.max_mana += amount
@@ -739,7 +739,7 @@ class GainEmptyMana(TargetedAction):
 	"""
 	Give player targets \a amount empty Mana crystals.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		target.max_mana += amount
@@ -750,7 +750,7 @@ class Give(TargetedAction):
 	"""
 	Give player targets card \a id.
 	"""
-	ARGS = ("TARGETS", "CARD")
+	ARGS = ("TARGET", "CARD")
 
 	def do(self, source, target, cards):
 		log.info("Giving %r to %s", cards, target)
@@ -772,7 +772,7 @@ class Hit(TargetedAction):
 	"""
 	Hit character targets by \a amount.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		amount = source.get_damage(amount, target)
@@ -785,7 +785,7 @@ class Heal(TargetedAction):
 	"""
 	Heal character targets by \a amount.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		if source.controller.outgoing_healing_adjustment:
@@ -805,7 +805,7 @@ class ManaThisTurn(TargetedAction):
 	"""
 	Give player targets \a amount Mana this turn.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		target.temp_mana += min(target.max_resources - target.mana, amount)
@@ -815,7 +815,7 @@ class Mill(TargetedAction):
 	"""
 	Mill \a count cards from the top of the player targets' deck.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, count):
 		target.mill(count)
@@ -825,7 +825,7 @@ class Morph(TargetedAction):
 	"""
 	Morph minion target into \a minion id
 	"""
-	ARGS = ("TARGETS", "CARD")
+	ARGS = ("TARGET", "CARD")
 
 	def get_target_args(self, source, target):
 		card = _eval_card(source, self._args[1])
@@ -850,14 +850,14 @@ class FillMana(TargetedAction):
 	"""
 	Refill \a amount mana crystals from player targets.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		target.used_mana -= amount
 
 
 class Retarget(TargetedAction):
-	ARGS = ("TARGETS", "CARDS")
+	ARGS = ("TARGET", "CARD")
 
 	def do(self, source, target, new_target):
 		if not new_target:
@@ -889,7 +889,7 @@ class SetCurrentHealth(TargetedAction):
 	"""
 	Sets the current health of the character target to \a amount.
 	"""
-	ARGS = ("TARGETS", "AMOUNT")
+	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
 		log.info("Setting current health on %r to %i", target, amount)
@@ -901,7 +901,7 @@ class SetTag(TargetedAction):
 	"""
 	Sets targets' given tags.
 	"""
-	ARGS = ("TARGETS", "TAGS")
+	ARGS = ("TARGET", "TAGS")
 
 	def do(self, source, target, tags):
 		if isinstance(tags, dict):
@@ -916,7 +916,7 @@ class UnsetTag(TargetedAction):
 	"""
 	Unset targets' given tags.
 	"""
-	ARGS = ("TARGETS", "TAGS")
+	ARGS = ("TARGET", "TAGS")
 
 	def do(self, source, target, tags):
 		for tag in tags:
@@ -946,7 +946,7 @@ class Summon(TargetedAction):
 	Make player targets summon \a id onto their field.
 	This works for equipping weapons as well as summoning minions.
 	"""
-	ARGS = ("TARGETS", "CARDS")
+	ARGS = ("TARGET", "CARD")
 
 	def _broadcast(self, entity, source, at, *args):
 		# Prevent cards from triggering off their own summon
@@ -979,7 +979,7 @@ class Shuffle(TargetedAction):
 	"""
 	Shuffle card targets into player target's deck.
 	"""
-	ARGS = ("TARGETS", "CARDS")
+	ARGS = ("TARGET", "CARD")
 
 	def do(self, source, target, cards):
 		log.info("%r shuffles into %s's deck", cards, target)
@@ -998,7 +998,7 @@ class Swap(TargetedAction):
 	Swap minion target with \a other.
 	Behaviour is undefined when swapping more than two minions.
 	"""
-	ARGS = ("TARGETS", "OTHER")
+	ARGS = ("TARGET", "OTHER")
 
 	def get_target_args(self, source, target):
 		other = self.eval(self._args[1], source)
@@ -1019,7 +1019,7 @@ class Steal(TargetedAction):
 	Make the controller take control of targets.
 	The controller is the controller of the source of the action.
 	"""
-	ARGS = ("TARGETS", "CONTROLLER")
+	ARGS = ("TARGET", "CONTROLLER")
 
 	def get_target_args(self, source, target):
 		if len(self._args) > 1:

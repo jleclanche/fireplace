@@ -135,7 +135,7 @@ class NEW1_036:
 	play = Buff(FRIENDLY_MINIONS, "NEW1_036e"), Buff(FRIENDLY_HERO, "NEW1_036e2")
 
 class NEW1_036e2:
-	events = Summon(CONTROLLER, MINION).on(Buff(Summon.CARDS, "NEW1_036e"))
+	events = Summon(CONTROLLER, MINION).on(Buff(Summon.CARD, "NEW1_036e"))
 
 NEW1_036e = buff(health_minimum=1)
 

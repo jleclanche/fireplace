@@ -28,7 +28,7 @@ class AT_059:
 
 # Acidmaw
 class AT_063:
-	events = Damage(MINION - SELF).on(Destroy(Damage.TARGETS))
+	events = Damage(MINION - SELF).on(Destroy(Damage.TARGET))
 
 
 # Dreadscale
