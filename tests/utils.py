@@ -4,6 +4,7 @@ import fireplace.cards
 from fireplace.cards.heroes import *
 from hearthstone.enums import *
 from fireplace.game import BaseGame, CoinRules, Game
+from fireplace.brawls import *
 from fireplace.player import Player
 from fireplace.utils import random_draft
 from fireplace.logging import log
