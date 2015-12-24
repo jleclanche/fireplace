@@ -315,6 +315,15 @@ def test_huge_toad():
 	assert game.player1.hero.health + dummy.health == 30 + 2 - 1
 
 
+def test_jungle_moonkin():
+	game = prepare_game()
+	moonkin = game.player1.give("LOE_051")
+	moonkin.play()
+	statue = game.player2.summon(ANIMATED_STATUE)
+	game.player1.give(MOONFIRE).play(target=statue)
+	assert statue.health == 7
+
+
 def test_keeper_of_uldaman():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
