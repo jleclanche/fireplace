@@ -599,6 +599,9 @@ class Battlecry(TargetedAction):
 		if actions:
 			source.game.queue_actions(card, actions)
 
+			if player.extra_battlecries and card.has_battlecry:
+				source.game.queue_actions(card, actions)
+
 		source.game.process_deaths()
 
 		if card.overload:

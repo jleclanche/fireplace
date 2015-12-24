@@ -111,6 +111,11 @@ class LOE_073:
 LOE_073e = buff(taunt=True)
 
 
+# Brann Bronzebeard:
+class LOE_077:
+	update = Refresh(CONTROLLER, {enums.EXTRA_BATTLECRIES: True})
+
+
 # Elise Starseeker
 class LOE_079:
 	play = Shuffle(CONTROLLER, "LOE_019t")

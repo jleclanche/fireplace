@@ -182,6 +182,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.WINDFURY: "windfury",
 	GameTag.ZONE: "zone",
 	enums.ALWAYS_WINS_BRAWLS: "always_wins_brawls",
+	enums.EXTRA_BATTLECRIES: "extra_battlecries",
 	enums.KILLED_THIS_TURN: "killed_this_turn",
 	GameTag.AFFECTED_BY_SPELL_POWER: None,
 	GameTag.ARTISTNAME: None,
