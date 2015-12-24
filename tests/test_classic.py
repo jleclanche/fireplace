@@ -1122,6 +1122,13 @@ def test_far_sight():
 	assert card1.cost == max(card2.cost - 3, 0)
 
 
+def test_far_sight_fatigue():
+	game = prepare_empty_game()
+	farsight = game.player1.give("CS2_053")
+	farsight.play()  # Should not crash
+	assert not game.player1.hand
+
+
 def test_felguard():
 	game = prepare_game(game_class=Game)
 	for i in range(3):
