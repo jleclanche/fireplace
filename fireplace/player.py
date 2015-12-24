@@ -183,6 +183,20 @@ class Player(Entity, TargetableByAuras):
 	def fatigue(self):
 		return self.game.queue_actions(self, [Fatigue(self)])[0]
 
+	def pay_mana(self, amount: int) -> int:
+		"""
+		Make player pay \a amount mana.
+		Returns how much mana is spent, after temporary mana adjustments.
+		"""
+		if self.temp_mana:
+			# Coin, Innervate etc
+			used_temp = min(self.temp_mana, amount)
+			amount -= used_temp
+			self.temp_mana -= used_temp
+		self.log("%s pays %i mana", self, amount)
+		self.used_mana += amount
+		return amount
+
 	@property
 	def max_mana(self):
 		return self._max_mana

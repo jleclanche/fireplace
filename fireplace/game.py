@@ -86,13 +86,7 @@ class BaseGame(Entity):
 		"""
 		player = card.controller
 		self.log("%s plays %r", player, card)
-		cost = card.cost
-		if player.temp_mana:
-			# The coin, Innervate etc
-			used_temp = min(player.temp_mana, cost)
-			cost -= used_temp
-			player.temp_mana -= used_temp
-		player.used_mana += cost
+		player.pay_mana(card.cost)
 		player.last_card_played = card
 		card.play_counter = self.play_counter
 		self.play_counter += 1
