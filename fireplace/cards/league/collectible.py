@@ -111,6 +111,21 @@ class LOE_073:
 LOE_073e = buff(taunt=True)
 
 
+# Elise Starseeker
+class LOE_079:
+	play = Shuffle(CONTROLLER, "LOE_019t")
+
+
+# Map to the Golden Monkey
+class LOE_019t:
+	play = Shuffle(CONTROLLER, "LOE_019t2"), Draw(CONTROLLER)
+
+
+# Golden Monkey
+class LOE_019t2:
+	play = Morph(FRIENDLY + (IN_HAND | IN_DECK), RandomLegendaryMinion())
+
+
 # Summoning Stone
 class LOE_086:
 	events = OWN_SPELL_PLAY.on(

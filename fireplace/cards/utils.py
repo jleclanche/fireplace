@@ -23,6 +23,7 @@ RandomMurloc = lambda *a, **kw: RandomMinion(*a, race=Race.MURLOC)
 RandomSpell = lambda *a, **kw: RandomCollectible(*a, type=CardType.SPELL, **kw)
 RandomTotem = lambda *a, **kw: RandomCardPicker(*a, race=Race.TOTEM)
 RandomWeapon = lambda *a, **kw: RandomCollectible(*a, type=CardType.WEAPON, **kw)
+RandomLegendaryMinion = lambda *a, **kw: RandomMinion(*a, rarity=Rarity.LEGENDARY, **kw)
 RandomSparePart = lambda: RandomCardPicker(spare_part=True)
 
 
