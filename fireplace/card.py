@@ -753,7 +753,7 @@ class Weapon(rules.WeaponRules, LiveEntity):
 
 
 class HeroPower(PlayableCard):
-	additional_activations = slot_property("additional_activations", sum)
+	additional_activations = int_property("additional_activations")
 	playable_zone = Zone.PLAY
 
 	def __init__(self, data):
