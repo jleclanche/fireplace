@@ -323,6 +323,7 @@ class Play(GameAction):
 		return (source, ) + super().get_args(source)
 
 	def do(self, source, player, card, target, index):
+		log.info("%s plays %r (target=%r, index=%r)", player, card, target, index)
 		source_card = card
 
 		if card.parent_card:
@@ -330,11 +331,14 @@ class Play(GameAction):
 			card.parent_card.choose = card
 			card = card.parent_card
 
+		player.pay_mana(card.cost)
+
 		card.target = target
 		card._summon_index = index
 		source_card.target = target
+
 		player.game.no_aura_refresh = True
-		player.game._play(card)
+		card.zone = Zone.PLAY
 
 		self.broadcast(player, EventListener.ON, player, card, target)
 		# NOTE: A Play is not a summon! But it sure looks like one.
@@ -358,6 +362,7 @@ class Play(GameAction):
 			self.broadcast(player, EventListener.AFTER, player, played_minion, target)
 
 		player.combo = True
+		player.last_card_played = card
 		player.cards_played_this_turn += 1
 		if source_card.type == CardType.MINION:
 			player.minions_played_this_turn += 1

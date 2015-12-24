@@ -80,16 +80,6 @@ class BaseGame(Entity):
 	def attack(self, source, target):
 		return self.queue_actions(source, [Attack(source, target)])
 
-	def _play(self, card):
-		"""
-		Plays \a card from a Player's hand
-		"""
-		player = card.controller
-		self.log("%s plays %r", player, card)
-		player.pay_mana(card.cost)
-		player.last_card_played = card
-		card.zone = Zone.PLAY
-
 	def check_for_end_game(self):
 		"""
 		Check if one or more player is currently losing.
