@@ -99,6 +99,11 @@ class LOE_051:
 	update = Refresh(ALL_PLAYERS, {GameTag.SPELLPOWER: +2})
 
 
+# Djinni of Zephyrs
+class LOE_053:
+	events = Play(CONTROLLER, SPELL, FRIENDLY_MINIONS - SELF).after(Battlecry(Play.CARD, SELF))
+
+
 # Anubisath Sentinel
 class LOE_061:
 	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "LOE_061e")
