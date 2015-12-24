@@ -121,11 +121,11 @@ class GreatSummonerBrawl(Game):
 	for you!
 	"""
 
-	def _play(self, card, *args):
-		if card.type == CardType.SPELL:
-			action = Summon(card.controller, RandomMinion(cost=card.cost))
-			self.queue_actions(card.controller, [action])
-		return super()._play(card, *args)
+	base_events = [
+		Play(PLAYER, SPELL).on(
+			Summon(Play.PLAYER, RandomMinion(cost=COST(Play.CARD)))
+		)
+	]
 
 
 class CrossroadsEncounterBrawl(Game):
@@ -197,11 +197,11 @@ class MaskedBallBrawl(Game):
 	another fight!
 	"""
 
-	def _play(self, card, *args):
-		if card.type == CardType.MINION and card.cost >= 2:
-			action = Buff(card, "TB_Pilot1")
-			self.queue_actions(card, [action])
-		return super()._play(card, *args)
+	base_events = [
+		Play(PLAYER, MINION + (COST >= 2)).on(
+			Buff(Play.CARD, "TB_Pilot1")
+		)
+	]
 
 
 class GrandTournamentBrawl(Game):
