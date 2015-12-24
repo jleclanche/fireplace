@@ -261,21 +261,22 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		Queue a Play action on the card.
 		"""
 		if choose:
-			# This is a helper so we can do keeper.play(choose=id)
-			# instead of having to mess with keeper.choose_cards.filter(...)
-			return self.choose_cards.filter(id=choose)[0].play(target=target, index=index)
-		if self.choose_cards:
-			raise InvalidAction("Do not play %r! Play one of its Choose Cards instead" % (self))
+			choose = card = self.choose_cards.filter(id=choose)[0]
+			self.log("%r: choosing %r", self, choose)
+		else:
+			if self.choose_cards:
+				raise InvalidAction("%r requires a choice (one of %r)" % (self, self.choose_cards))
+			card = self
 		if not self.is_playable():
 			raise InvalidAction("%r isn't playable." % (self))
-		if self.has_target():
+		if card.has_target():
 			if not target:
 				raise InvalidAction("%r requires a target to play." % (self))
 			elif target not in self.targets:
 				raise InvalidAction("%r is not a valid target for %r." % (target, self))
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
-		self.game.queue_actions(self.controller, [actions.Play(self, target, index)])
+		self.game.queue_actions(self.controller, [actions.Play(self, target, index, choose)])
 		return self
 
 	def is_summonable(self) -> bool:

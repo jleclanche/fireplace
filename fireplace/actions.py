@@ -311,7 +311,7 @@ class Play(GameAction):
 	Make the source player play \a card, on \a target or None.
 	Choose play action from \a choose or None.
 	"""
-	ARGS = ("PLAYER", "CARD", "TARGET", "CHOOSE")
+	ARGS = ("PLAYER", "CARD", "TARGET", "INDEX", "CHOOSE")
 
 	def _broadcast(self, entity, source, at, *args):
 		# Prevent cards from triggering off their own play
@@ -322,14 +322,8 @@ class Play(GameAction):
 	def get_args(self, source):
 		return (source, ) + super().get_args(source)
 
-	def do(self, source, player, card, target, index):
+	def do(self, source, player, card, target, index, choose):
 		log.info("%s plays %r (target=%r, index=%r)", player, card, target, index)
-		source_card = card
-
-		if card.parent_card:
-			# Get the "main" card from the Choose One
-			card.parent_card.choose = card
-			card = card.parent_card
 
 		player.pay_mana(card.cost)
 
@@ -349,7 +343,8 @@ class Play(GameAction):
 
 		# "Can't Play" (aka Counter) means triggers don't happen either
 		if not card.cant_play:
-			source.game.queue_actions(source_card, [Battlecry(card, card.target)])
+			battlecry_card = choose or card
+			source.game.queue_actions(card, [Battlecry(battlecry_card, card.target)])
 
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.
@@ -363,7 +358,7 @@ class Play(GameAction):
 		player.combo = True
 		player.last_card_played = card
 		player.cards_played_this_turn += 1
-		if source_card.type == CardType.MINION:
+		if card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
 
 		card.target = None
@@ -591,23 +586,23 @@ class Battlecry(TargetedAction):
 	def do(self, source, card, target):
 		player = card.controller
 
-		if source.has_target() and not target:
+		if card.has_target() and not target:
 			log.info("%r has no target, action exits early", card)
 			return
 
-		if source.has_combo and player.combo:
-			log.info("Activating %r combo targeting %r", source, target)
-			actions = source.get_actions("combo")
+		if card.has_combo and player.combo:
+			log.info("Activating %r combo targeting %r", card, target)
+			actions = card.get_actions("combo")
 		else:
-			log.info("Activating %r action targeting %r", source, target)
-			actions = source.get_actions("play")
+			log.info("Activating %r action targeting %r", card, target)
+			actions = card.get_actions("play")
 
 		if actions:
-			card.target = target
-			source.game.queue_actions(card, actions)
+			source.target = target
+			source.game.queue_actions(source, actions)
 
 			if player.extra_battlecries and card.has_battlecry:
-				source.game.queue_actions(card, actions)
+				source.game.queue_actions(source, actions)
 
 		source.game.process_deaths()
 
