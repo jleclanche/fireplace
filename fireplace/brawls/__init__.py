@@ -3,7 +3,7 @@ from hearthstone.enums import CardClass, CardType, GameTag
 from ..actions import Buff, Give, Summon
 from ..aura import Refresh
 from ..game import Game
-from ..cards.utils import RandomMinion
+from ..cards.utils import RandomID, RandomMinion
 from ..dsl.picker import RandomCardPicker
 from ..dsl.selector import ALL_PLAYERS
 
@@ -85,13 +85,12 @@ class BananaBrawl(Game):
 	celebrate!
 	"""
 
-	class RandomBanana(RandomCardPicker):
-		cards = ("EX1_014t", "TB_006", "TB_007", "TB_008")
+	RandomBanana = RandomID("EX1_014t", "TB_006", "TB_007", "TB_008")
 
 	def _schedule_death(self, card):
 		ret = super()._schedule_death(card)
 		if card.type == CardType.MINION:
-			ret.append(Give(card.controller, self.RandomBanana()))
+			ret.append(Give(card.controller, self.RandomBanana))
 		return ret
 
 
