@@ -87,6 +87,10 @@ class BaseCard(BaseEntity):
 			caches[value].append(self)
 		self._zone = value
 
+		if value == Zone.PLAY:
+			self.play_counter = self.game.play_counter
+			self.game.play_counter += 1
+
 	def buff(self, target, buff, **kwargs):
 		"""
 		Summon \a buff and apply it to \a target

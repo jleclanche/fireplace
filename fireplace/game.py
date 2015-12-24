@@ -88,8 +88,6 @@ class BaseGame(Entity):
 		self.log("%s plays %r", player, card)
 		player.pay_mana(card.cost)
 		player.last_card_played = card
-		card.play_counter = self.play_counter
-		self.play_counter += 1
 		card.zone = Zone.PLAY
 
 	def check_for_end_game(self):
