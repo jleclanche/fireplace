@@ -335,7 +335,6 @@ class Play(GameAction):
 
 		card.target = target
 		card._summon_index = index
-		source_card.target = target
 
 		player.game.no_aura_refresh = True
 		card.zone = Zone.PLAY
@@ -350,7 +349,7 @@ class Play(GameAction):
 
 		# "Can't Play" (aka Counter) means triggers don't happen either
 		if not card.cant_play:
-			source.game.queue_actions(source_card, [Battlecry(card)])
+			source.game.queue_actions(source_card, [Battlecry(card, card.target)])
 
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.
@@ -368,7 +367,6 @@ class Play(GameAction):
 			player.minions_played_this_turn += 1
 
 		card.target = None
-		source_card.target = None
 		card.choose = None
 
 
@@ -589,21 +587,25 @@ class Battlecry(TargetedAction):
 	"""
 	Trigger Battlecry on card targets
 	"""
-	def do(self, source, card):
+
+	ARGS = ("TARGETS", "TARGET")
+
+	def do(self, source, card, target):
 		player = card.controller
 
-		if source.has_target() and not source.target:
+		if source.has_target() and not target:
 			log.info("%r has no target, action exits early", card)
 			return
 
 		if source.has_combo and player.combo:
-			log.info("Activating %r combo targeting %r", source, source.target)
+			log.info("Activating %r combo targeting %r", source, target)
 			actions = source.get_actions("combo")
 		else:
-			log.info("Activating %r action targeting %r", source, source.target)
+			log.info("Activating %r action targeting %r", source, target)
 			actions = source.get_actions("play")
 
 		if actions:
+			card.target = target
 			source.game.queue_actions(card, actions)
 
 			if player.extra_battlecries and card.has_battlecry:
