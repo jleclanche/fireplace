@@ -166,6 +166,11 @@ class LOEA16_5:
 	play = Summon(CONTROLLER, "LOEA16_5t")
 
 
+# Eerie Statue
+class LOE_107:
+	update = Find(ALL_MINIONS - SELF) & Refresh(SELF, {GameTag.CANT_ATTACK: True})
+
+
 # Ancient Shade
 class LOE_110:
 	play = Shuffle(CONTROLLER, "LOE_110t")

@@ -123,6 +123,22 @@ def test_desert_camel():
 	assert goldshire2 in game.player2.field
 
 
+def test_eerie_statue():
+	game = prepare_game()
+	statue = game.player1.give("LOE_107")
+	statue.play()
+	assert not statue.can_attack()
+	game.end_turn(); game.end_turn()
+
+	assert statue.can_attack()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert statue.cant_attack
+	assert not statue.can_attack()
+	game.player1.give(MOONFIRE).play(target=wisp)
+	assert statue.can_attack()
+
+
 def test_entomb():
 	game = prepare_empty_game()
 	wisp = game.player1.give(WISP)
