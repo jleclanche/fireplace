@@ -59,6 +59,7 @@ class Action:  # Lawsuit
 		self._kwargs = kwargs
 		self.callback = ()
 		self.times = 1
+		self.event_queue = []
 
 	def __repr__(self):
 		args = ["%s=%r" % (k, v) for k, v in zip(self.ARGS, self._args)]
@@ -341,11 +342,13 @@ class Play(GameAction):
 		player.game.no_aura_refresh = True
 		card.zone = Zone.PLAY
 
-		self.broadcast(player, EventListener.ON, player, card, target)
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(player, card)
-		summon_action.broadcast(player, EventListener.ON, player, card)
+
+		self.queue_broadcast(summon_action, (player, EventListener.ON, player, card))
+		self.broadcast(player, EventListener.ON, player, card, target)
+		self.resolve_broadcasts()
 		player.game.no_aura_refresh = False
 		player.game.refresh_auras()
 
@@ -418,7 +421,6 @@ class TargetedAction(Action):
 	def __init__(self, *args, **kwargs):
 		self.source = kwargs.pop("source", None)
 		super().__init__(*args, **kwargs)
-		self.event_queue = []
 		self.trigger_index = 0
 
 	def __repr__(self):
@@ -973,12 +975,12 @@ class Summon(TargetedAction):
 				continue
 			if card.controller != target:
 				card.controller = target
-			self.broadcast(source, EventListener.ON, target, card)
 			if card.zone != Zone.PLAY:
 				if source.type == CardType.MINION and source.zone == Zone.PLAY:
 					source_index = source.controller.field.index(source)
 					card._summon_index = source_index + ((self.trigger_index + 1) % 2)
 				card.zone = Zone.PLAY
+			self.queue_broadcast(self, (source, EventListener.ON, target, card))
 			self.broadcast(source, EventListener.AFTER, target, card)
 
 		return cards
