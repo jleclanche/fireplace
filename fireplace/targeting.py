@@ -78,5 +78,11 @@ def is_valid_target(self, target, requirements=None):
 		elif req == PlayReq.REQ_LEGENDARY_TARGET:
 			if target.rarity != Rarity.LEGENDARY:
 				return False
+		elif req == PlayReq.REQ_TARGET_WITH_BATTLECRY:
+			if not target.has_battlecry:
+				return False
+		elif req == PlayReq.REQ_TARGET_WITH_DEATHRATTLE:
+			if not target.has_deathrattle:
+				return False
 
 	return True
