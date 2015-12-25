@@ -95,6 +95,14 @@ class Action:  # Lawsuit
 		for entity in source.game.hands:
 			self._broadcast(entity, source, at, *args)
 
+	def queue_broadcast(self, obj, args):
+		self.event_queue.append((obj, args))
+
+	def resolve_broadcasts(self):
+		for obj, args in self.event_queue:
+			obj.broadcast(*args)
+		self.event_queue = []
+
 	def get_args(self, source):
 		return self._args
 
@@ -486,9 +494,7 @@ class TargetedAction(Action):
 
 			source.game.manager.action_end(self, source, targets, *self._args)
 
-		for args in self.event_queue:
-			self.broadcast(*args)
-		self.event_queue = []
+		self.resolve_broadcasts()
 
 		return ret
 
@@ -801,7 +807,7 @@ class Heal(TargetedAction):
 			# Undamaged targets do not receive heals
 			log.info("%r heals %r for %i", source, target, amount)
 			target.damage -= amount
-			self.event_queue.append((source, EventListener.ON, target, amount))
+			self.queue_broadcast(self, (source, EventListener.ON, target, amount))
 
 
 class ManaThisTurn(TargetedAction):
