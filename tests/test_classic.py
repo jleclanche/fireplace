@@ -2868,6 +2868,18 @@ def test_starfall_5_to_one():
 	assert snapjaw.health == 2
 
 
+def test_starving_buzzard():
+	game = prepare_game()
+	game.player1.discard_hand()
+	buzzard = game.player1.give("CS2_237")
+	buzzard.play()
+	assert not game.player1.hand
+	game.player1.give(CHICKEN).play()
+	assert len(game.player1.hand) == 1
+	game.player1.give("NEW1_031").play()  # Animal Companion
+	assert len(game.player1.hand) == 2
+
+
 def test_stormwind_champion():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
