@@ -216,6 +216,8 @@ CONTROLLER = AttrSelector(GameTag.CONTROLLER)
 CURRENT_HEALTH = AttrSelector("health")
 COST = AttrSelector(GameTag.COST)
 DAMAGE = AttrSelector(GameTag.DAMAGE)
+MANA = AttrSelector(GameTag.RESOURCES)
+USED_MANA = AttrSelector(GameTag.RESOURCES_USED)
 
 
 class SelfSelector(Selector):

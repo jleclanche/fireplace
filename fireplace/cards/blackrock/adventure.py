@@ -46,13 +46,13 @@ class BRMA04_2:
 # Ignite Mana
 class BRMA05_2:
 	activate = (
-		(Attr(OPPONENT, GameTag.RESOURCES) <= Attr(OPPONENT, GameTag.RESOURCES_USED)) &
+		(MANA(OPPONENT) <= USED_MANA(OPPONENT)) &
 		Hit(ENEMY_HERO, 5)
 	)
 
 class BRMA05_2H:
 	activate = (
-		(Attr(OPPONENT, GameTag.RESOURCES) <= Attr(OPPONENT, GameTag.RESOURCES_USED)) &
+		(MANA(OPPONENT) <= USED_MANA(OPPONENT)) &
 		Hit(ENEMY_HERO, 10)
 	)
 
