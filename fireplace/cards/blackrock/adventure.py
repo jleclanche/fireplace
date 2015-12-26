@@ -318,6 +318,11 @@ class BRMA12_8:
 	play = Morph(TARGET, "BRMA12_8t")
 
 
+# Recharge
+class BRMA14_11:
+	play = FillMana(CONTROLLER, USED_MANA(CONTROLLER))
+
+
 # DIE, INSECT!
 class BRMA13_8:
 	play = Hit(RANDOM_ENEMY_CHARACTER, 8)
