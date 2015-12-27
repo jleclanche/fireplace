@@ -19,6 +19,10 @@ command -v git &>/dev/null || {
 	exit 1
 }
 
+python -c "import hearthstone" &>/dev/null || {
+	pip install -r "$BASEDIR/../requirements.txt"
+}
+
 echo "Fetching data files from $HSDATA_URL"
 if [[ ! -e "$HSDATA_DIR" ]]; then
 	git clone --depth=1 "$HSDATA_URL" "$HSDATA_DIR"
