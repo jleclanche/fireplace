@@ -651,7 +651,7 @@ class Discover(TargetedAction):
 
 	def get_target_args(self, source, target):
 		picker = self._args[1]
-		cards = picker.pick(source, count=3)
+		cards = picker.evaluate(source, count=3)
 		return [[target.card(card) for card in cards]]
 
 	def do(self, source, target, cards):

@@ -1,4 +1,3 @@
-import random
 from ..logging import log
 from .lazynum import LazyValue
 

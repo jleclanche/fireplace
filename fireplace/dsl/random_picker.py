@@ -4,7 +4,7 @@ from .picker import Picker
 from .lazynum import LazyValue
 
 
-class RandomCardPicker(Picker):
+class RandomCardPicker(LazyValue):
 	"""
 	Store filters and generate a random card matching the filters on pick()
 	"""
@@ -39,13 +39,14 @@ class RandomCardPicker(Picker):
 				filters[k] = v.evaluate(source)
 		return self._filter_cards(filters)
 
-	def pick(self, source, count=1) -> str:
+	def evaluate(self, source, count=1) -> str:
 		if self.lazy_filters:
 			# If the card has lazy filters, we need to evaluate them
 			cards = self.get_cards(source)
 		else:
 			cards = self.cards
-		return random.sample(cards, count)
+		ret = random.sample(cards, count)
+		return [source.controller.card(card, source=source) for card in ret]
 
 
 RandomCard = lambda *a, **kw: RandomCardPicker(*a, **kw)
@@ -62,12 +63,12 @@ RandomSparePart = lambda: RandomCardPicker(spare_part=True)
 
 
 class RandomEntourage(RandomCardPicker):
-	def pick(self, source, **kwargs):
+	def evaluate(self, source, **kwargs):
 		self._cards = source.entourage
-		return super().pick(source, **kwargs)
+		return super().evaluate(source, **kwargs)
 
 
 class RandomID(RandomCardPicker):
-	def pick(self, source, **kwargs):
+	def evaluate(self, source, **kwargs):
 		self._cards = self.args
-		return super().pick(source, **kwargs)
+		return super().evaluate(source, **kwargs)
