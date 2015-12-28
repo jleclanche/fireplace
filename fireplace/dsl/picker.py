@@ -8,50 +8,6 @@ class Picker:
 		raise NotImplementedError
 
 
-class RandomCardPicker(Picker):
-	"""
-	Store filters and generate a random card matching the filters on pick()
-	"""
-	def __init__(self, *args, **filters):
-		self.args = args
-		self.filters = filters
-		self._cards = None
-		self.lazy_filters = False
-		for v in filters.values():
-			if isinstance(v, LazyValue):
-				self.lazy_filters = True
-				break
-
-	def __repr__(self):
-		return "%s(%r)" % (self.__class__.__name__, self.filters)
-
-	@property
-	def cards(self):
-		if self._cards is None:
-			self._cards = self._filter_cards(self.filters)
-		return self._cards
-
-	def _filter_cards(self, filters):
-		from .. import cards
-		return cards.filter(**filters)
-
-	def get_cards(self, source):
-		filters = self.filters.copy()
-		# Iterate through the filters, evaluating the LazyValues as we go
-		for k, v in filters.items():
-			if isinstance(v, LazyValue):
-				filters[k] = v.evaluate(source)
-		return self._filter_cards(filters)
-
-	def pick(self, source, count=1) -> str:
-		if self.lazy_filters:
-			# If the card has lazy filters, we need to evaluate them
-			cards = self.get_cards(source)
-		else:
-			cards = self.cards
-		return random.sample(cards, count)
-
-
 class Copy(Picker):
 	"""
 	Lazily return a list of copies of the target
