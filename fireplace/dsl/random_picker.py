@@ -1,6 +1,5 @@
 import random
 from hearthstone.enums import CardType, Race, Rarity
-from .picker import Picker
 from .lazynum import LazyValue
 
 

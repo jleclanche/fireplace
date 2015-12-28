@@ -2,12 +2,7 @@ from ..logging import log
 from .lazynum import LazyValue
 
 
-class Picker:
-	def pick(self, source) -> [str]:
-		raise NotImplementedError
-
-
-class Copy(Picker):
+class Copy(LazyValue):
 	"""
 	Lazily return a list of copies of the target
 	"""
@@ -24,7 +19,7 @@ class Copy(Picker):
 		log.info("Creating a copy of %r", entity)
 		return source.controller.card(entity.id, source)
 
-	def pick(self, source) -> [str]:
+	def evaluate(self, source) -> [str]:
 		if isinstance(self.selector, LazyValue):
 			entities = [self.selector.evaluate(source)]
 		else:

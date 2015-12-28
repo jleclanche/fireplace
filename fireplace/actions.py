@@ -1,6 +1,6 @@
 from inspect import isclass
 from hearthstone.enums import CardType, Mulligan, PlayState, Zone
-from .dsl import LazyValue, Picker, Selector
+from .dsl import LazyValue, Selector
 from .entity import Entity
 from .logging import log
 
@@ -11,11 +11,8 @@ def _eval_card(source, card):
 	The card argument can be:
 	- A Card instance (nothing is done)
 	- The string ID of the card (the card is created)
-	- A Picker instance (a card is dynamically picked)
+	- A LazyValue (the card is dynamically created)
 	"""
-	if isinstance(card, Picker):
-		card = card.pick(source)
-
 	if isinstance(card, LazyValue):
 		card = card.evaluate(source)
 
