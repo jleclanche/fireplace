@@ -171,3 +171,12 @@ def test_hero_destroy_game_over():
 		game.player2.hero.destroy()
 	assert game.player1.playstate == PlayState.WON
 	assert game.player2.playstate == PlayState.LOST
+
+
+def test_end_turn_with_open_choice():
+	game = prepare_game()
+	tracking = game.player1.give("DS1_184")
+	tracking.play()
+	assert game.player1.choice
+	with pytest.raises(InvalidAction):
+		game.end_turn()

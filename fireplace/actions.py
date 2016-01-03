@@ -3,6 +3,7 @@ from hearthstone.enums import CardType, Mulligan, PlayState, Zone
 from .dsl import LazyValue, Selector
 from .entity import Entity
 from .logging import log
+from .exceptions import InvalidAction
 
 
 def _eval_card(source, card):
@@ -238,7 +239,8 @@ class EndTurn(GameAction):
 	ARGS = ("PLAYER", )
 
 	def do(self, source, player):
-		assert not player.choice, "Attempted to end a turn with a choice open"
+		if player.choice:
+			raise InvalidAction("%r cannot end turn with the open choice %r." % (player, player.choice))
 		self.broadcast(source, EventListener.ON, player)
 		source.game._end_turn()
 
