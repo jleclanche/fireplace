@@ -187,6 +187,37 @@ def test_charge():
 	assert watcher.can_attack()
 
 
+def test_choices():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	moonfire = game.player1.give(MOONFIRE)
+	game.player1.give(LIGHTS_JUSTICE).play()
+	game.end_turn(); game.end_turn()
+
+	assert wisp.can_attack()
+	assert moonfire.is_playable()
+	assert game.player1.hero.can_attack()
+	assert game.player1.hero.power.is_usable()
+
+	tracking = game.player1.give("DS1_184")
+	tracking.play()
+	assert game.player1.choice
+
+	assert not wisp.can_attack()
+	assert not moonfire.is_playable()
+	assert not game.player1.hero.can_attack()
+	assert not game.player1.hero.power.is_usable()
+
+	game.player1.choice.choose(random.choice(game.player1.choice.cards))
+	assert not game.player1.choice
+
+	assert wisp.can_attack()
+	assert moonfire.is_playable()
+	assert game.player1.hero.can_attack()
+	assert game.player1.hero.power.is_usable()
+
+
 def test_combo():
 	game = prepare_game()
 	game.end_turn()

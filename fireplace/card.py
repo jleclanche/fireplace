@@ -422,6 +422,8 @@ class Character(LiveEntity):
 		return (taunts or targets).filter(attackable=True)
 
 	def can_attack(self, target=None):
+		if self.controller.choice:
+			return False
 		if not self.zone == Zone.PLAY:
 			return False
 		if self.cant_attack:
