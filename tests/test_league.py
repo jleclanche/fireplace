@@ -277,13 +277,17 @@ def test_naga_sea_witch():
 	game.player1.give(WISP)
 	game.player1.give(GOLDSHIRE_FOOTMAN)
 	game.player1.give("EX1_586")  # Sea Giant
+	game.player1.give("BRM_025")  # Volcanic Drake
 	naga = game.player1.give("LOE_038")
 	naga.play()
 	for card in game.player1.hand:
 		assert card.cost == 5
 	naga.destroy()
 	for card in game.player1.hand:
-		assert card.cost == card.data.cost
+		assert (
+			card.cost == card.data.cost or
+			hasattr(card.data.scripts, "cost_mod")
+		)
 
 
 def test_obsidian_destroyer():
