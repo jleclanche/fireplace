@@ -75,7 +75,7 @@ class LOE_038:
 
 # Gorillabot A-3
 class LOE_039:
-	powered_up = Find(FRIENDLY_MINIONS + MECH)
+	powered_up = Find(FRIENDLY_MINIONS + MECH - SELF)
 	play = powered_up & Discover(CONTROLLER, RandomMech())
 
 

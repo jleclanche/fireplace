@@ -237,6 +237,24 @@ def test_fossilized_devilsaur():
 	assert devilsaur2.taunt
 
 
+def test_gorillabot_a3():
+	game = prepare_game()
+	gorillabot1 = game.player1.give("LOE_039")
+	assert not gorillabot1.powered_up
+	gorillabot1.play()
+	assert not game.player1.choice
+	game.end_turn(); game.end_turn()
+
+	assert gorillabot1.race == Race.MECHANICAL
+	gorillabot2 = game.player1.give("LOE_039")
+	assert gorillabot2.powered_up
+	gorillabot2.play()
+	assert game.player1.choice
+	assert len(game.player1.choice.cards) == 3
+	for i in range(3):
+		assert game.player1.choice.cards[i].race == Race.MECHANICAL
+
+
 def test_huge_toad():
 	game = prepare_game()
 	dummy = game.player1.give(TARGET_DUMMY)
