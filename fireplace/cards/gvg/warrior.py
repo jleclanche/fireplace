@@ -44,10 +44,10 @@ GVG_086e = buff(atk=1)
 # Bouncing Blade
 class GVG_050:
 	def play(self):
+		targets = self.game.board.filter(dead=False)
 		while True:
-			targets = self.game.board.filter(dead=False)
-			targets = [t for t in targets if t.health > t.min_health]
-			if not targets:
+			live_targets = [t for t in targets if t.health > t.min_health]
+			if live_targets != targets:
 				break
 			yield Hit(random.choice(targets), 1)
 

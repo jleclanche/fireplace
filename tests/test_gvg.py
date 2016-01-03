@@ -88,10 +88,14 @@ def test_bouncing_blade():
 	acolyte = game.player1.give("EX1_007")
 	acolyte.play()
 	game.player1.discard_hand()
-	blade = game.player1.give("GVG_050")
-	blade.play()
+	game.player1.give("GVG_050").play()
 	assert acolyte.dead
 	assert len(game.player1.hand) == 3
+
+	wisp1 = game.player1.summon(WISP)
+	wisp2 = game.player2.summon(WISP)
+	game.player1.give("GVG_050").play()
+	assert wisp1.dead ^ wisp2.dead
 
 
 def test_bouncing_blade_commanding_shout():
