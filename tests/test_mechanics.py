@@ -620,6 +620,20 @@ def test_positioning():
 	assert wisp4.atk == 3, wisp4.atk
 
 
+def test_powered_up():
+	game = prepare_game()
+	minion = game.player1.give(WISP)
+	spell = game.player1.give(MOONFIRE)
+	weapon = game.player1.give(LIGHTS_JUSTICE)
+	killcommand = game.player1.give("EX1_539")
+	assert not minion.powered_up
+	assert not spell.powered_up
+	assert not weapon.powered_up
+	assert not killcommand.powered_up
+	game.player1.summon(CHICKEN)
+	assert killcommand.powered_up
+
+
 def test_silence():
 	game = prepare_game()
 	silence = game.current_player.give(SILENCE)

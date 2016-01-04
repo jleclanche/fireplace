@@ -162,12 +162,12 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		Returns True whether the card is "powered up".
 		"""
+		if not self.data.scripts.powered_up:
+			return False
 		for script in self.data.scripts.powered_up:
 			if not script.check(self):
-				break
-		else:
-			return True
-		return False
+				return False
+		return True
 
 	@property
 	def entities(self):
