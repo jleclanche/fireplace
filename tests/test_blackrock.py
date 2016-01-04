@@ -5,6 +5,7 @@ def test_blackwing_corruptor():
 	game = prepare_game()
 	game.player1.discard_hand()
 	blackwing1 = game.player1.give("BRM_034")
+	assert not blackwing1.powered_up
 	blackwing1.play()
 	assert blackwing1.health == 4
 	assert game.player1.hero.health == 30
@@ -15,6 +16,7 @@ def test_blackwing_corruptor():
 	game.player2.discard_hand()
 	game.player2.give(WHELP)
 	blackwing2 = game.player2.give("BRM_034")
+	assert blackwing2.powered_up
 	blackwing2.play(target=game.player1.hero)
 	assert game.player1.hero.health == 27
 

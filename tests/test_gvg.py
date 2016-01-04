@@ -964,6 +964,7 @@ def test_tinkertown_technician():
 	game.player1.discard_hand()
 	game.player1.give(WISP).play()
 	tech = game.player1.give("GVG_102")
+	assert not tech.powered_up
 	tech.play()
 	assert tech.atk == tech.health == 3
 	assert len(game.player1.hand) == 0
@@ -971,6 +972,7 @@ def test_tinkertown_technician():
 	dummy = game.player1.give(TARGET_DUMMY)
 	dummy.play()
 	tech2 = game.player1.give("GVG_102")
+	assert tech2.powered_up
 	tech2.play()
 	assert tech2.atk == tech2.health == 4
 	assert len(game.player1.hand) == 1

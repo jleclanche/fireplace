@@ -1596,11 +1596,13 @@ def test_imp_master():
 def test_kill_command():
 	game = prepare_game(HUNTER, HUNTER)
 	kc = game.player1.give("EX1_539")
+	assert not kc.powered_up
 	kc.play(target=game.player1.opponent.hero)
 	assert game.player2.hero.health == 30 - 3
 
 	game.player1.give(CHICKEN).play()
 	kc = game.player1.give("EX1_539")
+	assert kc.powered_up
 	kc.play(target=game.player1.hero)
 	assert game.player1.hero.health == 30 - 5
 
