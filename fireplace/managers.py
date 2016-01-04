@@ -167,6 +167,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.OUTGOING_HEALING_ADJUSTMENT: "outgoing_healing_adjustment",
 	GameTag.OVERLOAD: "overload",
 	GameTag.POISONOUS: "poisonous",
+	GameTag.POWERED_UP: "powered_up",
 	GameTag.RARITY: "rarity",
 	GameTag.RECEIVES_DOUBLE_SPELLDAMAGE_BONUS: "receives_double_spelldamage_bonus",
 	GameTag.SECRET: "secret",
