@@ -6,7 +6,8 @@ from ..utils import *
 
 # Twilight Guardian
 class AT_017:
-	play = HOLDING_DRAGON & Buff(SELF, "AT_017e")
+	powered_up = HOLDING_DRAGON
+	play = powered_up & Buff(SELF, "AT_017e")
 
 AT_017e = buff(atk=1, taunt=True)
 

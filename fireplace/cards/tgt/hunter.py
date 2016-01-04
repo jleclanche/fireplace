@@ -6,7 +6,8 @@ from ..utils import *
 
 # Ram Wrangler
 class AT_010:
-	play = Find(FRIENDLY_MINIONS + BEAST) & Summon(CONTROLLER, RandomBeast())
+	powered_up = Find(FRIENDLY_MINIONS + BEAST)
+	play = powered_up & Summon(CONTROLLER, RandomBeast())
 
 
 # Stablemaster

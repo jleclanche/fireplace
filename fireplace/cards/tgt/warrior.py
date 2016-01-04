@@ -23,7 +23,8 @@ class AT_069:
 
 # Alexstrasza's Champion
 class AT_071:
-	play = HOLDING_DRAGON & Buff(SELF, "AT_071e")
+	powered_up = HOLDING_DRAGON
+	play = powered_up & Buff(SELF, "AT_071e")
 
 AT_071e = buff(atk=1, charge=True)
 

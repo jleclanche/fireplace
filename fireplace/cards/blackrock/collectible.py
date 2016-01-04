@@ -11,7 +11,8 @@ class BRM_002:
 
 # Twilight Whelp
 class BRM_004:
-	play = HOLDING_DRAGON & Buff(SELF, "BRM_004e")
+	powered_up = HOLDING_DRAGON
+	play = powered_up & Buff(SELF, "BRM_004e")
 
 BRM_004e = buff(health=2)
 
@@ -157,7 +158,7 @@ class BRM_031:
 # Blackwing Technician
 class BRM_033:
 	powered_up = HOLDING_DRAGON
-	play = HOLDING_DRAGON & Buff(SELF, "BRM_033e")
+	play = powered_up & Buff(SELF, "BRM_033e")
 
 BRM_033e = buff(+1, +1)
 
@@ -165,7 +166,7 @@ BRM_033e = buff(+1, +1)
 # Blackwing Corruptor
 class BRM_034:
 	powered_up = HOLDING_DRAGON
-	play = HOLDING_DRAGON & Hit(TARGET, 3)
+	play = powered_up & Hit(TARGET, 3)
 
 
 ##

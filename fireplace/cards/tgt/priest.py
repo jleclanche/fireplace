@@ -25,7 +25,8 @@ AT_014e = buff(cost=-1)
 
 # Wyrmrest Agent
 class AT_116:
-	play = HOLDING_DRAGON & Buff(SELF, "AT_116e")
+	powered_up = HOLDING_DRAGON
+	play = powered_up & Buff(SELF, "AT_116e")
 
 AT_116e = buff(atk=1, taunt=True)
 
