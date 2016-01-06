@@ -45,6 +45,8 @@ class GVG_003e:
 		GameTag.COST: -3,
 	}
 
+	events = REMOVED_IN_PLAY
+
 
 # Echo of Medivh
 class GVG_005:
