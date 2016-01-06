@@ -29,6 +29,7 @@ def Card(id):
 
 class BaseCard(BaseEntity):
 	Manager = CardManager
+	delayed_destruction = False
 
 	def __init__(self, data):
 		self.data = data
@@ -196,7 +197,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		If the card is in PLAY, it is instead scheduled to be destroyed, and it will
 		be moved to the GRAVEYARD on the next Death event.
 		"""
-		if self.zone == Zone.PLAY:
+		if self.delayed_destruction:
 			self.log("Marking %r for imminent death", self)
 			self.to_be_destroyed = True
 		else:
@@ -363,6 +364,10 @@ class LiveEntity(PlayableCard, Entity):
 	@property
 	def dead(self):
 		return self.zone == Zone.GRAVEYARD or self.to_be_destroyed
+
+	@property
+	def delayed_destruction(self):
+		return self.zone == Zone.PLAY
 
 	@property
 	def to_be_destroyed(self):
