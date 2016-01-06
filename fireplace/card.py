@@ -507,6 +507,11 @@ class Hero(Character):
 			return self.controller.weapon.windfury or ret
 		return ret
 
+	def _destroy(self):
+		super()._destroy()
+		if self.power:
+			self.power.destroy()
+
 	def _getattr(self, attr, i):
 		ret = super()._getattr(attr, i)
 		if attr == "atk":
