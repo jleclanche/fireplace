@@ -846,6 +846,11 @@ class Morph(TargetedAction):
 
 	def do(self, source, target, card):
 		log.info("Morphing %r into %r", target, card)
+
+		# Transfer zone position _before_ we move target
+		index = target.controller.field.index(target)
+		card._summon_index = index
+
 		target.clear_buffs()
 		target_zone = target.zone
 		target.zone = Zone.SETASIDE

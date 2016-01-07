@@ -184,7 +184,7 @@ def test_emperor_thaurissan_molten_recombobulator():
 	recomb = game.player1.give("GVG_108")
 	recomb.play(target=molten)
 	assert len(game.player1.field) == 2
-	assert game.player1.field[1].cost == 20
+	assert game.player1.field[0].cost == 20
 
 
 def test_fireguard_destroyer():
