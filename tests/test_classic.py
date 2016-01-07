@@ -1171,6 +1171,19 @@ def test_felguard():
 	assert game.player1.mana == 1
 
 
+def test_frostwolf_warlord():
+	game = prepare_game()
+	warlord1 = game.player1.give("CS2_226")
+	warlord1.play()
+	assert not warlord1.buffs
+	assert warlord1.health == warlord1.atk == 4
+	game.player2.summon(WISP)
+	warlord2 = game.player1.give("CS2_226")
+	warlord2.play()
+	assert warlord2.buffs
+	assert warlord2.health == warlord2.atk == 4 + 1
+
+
 def test_frothing_berserker():
 	game = prepare_game()
 	frothing = game.player1.give("EX1_604")

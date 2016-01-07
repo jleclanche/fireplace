@@ -20,7 +20,7 @@ CS2_222o = buff(+1, +1)
 
 # Frostwolf Warlord
 class CS2_226:
-	play = Buff(SELF, "CS2_226e") * Count(FRIENDLY_MINIONS)
+	play = Buff(SELF, "CS2_226e") * Count(FRIENDLY_MINIONS - SELF)
 
 CS2_226e = buff(+1, +1)
 
