@@ -89,7 +89,7 @@ class EX1_089:
 class EX1_093:
 	play = Buff(SELF_ADJACENT, "EX1_093e")
 
-EX1_093e = buff(+2, +2, taunt=True)
+EX1_093e = buff(+1, +1, taunt=True)
 
 
 # Gadgetzan Auctioneer

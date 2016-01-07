@@ -816,6 +816,37 @@ def test_deathwing():
 	assert not deathwing.dead
 
 
+def test_defender_of_argus():
+	game = prepare_game()
+	defender1 = game.player1.give("EX1_093")
+	assert defender1.atk == 2
+	assert defender1.health == 3
+	assert not defender1.taunt
+	defender1.play()
+	assert defender1.atk == 2
+	assert defender1.health == 3
+	assert not defender1.taunt
+	game.end_turn(); game.end_turn()
+
+	defender2 = game.player1.give("EX1_093")
+	defender2.play()
+	assert game.player1.field == [defender1, defender2]
+	assert defender1.atk == 2 + 1
+	assert defender1.health == 3 + 1
+	assert defender1.taunt
+	game.end_turn(); game.end_turn()
+
+	defender3 = game.player1.give("EX1_093")
+	defender3.play(index=1)
+	assert game.player1.field == [defender1, defender3, defender2]
+	assert defender1.atk == 2 + 1 + 1
+	assert defender1.health == 3 + 1 + 1
+	assert defender1.taunt
+	assert defender2.atk == 2 + 1
+	assert defender2.health == 3 + 1
+	assert defender2.taunt
+
+
 def test_defias():
 	game = prepare_game()
 	defias1 = game.current_player.give("EX1_131")
