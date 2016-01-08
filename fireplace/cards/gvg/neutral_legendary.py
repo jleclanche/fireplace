@@ -16,8 +16,8 @@ class GVG_110t:
 # Mimiron's Head
 class GVG_111:
 	events = OWN_TURN_BEGIN.on(
-		(Count(FRIENDLY_MINIONS + MECH) >= 4) &
-		Destroy(FRIENDLY_MINIONS + MECH), Deaths(), Summon(CONTROLLER, "GVG_111t")
+		(Count(FRIENDLY_MINIONS + MECH) >= 3) &
+		(Destroy(FRIENDLY_MINIONS + MECH), Deaths(), Summon(CONTROLLER, "GVG_111t"))
 	)
 
 

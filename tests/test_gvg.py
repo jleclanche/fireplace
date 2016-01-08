@@ -732,15 +732,16 @@ def test_mimirons_head():
 	game.end_turn(); game.end_turn()
 
 	assert not head.dead
+	assert head.race == Race.MECHANICAL
+	assert len(game.player1.field) == 1
 	dummy1 = game.player1.give(TARGET_DUMMY)
 	dummy1.play()
 	dummy2 = game.player1.give(TARGET_DUMMY)
 	dummy2.play()
-	dummy3 = game.player1.give(TARGET_DUMMY)
-	dummy3.play()
 	game.end_turn()
 
 	assert not head.dead
+	assert len(game.player1.field) == 3
 	game.end_turn()
 
 	assert head.dead
