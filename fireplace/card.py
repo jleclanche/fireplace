@@ -334,6 +334,11 @@ class LiveEntity(PlayableCard, Entity):
 		self.predamage = 0
 		self.turns_in_play = 0
 
+	def _set_zone(self, zone):
+		super()._set_zone(zone)
+		# See issue #283 (Malorne, Anu'barak)
+		self._to_be_destroyed = False
+
 	@property
 	def immune(self):
 		if self.immune_while_attacking and self.attacking:

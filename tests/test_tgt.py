@@ -1,6 +1,30 @@
 from utils import *
 
 
+def test_anubarak():
+	game = prepare_empty_game()
+	anubarak = game.player1.give("AT_036")
+	anubarak.play()
+	game.player1.discard_hand()
+	assert len(game.player1.field) == 1
+	assert len(game.player1.hand) == 0
+	anubarak.destroy()
+	assert len(game.player1.field) == 1
+	assert len(game.player1.hand) == 1
+	token = game.player1.field[0]
+	assert token.id == "AT_036t"
+	anubarak = game.player1.hand[0]
+	assert anubarak.id == "AT_036"
+	game.end_turn(); game.end_turn()
+
+	# Test for issue #283: play Anub'arak again
+	anubarak.play()
+	assert len(game.player1.field) == 2
+	assert anubarak in game.player1.field
+	assert token in game.player1.field
+	assert len(game.player1.hand) == 0
+
+
 def test_aviana():
 	game = prepare_game()
 	aviana = game.player1.give("AT_045")

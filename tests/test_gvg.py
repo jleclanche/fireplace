@@ -632,13 +632,23 @@ def test_malganis():
 def test_malorne():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
-	malorne = game.player1.give("GVG_035")
-	malorne.play()
-	malorne.destroy()
-	assert len(game.player1.deck) == 1
-	game.player1.draw()
-	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].id == "GVG_035"
+	game.player1.give("GVG_035")
+	for i in range(3):
+		malorne = game.player1.hand[0]
+		assert malorne.id == "GVG_035"
+		malorne.play()
+		assert len(game.player1.field) == 1
+		assert len(game.player1.hand) == 0
+		assert len(game.player1.deck) == 0
+		malorne.destroy()
+		assert len(game.player1.field) == 0
+		assert len(game.player1.deck) == 1
+		assert len(game.player1.hand) == 0
+		game.end_turn(); game.end_turn()
+
+		assert len(game.player1.field) == 0
+		assert len(game.player1.deck) == 0
+		assert len(game.player1.hand) == 1
 
 
 def test_mechwarper():
