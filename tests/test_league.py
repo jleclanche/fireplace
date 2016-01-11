@@ -482,6 +482,41 @@ def test_wobbling_runts():
 	assert game.player1.field == ["LOE_089t", "LOE_089t2", "LOE_089t3"]
 
 
+def test_jeweled_scarab():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	moonfire = game.player1.give(MOONFIRE)
+	game.player1.give(LIGHTS_JUSTICE).play()
+	game.end_turn(); game.end_turn()
+
+	assert wisp.can_attack()
+	assert moonfire.is_playable()
+	assert game.player1.hero.can_attack()
+	assert game.player1.hero.power.is_usable()
+
+	jeweled_scarab = game.player1.give("LOE_029")
+	jeweled_scarab.play()
+	assert game.player1.choice
+
+	assert not wisp.can_attack()
+	assert not moonfire.is_playable()
+	assert not game.player1.hero.can_attack()
+	assert not game.player1.hero.power.is_usable()
+
+	assert len(game.player1.choice.cards) == 3
+	for card in game.player1.choice.cards:
+		assert card.cost == 3
+
+	game.player1.choice.choose(random.choice(game.player1.choice.cards))
+	assert not game.player1.choice
+
+	assert wisp.can_attack()
+	assert moonfire.is_playable()
+	assert game.player1.hero.can_attack()
+	assert game.player1.hero.power.is_usable()
+
+
 ##
 # Adventure tests
 
