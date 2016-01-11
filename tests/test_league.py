@@ -221,6 +221,20 @@ def test_excavated_evil():
 	assert game.player2.deck[0].id == "LOE_111"
 
 
+def test_explorers_hat():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	game.player1.give("LOE_105").play(target=wisp)
+	assert wisp.health == 2
+	game.end_turn()
+
+	assert len(game.player1.hand) == 0
+	game.player2.give(MOONFIRE).play(target=wisp)
+	game.player2.give(MOONFIRE).play(target=wisp)
+	assert wisp.dead
+	assert len(game.player1.hand) == 1
+
+
 def test_fossilized_devilsaur():
 	game = prepare_game()
 	game.player1.give(WISP).play()

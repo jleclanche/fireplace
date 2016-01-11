@@ -228,10 +228,10 @@ class LOE_104:
 
 # Explorer's Hat
 class LOE_105:
-	play = Buff(TARGET, "LOE_105")
+	play = Buff(TARGET, "LOE_105e")
 
 class LOE_105e:
-	deathrattle = Give(OWNER_CONTROLLER, "LOE_105")
+	deathrattle = Give(CONTROLLER, "LOE_105")
 	tags = {
 		GameTag.ATK: +1,
 		GameTag.HEALTH: +1,
