@@ -272,3 +272,38 @@ class XXX_063:
 # Remove All Immune
 class XXX_065:
 	play = UnsetTag(TARGET, (GameTag.CANT_BE_DAMAGED, ))
+
+
+# AI Buddy - Blank Slate
+class XXX_094:
+	play = (
+		Destroy(ALL_MINIONS),
+		Discard(IN_HAND | IN_DECK),
+		GainMana(ALL_PLAYERS, -10),
+		Destroy(ALL_SECRETS)
+	)
+
+
+# AI Buddy - All Charge!
+class XXX_095:
+	play = GiveCharge(ALL_MINIONS)
+
+
+# AI Buddy - Damage Own Hero 5
+class XXX_096:
+	play = Hit(FRIENDLY_HERO, 5)
+
+
+# AI Buddy - Destroy Minions
+class XXX_097:
+	play = Destroy(ALL_MINIONS)
+
+
+# AI Buddy - No Deck/Hand
+class XXX_098:
+	play = Discard(ENEMY + (IN_HAND | IN_DECK))
+
+
+# AI Helper Buddy
+class XXX_099:
+	pass
