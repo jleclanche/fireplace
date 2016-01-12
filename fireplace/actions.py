@@ -110,6 +110,9 @@ class Action:  # Lawsuit
 			if match is None:
 				# Allow matching Action(None, None, z) to Action(x, y, z)
 				continue
+			if arg is None:
+				# We got an arg of None and a match not None. Bad.
+				return False
 			# this stuff is stupidslow
 			res = match.eval([arg], source)
 			if not res or res[0] is not arg:

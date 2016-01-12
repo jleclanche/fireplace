@@ -147,6 +147,17 @@ def test_djinni_of_zephyrs():
 	# assert len(game.player2.hand) == 2 + 2
 
 
+def test_djinni_of_zephyrs_untargeted():
+	game = prepare_game()
+	game.player1.discard_hand()
+
+	djinni = game.player1.give("LOE_053")
+	djinni.play()
+	arcaneint = game.player1.give("CS2_023")
+	arcaneint.play()
+	assert len(game.player1.hand) == 2
+
+
 def test_eerie_statue():
 	game = prepare_game()
 	statue = game.player1.give("LOE_107")
