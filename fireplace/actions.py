@@ -548,7 +548,7 @@ class Predamage(TargetedAction):
 		target.predamage = amount
 		if amount:
 			self.broadcast(source, EventListener.ON, target, amount)
-			return source.game.trigger_actions(source, [Damage(target, amount)])[0][0]
+			return source.game.trigger_actions(source, [Damage(target)])[0][0]
 		return 0
 
 
@@ -557,6 +557,9 @@ class Damage(TargetedAction):
 	Damage target by \a amount.
 	"""
 	ARGS = ("TARGET", "AMOUNT")
+
+	def get_target_args(self, source, target):
+		return [target.predamage]
 
 	def do(self, source, target, amount):
 		amount = target._hit(source, target.predamage)
