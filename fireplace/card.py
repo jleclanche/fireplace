@@ -387,9 +387,9 @@ class LiveEntity(PlayableCard, Entity):
 	def killed_this_turn(self):
 		return self in self.game.minions_killed_this_turn
 
-	def _hit(self, source, amount):
+	def _hit(self, amount):
 		if self.immune:
-			self.log("%r is immune to %i damage from %r", self, amount, source)
+			self.log("%r is immune to %i damage", self, amount)
 			return 0
 
 		for i in range(self.incoming_damage_multiplier):
@@ -536,8 +536,8 @@ class Hero(Character):
 				self.controller.summon(self.data.hero_power)
 		super()._set_zone(value)
 
-	def _hit(self, source, amount):
-		amount = super()._hit(source, amount)
+	def _hit(self, amount):
+		amount = super()._hit(amount)
 		if self.armor:
 			reduced_damage = min(amount, self.armor)
 			self.log("%r loses %r armor instead of damage", self, reduced_damage)
@@ -628,13 +628,13 @@ class Minion(Character):
 
 		super()._set_zone(value)
 
-	def _hit(self, source, amount):
+	def _hit(self, amount):
 		if self.divine_shield:
 			self.divine_shield = False
 			self.log("%r's divine shield prevents %i damage.", self, amount)
 			return 0
 
-		amount = super()._hit(source, amount)
+		amount = super()._hit(amount)
 
 		if self.health < self.min_health:
 			self.log("%r has HEALTH_MINIMUM of %i", self, self.min_health)

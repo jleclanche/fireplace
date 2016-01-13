@@ -562,7 +562,7 @@ class Damage(TargetedAction):
 		return [target.predamage]
 
 	def do(self, source, target, amount):
-		amount = target._hit(source, target.predamage)
+		amount = target._hit(target.predamage)
 		target.predamage = 0
 		if source.type == CardType.MINION and source.stealthed:
 			# TODO this should be an event listener of sorts
