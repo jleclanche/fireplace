@@ -545,6 +545,8 @@ class Predamage(TargetedAction):
 	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
+		for i in range(target.incoming_damage_multiplier):
+			amount *= 2
 		target.predamage = amount
 		if amount:
 			self.broadcast(source, EventListener.ON, target, amount)

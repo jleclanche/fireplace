@@ -392,9 +392,6 @@ class LiveEntity(PlayableCard, Entity):
 			self.log("%r is immune to %i damage", self, amount)
 			return 0
 
-		for i in range(self.incoming_damage_multiplier):
-			amount *= 2
-
 		self.damage += amount
 		return amount
 
