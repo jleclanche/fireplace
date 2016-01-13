@@ -101,7 +101,7 @@ class LOE_051:
 
 # Djinni of Zephyrs
 class LOE_053:
-	events = Play(CONTROLLER, SPELL, FRIENDLY_MINIONS - SELF).after(Battlecry(Play.CARD, SELF))
+	events = Play(CONTROLLER, SPELL, FRIENDLY + MINION - SELF).after(Battlecry(Play.CARD, SELF))
 
 
 # Anubisath Sentinel

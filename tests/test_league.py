@@ -140,11 +140,12 @@ def test_djinni_of_zephyrs():
 	djinni.max_health == 6 + 2
 	assert len(game.player1.hand) == 1 + 1
 
-	# naturalize = game.player1.give("EX1_161")
-	# naturalize.play(target=statue)
-	# assert statue.dead
-	# assert djinni.dead
-	# assert len(game.player2.hand) == 2 + 2
+	# Djinni can trigger on minions that are "dead" (eg. killed by the spell)
+	naturalize = game.player1.give("EX1_161")
+	naturalize.play(target=statue)
+	assert len(game.player2.hand) == 2 + 2
+	assert statue.dead
+	assert djinni.dead
 
 
 def test_djinni_of_zephyrs_untargeted():
