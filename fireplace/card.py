@@ -324,6 +324,7 @@ class LiveEntity(PlayableCard, Entity):
 	atk = int_property("atk")
 	cant_be_damaged = boolean_property("cant_be_damaged")
 	immune_while_attacking = slot_property("immune_while_attacking")
+	incoming_damage_multiplier = slot_property("incoming_damage_multiplier")
 	max_health = int_property("max_health")
 
 	def __init__(self, data):
@@ -390,6 +391,10 @@ class LiveEntity(PlayableCard, Entity):
 		if self.immune:
 			self.log("%r is immune to %i damage from %r", self, amount, source)
 			return 0
+
+		for i in range(self.incoming_damage_multiplier):
+			amount *= 2
+
 		self.damage += amount
 		return amount
 

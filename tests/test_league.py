@@ -100,6 +100,14 @@ def test_curse_of_rafaam():
 	assert game.player2.hero.health == 30 - 2 - 2
 
 
+def test_cursed_blade():
+	game = prepare_game()
+	blade = game.player1.give("LOE_118")
+	blade.play()
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 30 - (1*2)
+
+
 def test_desert_camel():
 	game = prepare_empty_game()
 	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)

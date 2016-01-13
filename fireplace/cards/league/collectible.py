@@ -280,3 +280,11 @@ class LOE_027:
 			Reveal(SELF), Destroy(Play.CARD)
 		)
 	)
+
+
+##
+# Weapons
+
+# Cursed Blade
+class LOE_118:
+	update = Refresh(FRIENDLY_HERO, {GameTag.INCOMING_DAMAGE_MULTIPLIER: 1})
