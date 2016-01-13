@@ -62,4 +62,4 @@ class TB_CoOpBossSpell_5:
 
 # Kill the Lorewalker
 class TB_CoOpBossSpell_6:
-	play = Destroy(ID("EX1_100"))
+	play = Destroy(ID("EX1_100")[0])
