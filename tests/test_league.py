@@ -108,6 +108,17 @@ def test_cursed_blade():
 	assert game.player1.hero.health == 30 - (1*2)
 
 
+def test_cursed_blade_bolf_ramshield():
+	game = prepare_game()
+	blade = game.player1.give("LOE_118")
+	blade.play()
+	bolf = game.player1.give("AT_124")
+	bolf.play()
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 30
+	assert bolf.damage == 2
+
+
 def test_desert_camel():
 	game = prepare_empty_game()
 	goldshire1 = game.player1.give(GOLDSHIRE_FOOTMAN)
