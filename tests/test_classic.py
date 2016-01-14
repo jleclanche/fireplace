@@ -343,6 +343,18 @@ def test_baron_geddon():
 	assert geddon2.health == 5
 
 
+def test_battle_rage():
+	game = prepare_game()
+	game.player1.discard_hand()
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	for target in (statue, game.player1.hero, game.player2.hero):
+		game.player1.give(MOONFIRE).play(target=target)
+	cs = game.player1.give("EX1_392")
+	cs.play()
+	assert len(game.player1.hand) == 2
+
+
 def test_bestial_wrath():
 	game = prepare_game()
 	wolf = game.current_player.give("DS1_175")

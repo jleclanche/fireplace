@@ -79,7 +79,7 @@ class EX1_391:
 
 # Battle Rage
 class EX1_392:
-	play = Draw(CONTROLLER) * Count(FRIENDLY_MINIONS + DAMAGED)
+	play = Draw(CONTROLLER) * Count(FRIENDLY_CHARACTERS + DAMAGED)
 
 
 # Whirlwind
