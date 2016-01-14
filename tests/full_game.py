@@ -8,10 +8,6 @@ from fireplace.player import Player
 from fireplace.utils import random_draft
 
 
-def percent_chance(i):
-	return random.randint(1, 100) < i
-
-
 def play_full_game():
 	deck1 = random_draft(hero=MAGE)
 	deck2 = random_draft(hero=WARRIOR)
@@ -33,7 +29,7 @@ def play_full_game():
 		player = game.current_player
 
 		heropower = player.hero.power
-		if heropower.is_usable() and percent_chance(10):
+		if heropower.is_usable() and random.random() < 0.1:
 			if heropower.has_target():
 				heropower.use(target=random.choice(heropower.targets))
 			else:
@@ -42,7 +38,7 @@ def play_full_game():
 
 		# iterate over our hand and play whatever is playable
 		for card in player.hand:
-			if card.is_playable() and percent_chance(50):
+			if card.is_playable() and random.random() < 0.5:
 				target = None
 				if card.choose_cards:
 					card = random.choice(card.choose_cards)
