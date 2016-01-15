@@ -41,3 +41,18 @@ def test_brann_youthful_brewmaster():
 	brewmaster = game.player1.give("EX1_049")
 	brewmaster.play(target=brann)
 	assert brann in game.player1.hand
+
+
+def test_brann_recombobulator():
+	game, brann = _prepare_game()
+	recombobulator = game.player1.give("GVG_108")
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	recombobulator.play(target=wisp)
+	# This one isn't on board
+	morphed2 = wisp.morphed
+	assert morphed2 not in game.player1.field
+	assert morphed2.cost == 0
+
+	morphed1 = game.player1.field[2]
+	assert morphed1.cost == 0
