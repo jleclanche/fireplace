@@ -489,6 +489,43 @@ def test_skycapn_kragg():
 	assert game.player1.mana == 10 - 6
 
 
+def test_the_skeleton_knight():
+	game = prepare_empty_game()
+	sk = game.player1.give("AT_128")
+	sk.play()
+
+	# prepare joust
+	deathwing = game.player1.give("NEW1_030")
+	deathwing.shuffle_into_deck()
+	wisp = game.player2.give(WISP)
+	wisp.shuffle_into_deck()
+
+	# Joust deathwing vs wisp
+	sk.destroy()
+	assert len(game.player1.field) == 0
+	assert game.player1.hand.contains("AT_128")
+
+
+def test_the_skeleton_knight_full_hand():
+	game = prepare_empty_game()
+	sk = game.player1.give("AT_128")
+	sk.play()
+
+	# prepare joust
+	deathwing = game.player1.give("NEW1_030")
+	deathwing.shuffle_into_deck()
+	wisp = game.player2.give(WISP)
+	wisp.shuffle_into_deck()
+
+	for i in range(10):
+		game.player1.give(WISP)
+	assert len(game.player1.hand) == 10
+
+	sk.destroy()
+	assert len(game.player1.field) == 0
+	assert not game.player1.hand.contains("AT_128")
+
+
 def test_tiny_knight_of_evil():
 	game = prepare_empty_game()
 	knight = game.player1.give("AT_021")
