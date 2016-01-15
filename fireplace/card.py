@@ -74,9 +74,14 @@ class BaseCard(BaseEntity):
 
 	def _set_zone(self, value):
 		old = self.zone
+
+		if old == value:
+			self.logger.warning("%r attempted a same-zone move in %r", self, old)
+			return
+
 		if old:
 			self.logger.debug("%r moves from %r to %r", self, old, value)
-		assert old != value
+
 		caches = {
 			Zone.HAND: self.controller.hand,
 			Zone.DECK: self.controller.deck,
