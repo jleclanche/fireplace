@@ -36,6 +36,7 @@ DUMMY_CARDS = (
 	"EX1_246e",  # Hexxed
 	"EX1_345t",  # Shadow of Nothing
 	"GAME_006",  # NOOOOOOOOOOOO
+	"LOEA04_27",  # Animated Statue
 	"Mekka4e",  # Transformed
 	"NEW1_025e",  # Bolstered (Unused)
 	"TU4c_005",  # Hidden Gnome
