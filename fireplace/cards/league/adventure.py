@@ -31,7 +31,7 @@ class LOEA02_05:
 
 # Wish for More Wishes
 class LOEA02_06:
-	play = Discover(RandomWish)
+	play = Give(CONTROLLER, RandomWish) * 2
 
 
 # Wish for Companionship
