@@ -236,6 +236,14 @@ class BRMA17_5H:
 	activate = Summon(CONTROLLER, "BRMA17_6H") * 2
 
 
+# Nefarian Strikes!
+class BRMA17_8:
+	activate = Hit(ENEMY_HERO, 1) * RandomNumber(0, 1, 2, 3, 4, 20)
+
+class BRMA17_8H:
+	activate = Hit(ENEMY_HERO, 1) * RandomNumber(0, 1, 2, 3, 4, 20)
+
+
 ##
 # Minions
 
