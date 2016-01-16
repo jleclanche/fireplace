@@ -10,6 +10,7 @@ class RandomCardPicker(LazyValue):
 	def __init__(self, *args, **filters):
 		self.args = args
 		self.filters = filters
+		self.count = 1
 		self._cards = None
 		self.lazy_filters = False
 		for v in filters.values():
@@ -19,6 +20,11 @@ class RandomCardPicker(LazyValue):
 
 	def __repr__(self):
 		return "%s(%r)" % (self.__class__.__name__, self.filters)
+
+	def __mul__(self, other):
+		ret = self.__class__(*self.args, **self.filters)
+		ret.count = other
+		return ret
 
 	@property
 	def cards(self):
@@ -38,13 +44,13 @@ class RandomCardPicker(LazyValue):
 				filters[k] = v.evaluate(source)
 		return self._filter_cards(filters)
 
-	def evaluate(self, source, count=1) -> str:
+	def evaluate(self, source) -> str:
 		if self.lazy_filters:
 			# If the card has lazy filters, we need to evaluate them
 			cards = self.get_cards(source)
 		else:
 			cards = self.cards
-		ret = random.sample(cards, count)
+		ret = random.sample(cards, self.count)
 		return [source.controller.card(card, source=source) for card in ret]
 
 
