@@ -152,6 +152,22 @@ class BRMA12_10:
 	activate = Discard(RANDOM(FRIENDLY_HAND))
 
 
+# True Form
+class BRMA13_2:
+	activate = (
+		Summon(CONTROLLER, "BRMA13_3"),
+		Draw(CONTROLLER) * 2,
+		GainArmor(CONTROLLER, 30)
+	)
+
+class BRMA13_2H:
+	activate = (
+		Summon(CONTROLLER, "BRMA13_3H"),
+		Draw(CONTROLLER) * 2,
+		GainArmor(CONTROLLER, 30)
+	)
+
+
 # Wild Magic
 class BRMA13_4:
 	activate = Give(CONTROLLER, RandomSpell(card_class=ENEMY_CLASS))
