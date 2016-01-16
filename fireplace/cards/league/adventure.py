@@ -16,17 +16,17 @@ class LOEA02_02h:
 
 # Wish for Power
 class LOEA02_03:
-	play = Discover(RandomSpell())
+	play = Discover(CONTROLLER, RandomSpell())
 
 
 # Wish for Valor
 class LOEA02_04:
-	play = Discover(RandomCollectible(cost=4))
+	play = Discover(CONTROLLER, RandomCollectible(cost=4))
 
 
 # Wish for Glory
 class LOEA02_05:
-	play = Discover(RandomMinion())
+	play = Discover(CONTROLLER, RandomMinion())
 
 
 # Wish for More Wishes
@@ -36,7 +36,7 @@ class LOEA02_06:
 
 # Wish for Companionship
 class LOEA02_10:
-	play = Discover(RandomID("NEW1_032", "NEW1_033", "NEW1_034"))
+	play = Discover(CONTROLLER, RandomID("NEW1_032", "NEW1_033", "NEW1_034"))
 
 
 # Leokk (Unused)
