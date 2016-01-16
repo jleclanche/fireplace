@@ -196,6 +196,29 @@ class LOEA07_28:
 
 
 ##
+# Archaedas
+
+# Stonesculpting
+class LOEA06_02:
+	activate = Summon(ALL_PLAYERS, "LOEA06_02t")
+
+class LOEA06_02h:
+	activate = Summon(CONTROLLER, "LOEA06_02t"), Summon(OPPONENT, "LOEA06_02th")
+
+
+# Animate Earthen
+class LOEA06_03:
+	play = Buff(FRIENDLY_MINIONS, "LOEA06_03e")
+
+LOEA06_03e = buff(+1, +1, taunt=True)
+
+class LOEA06_03h:
+	play = Buff(FRIENDLY_MINIONS, "LOEA06_03eh")
+
+LOEA06_03eh = buff(+3, +3, taunt=True)
+
+
+##
 # Lord Slitherspear
 
 # Enraged!
