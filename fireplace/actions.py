@@ -280,6 +280,8 @@ class GenericChoice(GameAction):
 		cards = self._args[1]
 		if isinstance(cards, Selector):
 			cards = cards.eval(source.game, source)
+		elif isinstance(cards, LazyValue):
+			cards = cards.evaluate(source)
 		return player, cards
 
 	def do(self, source, player, cards):
