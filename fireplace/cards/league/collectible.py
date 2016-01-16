@@ -121,6 +121,11 @@ class LOE_073:
 LOE_073e = buff(taunt=True)
 
 
+# Sir Finley Mrrgglton
+class LOE_076:
+	play = GenericChoice(CONTROLLER, RandomEntourage() * 3)
+
+
 # Brann Bronzebeard:
 class LOE_077:
 	update = Refresh(CONTROLLER, {enums.EXTRA_BATTLECRIES: True})

@@ -427,6 +427,20 @@ def test_rumbling_elemental():
 	assert wisp1.dead ^ (game.player2.hero.health == 28)
 
 
+def test_sir_finley_mrrgglton():
+	game = prepare_game(PRIEST, PRIEST)
+	finley = game.player1.give("LOE_076")
+	assert game.player1.hero.power.id == "CS1h_001"
+	finley.play()
+	assert game.player1.choice
+	assert len(game.player1.choice.cards) == 3
+	for card in game.player1.choice.cards:
+		assert card.type == CardType.HERO_POWER
+	new_power = game.player1.choice.cards[0]
+	game.player1.choice.choose(new_power)
+	assert game.player1.hero.power is new_power
+
+
 def test_summoning_stone():
 	game = prepare_game()
 	stone = game.player1.give("LOE_086")
