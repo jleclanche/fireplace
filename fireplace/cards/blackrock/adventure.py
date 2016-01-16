@@ -216,6 +216,18 @@ class BRMA14_10H:
 	activate = Summon(CONTROLLER, RandomEntourage())
 
 
+# The Alchemist
+class BRMA15_2:
+	events = Summon(ALL_PLAYERS, MINION).on(Buff(Summon.CARD, "BRMA15_2e"))
+
+BRMA15_2e = custom_card(AttackHealthSwapBuff())
+
+class BRMA15_2H:
+	events = (
+		Summon(ALL_PLAYERS, MINION).on(Buff(Summon.CARD, "BRMA15_2e")),
+		Summon(CONTROLLER, MINION).on(Buff(Summon.CARD, "BRMA15_2He"))
+	)
+
 # Potion of Might (The Alchemist)
 BRMA15_2He = buff(+2, +2)
 
