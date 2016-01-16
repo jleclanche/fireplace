@@ -42,6 +42,13 @@ def test_jaraxxus_cult_master():
 	assert not game.player1.hand
 
 
+def test_jaraxxus_knife_juggler():
+	game = prepare_game()
+	juggler = game.player1.summon("NEW1_019")
+	game.player1.give(LORD_JARAXXUS).play()
+	assert game.player2.hero.health == 30
+
+
 def test_jaraxxus_molten_giant():
 	game = prepare_game()
 	jaraxxus = game.player1.give("EX1_323")
