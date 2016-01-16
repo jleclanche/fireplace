@@ -291,8 +291,13 @@ class GenericChoice(GameAction):
 
 	def choose(self, card):
 		for _card in self.cards:
-			if _card is card and len(self.player.hand) < self.player.max_hand_size:
-				_card.zone = Zone.HAND
+			if _card is card:
+				if card.type == CardType.HERO_POWER:
+					_card.zone = Zone.PLAY
+				elif len(self.player.hand) < self.player.max_hand_size:
+					_card.zone = Zone.HAND
+				else:
+					_card.discard()
 			else:
 				_card.discard()
 		self.player.choice = None
