@@ -419,9 +419,9 @@ LOEA16_20e = buff(immune=True)
 
 
 ##
-# Unused
+# Misc.
 
-# Eye of Hakkar
+# Eye of Hakkar (Unused)
 class LOE_008:
 	play = Summon(CONTROLLER, RANDOM(ENEMY_DECK + SECRET))
 
@@ -429,7 +429,15 @@ class LOE_008H:
 	play = Summon(CONTROLLER, RANDOM(ENEMY_DECK + SECRET))
 
 
-# Boneraptor
+# Looming Presence
+class LOEA_01:
+	play = Draw(CONTROLLER) * 2, GainArmor(FRIENDLY_HERO, 4)
+
+class LOEA_01H:
+	play = Draw(CONTROLLER) * 3, GainArmor(FRIENDLY_HERO, 6)
+
+
+# Boneraptor (Unused)
 class LOEA15_3:
 	play = Steal(ENEMY_WEAPON)
 
