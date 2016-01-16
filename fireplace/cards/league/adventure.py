@@ -139,6 +139,14 @@ class LOEA04_31b:
 	pass
 
 
+# Seething Statue
+class LOEA04_25:
+	events = OWN_TURN_END.on(Hit(ENEMY_CHARACTERS, 2))
+
+class LOEA04_25h:
+	events = OWN_TURN_END.on(Hit(ENEMY_CHARACTERS, 5))
+
+
 ##
 # Chieftain Scarvash
 
