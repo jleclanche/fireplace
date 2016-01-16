@@ -329,7 +329,7 @@ class LiveEntity(PlayableCard, Entity):
 	atk = int_property("atk")
 	cant_be_damaged = boolean_property("cant_be_damaged")
 	immune_while_attacking = slot_property("immune_while_attacking")
-	incoming_damage_multiplier = slot_property("incoming_damage_multiplier")
+	incoming_damage_multiplier = int_property("incoming_damage_multiplier")
 	max_health = int_property("max_health")
 
 	def __init__(self, data):
@@ -704,6 +704,7 @@ class Enchantment(BaseCard):
 	atk = int_property("atk")
 	cost = int_property("cost")
 	has_deathrattle = boolean_property("has_deathrattle")
+	incoming_damage_multiplier = int_property("incoming_damage_multiplier")
 	max_health = int_property("max_health")
 	spellpower = int_property("spellpower")
 

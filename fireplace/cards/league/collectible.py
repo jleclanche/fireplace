@@ -287,4 +287,7 @@ class LOE_027:
 
 # Cursed Blade
 class LOE_118:
-	update = Refresh(FRIENDLY_HERO, {GameTag.INCOMING_DAMAGE_MULTIPLIER: 1})
+	update = Refresh(FRIENDLY_HERO, buff="LOE_118e")
+
+class LOE_118e:
+	tags = {GameTag.INCOMING_DAMAGE_MULTIPLIER: True}
