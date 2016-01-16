@@ -247,6 +247,25 @@ class LOEA10_5H:
 
 
 ##
+# Skelesaurus Hex
+
+# Ancient Power
+class LOEA13_2:
+	activate = Give(ALL_PLAYERS, RandomCollectible()).then(Buff(Give.CARD, "LOEA13_2e"))
+
+class LOEA13_2H:
+	activate = Give(CONTROLLER, RandomCollectible()).then(Buff(Give.CARD, "LOEA13_2e"))
+
+@custom_card
+class LOEA13_2e:
+	tags = {
+		GameTag.CARDNAME: "Ancient Power buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+	}
+	cost = SET(0)
+
+
+##
 # Arch-Thief Rafaam
 
 # Unstable Portal
@@ -378,6 +397,18 @@ class LOEA16_24:
 
 class LOEA16_24H:
 	events = OWN_TURN_END.on(Draw(CONTROLLER) * 2)
+
+
+# Skelesaurus Hex
+class LOEA16_26:
+	events = OWN_TURN_END.on(
+		Give(ALL_PLAYERS, RandomCollectible()).then(Buff(Give.CARD, "LOEA13_2e"))
+	)
+
+class LOEA16_26H:
+	events = OWN_TURN_END.on(
+		Give(CONTROLLER, RandomCollectible()).then(Buff(Give.CARD, "LOEA13_2e"))
+	)
 
 
 # Blessing of the Sun
