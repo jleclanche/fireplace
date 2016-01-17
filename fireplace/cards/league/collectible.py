@@ -50,6 +50,13 @@ class LOE_018:
 LOE_018e = buff(atk=1)
 
 
+# Unearthed Raptor
+class LOE_019:
+	play = Buff(SELF, "LOE_019e").then(CopyDeathrattles(Buff.BUFF, TARGET))
+
+LOE_019e = buff(deathrattle=True)
+
+
 # Desert Camel
 class LOE_020:
 	play = (
