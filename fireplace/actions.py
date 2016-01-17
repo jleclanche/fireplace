@@ -513,15 +513,24 @@ class TargetedAction(Action):
 class Buff(TargetedAction):
 	"""
 	Buff character targets with Enchantment \a id
+	NOTE: Any Card can buff any other Card. The controller of the
+	Card that buffs the target becomes the controller of the buff.
 	"""
 	ARGS = ("TARGET", "BUFF")
+
+	def get_target_args(self, source, target):
+		buff = self._args[1]
+		buff = source.controller.card(buff)
+		buff.source = source
+		return [buff]
 
 	def do(self, source, target, buff):
 		kwargs = self._kwargs.copy()
 		for k, v in kwargs.items():
 			if isinstance(v, LazyValue):
-				kwargs[k] = v.evaluate(source)
-		return source.buff(target, buff, **kwargs)
+				v = v.evaluate(source)
+			setattr(buff, k, v)
+		return buff.apply(target)
 
 
 class Bounce(TargetedAction):
