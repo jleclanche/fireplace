@@ -364,12 +364,8 @@ class LiveEntity(PlayableCard, Entity):
 		if deathrattle:
 			ret.append(deathrattle)
 		for buff in self.buffs:
-			if buff.has_deathrattle:
-				deathrattle = buff.get_actions("deathrattle")
-				if deathrattle:
-					ret.append(deathrattle)
-				else:
-					raise NotImplementedError("Missing deathrattle script for %r" % (buff))
+			for deathrattle in buff.deathrattles:
+				ret.append(deathrattle)
 		return ret
 
 	@property
@@ -714,6 +710,18 @@ class Enchantment(BaseCard):
 	def __init__(self, data):
 		self.one_turn_effect = False
 		super().__init__(data)
+
+	@property
+	def deathrattles(self):
+		if not self.has_deathrattle:
+			return []
+		ret = []
+		deathrattle = self.get_actions("deathrattle")
+		if deathrattle:
+			ret.append(deathrattle)
+		else:
+			raise NotImplementedError("Missing deathrattle script for %r" % (self))
+		return ret
 
 	def _getattr(self, attr, i):
 		i += getattr(self, "_" + attr, 0)
