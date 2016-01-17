@@ -1039,6 +1039,22 @@ class Swap(TargetedAction):
 			other.zone = orig
 
 
+class SwapHealth(TargetedAction):
+	"""
+	Swap health between two minions using \a buff.
+	"""
+	ARGS = ("TARGET", "OTHER", "BUFF")
+
+	def do(self, source, target, other, buff):
+		other = other[0]
+		buff1 = source.controller.card(buff)
+		buff1.health = other.health
+		buff2 = source.controller.card(buff)
+		buff2.health = target.health
+		buff1.apply(target)
+		buff2.apply(other)
+
+
 class Steal(TargetedAction):
 	"""
 	Make the controller take control of targets.

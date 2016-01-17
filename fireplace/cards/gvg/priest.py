@@ -18,11 +18,7 @@ GVG_011a = buff(atk=-2)
 
 # Vol'jin
 class GVG_014:
-	# TODO
-	def play(self):
-		health = self.target.health
-		self.buff(self.target, "GVG_014a", health=self.health)
-		self.buff(self, "GVG_014a", health=health)
+	play = SwapHealth(SELF, TARGET, "GVG_014a")
 
 class GVG_014a:
 	max_health = lambda self, i: self.health
