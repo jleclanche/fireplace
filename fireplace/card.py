@@ -709,17 +709,18 @@ class Enchantment(BaseCard):
 
 	def __init__(self, data):
 		self.one_turn_effect = False
+		self.additional_deathrattles = []
 		super().__init__(data)
 
 	@property
 	def deathrattles(self):
 		if not self.has_deathrattle:
 			return []
-		ret = []
+		ret = self.additional_deathrattles[:]
 		deathrattle = self.get_actions("deathrattle")
 		if deathrattle:
 			ret.append(deathrattle)
-		else:
+		if not ret:
 			raise NotImplementedError("Missing deathrattle script for %r" % (self))
 		return ret
 

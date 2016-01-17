@@ -546,6 +546,18 @@ class Bounce(TargetedAction):
 			target.zone = Zone.HAND
 
 
+class CopyDeathrattles(TargetedAction):
+	"""
+	Copy the deathrattles from a card onto the target
+	"""
+	ARGS = ("TARGET", "DEATHRATTLES")
+
+	def do(self, source, target, entities):
+		for entity in entities:
+			for deathrattle in entity.deathrattles:
+				target.additional_deathrattles.append(deathrattle)
+
+
 class Counter(TargetedAction):
 	"""
 	Counter a card, making it unplayable.
