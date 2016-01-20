@@ -280,6 +280,29 @@ def test_nerubar_weblord():
 	assert perdition1.cost == perdition2.cost == 3
 
 
+def test_poison_seeds():
+	game = prepare_game()
+	abomination = game.player1.give("EX1_097")
+	abomination.play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.end_turn()
+
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	seeds = game.player2.give("FP1_019")
+	seeds.play()
+
+	assert len(game.board) == 4 + 4
+	assert game.player1.hero.health == 30 - 2
+	assert game.player2.hero.health == 30 - 2
+	assert game.player1.field == ["FP1_019t"] * 4
+	assert game.player2.field == ["FP1_019t"] * 4
+
+
 def test_reincarnate():
 	game = prepare_game()
 
