@@ -21,6 +21,7 @@ class Player(Entity, TargetableByAuras):
 	outgoing_healing_adjustment = slot_property("outgoing_healing_adjustment")
 	shadowform = slot_property("shadowform")
 	spellpower_double = slot_property("spellpower_double", sum)
+	spellpower_adjustment = slot_property("spellpower", sum)
 	type = CardType.PLAYER
 
 	def __init__(self, name):
@@ -78,7 +79,9 @@ class Player(Entity, TargetableByAuras):
 
 	@property
 	def spellpower(self):
-		return sum(minion.spellpower for minion in self.field)
+		aura_power = self.controller.spellpower_adjustment
+		minion_power = sum(minion.spellpower for minion in self.field)
+		return aura_power + minion_power
 
 	@property
 	def characters(self):
