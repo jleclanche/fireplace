@@ -55,7 +55,7 @@ class GVG_082:
 
 # Madder Bomber
 class GVG_090:
-	play = Hit(RANDOM_CHARACTER, 1) * 6
+	play = Hit(RANDOM_OTHER_CHARACTER, 1) * 6
 
 
 # Piloted Shredder

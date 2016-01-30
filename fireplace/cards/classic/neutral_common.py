@@ -37,7 +37,7 @@ class EX1_015:
 
 # Mad Bomber
 class EX1_082:
-	play = Hit(RANDOM_CHARACTER, 1) * 3
+	play = Hit(RANDOM_OTHER_CHARACTER, 1) * 3
 
 
 # Demolisher

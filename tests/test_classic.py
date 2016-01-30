@@ -1831,6 +1831,21 @@ def test_lorewalker_cho():
 	assert game.player1.hand[0].id == THE_COIN
 
 
+def test_mad_bomber():
+	game = prepare_game()
+	statue1 = game.player1.summon(ANIMATED_STATUE)
+	statue2 = game.player1.summon(ANIMATED_STATUE)
+	bomber = game.player1.give("EX1_082")
+	bomber.play()
+	assert bomber.damage == 0
+	assert (
+		statue1.damage +
+		statue2.damage +
+		game.player1.hero.damage +
+		game.player2.hero.damage
+	) == 3
+
+
 def test_mark_of_nature():
 	game = prepare_game()
 	wisp1 = game.current_player.give(WISP)
