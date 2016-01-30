@@ -45,6 +45,7 @@ DUMMY_CARDS = (
 	"XXX_058e",  # Weapon Nerf Enchant
 
 	# Dynamic buffs set by their parent
+	"CS2_236e",  # Divine Spirit
 	"EX1_304e",  # Consume (Void Terror)
 	"NEW1_018e",  # Treasure Crazed (Bloodsail Raider)
 )

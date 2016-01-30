@@ -110,11 +110,7 @@ class CS2_234:
 
 # Divine Spirit
 class CS2_236:
-	play = Buff(TARGET, "CS2_236e")
-
-class CS2_236e:
-	def apply(self, target):
-		self.max_health = target.health
+	play = Buff(TARGET, "CS2_236e", max_health=CURRENT_HEALTH(TARGET))
 
 
 # Mind Blast
