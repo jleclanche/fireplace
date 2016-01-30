@@ -262,10 +262,10 @@ class LOEA09_7H:
 # Giantfin
 
 # Mrglmrgl MRGL!
-class LOEA16_2:
+class LOEA10_2:
 	activate = DrawUntil(CONTROLLER, Count(ENEMY_HAND))
 
-class LOEA16_2H:
+class LOEA10_2H:
 	activate = Draw(CONTROLLER) * 2
 
 
