@@ -340,6 +340,9 @@ class LOEA16_7:
 class LOEA16_8:
 	play = Destroy(RANDOM_ENEMY_MINION)
 
+# Putressed (Unused)
+LOEA16_8a = AttackHealthSwapBuff()
+
 
 # Lothar's Left Greave
 class LOEA16_9:
