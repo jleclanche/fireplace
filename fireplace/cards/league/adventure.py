@@ -297,6 +297,17 @@ class LOEA13_2e:
 
 
 ##
+# The Steel Sentinel
+
+# Platemail Armor
+class LOEA14_2:
+	update = Refresh(FRIENDLY_HERO, {GameTag.HEAVILY_ARMORED: True})
+
+class LOEA14_2H:
+	update = Refresh(FRIENDLY_CHARACTERS, {GameTag.HEAVILY_ARMORED: True})
+
+
+##
 # Arch-Thief Rafaam
 
 # Unstable Portal
@@ -451,6 +462,14 @@ class LOEA16_26H:
 	events = OWN_TURN_END.on(
 		Give(CONTROLLER, RandomCollectible()).then(Buff(Give.CARD, "LOEA13_2e"))
 	)
+
+
+# The Steel Sentinel
+class LOEA16_27:
+	tags = {GameTag.HEAVILY_ARMORED: True}
+
+class LOEA16_27H:
+	tags = {GameTag.HEAVILY_ARMORED: True}
 
 
 # Blessing of the Sun
