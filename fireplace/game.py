@@ -87,7 +87,7 @@ class BaseGame(Entity):
 		"""
 		gameover = False
 		for player in self.players:
-			if player.playstate == PlayState.CONCEDED:
+			if player.playstate in (PlayState.CONCEDED, PlayState.DISCONNECTED):
 				player.playstate = PlayState.LOSING
 			if player.playstate == PlayState.LOSING:
 				gameover = True

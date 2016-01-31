@@ -214,6 +214,16 @@ class Concede(GameAction):
 		player.playstate = PlayState.CONCEDED
 
 
+class Disconnect(GameAction):
+	"""
+	Make \a player disconnect
+	"""
+	ARGS = ("PLAYER", )
+
+	def do(self, source, player):
+		player.playstate = PlayState.DISCONNECTED
+
+
 class Deaths(GameAction):
 	"""
 	Process all deaths in the PLAY Zone.
