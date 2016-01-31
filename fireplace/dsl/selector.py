@@ -333,15 +333,18 @@ HIGHEST_ATK = lambda sel: MinMaxSelector(sel, GameTag.ATK, max)
 LOWEST_ATK = lambda sel: MinMaxSelector(sel, GameTag.ATK, min)
 
 
-class AdjacentSelector(Selector):
+class LeftOfSelector(Selector):
 	"""
-	Selects the minions adjacent to the targets.
+	Selects the entities to the left of the targets.
 	"""
 	class SelectAdjacent:
 		def merge(self, selector, entities):
 			result = []
 			for e in entities:
-				result.extend(e.adjacent_minions)
+				if e.zone == Zone.PLAY:
+					left = e.controller.field[:e.zone_position]
+					if left:
+						result.append(left[-1])
 			return result
 
 	def __init__(self, selector):
@@ -353,9 +356,39 @@ class AdjacentSelector(Selector):
 		self.program.append(Selector.Unmerge)
 
 	def __repr__(self):
-		return "<ADJACENT>"
+		return "<LEFT OF>"
 
-ADJACENT = AdjacentSelector
+LEFT_OF = LeftOfSelector
+
+
+class RightOfSelector(Selector):
+	"""
+	Selects the entities to the right of the targets.
+	"""
+	class SelectAdjacent:
+		def merge(self, selector, entities):
+			result = []
+			for e in entities:
+				if e.zone == Zone.PLAY:
+					right = e.controller.field[e.zone_position + 1:]
+					if right:
+						result.append(right[0])
+			return result
+
+	def __init__(self, selector):
+		self.slice = None
+		self.program = [Selector.MergeFilter]
+		self.program.extend(selector.program)
+		self.program.append(Selector.Merge)
+		self.program.append(self.SelectAdjacent())
+		self.program.append(Selector.Unmerge)
+
+	def __repr__(self):
+		return "<RIGHT OF>"
+
+RIGHT_OF = RightOfSelector
+
+ADJACENT = lambda s: LEFT_OF(s) | RIGHT_OF(s)
 SELF_ADJACENT = ADJACENT(SELF)
 TARGET_ADJACENT = ADJACENT(TARGET)
 
