@@ -211,7 +211,7 @@ class Concede(GameAction):
 	ARGS = ("PLAYER", )
 
 	def do(self, source, player):
-		player.playstate = PlayState.QUIT
+		player.playstate = PlayState.CONCEDED
 
 
 class Deaths(GameAction):
