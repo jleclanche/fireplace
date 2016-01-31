@@ -16,6 +16,16 @@ def test_ancient_shade():
 	assert game.player1.hero.health == 30 - 7
 
 
+def test_animated_armor():
+	game = prepare_game()
+	armor = game.player1.give("LOE_119")
+	armor.play()
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.damage == 1
+	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	assert game.player1.hero.damage == 1 + 1
+
+
 def test_anubisath_sentinel():
 	game = prepare_game()
 	wisp = game.player2.summon(WISP)

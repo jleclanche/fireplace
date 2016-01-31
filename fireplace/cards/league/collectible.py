@@ -215,6 +215,11 @@ class LOE_116:
 LOE_009e = buff(+4, +4)
 
 
+# Animated Armor
+class LOE_119:
+	update = Refresh(FRIENDLY_HERO, {GameTag.HEAVILY_ARMORED: True})
+
+
 ##
 # Spells
 
