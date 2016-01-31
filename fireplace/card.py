@@ -406,6 +406,7 @@ class Character(LiveEntity):
 	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
 	cant_be_targeted_by_abilities = boolean_property("cant_be_targeted_by_abilities")
 	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
+	heavily_armored = boolean_property("heavily_armored")
 	min_health = boolean_property("min_health")
 
 	def __init__(self, data):
@@ -415,6 +416,13 @@ class Character(LiveEntity):
 		self.num_attacks = 0
 		self.race = Race.INVALID
 		super().__init__(data)
+
+	@property
+	def events(self):
+		ret = super().events
+		if self.heavily_armored:
+			ret += rules.HEAVILY_ARMORED
+		return ret
 
 	@property
 	def attackable(self):

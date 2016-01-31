@@ -156,6 +156,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.HEALING_DOUBLE: "healing_double",
 	GameTag.HEALTH: "max_health",
 	GameTag.HEALTH_MINIMUM: "min_health",
+	GameTag.HEAVILY_ARMORED: "heavily_armored",
 	GameTag.HEROPOWER_ADDITIONAL_ACTIVATIONS: "additional_activations",
 	GameTag.HEROPOWER_DAMAGE: "heropower_damage",
 	GameTag.INCOMING_DAMAGE_MULTIPLIER: "incoming_damage_multiplier",
