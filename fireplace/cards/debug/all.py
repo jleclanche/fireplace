@@ -130,6 +130,11 @@ class XXX_025:
 	pass
 
 
+# Enable Emotes
+class XXX_026:
+	pass
+
+
 # Server Crash
 class XXX_027:
 	def play(self):
