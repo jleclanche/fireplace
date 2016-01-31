@@ -146,6 +146,11 @@ class XXX_029:
 	play = Concede(OPPONENT)
 
 
+# Opponent Disconnect
+class XXX_030:
+	play = Disconnect(OPPONENT)
+
+
 # Become Hogger
 class XXX_039:
 	play = Summon(CONTROLLER, "XXX_040")
