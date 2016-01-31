@@ -1,6 +1,8 @@
 import os.path
 from importlib import import_module
 from pkgutil import iter_modules
+from xml.etree import ElementTree
+from hearthstone.enums import CardType
 
 
 # Autogenerate the list of cardset modules
@@ -107,3 +109,30 @@ def get_script_definition(id):
 		module = import_module("fireplace.cards.%s" % (cardset))
 		if hasattr(module, id):
 			return getattr(module, id)
+
+
+def entity_to_xml(entity):
+	e = ElementTree.Element("Entity")
+	for tag, value in entity.tags.items():
+		if value and not isinstance(value, str):
+			te = ElementTree.Element("Tag")
+			te.attrib["enumID"] = str(int(tag))
+			te.attrib["value"] = str(int(value))
+			e.append(te)
+	return e
+
+
+def game_state_to_xml(game):
+	tree = ElementTree.Element("HSGameState")
+	tree.append(entity_to_xml(game))
+	for player in game.players:
+		tree.append(entity_to_xml(player))
+	for entity in game.all_entities:
+		if entity.type in (CardType.GAME, CardType.PLAYER):
+			# Serialized those above
+			continue
+		e = entity_to_xml(entity)
+		e.attrib["CardID"] = entity.id
+		tree.append(e)
+
+	return ElementTree.tostring(tree)
