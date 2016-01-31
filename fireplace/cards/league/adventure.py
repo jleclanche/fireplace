@@ -318,6 +318,14 @@ class LOEA09_4H:
 ##
 # Rafaam Unleashed
 
+# Staff of Origination
+class LOEA16_2:
+	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+
+class LOEA16_2H:
+	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
+
+
 # Rummage
 class LOEA16_16:
 	activate = Give(CONTROLLER, RandomEntourage())
