@@ -147,6 +147,11 @@ class LOEA04_25h:
 	events = OWN_TURN_END.on(Hit(ENEMY_CHARACTERS, 5))
 
 
+# Rolling Boulder
+class LOE_024t:
+	events = OWN_TURN_END.on(Destroy(LEFT_OF(SELF)))
+
+
 ##
 # Chieftain Scarvash
 
