@@ -179,16 +179,20 @@ class KettleManager:
 			self.refresh_tag(self.game, GameTag.TURN)
 		elif option["Type"] == OptionType.POWER:
 			entity = option["MainOption"]["ID"]
-			target = self.get_entity(data["Target"])
-			DEBUG("Using POWER entity %r target %r", entity, target)
+			kwargs = {
+				"target": self.get_entity(data["Target"]),
+			}
+			DEBUG("Using POWER entity %r **%r", entity, kwargs)
 			DEBUG("data=%r", data)
 			if entity.zone == Zone.HAND:
-				entity.play(target=target)
+				func = entity.play
+				kwargs["index"] = data["Position"]
 			elif entity.zone == Zone.PLAY:
 				if entity.type == CardType.HERO_POWER:
-					entity.use(target=target)
+					func = entity.use
 				elif entity.type in (CardType.HERO, CardType.MINION):
-					entity.attack(target=target)
+					func = entity.attack
+			func(**kwargs)
 		else:
 			raise NotImplementedError
 
