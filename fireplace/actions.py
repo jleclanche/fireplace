@@ -308,6 +308,8 @@ class GenericChoice(GameAction):
 		self.max_count = 1
 
 	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
 		for _card in self.cards:
 			if _card is card:
 				if card.type == CardType.HERO_POWER:
