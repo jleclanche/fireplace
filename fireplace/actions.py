@@ -304,6 +304,8 @@ class GenericChoice(GameAction):
 		self.source = source
 		self.player = player
 		self.cards = cards
+		self.min_count = 1
+		self.max_count = 1
 
 	def choose(self, card):
 		for _card in self.cards:
