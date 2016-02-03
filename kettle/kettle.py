@@ -186,6 +186,15 @@ class KettleManager:
 		else:
 			raise NotImplementedError
 
+	def process_choose_entities(self, data):
+		DEBUG("Processing choose entities, data=%r", data)
+		entities = []
+		for entity_id in data:
+			# No need to assert, fireplace will raise InvalidAction
+			# assert entity_id in self.choices["Entities"]
+			entities.append(self.get_entity(entity_id))
+		self.game.current_player.choice.choose(*entities)
+
 	def tag_change(self, entity, tag, value):
 		DEBUG("Queueing a tag change for entity %r: %r -> %r", entity, tag, value)
 		payload = {
@@ -249,6 +258,8 @@ class Kettle(socketserver.BaseRequestHandler):
 
 			if packet["Type"] == "SendOption":
 				manager.process_send_option(packet["SendOption"])
+			elif packet["Type"] == "ChooseEntities":
+				manager.process_choose_entities(packet["ChooseEntities"])
 			else:
 				raise NotImplementedError
 
