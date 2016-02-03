@@ -151,11 +151,6 @@ class KettleManager:
 		option = self.options[data["Index"]]
 		if option["Type"] == OptionType.END_TURN:
 			self.game.end_turn()
-
-			# CURRENT_PLAYER needs to change before turn. TODO: is this needed?
-			self.refresh_tag(self.game.current_player.opponent, GameTag.CURRENT_PLAYER)
-			self.refresh_tag(self.game.current_player, GameTag.CURRENT_PLAYER)
-			self.refresh_tag(self.game, GameTag.TURN)
 		elif option["Type"] == OptionType.POWER:
 			entity = option["MainOption"]["ID"]
 			kwargs = {
