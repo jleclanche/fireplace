@@ -6,7 +6,7 @@ import socketserver
 import struct
 import sys
 from argparse import ArgumentParser
-from hearthstone.enums import CardType, GameTag, OptionType, Zone
+from hearthstone.enums import CardType, ChoiceType, GameTag, OptionType, Zone
 from fireplace.game import BaseGame as Game
 from fireplace.player import Player
 from fireplace.utils import CardList
@@ -115,8 +115,24 @@ class KettleManager:
 
 		return ret
 
+	def refresh_choices(self):
+		choice = self.game.current_player.choice
+		DEBUG("Queuing choice %r (cards: %r)", choice, choice.cards)
+		self.choices = {
+			"Type": ChoiceType.GENERAL,
+			"CountMin": choice.min_count,
+			"CountMax": choice.max_count,
+			"Entities": [e.entity_id for e in choice.cards],
+			"Source": choice.source.entity_id,
+			"PlayerId": 1,
+		}
+		payload = {"Type": "EntityChoices", "EntityChoices": self.choices}
+		self.queued_data.append(payload)
+
 	def refresh_options(self):
 		DEBUG("Refreshing options...")
+		if self.game.current_player.choice:
+			return self.refresh_choices()
 		self.options = [{"Type": OptionType.END_TURN}]
 
 		for entity in self.game.current_player.actionable_entities:
