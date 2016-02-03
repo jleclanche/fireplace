@@ -301,6 +301,7 @@ class GenericChoice(GameAction):
 
 	def do(self, source, player, cards):
 		player.choice = self
+		self.source = source
 		self.player = player
 		self.cards = cards
 
