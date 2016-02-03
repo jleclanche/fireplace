@@ -52,10 +52,6 @@ class KettleManager:
 				continue
 			state[tag] = int(value)
 
-		zone_pos = self.get_zone_position(entity)
-		if zone_pos:
-			state[GameTag.ZONE_POSITION] = zone_pos
-
 		# Don't have a way of getting entities by ID in fireplace yet
 		state[GameTag.ENTITY_ID] = entity
 
@@ -83,14 +79,6 @@ class KettleManager:
 
 		for tag in entity.tags:
 			self.refresh_tag(entity, tag)
-
-		zone_pos = self.get_zone_position(entity)
-		if zone_pos != state.get(GameTag.ZONE_POSITION):
-			if zone_pos:
-				state[GameTag.ZONE_POSITION] = zone_pos
-			else:
-				del state[GameTag.ZONE_POSITION]
-			self.tag_change(entity, GameTag.ZONE_POSITION, zone_pos)
 
 	def get_options(self, entity):
 		ret = []
@@ -140,15 +128,6 @@ class KettleManager:
 			"Options": self.options,
 		}
 		self.queued_data.append(payload)
-
-	def get_zone_position(self, entity):
-		if entity.zone == Zone.HAND:
-			return entity.controller.hand.index(entity) + 1
-		elif entity.zone == Zone.PLAY:
-			if entity.type == CardType.MINION:
-				return entity.controller.field.index(entity) + 1
-			else:
-				return 1
 
 	def new_entity(self, entity):
 		self.add_to_state(entity)
