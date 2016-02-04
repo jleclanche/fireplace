@@ -192,9 +192,12 @@ class BaseGame(Entity):
 		for entity, action in refresh_queue:
 			action.trigger(entity)
 
-		for buff in self.active_aura_buffs[:]:
+		buffs_to_destroy = []
+		for buff in self.active_aura_buffs:
 			if buff.tick < self.tick:
-				buff.destroy()
+				buffs_to_destroy.append(buff)
+		for buff in buffs_to_destroy:
+			buff.destroy()
 
 		self.tick += 1
 
