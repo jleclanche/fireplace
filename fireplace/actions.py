@@ -361,6 +361,7 @@ class Play(GameAction):
 		return (source, ) + super().get_args(source)
 
 	def do(self, source, player, card, target, index, choose):
+		player = source.controller
 		log.info("%s plays %r (target=%r, index=%r)", player, card, target, index)
 
 		player.pay_mana(card.cost)

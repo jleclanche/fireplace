@@ -288,7 +288,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				raise InvalidAction("%r is not a valid target for %r." % (target, self))
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
-		self.game.queue_actions(self.controller, [actions.Play(self, target, index, choose)])
+		self.game.queue_actions(self, [actions.Play(self, target, index, choose)])
 		return self
 
 	def is_summonable(self) -> bool:
