@@ -45,13 +45,22 @@ class KettleManager:
 				"Index": -1,
 				"Target": 0,
 			}
-			payload = {"Type": "ActionStart", "ActionStart": packet}
-			self.queued_data.append(payload)
+		elif isinstance(action, actions.Attack):
+			packet = {
+				"EntityID": source.entity_id,
+				"SubType": PowSubType.ATTACK,
+				"Index": -1,
+				"Target": args[1].entity_id,
+			}
+		else:
+			return
+		payload = {"Type": "ActionStart", "ActionStart": packet}
+		self.queued_data.append(payload)
 
 
 	def action_end(self, action, source, args):
 		DEBUG("Ending action %r", action)
-		if isinstance(action, actions.Play):
+		if isinstance(action, (actions.Play, actions.Attack)):
 			self.refresh_full_state()
 			payload = {"Type": "ActionEnd"}
 			self.queued_data.append(payload)
