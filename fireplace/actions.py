@@ -1,5 +1,5 @@
 from inspect import isclass
-from hearthstone.enums import CardType, Mulligan, PlayState, Zone
+from hearthstone.enums import CardType, Mulligan, PlayState, Step, Zone
 from .dsl import LazyValue, Selector
 from .entity import Entity
 from .logging import log
@@ -166,11 +166,12 @@ class Attack(GameAction):
 		return ret
 
 	def do(self, source, attacker, defender):
+		log.info("%r attacks %r", attacker, defender)
 		attacker.attack_target = defender
 		defender.defending = True
 		source.game.proposed_attacker = attacker
 		source.game.proposed_defender = defender
-		log.info("%r attacks %r", attacker, defender)
+		source.game.manager.step(Step.MAIN_COMBAT, Step.MAIN_ACTION)
 		self.broadcast(source, EventListener.ON, attacker, defender)
 
 		defender = source.game.proposed_defender
