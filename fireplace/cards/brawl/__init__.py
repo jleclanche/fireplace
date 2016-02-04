@@ -1,4 +1,5 @@
 from .banana_brawl import *
+from .blingbrawl import *
 from .decks_assemble import *
 from .gift_exchange import *
 from .masked_ball import *
