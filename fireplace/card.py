@@ -181,9 +181,12 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 	@property
 	def zone_position(self):
+		"""
+		Returns the card's position (1-indexed) in its zone, or 0 if not available.
+		"""
 		if self.zone == Zone.HAND:
 			return self.controller.hand.index(self) + 1
-		return None
+		return 0
 
 	def _set_zone(self, zone):
 		old_zone = self.zone
