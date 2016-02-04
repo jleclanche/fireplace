@@ -32,4 +32,5 @@ setup(
 	long_description=README,
 	license="AGPLv3",
 	url="https://github.com/jleclanche/fireplace",
+	zip_safe=True,
 )
