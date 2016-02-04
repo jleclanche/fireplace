@@ -6,7 +6,10 @@ import socketserver
 import struct
 import sys
 from argparse import ArgumentParser
-from hearthstone.enums import CardType, ChoiceType, GameTag, OptionType, Zone
+from hearthstone.enums import (
+	CardType, ChoiceType, GameTag, OptionType, PowSubType, Zone
+)
+from fireplace import actions
 from fireplace.game import BaseGame as Game
 from fireplace.player import Player
 from fireplace.utils import CardList
@@ -33,11 +36,25 @@ class KettleManager:
 		self.game_state = {}
 		self.queued_data = []
 
-	def action(self, type, args):
-		pass
+	def action(self, action, source, args):
+		DEBUG("Beginning new action %r (args=%r)", action, args)
+		if isinstance(action, actions.Play):
+			packet = {
+				"EntityID": source.entity_id,
+				"SubType": PowSubType.PLAY,
+				"Index": -1,
+				"Target": 0,
+			}
+			payload = {"Type": "ActionStart", "ActionStart": packet}
+			self.queued_data.append(payload)
 
-	def action_end(self, type, args):
-		pass
+
+	def action_end(self, action, source, args):
+		DEBUG("Ending action %r", action)
+		if isinstance(action, actions.Play):
+			self.refresh_full_state()
+			payload = {"Type": "ActionEnd"}
+			self.queued_data.append(payload)
 
 	def game_step(self, step, next_step):
 		DEBUG("Game.STEP changes to %r (next step is %r)", step, next_step)
