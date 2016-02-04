@@ -89,29 +89,35 @@ class Player(Entity, TargetableByAuras):
 
 	@property
 	def entities(self):
-		ret = []
 		for entity in self.field:
-			ret += entity.entities
-		ret += self.secrets
-		ret += self.buffs
-		return CardList(chain(list(self.hero.entities) if self.hero else [], ret, [self]))
+			for e in entity.entities:
+				yield e
+		for secret in self.secrets:
+			yield secret
+		for buff in self.buffs:
+			yield buff
+		if self.hero:
+			for entity in self.hero.entities:
+				yield entity
+		yield self
 
 	@property
 	def live_entities(self):
-		ret = self.field[:]
+		for minion in self.field:
+			yield minion
 		if self.hero:
-			ret.append(self.hero)
+			yield self.hero
 		if self.weapon:
-			ret.append(self.weapon)
-		return ret
+			yield self.weapon
 
 	@property
 	def actionable_entities(self):
-		ret = CardList(chain(self.characters, self.hand))
+		for character in self.characters:
+			yield character
+		for card in self.hand:
+			yield card
 		if self.hero.power:
-			ret.append(self.hero.power)
-
-		return ret
+			yield self.hero.power
 
 	@property
 	def minion_slots(self):
