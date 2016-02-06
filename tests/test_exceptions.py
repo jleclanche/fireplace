@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import pytest
-from utils import *
+from .utils import *
 from fireplace.exceptions import GameOver, InvalidAction
 
 

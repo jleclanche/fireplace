@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from utils import *
+from .utils import *
 
 
 def test_abusive_sergeant():

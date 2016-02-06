@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from utils import *
+from .utils import *
 from fireplace.dsl import *
 from fireplace.card import Card
 
