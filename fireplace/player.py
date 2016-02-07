@@ -148,7 +148,13 @@ class Player(Entity, TargetableByAuras):
 			self.card(id, zone=Zone.DECK)
 		self.shuffle_deck()
 		self.playstate = PlayState.PLAYING
-		self.draw(self.start_hand_size)
+
+		# Draw initial hand (but not any more than what we have in the deck)
+		hand_size = min(len(self.deck), self.start_hand_size)
+		starting_hand = random.sample(self.deck, hand_size)
+		# It's faster to move cards directly to the hand instead of drawing
+		for card in starting_hand:
+			card.zone = Zone.HAND
 
 	def concede(self):
 		return self.game.queue_actions(self, [Concede(self)])
