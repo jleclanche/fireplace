@@ -35,7 +35,6 @@ class Player(Entity, TargetableByAuras):
 		self.graveyard = CardList()
 		self.secrets = CardList()
 		self.choice = None
-		self.start_hand_size = 4
 		self.max_hand_size = 10
 		self.max_resources = 10
 		self.cant_draw = False
@@ -45,6 +44,7 @@ class Player(Entity, TargetableByAuras):
 		self.overloaded = 0
 		self.overload_locked = 0
 		self._max_mana = 0
+		self._start_hand_size = 3
 		self.playstate = PlayState.INVALID
 		self.temp_mana = 0
 		self.timeout = 75
@@ -82,6 +82,13 @@ class Player(Entity, TargetableByAuras):
 		aura_power = self.controller.spellpower_adjustment
 		minion_power = sum(minion.spellpower for minion in self.field)
 		return aura_power + minion_power
+
+	@property
+	def start_hand_size(self):
+		if not self.first_player:
+			# Give the second player an extra card
+			return self._start_hand_size + 1
+		return self._start_hand_size
 
 	@property
 	def characters(self):
