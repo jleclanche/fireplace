@@ -35,6 +35,11 @@ class LazyNum(LazyValue):
 		ret.base = -ret.base
 		return ret
 
+	def __mul__(self, other):
+		ret = copy.copy(self)
+		ret.base *= other
+		return ret
+
 	def num(self, n):
 		return n * self.base
 
