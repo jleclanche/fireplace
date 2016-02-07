@@ -231,6 +231,20 @@ class LOEA06_03h:
 LOEA06_03eh = buff(+3, +3, taunt=True)
 
 
+# Shattering Spree
+class LOEA06_04:
+	play = (
+		Hit(TARGET, Count(ALL_MINIONS + ID("LOEA06_02t"))),
+		Destroy(ALL_MINIONS + ID("LOEA06_02t"))
+	)
+
+class LOEA06_04h:
+	play = (
+		Hit(TARGET, Count(ALL_MINIONS + ID("LOEA06_02th")) * 3),
+		Destroy(ALL_MINIONS + ID("LOEA06_02th"))
+	)
+
+
 ##
 # Lord Slitherspear
 
