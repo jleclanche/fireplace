@@ -215,13 +215,7 @@ class BaseGame(Entity):
 		self.player2.first_player = False
 
 		for player in self.players:
-			player.summon(player.starting_hero)
-			for id in player.starting_deck:
-				player.card(id, zone=Zone.DECK)
-			player.shuffle_deck()
-			player.playstate = PlayState.PLAYING
-			player.cards_drawn_this_turn = 0
-			player.draw(player.start_hand_size)
+			player.prepare_for_game()
 
 	def start(self):
 		self.log("Starting game %r", self)

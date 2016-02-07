@@ -41,6 +41,7 @@ class Player(Entity, TargetableByAuras):
 		self.cant_fatigue = False
 		self.fatigue_counter = 0
 		self.last_card_played = None
+		self.cards_drawn_this_turn = 0
 		self.overloaded = 0
 		self.overload_locked = 0
 		self._max_mana = 0
@@ -140,6 +141,14 @@ class Player(Entity, TargetableByAuras):
 			card.creator = source
 		self.game.manager.new_entity(card)
 		return card
+
+	def prepare_for_game(self):
+		self.summon(self.starting_hero)
+		for id in self.starting_deck:
+			self.card(id, zone=Zone.DECK)
+		self.shuffle_deck()
+		self.playstate = PlayState.PLAYING
+		self.draw(self.start_hand_size)
 
 	def concede(self):
 		return self.game.queue_actions(self, [Concede(self)])
