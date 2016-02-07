@@ -10,7 +10,7 @@ class LazyValue:
 
 class LazyNum(LazyValue):
 	def __init__(self):
-		self._neg = False
+		self.base = 1
 
 	def evaluate(self, source) -> int:
 		raise NotImplementedError
@@ -32,11 +32,11 @@ class LazyNum(LazyValue):
 
 	def __neg__(self):
 		ret = copy.copy(self)
-		ret._neg = not self._neg
+		ret.base = -ret.base
 		return ret
 
 	def num(self, n):
-		return -n if self._neg else n
+		return n * self.base
 
 	def get_entities(self, source):
 		from .selector import Selector
