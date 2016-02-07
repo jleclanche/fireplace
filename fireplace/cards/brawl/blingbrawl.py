@@ -19,3 +19,10 @@ class TB_BlingBrawl_Blade2:
 	events = Summon(CONTROLLER, WEAPON).on(
 		Buff(Summon.CARD, "TB_BlingBrawl_Blade1e")
 	)
+
+
+# Sharpen (Unused)
+class TB_BlingBrawl_Hero1p:
+	activate = Buff(FRIENDLY_WEAPON, "TB_BlingBrawl_Hero1e")
+
+TB_BlingBrawl_Hero1e = buff(atk=1)
