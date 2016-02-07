@@ -55,7 +55,7 @@ def _draft(hero, exclude):
 	# random_draft() is fairly slow, this caches the drafts
 	if (hero, exclude) not in _draftcache:
 		_draftcache[(hero, exclude)] = random_draft(hero, exclude + BLACKLIST)
-	return _draftcache[(hero, exclude)]
+	return _draftcache[(hero, exclude)], hero
 
 
 _heroes = fireplace.cards.filter(collectible=True, type=CardType.HERO)
@@ -76,12 +76,6 @@ def _select_heroes(hero1=None, hero2=None):
 	return (hero1, hero2)
 
 
-def _prepare_player(name, hero, deck=[]):
-	player = Player(name)
-	player.prepare_deck(deck, hero)
-	return player
-
-
 def _empty_mulligan(game):
 	for player in game.players:
 		if player.choice:
@@ -91,8 +85,8 @@ def _empty_mulligan(game):
 def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
 	log.info("Initializing a new game")
 	heroes = _select_heroes(hero1, hero2)
-	player1 = _prepare_player("Player1", heroes[0], _draft(hero=heroes[0], exclude=exclude))
-	player2 = _prepare_player("Player2", heroes[1], _draft(hero=heroes[1], exclude=exclude))
+	player1 = Player("Player1", *_draft(hero=heroes[0], exclude=exclude))
+	player2 = Player("Player2", *_draft(hero=heroes[1], exclude=exclude))
 	game = game_class(players=(player1, player2))
 	game.start()
 	_empty_mulligan(game)
@@ -103,9 +97,9 @@ def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
 def prepare_empty_game(hero1=None, hero2=None, game_class=BaseTestGame):
 	log.info("Initializing a new game with empty decks")
 	heroes = _select_heroes(hero1, hero2)
-	player1 = _prepare_player("Player1", heroes[0])
+	player1 = Player("Player1", [], heroes[0])
 	player1.cant_fatigue = True
-	player2 = _prepare_player("Player2", heroes[1])
+	player2 = Player("Player2", [], heroes[1])
 	player2.cant_fatigue = True
 	game = game_class(players=(player1, player2))
 	game.start()

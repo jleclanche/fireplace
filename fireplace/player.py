@@ -24,7 +24,9 @@ class Player(Entity, TargetableByAuras):
 	spellpower_adjustment = slot_property("spellpower", sum)
 	type = CardType.PLAYER
 
-	def __init__(self, name):
+	def __init__(self, name, deck, hero):
+		self.starting_deck = deck
+		self.starting_hero = hero
 		self.data = None
 		self.name = name
 		self.hero = None
@@ -171,10 +173,6 @@ class Player(Entity, TargetableByAuras):
 	def give(self, id):
 		cards = self.game.queue_actions(self, [Give(self, id)])[0]
 		return cards[0][0]
-
-	def prepare_deck(self, cards, hero):
-		self.starting_deck = cards
-		self.starting_hero = hero
 
 	def discard_hand(self):
 		self.log("%r discards their entire hand!", self)

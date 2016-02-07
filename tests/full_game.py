@@ -11,10 +11,8 @@ from fireplace.utils import random_draft
 def play_full_game():
 	deck1 = random_draft(hero=MAGE)
 	deck2 = random_draft(hero=WARRIOR)
-	player1 = Player(name="Player1")
-	player1.prepare_deck(deck1, MAGE)
-	player2 = Player(name="Player2")
-	player2.prepare_deck(deck2, WARRIOR)
+	player1 = Player("Player1", deck1, MAGE)
+	player2 = Player("Player2", deck2, WARRIOR)
 
 	game = Game(players=(player1, player2))
 	game.start()

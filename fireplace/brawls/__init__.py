@@ -59,7 +59,7 @@ class BlackrockShowdownBrawl(Game):
 	def new_game(cls, *players):
 		decks = random.sample((cls.NEFARIAN_DECK, cls.RAGNAROS_DECK), 2)
 		for player, deck in zip(players, decks):
-			player.prepare_deck(deck[0], hero=deck[1])
+			player.starting_deck, player.starting_hero = deck
 		return cls(players)
 
 	def prepare(self):
@@ -109,7 +109,7 @@ class SpidersEverywhereBrawl(Game):
 			deck = ["FP1_011"] * 23
 			for i in range(7):
 				deck.append(random.choice(spells))
-			player.prepare_deck(deck, hero)
+			player.starting_deck, player.starting_hero = deck, hero
 
 
 class GreatSummonerBrawl(Game):
@@ -146,7 +146,7 @@ class CrossroadsEncounterBrawl(Game):
 			deck = [random.choice(pool) for i in range(15)]
 			pool = cards.filter(card_class=CardClass.INVALID, collectible=True)
 			deck += [random.choice(pool) for i in range(15)]
-			player.prepare_deck(deck, hero)
+			player.starting_deck, player.starting_hero = deck, hero
 
 
 class HeartOfTheSunwellBrawl(Game):
@@ -184,7 +184,7 @@ class TooManyPortalsBrawl(Game):
 			deck = [self.UNSTABLE_PORTAL] * 23
 			for i in range(7):
 				deck.append(random.choice(spells))
-			player.prepare_deck(deck, hero)
+			player.starting_deck, player.starting_hero = deck, hero
 
 
 class MaskedBallBrawl(Game):
@@ -262,7 +262,7 @@ class GrandTournamentBrawl(Game):
 	def new_game(cls, *players):
 		decks = random.sample((cls.ALLERIA_DECK, cls.MEDIVH_DECK), 2)
 		for player, deck in zip(players, decks):
-			player.prepare_deck(deck[0], hero=deck[1])
+			player.starting_deck, player.starting_hero = deck
 		return cls(players)
 
 
