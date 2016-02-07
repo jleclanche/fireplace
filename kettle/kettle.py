@@ -312,11 +312,10 @@ class Kettle(socketserver.BaseRequestHandler):
 		player_data = payload["Players"]
 		players = []
 		for player in player_data:
-			p = Player(player["Name"])
 			# Shuffle the cards to prevent information leaking
 			cards = player["Cards"]
 			random.shuffle(cards)
-			p.prepare_deck(cards, player["Hero"])
+			p = Player(player["Name"], cards, player["Hero"])
 			players.append(p)
 
 		INFO("Initializing a Kettle game with players=%r", players)
