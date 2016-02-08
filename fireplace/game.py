@@ -86,6 +86,9 @@ class BaseGame(Entity):
 		"""
 		return self.queue_actions(source, actions)
 
+	def joust(self, source, challenger, defender, actions):
+		return self.queue_actions(source, actions, event_args=[challenger, defender])
+
 	def play_card(self, card, target, index, choose):
 		return self.queue_actions(card, [Play(card, target, index, choose)])
 

@@ -279,9 +279,7 @@ class Joust(GameAction):
 
 	def do(self, source, challenger, defender):
 		log.info("Jousting %r vs %r", challenger, defender)
-		for action in self.callback:
-			log.debug("%r joust callback: %r", self, action)
-			source.game.queue_actions(source, [action], event_args=[challenger, defender])
+		source.game.joust(source, challenger, defender, self.callback)
 
 
 class GenericChoice(GameAction):
