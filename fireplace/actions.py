@@ -375,7 +375,8 @@ class Play(GameAction):
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(player, card)
 
-		self.queue_broadcast(summon_action, (player, EventListener.ON, player, card))
+		if card.type in (CardType.MINION, CardType.WEAPON):
+			self.queue_broadcast(summon_action, (player, EventListener.ON, player, card))
 		self.broadcast(player, EventListener.ON, player, card, target)
 		self.resolve_broadcasts()
 		player.game.no_aura_refresh = False
@@ -388,12 +389,10 @@ class Play(GameAction):
 
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.
-			if card.morphed:
-				played_minion = card.morphed
-			else:
-				played_minion = card
-			summon_action.broadcast(player, EventListener.AFTER, player, played_minion)
-			self.broadcast(player, EventListener.AFTER, player, played_minion, target)
+			played_card = card.morphed or card
+			if played_card.type in (CardType.MINION, CardType.WEAPON):
+				summon_action.broadcast(player, EventListener.AFTER, player, played_card)
+			self.broadcast(player, EventListener.AFTER, player, played_card, target)
 
 		player.combo = True
 		player.last_card_played = card
