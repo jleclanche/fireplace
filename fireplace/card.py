@@ -532,11 +532,6 @@ class Hero(Character):
 			return self.controller.weapon.windfury or ret
 		return ret
 
-	def _destroy(self):
-		super()._destroy()
-		if self.power:
-			self.power.destroy()
-
 	def _getattr(self, attr, i):
 		ret = super()._getattr(attr, i)
 		if attr == "atk":
@@ -549,6 +544,9 @@ class Hero(Character):
 			self.controller.hero = self
 			if self.data.hero_power:
 				self.controller.summon(self.data.hero_power)
+		elif value == Zone.GRAVEYARD:
+			if self.power:
+				self.power.zone = Zone.GRAVEYARD
 		super()._set_zone(value)
 
 	def _hit(self, amount):
