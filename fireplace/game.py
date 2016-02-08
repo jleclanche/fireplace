@@ -80,6 +80,12 @@ class BaseGame(Entity):
 	def attack(self, source, target):
 		return self.queue_actions(source, [Attack(source, target)])
 
+	def trigger(self, source, actions, event_args):
+		"""
+		Perform actions as a result of an event listener (TRIGGER)
+		"""
+		return self.queue_actions(source, actions, event_args)
+
 	def check_for_end_game(self):
 		"""
 		Check if one or more player is currently losing.
