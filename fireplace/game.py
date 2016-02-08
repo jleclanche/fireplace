@@ -3,7 +3,7 @@ import time
 from calendar import timegm
 from itertools import chain
 from hearthstone.enums import CardType, PlayState, State, Step, Zone
-from .actions import Attack, BeginTurn, Death, EndTurn, EventListener, Hit
+from .actions import Attack, BeginTurn, Death, EndTurn, EventListener, Play
 from .card import THE_COIN
 from .entity import Entity
 from .managers import GameManager
@@ -79,6 +79,9 @@ class BaseGame(Entity):
 
 	def attack(self, source, target):
 		return self.queue_actions(source, [Attack(source, target)])
+
+	def play_card(self, card, target, index, choose):
+		return self.queue_actions(card, [Play(card, target, index, choose)])
 
 	def trigger(self, source, actions, event_args):
 		"""
