@@ -57,10 +57,8 @@ class Refresh:
 
 class TargetableByAuras:
 	def refresh_buff(self, source, id):
-		for slot in self.slots[:]:
+		for slot in self.slots:
 			if slot.source is source:
-				self.slots.remove(slot)
-				self.slots.append(slot)
 				slot.tick = source.game.tick
 				break
 		else:
@@ -70,12 +68,9 @@ class TargetableByAuras:
 			source.game.active_aura_buffs.append(buff)
 
 	def refresh_tags(self, source, tags):
-		for slot in self.slots[:]:
+		for slot in self.slots:
 			if slot.source is source:
 				slot.update_tags(tags)
-				# Move the buff position at the end again
-				self.slots.remove(slot)
-				self.slots.append(slot)
 				break
 		else:
 			buff = AuraBuff(source, self)
