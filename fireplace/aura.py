@@ -58,7 +58,7 @@ class Refresh:
 class TargetableByAuras:
 	def refresh_buff(self, source, id):
 		for slot in self.slots:
-			if slot.source is source:
+			if slot.source is source and slot.id == id:
 				slot.tick = source.game.tick
 				break
 		else:
