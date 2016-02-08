@@ -203,7 +203,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				self.choose_cards.append(card)
 
 	def destroy(self):
-		return self.game.queue_actions(self, [actions.Destroy(self), actions.Deaths()])
+		return self.game.cheat_action(self, [actions.Destroy(self), actions.Deaths()])
 
 	def _destroy(self):
 		"""
@@ -234,10 +234,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				# Proc the draw script, but only if we are past mulligan
 				actions = self.get_actions("draw")
 				if actions:
-					self.game.queue_actions(self, actions)
+					self.game.cheat_action(self, actions)
 
 	def heal(self, target, amount):
-		return self.game.queue_actions(self, [actions.Heal(target, amount)])
+		return self.game.cheat_action(self, [actions.Heal(target, amount)])
 
 	def is_playable(self):
 		if self.controller.choice:
@@ -305,13 +305,13 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		Morph the card into another card
 		"""
-		return self.game.queue_actions(self, [actions.Morph(self, into)])
+		return self.game.cheat_action(self, [actions.Morph(self, into)])
 
 	def shuffle_into_deck(self):
 		"""
 		Shuffle the card into the controller's deck
 		"""
-		return self.game.queue_actions(self.controller, [actions.Shuffle(self.controller, self)])
+		return self.game.cheat_action(self, [actions.Shuffle(self.controller, self)])
 
 	def has_target(self):
 		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements:
@@ -406,7 +406,7 @@ class LiveEntity(PlayableCard, Entity):
 		return amount
 
 	def hit(self, amount):
-		return self.game.queue_actions(self, [actions.Hit(self, amount)])
+		return self.game.cheat_action(self, [actions.Hit(self, amount)])
 
 
 class Character(LiveEntity):
@@ -506,7 +506,7 @@ class Character(LiveEntity):
 		return super().targets
 
 	def set_current_health(self, amount):
-		return self.game.queue_actions(self, [actions.SetCurrentHealth(self, amount)])
+		return self.game.cheat_action(self, [actions.SetCurrentHealth(self, amount)])
 
 
 class Hero(Character):
@@ -664,7 +664,7 @@ class Minion(Character):
 		return amount
 
 	def bounce(self):
-		return self.game.queue_actions(self, [actions.Bounce(self)])
+		return self.game.cheat_action(self, [actions.Bounce(self)])
 
 	def is_summonable(self):
 		summonable = super().is_summonable()
@@ -673,7 +673,7 @@ class Minion(Character):
 		return summonable
 
 	def silence(self):
-		return self.game.queue_actions(self, [actions.Silence(self)])
+		return self.game.cheat_action(self, [actions.Silence(self)])
 
 
 class Spell(PlayableCard):

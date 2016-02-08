@@ -80,6 +80,12 @@ class BaseGame(Entity):
 	def attack(self, source, target):
 		return self.queue_actions(source, [Attack(source, target)])
 
+	def cheat_action(self, source, actions):
+		"""
+		Perform actions as if a card had just triggered them
+		"""
+		return self.queue_actions(source, actions)
+
 	def play_card(self, card, target, index, choose):
 		return self.queue_actions(card, [Play(card, target, index, choose)])
 
