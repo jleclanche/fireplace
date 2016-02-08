@@ -549,6 +549,28 @@ def test_morph():
 	assert len(game.current_player.opponent.hand) == 1
 
 
+def test_no_death_processing_during_battlecry():
+	game = prepare_game()
+	illidan = game.player1.give("EX1_614")
+	illidan.play()
+	juggler = game.player1.give("NEW1_019")
+	juggler.play()
+	game.end_turn()
+
+	acolyte = game.player2.give("EX1_007")
+	acolyte.play()
+	acolyte.set_current_health(1)
+	game.end_turn()
+
+	game.player2.discard_hand()
+	infernal = game.player1.give("CS2_064")
+	infernal.play()
+	# Check that the acolyte never draws twice
+	# Either the juggler hits it and it dies before the battlecry
+	# or the dread infernal hits it.
+	assert len(game.player2.hand) == 1
+
+
 def test_overload():
 	game = prepare_game(game_class=Game)
 	dustdevil = game.player1.give("EX1_243")
