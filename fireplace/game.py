@@ -227,7 +227,7 @@ class BaseGame(Entity):
 			if buff.tick < self.tick:
 				buffs_to_destroy.append(buff)
 		for buff in buffs_to_destroy:
-			buff.destroy()
+			buff.remove()
 
 		self.tick += 1
 
@@ -273,7 +273,7 @@ class BaseGame(Entity):
 				character.frozen = False
 		for buff in self.entities.filter(one_turn_effect=True):
 			self.log("Ending One-Turn effect: %r", buff)
-			buff.destroy()
+			buff.remove()
 		self.begin_turn(self.current_player.opponent)
 
 	def begin_turn(self, player):

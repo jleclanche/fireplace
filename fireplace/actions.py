@@ -683,7 +683,10 @@ class Destroy(TargetedAction):
 	Destroy character targets.
 	"""
 	def do(self, source, target):
-		target._destroy()
+		if target.type == CardType.ENCHANTMENT:
+			target.remove()
+		else:
+			target._destroy()
 
 
 class Discard(TargetedAction):

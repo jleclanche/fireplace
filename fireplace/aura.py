@@ -15,7 +15,7 @@ class AuraBuff:
 		self.tags.update(tags)
 		self.tick = self.source.game.tick
 
-	def destroy(self):
+	def remove(self):
 		log.info("Destroying %r", self)
 		self.entity.slots.remove(self)
 		self.source.game.active_aura_buffs.remove(self)

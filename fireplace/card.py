@@ -778,9 +778,8 @@ class Enchantment(BaseCard):
 			target.damage = 0
 		self.zone = Zone.PLAY
 
-	def destroy(self):
+	def remove(self):
 		self.zone = Zone.REMOVEDFROMGAME
-	_destroy = destroy
 
 
 class Weapon(rules.WeaponRules, LiveEntity):
