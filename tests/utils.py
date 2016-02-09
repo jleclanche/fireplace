@@ -39,6 +39,7 @@ LIGHTS_JUSTICE = "CS2_091"
 # Debug spells
 DAMAGE_5 = "XXX_002"
 RESTORE_1 = "XXX_003"
+DESTROY = "XXX_005"
 DESTROY_DECK = "XXX_047"
 
 # Collectible cards excluded from random drafts

@@ -31,21 +31,29 @@ def test_baron_rivendare():
 	gnome = game.player1.give("EX1_029")
 	gnome.play()
 	assert not game.player1.extra_deathrattles
-	rivendare = game.player1.summon("FP1_031")
+	rivendare = game.player1.give("FP1_031")
+	rivendare.play()
 	assert game.player1.extra_deathrattles
 	game.player1.give(MOONFIRE).play(target=gnome)
 	assert game.player2.hero.health == 26
+
+
+def test_baron_rivendare_soul_of_the_forest():
+	game = prepare_game()
+	rivendare = game.player1.give("FP1_031")
+	rivendare.play()
 	wisp = game.player1.give(WISP)
 	wisp.play()
-	assert not wisp.has_deathrattle
 	sotf = game.player1.give("EX1_158")
 	sotf.play()
 	assert len(game.player1.field) == 2
+	assert wisp.has_deathrattle
+	assert rivendare.has_deathrattle
 	game.player1.give(MOONFIRE).play(target=wisp)
 	assert wisp.dead
 	assert rivendare.zone == Zone.PLAY
 	assert len(game.player1.field) == 3  # Rivendare and two treants
-	rivendare.destroy()
+	game.player1.give(DESTROY).play(target=rivendare)
 	assert len(game.player1.field) == 3  # Only one treant spawns
 
 
