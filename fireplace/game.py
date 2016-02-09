@@ -125,7 +125,7 @@ class BaseGame(Entity):
 		"""
 		Perform actions as if a card had just triggered them
 		"""
-		return self.queue_actions(source, actions)
+		return self.trigger(source, actions, event_args=None)
 
 	def check_for_end_game(self):
 		"""
