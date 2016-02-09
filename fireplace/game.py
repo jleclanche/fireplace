@@ -139,28 +139,13 @@ class BaseGame(Entity):
 		actions = []
 		for card in self.live_entities:
 			if card.to_be_destroyed:
-				actions.append(self._schedule_death(card))
+				card.zone = Zone.GRAVEYARD
+				actions.append(Death(card))
 
 		self.check_for_end_game()
 
 		if actions:
 			self.queue_actions(self, actions)
-
-	def _schedule_death(self, card):
-		"""
-		Prepare a card for its death. Will run any related Death
-		trigger attached to the Game object.
-		Returns a list of actions to perform during the death sweep.
-		"""
-		self.logger.debug("Scheduling death for %r", card)
-		card.zone = Zone.GRAVEYARD
-		if card.type == CardType.MINION:
-			self.minions_killed_this_turn.append(card)
-			card.controller.minions_killed_this_turn += 1
-		elif card.type == CardType.HERO:
-			card.controller.playstate = PlayState.LOSING
-
-		return Death(card)
 
 	def queue_actions(self, source, actions, event_args=None):
 		"""

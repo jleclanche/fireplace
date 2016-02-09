@@ -1,5 +1,5 @@
 from itertools import chain
-from hearthstone.enums import CardType, PlayReq, Race, Rarity, Step, Zone
+from hearthstone.enums import CardType, PlayReq, PlayState, Race, Rarity, Step, Zone
 from . import actions, cards, rules
 from .aura import TargetableByAuras
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
@@ -535,6 +535,8 @@ class Hero(Character):
 		elif value == Zone.GRAVEYARD:
 			if self.power:
 				self.power.zone = Zone.GRAVEYARD
+			if self.controller.hero is self:
+				self.controller.playstate = PlayState.LOSING
 		super()._set_zone(value)
 
 	def _hit(self, amount):
@@ -626,6 +628,9 @@ class Minion(Character):
 				self.controller.field.insert(self._summon_index, self)
 			else:
 				self.controller.field.append(self)
+		elif value == Zone.GRAVEYARD:
+			self.controller.minions_killed_this_turn += 1
+			self.game.minions_killed_this_turn.append(self)
 
 		if self.zone == Zone.PLAY:
 			self.log("%r is removed from the field", self)
