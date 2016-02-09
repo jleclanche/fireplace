@@ -413,7 +413,7 @@ class Activate(GameAction):
 
 		actions = heropower.get_actions("activate")
 		if actions:
-			source.game.queue_actions(heropower, actions)
+			source.game.main_power(heropower, actions, target)
 
 		for minion in player.field.filter(has_inspire=True):
 			actions = minion.get_actions("inspire")
@@ -663,10 +663,10 @@ class Battlecry(TargetedAction):
 
 		if actions:
 			source.target = target
-			source.game.queue_actions(source, actions)
+			source.game.main_power(source, actions, target)
 
 			if player.extra_battlecries and card.has_battlecry:
-				source.game.queue_actions(source, actions)
+				source.game.main_power(source, actions, target)
 
 		source.game.process_deaths()
 

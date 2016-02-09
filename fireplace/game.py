@@ -92,6 +92,10 @@ class BaseGame(Entity):
 		type = PowSubType.JOUST
 		return self.action_block(source, actions, type, event_args=[challenger, defender])
 
+	def main_power(self, source, actions, target):
+		type = PowSubType.POWER
+		return self.action_block(source, actions, type, target=target)
+
 	def play_card(self, card, target, index, choose):
 		type = PowSubType.PLAY
 		actions = [Play(card, target, index, choose)]
