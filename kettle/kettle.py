@@ -7,7 +7,7 @@ import struct
 import sys
 from argparse import ArgumentParser
 from hearthstone.enums import (
-	CardType, ChoiceType, GameTag, OptionType, Zone
+	CardType, ChoiceType, GameTag, OptionType, Step, Zone
 )
 from fireplace import actions
 from fireplace.game import BaseGame as Game
@@ -83,6 +83,8 @@ class KettleManager:
 			state[tag] = int(value)
 
 	def refresh_full_state(self):
+		if self.game.step < Step.BEGIN_MULLIGAN:
+			return
 		for entity in self.game_state:
 			self.refresh_state(entity)
 
