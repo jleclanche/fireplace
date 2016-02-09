@@ -153,7 +153,6 @@ class BaseGame(Entity):
 		Returns a list of actions to perform during the death sweep.
 		"""
 		self.logger.debug("Scheduling death for %r", card)
-		card.ignore_events = True
 		card.zone = Zone.GRAVEYARD
 		if card.type == CardType.MINION:
 			self.minions_killed_this_turn.append(card)
