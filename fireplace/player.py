@@ -234,7 +234,9 @@ class Player(Entity, TargetableByAuras):
 		return cards[0][0]
 
 	def concede(self):
-		return self.game.cheat_action(self, [Concede(self)])
+		ret = self.game.cheat_action(self, [Concede(self)])
+		self.game.check_for_end_game()
+		return ret
 
 	def fatigue(self):
 		return self.game.cheat_action(self, [Fatigue(self)])[0]
