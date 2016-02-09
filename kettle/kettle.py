@@ -36,11 +36,11 @@ class KettleManager:
 		self.game_state = {}
 		self.queued_data = []
 
-	def action(self, type, source, index, target):
-		DEBUG("Beginning new action %r (%r, %r, %r)", action, source, index, target)
+	def action_start(self, type, source, index, target):
+		DEBUG("Beginning new action %r (%r, %r, %r)", type, source, index, target)
 		packet = {
-			"EntityID": source.entity_id,
 			"SubType": type,
+			"EntityID": source.entity_id,
 			"Index": index,
 			"Target": target.entity_id if target else 0,
 		}

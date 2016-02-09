@@ -55,13 +55,13 @@ class GameManager(Manager):
 		self.counter = 1
 		obj.entity_id = self.counter
 
-	def action(self, type, source, *args):
+	def action_start(self, type, source, index, target):
 		for observer in self.observers:
-			observer.action(type, source, args)
+			observer.action_start(type, source, index, target)
 
-	def action_end(self, type, source, *args):
+	def action_end(self, type, source):
 		for observer in self.observers:
-			observer.action_end(type, source, args)
+			observer.action_end(type, source)
 
 	def new_entity(self, entity):
 		self.counter += 1

@@ -78,12 +78,12 @@ class BaseGame(Entity):
 		return self.all_entities.filter(*args, **kwargs)
 
 	def action_start(self, type, source, index, target):
-		self.manager.action(self, type, source, index, target)
+		self.manager.action_start(type, source, index, target)
 		if type != PowSubType.PLAY:
 			self._action_stack += 1
 
 	def action_end(self, type, source):
-		self.manager.action_end(self, type, source)
+		self.manager.action_end(type, source)
 		if type != PowSubType.PLAY:
 			self._action_stack -= 1
 		if not self._action_stack:
