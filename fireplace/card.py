@@ -805,7 +805,6 @@ class Weapon(rules.WeaponRules, LiveEntity):
 			if self.controller.weapon:
 				self.log("Destroying old weapon %r", self.controller.weapon)
 				self.game.trigger(self, [actions.Destroy(self.controller.weapon)], event_args=None)
-				self.game.process_deaths()
 			self.controller.weapon = self
 		elif self.zone == Zone.PLAY:
 			self.controller.weapon = None

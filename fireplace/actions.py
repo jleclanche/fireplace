@@ -150,7 +150,6 @@ class GameAction(Action):
 	def trigger(self, source):
 		args = self.get_args(source)
 		self.do(source, *args)
-		source.game.process_deaths()
 
 
 class Attack(GameAction):
@@ -667,8 +666,6 @@ class Battlecry(TargetedAction):
 
 			if player.extra_battlecries and card.has_battlecry:
 				source.game.main_power(source, actions, target)
-
-		source.game.process_deaths()
 
 		if card.overload:
 			source.game.queue_actions(card, [Overload(player, card.overload)])

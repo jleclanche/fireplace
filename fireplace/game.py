@@ -31,6 +31,7 @@ class BaseGame(Entity):
 		self.no_aura_refresh = False
 		self.tick = 0
 		self.active_aura_buffs = CardList()
+		self._action_stack = 0
 
 	def __repr__(self):
 		return "%s(players=%r)" % (self.__class__.__name__, self.players)
@@ -78,9 +79,15 @@ class BaseGame(Entity):
 		return self.all_entities.filter(*args, **kwargs)
 
 	def action_block(self, source, actions, type, index=-1, target=None, event_args=None):
+		if type != PowSubType.PLAY:
+			self._action_stack += 1
 		self.manager.action(self, type, source, index, target)
 		ret = self.queue_actions(source, actions, event_args)
 		self.manager.action_end(self, type, source)
+		if type != PowSubType.PLAY:
+			self._action_stack -= 1
+		if not self._action_stack:
+			self.process_deaths()
 		return ret
 
 	def attack(self, source, target):
