@@ -139,7 +139,7 @@ class BaseGame(Entity):
 		actions = []
 		for card in self.live_entities:
 			if card.to_be_destroyed:
-				actions += self._schedule_death(card)
+				actions.append(self._schedule_death(card))
 
 		self.check_for_end_game()
 
@@ -161,7 +161,7 @@ class BaseGame(Entity):
 		elif card.type == CardType.HERO:
 			card.controller.playstate = PlayState.LOSING
 
-		return [Death(card)]
+		return Death(card)
 
 	def queue_actions(self, source, actions, event_args=None):
 		"""
