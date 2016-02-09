@@ -683,10 +683,17 @@ class Destroy(TargetedAction):
 	Destroy character targets.
 	"""
 	def do(self, source, target):
-		if target.type == CardType.ENCHANTMENT:
-			target.remove()
+		if target.delayed_destruction:
+			#  If the card is in PLAY, it is instead scheduled to be destroyed
+			# It will be moved to the graveyard on the next Death event
+			log.info("%r marks %r for imminent death", source, target)
+			target.to_be_destroyed = True
 		else:
-			target._destroy()
+			log.info("%r destroys %r", source, target)
+			if target.type == CardType.ENCHANTMENT:
+				target.remove()
+			else:
+				target.zone = Zone.GRAVEYARD
 
 
 class Discard(TargetedAction):

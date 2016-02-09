@@ -205,18 +205,6 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	def destroy(self):
 		return self.game.cheat_action(self, [actions.Destroy(self), actions.Deaths()])
 
-	def _destroy(self):
-		"""
-		Destroy a card.
-		If the card is in PLAY, it is instead scheduled to be destroyed, and it will
-		be moved to the GRAVEYARD on the next Death event.
-		"""
-		if self.delayed_destruction:
-			self.log("Marking %r for imminent death", self)
-			self.to_be_destroyed = True
-		else:
-			self.zone = Zone.GRAVEYARD
-
 	def discard(self):
 		self.log("Discarding %r" % (self))
 		self.zone = Zone.DISCARD
