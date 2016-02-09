@@ -501,7 +501,6 @@ class TargetedAction(Action):
 			args = self.get_args(source)
 			targets = self.get_targets(source, args[0])
 			args = args[1:]
-			source.game.manager.action(self, source, targets, *args)
 			log.info("%r triggering %r targeting %r", source, self, targets)
 			for target in targets:
 				target_args = self.get_target_args(source, target)
@@ -510,8 +509,6 @@ class TargetedAction(Action):
 				for action in self.callback:
 					log.info("%r queues up callback %r", self, action)
 					ret += source.game.queue_actions(source, [action], event_args=[target] + target_args)
-
-			source.game.manager.action_end(self, source, targets, *self._args)
 
 		self.resolve_broadcasts()
 
