@@ -97,6 +97,19 @@ class BaseGame(Entity):
 		actions = [Play(card, target, index, choose)]
 		return self.action_block(card, actions, type, index, target)
 
+	def process_deaths(self):
+		type = PowSubType.DEATHS
+		actions = []
+		for card in self.live_entities:
+			if card.to_be_destroyed:
+				card.zone = Zone.GRAVEYARD
+				actions.append(Death(card))
+
+		self.check_for_end_game()
+
+		if actions:
+			self.action_block(self, actions, type)
+
 	def trigger(self, source, actions, event_args):
 		"""
 		Perform actions as a result of an event listener (TRIGGER)
@@ -134,18 +147,6 @@ class BaseGame(Entity):
 						player.playstate = PlayState.WON
 			self.state = State.COMPLETE
 			raise GameOver("The game has ended.")
-
-	def process_deaths(self):
-		actions = []
-		for card in self.live_entities:
-			if card.to_be_destroyed:
-				card.zone = Zone.GRAVEYARD
-				actions.append(Death(card))
-
-		self.check_for_end_game()
-
-		if actions:
-			self.queue_actions(self, actions)
 
 	def queue_actions(self, source, actions, event_args=None):
 		"""
