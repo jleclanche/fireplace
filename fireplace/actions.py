@@ -409,24 +409,20 @@ class Activate(GameAction):
 		return (source, ) + super().get_args(source)
 
 	def do(self, source, player, heropower, target=None):
-		ret = []
-
 		self.broadcast(source, EventListener.ON, player, heropower, target)
 
 		actions = heropower.get_actions("activate")
 		if actions:
-			ret += source.game.queue_actions(heropower, actions)
+			source.game.queue_actions(heropower, actions)
 
 		for minion in player.field.filter(has_inspire=True):
 			actions = minion.get_actions("inspire")
 			if actions is None:
 				raise NotImplementedError("Missing inspire script for %r" % (minion))
 			if actions:
-				ret += source.game.queue_actions(minion, actions)
+				source.game.trigger(minion, actions, event_args=None)
 
 		heropower.activations_this_turn += 1
-
-		return ret
 
 
 class Overload(GameAction):
