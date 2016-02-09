@@ -77,26 +77,29 @@ class BaseGame(Entity):
 	def filter(self, *args, **kwargs):
 		return self.all_entities.filter(*args, **kwargs)
 
+	def action_block(self, source, actions, event_args=None):
+		return self.queue_actions(source, actions, event_args)
+
 	def attack(self, source, target):
-		return self.queue_actions(source, [Attack(source, target)])
+		return self.action_block(source, [Attack(source, target)])
+
+	def joust(self, source, challenger, defender, actions):
+		return self.action_block(source, actions, event_args=[challenger, defender])
+
+	def play_card(self, card, target, index, choose):
+		return self.action_block(card, [Play(card, target, index, choose)])
+
+	def trigger(self, source, actions, event_args):
+		"""
+		Perform actions as a result of an event listener (TRIGGER)
+		"""
+		return self.action_block(source, actions, event_args)
 
 	def cheat_action(self, source, actions):
 		"""
 		Perform actions as if a card had just triggered them
 		"""
 		return self.queue_actions(source, actions)
-
-	def joust(self, source, challenger, defender, actions):
-		return self.queue_actions(source, actions, event_args=[challenger, defender])
-
-	def play_card(self, card, target, index, choose):
-		return self.queue_actions(card, [Play(card, target, index, choose)])
-
-	def trigger(self, source, actions, event_args):
-		"""
-		Perform actions as a result of an event listener (TRIGGER)
-		"""
-		return self.queue_actions(source, actions, event_args)
 
 	def check_for_end_game(self):
 		"""
