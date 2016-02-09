@@ -23,8 +23,8 @@ class BaseGame(Entity):
 		for player in players:
 			player.game = self
 		self.state = State.INVALID
-		self.step = None
-		self.next_step = None
+		self.step = Step.BEGIN_FIRST
+		self.next_step = Step.BEGIN_SHUFFLE
 		self.turn = 0
 		self.current_player = None
 		self.minions_killed_this_turn = CardList()
@@ -256,7 +256,7 @@ class BaseGame(Entity):
 	def start(self):
 		self.log("Starting game %r", self)
 		self.state = State.RUNNING
-		self.step = Step.MAIN_BEGIN
+		self.step = Step.BEGIN_DRAW
 		self.zone = Zone.PLAY
 		self.prepare()
 		self.manager.start_game()
