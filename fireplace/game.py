@@ -2,7 +2,7 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
-from hearthstone.enums import CardType, PlayState, State, Step, Zone
+from hearthstone.enums import CardType, PlayState, PowSubType, State, Step, Zone
 from .actions import Attack, BeginTurn, Death, EndTurn, EventListener, Play
 from .card import THE_COIN
 from .entity import Entity
@@ -77,23 +77,32 @@ class BaseGame(Entity):
 	def filter(self, *args, **kwargs):
 		return self.all_entities.filter(*args, **kwargs)
 
-	def action_block(self, source, actions, event_args=None):
-		return self.queue_actions(source, actions, event_args)
+	def action_block(self, source, actions, type, index=-1, target=None, event_args=None):
+		self.manager.action(self, type, source, index, target)
+		ret = self.queue_actions(source, actions, event_args)
+		self.manager.action_end(self, type, source)
+		return ret
 
 	def attack(self, source, target):
-		return self.action_block(source, [Attack(source, target)])
+		type = PowSubType.ATTACK
+		actions = [Attack(source, target)]
+		return self.action_block(source, actions, type, target=target)
 
 	def joust(self, source, challenger, defender, actions):
-		return self.action_block(source, actions, event_args=[challenger, defender])
+		type = PowSubType.JOUST
+		return self.action_block(source, actions, type, event_args=[challenger, defender])
 
 	def play_card(self, card, target, index, choose):
-		return self.action_block(card, [Play(card, target, index, choose)])
+		type = PowSubType.PLAY
+		actions = [Play(card, target, index, choose)]
+		return self.action_block(card, actions, type, index, target)
 
 	def trigger(self, source, actions, event_args):
 		"""
 		Perform actions as a result of an event listener (TRIGGER)
 		"""
-		return self.action_block(source, actions, event_args)
+		type = PowSubType.TRIGGER
+		return self.action_block(source, actions, type, event_args=event_args)
 
 	def cheat_action(self, source, actions):
 		"""

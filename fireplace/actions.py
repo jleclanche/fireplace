@@ -149,9 +149,7 @@ class ActionArg(LazyValue):
 class GameAction(Action):
 	def trigger(self, source):
 		args = self.get_args(source)
-		source.game.manager.action(self, source, *args)
 		self.do(source, *args)
-		source.game.manager.action_end(self, source, *args)
 		source.game.process_deaths()
 
 
