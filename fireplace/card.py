@@ -234,7 +234,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				# Proc the draw script, but only if we are past mulligan
 				actions = self.get_actions("draw")
 				if actions:
-					self.game.cheat_action(self, actions)
+					self.game.trigger(self, actions, event_args=None)
 
 	def heal(self, target, amount):
 		return self.game.cheat_action(self, [actions.Heal(target, amount)])
