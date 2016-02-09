@@ -74,6 +74,17 @@ def test_deaths_bite():
 	assert token.health == 2
 
 
+def test_deaths_bite_replace():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	deathsbite = game.player1.give("FP1_021")
+	deathsbite.play()
+	weapon = game.player1.give(LIGHTS_JUSTICE)
+	weapon.play()
+	assert wisp.dead
+
+
 def test_deathlord():
 	game = prepare_empty_game()
 	deathlord1 = game.player1.give("FP1_009")
