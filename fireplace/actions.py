@@ -169,6 +169,7 @@ class Attack(GameAction):
 		source.game.proposed_attacker = attacker
 		source.game.proposed_defender = defender
 		source.game.manager.step(Step.MAIN_COMBAT, Step.MAIN_ACTION)
+		source.game.refresh_auras()  # XXX Needed for Gorehowl
 		self.broadcast(source, EventListener.ON, attacker, defender)
 
 		defender = source.game.proposed_defender
@@ -365,7 +366,6 @@ class Play(GameAction):
 		card.target = target
 		card._summon_index = index
 
-		player.game.no_aura_refresh = True
 		card.zone = Zone.PLAY
 
 		# NOTE: A Play is not a summon! But it sure looks like one.
@@ -376,8 +376,6 @@ class Play(GameAction):
 			self.queue_broadcast(summon_action, (player, EventListener.ON, player, card))
 		self.broadcast(player, EventListener.ON, player, card, target)
 		self.resolve_broadcasts()
-		player.game.no_aura_refresh = False
-		player.game.refresh_auras()
 
 		# "Can't Play" (aka Counter) means triggers don't happen either
 		if not card.cant_play:
@@ -411,15 +409,13 @@ class Activate(GameAction):
 		self.broadcast(source, EventListener.ON, player, heropower, target)
 
 		actions = heropower.get_actions("activate")
-		if actions:
-			source.game.main_power(heropower, actions, target)
+		source.game.main_power(heropower, actions, target)
 
 		for minion in player.field.filter(has_inspire=True):
 			actions = minion.get_actions("inspire")
 			if actions is None:
 				raise NotImplementedError("Missing inspire script for %r" % (minion))
-			if actions:
-				source.game.trigger(minion, actions, event_args=None)
+			source.game.trigger(minion, actions, event_args=None)
 
 		heropower.activations_this_turn += 1
 
@@ -660,12 +656,11 @@ class Battlecry(TargetedAction):
 			log.info("Activating %r action targeting %r", card, target)
 			actions = card.get_actions("play")
 
-		if actions:
-			source.target = target
-			source.game.main_power(source, actions, target)
+		source.target = target
+		source.game.main_power(source, actions, target)
 
-			if player.extra_battlecries and card.has_battlecry:
-				source.game.main_power(source, actions, target)
+		if player.extra_battlecries and card.has_battlecry:
+			source.game.main_power(source, actions, target)
 
 		if card.overload:
 			source.game.queue_actions(card, [Overload(player, card.overload)])

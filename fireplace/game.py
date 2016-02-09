@@ -28,7 +28,6 @@ class BaseGame(Entity):
 		self.turn = 0
 		self.current_player = None
 		self.minions_killed_this_turn = CardList()
-		self.no_aura_refresh = False
 		self.tick = 0
 		self.active_aura_buffs = CardList()
 		self._action_stack = 0
@@ -78,16 +77,27 @@ class BaseGame(Entity):
 	def filter(self, *args, **kwargs):
 		return self.all_entities.filter(*args, **kwargs)
 
-	def action_block(self, source, actions, type, index=-1, target=None, event_args=None):
+	def action_start(self, type, source, index, target):
+		self.manager.action(self, type, source, index, target)
 		if type != PowSubType.PLAY:
 			self._action_stack += 1
-		self.manager.action(self, type, source, index, target)
-		ret = self.queue_actions(source, actions, event_args)
+
+	def action_end(self, type, source):
 		self.manager.action_end(self, type, source)
 		if type != PowSubType.PLAY:
 			self._action_stack -= 1
 		if not self._action_stack:
+			self.log("Empty stack, refreshing auras and processing deaths")
+			self.refresh_auras()
 			self.process_deaths()
+
+	def action_block(self, source, actions, type, index=-1, target=None, event_args=None):
+		self.action_start(type, source, index, target)
+		if actions:
+			ret = self.queue_actions(source, actions, event_args)
+		else:
+			ret = []
+		self.action_end(type, source)
 		return ret
 
 	def attack(self, source, target):
@@ -110,16 +120,20 @@ class BaseGame(Entity):
 
 	def process_deaths(self):
 		type = PowSubType.DEATHS
-		actions = []
+		cards = []
 		for card in self.live_entities:
 			if card.to_be_destroyed:
+				cards.append(card)
+
+		actions = []
+		if cards:
+			self.action_start(type, self, -1, None)
+			for card in cards:
 				card.zone = Zone.GRAVEYARD
 				actions.append(Death(card))
-
-		self.check_for_end_game()
-
-		if actions:
-			self.action_block(self, actions, type)
+			self.check_for_end_game()
+			self.action_end(type, self)
+			self.trigger(self, actions, event_args=None)
 
 	def trigger(self, source, actions, event_args):
 		"""
@@ -167,7 +181,6 @@ class BaseGame(Entity):
 		source.event_args = event_args
 		ret = self.trigger_actions(source, actions)
 		source.event_args = None
-		self.refresh_auras()
 		return ret
 
 	def trigger_actions(self, source, actions):
@@ -201,9 +214,6 @@ class BaseGame(Entity):
 		return self.players[0], self.players[1]
 
 	def refresh_auras(self):
-		if self.no_aura_refresh:
-			return
-
 		refresh_queue = []
 		for entity in self.entities:
 			for script in entity.update_scripts:
