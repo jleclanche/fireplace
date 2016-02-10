@@ -317,3 +317,9 @@ class XXX_098:
 # AI Helper Buddy
 class XXX_099:
 	pass
+
+
+# Crash the server
+class XXX_999_Crash:
+	def play(self):
+		raise SystemError("What have you done?")
