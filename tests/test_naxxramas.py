@@ -57,6 +57,24 @@ def test_baron_rivendare_soul_of_the_forest():
 	assert len(game.player1.field) == 3  # Only one treant spawns
 
 
+def test_baron_rivendare_sylvanas():
+	# Test for bug #266
+	# When stolen, Rivendare should not apply EXTRA_DEATHRATTLES fast
+	# enough to cause a second Steal
+	game = prepare_game()
+	sylvanas = game.player1.give("EX1_016")
+	sylvanas.play()
+	game.end_turn()
+
+	rivendare1 = game.player2.give("FP1_031")
+	rivendare1.play()
+	rivendare2 = game.player2.give("FP1_031")
+	rivendare2.play()
+	sylvanas.destroy()
+	assert len(game.player1.field) == len(game.player2.field) == 1
+	assert rivendare1.controller != rivendare2.controller
+
+
 def test_deaths_bite():
 	game = prepare_game()
 	deathsbite = game.player1.give("FP1_021")
