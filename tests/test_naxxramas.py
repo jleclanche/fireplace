@@ -460,6 +460,25 @@ def test_stalagg_feugen_both_killed():
 	assert game.player2.field[0].id == "FP1_014t"
 
 
+def test_stalagg_feugen_sap_destroy():
+	game = prepare_game()
+	stalagg = game.player1.give("FP1_014")
+	stalagg.destroy()
+	feugen = game.player1.give("FP1_015")
+	feugen.play()
+	game.player1.discard_hand()
+	for i in range(10):
+		game.player1.give(WISP)
+	assert len(game.player1.hand) == 10
+	game.end_turn()
+
+	sap = game.player2.give("EX1_581")
+	sap.play(target=feugen)
+	assert feugen.dead
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "FP1_014t"
+
+
 def test_stoneskin_gargoyle():
 	game = prepare_game()
 	gargoyle = game.player1.give("FP1_027")
