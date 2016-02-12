@@ -166,6 +166,8 @@ class Selector:
 	def _not(self, stack):
 		stack.append(not stack.pop())
 
+class EnumSelector(Selector):
+	pass
 
 class AttrSelector(Selector):
 	"""
@@ -473,51 +475,51 @@ Rarity.test = lambda self, entity, *args: entity is not None and self == getattr
 Zone.test = lambda self, entity, *args: entity is not None and self == entity.zone
 
 
-BATTLECRY = Selector(GameTag.BATTLECRY)
-CHARGE = Selector(GameTag.CHARGE)
-DAMAGED = Selector(GameTag.DAMAGE)
-DEATHRATTLE = Selector(GameTag.DEATHRATTLE)
-DIVINE_SHIELD = Selector(GameTag.DIVINE_SHIELD)
-FROZEN = Selector(GameTag.FROZEN)
-OVERLOAD = Selector(GameTag.OVERLOAD)
-SPELLPOWER = Selector(GameTag.SPELLPOWER)
-STEALTH = Selector(GameTag.STEALTH)
-TAUNT = Selector(GameTag.TAUNT)
-WINDFURY = Selector(GameTag.WINDFURY)
-CLASS_CARD = Selector(GameTag.CLASS)
+BATTLECRY = EnumSelector(GameTag.BATTLECRY)
+CHARGE = EnumSelector(GameTag.CHARGE)
+DAMAGED = EnumSelector(GameTag.DAMAGE)
+DEATHRATTLE = EnumSelector(GameTag.DEATHRATTLE)
+DIVINE_SHIELD = EnumSelector(GameTag.DIVINE_SHIELD)
+FROZEN = EnumSelector(GameTag.FROZEN)
+OVERLOAD = EnumSelector(GameTag.OVERLOAD)
+SPELLPOWER = EnumSelector(GameTag.SPELLPOWER)
+STEALTH = EnumSelector(GameTag.STEALTH)
+TAUNT = EnumSelector(GameTag.TAUNT)
+WINDFURY = EnumSelector(GameTag.WINDFURY)
+CLASS_CARD = EnumSelector(GameTag.CLASS)
 
 ALWAYS_WINS_BRAWLS = AttrSelector(enums.ALWAYS_WINS_BRAWLS) == True
 KILLED_THIS_TURN = AttrSelector(enums.KILLED_THIS_TURN) == True
 
 
-IN_PLAY = Selector(Zone.PLAY)
-IN_DECK = Selector(Zone.DECK)
-IN_HAND = Selector(Zone.HAND)
-HIDDEN = Selector(Zone.SECRET)
-KILLED = Selector(Zone.GRAVEYARD)
+IN_PLAY = EnumSelector(Zone.PLAY)
+IN_DECK = EnumSelector(Zone.DECK)
+IN_HAND = EnumSelector(Zone.HAND)
+HIDDEN = EnumSelector(Zone.SECRET)
+KILLED = EnumSelector(Zone.GRAVEYARD)
 
-GAME = Selector(CardType.GAME)
-PLAYER = Selector(CardType.PLAYER)
-HERO = Selector(CardType.HERO)
-MINION = Selector(CardType.MINION)
+GAME = EnumSelector(CardType.GAME)
+PLAYER = EnumSelector(CardType.PLAYER)
+HERO = EnumSelector(CardType.HERO)
+MINION = EnumSelector(CardType.MINION)
 CHARACTER = MINION | HERO
-WEAPON = Selector(CardType.WEAPON)
-SPELL = Selector(CardType.SPELL)
-SECRET = Selector(GameTag.SECRET)
-HERO_POWER = Selector(CardType.HERO_POWER)
+WEAPON = EnumSelector(CardType.WEAPON)
+SPELL = EnumSelector(CardType.SPELL)
+SECRET = EnumSelector(GameTag.SECRET)
+HERO_POWER = EnumSelector(CardType.HERO_POWER)
 
-BEAST = Selector(Race.BEAST)
-DEMON = Selector(Race.DEMON)
-DRAGON = Selector(Race.DRAGON)
-MECH = Selector(Race.MECHANICAL)
-MURLOC = Selector(Race.MURLOC)
-PIRATE = Selector(Race.PIRATE)
-TOTEM = Selector(Race.TOTEM)
+BEAST = EnumSelector(Race.BEAST)
+DEMON = EnumSelector(Race.DEMON)
+DRAGON = EnumSelector(Race.DRAGON)
+MECH = EnumSelector(Race.MECHANICAL)
+MURLOC = EnumSelector(Race.MURLOC)
+PIRATE = EnumSelector(Race.PIRATE)
+TOTEM = EnumSelector(Race.TOTEM)
 
-COMMON = Selector(Rarity.COMMON)
-RARE = Selector(Rarity.RARE)
-EPIC = Selector(Rarity.EPIC)
-LEGENDARY = Selector(Rarity.LEGENDARY)
+COMMON = EnumSelector(Rarity.COMMON)
+RARE = EnumSelector(Rarity.RARE)
+EPIC = EnumSelector(Rarity.EPIC)
+LEGENDARY = EnumSelector(Rarity.LEGENDARY)
 
 ALL_PLAYERS = IN_PLAY + PLAYER
 ALL_HEROES = IN_PLAY + HERO
