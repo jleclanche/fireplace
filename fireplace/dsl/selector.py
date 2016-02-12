@@ -169,7 +169,7 @@ class Selector:
 class EnumSelector(Selector):
 	pass
 
-class AttrSelector(Selector):
+class AttrValue(Selector):
 	"""
 	Selects entities with tags matching a comparison.
 	"""
@@ -212,14 +212,14 @@ class AttrSelector(Selector):
 	__le__ = _cmp("le")
 	__lt__ = _cmp("lt")
 
-ARMOR = AttrSelector(GameTag.ARMOR)
-ATK = AttrSelector(GameTag.ATK)
-CONTROLLER = AttrSelector(GameTag.CONTROLLER)
-CURRENT_HEALTH = AttrSelector("health")
-COST = AttrSelector(GameTag.COST)
-DAMAGE = AttrSelector(GameTag.DAMAGE)
-MANA = AttrSelector(GameTag.RESOURCES)
-USED_MANA = AttrSelector(GameTag.RESOURCES_USED)
+ARMOR = AttrValue(GameTag.ARMOR)
+ATK = AttrValue(GameTag.ATK)
+CONTROLLER = AttrValue(GameTag.CONTROLLER)
+CURRENT_HEALTH = AttrValue("health")
+COST = AttrValue(GameTag.COST)
+DAMAGE = AttrValue(GameTag.DAMAGE)
+MANA = AttrValue(GameTag.RESOURCES)
+USED_MANA = AttrValue(GameTag.RESOURCES_USED)
 
 
 class SelfSelector(Selector):
@@ -462,7 +462,7 @@ FRIENDLY = CONTROLLER == Controller()
 ENEMY = CONTROLLER == Opponent()
 
 def CONTROLLED_BY(selector):
-	return AttrSelector(GameTag.CONTROLLER) == Controller(selector)
+	return AttrValue(GameTag.CONTROLLER) == Controller(selector)
 
 CONTROLLED_BY_OWNER_OPPONENT = CONTROLLER == Opponent(OWNER)
 
@@ -488,8 +488,8 @@ TAUNT = EnumSelector(GameTag.TAUNT)
 WINDFURY = EnumSelector(GameTag.WINDFURY)
 CLASS_CARD = EnumSelector(GameTag.CLASS)
 
-ALWAYS_WINS_BRAWLS = AttrSelector(enums.ALWAYS_WINS_BRAWLS) == True
-KILLED_THIS_TURN = AttrSelector(enums.KILLED_THIS_TURN) == True
+ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True
+KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True
 
 
 IN_PLAY = EnumSelector(Zone.PLAY)
