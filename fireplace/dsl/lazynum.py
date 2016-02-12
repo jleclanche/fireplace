@@ -1,11 +1,14 @@
 import copy
 import operator
 import random
+from abc import ABCMeta, abstractmethod
 from .evaluator import Evaluator
 
 
-class LazyValue:
-	pass
+class LazyValue(metaclass=ABCMeta):
+	@abstractmethod
+	def evaluate(self, source):
+		pass
 
 
 class LazyNum(LazyValue):
@@ -107,6 +110,31 @@ class Attr(LazyNum):
 		else:
 			# XXX: int() because of CardList counter tags
 			ret = sum(int(e.tags[self.tag]) for e in entities if e)
+		return self.num(ret)
+
+
+class OpAttr(LazyNum):
+	"""
+	Lazily evaluate Op over all tags in a selector.
+	This is analogous to lazynum.Attr, which is equivalent to OpAttr(..., ..., sum)
+	"""
+	# TODO(smallnamespace): Merge this into Attr
+	def __init__(self, selector, tag, op):
+		super().__init__()
+		self.selector = selector
+		self.tag = tag
+		self.op = op
+
+	def __repr__(self):
+		return "%s(%r, %r)" % (self.__class__.__name__, self.selector, self.tag)
+
+	def evaluate(self, source):
+		entities = self.get_entities(source)
+		if isinstance(self.tag, str):
+			ret = self.op(getattr(e, self.tag) for e in entities if e)
+		else:
+			# XXX: int() because of CardList counter tags
+			ret = self.op(int(e.tags[self.tag]) for e in entities if e)
 		return self.num(ret)
 
 
