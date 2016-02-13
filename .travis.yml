@@ -2,11 +2,11 @@
 sudo: false
 language: python
 python:
-  - 3.4
+  - 3.5
 cache:
   directories:
     - $HOME/.pip-cache/
-    - $HOME/virtualenv/python3.4
+    - $HOME/virtualenv/python3.5
 script:
   # Travis will automatically detect requirements.txt and run pip install
   - ./bootstrap
