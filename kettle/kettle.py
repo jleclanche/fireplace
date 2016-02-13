@@ -135,7 +135,7 @@ class KettleManager:
 		choice = self.game.current_player.choice
 		DEBUG("Queuing choice %r (cards: %r)", choice, choice.cards)
 		self.choices = {
-			"Type": ChoiceType.GENERAL,
+			"ChoiceType": ChoiceType.GENERAL,
 			"CountMin": choice.min_count,
 			"CountMax": choice.max_count,
 			"Entities": [e.entity_id for e in choice.cards],
