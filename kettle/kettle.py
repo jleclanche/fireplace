@@ -276,6 +276,10 @@ class Kettle(socketserver.BaseRequestHandler):
 				manager.process_send_option(packet["SendOption"])
 			elif packet["Type"] == "ChooseEntities":
 				manager.process_choose_entities(packet["ChooseEntities"])
+			elif packet["Type"] == "Concede":
+				player = manager.game.players[packet["Concede"] - 1]
+				player.concede()
+				manager.refresh_full_state()
 			else:
 				raise NotImplementedError
 
