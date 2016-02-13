@@ -1,4 +1,4 @@
-from utils import *
+from .utils import *
 
 
 # Use the old Warsong Commander as it was nerfed

@@ -1,6 +1,6 @@
 from hearthstone.enums import CardType, GameTag, Rarity
 
-import utils
+from . import utils
 
 
 CARDS = utils.fireplace.cards.db
