@@ -294,6 +294,10 @@ class GenericChoice(GameAction):
 			cards = cards.eval(source.game, source)
 		elif isinstance(cards, LazyValue):
 			cards = cards.evaluate(source)
+
+		for card in cards:
+			card.zone = Zone.SETASIDE
+
 		return player, cards
 
 	def do(self, source, player, cards):
