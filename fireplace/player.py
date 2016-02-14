@@ -109,21 +109,16 @@ class Player(Entity, TargetableByAuras):
 	@property
 	def entities(self):
 		for entity in self.field:
-			for e in entity.entities:
-				yield e
-		for secret in self.secrets:
-			yield secret
-		for buff in self.buffs:
-			yield buff
+			yield from entity.entities
+		yield from self.secrets
+		yield from self.buffs
 		if self.hero:
-			for entity in self.hero.entities:
-				yield entity
+			yield from self.hero.entities
 		yield self
 
 	@property
 	def live_entities(self):
-		for minion in self.field:
-			yield minion
+		yield from self.field
 		if self.hero:
 			yield self.hero
 		if self.weapon:
@@ -131,10 +126,8 @@ class Player(Entity, TargetableByAuras):
 
 	@property
 	def actionable_entities(self):
-		for character in self.characters:
-			yield character
-		for card in self.hand:
-			yield card
+		yield from self.characters
+		yield from self.hand
 		if self.hero.power:
 			yield self.hero.power
 
