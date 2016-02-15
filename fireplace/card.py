@@ -504,12 +504,12 @@ class Hero(Character):
 
 	@property
 	def entities(self):
-		ret = [self]
+		yield self
 		if self.power:
-			ret.append(self.power)
+			yield self.power
 		if self.controller.weapon:
-			ret.append(self.controller.weapon)
-		return chain(ret, self.buffs)
+			yield self.controller.weapon
+		yield from self.buffs
 
 	@property
 	def windfury(self):
