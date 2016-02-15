@@ -36,11 +36,8 @@ class BaseEntity(object):
 
 	@property
 	def update_scripts(self):
-		ret = []
 		if self.data and not self.ignore_scripts:
-			for script in self.data.scripts.update:
-				ret.append(script)
-		return ret
+			yield from self.data.scripts.update
 
 	def log(self, message, *args):
 		self.logger.info(message, *args)

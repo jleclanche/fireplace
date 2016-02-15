@@ -610,10 +610,9 @@ class Minion(Character):
 
 	@property
 	def update_scripts(self):
-		ret = super().update_scripts
+		yield from super().update_scripts
 		if self.enraged:
-			ret += self.data.scripts.enrage
-		return ret
+			yield from self.data.scripts.enrage
 
 	@property
 	def zone_position(self):
