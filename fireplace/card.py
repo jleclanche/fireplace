@@ -631,7 +631,6 @@ class Minion(Character):
 				self.controller.field.append(self)
 		elif value == Zone.GRAVEYARD:
 			self.controller.minions_killed_this_turn += 1
-			self.game.minions_killed_this_turn.append(self)
 
 		if self.zone == Zone.PLAY:
 			self.log("%r is removed from the field", self)

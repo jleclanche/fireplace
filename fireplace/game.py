@@ -27,7 +27,6 @@ class BaseGame(Entity):
 		self.next_step = Step.BEGIN_SHUFFLE
 		self.turn = 0
 		self.current_player = None
-		self.minions_killed_this_turn = CardList()
 		self.tick = 0
 		self.active_aura_buffs = CardList()
 		self._action_stack = 0
@@ -69,6 +68,10 @@ class BaseGame(Entity):
 	@property
 	def live_entities(self):
 		return CardList(chain(self.players[0].live_entities, self.players[1].live_entities))
+
+	@property
+	def minions_killed_this_turn(self):
+		return self.players[0].minions_killed_this_turn + self.players[1].minions_killed_this_turn
 
 	def action_start(self, type, source, index, target):
 		self.manager.action_start(type, source, index, target)
@@ -286,7 +289,6 @@ class BaseGame(Entity):
 		self.manager.step(self.next_step, Step.MAIN_START_TRIGGERS)
 		self.manager.step(self.next_step, Step.MAIN_START)
 		self.manager.step(self.next_step, Step.MAIN_ACTION)
-		self.minions_killed_this_turn = CardList()
 
 		for p in self.players:
 			p.cards_drawn_this_turn = 0
