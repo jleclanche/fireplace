@@ -60,7 +60,7 @@ class BaseGame(Entity):
 
 	@property
 	def all_entities(self):
-		return CardList(chain(self.entities, self.hands, self.decks, self.graveyard))
+		return chain(self.entities, self.hands, self.decks, self.graveyard)
 
 	@property
 	def graveyard(self):
@@ -73,9 +73,6 @@ class BaseGame(Entity):
 	@property
 	def live_entities(self):
 		return CardList(chain(self.players[0].live_entities, self.players[1].live_entities))
-
-	def filter(self, *args, **kwargs):
-		return self.all_entities.filter(*args, **kwargs)
 
 	def action_start(self, type, source, index, target):
 		self.manager.action_start(type, source, index, target)
