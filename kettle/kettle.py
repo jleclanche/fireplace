@@ -85,8 +85,9 @@ class KettleManager:
 	def refresh_full_state(self):
 		if self.game.step < Step.BEGIN_MULLIGAN:
 			return
-		for entity in self.game_state:
-			self.refresh_state(entity)
+		for entity in self.game:
+			if entity in self.game_state:
+				self.refresh_state(entity)
 
 	def refresh_state(self, entity_id):
 		assert entity_id in self.game_state
