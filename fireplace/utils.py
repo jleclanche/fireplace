@@ -127,7 +127,7 @@ def game_state_to_xml(game):
 	tree.append(entity_to_xml(game))
 	for player in game.players:
 		tree.append(entity_to_xml(player))
-	for entity in game.all_entities:
+	for entity in game:
 		if entity.type in (CardType.GAME, CardType.PLAYER):
 			# Serialized those above
 			continue
