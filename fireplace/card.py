@@ -335,11 +335,14 @@ class LiveEntity(PlayableCard, Entity):
 		self.forgetful = False
 		self.predamage = 0
 		self.turns_in_play = 0
+		self.turn_killed = -1
 
 	def _set_zone(self, zone):
 		super()._set_zone(zone)
 		# See issue #283 (Malorne, Anu'barak)
 		self._to_be_destroyed = False
+		if zone == Zone.GRAVEYARD:
+			self.turn_killed = self.game.turn
 
 	@property
 	def immune(self):
@@ -382,7 +385,7 @@ class LiveEntity(PlayableCard, Entity):
 
 	@property
 	def killed_this_turn(self):
-		return self in self.game.minions_killed_this_turn
+		return self.turn_killed == self.game.turn
 
 	def _hit(self, amount):
 		if self.immune:
