@@ -85,6 +85,7 @@ class BaseCard(BaseEntity):
 		caches = {
 			Zone.HAND: self.controller.hand,
 			Zone.DECK: self.controller.deck,
+			Zone.DISCARD: self.controller.discarded,
 			Zone.GRAVEYARD: self.controller.graveyard
 		}
 		if caches.get(old) is not None:

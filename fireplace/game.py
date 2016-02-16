@@ -50,6 +50,10 @@ class BaseGame(Entity):
 		return CardList(chain(self.players[0].deck, self.players[1].deck))
 
 	@property
+	def discarded(self):
+		return CardList(chain(self.players[0].discarded, self.players[1].discarded))
+
+	@property
 	def hands(self):
 		return CardList(chain(self.players[0].hand, self.players[1].hand))
 

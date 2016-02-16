@@ -33,6 +33,7 @@ class Player(Entity, TargetableByAuras):
 		super().__init__()
 		self.deck = Deck()
 		self.hand = CardList()
+		self.discarded = CardList()
 		self.field = CardList()
 		self.graveyard = CardList()
 		self.secrets = CardList()
