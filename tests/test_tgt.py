@@ -179,6 +179,12 @@ def test_dreadsteed():
 
 def test_enter_the_coliseum():
 	game = prepare_game()
+	game.player1.give("AT_078").play()
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 0
+	game.end_turn()
+	game.end_turn()
+
 	game.player1.give(WISP).play()
 	game.player1.give(WISP).play()
 	game.player1.give(WISP).play()
