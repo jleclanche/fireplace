@@ -177,6 +177,27 @@ def test_dreadsteed():
 	assert len(game.player1.field) == 1
 
 
+def test_enter_the_coliseum():
+	game = prepare_game()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(ANIMATED_STATUE).play()
+	game.player1.give(ANIMATED_STATUE).play()
+	game.end_turn()
+
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	game.player2.give(ANIMATED_STATUE).play()
+	game.player2.give("AT_078").play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == ANIMATED_STATUE
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].id == ANIMATED_STATUE
+
+
 def test_fencing_coach():
 	game = prepare_game(WARRIOR, WARRIOR)
 	coach = game.player1.give("AT_115")
