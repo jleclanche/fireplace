@@ -408,6 +408,7 @@ class Character(LiveEntity):
 	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
 	heavily_armored = boolean_property("heavily_armored")
 	min_health = boolean_property("min_health")
+	taunt = boolean_property("taunt")
 
 	def __init__(self, data):
 		self.frozen = False
@@ -557,7 +558,6 @@ class Minion(Character):
 	has_inspire = boolean_property("has_inspire")
 	spellpower = int_property("spellpower")
 	stealthed = boolean_property("stealthed")
-	taunt = boolean_property("taunt")
 
 	silenceable_attributes = (
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
