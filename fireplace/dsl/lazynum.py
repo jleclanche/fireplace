@@ -91,34 +91,11 @@ class Count(LazyNum):
 		return self.num(len(self.get_entities(source)))
 
 
-class Attr(LazyNum):
-	"""
-	Lazily evaluate the sum of all tags in a selector
-	"""
-	def __init__(self, selector, tag):
-		super().__init__()
-		self.selector = selector
-		self.tag = tag
-
-	def __repr__(self):
-		return "%s(%r, %r)" % (self.__class__.__name__, self.selector, self.tag)
-
-	def evaluate(self, source):
-		entities = self.get_entities(source)
-		if isinstance(self.tag, str):
-			ret = sum(getattr(e, self.tag) for e in entities if e)
-		else:
-			# XXX: int() because of CardList counter tags
-			ret = sum(int(e.tags[self.tag]) for e in entities if e)
-		return self.num(ret)
-
-
 class OpAttr(LazyNum):
 	"""
 	Lazily evaluate Op over all tags in a selector.
 	This is analogous to lazynum.Attr, which is equivalent to OpAttr(..., ..., sum)
 	"""
-	# TODO(smallnamespace): Merge this into Attr
 	def __init__(self, selector, tag, op):
 		super().__init__()
 		self.selector = selector
@@ -129,13 +106,27 @@ class OpAttr(LazyNum):
 		return "%s(%r, %r)" % (self.__class__.__name__, self.selector, self.tag)
 
 	def evaluate(self, source):
-		entities = self.get_entities(source)
-		if isinstance(self.tag, str):
-			ret = self.op(getattr(e, self.tag) for e in entities if e)
+		entities = list(e for e in self.get_entities(source) if e)
+		if entities:
+			if isinstance(self.tag, str):
+				ret = self.op(getattr(e, self.tag) for e in entities)
+			else:
+				# XXX: int() because of CardList counter tags
+				ret = self.op(int(e.tags[self.tag]) for e in entities)
+			return self.num(ret)
 		else:
-			# XXX: int() because of CardList counter tags
-			ret = self.op(int(e.tags[self.tag]) for e in entities if e)
-		return self.num(ret)
+			return None
+
+
+class Attr(OpAttr):
+	"""
+	Lazily evaluate the sum of all tags in a selector
+	"""
+	def __init__(self, selector, tag):
+		super().__init__(selector, tag, sum)
+
+	def evaluate(self, source):
+		return super().evaluate(source) or 0
 
 
 class RandomNumber(LazyNum):
