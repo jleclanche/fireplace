@@ -9,8 +9,8 @@ $CARDDEFS_OUT="$BASEDIR/../fireplace/CardDefs.xml"
 $PY_MAJOR=$(python -c 'import sys; print(sys.version_info[0])')
 $PY_MINOR=$(python -c 'import sys; print(sys.version_info[1])')
 
-if ($PY_MAJOR -lt 3 -Or $PY_MINOR -lt 4) {
-	Write-Error "ERROR: Python 3.4 is required to run Fireplace."
+if ($PY_MAJOR -lt 3 -Or $PY_MINOR -lt 5) {
+	Write-Error "ERROR: Python 3.5 is required to run Fireplace."
 	exit 1
 }
 
