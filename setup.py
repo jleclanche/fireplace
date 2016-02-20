@@ -13,7 +13,7 @@ CLASSIFIERS = [
 	"License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)"
 	"Programming Language :: Python",
 	"Programming Language :: Python :: 3",
-	"Programming Language :: Python :: 3.4",
+	"Programming Language :: Python :: 3.5",
 	"Topic :: Games/Entertainment :: Simulation",
 ]
 
@@ -28,7 +28,7 @@ setup(
 	author_email=fireplace.__email__,
 	description="Pure-python Hearthstone re-implementation and simulator",
 	classifiers=CLASSIFIERS,
-	download_url="https://github.com/jleclanche/python-bna/tarball/master",
+	download_url="https://github.com/jleclanche/fireplace/tarball/master",
 	long_description=README,
 	license="AGPLv3",
 	url="https://github.com/jleclanche/fireplace",
