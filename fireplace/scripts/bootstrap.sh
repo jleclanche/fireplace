@@ -20,7 +20,7 @@ command -v git &>/dev/null || {
 }
 
 python -c "import hearthstone" &>/dev/null || {
-	pip install -r "$BASEDIR/../../requirements.txt"
+	pip install --process-dependency-links .
 }
 
 echo "Fetching data files from $HSDATA_URL"
