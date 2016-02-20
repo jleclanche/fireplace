@@ -7,11 +7,10 @@ cache:
   directories:
     - $HOME/.pip-cache/
     - $HOME/virtualenv/python3.5
-script:
-  # Travis will automatically detect requirements.txt and run pip install
-  - fireplace/bootstrap
-  - ./setup.py install
-  - py.test
+install:
+  - pip install -r requirements.txt
+  - pip install .
+script: py.test
 notifications:
   email:
     on_failure: always
