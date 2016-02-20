@@ -47,6 +47,7 @@ setup(
 	packages=find_packages(exclude="tests"),
 	package_data={"fireplace":["bootstrap", "scripts/bootstrap.*"]},
 	include_package_data=True,
+	setup_requires=['pytest-runner'],
 	tests_require=tests_require,
 	extras_require={
 		'test': tests_require,
