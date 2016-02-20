@@ -9,9 +9,11 @@ A Hearthstone simulator and implementation, written in Python.
 
 ### Installation
 
+* `git clone https://github.com/jleclanche/fireplace.git`
+* `cd fireplace`
 * `pip install -r requirements.txt`
-* `./bootstrap`
-* (optional) `./setup.py install` to install as a library
+* `pip install .`, or `pip install -e .` to install fireplace as an editable egg
+* To run tests, `pip install pytest` and then `py.test`
 
 ### Documentation
 
