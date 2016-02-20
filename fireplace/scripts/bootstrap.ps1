@@ -19,6 +19,11 @@ if ((Get-Command "git.exe" -ErrorAction SilentlyContinue) -eq $null) {
 	exit 1
 }
 
+python -c "import hearthstone" 2>&1 | out-null
+if ($LastExitCode -ne 0) {
+    pip install --process-dependency-links .
+}
+
 Write-Output "Fetching data files from $HSDATA_URL"
 if (!(Test-Path $HSDATA_DIR)) {
 	git clone --depth=1 $HSDATA_URL $HSDATA_DIR
