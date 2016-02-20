@@ -3,7 +3,7 @@
 $BASEDIR=Split-Path $script:MyInvocation.MyCommand.Path
 $HSDATA_URL="https://github.com/HearthSim/hs-data.git"
 $HSDATA_DIR="$BASEDIR/hs-data"
-$CARDDEFS_OUT="$BASEDIR/../fireplace/CardDefs.xml"
+$CARDDEFS_OUT="$BASEDIR/../CardDefs.xml"
 
 # check python version
 $PY_MAJOR=$(python -c 'import sys; print(sys.version_info[0])')
