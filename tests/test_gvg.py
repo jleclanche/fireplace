@@ -630,6 +630,22 @@ def test_malorne():
 		assert len(game.player1.hand) == 1
 
 
+def test_malorne_slam():
+	game = prepare_game()
+	malorne = game.player1.give("GVG_035")
+	malorne.play()
+	game.end_turn(); game.end_turn()
+
+	game.player1.discard_hand()
+	game.player1.give(DAMAGE_5).play(target=malorne)
+	assert malorne.health == 2
+	slam = game.player1.give("EX1_391")
+	slam.play(target=malorne)
+	assert malorne.zone == Zone.DECK
+	assert malorne in game.player1.deck
+	assert not game.player1.hand
+
+
 def test_mechwarper():
 	game = prepare_game()
 	mechwarper = game.player1.give("GVG_006")
