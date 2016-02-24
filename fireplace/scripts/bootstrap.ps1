@@ -3,7 +3,7 @@
 $BASEDIR=Split-Path $script:MyInvocation.MyCommand.Path
 $HSDATA_URL="https://github.com/HearthSim/hs-data.git"
 $HSDATA_DIR="$BASEDIR/hs-data"
-$CARDDEFS_OUT="$BASEDIR/../fireplace/CardDefs.xml"
+$CARDDEFS_OUT="$BASEDIR/../CardDefs.xml"
 
 # check python version
 $PY_MAJOR=$(python -c 'import sys; print(sys.version_info[0])')
@@ -17,6 +17,11 @@ if ($PY_MAJOR -lt 3 -Or $PY_MINOR -lt 5) {
 if ((Get-Command "git.exe" -ErrorAction SilentlyContinue) -eq $null) {
 	Write-Error "ERROR: git is required to bootstrap Fireplace."
 	exit 1
+}
+
+python -c "import hearthstone" 2>&1 | out-null
+if ($LastExitCode -ne 0) {
+    pip install --process-dependency-links .
 }
 
 Write-Output "Fetching data files from $HSDATA_URL"
