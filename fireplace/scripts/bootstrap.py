@@ -2,7 +2,8 @@
 
 import os
 import re
-import sys; sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+import sys; sys.path.append(
+	os.path.join(os.path.dirname(__file__), os.path.pardir, os.path.pardir))
 from xml.dom import minidom
 from xml.etree import ElementTree
 from hearthstone.enums import GameTag
