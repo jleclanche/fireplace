@@ -8,14 +8,6 @@ from xml.etree import ElementTree
 from hearthstone.enums import GameTag
 
 
-def add_chooseone_tags(card, ids):
-	for id in ids:
-		e = ElementTree.Element("ChooseCard")
-		e.attrib["cardID"] = id
-		card.xml.append(e)
-	print("%s: Adding Choose One cards: %r" % (card.name, ids))
-
-
 def add_hero_power(card, id):
 	e = ElementTree.Element("HeroPower")
 	e.attrib["cardID"] = id
@@ -134,9 +126,6 @@ def main():
 			if hasattr(carddef, "tags"):
 				for tag, value in carddef.tags.items():
 					set_tag(card, tag, value)
-
-			if hasattr(carddef, "choose"):
-				add_chooseone_tags(card, carddef.choose)
 
 		if id in hero_powers:
 			add_hero_power(card, hero_powers[id])
