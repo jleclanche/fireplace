@@ -130,11 +130,6 @@ def main():
 		if id in hero_powers:
 			add_hero_power(card, hero_powers[id])
 
-		if re.match(r"^PART_\d+$", id):
-			# Hearthstone uses entourage data to identify Spare Parts
-			# We're better than that.
-			set_tag(card, GameTag.SPARE_PART, True)
-
 		if card.tags.get(GameTag.SPELLPOWER):
 			guess_spellpower(card)
 
