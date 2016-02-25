@@ -34,7 +34,8 @@ class AT_113:
 
 # Master of Ceremonies
 class AT_117:
-	play = Find(FRIENDLY_MINIONS + SPELLPOWER) & Buff(SELF, "AT_117e")
+	powered_up = Find(FRIENDLY_MINIONS + SPELLPOWER)
+	play = powered_up & Buff(SELF, "AT_117e")
 
 AT_117e = buff(+2, +2)
 
