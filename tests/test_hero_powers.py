@@ -82,6 +82,9 @@ def test_shaman():
 		assert game.player1.field[-1].id in game.player1.hero.power.data.entourage
 		game.end_turn(); game.end_turn()
 
+	# Check that all totems are present
+	assert len(set(e.id for e in game.player1.field)) == 4
+
 	# ensure hero power can only be used again after a totem was destroyed
 	assert not game.player1.hero.power.is_usable()
 	game.player1.field[0].destroy()

@@ -6,9 +6,7 @@ from ..utils import *
 
 # Totemic Call
 class CS2_049:
-	def activate(self):
-		totems = [t for t in self.entourage if not self.controller.field.contains(t)]
-		yield Summon(CONTROLLER, random.choice(totems))
+	activate = Summon(CONTROLLER, RandomEntourage(exclude=FRIENDLY_MINIONS))
 
 # Healing Totem
 class NEW1_009:

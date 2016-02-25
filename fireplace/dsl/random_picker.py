@@ -1,7 +1,9 @@
 import random
+from copy import copy
 from hearthstone.enums import CardType, Race, Rarity
-from typing import List
+from typing import List, Optional
 from .lazynum import LazyValue
+from .selector import Selector
 
 
 class RandomCardPicker(LazyValue):
@@ -23,7 +25,7 @@ class RandomCardPicker(LazyValue):
 		return "%s(%r)" % (self.__class__.__name__, self.filters)
 
 	def __mul__(self, other) -> "RandomCardPicker":
-		ret = self.__class__(*self.args, **self.filters)
+		ret = copy(self)
 		ret.count = other
 		return ret
 
@@ -70,8 +72,17 @@ RandomSparePart = lambda: RandomCardPicker(spare_part=True)
 
 
 class RandomEntourage(RandomCardPicker):
+	def __init__(self, *args, exclude: Optional[Selector]=None, **filters):
+		self.exclude = exclude
+		super().__init__(*args, **filters)
+
 	def evaluate(self, source, **kwargs):
-		self._cards = source.entourage
+		card_ids = source.entourage
+		if self.exclude:
+			excluded = set(entity.id for entity in self.exclude.eval(source.game, source))
+			card_ids = [card_id for card_id in card_ids if card_id not in excluded]
+
+		self._cards = card_ids
 		return super().evaluate(source, **kwargs)
 
 

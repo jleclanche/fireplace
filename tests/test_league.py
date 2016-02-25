@@ -474,6 +474,7 @@ def test_sir_finley_mrrgglton():
 	assert len(game.player1.choice.cards) == 3
 	for card in game.player1.choice.cards:
 		assert card.type == CardType.HERO_POWER
+		assert not card == game.player1.hero.power
 	new_power = game.player1.choice.cards[0]
 	game.player1.choice.choose(new_power)
 	assert game.player1.hero.power is new_power

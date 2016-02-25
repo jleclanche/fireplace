@@ -131,7 +131,8 @@ LOE_073e = buff(taunt=True)
 
 # Sir Finley Mrrgglton
 class LOE_076:
-	play = GenericChoice(CONTROLLER, RandomEntourage() * 3)
+	# TODO: Should exclude all hero powers from class
+	play = GenericChoice(CONTROLLER, RandomEntourage(exclude=FRIENDLY_HERO_POWER) * 3)
 
 
 # Brann Bronzebeard:
