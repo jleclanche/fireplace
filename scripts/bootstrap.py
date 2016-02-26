@@ -121,12 +121,6 @@ def main():
 	db, xml = load(os.path.join(sys.argv[1], "CardDefs.xml"))
 	guids, hero_powers = load_dbf(os.path.join(sys.argv[1], "DBF", "CARD.xml"))
 	for id, card in db.items():
-		carddef = get_script_definition(id)
-		if carddef:
-			if hasattr(carddef, "tags"):
-				for tag, value in carddef.tags.items():
-					set_tag(card, tag, value)
-
 		if id in hero_powers:
 			add_hero_power(card, hero_powers[id])
 
@@ -162,6 +156,9 @@ def main():
 			id = e.attrib["CardID"]
 			card = db[id]
 			root.append(card.xml)
+
+		# dummy call
+		get_script_definition("")
 
 		# Create all registered custom cards
 		for id, cls in _custom_cards.items():

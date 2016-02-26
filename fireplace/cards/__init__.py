@@ -80,6 +80,10 @@ class CardDB(dict):
 		else:
 			card.choose_cards = []
 
+		if hasattr(carddef, "tags"):
+			for tag, value in carddef.tags.items():
+				card.tags[tag] = value
+
 		# Set some additional events based on the base tags...
 		if card.poisonous:
 			card.scripts.events.append(POISONOUS)
