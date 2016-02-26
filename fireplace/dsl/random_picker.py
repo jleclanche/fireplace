@@ -1,5 +1,6 @@
 import random
 from hearthstone.enums import CardType, Race, Rarity
+from typing import List
 from .lazynum import LazyValue
 
 
@@ -21,7 +22,7 @@ class RandomCardPicker(LazyValue):
 	def __repr__(self):
 		return "%s(%r)" % (self.__class__.__name__, self.filters)
 
-	def __mul__(self, other):
+	def __mul__(self, other) -> "RandomCardPicker":
 		ret = self.__class__(*self.args, **self.filters)
 		ret.count = other
 		return ret
@@ -32,11 +33,11 @@ class RandomCardPicker(LazyValue):
 			self._cards = self._filter_cards(self.filters)
 		return self._cards
 
-	def _filter_cards(self, filters):
+	def _filter_cards(self, filters) -> List[str]:
 		from .. import cards
 		return cards.filter(**filters)
 
-	def get_cards(self, source):
+	def get_cards(self, source)  -> List[str]:
 		filters = self.filters.copy()
 		# Iterate through the filters, evaluating the LazyValues as we go
 		for k, v in filters.items():
@@ -44,7 +45,8 @@ class RandomCardPicker(LazyValue):
 				filters[k] = v.evaluate(source)
 		return self._filter_cards(filters)
 
-	def evaluate(self, source) -> str:
+	# TODO(smallnamespace): Fix error importing .card.Card
+	def evaluate(self, source) -> List["Card"]:
 		if self.lazy_filters:
 			# If the card has lazy filters, we need to evaluate them
 			cards = self.get_cards(source)
