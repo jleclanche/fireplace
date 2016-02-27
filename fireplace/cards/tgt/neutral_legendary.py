@@ -31,6 +31,11 @@ class AT_124:
 	)
 
 
+# Icehowl
+class AT_125:
+	tags = {GameTag.CANNOT_ATTACK_HEROES: True}
+
+
 # Nexus-Champion Saraad
 class AT_127:
 	inspire = Give(CONTROLLER, RandomSpell())
