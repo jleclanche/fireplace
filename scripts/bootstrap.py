@@ -130,9 +130,6 @@ def main():
 		if card.tags.get(GameTag.RECALL):
 			guess_overload(card)
 
-		if "Can't attack." in card.description:
-			set_tag(card, GameTag.CANT_ATTACK, True)
-
 		if "Can't attack heroes." in card.description:
 			set_tag(card, GameTag.CANNOT_ATTACK_HEROES, True)
 
