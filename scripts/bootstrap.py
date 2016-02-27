@@ -138,9 +138,6 @@ def main():
 			if not card.forgetful and id != "GVG_112":
 				set_tag(card, GameTag.FORGETFUL, True)
 
-		if "<b>Mega-Windfury</b>" in card.description:
-			set_tag(card, GameTag.WINDFURY, 3)
-
 	# xml = db[next(db.__iter__())].xml
 	path = os.path.realpath(sys.argv[2])
 	with open(path, "w", encoding="utf8") as f:

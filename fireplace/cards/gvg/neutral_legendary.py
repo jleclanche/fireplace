@@ -20,6 +20,9 @@ class GVG_111:
 		(Destroy(FRIENDLY_MINIONS + MECH), Deaths(), Summon(CONTROLLER, "GVG_111t"))
 	)
 
+class GVG_111t:
+	tags = {GameTag.WINDFURY: 3}
+
 
 # Mogor the Ogre
 class GVG_112:
