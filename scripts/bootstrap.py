@@ -54,39 +54,6 @@ def remove_tag(card, tag):
 	print("%s: Removing %r tag" % (card.name, tag))
 
 
-def load_dbf(path):
-	db = {}
-	hero_powers = {}
-	guid_lookup = {}
-	with open(path, "r") as f:
-		xml = ElementTree.parse(f)
-		for record in xml.findall("Record"):
-			id = int(record.find("./Field[@column='ID']").text)
-			long_guid = record.find("./Field[@column='LONG_GUID']").text
-			mini_guid = record.find("./Field[@column='NOTE_MINI_GUID']").text
-			hero_power_id = int(record.find("./Field[@column='HERO_POWER_ID']").text or 0)
-
-			guid_lookup[long_guid] = mini_guid
-			db[id] = mini_guid
-			if hero_power_id:
-				hero_powers[mini_guid] = hero_power_id
-
-	for k, v in hero_powers.items():
-		hero_powers[k] = db[v]
-
-	# Some hero powers are missing from the DBF, wtf :(
-	missing = {
-		"BRM_027h": "BRM_027p",
-		"EX1_323h": "EX1_tk33",
-	}
-
-	for k, v in missing.items():
-		assert k not in hero_powers
-		hero_powers[k] = v
-
-	return guid_lookup, hero_powers
-
-
 def main():
 	from hearthstone.cardxml import load
 	from fireplace.utils import _custom_cards, get_script_definition
@@ -96,11 +63,7 @@ def main():
 		exit(1)
 
 	db, xml = load(os.path.join(sys.argv[1], "CardDefs.xml"))
-	guids, hero_powers = load_dbf(os.path.join(sys.argv[1], "DBF", "CARD.xml"))
 	for id, card in db.items():
-		if id in hero_powers:
-			add_hero_power(card, hero_powers[id])
-
 		if "Can't be targeted by spells or Hero Powers." in card.description:
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_ABILITIES, True)
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_HERO_POWERS, True)
