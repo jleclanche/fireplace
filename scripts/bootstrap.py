@@ -15,29 +15,6 @@ def add_hero_power(card, id):
 	print("%s: Adding hero power %r" % (card, id))
 
 
-def guess_spellpower(card):
-	sre = re.search(r"Spell Damage \+(\d+)", card.description)
-	dmg = int(sre.groups()[0])
-	e = card._find_tag(GameTag.SPELLPOWER)
-	if e is None:
-		print("WARNING: No SPELLPOWER tag found on %r" % (card))
-		return
-	e.attrib["value"] = str(dmg)
-	e.attrib["type"] = "Number"
-	print("%s: Setting Spell Power to %i" % (card.name, dmg))
-
-
-def guess_overload(card):
-	sre = re.search(r"Overload[^(]+\((\d+)\)", card.description)
-	amount = int(sre.groups()[0])
-	e = card._find_tag(GameTag.RECALL)
-	if e is None:
-		print("WARNING: No RECALL tag found on %r" % (card))
-		return
-	e.attrib["value"] = str(amount)
-	print("%s: Setting Overload to %i" % (card.name, amount))
-
-
 def create_card(id, tags):
 	print("%s: Creating card with %r" % (id, tags))
 	e = ElementTree.Element("Entity")
@@ -123,12 +100,6 @@ def main():
 	for id, card in db.items():
 		if id in hero_powers:
 			add_hero_power(card, hero_powers[id])
-
-		if card.tags.get(GameTag.SPELLPOWER):
-			guess_spellpower(card)
-
-		if card.tags.get(GameTag.RECALL):
-			guess_overload(card)
 
 		if "Can't be targeted by spells or Hero Powers." in card.description:
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_ABILITIES, True)
