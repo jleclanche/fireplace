@@ -56,3 +56,11 @@ class GVG_050:
 class GVG_052:
 	play = Destroy(TARGET)
 	cost_mod = Find(FRIENDLY_MINIONS + DAMAGED) & -4
+
+
+##
+# Weapons
+
+# Ogre Warmaul
+class GVG_054:
+	events = FORGETFUL

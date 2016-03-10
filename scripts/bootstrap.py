@@ -68,10 +68,6 @@ def main():
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_ABILITIES, True)
 			set_tag(card, GameTag.CANT_BE_TARGETED_BY_HERO_POWERS, True)
 
-		if "50% chance to attack the wrong enemy." in card.description:
-			if not card.forgetful and id != "GVG_112":
-				set_tag(card, GameTag.FORGETFUL, True)
-
 	# xml = db[next(db.__iter__())].xml
 	path = os.path.realpath(sys.argv[2])
 	with open(path, "w", encoding="utf8") as f:

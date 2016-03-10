@@ -19,6 +19,11 @@ class GVG_042:
 	play = Give(CONTROLLER, RandomMurloc()) * 4
 
 
+# Dunemaul Shaman
+class GVG_066:
+	events = FORGETFUL
+
+
 ##
 # Spells
 

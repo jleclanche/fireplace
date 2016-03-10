@@ -13,6 +13,11 @@ class AT_086e:
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
 
 
+# Mogor's Champion
+class AT_088:
+	events = FORGETFUL
+
+
 # Injured Kvaldir
 class AT_105:
 	play = Hit(SELF, 3)

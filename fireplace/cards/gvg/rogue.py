@@ -34,6 +34,11 @@ class GVG_028t:
 	play = ManaThisTurn(CONTROLLER, 1)
 
 
+# Ogre Ninja
+class GVG_088:
+	events = FORGETFUL
+
+
 ##
 # Spells
 

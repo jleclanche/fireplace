@@ -14,6 +14,11 @@ class GVG_013:
 	update = Find(FRIENDLY_MINIONS + MECH) & Refresh(SELF, {GameTag.ATK: +2})
 
 
+# Ogre Brute
+class GVG_065:
+	events = FORGETFUL
+
+
 # Stonesplinter Trogg
 class GVG_067:
 	events = Play(OPPONENT, SPELL).on(Buff(SELF, "GVG_067a"))

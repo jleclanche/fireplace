@@ -3,7 +3,7 @@ from pkg_resources import resource_filename
 from hearthstone import cardxml
 from hearthstone.enums import CardType
 from ..logging import log
-from ..rules import FORGETFUL, POISONOUS
+from ..rules import POISONOUS
 from ..utils import get_script_definition
 
 
@@ -87,9 +87,6 @@ class CardDB(dict):
 		# Set some additional events based on the base tags...
 		if card.poisonous:
 			card.scripts.events.append(POISONOUS)
-
-		if card.forgetful:
-			card.scripts.events.append(FORGETFUL)
 
 		return card
 

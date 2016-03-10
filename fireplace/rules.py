@@ -4,7 +4,6 @@ Base game rules (events, etc)
 from .cards.utils import *
 
 
-FORGETFUL = Attack(SELF).on(COINFLIP & Retarget(SELF, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(SELF))))
 POISONOUS = Damage(MINION, None, SELF).on(Destroy(Damage.TARGET))
 HEAVILY_ARMORED = [Predamage(SELF, lambda i: i > 1).on(Predamage(SELF, 1))]
 
