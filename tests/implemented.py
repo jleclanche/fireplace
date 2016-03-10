@@ -41,6 +41,7 @@ DUMMY_CARDS = (
 	# Dynamic buffs set by their parent
 	"CS2_236e",  # Divine Spirit
 	"EX1_304e",  # Consume (Void Terror)
+	"LOE_030e"  # Hollow (Unused)
 	"NEW1_018e",  # Treasure Crazed (Bloodsail Raider)
 )
 
