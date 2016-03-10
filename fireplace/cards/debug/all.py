@@ -45,6 +45,9 @@ class XXX_008:
 class XXX_009:
 	play = Buff(TARGET, "XXX_009e")
 
+class XXX_009e:
+	pass
+
 
 # Silence - debug
 class XXX_010:
@@ -249,6 +252,9 @@ class XXX_057:
 # Weapon Nerf
 class XXX_058:
 	play = Buff(WEAPON + CONTROLLED_BY(TARGET), "XXX_058e")
+
+class XXX_058e:
+	pass
 
 
 # Destroy All

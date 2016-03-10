@@ -37,8 +37,6 @@ DUMMY_CARDS = (
 	"NEW1_025e",  # Bolstered (Unused)
 	"TU4c_005",  # Hidden Gnome
 	"TU4c_007",  # Mukla's Big Brother
-	"XXX_009e",  # Empty Enchant
-	"XXX_058e",  # Weapon Nerf Enchant
 
 	# Dynamic buffs set by their parent
 	"CS2_236e",  # Divine Spirit
