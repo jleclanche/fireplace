@@ -83,7 +83,6 @@ class EX1_249:
 # Ragnaros the Firelord
 class EX1_298:
 	events = OWN_TURN_END.on(Hit(RANDOM_ENEMY_CHARACTER, 8))
-	tags = {GameTag.CANT_ATTACK: True}
 
 
 # Nat Pagle

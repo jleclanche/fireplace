@@ -37,11 +37,6 @@ class EX1_044:
 EX1_044e = buff(+1, +1)
 
 
-# Ancient Watcher
-class EX1_045:
-	tags = {GameTag.CANT_ATTACK: True}
-
-
 # Coldlight Oracle
 class EX1_050:
 	play = Draw(ALL_PLAYERS) * 2

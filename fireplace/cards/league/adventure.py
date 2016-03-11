@@ -183,10 +183,6 @@ class LOEA05_03h:
 ##
 # Mine Cart Rush
 
-# Spiked Decoy
-class LOEA07_24:
-	tags = {GameTag.CANT_ATTACK: True}
-
 # Throw Rocks
 class LOEA07_29:
 	activate = Hit(RANDOM_ENEMY_MINION, 3)
