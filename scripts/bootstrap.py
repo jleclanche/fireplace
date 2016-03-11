@@ -41,19 +41,6 @@ def _create_tag(tag, value):
 	return e
 
 
-def set_tag(card, tag, value):
-	e = _create_tag(tag, value)
-	card.xml.append(e)
-	print("%s: Setting %r = %r" % (card.name, tag, value))
-	return e
-
-
-def remove_tag(card, tag):
-	e = card._find_tag(tag)
-	card.xml.remove(e)
-	print("%s: Removing %r tag" % (card.name, tag))
-
-
 def main():
 	from hearthstone.cardxml import load
 	from fireplace.utils import _custom_cards, get_script_definition
@@ -63,10 +50,6 @@ def main():
 		exit(1)
 
 	db, xml = load(os.path.join(sys.argv[1], "CardDefs.xml"))
-	for id, card in db.items():
-		if "Can't be targeted by spells or Hero Powers." in card.description:
-			set_tag(card, GameTag.CANT_BE_TARGETED_BY_ABILITIES, True)
-			set_tag(card, GameTag.CANT_BE_TARGETED_BY_HERO_POWERS, True)
 
 	# xml = db[next(db.__iter__())].xml
 	path = os.path.realpath(sys.argv[2])
