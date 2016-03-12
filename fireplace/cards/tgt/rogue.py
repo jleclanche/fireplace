@@ -30,7 +30,8 @@ class AT_031:
 
 # Shady Dealer
 class AT_032:
-	play = Find(FRIENDLY_MINIONS + PIRATE) & Buff(SELF, "AT_032e")
+	powered_up = Find(FRIENDLY_MINIONS + PIRATE)
+	play = powered_up & Buff(SELF, "AT_032e")
 
 AT_032e = buff(+1, +1)
 
