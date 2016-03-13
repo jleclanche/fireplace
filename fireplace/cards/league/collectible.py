@@ -6,12 +6,12 @@ from ..utils import *
 
 # Ethereal Conjurer
 class LOE_003:
-	play = Discover(CONTROLLER, RandomSpell())
+	play = DISCOVER(RandomSpell())
 
 
 # Museum Curator
 class LOE_006:
-	play = Discover(CONTROLLER, RandomCollectible(deathrattle=True))
+	play = DISCOVER(RandomCollectible(deathrattle=True))
 
 
 # Obsidian Destroyer
@@ -67,12 +67,12 @@ class LOE_020:
 
 # Dark Peddler
 class LOE_023:
-	play = Discover(CONTROLLER, RandomCollectible(cost=1))
+	play = DISCOVER(RandomCollectible(cost=1))
 
 
 # Jeweled Scarab
 class LOE_029:
-	play = Discover(CONTROLLER, RandomCollectible(cost=3))
+	play = DISCOVER(RandomCollectible(cost=3))
 
 
 # Naga Sea Witch
@@ -83,7 +83,7 @@ class LOE_038:
 # Gorillabot A-3
 class LOE_039:
 	powered_up = Find(FRIENDLY_MINIONS + MECH - SELF)
-	play = powered_up & Discover(CONTROLLER, RandomMech())
+	play = powered_up & DISCOVER(RandomMech())
 
 
 # Huge Toad
@@ -93,7 +93,7 @@ class LOE_046:
 
 # Tomb Spider
 class LOE_047:
-	play = Discover(CONTROLLER, RandomBeast())
+	play = DISCOVER(RandomBeast())
 
 
 # Mounted Raptor
@@ -171,7 +171,7 @@ class LOE_089:
 
 # Arch-Thief Rafaam
 class LOE_092:
-	play = Discover(CONTROLLER, RandomID("LOEA16_3", "LOEA16_5", "LOEA16_4"))
+	play = DISCOVER(RandomID("LOEA16_3", "LOEA16_5", "LOEA16_4"))
 
 
 # Lantern of Power
@@ -282,10 +282,10 @@ class LOE_115:
 	choose = ("LOE_115a", "LOE_115b")
 
 class LOE_115a:
-	play = Discover(CONTROLLER, RandomMinion())
+	play = DISCOVER(RandomMinion())
 
 class LOE_115b:
-	play = Discover(CONTROLLER, RandomSpell())
+	play = DISCOVER(RandomSpell())
 
 
 ##
