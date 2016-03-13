@@ -248,6 +248,16 @@ class LOEA06_04h:
 ##
 # Lord Slitherspear
 
+HUNGRY_NAGA = (
+	ID("LOEA09_5") |
+	ID("LOEA09_5H") |
+	ID("LOEA09_10") |
+	ID("LOEA09_11") |
+	ID("LOEA09_12") |
+	ID("LOEA09_13")
+)
+
+
 # Enraged!
 class LOEA09_2:
 	activate = Buff(FRIENDLY_HERO, "LOEA09_2e")
@@ -258,6 +268,33 @@ class LOEA09_2H:
 	activate = Buff(FRIENDLY_HERO, "LOEA09_2e")
 
 LOEA09_2eH = buff(atk=5)
+
+
+# Getting Hungry
+class LOEA09_3:
+	activate = Summon("LOEA09_5").then(
+		Buff(Summon.CARD, "LOEA09_3a") * Attr(CONTROLLER, GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME)
+	)
+
+LOEA09_3a = buff(atk=1)
+
+class LOEA09_3H:
+	activate = Summon("LOEA09_5").then(
+		Buff(Summon.CARD, "LOEA09_3aH") * Attr(CONTROLLER, GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME)
+	)
+
+LOEA09_3aH = buff(+1, +1)
+
+
+# Getting Hungry (Unused versions)
+class LOEA09_3b:
+	activate = Summon(CONTROLLER, "LOEA09_11")
+
+class LOEA09_3c:
+	activate = Summon(CONTROLLER, "LOEA09_10")
+
+class LOEA09_3d:
+	activate = Summon(CONTROLLER, "LOEA09_13")
 
 
 # Slithering Archer
@@ -275,6 +312,14 @@ class LOEA09_7:
 # Cauldron (Unused)
 class LOEA09_7H:
 	deathrattle = Give(OPPONENT, "LOE_076"), Summon(CONTROLLER, "LOEA09_2H")
+
+
+# Naga Repellent
+class LOEA09_9:
+	play = Destroy(ALL_MINIONS + HUNGRY_NAGA)
+
+class LOEA09_9H:
+	play = Buff(ALL_MINIONS + HUNGRY_NAGA, "EX1_360e")
 
 
 ##
