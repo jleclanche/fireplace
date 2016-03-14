@@ -483,6 +483,8 @@ class LOEA16_19:
 class LOEA16_19H:
 	update = Refresh(FRIENDLY_MINIONS - SELF, {GameTag.CANT_BE_DAMAGED: True})
 
+LOEA16_20H = buff(immune=True)
+
 
 # Chieftain Scarvash
 class LOEA16_21:
