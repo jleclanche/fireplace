@@ -12,16 +12,6 @@ class CardDB(dict):
 		self.filename = filename
 		self.initialized = False
 
-	def __getitem__(self, *args):
-		if not self.initialized:
-			self.initialize()
-		return super().__getitem__(*args)
-
-	def __iter__(self):
-		if not self.initialized:
-			self.initialize()
-		return super().__iter__()
-
 	@staticmethod
 	def merge(id, card):
 		"""
