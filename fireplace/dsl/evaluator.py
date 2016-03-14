@@ -13,9 +13,15 @@ class Evaluator:
 	def __init__(self):
 		self._if = None
 		self._else = None
+		self._neg = False
 
 	def __repr__(self):
 		return "%s(%r)" % (self.__class__.__name__, self.selector)
+
+	def __neg__(self):
+		ret = copy.copy(self)
+		ret._neg = not self._neg
+		return ret
 
 	def __and__(self, action):
 		ret = copy.copy(self)
@@ -33,6 +39,8 @@ class Evaluator:
 		Actions as a result.
 		"""
 		ret = self.check(source)
+		if self._neg:
+			ret = not ret
 		if ret:
 			if self._if:
 				return self._if
