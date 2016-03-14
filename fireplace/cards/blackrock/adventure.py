@@ -220,7 +220,11 @@ class BRMA14_10H:
 class BRMA15_2:
 	events = Summon(ALL_PLAYERS, MINION).on(Buff(Summon.CARD, "BRMA15_2e"))
 
-BRMA15_2e = custom_card(AttackHealthSwapBuff())
+class BRMA15_2e(AttackHealthSwapBuff()):
+	tags = {
+		GameTag.CARDNAME: "The Alchemist Attack/Health Swap Buff"
+	}
+
 
 class BRMA15_2H:
 	events = (
