@@ -28,7 +28,6 @@ SOLVED_KEYWORDS = [
 
 DUMMY_CARDS = (
 	"PlaceholderCard",  # Placeholder Card
-	"CS1_113e",  # Mind Control
 	"CS2_022e",  # Polymorph
 	"EX1_246e",  # Hexxed
 	"EX1_345t",  # Shadow of Nothing
