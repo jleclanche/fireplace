@@ -8,8 +8,7 @@ from ..utils import get_script_definition
 
 
 class CardDB(dict):
-	def __init__(self, filename):
-		self.filename = filename
+	def __init__(self):
 		self.initialized = False
 
 	@staticmethod
@@ -89,10 +88,7 @@ class CardDB(dict):
 	def initialize(self):
 		log.info("Initializing card database")
 		self.initialized = True
-		if not os.path.exists(self.filename):
-			raise RuntimeError("%r does not exist. Create it with `bootstrap`." % (self.filename))
-
-		db, xml = cardxml.load(self.filename)
+		db, xml = cardxml.load()
 		for id, card in db.items():
 			self[id] = self.merge(id, card)
 
@@ -134,6 +130,5 @@ class CardDB(dict):
 # For every card, we will "merge" the class with its Python definition if
 # it exists.
 if "db" not in globals():
-	xmlfile = resource_filename("hearthstone", "CardDefs.xml")
-	db = CardDB(xmlfile)
+	db = CardDB()
 	filter = db.filter
