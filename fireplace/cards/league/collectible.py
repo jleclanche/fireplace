@@ -21,7 +21,8 @@ class LOE_009:
 
 # Reno Jackson
 class LOE_011:
-	play = FindDuplicates(FRIENDLY_DECK) | FullHeal(FRIENDLY_HERO)
+	powered_up = -FindDuplicates(FRIENDLY_DECK)
+	play = powered_up & FullHeal(FRIENDLY_HERO)
 
 
 # Tomb Pillager
