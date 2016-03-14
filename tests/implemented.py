@@ -81,6 +81,7 @@ def main():
 		args.implemented = True
 		args.unimplemented = True
 
+	cards.db.initialize()
 	for id in sorted(cards.db):
 		card = cards.db[id]
 		description = cleanup_description(card.description)
