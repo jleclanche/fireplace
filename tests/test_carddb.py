@@ -19,8 +19,7 @@ def test_all_tags_known():
 	assert utils.fireplace.cards.db
 
 	for card in CARDS.values():
-		card_tags = [int(e.attrib["enumID"]) for e in card.xml.findall("./Tag")]
-		for tag in card_tags:
+		for tag in card.tags:
 			# We have fake tags in fireplace.enums which are always negative
 			if tag not in known_tags and tag > 0:
 				unknown_tags.add(tag)
