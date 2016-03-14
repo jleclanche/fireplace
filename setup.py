@@ -17,12 +17,11 @@ CLASSIFIERS = [
 	"Topic :: Games/Entertainment :: Simulation",
 ]
 
+
 setup(
 	name="fireplace",
 	version=fireplace.__version__,
 	packages=find_packages(exclude="tests"),
-	package_data={"": ["CardDefs.xml"]},
-	include_package_data=True,
 	tests_require=["pytest"],
 	author=fireplace.__author__,
 	author_email=fireplace.__email__,
