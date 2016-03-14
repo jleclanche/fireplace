@@ -9,7 +9,6 @@ cache:
     - $HOME/virtualenv/python3.5
 script:
   # Travis will automatically detect requirements.txt and run pip install
-  - ./bootstrap
   - ./setup.py install
   - py.test
 notifications:
