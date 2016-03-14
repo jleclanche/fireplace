@@ -4,7 +4,6 @@ from ..actions import *
 from ..aura import Refresh
 from ..dsl import *
 from ..events import *
-from ..utils import custom_card
 
 
 # For buffs which are removed when the card is moved to play (eg. cost buffs)
@@ -100,4 +99,17 @@ def AttackHealthSwapBuff():
 	cls.max_health = lambda self, i: self._xhealth
 	cls.apply = apply
 
+	return cls
+
+
+def custom_card(cls):
+	from . import CardDB, db
+	id = cls.__name__
+	if GameTag.CARDNAME not in cls.tags:
+		raise ValueError("No name provided for custom card %r" % (cls))
+	db[id] = CardDB.merge(id, None, cls)
+	# Give the card its fake name
+	db[id]._localized_tags = {
+		GameTag.CARDNAME: {"enUS": cls.tags[GameTag.CARDNAME]}
+	}
 	return cls

@@ -29,4 +29,4 @@ if (!(Test-Path $HSDATA_DIR)) {
 	}
 }
 
-python "$BASEDIR/bootstrap.py" $HSDATA_DIR $CARDDEFS_OUT
+Copy-Item "$HSDATA_DIR/CardDefs.xml" "$CARDDEFS_OUT"

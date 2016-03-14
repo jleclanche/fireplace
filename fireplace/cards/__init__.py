@@ -13,12 +13,18 @@ class CardDB(dict):
 		self.initialized = False
 
 	@staticmethod
-	def merge(id, card):
+	def merge(id, card, carddef=None):
 		"""
 		Find the xmlcard and the card definition of \a id
 		Then return a merged class of the two
 		"""
-		carddef = get_script_definition(id)
+		if card is None:
+			card = cardxml.CardXML()
+			card.id = id
+
+		if carddef is None:
+			carddef = get_script_definition(id)
+
 		if carddef:
 			card.scripts = type(id, (carddef, ), {})
 		else:

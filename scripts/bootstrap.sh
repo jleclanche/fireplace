@@ -31,4 +31,4 @@ else
 	git -C "$HSDATA_DIR" reset --hard origin/master
 fi
 
-python "$BASEDIR/bootstrap.py" "$HSDATA_DIR" "$CARDDEFS_OUT"
+cp "$HSDATA_DIR/CardDefs.xml" "$CARDDEFS_OUT"
