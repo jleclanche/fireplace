@@ -289,8 +289,9 @@ class BRMA04_3H:
 
 # Chromatic Dragonkin
 class BRMA12_8t:
-	# That ID is... correct. What?
-	events = Play(OPPONENT, SPELL).on(Buff(SELF, "GVG_100e"))
+	events = Play(OPPONENT, SPELL).on(Buff(SELF, "BRMA12_8te"))
+
+BRMA12_8te = buff(+2, +2)
 
 
 # Son of the Flame
