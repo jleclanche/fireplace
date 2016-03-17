@@ -390,6 +390,48 @@ def test_lowly_squire():
 	assert squire.atk == 3
 
 
+def test_master_of_ceremonies():
+	game = prepare_game()
+	master = game.player1.give("AT_117")
+	assert not master.powered_up
+	master.play()
+	assert master.atk == 4
+	assert master.health == 2
+
+	kobold = game.player1.give(KOBOLD_GEOMANCER)
+	kobold.play()
+	master2 = game.player1.give("AT_117")
+	assert master2.powered_up
+	master2.play()
+	assert master2.atk == 4 + 2
+	assert master2.health == 2 + 2
+
+
+def test_master_of_ceremonies_friendly_jungle_moonkin():
+	game = prepare_game()
+	moonkin = game.player1.give("LOE_051")
+	moonkin.play()
+	master = game.player1.give("AT_117")
+	assert master.powered_up
+	master.play()
+	assert master.atk == 4 + 2
+	assert master.health == 2 + 2
+
+
+def test_master_of_ceremonies_enemy_jungle_moonkin():
+	# Test for https://github.com/HearthSim/hs-bugs/issues/337
+	game = prepare_game()
+	moonkin = game.player1.give("LOE_051")
+	moonkin.play()
+	game.end_turn()
+
+	master = game.player2.give("AT_117")
+	assert not master.powered_up
+	master.play()
+	assert master.atk == 4
+	assert master.health == 2
+
+
 def test_power_word_glory():
 	game = prepare_game()
 	wisp1 = game.player1.give(WISP)
