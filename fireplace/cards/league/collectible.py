@@ -104,7 +104,7 @@ class LOE_050:
 
 # Jungle Moonkin
 class LOE_051:
-	update = Refresh(ALL_PLAYERS, {GameTag.SPELLPOWER: +2})
+	update = Refresh(OPPONENT, {GameTag.SPELLPOWER: +2})
 
 
 # Djinni of Zephyrs
