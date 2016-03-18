@@ -8,7 +8,7 @@ from ..utils import *
 class CS2_101:
 	activate = Summon(CONTROLLER, "CS2_101t")
 
-# Reinforce (Uther Skin 1)
+# Reinforce (Lady Liadrin)
 class CS2_101_H1:
 	activate = CS2_101.activate
 
