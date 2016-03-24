@@ -3,3 +3,4 @@ from .evaluator import *
 from .lazynum import *
 from .random_picker import *
 from .selector import *
+from .switch import *
