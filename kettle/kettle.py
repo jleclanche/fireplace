@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 from hearthstone.enums import (
 	CardType, ChoiceType, GameTag, OptionType, Step, Zone
 )
-from fireplace import actions
+from fireplace import actions, cards
 from fireplace.game import BaseGame as Game
 from fireplace.player import Player
 from fireplace.utils import CardList
@@ -332,6 +332,8 @@ def main():
 	arguments.add_argument("hostname", default="127.0.0.1", nargs="?")
 	arguments.add_argument("port", type=int, default=9111, nargs="?")
 	args = arguments.parse_args(sys.argv[1:])
+
+	cards.db.initialize()
 
 	INFO("Listening on %s:%i..." % (args.hostname, args.port))
 	socketserver.TCPServer.allow_reuse_address = True
