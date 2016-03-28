@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys; sys.path.append("..")
 import random
+from fireplace import cards
 from fireplace.cards.heroes import *
 from fireplace.exceptions import GameOver
 from fireplace.game import Game
@@ -69,6 +70,7 @@ def test_full_game():
 
 
 def main():
+	cards.db.initialize()
 	if len(sys.argv) > 1:
 		numgames = sys.argv[1]
 		if not numgames.isdigit():
