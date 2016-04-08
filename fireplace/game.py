@@ -115,8 +115,9 @@ class BaseGame(Entity):
 
 	def play_card(self, card, target, index, choose):
 		type = PowSubType.PLAY
+		player = card.controller
 		actions = [Play(card, target, index, choose)]
-		return self.action_block(card, actions, type, index, target)
+		return self.action_block(player, actions, type, index, target)
 
 	def process_deaths(self):
 		type = PowSubType.DEATHS

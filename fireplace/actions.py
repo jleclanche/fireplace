@@ -358,11 +358,8 @@ class Play(GameAction):
 			return
 		return super()._broadcast(entity, source, at, *args)
 
-	def get_args(self, source):
-		return (source, ) + super().get_args(source)
-
-	def do(self, source, player, card, target, index, choose):
-		player = source.controller
+	def do(self, source, card, target, index, choose):
+		player = source
 		log.info("%s plays %r (target=%r, index=%r)", player, card, target, index)
 
 		player.pay_mana(card.cost)
