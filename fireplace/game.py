@@ -254,13 +254,21 @@ class BaseGame(Entity):
 		for player in self.players:
 			player.prepare_for_game()
 
-	def start(self):
+	def start(self, start_first_turn = None):
 		self.log("Starting game %r", self)
 		self.state = State.RUNNING
 		self.step = Step.BEGIN_DRAW
 		self.zone = Zone.PLAY
 		self.prepare()
 		self.manager.start_game()
+
+		if start_first_turn is None:
+			start_first_turn = True
+
+		if start_first_turn:
+			self.first_turn()
+
+	def first_turn(self):
 		self.begin_turn(self.player1)
 
 	def end_turn(self):
@@ -331,8 +339,8 @@ class CoinRules:
 		self.log("Tossing the coin... %s wins!", winner)
 		return winner, winner.opponent
 
-	def start(self):
-		super().start()
+	def start(self, start_first_turn = None):
+		super().start(start_first_turn)
 		self.log("%s gets The Coin (%s)", self.player2, THE_COIN)
 		self.player2.give(THE_COIN)
 
@@ -347,7 +355,7 @@ class MulliganRules:
 		from .actions import MulliganChoice
 
 		self.next_step = Step.BEGIN_MULLIGAN
-		super().start()
+		super().start(False)
 
 		self.log("Entering mulligan phase")
 		self.step, self.next_step = self.next_step, Step.MAIN_READY

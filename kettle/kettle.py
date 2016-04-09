@@ -324,6 +324,8 @@ class Kettle(socketserver.BaseRequestHandler):
 		for player in game.players:
 			player.choice = None
 
+		game.first_turn()
+
 		return manager
 
 
