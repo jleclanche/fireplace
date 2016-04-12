@@ -794,17 +794,6 @@ class GainMana(TargetedAction):
 		target.max_mana += amount
 
 
-class GainEmptyMana(TargetedAction):
-	"""
-	Give player targets \a amount empty Mana crystals.
-	"""
-	ARGS = ("TARGET", "AMOUNT")
-
-	def do(self, source, target, amount):
-		target.max_mana += amount
-		target.used_mana += amount
-
-
 class SpendMana(TargetedAction):
 	"""
 	Make player targets spend \a amount Mana.

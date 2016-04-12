@@ -104,6 +104,13 @@ def AttackHealthSwapBuff():
 	return cls
 
 
+def GainEmptyMana(selector, amount):
+	"""
+	Helper to gain an empty mana crystal (gains mana, then spends it)
+	"""
+	return GainMana(selector, amount), SpendMana(selector, amount)
+
+
 def custom_card(cls):
 	from . import CardDB, db
 	id = cls.__name__
