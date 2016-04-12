@@ -116,11 +116,11 @@ class CS2_012:
 
 # Wild Growth
 class CS2_013:
-	def play(self):
-		if self.controller.max_mana < self.controller.max_resources:
-			yield GainEmptyMana(CONTROLLER, 1)
-		else:
-			yield Give(CONTROLLER, "CS2_013t")
+	play = (
+		AT_MAX_MANA(CONTROLLER) &
+		Give(CONTROLLER, "CS2_013t") |
+		GainEmptyMana(CONTROLLER, 1)
+	)
 
 class CS2_013t:
 	play = Draw(CONTROLLER)
