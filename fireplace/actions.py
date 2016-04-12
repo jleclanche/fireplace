@@ -805,6 +805,16 @@ class GainEmptyMana(TargetedAction):
 		target.used_mana += amount
 
 
+class SpendMana(TargetedAction):
+	"""
+	Make player targets spend \a amount Mana.
+	"""
+	ARGS = ("TARGET", "AMOUNT")
+
+	def do(self, source, target, amount):
+		target.used_mana += amount
+
+
 class Give(TargetedAction):
 	"""
 	Give player targets card \a id.
