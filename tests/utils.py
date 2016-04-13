@@ -23,6 +23,7 @@ WISP = "CS2_231"
 WHELP = "ds1_whelptoken"
 
 # Token spells
+INNERVATE = "EX1_169"
 MOONFIRE = "CS2_008"
 CIRCLE_OF_HEALING = "EX1_621"
 DREAM = "DREAM_04"
