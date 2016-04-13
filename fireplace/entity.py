@@ -78,6 +78,9 @@ class BaseEntity(object):
 		"""
 		Override to modify the damage dealt to a target from the given amount.
 		"""
+		if target.immune:
+			self.log("%r is immune to %s for %i damage", target, self, amount)
+			return 0
 		return amount
 
 
