@@ -164,7 +164,9 @@ class EX1_294:
 class EX1_295:
 	secret = Predamage(FRIENDLY_HERO).on(
 		Lethal(FRIENDLY_HERO, Predamage.AMOUNT) & (
-			Reveal(SELF), Buff(FRIENDLY_HERO, "EX1_295o")
+			Reveal(SELF),
+			Buff(FRIENDLY_HERO, "EX1_295o"),
+			Predamage(FRIENDLY_HERO, 0)
 		)
 	)
 
