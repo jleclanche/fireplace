@@ -267,7 +267,7 @@ class LOE_105e:
 
 # Excavated Evil
 class LOE_111:
-	play = Hit(ALL_MINIONS, 5), Shuffle(OPPONENT, Copy(SELF))
+	play = Hit(ALL_MINIONS, 3), Shuffle(OPPONENT, Copy(SELF))
 
 
 # Everyfin is Awesome
