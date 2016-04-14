@@ -16,17 +16,17 @@ class LOEA02_02h:
 
 # Wish for Power
 class LOEA02_03:
-	play = DISCOVER(RandomSpell())
+	play = DISCOVER(RandomDiscover(type=CardType.SPELL))
 
 
 # Wish for Valor
 class LOEA02_04:
-	play = DISCOVER(RandomCollectible(cost=4))
+	play = DISCOVER(RandomDiscover(cost=4))
 
 
 # Wish for Glory
 class LOEA02_05:
-	play = DISCOVER(RandomMinion())
+	play = DISCOVER(RandomDiscover(type=CardType.MINION))
 
 
 # Wish for More Wishes

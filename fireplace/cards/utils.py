@@ -10,6 +10,7 @@ from ..events import *
 # This needs to be Summon, because of Summon from the hand
 REMOVED_IN_PLAY = Summon(PLAYER, OWNER).after(Destroy(SELF))
 
+FRIENDLY_CLASS = Attr(FRIENDLY_HERO, GameTag.CLASS)
 ENEMY_CLASS = Attr(ENEMY_HERO, GameTag.CLASS)
 
 
@@ -31,6 +32,21 @@ FULL_HAND = Count(FRIENDLY_HAND) == 10
 HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
 
 DISCOVER = lambda *args: Discover(CONTROLLER, *args)
+
+# Determine which class's cards to use in the card pool when a Discover choice is started
+def get_discover_class_source(entities, source):
+	if entities.current_player.hero.data.card_class != CardClass.NEUTRAL:
+		return [entities.current_player.hero]
+
+	if source.data.card_class != CardClass.NEUTRAL:
+		return [source]
+
+	from .. import cards
+	return [cards.db[random.choice(cards.filter(collectible=True, type=CardType.HERO))]]
+
+# The class card type to use for the next Discover action (takes non-standard heroes into account)
+FRIENDLY_DISCOVER_CLASS = Attr(FuncSelector(get_discover_class_source), GameTag.CLASS)
+
 
 # 50% chance to attack the wrong enemy.
 FORGETFUL = Attack(SELF).on(COINFLIP & Retarget(SELF, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(SELF))))

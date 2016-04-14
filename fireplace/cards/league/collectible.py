@@ -6,12 +6,12 @@ from ..utils import *
 
 # Ethereal Conjurer
 class LOE_003:
-	play = DISCOVER(RandomSpell())
+	play = DISCOVER(RandomDiscover(type=CardType.SPELL))
 
 
 # Museum Curator
 class LOE_006:
-	play = DISCOVER(RandomCollectible(deathrattle=True))
+	play = DISCOVER(RandomDiscover(deathrattle=True))
 
 
 # Obsidian Destroyer
@@ -68,12 +68,12 @@ class LOE_020:
 
 # Dark Peddler
 class LOE_023:
-	play = DISCOVER(RandomCollectible(cost=1))
+	play = DISCOVER(RandomDiscover(cost=1))
 
 
 # Jeweled Scarab
 class LOE_029:
-	play = DISCOVER(RandomCollectible(cost=3))
+	play = DISCOVER(RandomDiscover(cost=3))
 
 
 # Naga Sea Witch
@@ -84,7 +84,7 @@ class LOE_038:
 # Gorillabot A-3
 class LOE_039:
 	powered_up = Find(FRIENDLY_MINIONS + MECH - SELF)
-	play = powered_up & DISCOVER(RandomMech())
+	play = powered_up & DISCOVER(RandomDiscover(race=Race.MECHANICAL))
 
 
 # Huge Toad
@@ -94,7 +94,7 @@ class LOE_046:
 
 # Tomb Spider
 class LOE_047:
-	play = DISCOVER(RandomBeast())
+	play = DISCOVER(RandomDiscover(race=Race.BEAST))
 
 
 # Mounted Raptor
@@ -283,10 +283,10 @@ class LOE_115:
 	choose = ("LOE_115a", "LOE_115b")
 
 class LOE_115a:
-	play = DISCOVER(RandomMinion())
+	play = DISCOVER(RandomDiscover(type=CardType.MINION))
 
 class LOE_115b:
-	play = DISCOVER(RandomSpell())
+	play = DISCOVER(RandomDiscover(type=CardType.SPELL))
 
 
 ##
