@@ -31,6 +31,10 @@ class AT_132_MAGE:
 class CS2_034_H1_AT_132:
 	activate = AT_132_MAGE.activate
 
+# Fireblast Rank 2 (Khadgar)
+class CS2_034_H2_AT_132:
+	activate = AT_132_MAGE.activate
+
 
 # The Silver Hand
 class AT_132_PALADIN:
