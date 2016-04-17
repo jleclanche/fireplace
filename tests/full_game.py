@@ -45,18 +45,18 @@ def play_full_game():
 					target = random.choice(card.targets)
 				print("Playing %r on %r" % (card, target))
 				card.play(target=target)
+
+				if player.choice:
+					choice = random.choice(player.choice.cards)
+					print("Choosing card %r" % (choice))
+					player.choice.choose(choice)
+
 				continue
 
 		# Randomly attack with whatever can attack
 		for character in player.characters:
 			if character.can_attack():
 				character.attack(random.choice(character.targets))
-			continue
-
-		if player.choice:
-			choice = random.choice(player.choice.cards)
-			print("Choosing card %r" % (choice))
-			player.choice.choose(choice)
 			continue
 
 		game.end_turn()
