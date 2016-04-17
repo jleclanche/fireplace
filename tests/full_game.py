@@ -24,6 +24,8 @@ def play_full_game():
 		cards_to_mulligan = random.sample(player.choice.cards, mull_count)
 		player.choice.choose(*cards_to_mulligan)
 
+	game.first_turn()
+
 	while True:
 		player = game.current_player
 

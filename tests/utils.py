@@ -92,6 +92,7 @@ def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
 	game = game_class(players=(player1, player2))
 	game.start()
 	_empty_mulligan(game)
+	game.first_turn()
 
 	return game
 
@@ -106,5 +107,6 @@ def prepare_empty_game(hero1=None, hero2=None, game_class=BaseTestGame):
 	game = game_class(players=(player1, player2))
 	game.start()
 	_empty_mulligan(game)
+	game.first_turn()
 
 	return game
