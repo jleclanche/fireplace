@@ -238,7 +238,11 @@ class BaseGame(Entity):
 
 		self.tick += 1
 
-	def prepare(self):
+	def setup(self):
+		self.log("Setting up game %r", self)
+		self.state = State.RUNNING
+		self.step = Step.BEGIN_DRAW
+		self.zone = Zone.PLAY
 		self.players[0].opponent = self.players[1]
 		self.players[1].opponent = self.players[0]
 		for player in self.players:
@@ -253,14 +257,10 @@ class BaseGame(Entity):
 
 		for player in self.players:
 			player.prepare_for_game()
+		self.manager.start_game()
 
 	def start(self):
-		self.log("Starting game %r", self)
-		self.state = State.RUNNING
-		self.step = Step.BEGIN_DRAW
-		self.zone = Zone.PLAY
-		self.prepare()
-		self.manager.start_game()
+		self.setup()
 		self.begin_turn(self.player1)
 
 	def end_turn(self):

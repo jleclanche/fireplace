@@ -63,8 +63,8 @@ class BlackrockShowdownBrawl(Game):
 			player.starting_deck, player.starting_hero = deck
 		return cls(players)
 
-	def prepare(self):
-		super().prepare()
+	def setup(self):
+		super().setup()
 		for player in self.players:
 			if player.hero.id == self.NEFARIAN_DECK[1]:
 				player.max_mana = 4
@@ -157,8 +157,8 @@ class HeartOfTheSunwellBrawl(Game):
 	can do with it!
 	"""
 
-	def prepare(self):
-		super().prepare()
+	def setup(self):
+		super().setup()
 		for player in self.players:
 			player.max_mana = 10
 
