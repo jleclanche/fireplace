@@ -84,12 +84,17 @@ def _empty_mulligan(game):
 			player.choice.choose()
 
 
-def prepare_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
+def init_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
 	log.info("Initializing a new game")
 	heroes = _select_heroes(hero1, hero2)
 	player1 = Player("Player1", *_draft(hero=heroes[0], exclude=exclude))
 	player2 = Player("Player2", *_draft(hero=heroes[1], exclude=exclude))
 	game = game_class(players=(player1, player2))
+	return game
+
+
+def prepare_game(*args, **kwargs):
+	game = init_game(*args, **kwargs)
 	game.start()
 	_empty_mulligan(game)
 
