@@ -341,20 +341,21 @@ class CoinRules:
 class MulliganRules:
 	"""
 	Performs a Mulligan phase when the Game starts.
-	Currently just a dummy phase.
+	Only begin the game after both Mulligans have been chosen.
 	"""
 
 	def start(self):
 		from .actions import MulliganChoice
-
+		self.setup()
 		self.next_step = Step.BEGIN_MULLIGAN
-		super().start()
-
 		self.log("Entering mulligan phase")
 		self.step, self.next_step = self.next_step, Step.MAIN_READY
 
 		for player in self.players:
-			self.queue_actions(self, [MulliganChoice(player)])
+			self.queue_actions(self, [MulliganChoice(player, callback=self.mulligan_done)])
+
+	def mulligan_done(self):
+		self.begin_turn(self.player1)
 
 
 class Game(MulliganRules, CoinRules, BaseGame):

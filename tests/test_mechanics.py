@@ -549,6 +549,30 @@ def test_morph():
 	assert len(game.current_player.opponent.hand) == 1
 
 
+def test_mulligan():
+	# Create and start a game but do not perform the mulligan yet
+	game = init_game(game_class=Game)
+	game.start()
+	hand1 = game.player1.hand[:]
+	hand2 = game.player2.hand[:]
+	# Double-check no player has The Coin (yet)
+	assert not game.player1.hand.contains(THE_COIN)
+	assert not game.player2.hand.contains(THE_COIN)
+	assert len(hand1) == 3
+	assert len(hand2) == 4
+	# Do not choose anything for player 1
+	game.player1.choice.choose()
+	assert game.player1.hand == hand1
+
+	# Replace the first two cards for player 2
+	game.player2.choice.choose(hand2[0], hand2[1])
+	assert hand2[0] not in game.player2.hand
+	assert hand2[1] not in game.player2.hand
+	assert hand2[2] in game.player2.hand
+	assert hand2[3] in game.player2.hand
+	assert game.player2.hand[4] == THE_COIN
+
+
 def test_no_death_processing_during_battlecry():
 	game = prepare_game()
 	illidan = game.player1.give("EX1_614")

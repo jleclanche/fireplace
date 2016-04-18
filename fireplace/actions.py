@@ -327,6 +327,10 @@ class GenericChoice(GameAction):
 class MulliganChoice(GameAction):
 	ARGS = ("PLAYER", )
 
+	def __init__(self, *args, callback):
+		super().__init__(*args)
+		self.callback = callback
+
 	def do(self, source, player):
 		player.mulligan_state = Mulligan.INPUT
 		player.choice = self
@@ -343,6 +347,9 @@ class MulliganChoice(GameAction):
 		self.player.choice = None
 		self.player.shuffle_deck()
 		self.player.mulligan_state = Mulligan.DONE
+
+		if self.player.opponent.mulligan_state == Mulligan.DONE:
+			self.callback()
 
 
 class Play(GameAction):
