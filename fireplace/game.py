@@ -331,10 +331,11 @@ class CoinRules:
 		self.log("Tossing the coin... %s wins!", winner)
 		return winner, winner.opponent
 
-	def start(self):
-		super().start()
-		self.log("%s gets The Coin (%s)", self.player2, THE_COIN)
-		self.player2.give(THE_COIN)
+	def begin_turn(self, player):
+		if self.turn == 0:
+			self.log("%s gets The Coin (%s)", self.player2, THE_COIN)
+			self.player2.give(THE_COIN)
+		super().begin_turn(player)
 
 
 class MulliganRules:
