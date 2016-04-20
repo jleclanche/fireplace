@@ -25,6 +25,34 @@ def test_anubarak():
 	assert len(game.player1.hand) == 0
 
 
+def test_astral_communion():
+	game = prepare_game(game_class=Game)
+	game.player1.discard_hand()
+	astral = game.player1.give("AT_043")
+	game.player1.give(INNERVATE).play()
+	game.player1.give(INNERVATE).play()
+	for i in range(5):
+		game.player1.give(WISP)
+	assert game.player1.max_mana == 1
+	assert game.player1.mana == 5
+	astral.play()
+	assert not game.player1.hand
+	assert game.player1.mana == game.player1.max_mana == 10
+
+
+def test_astral_communion_full_mana():
+	game = prepare_game()
+	assert game.player1.mana == 10
+	astral = game.player1.give("AT_043")
+	for i in range(5):
+		game.player1.give(WISP)
+	astral.play()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].id == "CS2_013t"
+	assert game.player1.max_mana == 10
+	assert game.player1.mana == 6
+
+
 def test_aviana():
 	game = prepare_game()
 	aviana = game.player1.give("AT_045")

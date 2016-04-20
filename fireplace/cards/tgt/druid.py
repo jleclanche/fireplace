@@ -63,7 +63,11 @@ class AT_037b:
 
 # Astral Communion
 class AT_043:
-	play = GainMana(CONTROLLER, 10), Discard(FRIENDLY_HAND)
+	play = Discard(FRIENDLY_HAND), (
+		AT_MAX_MANA(CONTROLLER) &
+		Give(CONTROLLER, "CS2_013t") |
+		GainMana(CONTROLLER, 10)
+	)
 
 
 # Mulch
