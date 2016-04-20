@@ -240,9 +240,13 @@ def test_arcane_golem():
 
 def test_arcane_missiles():
 	game = prepare_game()
+	wisp = game.player2.summon(WISP)
 	missiles = game.player1.give("EX1_277")
 	missiles.play()
-	assert game.player2.hero.health == 27
+	if wisp.dead:
+		assert game.player2.hero.health == 28
+	else:
+		assert game.player2.hero.health == 27
 
 
 def test_archmage_antonidas():
@@ -287,8 +291,12 @@ def test_armorsmith():
 
 def test_avenging_wrath():
 	game = prepare_game()
+	wisp = game.player2.summon(WISP)
 	game.player1.give("EX1_384").play()
-	assert game.player2.hero.health == 30 - 8
+	if wisp.dead:
+		assert game.player2.hero.health == 30 - 7
+	else:
+		assert game.player2.hero.health == 30 - 8
 	game.end_turn()
 
 	# Summon Malygos and test that spellpower only increases dmg by 5
