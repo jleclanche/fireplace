@@ -107,6 +107,8 @@ class AttrValue(SelectorEntityValue):
 		self.tag = tag
 
 	def value(self, entity, source):
+		if isinstance(self.tag, str):
+			return getattr(entity, self.tag, 0)
 		return entity.tags.get(self.tag, 0)
 
 	def __call__(self, selector):
