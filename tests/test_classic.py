@@ -1122,8 +1122,11 @@ def test_faceless_manipulator():
 	assert wisp.health == 1 + 2 - 1
 	game.end_turn()
 
+	dummy = game.player2.give(TARGET_DUMMY)
+	dummy.play()
 	faceless = game.player2.give("EX1_564")
-	faceless.play(target=wisp)
+	faceless.play(target=wisp, index=0)
+	assert game.player2.field[1] == dummy
 	morphed = game.player2.field[0]
 	assert morphed.id == WISP
 	assert morphed.buffs
@@ -3135,6 +3138,7 @@ def test_tinkmaster_overspark():
 	assert tinkmaster1 not in game.board
 	assert len(game.player1.field) == 2
 	assert game.board.contains("EX1_tk28") ^ game.board.contains("EX1_tk29")
+	assert game.player1.field[1].id == "EX1_083"
 
 
 def test_totemic_might():
