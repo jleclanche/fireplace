@@ -901,12 +901,14 @@ class Morph(TargetedAction):
 
 	def do(self, source, target, card):
 		log.info("Morphing %r into %r", target, card)
-		target.clear_buffs()
 		target_zone = target.zone
-		target.zone = Zone.SETASIDE
 		if card.zone != target_zone:
+			# Transfer the zone position
+			card._summon_index = target.zone_position
 			# In-place morph is OK, eg. in the case of Lord Jaraxxus
 			card.zone = target_zone
+		target.clear_buffs()
+		target.zone = Zone.SETASIDE
 		target.morphed = card
 		return card
 

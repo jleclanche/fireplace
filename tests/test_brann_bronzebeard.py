@@ -46,9 +46,9 @@ def test_brann_recombobulator():
 	morphed2 = wisp.morphed
 	assert morphed2 not in game.player1.field
 	assert morphed2.cost == 0
-
-	morphed1 = game.player1.field[2]
+	morphed1 = game.player1.field[1]
 	assert morphed1.cost == 0
+	assert game.player1.field[2] == recombobulator
 
 
 def test_brann_youthful_brewmaster():

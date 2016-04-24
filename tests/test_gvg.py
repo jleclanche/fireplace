@@ -830,10 +830,10 @@ def test_recombobulator():
 	wisp.play()
 	recom = game.player1.give("GVG_108")
 	recom.play(target=wisp)
-	recom.destroy()
 
 	assert wisp not in game.player1.field
 	assert game.player1.field[0].cost == 0
+	assert game.player1.field[1] == recom
 
 
 def test_recombobulator_molten_giant():

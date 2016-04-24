@@ -524,10 +524,10 @@ def test_morph():
 	game = prepare_game()
 	game.end_turn()
 
-	buzzard = game.player2.give("CS2_237")
-	buzzard.play()
 	wisp = game.player2.give(WISP)
 	wisp.play()
+	buzzard = game.player2.give("CS2_237")
+	buzzard.play()
 	game.end_turn()
 
 	game.player1.discard_hand()
@@ -537,7 +537,7 @@ def test_morph():
 	hex = game.player1.give("EX1_246")
 	hex.play(target=wisp)
 	assert not game.player2.field.contains(WISP)
-	assert game.player2.field.contains("hexfrog")
+	assert game.player2.field[0].id == "hexfrog"
 	# Test that buzzard no longer draws on poly/hex (fixed in GVG)
 	assert not game.player2.hand
 	game.end_turn(); game.end_turn()
