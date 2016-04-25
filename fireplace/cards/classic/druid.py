@@ -69,7 +69,7 @@ class NEW1_008:
 	choose = ("NEW1_008a", "NEW1_008b")
 
 class NEW1_008a:
-	play = Draw(CONTROLLER) * 2
+	play = Draw(CONTROLLER)
 
 class NEW1_008b:
 	play = Heal(TARGET, 5)

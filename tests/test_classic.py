@@ -163,7 +163,7 @@ def test_ancient_of_lore():
 
 	ancient1 = game.player1.give("NEW1_008")
 	ancient1.play(choose="NEW1_008a")  # Draw 2 Cards
-	assert len(game.player1.hand) == 2
+	assert len(game.player1.hand) == 1
 	assert game.player1.hero.health == 30 - 10
 	game.end_turn(); game.end_turn()
 
