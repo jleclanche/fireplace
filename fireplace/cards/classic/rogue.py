@@ -86,7 +86,7 @@ class CS2_077:
 
 # Blade Flurry
 class CS2_233:
-	play = Hit(ENEMY_CHARACTERS, ATK(FRIENDLY_WEAPON)), Destroy(FRIENDLY_WEAPON)
+	play = Hit(ENEMY_MINIONS, ATK(FRIENDLY_WEAPON)), Destroy(FRIENDLY_WEAPON)
 
 
 # Eviscerate

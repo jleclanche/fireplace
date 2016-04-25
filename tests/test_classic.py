@@ -450,6 +450,23 @@ def test_big_game_hunter():
 	assert wargolem.dead
 
 
+def test_blade_flurry():
+	game = prepare_game(ROGUE, ROGUE)
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.end_turn()
+
+	game.player2.give(WISP).play()
+	flurry = game.player2.give("CS2_233")
+	assert not flurry.is_playable()
+	game.player2.hero.power.use()
+	assert flurry.is_playable()
+	flurry.play()
+	assert not game.player1.field
+	assert len(game.player2.field) == 1
+	assert game.player1.hero.health == game.player2.hero.health == 30
+
+
 def test_blessing_of_wisdom():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
