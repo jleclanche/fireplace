@@ -841,7 +841,7 @@ def test_recombobulator_molten_giant():
 	game.player1.hero.set_current_health(15)
 
 	molten = game.player1.give("EX1_620")
-	assert molten.cost == 5
+	assert molten.cost == 25 - 15
 	molten.play()
 	game.end_turn(); game.end_turn()
 
@@ -850,7 +850,7 @@ def test_recombobulator_molten_giant():
 	recom.destroy()
 
 	assert molten not in game.player1.field
-	assert game.player1.field[0].cost == 20
+	assert game.player1.field[0].cost == molten.cost
 
 
 def test_reversing_switch():

@@ -173,18 +173,18 @@ def test_emperor_thaurissan_molten_recombobulator():
 	thaurissan.play()
 	game.end_turn(); game.end_turn()
 
-	assert molten.cost == 19
+	assert molten.cost == 25 - 1
 	thaurissan.destroy()
 	ancestor = game.player1.give("GVG_029")
 	ancestor.play()
-	assert molten.cost == 20
+	assert molten.cost == 25
 	assert molten in game.player1.field
 	game.end_turn(); game.end_turn()
 
 	recomb = game.player1.give("GVG_108")
 	recomb.play(target=molten)
 	assert len(game.player1.field) == 2
-	assert game.player1.field[0].cost == 20
+	assert game.player1.field[0].cost == molten.cost
 
 
 def test_fireguard_destroyer():

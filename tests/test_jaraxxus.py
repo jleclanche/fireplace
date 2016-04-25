@@ -55,7 +55,7 @@ def test_jaraxxus_molten_giant():
 	molten = game.player1.give("EX1_620")
 	jaraxxus.play()
 	assert game.player1.hero.health == 15
-	assert molten.cost == 20
+	assert molten.cost == 25
 
 
 def test_jaraxxus_mirror_entity():
