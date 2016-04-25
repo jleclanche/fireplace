@@ -51,7 +51,7 @@ class EX1_350:
 # Auchenai Soulpriest
 class EX1_591:
 	update = Refresh(CONTROLLER, {
-		GameTag.OUTGOING_HEALING_ADJUSTMENT: -1,
+		GameTag.EMBRACE_THE_SHADOW: True,
 	})
 
 

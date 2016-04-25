@@ -853,8 +853,7 @@ class Heal(TargetedAction):
 	ARGS = ("TARGET", "AMOUNT")
 
 	def do(self, source, target, amount):
-		if source.controller.outgoing_healing_adjustment:
-			# "healing as damage" (hack-ish)
+		if source.controller.healing_as_damage:
 			return source.game.queue_actions(source, [Hit(target, amount)])
 
 		amount <<= source.controller.healing_double
