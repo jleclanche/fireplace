@@ -213,9 +213,6 @@ EX1_570e = buff(atk=4)
 class EX1_571:
 	play = Summon(CONTROLLER, "EX1_tk9") * 3
 
-class EX1_tk9:
-	events = TURN_END.on(Destroy(SELF))
-
 
 # Savagery
 class EX1_578:
