@@ -1936,11 +1936,15 @@ def test_master_of_disguise():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
 	wisp.play()
-	masterofdisguise = game.player1.give("NEW1_014")
-	masterofdisguise.play(target=wisp)
+	mod = game.player1.give("NEW1_014")
+	mod.play(target=wisp)
 	assert wisp.stealthed
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+
 	assert wisp.stealthed
+	game.end_turn()
+
+	assert not wisp.stealthed
 
 
 def test_mana_wraith():
