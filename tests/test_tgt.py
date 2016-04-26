@@ -117,6 +117,29 @@ def test_burgle():
 	assert game.player1.hand[1].type != CardType.HERO
 
 
+def test_dalaran_aspirant():
+	game = prepare_game(ROGUE, ROGUE)
+	aspirant = game.player1.give("AT_006")
+	aspirant.play()
+	assert aspirant.spellpower == game.player1.spellpower == 0
+	game.player1.hero.power.use()
+	assert aspirant.spellpower == game.player1.spellpower == 1
+	game.end_turn(); game.end_turn()
+
+	game.player1.hero.power.use()
+	assert aspirant.spellpower == game.player1.spellpower == 2
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert game.player2.hero.health == 30 - 3
+	game.end_turn()
+
+	# Steal the aspirant (HearthSim/hs-bugs#412)
+	game.player2.give(MIND_CONTROL).play(target=aspirant)
+	assert game.player1.spellpower == 0
+	assert aspirant.spellpower == game.player2.spellpower == 2
+	game.player2.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 30 - 3
+
+
 def test_dark_bargain():
 	game = prepare_game()
 	for i in range(3):
