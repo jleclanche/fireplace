@@ -6,7 +6,9 @@ from ..utils import *
 
 # Warbot
 class GVG_051:
-	enrage = Refresh(SELF, {GameTag.ATK: +1})
+	enrage = Refresh(SELF, buff="GVG_051e")
+
+GVG_051e = buff(atk=1)
 
 
 # Shieldmaiden

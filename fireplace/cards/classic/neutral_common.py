@@ -214,17 +214,25 @@ class EX1_283:
 
 # Tauren Warrior
 class EX1_390:
-	enrage = Refresh(SELF, {GameTag.ATK: +3})
+	enrage = Refresh(SELF, buff="EX1_390e")
+
+EX1_390e = buff(atk=3)
 
 
 # Amani Berserker
 class EX1_393:
-	enrage = Refresh(SELF, {GameTag.ATK: +3})
+	enrage = Refresh(SELF, buff="EX1_393e")
+
+EX1_393e = buff(atk=3)
 
 
 # Raging Worgen
 class EX1_412:
-	enrage = Refresh(SELF, {GameTag.ATK: +1, GameTag.WINDFURY: True})
+	enrage = Refresh(SELF, buff="EX1_412e")
+
+class EX1_412e:
+	tags = {GameTag.ATK: +1}
+	windfury = SET(1)
 
 
 # Murloc Tidehunter

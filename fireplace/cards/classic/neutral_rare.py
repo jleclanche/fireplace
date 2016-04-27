@@ -20,7 +20,9 @@ class EX1_006:
 
 # Angry Chicken
 class EX1_009:
-	enrage = Refresh(SELF, {GameTag.ATK: +5})
+	enrage = Refresh(SELF, buff="EX1_009e")
+
+EX1_009e = buff(atk=5)
 
 
 # Twilight Drake

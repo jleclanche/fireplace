@@ -23,7 +23,9 @@ class EX1_402:
 
 # Grommash Hellscream
 class EX1_414:
-	enrage = Refresh(SELF, {GameTag.ATK: +6})
+	enrage = Refresh(SELF, buff="EX1_414e")
+
+EX1_414e = buff(atk=6)
 
 
 # Cruel Taskmaster
