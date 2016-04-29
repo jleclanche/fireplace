@@ -127,6 +127,7 @@ COST = AttrValue(GameTag.COST)
 DAMAGE = AttrValue(GameTag.DAMAGE)
 MANA = AttrValue(GameTag.RESOURCES)
 USED_MANA = AttrValue(GameTag.RESOURCES_USED)
+NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
 
 
 class ComparisonSelector(Selector):
