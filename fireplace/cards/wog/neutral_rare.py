@@ -10,6 +10,9 @@ class OG_034:
 		Refresh(SELF, {GameTag.CANT_ATTACK: True})
 	)
 
+# Corrupted Healbot
+class OG_147:
+	deathrattle = Heal(ENEMY_HERO, 8)
 
 # Tentacle of N'Zoth
 class OG_151:
