@@ -427,7 +427,7 @@ class Character(LiveEntity):
 
 	@property
 	def attacking(self):
-		return bool(self.attack_target)
+		return self.attack_target is not None
 
 	@property
 	def attack_targets(self):
