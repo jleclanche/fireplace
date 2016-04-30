@@ -235,7 +235,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		zone = self.parent_card.zone if self.parent_card else self.zone
 		if zone != self.playable_zone:
 			return False
-		if self.controller.mana < self.cost:
+		if not self.controller.can_pay_cost(self):
 			return False
 		if PlayReq.REQ_TARGET_TO_PLAY in self.requirements:
 			if not self.targets:

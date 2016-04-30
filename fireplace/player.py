@@ -177,6 +177,12 @@ class Player(Entity, TargetableByAuras):
 		for card in self.hand[::-1]:
 			card.discard()
 
+	def can_pay_cost(self, card):
+		"""
+		Returns whether the player can pay the resource cost of a card.
+		"""
+		return self.mana >= card.cost
+
 	def pay_cost(self, source, amount: int) -> int:
 		"""
 		Make player pay \a amount mana.
