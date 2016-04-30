@@ -177,7 +177,7 @@ class Player(Entity, TargetableByAuras):
 		for card in self.hand[::-1]:
 			card.discard()
 
-	def pay_cost(self, amount: int) -> int:
+	def pay_cost(self, source, amount: int) -> int:
 		"""
 		Make player pay \a amount mana.
 		Returns how much mana is spent, after temporary mana adjustments.

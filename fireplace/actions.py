@@ -369,7 +369,7 @@ class Play(GameAction):
 		player = source
 		log.info("%s plays %r (target=%r, index=%r)", player, card, target, index)
 
-		player.pay_cost(card.cost)
+		player.pay_cost(card, card.cost)
 
 		card.target = target
 		card._summon_index = index
