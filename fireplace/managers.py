@@ -178,6 +178,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.SILENCED: "silenced",
 	GameTag.SPELLPOWER: "spellpower",
 	GameTag.SPELLPOWER_DOUBLE: "spellpower_double",
+	GameTag.SPELLS_COST_HEALTH: "spells_cost_health",
 	GameTag.STEALTH: "stealthed",
 	GameTag.TAG_AI_MUST_PLAY: "autocast",
 	GameTag.HERO_POWER_DOUBLE: "hero_power_double",

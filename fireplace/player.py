@@ -1,7 +1,7 @@
 import random
 from itertools import chain
 from hearthstone.enums import CardType, PlayState, Zone
-from .actions import Concede, Draw, Fatigue, Give, Steal, Summon
+from .actions import Concede, Draw, Fatigue, Give, Hit, Steal, Summon
 from .aura import TargetableByAuras
 from .card import Card
 from .deck import Deck
@@ -22,6 +22,7 @@ class Player(Entity, TargetableByAuras):
 	shadowform = slot_property("shadowform")
 	spellpower_double = slot_property("spellpower_double", sum)
 	spellpower_adjustment = slot_property("spellpower", sum)
+	spells_cost_health = slot_property("spells_cost_health")
 	type = CardType.PLAYER
 
 	def __init__(self, name, deck, hero):
@@ -181,6 +182,8 @@ class Player(Entity, TargetableByAuras):
 		"""
 		Returns whether the player can pay the resource cost of a card.
 		"""
+		if self.spells_cost_health and card.type == CardType.SPELL:
+			return self.hero.health >= card.cost
 		return self.mana >= card.cost
 
 	def pay_cost(self, source, amount: int) -> int:
@@ -188,6 +191,10 @@ class Player(Entity, TargetableByAuras):
 		Make player pay \a amount mana.
 		Returns how much mana is spent, after temporary mana adjustments.
 		"""
+		if self.spells_cost_health and source.type == CardType.SPELL:
+			self.log("%s spells cost %i health", self, amount)
+			self.game.queue_actions(self, [Hit(self.hero, amount)])
+			return amount
 		if self.temp_mana:
 			# Coin, Innervate etc
 			used_temp = min(self.temp_mana, amount)
