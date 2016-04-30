@@ -1,6 +1,41 @@
 from utils import *
 
 
+def test_chogall():
+	game = prepare_game()
+	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
+	fireball = game.player1.give("CS2_029")
+	fireball2 = game.player1.give("CS2_029")
+	assert not game.player1.spells_cost_health
+	chogall = game.player1.give("OG_121")
+	chogall.play()
+	assert game.player1.mana == 10 - 7
+	assert game.player1.hero.health == 30
+	assert game.player1.spells_cost_health
+	assert not game.player2.spells_cost_health
+	footman.play()
+	assert game.player1.mana == 10 - 7 - 1
+	assert game.player1.hero.health == 30
+	assert fireball.cost == 4
+	assert fireball.is_playable()
+	fireball.play(target=game.player2.hero)
+	assert not game.player1.spells_cost_health
+	assert game.player1.mana == 10 - 7 - 1
+	assert game.player1.hero.health == 30 - 4
+	assert not fireball2.is_playable()
+
+
+def test_chogall_free_spell():
+	game = prepare_game()
+	moonfire = game.player1.give(MOONFIRE)
+	fireball = game.player1.give("CS2_029")
+	chogall = game.player1.give("OG_121")
+	chogall.play()
+	moonfire.play(target=game.player2.hero)
+	assert game.player1.mana == 10 - 7
+	assert game.player1.hero.health == 30
+
+
 def test_silithid_swarmer():
 	game = prepare_game(ROGUE, ROGUE)
 	silithid = game.player1.give("OG_034")
