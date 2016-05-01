@@ -36,6 +36,26 @@ def test_chogall_free_spell():
 	assert game.player1.hero.health == 30
 
 
+def test_forlorn_stalker():
+	game = prepare_game()
+	leper = game.player1.give("EX1_029")
+	leper2 = game.player1.give("EX1_029")
+	leper2.play()
+	deathsbite = game.player1.give("FP1_021")
+	wisp = game.player1.give(WISP)
+	stalker = game.player1.give("OG_292")
+	stalker.play()
+	assert leper.buffs
+	assert leper.atk == leper.health == 1 + 1
+	assert not leper2.buffs
+	assert leper2.atk == leper2.health == 1
+	assert not deathsbite.buffs
+	assert deathsbite.atk == 4
+	assert deathsbite.durability == 2
+	assert not wisp.buffs
+	assert wisp.atk == wisp.health == 1
+
+
 def test_silithid_swarmer():
 	game = prepare_game(ROGUE, ROGUE)
 	silithid = game.player1.give("OG_034")
