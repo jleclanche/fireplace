@@ -36,6 +36,17 @@ def test_chogall_free_spell():
 	assert game.player1.hero.health == 30
 
 
+def test_chogall_cannot_pay_health():
+	game = prepare_game()
+	fireball = game.player1.give("CS2_029")
+	chogall = game.player1.give("OG_121")
+	chogall.play()
+	game.player1.hero.set_current_health(5)
+	assert fireball.is_playable()
+	game.player1.hero.set_current_health(4)
+	assert not fireball.is_playable()
+
+
 def test_forlorn_stalker():
 	game = prepare_game()
 	leper = game.player1.give("EX1_029")
