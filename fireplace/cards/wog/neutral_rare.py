@@ -10,7 +10,14 @@ class OG_034:
 		Refresh(SELF, {GameTag.CANT_ATTACK: True})
 	)
 
+# Corrupted Healbot
+class OG_147:
+	deathrattle = Heal(ENEMY_HERO, 8)
 
 # Tentacle of N'Zoth
 class OG_151:
 	deathrattle = Hit(ALL_MINIONS, 1)
+	
+# Corrupted Seer
+class OG_161:
+	play = Hit(ALL_MINIONS - MURLOC, 2)
