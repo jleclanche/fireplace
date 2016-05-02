@@ -132,21 +132,12 @@ def game_state_to_xml(game):
 	return ElementTree.tostring(tree)
 
 
-def weighted_card_choice(source, weights: List[int], card_sets: List[str], count: int):
+def weighted_card_choice(source, weights: List[int], card_sets: List[List[str]], count: int):
 	"""
 	Take a list of weights and a list of card pools and produce
 	a random weighted sample without replacement.
 	len(weights) == len(card_sets) (one weight per card set)
 	"""
-
-	# special case for single weight (generic random pick)
-	if len(card_sets) == 1:
-		return [source.controller.card(card, source=source) for card in random.sample(card_sets[0], count)]
-
-	# special case for all weights equal
-	if len(set(weights)) == 1:
-		card_set = [j for i in card_sets for j in i]
-		return [source.controller.card(card, source=source) for card in random.sample(card_set, count)]
 
 	chosen_cards = []
 
