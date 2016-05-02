@@ -1,5 +1,6 @@
 import random
 from copy import copy
+from typing import List
 from hearthstone.enums import CardType, Race, Rarity
 from .lazynum import LazyValue
 
@@ -49,7 +50,7 @@ class RandomCardPicker(LazyValue):
 		from .. import cards
 		return cards.filter(**new_filters)
 
-	def evaluate(self, source, cards=None) -> str:
+	def evaluate(self, source, cards: List[str]=None) -> str:
 		"""
 		This picks from a single combined card pool without replacement,
 		weighting each filtered set of cards against the total
@@ -59,7 +60,7 @@ class RandomCardPicker(LazyValue):
 		if cards:
 			# Use specific card list if given
 			self.weights = [1]
-			card_sets = [cards]
+			card_sets = [list(cards)]
 		elif not self.weightedfilters:
 			# Use global filters if no weighted filter sets given
 			self.weights = [1]
