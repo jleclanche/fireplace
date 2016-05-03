@@ -29,7 +29,7 @@ def test_empty_selector():
 
 def test_random_card_picker():
 	picker = RandomCardPicker()
-	ids = picker.cards
+	ids = picker.find_cards()
 	for id in ids:
 		card = Card(id)
 		assert card.type is not CardType.HERO

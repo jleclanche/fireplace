@@ -1,4 +1,5 @@
 import random
+from copy import copy
 from hearthstone.enums import CardType, Race, Rarity
 from .lazynum import LazyValue
 
@@ -6,52 +7,71 @@ from .lazynum import LazyValue
 class RandomCardPicker(LazyValue):
 	"""
 	Store filters and generate a random card matching the filters on pick()
+	Constructor takes a single global set of filters, default weighting of 1
+	Additional weighted filter sets can be added with add(),
+	these will be merged with the global filters
 	"""
-	def __init__(self, *args, **filters):
-		self.args = args
+	def __init__(self, **filters):
+		self.weights = []
+		self.weightedfilters = []
 		self.filters = filters
 		self.count = 1
-		self._cards = None
-		self.lazy_filters = False
-		for v in filters.values():
-			if isinstance(v, LazyValue):
-				self.lazy_filters = True
-				break
 
 	def __repr__(self):
 		return "%s(%r)" % (self.__class__.__name__, self.filters)
 
+	# select number of cards to fetch
 	def __mul__(self, other):
-		ret = self.__class__(*self.args, **self.filters)
+		ret = copy(self)
 		ret.count = other
 		return ret
 
-	@property
-	def cards(self):
-		if self._cards is None:
-			self._cards = self._filter_cards(self.filters)
-		return self._cards
+	# add a filter set
+	def copy_with_weighting(self, weight, **filters):
+		ret = copy(self)
+		ret.weights.append(weight)
+		ret.weightedfilters.append(filters)
+		return ret
 
-	def _filter_cards(self, filters):
-		from .. import cards
-		return cards.filter(**filters)
-
-	def get_cards(self, source):
-		filters = self.filters.copy()
-		# Iterate through the filters, evaluating the LazyValues as we go
-		for k, v in filters.items():
-			if isinstance(v, LazyValue):
-				filters[k] = v.evaluate(source)
-		return self._filter_cards(filters)
-
-	def evaluate(self, source) -> str:
-		if self.lazy_filters:
-			# If the card has lazy filters, we need to evaluate them
-			cards = self.get_cards(source)
+	def find_cards(self, source=None, **filters):
+		"""
+		Generate a card pool with all cards matching specified filters
+		"""
+		if not filters:
+			new_filters = self.filters.copy()
 		else:
-			cards = self.cards
-		ret = random.sample(cards, self.count)
-		return [source.controller.card(card, source=source) for card in ret]
+			new_filters = filters.copy()
+
+		for k, v in new_filters.items():
+			if isinstance(v, LazyValue):
+				new_filters[k] = v.evaluate(source)
+
+		from .. import cards
+		return cards.filter(**new_filters)
+
+	def evaluate(self, source, cards=None) -> str:
+		"""
+		This picks from a single combined card pool without replacement,
+		weighting each filtered set of cards against the total
+		"""
+		from ..utils import weighted_card_choice
+
+		if cards:
+			# Use specific card list if given
+			self.weights = [1]
+			card_sets = [list(cards)]
+		elif not self.weightedfilters:
+			# Use global filters if no weighted filter sets given
+			self.weights = [1]
+			card_sets = [self.find_cards(source)]
+		else:
+			# Otherwise find cards for each set of filters
+			# add the global filters to each set of filters
+			wf = [{ **x, **self.filters } for x in self.weightedfilters]
+			card_sets = [self.find_cards(source, **x) for x in wf]
+
+		# get weighted sample of card pools
+		return weighted_card_choice(source, self.weights, card_sets, self.count)
 
 
 RandomCard = lambda **kw: RandomCardPicker(**kw)
@@ -68,12 +88,14 @@ RandomSparePart = lambda: RandomCardPicker(spare_part=True)
 
 
 class RandomEntourage(RandomCardPicker):
-	def evaluate(self, source, **kwargs):
-		self._cards = source.entourage
-		return super().evaluate(source, **kwargs)
+	def evaluate(self, source):
+		return super().evaluate(source, source.entourage)
 
 
 class RandomID(RandomCardPicker):
-	def evaluate(self, source, **kwargs):
-		self._cards = self.args
-		return super().evaluate(source, **kwargs)
+	def __init__(self, *args):
+		super().__init__()
+		self._cards = args
+
+	def evaluate(self, source):
+		return super().evaluate(source, self._cards)

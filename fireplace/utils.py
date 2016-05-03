@@ -1,6 +1,9 @@
+import random
 import os.path
+from bisect import bisect
 from importlib import import_module
 from pkgutil import iter_modules
+from typing import List
 from xml.etree import ElementTree
 from hearthstone.enums import CardType
 
@@ -61,7 +64,6 @@ def random_draft(hero, exclude=[]):
 	"""
 	Return a deck of 30 random cards from the \a hero's collection
 	"""
-	import random
 	from . import cards
 	from .deck import Deck
 	from hearthstone.enums import CardType, Rarity
@@ -128,3 +130,34 @@ def game_state_to_xml(game):
 		tree.append(e)
 
 	return ElementTree.tostring(tree)
+
+
+def weighted_card_choice(source, weights: List[int], card_sets: List[str], count: int):
+	"""
+	Take a list of weights and a list of card pools and produce
+	a random weighted sample without replacement.
+	len(weights) == len(card_sets) (one weight per card set)
+	"""
+
+	chosen_cards = []
+
+	# sum all the weights
+	cum_weights = []
+	totalweight = 0
+	for i, w in enumerate(weights):
+		totalweight += w * len(card_sets[i])
+		cum_weights.append(totalweight)
+
+	# for each card
+	for i in range(count):
+		# choose a set according to weighting
+		chosen_set = bisect(cum_weights, random.random() * totalweight)
+
+		# choose a random card from that set
+		chosen_card_index = random.randint(0, len(card_sets[chosen_set]) - 1)
+
+		chosen_cards.append(card_sets[chosen_set].pop(chosen_card_index))
+		totalweight -= weights[chosen_set]
+		cum_weights[chosen_set:] = [x - weights[chosen_set] for x in cum_weights[chosen_set:]]
+
+	return [source.controller.card(card, source=source) for card in chosen_cards]
