@@ -84,3 +84,12 @@ def test_silithid_swarmer():
 	assert game.player2.hero.health == 30 - 1 - 3
 	assert not silithid.cant_attack
 	assert not silithid.can_attack()
+
+
+def test_thistle_tea():
+	game = prepare_game()
+	game.player1.discard_hand()
+	tea = game.player1.give("OG_073")
+	tea.play()
+	assert len(game.player1.hand) == 3
+	assert game.player1.hand[0] == game.player1.hand[1] == game.player1.hand[2]
