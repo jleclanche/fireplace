@@ -279,6 +279,28 @@ def test_discard_enchanted_cards():
 	assert not game.player1.hand
 
 
+def test_discover():
+	# TODO: use different classes for each player and force player 1 to go first
+	game = prepare_empty_game(CardClass.PRIEST, CardClass.PRIEST)
+
+	# Museum Curator
+	assert game.player1.choice == None
+	curator = game.player1.give("LOE_006")
+	curator.play()
+	assert not game.player1.choice == None
+	assert len(game.player1.choice.cards) == 3
+
+	for card in game.player1.choice.cards:
+		assert (fireplace.cards.db[card].card_class == CardClass.NEUTRAL
+				or fireplace.cards.db[card].card_class == CardClass.PRIEST)
+		assert fireplace.cards.db[card].deathrattle == True
+
+	choice = random.choice(game.player1.choice.cards)
+	game.player1.choice.choose(choice)
+	assert game.player1.choice == None
+	assert len(game.player1.hand) == 1
+
+
 def test_divine_shield():
 	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
 	squire = game.player1.give("EX1_008")

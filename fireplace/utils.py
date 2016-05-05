@@ -92,6 +92,10 @@ def random_draft(card_class: CardClass, exclude=[]):
 	return deck
 
 
+def random_class():
+	return CardClass(random.randint(2, 10))
+
+
 def get_script_definition(id):
 	"""
 	Find and return the script definition for card \a id

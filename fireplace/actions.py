@@ -1,10 +1,11 @@
 from collections import OrderedDict
 from inspect import isclass
-from hearthstone.enums import CardType, Mulligan, PlayState, Step, Zone
+from hearthstone.enums import CardType, CardClass, Mulligan, PlayState, Step, Zone
 from .dsl import LazyNum, LazyValue, Selector
 from .entity import Entity
 from .logging import log
 from .exceptions import InvalidAction
+from .utils import random_class
 
 
 def _eval_card(source, card):
@@ -748,9 +749,22 @@ class Discover(TargetedAction):
 	CARDS = CardArg()
 
 	def get_target_args(self, source, target):
+		if target.hero.data.card_class != CardClass.NEUTRAL:
+			# use hero class for Discover if not neutral (eg. Ragnaros)
+			discover_class = target.hero.data.card_class
+		elif source.data.card_class != CardClass.NEUTRAL:
+			# use card class for neutral hero classes
+			discover_class = source.data.card_class
+		else:
+			# use random class for neutral hero classes with neutral cards
+			discover_class = random_class()
+
 		picker = self._args[1] * 3
-		cards = picker.evaluate(source)
-		return [[target.card(card) for card in cards]]
+		picker = picker.copy_with_weighting(1, card_class=CardClass.NEUTRAL)
+		picker = picker.copy_with_weighting(4, card_class=discover_class)
+		pickedcards = picker.evaluate(source)
+
+		return [[target.card(card) for card in pickedcards]]
 
 	def do(self, source, target, cards):
 		log.info("%r discovers %r for %s", source, cards, target)
