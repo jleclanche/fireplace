@@ -67,6 +67,24 @@ def test_forlorn_stalker():
 	assert wisp.atk == wisp.health == 1
 
 
+def test_hallazeal_the_ascended():
+	game = prepare_game()
+	hallazeal = game.player1.give("OG_209")
+	hallazeal.play()
+	game.player1.hero.set_current_health(1)
+	game.end_turn(); game.end_turn()
+
+	moonfire = game.player1.give(MOONFIRE)
+	moonfire.play(target=game.player2.hero)
+	assert game.player1.hero.health == 1 + 1
+	assert game.player2.hero.health == 30 - 1
+	game.player1.give(KOBOLD_GEOMANCER).play()
+	fireball = game.player1.give("CS2_029")
+	fireball.play(target=hallazeal)
+	assert game.player1.hero.health == 1 + 1 + 7
+	assert hallazeal.dead
+
+
 def test_silithid_swarmer():
 	game = prepare_game(ROGUE, ROGUE)
 	silithid = game.player1.give("OG_034")
