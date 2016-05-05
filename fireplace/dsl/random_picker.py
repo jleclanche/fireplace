@@ -23,13 +23,17 @@ class RandomCardPicker(LazyValue):
 	# select number of cards to fetch
 	def __mul__(self, other):
 		ret = copy(self)
+		ret.weight = list(self.weights)
+		ret.weightedfilters = list(self.weightedfilters)
 		ret.count = other
 		return ret
 
 	# add a filter set
 	def copy_with_weighting(self, weight, **filters):
 		ret = copy(self)
+		ret.weights = list(self.weights)
 		ret.weights.append(weight)
+		ret.weightedfilters = list(self.weightedfilters)
 		ret.weightedfilters.append(filters)
 		return ret
 
