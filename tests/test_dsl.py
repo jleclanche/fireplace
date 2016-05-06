@@ -1,6 +1,8 @@
 #!/usr/bin/env python
+import pytest
 from utils import *
 from fireplace.dsl import *
+from fireplace.exceptions import *
 from fireplace.card import Card
 
 
@@ -189,3 +191,11 @@ def test_positional_selectors():
 	assert len(adjacent) == 2
 	assert adjacent[0] is wisp2
 	assert adjacent[1] is wisp3
+
+
+def test_hijack():
+	game = prepare_game()
+	vial = game.player1.give("LOEA16_8")
+	with hijacked(RANDOM_ENEMY_MINION, FRIENDLY_HERO):
+		with pytest.raises(GameOver):
+			vial.play()
