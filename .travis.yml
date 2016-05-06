@@ -7,10 +7,13 @@ cache:
   directories:
     - $HOME/.pip-cache/
     - $HOME/virtualenv/python3.5
-script:
-  # Travis will automatically detect requirements.txt and run pip install
+install:
+  - pip install -r requirements.txt
+  - pip install pytest-benchmark
   - ./setup.py install
+script:
   - py.test
+  - py.test tests/benchmarks.py
 notifications:
   email:
     on_failure: always
