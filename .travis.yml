@@ -10,7 +10,7 @@ cache:
 script:
   # Travis will automatically detect requirements.txt and run pip install
   - ./setup.py install
-  - py.test
+  - py.test --benchmark-max-time=0.5
 notifications:
   email:
     on_failure: always
