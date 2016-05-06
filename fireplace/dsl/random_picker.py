@@ -1,5 +1,5 @@
 import random
-from copy import copy
+from copy import copy, deepcopy
 from hearthstone.enums import CardType, Race, Rarity
 from .lazynum import LazyValue
 
@@ -20,20 +20,30 @@ class RandomCardPicker(LazyValue):
 	def __repr__(self):
 		return "%s(%r)" % (self.__class__.__name__, self.filters)
 
+	def clone(self, memo):
+		# deepcopy functionality is here because parent __deepcopy__ is
+		# difficult to call from subclasses
+		ret = copy(self)
+		ret.weights = list(self.weights)
+		ret.filters = deepcopy(self.filters, memo)
+		ret.weightedfilters = deepcopy(self.weightedfilters, memo)
+		ret.count = self.count
+
+		return ret
+
+	def __deepcopy__(self, memo):
+		return self.clone(memo)
+
 	# select number of cards to fetch
 	def __mul__(self, other):
-		ret = copy(self)
-		ret.weight = list(self.weights)
-		ret.weightedfilters = list(self.weightedfilters)
+		ret = deepcopy(self)
 		ret.count = other
 		return ret
 
 	# add a filter set
 	def copy_with_weighting(self, weight, **filters):
-		ret = copy(self)
-		ret.weights = list(self.weights)
+		ret = deepcopy(self)
 		ret.weights.append(weight)
-		ret.weightedfilters = list(self.weightedfilters)
 		ret.weightedfilters.append(filters)
 		return ret
 
@@ -100,6 +110,11 @@ class RandomID(RandomCardPicker):
 	def __init__(self, *args):
 		super().__init__()
 		self._cards = args
+
+	def clone(self, memo):
+		ret = super().clone(memo)
+		ret._cards = deepcopy(self._cards, memo)
+		return ret
 
 	def evaluate(self, source):
 		return super().evaluate(source, self._cards)
