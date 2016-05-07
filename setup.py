@@ -4,8 +4,10 @@ import os.path
 import fireplace
 from setuptools import setup, find_packages
 
-
-README = open(os.path.join(os.path.dirname(__file__), "README.md")).read()
+_basedir = os.path.dirname(__file__)
+README = open(os.path.join(_basedir, "README.md")).read()
+with open(os.path.join(_basedir, "requirements.txt")) as f:
+	requirements = f.read().splitlines()
 
 CLASSIFIERS = [
 	"Development Status :: 2 - Pre-Alpha",
@@ -17,12 +19,15 @@ CLASSIFIERS = [
 	"Topic :: Games/Entertainment :: Simulation",
 ]
 
+tests_require = ["pytest"]
 
 setup(
 	name="fireplace",
 	version=fireplace.__version__,
 	packages=find_packages(exclude="tests"),
-	tests_require=["pytest"],
+	install_requires=requirements,
+	tests_require=[tests_require],
+	extras_require={"tests": tests_require},
 	author=fireplace.__author__,
 	author_email=fireplace.__email__,
 	description="Pure-python Hearthstone re-implementation and simulator",
