@@ -221,7 +221,7 @@ class SetOpSelector(Selector):
 
 	def __repr__(self):
 		name = self.op.__name__
-		if name == "add_":
+		if name == "and_":
 			infix = "+"
 		elif name == "or_":
 			infix = "|"
