@@ -2,7 +2,7 @@ from itertools import chain
 from hearthstone.enums import CardType, PlayReq, PlayState, Race, Rarity, Step, Zone
 from . import actions, cards, rules
 from .aura import TargetableByAuras
-from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
+from .entity import BaseEntity, Entity, BooleanProperty, IntProperty, SlotProperty
 from .managers import CardManager
 from .targeting import is_valid_target
 from .utils import CardList
@@ -108,6 +108,7 @@ class BaseCard(BaseEntity):
 		Card that buffs the target becomes the controller of the buff.
 		"""
 		ret = self.controller.card(buff, self)
+		assert isinstance(ret, Enchantment)
 		ret.source = self
 		ret.apply(target)
 		for k, v in kwargs.items():
@@ -126,7 +127,7 @@ class BaseCard(BaseEntity):
 
 
 class PlayableCard(BaseCard, Entity, TargetableByAuras):
-	windfury = int_property("windfury")
+	windfury = IntProperty()
 	playable_zone = Zone.HAND
 
 	def __init__(self, data):
@@ -162,7 +163,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 	@cost.setter
 	def cost(self, value):
-		self._cost = value
+		setattr(self, '!cost', value)
 
 	@property
 	def must_choose_one(self):
@@ -332,12 +333,12 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 
 class LiveEntity(PlayableCard, Entity):
-	has_deathrattle = boolean_property("has_deathrattle")
-	atk = int_property("atk")
-	cant_be_damaged = boolean_property("cant_be_damaged")
-	immune_while_attacking = slot_property("immune_while_attacking")
-	incoming_damage_multiplier = int_property("incoming_damage_multiplier")
-	max_health = int_property("max_health")
+	has_deathrattle = BooleanProperty()
+	atk = IntProperty()
+	cant_be_damaged = BooleanProperty()
+	immune_while_attacking = SlotProperty()
+	incoming_damage_multiplier = IntProperty()
+	max_health = IntProperty()
 
 	def __init__(self, data):
 		super().__init__(data)
@@ -408,13 +409,13 @@ class LiveEntity(PlayableCard, Entity):
 
 class Character(LiveEntity):
 	health_attribute = "health"
-	cant_attack = boolean_property("cant_attack")
-	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
-	cant_be_targeted_by_abilities = boolean_property("cant_be_targeted_by_abilities")
-	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
-	heavily_armored = boolean_property("heavily_armored")
-	min_health = boolean_property("min_health")
-	taunt = boolean_property("taunt")
+	cant_attack = BooleanProperty()
+	cant_be_targeted_by_opponents = BooleanProperty()
+	cant_be_targeted_by_abilities = BooleanProperty()
+	cant_be_targeted_by_hero_powers = BooleanProperty()
+	heavily_armored = BooleanProperty()
+	min_health = BooleanProperty()
+	taunt = BooleanProperty()
 
 	def __init__(self, data):
 		self.frozen = False
@@ -508,6 +509,8 @@ class Character(LiveEntity):
 
 
 class Hero(Character):
+	atk = IntProperty(eager=True)
+
 	def __init__(self, data):
 		self.armor = 0
 		self.power = None
@@ -560,10 +563,10 @@ class Hero(Character):
 
 
 class Minion(Character):
-	charge = boolean_property("charge")
-	has_inspire = boolean_property("has_inspire")
-	spellpower = int_property("spellpower")
-	stealthed = boolean_property("stealthed")
+	charge = BooleanProperty()
+	has_inspire = BooleanProperty()
+	spellpower = IntProperty()
+	stealthed = BooleanProperty()
 
 	silenceable_attributes = (
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
@@ -725,12 +728,14 @@ class Secret(Spell):
 
 
 class Enchantment(BaseCard):
-	atk = int_property("atk")
-	cost = int_property("cost")
-	has_deathrattle = boolean_property("has_deathrattle")
-	incoming_damage_multiplier = int_property("incoming_damage_multiplier")
-	max_health = int_property("max_health")
-	spellpower = int_property("spellpower")
+	is_enchantment = True
+
+	atk = IntProperty()
+	cost = IntProperty()
+	has_deathrattle = BooleanProperty()
+	incoming_damage_multiplier = IntProperty()
+	max_health = IntProperty()
+	spellpower = IntProperty()
 
 	buffs = []
 	slots = []
@@ -753,12 +758,13 @@ class Enchantment(BaseCard):
 		return ret
 
 	def _getattr(self, attr, i):
-		i += getattr(self, "_" + attr, 0)
+		i += getattr(self, "!" + attr, 0)
 		return getattr(self.data.scripts, attr, lambda s, x: x)(self, i)
 
 	def _set_zone(self, zone):
 		if zone == Zone.PLAY:
 			self.owner.buffs.append(self)
+			self.owner.calculate_buffs()
 		elif zone == Zone.REMOVEDFROMGAME:
 			if self.zone == zone:
 				# Can happen if a Destroy is queued after a bounce, for example
@@ -767,6 +773,7 @@ class Enchantment(BaseCard):
 			self.owner.buffs.remove(self)
 			if self in self.game.active_aura_buffs:
 				self.game.active_aura_buffs.remove(self)
+			self.owner.calculate_buffs()
 		super()._set_zone(zone)
 
 	def apply(self, target):
@@ -820,7 +827,7 @@ class Weapon(rules.WeaponRules, LiveEntity):
 
 
 class HeroPower(PlayableCard):
-	additional_activations = int_property("additional_activations")
+	additional_activations = IntProperty()
 	playable_zone = Zone.PLAY
 
 	def __init__(self, data):

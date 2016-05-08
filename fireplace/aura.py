@@ -7,9 +7,20 @@ class AuraBuff:
 		self.source = source
 		self.entity = entity
 		self.tags = CardManager(self)
+		self.recalc = set()
 
 	def __repr__(self):
 		return "<AuraBuff %r -> %r>" % (self.source, self.entity)
+
+	def __setattr__(self, k, v):
+		from .entity import CalculatedProperty
+		object.__setattr__(self, k, v)
+		if not hasattr(self, 'entity'):
+			return
+		prop = self.entity.properties.get(k)
+		if isinstance(prop, CalculatedProperty):
+			prop.recalculate(self.entity)
+			self.recalc.add(prop)
 
 	def update_tags(self, tags):
 		self.tags.update(tags)
@@ -19,6 +30,8 @@ class AuraBuff:
 		log.info("Destroying %r", self)
 		self.entity.slots.remove(self)
 		self.source.game.active_aura_buffs.remove(self)
+		for prop in self.recalc:
+			prop.recalculate(self.entity)
 
 	def _getattr(self, attr, i):
 		value = getattr(self, attr, 0)
@@ -75,6 +88,6 @@ class TargetableByAuras:
 		else:
 			buff = AuraBuff(source, self)
 			log.info("Creating %r", buff)
-			buff.update_tags(tags)
 			self.slots.append(buff)
+			buff.update_tags(tags)
 			source.game.active_aura_buffs.append(buff)

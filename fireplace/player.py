@@ -6,23 +6,23 @@ from .aura import TargetableByAuras
 from .card import Card
 from .deck import Deck
 from .entity import Entity
-from .entity import slot_property
+from .entity import SlotProperty
 from .managers import PlayerManager
 from .utils import CardList
 
 
 class Player(Entity, TargetableByAuras):
 	Manager = PlayerManager
-	cant_overload = slot_property("cant_overload")
-	extra_battlecries = slot_property("extra_battlecries")
-	extra_deathrattles = slot_property("extra_deathrattles")
-	healing_double = slot_property("healing_double", sum)
-	hero_power_double = slot_property("hero_power_double", sum)
-	healing_as_damage = slot_property("healing_as_damage")
-	shadowform = slot_property("shadowform")
-	spellpower_double = slot_property("spellpower_double", sum)
-	spellpower_adjustment = slot_property("spellpower", sum)
-	spells_cost_health = slot_property("spells_cost_health")
+	cant_overload = SlotProperty()
+	extra_battlecries = SlotProperty()
+	extra_deathrattles = SlotProperty()
+	healing_double = SlotProperty(sum)
+	hero_power_double = SlotProperty(sum)
+	healing_as_damage = SlotProperty()
+	shadowform = SlotProperty()
+	spellpower_double = SlotProperty(sum)
+	spellpower_adjustment = SlotProperty(sum)
+	spells_cost_health = SlotProperty()
 	type = CardType.PLAYER
 
 	def __init__(self, name, deck, hero):
