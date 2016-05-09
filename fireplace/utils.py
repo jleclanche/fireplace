@@ -1,4 +1,5 @@
 import random
+import time
 import os.path
 from bisect import bisect
 from importlib import import_module
@@ -177,6 +178,8 @@ def play_full_game():
 	game = Game(players=(player1, player2))
 	game.start()
 
+	start = time.time()
+
 	for player in game.players:
 		print("Can mulligan %r" % (player.choice.cards))
 		mull_count = random.randint(0, len(player.choice.cards))
@@ -187,6 +190,8 @@ def play_full_game():
 		play_full_game_turn_loop(game)
 	except GameOver:
 		print("Game completed normally.")
+
+	game.runtime = time.time() - start
 
 	return game
 
