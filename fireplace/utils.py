@@ -5,6 +5,7 @@ from importlib import import_module
 from pkgutil import iter_modules
 from typing import List
 from xml.etree import ElementTree
+from fireplace.exceptions import GameOver
 from hearthstone.enums import CardType
 
 
@@ -182,6 +183,15 @@ def play_full_game():
 		cards_to_mulligan = random.sample(player.choice.cards, mull_count)
 		player.choice.choose(*cards_to_mulligan)
 
+	try:
+		play_full_game_turn_loop(game)
+	except GameOver:
+		print("Game completed normally.")
+
+	return game
+
+
+def play_full_game_turn_loop(game):
 	while True:
 		player = game.current_player
 
