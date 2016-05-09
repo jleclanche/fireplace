@@ -5,6 +5,7 @@ from importlib import import_module
 from pkgutil import iter_modules
 from typing import List
 from xml.etree import ElementTree
+from fireplace.exceptions import GameOver
 from hearthstone.enums import CardType
 
 
@@ -163,7 +164,7 @@ def weighted_card_choice(source, weights: List[int], card_sets: List[str], count
 	return [source.controller.card(card, source=source) for card in chosen_cards]
 
 
-def play_full_game():
+def play_full_game(output=True):
 	from .cards.heroes import MAGE, WARRIOR
 	from .game import Game
 	from .player import Player
@@ -177,11 +178,22 @@ def play_full_game():
 	game.start()
 
 	for player in game.players:
-		print("Can mulligan %r" % (player.choice.cards))
+		if (output):
+			print("Can mulligan %r" % (player.choice.cards))
 		mull_count = random.randint(0, len(player.choice.cards))
 		cards_to_mulligan = random.sample(player.choice.cards, mull_count)
 		player.choice.choose(*cards_to_mulligan)
 
+	try:
+		play_full_game_turn_loop(game, output)
+	except GameOver:
+		if (output):
+			print("Game completed normally.")
+
+	return game
+
+
+def play_full_game_turn_loop(game, output=True):
 	while True:
 		player = game.current_player
 
@@ -201,12 +213,14 @@ def play_full_game():
 					card = random.choice(card.choose_cards)
 				if card.has_target():
 					target = random.choice(card.targets)
-				print("Playing %r on %r" % (card, target))
+				if (output):
+					print("Playing %r on %r" % (card, target))
 				card.play(target=target)
 
 				if player.choice:
 					choice = random.choice(player.choice.cards)
-					print("Choosing card %r" % (choice))
+					if (output):
+						print("Choosing card %r" % (choice))
 					player.choice.choose(choice)
 
 				continue
