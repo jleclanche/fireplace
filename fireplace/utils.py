@@ -163,7 +163,7 @@ def weighted_card_choice(source, weights: List[int], card_sets: List[str], count
 	return [source.controller.card(card, source=source) for card in chosen_cards]
 
 
-def play_full_game():
+def setup_game() -> ".game.Game":
 	from .cards.heroes import MAGE, WARRIOR
 	from .game import Game
 	from .player import Player
@@ -176,15 +176,13 @@ def play_full_game():
 	game = Game(players=(player1, player2))
 	game.start()
 
-	for player in game.players:
-		print("Can mulligan %r" % (player.choice.cards))
-		mull_count = random.randint(0, len(player.choice.cards))
-		cards_to_mulligan = random.sample(player.choice.cards, mull_count)
-		player.choice.choose(*cards_to_mulligan)
+	return game
+
+
+def play_turn(game: ".game.Game") -> ".game.Game":
+	player = game.current_player
 
 	while True:
-		player = game.current_player
-
 		heropower = player.hero.power
 		if heropower.is_usable() and random.random() < 0.1:
 			if heropower.has_target():
@@ -215,6 +213,23 @@ def play_full_game():
 		for character in player.characters:
 			if character.can_attack():
 				character.attack(random.choice(character.targets))
-			continue
 
-		game.end_turn()
+		break
+
+	game.end_turn()
+	return game
+
+
+def play_full_game() -> ".game.Game":
+	game = setup_game()
+
+	for player in game.players:
+		print("Can mulligan %r" % (player.choice.cards))
+		mull_count = random.randint(0, len(player.choice.cards))
+		cards_to_mulligan = random.sample(player.choice.cards, mull_count)
+		player.choice.choose(*cards_to_mulligan)
+
+	while True:
+		play_turn(game)
+
+	return game
