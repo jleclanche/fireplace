@@ -1,6 +1,8 @@
 from full_game import test_full_game
 from utils import *
 
+ARBITRARY_SEED = 1857
+
 
 def run_selector(game, alex):
 	selector = PIRATE | DRAGON + MINION
@@ -20,6 +22,10 @@ def test_selectors(benchmark):
 	benchmark(run_selector, game, alex)
 
 
+def seeded_fullgame():
+	random.seed(ARBITRARY_SEED)
+	test_full_game()
+
+
 def test_fullgame(benchmark):
-	random.seed(1857)
-	benchmark(test_full_game)
+	benchmark(seeded_fullgame)
