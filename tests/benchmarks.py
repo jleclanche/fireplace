@@ -1,3 +1,4 @@
+import pytest
 from full_game import test_full_game
 from utils import *
 
@@ -14,6 +15,9 @@ def run_selector(game, alex):
 	assert targets[0] == alex
 
 
+@pytest.mark.benchmark(
+	group="selector"
+)
 def test_selectors(benchmark):
 	game = prepare_game()
 	game.player1.discard_hand()
@@ -27,5 +31,9 @@ def seeded_fullgame():
 	test_full_game()
 
 
+@pytest.mark.benchmark(
+	group="fullgame",
+	min_rounds=50
+)
 def test_fullgame(benchmark):
 	benchmark(seeded_fullgame)
