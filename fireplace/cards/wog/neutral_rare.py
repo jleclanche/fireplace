@@ -11,6 +11,11 @@ class OG_034:
 	)
 
 
+# Corrupted Healbot
+class OG_147:
+	deathrattle = Heal(ENEMY_HERO, 8)
+
+
 # Tentacle of N'Zoth
 class OG_151:
 	deathrattle = Hit(ALL_MINIONS, 1)
