@@ -8,6 +8,8 @@ Note that py.test will skip these by default. To run (with pytest-benchmark inst
 To increase the number of iterations, set --benchmark-min-rounds.
 """
 
+import sys; sys.path.append("..")
+import fireplace.utils
 import pytest
 from full_game import test_full_game
 from utils import *
@@ -47,3 +49,11 @@ def seeded_fullgame():
 )
 def test_fullgame(benchmark):
 	benchmark(seeded_fullgame)
+
+
+@pytest.mark.benchark(
+	group="turn"
+)
+def test_singleturn(benchmark):
+	benchmark.weave(fireplace.utils.play_turn, lazy=True)
+	seeded_fullgame()

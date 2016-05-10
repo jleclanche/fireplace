@@ -19,7 +19,7 @@ CLASSIFIERS = [
 	"Topic :: Games/Entertainment :: Simulation",
 ]
 
-tests_require = ["pytest", "pytest-benchmark"]
+tests_require = ["pytest", "pytest-benchmark[aspect]"]
 
 setup(
 	name="fireplace",

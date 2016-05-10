@@ -8,7 +8,7 @@ cache:
     - $HOME/.pip-cache/
     - $HOME/virtualenv/python3.5
 install:
-  - pip install .[tests] pytest-benchmark
+  - pip install .[tests] pytest-benchmark[aspect]
 script:
   - py.test
   - py.test tests/benchmarks.py
