@@ -1,3 +1,13 @@
+"""
+Fireplace micro-benchmarks.
+
+Note that py.test will skip these by default. To run (with pytest-benchmark installed):
+
+	py.test fireplace/benchmarks.py
+
+To increase the number of iterations, set --benchmark-min-rounds.
+"""
+
 import pytest
 from full_game import test_full_game
 from utils import *
