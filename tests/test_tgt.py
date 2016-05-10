@@ -481,6 +481,17 @@ def test_master_of_ceremonies_enemy_jungle_moonkin():
 	assert master.health == 2
 
 
+def test_the_mistcaller():
+	game = prepare_empty_game()
+	wisp1 = game.player1.give(WISP)
+	wisp2 = game.player1.give(WISP)
+	wisp2.shuffle_into_deck()
+	mistcaller = game.player1.give("AT_054")
+	mistcaller.play()
+	assert mistcaller.atk == mistcaller.health == 4
+	assert wisp1.atk == wisp2.atk == wisp1.health == wisp2.health == 1 + 1
+
+
 def test_power_word_glory():
 	game = prepare_game()
 	wisp1 = game.player1.give(WISP)
