@@ -415,7 +415,6 @@ def test_lock_and_load():
 	game.player1.give(THE_COIN).play()
 	assert len(game.player1.hand) == 1
 	lockandload.play()
-	assert game.player1.hero.buffs
 	assert len(game.player1.hand) == 0
 	game.player1.give(THE_COIN).play()
 	assert len(game.player1.hand) == 1

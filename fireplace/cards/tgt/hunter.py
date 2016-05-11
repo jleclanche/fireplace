@@ -47,7 +47,7 @@ class AT_056:
 
 class AT_061:
 	"Lock and Load"
-	play = Buff(FRIENDLY_HERO, "AT_061e")
+	play = Buff(CONTROLLER, "AT_061e")
 
 class AT_061e:
 	events = OWN_SPELL_PLAY.on(
