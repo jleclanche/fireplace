@@ -7,26 +7,26 @@ from ..utils import *
 ##
 # Hero Powers
 
-# Shotgun Blast
 class TU4d_003:
+	"Shotgun Blast"
 	activate = Hit(TARGET, 1)
 
 
-# Flames of Azzinoth
 class TU4e_002:
+	"Flames of Azzinoth"
 	activate = Summon(CONTROLLER, "TU4e_002t") * 2
 
 
 ##
 # Minions
 
-# Barrel (Unused)
 class TU4c_003:
+	"Barrel (Unused)"
 	deathrattle = Summon(OPPONENT, "TU4c_005")
 
 
-# Crazy Monkey
 class TU4f_007:
+	"Crazy Monkey"
 	play = Give(OPPONENT, "TU4c_006")
 
 class TU4c_006:
@@ -39,43 +39,43 @@ TU4c_006e = buff(+1, +1)
 ##
 # Spells
 
-# Hogger SMASH!
 class TU4a_004:
+	"Hogger SMASH!"
 	play = Hit(TARGET, 4)
 
 
-# Barrel Toss
 class TU4c_002:
+	"Barrel Toss"
 	play = Hit(TARGET, 2)
 
 
-# Stomp
 class TU4c_004:
+	"Stomp"
 	play = Hit(ENEMY_CHARACTERS, 2)
 
 
-# Will of Mukla
 class TU4c_008:
+	"Will of Mukla"
 	play = Heal(FRIENDLY_HERO, 8)
 
 # Might of Mukla (Unused)
 TU4c_008e = buff(atk=8)
 
 
-# Flame Burst
 class TU4e_005:
+	"Flame Burst"
 	play = Hit(RANDOM_ENEMY_CHARACTER, 1) * 5
 
 
-# Legacy of the Emperor
 class TU4f_004:
+	"Legacy of the Emperor"
 	play = Buff(FRIENDLY_MINIONS, "TU4f_004o")
 
 TU4f_004o = buff(+2, +2)
 
 
-# Transcendence
 class TU4f_006:
+	"Transcendence"
 	play = Buff(FRIENDLY_HERO, "TU4f_006o")
 
 class TU4f_006o:

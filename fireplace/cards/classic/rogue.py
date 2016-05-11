@@ -4,8 +4,8 @@ from ..utils import *
 ##
 # Rogue
 
-# Dagger Mastery
 class CS2_083b:
+	"Dagger Mastery"
 	activate = Find(FRIENDLY_WEAPON + ID("AT_034")) | Summon(CONTROLLER, "CS2_082")
 
 # Sharpened (Unused)
@@ -15,34 +15,34 @@ CS2_083e = buff(atk=1)
 ##
 # Minions
 
-# Defias Ringleader
 class EX1_131:
+	"Defias Ringleader"
 	combo = Summon(CONTROLLER, "EX1_131t")
 
 
-# SI:7 Agent
 class EX1_134:
+	"SI:7 Agent"
 	combo = Hit(TARGET, 2)
 
 
-# Edwin VanCleef
 class EX1_613:
+	"Edwin VanCleef"
 	combo = Buff(SELF, "EX1_613e") * Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
 
 EX1_613e = buff(+2, +2)
 
 
-# Kidnapper
 class NEW1_005:
+	"Kidnapper"
 	combo = Bounce(TARGET)
 
 
-# Master of Disguise
 class NEW1_014:
+	"Master of Disguise"
 	play = Buff(TARGET - STEALTH, "NEW1_014e")
 
-# Disguised
 class NEW1_014e:
+	"Disguised"
 	tags = {GameTag.STEALTH: True}
 	events = OWN_TURN_BEGIN.on(Unstealth(OWNER), Destroy(SELF))
 
@@ -50,13 +50,13 @@ class NEW1_014e:
 ##
 # Spells
 
-# Backstab
 class CS2_072:
+	"Backstab"
 	play = Hit(TARGET, 2)
 
 
-# Cold Blood
 class CS2_073:
+	"Cold Blood"
 	play = Buff(TARGET, "CS2_073e")
 	combo = Buff(TARGET, "CS2_073e2")
 
@@ -64,46 +64,46 @@ CS2_073e = buff(atk=2)
 CS2_073e2 = buff(atk=4)
 
 
-# Deadly Poison
 class CS2_074:
+	"Deadly Poison"
 	play = Buff(FRIENDLY_WEAPON, "CS2_074e")
 
 CS2_074e = buff(atk=2)
 
 
-# Sinister Strike
 class CS2_075:
+	"Sinister Strike"
 	play = Hit(ENEMY_HERO, 3)
 
 
-# Assassinate
 class CS2_076:
+	"Assassinate"
 	play = Destroy(TARGET)
 
 
-# Sprint
 class CS2_077:
+	"Sprint"
 	play = Draw(CONTROLLER) * 4
 
 
-# Blade Flurry
 class CS2_233:
+	"Blade Flurry"
 	play = Hit(ENEMY_MINIONS, ATK(FRIENDLY_WEAPON)), Destroy(FRIENDLY_WEAPON)
 
 
-# Eviscerate
 class EX1_124:
+	"Eviscerate"
 	play = Hit(TARGET, 2)
 	combo = Hit(TARGET, 4)
 
 
-# Betrayal
 class EX1_126:
+	"Betrayal"
 	play = Hit(SELF_ADJACENT, ATK(SELF), source=TARGET)
 
 
-# Conceal
 class EX1_128:
+	"Conceal"
 	play = (
 		Buff(FRIENDLY_MINIONS - STEALTH, "EX1_128e"),
 		Stealth(FRIENDLY_MINIONS),
@@ -113,19 +113,19 @@ class EX1_128e:
 	events = OWN_TURN_BEGIN.on(Unstealth(OWNER), Destroy(SELF))
 
 
-# Fan of Knives
 class EX1_129:
+	"Fan of Knives"
 	play = Hit(ENEMY_MINIONS, 1), Draw(CONTROLLER)
 
 
-# Headcrack
 class EX1_137:
+	"Headcrack"
 	play = Hit(ENEMY_HERO, 2)
 	combo = (play, TURN_END.on(Give(CONTROLLER, "EX1_137")))
 
 
-# Shadowstep
 class EX1_144:
+	"Shadowstep"
 	play = Bounce(TARGET), Buff(TARGET, "EX1_144e")
 
 @custom_card
@@ -138,8 +138,8 @@ class EX1_144e:
 	events = REMOVED_IN_PLAY
 
 
-# Preparation
 class EX1_145:
+	"Preparation"
 	play = Buff(FRIENDLY_HERO, "EX1_145o")
 
 class EX1_145o:
@@ -147,25 +147,25 @@ class EX1_145o:
 	events = OWN_SPELL_PLAY.on(Destroy(SELF))
 
 
-# Shiv
 class EX1_278:
+	"Shiv"
 	play = Hit(TARGET, 1), Draw(CONTROLLER)
 
 
-# Sap
 class EX1_581:
+	"Sap"
 	play = Bounce(TARGET)
 
 
-# Vanish
 class NEW1_004:
+	"Vanish"
 	play = Bounce(ALL_MINIONS)
 
 
 ##
 # Weapons
 
-# Perdition's Blace
 class EX1_133:
+	"Perdition's Blade"
 	play = Hit(TARGET, 1)
 	combo = Hit(TARGET, 2)

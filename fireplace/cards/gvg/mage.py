@@ -4,37 +4,37 @@ from ..utils import *
 ##
 # Minions
 
-# Snowchugger
 class GVG_002:
+	"Snowchugger"
 	events = Damage(CHARACTER, None, SELF).on(Freeze(Damage.TARGET))
 
 
-# Goblin Blastmage
 class GVG_004:
+	"Goblin Blastmage"
 	powered_up = Find(FRIENDLY_MINIONS + MECH)
 	play = powered_up & Hit(RANDOM_ENEMY_CHARACTER, 1) * 4
 
 
-# Flame Leviathan
 class GVG_007:
+	"Flame Leviathan"
 	draw = Hit(ALL_CHARACTERS, 2)
 
 
-# Illuminator
 class GVG_089:
+	"Illuminator"
 	events = OWN_TURN_END.on(Find(FRIENDLY_SECRETS) & Heal(FRIENDLY_HERO, 4))
 
 
 ##
 # Spells
 
-# Flamecannon
 class GVG_001:
+	"Flamecannon"
 	play = Hit(RANDOM_ENEMY_MINION, 4)
 
 
-# Unstable Portal
 class GVG_003:
+	"Unstable Portal"
 	play = Give(CONTROLLER, RandomMinion()).then(Buff(Give.CARD, "GVG_003e"))
 
 @custom_card
@@ -48,6 +48,6 @@ class GVG_003e:
 	events = REMOVED_IN_PLAY
 
 
-# Echo of Medivh
 class GVG_005:
+	"Echo of Medivh"
 	play = Give(CONTROLLER, Copy(FRIENDLY_MINIONS))

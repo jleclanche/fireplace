@@ -4,8 +4,8 @@ from ..utils import *
 ##
 # Minions
 
-# Saboteur
 class AT_086:
+	"Saboteur"
 	play = Buff(OPPONENT, "AT_086e")
 
 class AT_086e:
@@ -13,45 +13,45 @@ class AT_086e:
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
 
 
-# Mogor's Champion
 class AT_088:
+	"Mogor's Champion"
 	events = FORGETFUL
 
 
-# Injured Kvaldir
 class AT_105:
+	"Injured Kvaldir"
 	play = Hit(SELF, 3)
 
 
-# Light's Champion
 class AT_106:
+	"Light's Champion"
 	play = Silence(TARGET)
 
 
-# Armored Warhorse
 class AT_108:
+	"Armored Warhorse"
 	play = JOUST & GiveCharge(SELF)
 
 
-# Argent Watchman
 class AT_109:
+	"Argent Watchman"
 	inspire = Buff(SELF, "AT_109e")
 
 AT_109e = buff(cant_attack=False)
 
 
-# Coliseum Manager
 class AT_110:
+	"Coliseum Manager"
 	inspire = Bounce(SELF)
 
 
-# Master Jouster
 class AT_112:
+	"Master Jouster"
 	play = JOUST & SetTag(SELF, (GameTag.TAUNT, GameTag.DIVINE_SHIELD))
 
 
-# Fencing Coach
 class AT_115:
+	"Fencing Coach"
 	play = Buff(CONTROLLER, "AT_115e")
 
 class AT_115e:

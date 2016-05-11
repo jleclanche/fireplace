@@ -4,37 +4,37 @@ from ..utils import *
 ##
 # Minions
 
-# Warbot
 class GVG_051:
+	"Warbot"
 	enrage = Refresh(SELF, buff="GVG_051e")
 
 GVG_051e = buff(atk=1)
 
 
-# Shieldmaiden
 class GVG_053:
+	"Shieldmaiden"
 	play = GainArmor(FRIENDLY_HERO, 5)
 
 
-# Screwjank Clunker
 class GVG_055:
+	"Screwjank Clunker"
 	powered_up = Find(FRIENDLY_MINIONS + MECH)
 	play = Buff(TARGET, "GVG_055e")
 
 GVG_055e = buff(+2, +2)
 
 
-# Iron Juggernaut
 class GVG_056:
+	"Iron Juggernaut"
 	play = Shuffle(OPPONENT, "GVG_056t")
 
-# Burrowing Mine
 class GVG_056t:
+	"Burrowing Mine"
 	draw = Destroy(SELF), Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER)
 
 
-# Siege Engine
 class GVG_086:
+	"Siege Engine"
 	events = GainArmor(FRIENDLY_HERO).on(Buff(SELF, "GVG_086e"))
 
 GVG_086e = buff(atk=1)
@@ -43,8 +43,8 @@ GVG_086e = buff(atk=1)
 ##
 # Spells
 
-# Bouncing Blade
 class GVG_050:
+	"Bouncing Blade"
 	def play(self):
 		targets = self.game.board.filter(dead=False)
 		while True:
@@ -54,8 +54,8 @@ class GVG_050:
 			yield Hit(random.choice(targets), 1)
 
 
-# Crush
 class GVG_052:
+	"Crush"
 	play = Destroy(TARGET)
 	cost_mod = Find(FRIENDLY_MINIONS + DAMAGED) & -4
 
@@ -63,6 +63,6 @@ class GVG_052:
 ##
 # Weapons
 
-# Ogre Warmaul
 class GVG_054:
+	"Ogre Warmaul"
 	events = FORGETFUL

@@ -4,51 +4,51 @@ from ..utils import *
 ##
 # Minions
 
-# Dalaran Aspirant
 class AT_006:
+	"Dalaran Aspirant"
 	inspire = Buff(SELF, "AT_006e")
 
 AT_006e = buff(spellpower=1)
 
 
-# Spellslinger
 class AT_007:
+	"Spellslinger"
 	play = Give(ALL_PLAYERS, RandomSpell())
 
 
-# Coldarra Drake
 class AT_008:
+	"Coldarra Drake"
 	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.HEROPOWER_ADDITIONAL_ACTIVATIONS: SET(-1)})
 
 
-# Rhonin
 class AT_009:
+	"Rhonin"
 	deathrattle = Give(CONTROLLER, "EX1_277") * 3
 
 
 ##
 # Spells
 
-# Flame Lance
 class AT_001:
+	"Flame Lance"
 	play = Hit(TARGET, 8)
 
 
-# Arcane Blast
 class AT_004:
+	"Arcane Blast"
 	play = Hit(TARGET, 2)
 
 
-# Polymorph: Boar
 class AT_005:
+	"Polymorph: Boar"
 	play = Morph(TARGET, "AT_005t")
 
 
 ##
 # Secrets
 
-# Effigy
 class AT_002:
+	"Effigy"
 	secret = Death(FRIENDLY + MINION).on(FULL_BOARD | (
 		Reveal(SELF),
 		Summon(CONTROLLER, RandomMinion(cost=COST(Death.ENTITY)))

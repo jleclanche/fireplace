@@ -4,119 +4,119 @@ from ..utils import *
 ##
 # Minions
 
-# Zombie Chow
 class FP1_001:
+	"Zombie Chow"
 	deathrattle = Heal(ENEMY_HERO, 5)
 
 
-# Haunted Creeper
 class FP1_002:
+	"Haunted Creeper"
 	deathrattle = Summon(CONTROLLER, "FP1_002t"), Summon(CONTROLLER, "FP1_002t")
 
 
-# Echoing Ooze
 class FP1_003:
+	"Echoing Ooze"
 	play = OWN_TURN_END.on(Summon(CONTROLLER, ExactCopy(SELF)))
 
 
-# Mad Scientist
 class FP1_004:
+	"Mad Scientist"
 	deathrattle = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + SECRET))
 
 
-# Shade of Naxxramas
 class FP1_005:
+	"Shade of Naxxramas"
 	events = OWN_TURN_BEGIN.on(Buff(SELF, "FP1_005e"))
 
 FP1_005e = buff(+1, +1)
 
 
-# Nerubian Egg
 class FP1_007:
+	"Nerubian Egg"
 	deathrattle = Summon(CONTROLLER, "FP1_007t")
 
 
-# Deathlord
 class FP1_009:
+	"Deathlord"
 	deathrattle = Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION))
 
 
-# Webspinner
 class FP1_011:
+	"Webspinner"
 	deathrattle = Give(CONTROLLER, RandomBeast())
 
 
-# Sludge Belcher
 class FP1_012:
+	"Sludge Belcher"
 	deathrattle = Summon(CONTROLLER, "FP1_012t")
 
 
-# Kel'Thuzad
 class FP1_013:
+	"Kel'Thuzad"
 	events = TURN_END.on(Summon(CONTROLLER, Copy(FRIENDLY + MINION + KILLED_THIS_TURN)))
 
 
-# Stalagg
 class FP1_014:
+	"Stalagg"
 	deathrattle = Find(KILLED + ID("FP1_015")) & Summon(CONTROLLER, "FP1_014t")
 
 
-# Feugen
 class FP1_015:
+	"Feugen"
 	deathrattle = Find(KILLED + ID("FP1_014")) & Summon(CONTROLLER, "FP1_014t")
 
 
-# Wailing Soul
 class FP1_016:
+	"Wailing Soul"
 	play = Silence(FRIENDLY_MINIONS)
 
 
-# Nerub'ar Weblord
 class FP1_017:
+	"Nerub'ar Weblord"
 	update = Refresh(IN_HAND + MINION + BATTLECRY, {GameTag.COST: +2})
 
 
-# Voidcaller
 class FP1_022:
+	"Voidcaller"
 	deathrattle = Summon(CONTROLLER, RANDOM(FRIENDLY_HAND + DEMON))
 
 
-# Dark Cultist
 class FP1_023:
+	"Dark Cultist"
 	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "FP1_023e")
 
 FP1_023e = buff(health=3)
 
 
-# Unstable Ghoul
 class FP1_024:
+	"Unstable Ghoul"
 	deathrattle = Hit(ALL_MINIONS, 1)
 
 
-# Anub'ar Ambusher
 class FP1_026:
+	"Anub'ar Ambusher"
 	deathrattle = Bounce(RANDOM_FRIENDLY_MINION)
 
 
-# Stoneskin Gargoyle
 class FP1_027:
+	"Stoneskin Gargoyle"
 	events = OWN_TURN_BEGIN.on(Heal(SELF, DAMAGE(SELF)))
 
 
-# Undertaker
 class FP1_028:
+	"Undertaker"
 	events = Summon(CONTROLLER, MINION + DEATHRATTLE).on(Buff(SELF, "FP1_028e"))
 
 FP1_028e = buff(atk=1)
 
 
-# Dancing Swords
 class FP1_029:
+	"Dancing Swords"
 	deathrattle = Draw(OPPONENT)
 
 
-# Loatheb
 class FP1_030:
+	"Loatheb"
 	play = Buff(OPPONENT, "FP1_030e")
 
 class FP1_030e:
@@ -124,16 +124,16 @@ class FP1_030e:
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
 
 
-# Baron Rivendare
 class FP1_031:
+	"Baron Rivendare"
 	update = Refresh(CONTROLLER, {GameTag.EXTRA_DEATHRATTLES: True})
 
 
 ##
 # Spells
 
-# Poison Seeds
 class FP1_019:
+	"Poison Seeds"
 	def play(self):
 		friendly_count = len(self.controller.field)
 		enemy_count = len(self.controller.opponent.field)
@@ -143,23 +143,23 @@ class FP1_019:
 		yield Summon(OPPONENT, "FP1_019t") * enemy_count
 
 
-# Reincarnate
 class FP1_025:
+	"Reincarnate"
 	play = Destroy(TARGET), Deaths(), Summon(CONTROLLER, Copy(TARGET))
 
 
 ##
 # Secrets
 
-# Duplicate
 class FP1_018:
+	"Duplicate"
 	secret = Death(FRIENDLY + MINION).on(FULL_HAND | (
 		Reveal(SELF), Give(CONTROLLER, Copy(Death.ENTITY)) * 2
 	))
 
 
-# Avenge
 class FP1_020:
+	"Avenge"
 	secret = Death(FRIENDLY + MINION).on(EMPTY_BOARD | (
 		Reveal(SELF), Buff(RANDOM_FRIENDLY_MINION, "FP1_020e")
 	))
@@ -170,6 +170,6 @@ FP1_020e = buff(+3, +2)
 ##
 # Weapons
 
-# Death's Bite
 class FP1_021:
+	"Death's Bite"
 	deathrattle = Hit(ALL_MINIONS, 1)

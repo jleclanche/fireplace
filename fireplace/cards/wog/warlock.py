@@ -4,8 +4,8 @@ from ..utils import *
 ##
 # Minions
 
-# Cho'gall
 class OG_121:
+	"Cho'gall"
 	play = Buff(CONTROLLER, "OG_121e")
 
 class OG_121e:

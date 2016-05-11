@@ -4,6 +4,6 @@ from ..utils import *
 ##
 # Minions
 
-# Tentacle of N'Zoth
 class OG_151:
+	"Tentacle of N'Zoth"
 	deathrattle = Hit(ALL_MINIONS, 1)

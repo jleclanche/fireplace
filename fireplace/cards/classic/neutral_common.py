@@ -4,230 +4,230 @@ from ..utils import *
 ##
 # Free basic minions
 
-# Raid Leader
 class CS2_122:
+	"Raid Leader"
 	update = Refresh(FRIENDLY_MINIONS - SELF, buff="CS2_122e")
 
 CS2_122e = buff(atk=1)
 
 
-# Stormwind Champion
 class CS2_222:
+	"Stormwind Champion"
 	update = Refresh(FRIENDLY_MINIONS - SELF, buff="CS2_222o")
 
 CS2_222o = buff(+1, +1)
 
 
-# Frostwolf Warlord
 class CS2_226:
+	"Frostwolf Warlord"
 	play = Buff(SELF, "CS2_226e") * Count(FRIENDLY_MINIONS - SELF)
 
 CS2_226e = buff(+1, +1)
 
 
-# Voodoo Doctor
 class EX1_011:
+	"Voodoo Doctor"
 	play = Heal(TARGET, 2)
 
 
-# Novice Engineer
 class EX1_015:
+	"Novice Engineer"
 	play = Draw(CONTROLLER)
 
 
-# Mad Bomber
 class EX1_082:
+	"Mad Bomber"
 	play = Hit(RANDOM_OTHER_CHARACTER, 1) * 3
 
 
-# Demolisher
 class EX1_102:
+	"Demolisher"
 	events = OWN_TURN_BEGIN.on(Hit(RANDOM_ENEMY_CHARACTER, 2))
 
 
-# Dire Wolf Alpha
 class EX1_162:
+	"Dire Wolf Alpha"
 	update = Refresh(SELF_ADJACENT, buff="EX1_162o")
 
 EX1_162o = buff(atk=1)
 
 
-# Arathi Weaponsmith
 class EX1_398:
+	"Arathi Weaponsmith"
 	play = Summon(CONTROLLER, "EX1_398t")
 
 
-# Gurubashi Berserker
 class EX1_399:
+	"Gurubashi Berserker"
 	events = SELF_DAMAGE.on(Buff(SELF, "EX1_399e"))
 
 EX1_399e = buff(atk=3)
 
 
-# Grimscale Oracle
 class EX1_508:
+	"Grimscale Oracle"
 	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_508o")
 
 EX1_508o = buff(atk=1)
 
 
-# Nightblade
 class EX1_593:
+	"Nightblade"
 	play = Hit(ENEMY_HERO, 3)
 
 
-# Cult Master
 class EX1_595:
+	"Cult Master"
 	events = Death(FRIENDLY + MINION).on(Draw(CONTROLLER))
 
 
 ##
 # Common basic minions
 
-# Earthen Ring Farseer
 class CS2_117:
+	"Earthen Ring Farseer"
 	play = Heal(TARGET, 3)
 
 
-# Ironforge Rifleman
 class CS2_141:
+	"Ironforge Rifleman"
 	play = Hit(TARGET, 1)
 
 
-# Southsea Deckhand
 class CS2_146:
+	"Southsea Deckhand"
 	update = Find(FRIENDLY_WEAPON) & Refresh(SELF, {GameTag.CHARGE: True})
 
 
-# Gnomish Inventor
 class CS2_147:
+	"Gnomish Inventor"
 	play = Draw(CONTROLLER)
 
 
-# Stormpike Commando
 class CS2_150:
+	"Stormpike Commando"
 	play = Hit(TARGET, 2)
 
 
-# Silver Hand Knight
 class CS2_151:
+	"Silver Hand Knight"
 	play = Summon(CONTROLLER, "CS2_152")
 
 
-# Elven Archer
 class CS2_189:
+	"Elven Archer"
 	play = Hit(TARGET, 1)
 
 
-# Abusive Sergeant
 class CS2_188:
+	"Abusive Sergeant"
 	play = Buff(TARGET, "CS2_188o")
 
 CS2_188o = buff(atk=2)
 
 
-# Razorfen Hunter
 class CS2_196:
+	"Razorfen Hunter"
 	play = Summon(CONTROLLER, "CS2_boar")
 
 
-# Ironbeak Owl
 class CS2_203:
+	"Ironbeak Owl"
 	play = Silence(TARGET)
 
 
-# Spiteful Smith
 class CS2_221:
+	"Spiteful Smith"
 	enrage = Refresh(FRIENDLY_WEAPON, buff="CS2_221e")
 
 CS2_221e = buff(atk=2)
 
 
-# Venture Co. Mercenary
 class CS2_227:
+	"Venture Co. Mercenary"
 	update = Refresh(FRIENDLY_HAND + MINION, {GameTag.COST: +3})
 
 
-# Darkscale Healer
 class DS1_055:
+	"Darkscale Healer"
 	play = Heal(FRIENDLY_CHARACTERS, 2)
 
 
-# Acolyte of Pain
 class EX1_007:
+	"Acolyte of Pain"
 	events = SELF_DAMAGE.on(Draw(CONTROLLER))
 
 
-# Shattered Sun Cleric
 class EX1_019:
+	"Shattered Sun Cleric"
 	play = Buff(TARGET, "EX1_019e")
 
 EX1_019e = buff(+1, +1)
 
 
-# Dragonling Mechanic
 class EX1_025:
+	"Dragonling Mechanic"
 	play = Summon(CONTROLLER, "EX1_025t")
 
 
-# Leper Gnome
 class EX1_029:
+	"Leper Gnome"
 	deathrattle = Hit(ENEMY_HERO, 2)
 
 
-# Dark Iron Dwarf
 class EX1_046:
+	"Dark Iron Dwarf"
 	play = Buff(TARGET, "EX1_046e")
 
 EX1_046e = buff(atk=2)
 
 
-# Spellbreaker
 class EX1_048:
+	"Spellbreaker"
 	play = Silence(TARGET)
 
 
-# Youthful Brewmaster
 class EX1_049:
+	"Youthful Brewmaster"
 	play = Bounce(TARGET)
 
 
-# Ancient Brewmaster
 class EX1_057:
+	"Ancient Brewmaster"
 	play = Bounce(TARGET)
 
 
-# Acidic Swamp Ooze
 class EX1_066:
+	"Acidic Swamp Ooze"
 	play = Destroy(ENEMY_WEAPON)
 
 
-# Loot Hoarder
 class EX1_096:
+	"Loot Hoarder"
 	deathrattle = Draw(CONTROLLER)
 
 
-# Frost Elemental
 class EX1_283:
+	"Frost Elemental"
 	play = Freeze(TARGET)
 
 
-# Tauren Warrior
 class EX1_390:
+	"Tauren Warrior"
 	enrage = Refresh(SELF, buff="EX1_390e")
 
 EX1_390e = buff(atk=3)
 
 
-# Amani Berserker
 class EX1_393:
+	"Amani Berserker"
 	enrage = Refresh(SELF, buff="EX1_393e")
 
 EX1_393e = buff(atk=3)
 
 
-# Raging Worgen
 class EX1_412:
+	"Raging Worgen"
 	enrage = Refresh(SELF, buff="EX1_412e")
 
 class EX1_412e:
@@ -235,33 +235,33 @@ class EX1_412e:
 	windfury = SET(1)
 
 
-# Murloc Tidehunter
 class EX1_506:
+	"Murloc Tidehunter"
 	play = Summon(CONTROLLER, "EX1_506a")
 
 
-# Harvest Golem
 class EX1_556:
+	"Harvest Golem"
 	deathrattle = Summon(CONTROLLER, "skele21")
 
 
-# Priestess of Elune
 class EX1_583:
+	"Priestess of Elune"
 	play = Heal(FRIENDLY_HERO, 4)
 
 
-# Bloodsail Raider
 class NEW1_018:
+	"Bloodsail Raider"
 	play = Find(FRIENDLY_WEAPON) & Buff(SELF, "NEW1_018e", atk=ATK(FRIENDLY_WEAPON))
 
 
-# Dread Corsair
 class NEW1_022:
+	"Dread Corsair"
 	cost_mod = -ATK(FRIENDLY_WEAPON)
 
 
-# Flesheating Ghoul
 class tt_004:
+	"Flesheating Ghoul"
 	events = Death(MINION).on(Buff(SELF, "tt_004o"))
 
 tt_004o = buff(atk=1)

@@ -4,17 +4,17 @@ from ..utils import *
 ##
 # Minions
 
-# Dr. Boom
 class GVG_110:
+	"Dr. Boom"
 	play = Summon(CONTROLLER, "GVG_110t") * 2
 
-# Boom Bot
 class GVG_110t:
+	"Boom Bot"
 	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, RandomNumber(1, 2, 3, 4))
 
 
-# Mimiron's Head
 class GVG_111:
+	"Mimiron's Head"
 	events = OWN_TURN_BEGIN.on(
 		(Count(FRIENDLY_MINIONS + MECH) >= 3) &
 		(Destroy(FRIENDLY_MINIONS + MECH), Deaths(), Summon(CONTROLLER, "GVG_111t"))
@@ -24,48 +24,48 @@ class GVG_111t:
 	tags = {GameTag.WINDFURY: 3}
 
 
-# Mogor the Ogre
 class GVG_112:
+	"Mogor the Ogre"
 	events = Attack(MINION).on(COINFLIP & Retarget(Attack.ATTACKER, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(Attack.ATTACKER))))
 
 
-# Foe Reaper 4000
 class GVG_113:
+	"Foe Reaper 4000"
 	events = Attack(SELF).on(CLEAVE)
 
 
-# Sneed's Old Shredder
 class GVG_114:
+	"Sneed's Old Shredder"
 	deathrattle = Summon(CONTROLLER, RandomLegendaryMinion())
 
 
-# Toshley
 class GVG_115:
+	"Toshley"
 	play = deathrattle = Give(CONTROLLER, RandomSparePart())
 
 
-# Mekgineer Thermaplugg
 class GVG_116:
+	"Mekgineer Thermaplugg"
 	events = Death(ENEMY + MINION).on(Summon(CONTROLLER, "EX1_029"))
 
 
-# Gazlowe
 class GVG_117:
+	"Gazlowe"
 	events = Play(CONTROLLER, SPELL + (COST == 1)).on(
 		Give(Play.PLAYER, RandomMech())
 	)
 
 
-# Troggzor the Earthinator
 class GVG_118:
+	"Troggzor the Earthinator"
 	events = Play(OPPONENT, SPELL).on(Summon(CONTROLLER, "GVG_068"))
 
 
-# Blingtron 3000
 class GVG_119:
+	"Blingtron 3000"
 	play = Summon(ALL_PLAYERS, RandomWeapon())
 
 
-# Hemet Nesingwary
 class GVG_120:
+	"Hemet Nesingwary"
 	play = Destroy(TARGET)

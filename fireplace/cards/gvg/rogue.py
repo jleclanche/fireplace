@@ -4,27 +4,27 @@ from ..utils import *
 ##
 # Minions
 
-# Goblin Auto-Barber
 class GVG_023:
+	"Goblin Auto-Barber"
 	play = Buff(FRIENDLY_WEAPON, "GVG_023a")
 
 GVG_023a = buff(atk=1)
 
 
-# One-eyed Cheat
 class GVG_025:
+	"One-eyed Cheat"
 	events = Summon(CONTROLLER, PIRATE - SELF).on(Stealth(SELF))
 
 
-# Iron Sensei
 class GVG_027:
+	"Iron Sensei"
 	events = OWN_TURN_END.on(Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_027e"))
 
 GVG_027e = buff(+2, +2)
 
 
-# Trade Prince Gallywix
 class GVG_028:
+	"Trade Prince Gallywix"
 	events = Play(OPPONENT, SPELL - ID("GVG_028t")).on(
 		Give(CONTROLLER, Copy(Play.CARD)),
 		Give(OPPONENT, "GVG_028t")
@@ -34,16 +34,16 @@ class GVG_028t:
 	play = ManaThisTurn(CONTROLLER, 1)
 
 
-# Ogre Ninja
 class GVG_088:
+	"Ogre Ninja"
 	events = FORGETFUL
 
 
 ##
 # Spells
 
-# Tinker's Sharpsword Oil
 class GVG_022:
+	"Tinker's Sharpsword Oil"
 	play = Buff(FRIENDLY_WEAPON, "GVG_022a")
 	combo = Buff(FRIENDLY_WEAPON, "GVG_022a"), Buff(RANDOM_FRIENDLY_CHARACTER, "GVG_022b")
 
@@ -51,8 +51,8 @@ GVG_022a = buff(atk=3)  # Weapon
 GVG_022b = buff(atk=3)  # Minion
 
 
-# Sabotage
 class GVG_047:
+	"Sabotage"
 	play = Destroy(RANDOM_ENEMY_MINION)
 	combo = Destroy(ENEMY_WEAPON | RANDOM_ENEMY_MINION)
 
@@ -60,6 +60,6 @@ class GVG_047:
 ##
 # Weapons
 
-# Cogmaster's Wrench
 class GVG_024:
+	"Cogmaster's Wrench"
 	update = Find(FRIENDLY_MINIONS + MECH) & Refresh(SELF, {GameTag.ATK: +2})

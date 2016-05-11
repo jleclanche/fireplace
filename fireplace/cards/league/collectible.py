@@ -4,39 +4,39 @@ from ..utils import *
 ##
 # Minions
 
-# Ethereal Conjurer
 class LOE_003:
+	"Ethereal Conjurer"
 	play = DISCOVER(RandomSpell())
 
 
-# Museum Curator
 class LOE_006:
+	"Museum Curator"
 	play = DISCOVER(RandomCollectible(deathrattle=True))
 
 
-# Obsidian Destroyer
 class LOE_009:
+	"Obsidian Destroyer"
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOE_009t"))
 
 
-# Reno Jackson
 class LOE_011:
+	"Reno Jackson"
 	powered_up = -FindDuplicates(FRIENDLY_DECK)
 	play = powered_up & FullHeal(FRIENDLY_HERO)
 
 
-# Tomb Pillager
 class LOE_012:
+	"Tomb Pillager"
 	deathrattle = Give(CONTROLLER, "GAME_005")
 
 
-# Rumbling Elemental
 class LOE_016:
+	"Rumbling Elemental"
 	events = Play(CONTROLLER, MINION + BATTLECRY).after(Hit(RANDOM_ENEMY_CHARACTER, 2))
 
 
-# Keeper of Uldaman
 class LOE_017:
+	"Keeper of Uldaman"
 	play = Buff(TARGET, "LOE_017e")
 
 class LOE_017e:
@@ -44,83 +44,83 @@ class LOE_017e:
 	max_health = SET(3)
 
 
-# Tunnel Trogg
 class LOE_018:
+	"Tunnel Trogg"
 	events = Overload(CONTROLLER).on(Buff(SELF, "LOE_018e") * Overload.AMOUNT)
 
 LOE_018e = buff(atk=1)
 
 
-# Unearthed Raptor
 class LOE_019:
+	"Unearthed Raptor"
 	play = Buff(SELF, "LOE_019e").then(CopyDeathrattles(Buff.BUFF, TARGET))
 
 LOE_019e = buff(deathrattle=True)
 
 
-# Desert Camel
 class LOE_020:
+	"Desert Camel"
 	play = (
 		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + (COST == 1))),
 		Summon(OPPONENT, RANDOM(ENEMY_DECK + (COST == 1)))
 	)
 
 
-# Dark Peddler
 class LOE_023:
+	"Dark Peddler"
 	play = DISCOVER(RandomCollectible(cost=1))
 
 
-# Jeweled Scarab
 class LOE_029:
+	"Jeweled Scarab"
 	play = DISCOVER(RandomCollectible(cost=3))
 
 
-# Naga Sea Witch
 class LOE_038:
+	"Naga Sea Witch"
 	update = Refresh(FRIENDLY_HAND, {GameTag.COST: SET(5)})
 
 
-# Gorillabot A-3
 class LOE_039:
+	"Gorillabot A-3"
 	powered_up = Find(FRIENDLY_MINIONS + MECH - SELF)
 	play = powered_up & DISCOVER(RandomMech())
 
 
-# Huge Toad
 class LOE_046:
+	"Huge Toad"
 	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, 1)
 
 
-# Tomb Spider
 class LOE_047:
+	"Tomb Spider"
 	play = DISCOVER(RandomBeast())
 
 
-# Mounted Raptor
 class LOE_050:
+	"Mounted Raptor"
 	deathrattle = Summon(CONTROLLER, RandomMinion(cost=1))
 
 
-# Jungle Moonkin
 class LOE_051:
+	"Jungle Moonkin"
 	update = Refresh(OPPONENT, {GameTag.SPELLPOWER: +2})
 
 
-# Djinni of Zephyrs
 class LOE_053:
+	"Djinni of Zephyrs"
 	events = Play(CONTROLLER, SPELL, FRIENDLY + MINION - SELF).after(Battlecry(Play.CARD, SELF))
 
 
-# Anubisath Sentinel
 class LOE_061:
+	"Anubisath Sentinel"
 	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "LOE_061e")
 
 LOE_061e = buff(+3, +3)
 
 
-# Fossilized Devilsaur
 class LOE_073:
+	"Fossilized Devilsaur"
 	powered_up = Find(FRIENDLY_MINIONS + BEAST)
 	play = powered_up & Taunt(SELF)
 
@@ -129,40 +129,40 @@ class LOE_073:
 LOE_073e = buff(taunt=True)
 
 
-# Sir Finley Mrrgglton
 class LOE_076:
+	"Sir Finley Mrrgglton"
 	play = GenericChoice(CONTROLLER, RandomEntourage() * 3)
 
 
-# Brann Bronzebeard:
 class LOE_077:
+	"Brann Bronzebeard"
 	update = Refresh(CONTROLLER, {enums.EXTRA_BATTLECRIES: True})
 
 
-# Elise Starseeker
 class LOE_079:
+	"Elise Starseeker"
 	play = Shuffle(CONTROLLER, "LOE_019t")
 
 
-# Map to the Golden Monkey
 class LOE_019t:
+	"Map to the Golden Monkey"
 	play = Shuffle(CONTROLLER, "LOE_019t2"), Draw(CONTROLLER)
 
 
-# Golden Monkey
 class LOE_019t2:
+	"Golden Monkey"
 	play = Morph(FRIENDLY + (IN_HAND | IN_DECK), RandomLegendaryMinion())
 
 
-# Summoning Stone
 class LOE_086:
+	"Summoning Stone"
 	events = OWN_SPELL_PLAY.on(
 		Summon(CONTROLLER, RandomMinion(cost=Attr(Play.CARD, GameTag.COST)))
 	)
 
 
-# Wobbling Runts
 class LOE_089:
+	"Wobbling Runts"
 	deathrattle = (
 		Summon(CONTROLLER, "LOE_089t"),
 		Summon(CONTROLLER, "LOE_089t2"),
@@ -170,90 +170,90 @@ class LOE_089:
 	)
 
 
-# Arch-Thief Rafaam
 class LOE_092:
+	"Arch-Thief Rafaam"
 	play = DISCOVER(RandomID("LOEA16_3", "LOEA16_5", "LOEA16_4"))
 
 
-# Lantern of Power
 class LOEA16_3:
+	"Lantern of Power"
 	play = Buff(TARGET, "LOEA16_3e")
 
 LOEA16_3e = buff(+10, +10)
 
 
-# Timepiece of Horror
 class LOEA16_4:
+	"Timepiece of Horror"
 	def play(self):
 		count = self.controller.get_spell_damage(10)
 		yield Hit(RANDOM_ENEMY_CHARACTER, 1) * count
 
 
-# Mirror of Doom
 class LOEA16_5:
+	"Mirror of Doom"
 	play = Summon(CONTROLLER, "LOEA16_5t")
 
 
-# Eerie Statue
 class LOE_107:
+	"Eerie Statue"
 	update = Find(ALL_MINIONS - SELF) & Refresh(SELF, {GameTag.CANT_ATTACK: True})
 
 
-# Ancient Shade
 class LOE_110:
+	"Ancient Shade"
 	play = Shuffle(CONTROLLER, "LOE_110t")
 
-# Ancient Curse
 class LOE_110t:
+	"Ancient Curse"
 	draw = Destroy(SELF), Hit(FRIENDLY_HERO, 7), Draw(CONTROLLER)
 
 
-# Reliquary Seeker
 class LOE_116:
+	"Reliquary Seeker"
 	powered_up = Count(FRIENDLY_MINIONS) == 6
 	play = (Count(FRIENDLY_MINIONS) == 7) & Buff(SELF, "LOE_009e")
 
 LOE_009e = buff(+4, +4)
 
 
-# Animated Armor
 class LOE_119:
+	"Animated Armor"
 	update = Refresh(FRIENDLY_HERO, {GameTag.HEAVILY_ARMORED: True})
 
 
 ##
 # Spells
 
-# Forgotten Torch
 class LOE_002:
+	"Forgotten Torch"
 	play = Hit(TARGET, 3), Shuffle(CONTROLLER, "LOE_002t")
 
 class LOE_002t:
 	play = Hit(TARGET, 6)
 
 
-# Curse of Rafaam
 class LOE_007:
+	"Curse of Rafaam"
 	play = Give(OPPONENT, "LOE_007t")
 
-# Cursed!
 class LOE_007t:
+	"Cursed!"
 	class Hand:
 		events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 2))
 
 
-# Anyfin Can Happen
 class LOE_026:
+	"Anyfin Can Happen"
 	play = Summon(CONTROLLER, Copy(RANDOM(KILLED + MURLOC) * 7))
 
 
-# Entomb
 class LOE_104:
+	"Entomb"
 	play = Steal(TARGET), Shuffle(CONTROLLER, TARGET)
 
 
-# Explorer's Hat
 class LOE_105:
+	"Explorer's Hat"
 	play = Buff(TARGET, "LOE_105e")
 
 class LOE_105e:
@@ -265,21 +265,21 @@ class LOE_105e:
 	}
 
 
-# Excavated Evil
 class LOE_111:
+	"Excavated Evil"
 	play = Hit(ALL_MINIONS, 3), Shuffle(OPPONENT, Copy(SELF))
 
 
-# Everyfin is Awesome
 class LOE_113:
+	"Everyfin is Awesome"
 	cost_mod = -Count(FRIENDLY_MINIONS + MURLOC)
 	play = Buff(FRIENDLY_MINIONS, "LOE_113e")
 
 LOE_113e = buff(+2, +2)
 
 
-# Raven Idol
 class LOE_115:
+	"Raven Idol"
 	choose = ("LOE_115a", "LOE_115b")
 
 class LOE_115a:
@@ -292,15 +292,15 @@ class LOE_115b:
 ##
 # Secrets
 
-# Dart Trap
 class LOE_021:
+	"Dart Trap"
 	secret = Activate(OPPONENT, HERO_POWER).on(
 		Reveal(SELF), Hit(RANDOM_ENEMY_CHARACTER, 5)
 	)
 
 
-# Sacred Trial
 class LOE_027:
+	"Sacred Trial"
 	secret = Play(OPPONENT, MINION | HERO).after(
 		(Count(ENEMY_MINIONS) >= 4) & (
 			Reveal(SELF), Destroy(Play.CARD)
@@ -311,8 +311,8 @@ class LOE_027:
 ##
 # Weapons
 
-# Cursed Blade
 class LOE_118:
+	"Cursed Blade"
 	update = Refresh(FRIENDLY_HERO, buff="LOE_118e")
 
 class LOE_118e:

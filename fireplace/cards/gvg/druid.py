@@ -4,8 +4,8 @@ from ..utils import *
 ##
 # Minions
 
-# Anodized Robo Cub
 class GVG_030:
+	"Anodized Robo Cub"
 	choose = ("GVG_030a", "GVG_030b")
 
 class GVG_030a:
@@ -19,8 +19,8 @@ class GVG_030b:
 GVG_030be = buff(health=1)
 
 
-# Grove Tender
 class GVG_032:
+	"Grove Tender"
 	choose = ("GVG_032a", "GVG_032b")
 
 class GVG_032a:
@@ -30,18 +30,18 @@ class GVG_032b:
 	play = Draw(ALL_PLAYERS)
 
 
-# Mech-Bear-Cat
 class GVG_034:
+	"Mech-Bear-Cat"
 	events = SELF_DAMAGE.on(Give(CONTROLLER, RandomSparePart()))
 
 
-# Malorne
 class GVG_035:
+	"Malorne"
 	deathrattle = Shuffle(CONTROLLER, SELF)
 
 
-# Druid of the Fang
 class GVG_080:
+	"Druid of the Fang"
 	powered_up = Find(FRIENDLY_MINIONS + BEAST)
 	play = powered_up & Morph(SELF, "GVG_080t")
 
@@ -49,18 +49,18 @@ class GVG_080:
 ##
 # Spells
 
-# Recycle
 class GVG_031:
+	"Recycle"
 	play = Shuffle(OPPONENT, TARGET)
 
 
-# Tree of Life
 class GVG_033:
+	"Tree of Life"
 	play = FullHeal(ALL_CHARACTERS)
 
 
-# Dark Wispers
 class GVG_041:
+	"Dark Wispers"
 	choose = ("GVG_041a", "GVG_041b")
 
 class GVG_041a:
