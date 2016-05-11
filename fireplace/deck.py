@@ -1,4 +1,3 @@
-from .card import Card
 from .utils import CardList
 
 
