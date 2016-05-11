@@ -140,7 +140,7 @@ class EX1_144e:
 
 class EX1_145:
 	"Preparation"
-	play = Buff(FRIENDLY_HERO, "EX1_145o")
+	play = Buff(CONTROLLER, "EX1_145o")
 
 class EX1_145o:
 	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -3})

@@ -45,7 +45,7 @@ class EX1_608:
 
 class EX1_612:
 	"Kirin Tor Mage"
-	play = Buff(FRIENDLY_HERO, "EX1_612o")
+	play = Buff(CONTROLLER, "EX1_612o")
 
 class EX1_612o:
 	update = Refresh(FRIENDLY_HAND + SECRET, {GameTag.COST: SET(0)})

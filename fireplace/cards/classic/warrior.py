@@ -134,7 +134,7 @@ EX1_607e = buff(atk=2)
 
 class NEW1_036:
 	"Commanding Shout"
-	play = Buff(FRIENDLY_MINIONS, "NEW1_036e"), Buff(FRIENDLY_HERO, "NEW1_036e2")
+	play = Buff(FRIENDLY_MINIONS, "NEW1_036e"), Buff(CONTROLLER, "NEW1_036e2")
 
 class NEW1_036e2:
 	events = Summon(CONTROLLER, MINION).on(Buff(Summon.CARD, "NEW1_036e"))
