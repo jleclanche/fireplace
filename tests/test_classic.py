@@ -2051,11 +2051,20 @@ def test_mind_control_tech():
 
 
 def test_mindgames():
-	game = prepare_game(PRIEST, PRIEST)
+	game = prepare_empty_game()
+	wisp = game.player2.give(WISP)
+	wisp.shuffle_into_deck()
 	mindgames = game.player1.give("EX1_345")
 	mindgames.play()
 	assert len(game.player1.field) == 1
-	assert game.player2.deck.contains(game.player1.field[0])
+	assert game.player1.field[0].id == WISP
+	assert wisp in game.player2.deck
+	game.end_turn()
+
+	mindgames2 = game.player2.give("EX1_345")
+	mindgames2.play()
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].id == "EX1_345t"
 
 
 def test_mind_vision():
