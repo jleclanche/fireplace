@@ -5,7 +5,7 @@ from importlib import import_module
 from pkgutil import iter_modules
 from typing import List
 from xml.etree import ElementTree
-from hearthstone.enums import CardType
+from hearthstone.enums import CardClass, CardType
 
 
 # Autogenerate the list of cardset modules
@@ -60,16 +60,16 @@ class CardList(list):
 		return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k, 0) == v)
 
 
-def random_draft(hero, exclude=[]):
+def random_draft(card_class: CardClass, exclude=[]):
 	"""
-	Return a deck of 30 random cards from the \a hero's collection
+	Return a deck of 30 random cards for the \a card_class
 	"""
 	from . import cards
 	from .deck import Deck
 
 	deck = []
 	collection = []
-	hero = cards.db[hero]
+	hero = card_class.default_hero
 
 	for card in cards.db.keys():
 		if card in exclude:
@@ -80,7 +80,7 @@ def random_draft(hero, exclude=[]):
 		if cls.type == CardType.HERO:
 			# Heroes are collectible...
 			continue
-		if cls.card_class and cls.card_class != hero.card_class:
+		if cls.card_class and cls.card_class != card_class:
 			continue
 		collection.append(cls)
 
@@ -161,14 +161,13 @@ def weighted_card_choice(source, weights: List[int], card_sets: List[str], count
 
 
 def setup_game() -> ".game.Game":
-	from .cards.heroes import MAGE, WARRIOR
 	from .game import Game
 	from .player import Player
 
-	deck1 = random_draft(hero=MAGE)
-	deck2 = random_draft(hero=WARRIOR)
-	player1 = Player("Player1", deck1, MAGE)
-	player2 = Player("Player2", deck2, WARRIOR)
+	deck1 = random_draft(CardClass.MAGE)
+	deck2 = random_draft(CardClass.WARRIOR)
+	player1 = Player("Player1", deck1, CardClass.MAGE.default_hero)
+	player2 = Player("Player2", deck2, CardClass.WARRIOR.default_hero)
 
 	game = Game(players=(player1, player2))
 	game.start()

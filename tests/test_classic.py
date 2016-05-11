@@ -73,7 +73,7 @@ def test_alexstrasza():
 
 
 def test_alexstrasza_armor():
-	game = prepare_game(WARRIOR, WARRIOR)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	game.player1.hero.power.use()
 	game.end_turn()
 
@@ -1162,7 +1162,7 @@ def test_faceless_manipulator_velens_chosen():
 
 
 def test_faerie_dragon():
-	game = prepare_game(MAGE, MAGE)
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
 	dragon = game.player1.give("NEW1_023")
 	dragon.play()
 	moonfire = game.player1.give(MOONFIRE)
@@ -1791,8 +1791,8 @@ def test_lightspawn():
 
 
 def test_lightwarden():
-	game = prepare_game(PRIEST, PRIEST)
-	lightwarden = game.current_player.give("EX1_001")
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
+	lightwarden = game.player1.give("EX1_001")
 	lightwarden.play()
 	assert lightwarden.atk == 1
 	# No-op heal should not do anything.
@@ -2167,7 +2167,7 @@ def test_murloc_tidecaller():
 
 
 def test_northshire_cleric():
-	game = prepare_game(PRIEST, PRIEST)
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	game.player1.discard_hand()
 	game.player2.discard_hand()
 	cleric = game.player1.give("CS2_235")
@@ -2354,7 +2354,7 @@ def test_preparation():
 
 
 def test_prophet_velen():
-	game = prepare_game(PRIEST, PRIEST)
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 
 	expected_health = 30
 	assert game.player2.hero.health == expected_health
@@ -2388,7 +2388,7 @@ def test_prophet_velen():
 
 
 def test_prophet_velen_multiple():
-	game = prepare_game(PRIEST, PRIEST)
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 
 	expected_health = 30
 	assert game.player2.hero.health == expected_health
@@ -2534,7 +2534,7 @@ def test_savage_roar():
 
 
 def test_savagery():
-	game = prepare_game(DRUID, DRUID)
+	game = prepare_game(CardClass.DRUID, CardClass.DRUID)
 	statue = game.player1.give(ANIMATED_STATUE)
 	statue.play()
 	assert statue.health == 10
@@ -2756,7 +2756,7 @@ def test_shadowflame():
 
 
 def test_shadowform():
-	game = prepare_game(PRIEST, PRIEST)
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	# Hero Power should reset
 	shadowform1 = game.player1.give("EX1_625")
 	assert game.player1.hero.power.id == "CS1h_001"
@@ -2821,7 +2821,7 @@ def test_shattered_sun_cleric():
 
 
 def test_shield_slam():
-	game = prepare_game(WARRIOR, WARRIOR)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	wisp = game.player2.summon(WISP)
 	assert game.player1.hero.armor == 0
 	shieldslam1 = game.player1.give("EX1_410")
@@ -2895,7 +2895,7 @@ def test_sorcerers_apprentice():
 
 
 def test_southsea_deckhand():
-	game = prepare_game(ROGUE, ROGUE)
+	game = prepare_game(CardClass.ROGUE, CardClass.ROGUE)
 	deckhand = game.player1.give("CS2_146")
 	deckhand.play()
 	assert not deckhand.charge
@@ -3050,7 +3050,7 @@ def test_sunfury_protector():
 
 
 def test_sword_of_justice():
-	game = prepare_game(PALADIN, PALADIN)
+	game = prepare_game(CardClass.PALADIN, CardClass.PALADIN)
 	sword = game.player1.give("EX1_366")
 	sword.play()
 	assert sword.durability == 5

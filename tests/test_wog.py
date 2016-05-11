@@ -86,7 +86,7 @@ def test_hallazeal_the_ascended():
 
 
 def test_silithid_swarmer():
-	game = prepare_game(ROGUE, ROGUE)
+	game = prepare_game(CardClass.ROGUE, CardClass.ROGUE)
 	silithid = game.player1.give("OG_034")
 	silithid.play()
 	assert not silithid.can_attack()

@@ -221,7 +221,7 @@ def test_entomb():
 
 
 def test_ethereal_conjurer():
-	game = prepare_game(MAGE, MAGE)
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
 	conjurer = game.player1.give("LOE_003")
 	conjurer.play()
 	assert len(game.player1.choice.cards) == 3
@@ -466,7 +466,7 @@ def test_rumbling_elemental():
 
 
 def test_sir_finley_mrrgglton():
-	game = prepare_game(PRIEST, PRIEST)
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	finley = game.player1.give("LOE_076")
 	assert game.player1.hero.power.id == "CS1h_001"
 	finley.play()

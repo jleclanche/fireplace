@@ -70,7 +70,7 @@ def test_chromaggus_naturalize():
 
 
 def test_dragon_egg():
-	game = prepare_game(PRIEST, PRIEST)
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	egg = game.player1.give("BRM_022")
 	egg.play()
 	assert len(game.player1.field) == 1
@@ -248,9 +248,7 @@ def test_lava_shock():
 
 
 def test_majordomo_executus():
-	game = prepare_game(WARRIOR, WARRIOR)
-	game.end_turn(); game.end_turn()
-
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	majordomo = game.player1.give("BRM_027")
 	majordomo.play()
 	game.end_turn(); game.end_turn()

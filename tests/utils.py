@@ -1,7 +1,6 @@
 import sys; sys.path.append("..")
 import random
 import fireplace.cards
-from fireplace.cards.heroes import *
 from hearthstone.enums import *
 from fireplace.game import BaseGame, CoinRules, Game
 from fireplace.brawls import *
@@ -54,11 +53,11 @@ BLACKLIST = (
 _draftcache = {}
 
 
-def _draft(hero, exclude):
+def _draft(card_class, exclude):
 	# random_draft() is fairly slow, this caches the drafts
-	if (hero, exclude) not in _draftcache:
-		_draftcache[(hero, exclude)] = random_draft(hero, exclude + BLACKLIST)
-	return _draftcache[(hero, exclude)], hero
+	if (card_class, exclude) not in _draftcache:
+		_draftcache[(card_class, exclude)] = random_draft(card_class, exclude + BLACKLIST)
+	return _draftcache[(card_class, exclude)], card_class.default_hero
 
 
 _heroes = fireplace.cards.filter(collectible=True, type=CardType.HERO)
@@ -71,12 +70,8 @@ class BaseTestGame(CoinRules, BaseGame):
 		self.player2.max_mana = 10
 
 
-def _select_heroes(hero1=None, hero2=None):
-	if hero1 is None:
-		hero1 = random.choice(_heroes)
-	if hero2 is None:
-		hero2 = random.choice(_heroes)
-	return (hero1, hero2)
+def _random_class():
+	return CardClass(random.randint(2, 10))
 
 
 def _empty_mulligan(game):
@@ -85,11 +80,14 @@ def _empty_mulligan(game):
 			player.choice.choose()
 
 
-def init_game(hero1=None, hero2=None, exclude=(), game_class=BaseTestGame):
+def init_game(class1=None, class2=None, exclude=(), game_class=BaseTestGame):
 	log.info("Initializing a new game")
-	heroes = _select_heroes(hero1, hero2)
-	player1 = Player("Player1", *_draft(hero=heroes[0], exclude=exclude))
-	player2 = Player("Player2", *_draft(hero=heroes[1], exclude=exclude))
+	if class1 is None:
+		class1 = _random_class()
+	if class2 is None:
+		class2 = _random_class()
+	player1 = Player("Player1", *_draft(class1, exclude))
+	player2 = Player("Player2", *_draft(class2, exclude))
 	game = game_class(players=(player1, player2))
 	return game
 
@@ -102,12 +100,15 @@ def prepare_game(*args, **kwargs):
 	return game
 
 
-def prepare_empty_game(hero1=None, hero2=None, game_class=BaseTestGame):
+def prepare_empty_game(class1=None, class2=None, game_class=BaseTestGame):
 	log.info("Initializing a new game with empty decks")
-	heroes = _select_heroes(hero1, hero2)
-	player1 = Player("Player1", [], heroes[0])
+	if class1 is None:
+		class1 = _random_class()
+	if class2 is None:
+		class2 = _random_class()
+	player1 = Player("Player1", [], class1.default_hero)
 	player1.cant_fatigue = True
-	player2 = Player("Player2", [], heroes[1])
+	player2 = Player("Player2", [], class2.default_hero)
 	player2.cant_fatigue = True
 	game = game_class(players=(player1, player2))
 	game.start()

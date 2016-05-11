@@ -285,7 +285,7 @@ def test_fel_reaver():
 
 
 def test_floating_watcher():
-	game = prepare_game(WARLOCK, WARLOCK)
+	game = prepare_game(CardClass.WARLOCK, CardClass.WARLOCK)
 	watcher = game.player1.give("GVG_100")
 	watcher.play()
 	assert watcher.atk == watcher.health == 4
@@ -589,7 +589,7 @@ def test_lightbomb():
 
 
 def test_malganis():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game(CardClass.HUNTER, CardClass.HUNTER)
 	voidwalker = game.player1.give("CS2_065")
 	voidwalker.play()
 	malganis = game.player1.give("GVG_021")
@@ -890,7 +890,7 @@ def test_sabotage():
 
 
 def test_siege_engine():
-	game = prepare_game(WARRIOR, WARRIOR)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	engine = game.player1.give("GVG_086")
 	engine.play()
 	assert engine.atk == 5
@@ -1071,7 +1071,7 @@ def test_voljin_stealth():
 
 
 def test_wee_spellstopper():
-	game = prepare_game(MAGE, MAGE)
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
 	outside = game.player1.give(WISP)
 	outside.play(index=0)
 	left = game.player1.give(TARGET_DUMMY)

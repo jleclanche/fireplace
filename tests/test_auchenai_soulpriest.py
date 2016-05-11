@@ -2,7 +2,7 @@ from utils import *
 
 
 def test_auchenai_soulpriest():
-	game = prepare_game(PRIEST, PRIEST)
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	auchenai = game.player1.give("EX1_591")
 	auchenai.play()
 	game.player1.hero.power.use(target=game.player2.hero)
@@ -12,7 +12,7 @@ def test_auchenai_soulpriest():
 
 
 def test_auchenai_soulpriest_divine_shield():
-	game = prepare_game(PRIEST, PRIEST)
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	gurubashi = game.player1.summon("EX1_399")
 	auchenai = game.player1.give("EX1_591")
 	auchenai.play()

@@ -118,7 +118,7 @@ def test_burgle():
 
 
 def test_dalaran_aspirant():
-	game = prepare_game(ROGUE, ROGUE)
+	game = prepare_game(CardClass.ROGUE, CardClass.ROGUE)
 	aspirant = game.player1.give("AT_006")
 	aspirant.play()
 	assert aspirant.spellpower == game.player1.spellpower == 0
@@ -181,7 +181,7 @@ def test_demonfuse_sense_demons():
 
 
 def test_dragonhawk_rider():
-	game = prepare_game(WARRIOR, WARRIOR)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	rider = game.player1.give("AT_083")
 	game.player1.hero.power.use()
 	rider.play()
@@ -254,7 +254,7 @@ def test_enter_the_coliseum():
 
 
 def test_fencing_coach():
-	game = prepare_game(WARRIOR, WARRIOR)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	coach = game.player1.give("AT_115")
 	assert game.player1.hero.power.cost == 2
 	coach.play()
@@ -279,7 +279,7 @@ def test_fist_of_jaraxxus():
 
 
 def test_garrison_commander():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	heropower = game.player1.hero.power
 	heropower.use()
 	assert not heropower.is_usable()
@@ -426,7 +426,7 @@ def test_lock_and_load():
 
 
 def test_lowly_squire():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	squire = game.player1.give("AT_082")
 	squire.play()
 	assert squire.atk == 1
@@ -583,7 +583,7 @@ def test_seal_of_champions_shrinkmeister():
 
 
 def test_silver_hand_regent():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	regent = game.player1.give("AT_100")
 	regent.play()
 	assert len(game.player1.field) == 1
@@ -689,7 +689,7 @@ def test_varian_wrynn():
 
 
 def test_void_crusher():
-	game = prepare_game(WARLOCK, WARLOCK)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	for i in range(3):
 		game.player2.summon(WISP)
 	crusher = game.player1.give("AT_023")
@@ -703,7 +703,7 @@ def test_void_crusher():
 
 
 def test_wilfred_fizzlebang():
-	game = prepare_empty_game(WARLOCK, WARLOCK)
+	game = prepare_empty_game(CardClass.WARLOCK, CardClass.WARLOCK)
 	game.player1.discard_hand()
 	fizzlebang = game.player1.give("AT_027")
 	fizzlebang.play()

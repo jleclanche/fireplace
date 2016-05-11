@@ -11,7 +11,7 @@ INFERNO_TOKEN = "EX1_tk34"
 
 
 def test_jaraxxus():
-	game = prepare_game(WARRIOR, WARRIOR)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	game.player1.hero.power.use()
 	game.player1.give(LIGHTS_JUSTICE).play()
 	assert game.player1.weapon.id == LIGHTS_JUSTICE

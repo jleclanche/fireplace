@@ -136,7 +136,7 @@ def test_attack_game_over():
 
 
 def test_hero_power_on_wrong_turn():
-	game = prepare_game(WARRIOR, WARRIOR)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	game.end_turn()
 
 	with pytest.raises(InvalidAction):
@@ -144,23 +144,23 @@ def test_hero_power_on_wrong_turn():
 
 
 def test_hero_power_twice():
-	game = prepare_game(WARRIOR, WARRIOR)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	game.player1.hero.power.use()
 	with pytest.raises(InvalidAction):
 		game.player1.hero.power.use()
 
 
 def test_hero_power_without_target():
-	game = prepare_game(MAGE, MAGE)
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
 	with pytest.raises(InvalidAction):
 		game.player1.hero.power.use()
 
 
 def test_hero_power_game_over():
-	game = prepare_game(MAGE, MAGE)
+	game = prepare_game(CardClass.HUNTER, CardClass.HUNTER)
 	game.player2.hero.set_current_health(1)
 	with pytest.raises(GameOver):
-		game.player1.hero.power.use(target=game.player2.hero)
+		game.player1.hero.power.use()
 	assert game.player1.playstate == PlayState.WON
 	assert game.player2.playstate == PlayState.LOST
 

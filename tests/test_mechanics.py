@@ -3,7 +3,7 @@ from fireplace.cards.utils import Give, JOUST
 
 
 def test_armor():
-	game = prepare_game(WARRIOR, WARRIOR)
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	assert game.current_player.hero.armor == 0
 	assert not game.current_player.hero.power.exhausted
 	assert game.current_player.hero.power.is_usable()
@@ -280,7 +280,7 @@ def test_discard_enchanted_cards():
 
 
 def test_divine_shield():
-	game = prepare_game(MAGE, MAGE)
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
 	squire = game.player1.give("EX1_008")
 	squire.play()
 	assert squire.divine_shield
@@ -719,7 +719,7 @@ def test_silence_multiple_buffs():
 
 
 def test_spell_power():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game(CardClass.HUNTER, CardClass.HUNTER)
 
 	expected_health = 30
 	assert game.player2.hero.health == expected_health
@@ -763,7 +763,7 @@ def test_spell_power():
 
 
 def test_stealth_windfury():
-	game = prepare_game(MAGE, MAGE)
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
 	worgen = game.player1.give("EX1_010")
 	worgen.play()
 	assert worgen.stealthed

@@ -2,9 +2,7 @@ from utils import *
 
 
 def test_druid():
-	game = prepare_game(DRUID, DRUID)
-	assert game.player1.hero.id == DRUID
-	assert game.player2.hero.id == DRUID
+	game = prepare_game(CardClass.DRUID, CardClass.DRUID)
 	assert game.player1.hero.health == 30
 	assert game.player1.hero.armor == 0
 	assert game.player1.hero.atk == 0
@@ -16,9 +14,7 @@ def test_druid():
 
 
 def test_mage():
-	game = prepare_game(MAGE, MAGE)
-	assert game.player1.hero.id == MAGE
-	assert game.player2.hero.id == MAGE
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
 	assert game.player1.hero.health == 30
 	assert game.player1.opponent.hero.health == 30
 	assert game.player1.times_hero_power_used_this_game == 0
@@ -34,9 +30,7 @@ def test_mage():
 
 
 def test_paladin():
-	game = prepare_game(PALADIN, PALADIN)
-	assert game.player1.hero.id == PALADIN
-	assert game.player2.hero.id == PALADIN
+	game = prepare_game(CardClass.PALADIN, CardClass.PALADIN)
 	game.player1.hero.power.use()
 	assert len(game.board) == 1
 	assert len(game.player1.field) == 1
@@ -52,8 +46,7 @@ def test_paladin():
 
 
 def test_priest():
-	game = prepare_game(PRIEST, PRIEST)
-	assert game.player1.hero.id == PRIEST
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	# Heal self
 	assert game.player1.hero.health == 30
 	game.player1.hero.power.use(target=game.player1.hero)
@@ -68,9 +61,7 @@ def test_priest():
 
 
 def test_shaman():
-	game = prepare_game(SHAMAN, SHAMAN)
-	assert game.player1.hero.id == SHAMAN
-	assert game.player2.hero.id == SHAMAN
+	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
 	assert len(game.player1.hero.power.data.entourage) == 4
 
 	# use hero power four times
@@ -111,9 +102,7 @@ def test_healing_totem():
 
 
 def test_warlock():
-	game = prepare_game(WARLOCK, WARLOCK)
-	assert game.player1.hero.id == WARLOCK
-	assert game.player2.hero.id == WARLOCK
+	game = prepare_game(CardClass.WARLOCK, CardClass.WARLOCK)
 	game.player1.discard_hand()
 	assert not game.player1.hero.power.targets
 	assert game.player1.hero.power.is_usable()
