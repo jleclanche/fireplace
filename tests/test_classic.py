@@ -212,7 +212,7 @@ def test_angry_chicken():
 
 
 def test_arcane_explosion():
-	game = prepare_game(MAGE, MAGE)
+	game = prepare_game()
 	# play some wisps
 	game.player1.give(WISP).play()
 	game.player1.give(WISP).play()
@@ -451,7 +451,7 @@ def test_big_game_hunter():
 
 
 def test_blade_flurry():
-	game = prepare_game(ROGUE, ROGUE)
+	game = prepare_game()
 	game.player1.give(WISP).play()
 	game.player1.give(WISP).play()
 	game.end_turn()
@@ -459,7 +459,7 @@ def test_blade_flurry():
 	game.player2.give(WISP).play()
 	flurry = game.player2.give("CS2_233")
 	assert not flurry.is_playable()
-	game.player2.hero.power.use()
+	game.player2.give(LIGHTS_JUSTICE).play()
 	assert flurry.is_playable()
 	flurry.play()
 	assert not game.player1.field
@@ -828,10 +828,10 @@ def test_cult_master_board_clear():
 
 
 def test_deadly_poison():
-	game = prepare_game(ROGUE, ROGUE)
+	game = prepare_game()
 	poison = game.player1.give("CS2_074")
 	assert not poison.is_playable()
-	game.player1.hero.power.use()
+	game.player1.give(LIGHTS_JUSTICE).play()
 	assert game.player1.weapon.atk == 1
 	assert game.player1.hero.atk == 1
 	assert poison.is_playable()
@@ -1669,7 +1669,7 @@ def test_imp_master():
 
 
 def test_kill_command():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game()
 	kc = game.player1.give("EX1_539")
 	assert not kc.powered_up
 	kc.play(target=game.player1.opponent.hero)
@@ -1795,16 +1795,13 @@ def test_lightwarden():
 	lightwarden = game.current_player.give("EX1_001")
 	lightwarden.play()
 	assert lightwarden.atk == 1
-	game.end_turn(); game.end_turn()
-
 	# No-op heal should not do anything.
-	assert game.current_player.hero.health == 30
-	game.current_player.hero.power.use(target=game.current_player.hero)
-	assert game.current_player.hero.health == 30
+	game.player1.hero.power.use(target=game.player1.hero)
 	assert lightwarden.atk == 1
-	lightwarden.attack(target=game.current_player.opponent.hero)
 	game.end_turn()
-	game.current_player.hero.power.use(target=game.current_player.hero)
+
+	game.player2.give(MOONFIRE).play(target=game.player2.hero)
+	game.player2.hero.power.use(target=game.player2.hero)
 	assert lightwarden.atk == 3
 
 
@@ -1980,38 +1977,29 @@ def test_mana_wraith():
 
 
 def test_millhouse_manastorm():
-	game = prepare_game(WARRIOR, MAGE)
-	game.player1.discard_hand()
-	game.player2.discard_hand()
+	game = prepare_game()
 	millhouse = game.player1.give("NEW1_029")
 	fireballp1 = game.player1.give("CS2_029")
 	fireball1 = game.player2.give("CS2_029")
 	fireball2 = game.player2.give("CS2_029")
 	moonfire = game.player2.give(MOONFIRE)
 
-	assert fireball1.cost == 4
-	assert fireball2.cost == 4
+	assert fireball1.cost == fireball2.cost == fireballp1.cost == 4
 	assert moonfire.cost == 0
 	assert fireballp1.cost == 4
 	millhouse.play()
 	# costs change as soon as millhouse is played
 	assert game.player2.hero.buffs
-	assert fireball1.cost == 0
-	assert fireball2.cost == 0
-	assert moonfire.cost == 0
+	assert fireball1.cost == fireball2.cost == moonfire.cost == 0
 	assert fireballp1.cost == 4
 	game.end_turn()
 
-	assert fireball1.cost == 0
-	assert fireball2.cost == 0
-	assert moonfire.cost == 0
+	assert fireball1.cost == fireball2.cost == moonfire.cost == 0
 	assert fireballp1.cost == 4
 	game.end_turn()
 
-	assert fireball1.cost == 4
-	assert fireball2.cost == 4
+	assert fireball1.cost == fireball2.cost == fireballp1.cost == 4
 	assert moonfire.cost == 0
-	assert fireballp1.cost == 4
 
 
 def test_mind_control():
@@ -3074,21 +3062,20 @@ def test_sword_of_justice():
 	assert sword.durability == 4
 	game.end_turn()
 
-	game.current_player.give(WISP).play()
+	game.player2.give(WISP).play()
 	assert sword.durability == 4
 	game.end_turn()
 
-	game.current_player.hero.power.use()
+	game.player1.hero.power.use()
 	assert sword.durability == 3
 
-	game.current_player.give(WISP).play()
-	game.current_player.give(WISP).play()
-	game.current_player.give(WISP).play()
-	assert not game.current_player.weapon
-	wisp2 = game.current_player.give(WISP)
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	assert not game.player1.weapon
+	wisp2 = game.player1.give(WISP)
 	wisp2.play()
-	assert wisp2.health == 1
-	assert wisp2.atk == 1
+	assert wisp2.health == wisp2.atk == 1
 	assert not wisp2.buffs
 
 

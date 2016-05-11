@@ -241,37 +241,28 @@ def test_lil_exorcist():
 
 
 def test_loatheb():
-	game = prepare_game(WARRIOR, MAGE)
-	game.player1.discard_hand()
-	game.player2.discard_hand()
+	game = prepare_game()
 	loatheb = game.player1.give("FP1_030")
 	fireballp1 = game.player1.give("CS2_029")
 	fireball1 = game.player2.give("CS2_029")
 	fireball2 = game.player2.give("CS2_029")
 	moonfire = game.player2.give(MOONFIRE)
 
-	assert fireball1.cost == 4
-	assert fireball2.cost == 4
+	assert fireball1.cost == fireball2.cost == fireballp1.cost == 4
 	assert moonfire.cost == 0
-	assert fireballp1.cost == 4
 	loatheb.play()
 	# costs do not change right away
-	assert fireball1.cost == 4
-	assert fireball2.cost == 4
+	assert fireball1.cost == fireball2.cost == fireballp1.cost == 4
 	assert moonfire.cost == 0
-	assert fireballp1.cost == 4
 	game.end_turn()
 
-	assert fireball1.cost == 4 + 5
-	assert fireball2.cost == 4 + 5
+	assert fireball1.cost == fireball2.cost == 4 + 5
 	assert moonfire.cost == 0 + 5
 	assert fireballp1.cost == 4
 	game.end_turn()
 
-	assert fireball1.cost == 4
-	assert fireball2.cost == 4
+	assert fireball1.cost == fireball2.cost == fireballp1.cost == 4
 	assert moonfire.cost == 0
-	assert fireballp1.cost == 4
 
 
 def test_mad_scientist():

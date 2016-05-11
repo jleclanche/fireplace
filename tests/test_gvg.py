@@ -114,7 +114,7 @@ def test_bouncing_blade_commanding_shout():
 
 
 def test_crackle():
-	game = prepare_game(SHAMAN, SHAMAN)
+	game = prepare_game()
 	crackle = game.player1.give("GVG_038")
 	crackle.play(target=game.player2.hero)
 	assert game.player2.hero.health in (24, 25, 26, 27)
@@ -122,7 +122,7 @@ def test_crackle():
 
 
 def test_crackle_malygos():
-	game = prepare_game(SHAMAN, SHAMAN)
+	game = prepare_game()
 	malygos = game.player1.give("EX1_563")
 	malygos.play()
 	game.end_turn(); game.end_turn()

@@ -59,7 +59,7 @@ def test_jaraxxus_molten_giant():
 
 
 def test_jaraxxus_mirror_entity():
-	game = prepare_game(MAGE, MAGE)
+	game = prepare_game()
 	mirror = game.player1.give("EX1_294")
 	mirror.play()
 	game.end_turn()
@@ -68,7 +68,6 @@ def test_jaraxxus_mirror_entity():
 	jaraxxus.play()
 	assert not game.player1.secrets
 	assert game.player2.hero.id == LORD_JARAXXUS_HERO
-	assert game.player1.hero.id == MAGE
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == LORD_JARAXXUS
 

@@ -272,9 +272,8 @@ def test_majordomo_executus():
 
 
 def test_quick_shot():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game()
 	game.player1.discard_hand()
-	assert len(game.player1.hand) == 0
 	quickshot1 = game.player1.give("BRM_013")
 	wisp = game.player1.give("CS2_231")
 	wisp.play()
@@ -291,7 +290,7 @@ def test_quick_shot():
 
 
 def test_quick_shot_acolyte():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game()
 	game.player1.discard_hand()
 	assert len(game.player1.hand) == 0
 	quickshot = game.player1.give("BRM_013")

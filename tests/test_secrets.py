@@ -255,7 +255,7 @@ def test_eye_for_an_eye():
 
 
 def test_flare():
-	game = prepare_game(HUNTER, HUNTER)
+	game = prepare_game()
 	flare = game.player1.give("EX1_544")
 	worgen = game.player1.give("EX1_010")
 	worgen.play()
