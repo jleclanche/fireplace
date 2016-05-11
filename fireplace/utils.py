@@ -66,7 +66,6 @@ def random_draft(hero, exclude=[]):
 	"""
 	from . import cards
 	from .deck import Deck
-	from hearthstone.enums import CardType, Rarity
 
 	deck = []
 	collection = []
@@ -87,9 +86,7 @@ def random_draft(hero, exclude=[]):
 
 	while len(deck) < Deck.MAX_CARDS:
 		card = random.choice(collection)
-		if card.rarity == Rarity.LEGENDARY and card.id in deck:
-			continue
-		elif deck.count(card.id) < Deck.MAX_UNIQUE_CARDS:
+		if deck.count(card.id) < card.max_count_in_deck:
 			deck.append(card.id)
 
 	return deck
