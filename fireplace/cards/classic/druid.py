@@ -17,6 +17,7 @@ CS2_017o = buff(atk=1)
 class EX1_165:
 	"Druid of the Claw"
 	choose = ("EX1_165a", "EX1_165b")
+	choose_both = Morph(SELF, "OG_044a")
 
 class EX1_165a:
 	play = Morph(SELF, "EX1_165t1")
@@ -25,15 +26,16 @@ class EX1_165b:
 	play = Morph(SELF, "EX1_165t2")
 
 
-class EX1_166:
-	"Keeper of the Grove"
-	choose = ("EX1_166a", "EX1_166b")
-
 class EX1_166a:
 	play = Hit(TARGET, 2)
 
 class EX1_166b:
 	play = Silence(TARGET)
+
+class EX1_166:
+	"Keeper of the Grove"
+	choose = ("EX1_166a", "EX1_166b")
+	choose_both = EX1_166b.play, EX1_166a.play
 
 
 class EX1_178:
@@ -51,10 +53,6 @@ class EX1_178b:
 EX1_178be = buff(atk=5)
 
 
-class EX1_573:
-	"Cenarius"
-	choose = ("EX1_573a", "EX1_573b")
-
 class EX1_573a:
 	play = Buff(FRIENDLY_MINIONS, "EX1_573ae")
 
@@ -62,6 +60,11 @@ EX1_573ae = buff(+2, +2)
 
 class EX1_573b:
 	play = Summon(CONTROLLER, "EX1_573t") * 2
+
+class EX1_573:
+	"Cenarius"
+	choose = ("EX1_573a", "EX1_573b")
+	choose_both = EX1_573b.play, EX1_573a.play
 
 
 class NEW1_008:
@@ -129,6 +132,7 @@ class CS2_013t:
 class EX1_154:
 	"Wrath"
 	choose = ("EX1_154a", "EX1_154b")
+	choose_both = Hit(TARGET, 4), Draw(CONTROLLER)
 
 class EX1_154a:
 	"Wrath (3 Damage)"
@@ -222,6 +226,7 @@ class EX1_578:
 class NEW1_007:
 	"Starfall"
 	choose = ("NEW1_007a", "NEW1_007b")
+	choose_both = Hit(TARGET, 7), Hit(ENEMY_MINIONS - TARGET, 2)
 
 class NEW1_007a:
 	play = Hit(ENEMY_MINIONS, 2)

@@ -34,6 +34,7 @@ AT_041e = buff(cost=-1)
 class AT_042:
 	"Druid of the Saber"
 	choose = ("AT_042a", "AT_042b")
+	choose_both = Morph(SELF, "OG_044c")
 
 class AT_042a:
 	play = Morph(SELF, "AT_042t")

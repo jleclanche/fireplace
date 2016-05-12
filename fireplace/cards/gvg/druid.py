@@ -59,10 +59,6 @@ class GVG_033:
 	play = FullHeal(ALL_CHARACTERS)
 
 
-class GVG_041:
-	"Dark Wispers"
-	choose = ("GVG_041a", "GVG_041b")
-
 class GVG_041a:
 	play = Buff(TARGET, "GVG_041c")
 
@@ -70,3 +66,8 @@ GVG_041c = buff(+5, +5, taunt=True)
 
 class GVG_041b:
 	play = Summon(CONTROLLER, "CS2_231") * 5
+
+class GVG_041:
+	"Dark Wispers"
+	choose = ("GVG_041a", "GVG_041b")
+	choose_both = GVG_041b.play, GVG_041a.play
