@@ -38,3 +38,12 @@ OG_047e = buff(atk=4)
 
 class OG_047b:
 	play = GainArmor(FRIENDLY_HERO, 8)
+
+
+class OG_048:
+	"Mark of Y'Shaarj"
+	play = Buff(TARGET, "OG_048e").then(
+		Find(Buff.TARGET + BEAST) & Draw(CONTROLLER)
+	)
+
+OG_048e = buff(+2, +2)

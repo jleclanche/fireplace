@@ -110,6 +110,22 @@ def test_hallazeal_the_ascended():
 	assert hallazeal.dead
 
 
+def test_mark_of_yshaarj():
+	game = prepare_game()
+	game.player1.discard_hand()
+	mark = game.player1.give("OG_048") 
+	mark2 = game.player1.give("OG_048") 
+	wisp = game.player1.give(WISP)
+	chicken = game.player1.give("EX1_009")
+	wisp.play()
+	chicken.play()
+	assert len(game.player1.hand) == 2
+	mark.play(target=wisp)
+	assert len(game.player1.hand) == 1
+	mark2.play(target=chicken)
+	assert len(game.player1.hand) == 1
+
+
 def test_mire_keeper():
 	game = prepare_game()
 	game.player1.give("OG_202").play(choose="OG_202a")
