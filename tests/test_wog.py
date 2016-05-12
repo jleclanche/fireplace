@@ -1,6 +1,17 @@
 from utils import *
 
 
+def test_addled_grizzly():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	grizzly = game.player1.give("OG_313")
+	game.player1.give("OG_313").play()
+	grizzly.play()
+	assert grizzly.atk == grizzly.health == 3
+	wisp.play()
+	assert wisp.atk == wisp.health == 3
+
+
 def test_chogall():
 	game = prepare_game()
 	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
