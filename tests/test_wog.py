@@ -163,3 +163,15 @@ def test_thistle_tea():
 	tea.play()
 	assert len(game.player1.hand) == 3
 	assert game.player1.hand[0] == game.player1.hand[1] == game.player1.hand[2]
+
+
+def test_wisps_of_the_old_gods():
+	game = prepare_game()
+	game.player1.give("OG_195").play(choose="OG_195a")
+	assert len(game.player1.field) == 7
+	game.end_turn(); game.end_turn()
+
+	game.player1.give("OG_195").play(choose="OG_195b")
+	for wisp in game.player1.field:
+		assert wisp.atk ==  wisp.health == 3
+		assert wisp.id == "OG_195c"

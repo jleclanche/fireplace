@@ -47,3 +47,16 @@ class OG_048:
 	)
 
 OG_048e = buff(+2, +2)
+
+
+class OG_195:
+	"Wisps of the Old Gods"
+	choose = ("OG_195a", "OG_195b")
+
+class OG_195a:
+	play = Summon(CONTROLLER, "OG_195c") * 7
+
+class OG_195b:
+	play = Buff(FRIENDLY_MINIONS, "OG_195e")
+
+OG_195e = buff(+2, +2)
