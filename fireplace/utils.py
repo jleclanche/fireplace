@@ -191,7 +191,7 @@ def play_turn(game: ".game.Game") -> ".game.Game":
 		for card in player.hand:
 			if card.is_playable() and random.random() < 0.5:
 				target = None
-				if card.choose_cards:
+				if card.must_choose_one:
 					card = random.choice(card.choose_cards)
 				if card.has_target():
 					target = random.choice(card.targets)

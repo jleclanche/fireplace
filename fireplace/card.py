@@ -165,6 +165,13 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self._cost = value
 
 	@property
+	def must_choose_one(self):
+		"""
+		Returns True if the card has active choices
+		"""
+		return bool(self.choose_cards)
+
+	@property
 	def powered_up(self):
 		"""
 		Returns True whether the card is "powered up".
@@ -264,10 +271,13 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		Queue a Play action on the card.
 		"""
 		if choose:
-			choose = card = self.choose_cards.filter(id=choose)[0]
-			self.log("%r: choosing %r", self, choose)
+			if self.must_choose_one:
+				choose = card = self.choose_cards.filter(id=choose)[0]
+				self.log("%r: choosing %r", self, choose)
+			else:
+				raise InvalidAction("%r cannot be played with choice %r" % (self, choose))
 		else:
-			if self.choose_cards:
+			if self.must_choose_one:
 				raise InvalidAction("%r requires a choice (one of %r)" % (self, self.choose_cards))
 			card = self
 		if not self.is_playable():
