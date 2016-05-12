@@ -480,11 +480,11 @@ class Activate(GameAction):
 		source.game.main_power(heropower, actions, target)
 		source.game.action_end(BlockType.PLAY, heropower)
 
-		for minion in player.field.filter(has_inspire=True):
-			actions = minion.get_actions("inspire")
-			if actions is None:
-				raise NotImplementedError("Missing inspire script for %r" % (minion))
-			source.game.trigger(minion, actions, event_args=None)
+		for entity in player.live_entities:
+			if not entity.ignore_scripts:
+				actions = entity.get_actions("inspire")
+				if actions:
+					source.game.trigger(entity, actions, event_args=None)
 
 		heropower.activations_this_turn += 1
 
