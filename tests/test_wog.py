@@ -58,6 +58,20 @@ def test_chogall_cannot_pay_health():
 	assert not fireball.is_playable()
 
 
+def test_feral_rage():
+	game = prepare_game()
+	game.player1.give("OG_047").play(choose="OG_047a")
+	assert game.player1.hero.atk == 4
+	assert game.player1.hero.armor == 0
+	game.player1.give("OG_047").play(choose="OG_047b")
+	assert game.player1.hero.atk == 4
+	assert game.player1.hero.armor == 8
+	game.end_turn()
+
+	assert game.player1.hero.atk == 0
+	assert game.player1.hero.armor == 8
+
+
 def test_forlorn_stalker():
 	game = prepare_game()
 	leper = game.player1.give("EX1_029")
