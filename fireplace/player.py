@@ -14,6 +14,7 @@ from .utils import CardList
 class Player(Entity, TargetableByAuras):
 	Manager = PlayerManager
 	cant_overload = slot_property("cant_overload")
+	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
 	extra_deathrattles = slot_property("extra_deathrattles")
 	healing_double = slot_property("healing_double", sum)
