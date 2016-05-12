@@ -96,6 +96,17 @@ def test_hallazeal_the_ascended():
 	assert hallazeal.dead
 
 
+def test_mire_keeper():
+	game = prepare_game()
+	game.player1.give("OG_202").play(choose="OG_202a")
+	assert len(game.player1.field) == 2
+	game.end_turn(); game.end_turn()
+
+	game.player1.max_mana = 9
+	game.player1.give("OG_202").play(choose="OG_202b")
+	assert game.player1.max_mana == 10
+
+
 def test_silithid_swarmer():
 	game = prepare_game(CardClass.ROGUE, CardClass.ROGUE)
 	silithid = game.player1.give("OG_034")
