@@ -68,11 +68,11 @@ class BaseEntity(object):
 					actions += action(self, *args)
 			else:
 				actions.append(action)
-		source.game.trigger(self, actions, args)
+		ret = source.game.trigger(self, actions, args)
 		if event.once:
 			self._events.remove(event)
 
-		return actions
+		return ret
 
 	def get_damage(self, amount: int, target) -> int:
 		"""
