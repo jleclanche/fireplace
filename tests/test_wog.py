@@ -12,6 +12,20 @@ def test_addled_grizzly():
 	assert wisp.atk == wisp.health == 3
 
 
+def test_blood_to_ichor():
+	game = prepare_game()
+	shieldbearer = game.player1.give("EX1_405").play()
+
+	for _ in range(3):
+		game.player1.give("OG_314").play(target=shieldbearer)
+
+	assert len(game.player1.field) == 4
+	game.player1.give("OG_314").play(target=shieldbearer)
+	assert len(game.player1.field) == 3
+	for minion in game.player1.field:
+		assert minion.id == "OG_314b"
+
+
 def test_blood_warriors():
 	game = prepare_game()
 	game.player1.give(ANIMATED_STATUE).play()
