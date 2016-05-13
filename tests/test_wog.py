@@ -46,6 +46,28 @@ def test_blood_warriors():
 	assert len(game.player1.field) == 5
 
 
+def test_bloodsail_cultist():
+	game = prepare_game()
+	game.player1.give(TARGET_DUMMY).play()
+	weapon = game.player1.give(LIGHTS_JUSTICE)
+	weapon.play()
+	game.end_turn()
+
+	# Give opponent a pirate.
+	game.player2.give("NEW1_018").play()
+	game.end_turn()
+
+	# Play Bloodsail Cultist with no friendly pirates.
+	game.player1.give("OG_315").play()
+	assert weapon.atk == 1
+	assert weapon.durability == 4
+
+	# Play Bloodsail Cultist with friendly pirate (previous cultist).
+	game.player1.give("OG_315").play()
+	assert weapon.atk == 2
+	assert weapon.durability == 5
+
+
 def test_chogall():
 	game = prepare_game()
 	footman = game.player1.give(GOLDSHIRE_FOOTMAN)

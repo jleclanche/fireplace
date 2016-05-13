@@ -21,6 +21,13 @@ class OG_312:
 	play = Summon(CONTROLLER, "OG_058")
 
 
+class OG_315:
+	"Bloodsail Cultist"
+	play = Find(FRIENDLY_MINIONS + PIRATE - SELF) & Buff(FRIENDLY_WEAPON, "OG_315e")
+
+OG_315e = buff(+1, +1)
+
+
 ##
 # Spells
 
