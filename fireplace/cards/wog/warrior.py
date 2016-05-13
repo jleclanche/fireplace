@@ -4,6 +4,22 @@ from ..utils import *
 ##
 # Minions
 
+class OG_149:
+	"Ravaging Ghoul"
+	play = Hit(ALL_MINIONS - SELF, 1)
+
+
+class OG_218:
+	"Bloodhoof Brave"
+	enrage = Refresh(SELF, buff="OG_218e")
+
+OG_218e = buff(atk=3)
+
+
+class OG_312:
+	"N'Zoth's First Mate"
+	play = Summon(CONTROLLER, "OG_058")
+
 
 ##
 # Spells
