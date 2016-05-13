@@ -12,6 +12,26 @@ def test_addled_grizzly():
 	assert wisp.atk == wisp.health == 3
 
 
+def test_blood_warriors():
+	game = prepare_game()
+	game.player1.give(ANIMATED_STATUE).play()
+	game.player1.give(TARGET_DUMMY).play()
+	game.player1.give(GOLDSHIRE_FOOTMAN).play()
+
+	# Whirlwind the board, then play more minions.
+	game.player1.give("EX1_400").play()
+	game.player1.give(ANIMATED_STATUE).play()
+	game.player1.give(GOLDSHIRE_FOOTMAN).play()
+	game.end_turn()
+	game.end_turn()
+	game.player1.discard_hand()
+
+	warriors = game.player1.give("OG_276")
+	warriors.play()
+	assert game.player1.hand == [ANIMATED_STATUE, TARGET_DUMMY, GOLDSHIRE_FOOTMAN]
+	assert len(game.player1.field) == 5
+
+
 def test_chogall():
 	game = prepare_game()
 	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
