@@ -113,8 +113,8 @@ def test_hallazeal_the_ascended():
 def test_mark_of_yshaarj():
 	game = prepare_game()
 	game.player1.discard_hand()
-	mark = game.player1.give("OG_048") 
-	mark2 = game.player1.give("OG_048") 
+	mark = game.player1.give("OG_048")
+	mark2 = game.player1.give("OG_048")
 	wisp = game.player1.give(WISP)
 	chicken = game.player1.give("EX1_009")
 	wisp.play()
