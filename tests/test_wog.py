@@ -220,6 +220,24 @@ def test_silithid_swarmer():
 	assert not silithid.can_attack()
 
 
+def test_tentacles_for_arms():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player1.give("OG_033").play()
+	game.player1.give(LIGHTS_JUSTICE).play()
+	assert game.player1.hand == ["OG_033"]
+
+
+def test_tentacles_for_arms_full_hand():
+	game = prepare_game()
+	game.player1.discard_hand()
+	tentacles = game.player1.give("OG_033").play()
+	for _ in range(10):
+		game.player1.give(WISP)
+	tentacles.destroy()
+	assert tentacles.zone == Zone.GRAVEYARD
+
+
 def test_thistle_tea():
 	game = prepare_game()
 	game.player1.discard_hand()

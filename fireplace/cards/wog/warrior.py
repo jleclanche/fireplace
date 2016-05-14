@@ -44,3 +44,11 @@ class OG_276:
 class OG_314:
 	"Blood To Ichor"
 	play = Hit(TARGET,1), Dead(TARGET) | Summon(CONTROLLER, "OG_314b")
+
+
+##
+# Weapons
+
+class OG_033:
+	"Tentacles for Arms"
+	deathrattle = Bounce(SELF)
