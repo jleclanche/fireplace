@@ -166,6 +166,14 @@ def test_hallazeal_the_ascended():
 	assert hallazeal.dead
 
 
+def test_malkorok():
+	game = prepare_game()
+	malkorok = game.player1.give("OG_220")
+	malkorok.play()
+	assert game.player1.weapon
+	assert not game.player2.weapon
+
+
 def test_mark_of_yshaarj():
 	game = prepare_game()
 	game.player1.discard_hand()

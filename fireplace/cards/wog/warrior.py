@@ -16,6 +16,11 @@ class OG_218:
 OG_218e = buff(atk=3)
 
 
+class OG_220:
+	"Malkorok"
+	play = Summon(CONTROLLER, RandomWeapon())
+
+
 class OG_312:
 	"N'Zoth's First Mate"
 	play = Summon(CONTROLLER, "OG_058")
