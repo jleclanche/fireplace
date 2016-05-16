@@ -2,7 +2,7 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
-from hearthstone.enums import CardType, PlayState, PowSubType, State, Step, Zone
+from hearthstone.enums import CardType, PlayState, BlockType, State, Step, Zone
 from .actions import Attack, BeginTurn, Death, EndTurn, EventListener, Play
 from .card import THE_COIN
 from .entity import Entity
@@ -79,12 +79,12 @@ class BaseGame(Entity):
 
 	def action_start(self, type, source, index, target):
 		self.manager.action_start(type, source, index, target)
-		if type != PowSubType.PLAY:
+		if type != BlockType.PLAY:
 			self._action_stack += 1
 
 	def action_end(self, type, source):
 		self.manager.action_end(type, source)
-		if type != PowSubType.PLAY:
+		if type != BlockType.PLAY:
 			self._action_stack -= 1
 		if not self._action_stack:
 			self.log("Empty stack, refreshing auras and processing deaths")
@@ -101,26 +101,26 @@ class BaseGame(Entity):
 		return ret
 
 	def attack(self, source, target):
-		type = PowSubType.ATTACK
+		type = BlockType.ATTACK
 		actions = [Attack(source, target)]
 		return self.action_block(source, actions, type, target=target)
 
 	def joust(self, source, challenger, defender, actions):
-		type = PowSubType.JOUST
+		type = BlockType.JOUST
 		return self.action_block(source, actions, type, event_args=[challenger, defender])
 
 	def main_power(self, source, actions, target):
-		type = PowSubType.POWER
+		type = BlockType.POWER
 		return self.action_block(source, actions, type, target=target)
 
 	def play_card(self, card, target, index, choose):
-		type = PowSubType.PLAY
+		type = BlockType.PLAY
 		player = card.controller
 		actions = [Play(card, target, index, choose)]
 		return self.action_block(player, actions, type, index, target)
 
 	def process_deaths(self):
-		type = PowSubType.DEATHS
+		type = BlockType.DEATHS
 		cards = []
 		for card in self.live_entities:
 			if card.to_be_destroyed:
@@ -140,7 +140,7 @@ class BaseGame(Entity):
 		"""
 		Perform actions as a result of an event listener (TRIGGER)
 		"""
-		type = PowSubType.TRIGGER
+		type = BlockType.TRIGGER
 		return self.action_block(source, actions, type, event_args=event_args)
 
 	def cheat_action(self, source, actions):
