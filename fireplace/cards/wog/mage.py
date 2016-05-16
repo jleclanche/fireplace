@@ -9,6 +9,11 @@ class OG_083:
 	play = Hit(ENEMY_MINIONS, 1)
 
 
+class OG_085:
+	"Demented Frostcaller"
+	events = OWN_SPELL_PLAY.after(Freeze(RANDOM(ENEMY_CHARACTERS - MORTALLY_WOUNDED - FROZEN)))
+
+
 class OG_120:
 	"Anomalus"
 	deathrattle = Hit(ALL_MINIONS, 8)
