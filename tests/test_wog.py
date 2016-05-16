@@ -68,6 +68,18 @@ def test_bloodsail_cultist():
 	assert weapon.durability == 5
 
 
+def test_cabalists_tome():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player1.give("OG_090").play()
+	assert len(game.player1.hand) == 3
+	game.player1.give("OG_090").play()
+	for card in game.player1.hand:
+		assert card.type == CardType.SPELL
+		assert card.card_class == CardClass.MAGE
+	assert len(game.player1.hand) == 6
+
+
 def test_chogall():
 	game = prepare_game()
 	footman = game.player1.give(GOLDSHIRE_FOOTMAN)

@@ -22,3 +22,11 @@ class OG_120:
 class OG_207:
 	"Faceless Summoner"
 	play = Summon(CONTROLLER, RandomMinion(cost=3))
+
+
+##
+# Spells
+
+class OG_090:
+	"Cabalist's Tome"
+	play = Give(CONTROLLER, RandomSpell(card_class=CardClass.MAGE)) * 3
