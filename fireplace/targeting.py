@@ -57,6 +57,9 @@ def is_valid_target(self, target, requirements=None):
 		elif req == PlayReq.REQ_DAMAGED_TARGET:
 			if not target.damage:
 				return False
+		elif req == PlayReq.REQ_FROZEN_TARGET:
+			if not target.frozen:
+				return False
 		elif req == PlayReq.REQ_TARGET_MAX_ATTACK:
 			if target.atk > param or 0:
 				return False
