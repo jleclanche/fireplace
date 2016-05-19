@@ -257,3 +257,47 @@ def test_wisps_of_the_old_gods():
 	for wisp in game.player1.field:
 		assert wisp.atk ==  wisp.health == 3
 		assert wisp.id == "OG_195c"
+
+
+def test_scaled_nightmare():
+	game = prepare_game()
+	scaled_nightmare = game.player1.give("OG_271")
+	scaled_nightmare.play()
+	game.end_turn()
+	assert scaled_nightmare.atk == 2
+	game.end_turn()
+	assert scaled_nightmare.atk == 4
+	game.end_turn()
+	assert scaled_nightmare.atk == 4
+	game.end_turn()
+	assert scaled_nightmare.atk == 8
+
+
+def test_scaled_nightmare_buff_ordering():
+	# To show that fireplace doesn't have blizzard's truly bizzare bugs.
+	# cf: HearthSim/hs-bugs#462 - "Scaled Nightmare stops doubling Attack if its Attack value is Direct Set"
+	game = prepare_game()
+	scaled_nightmare_debuff_second = game.player1.give("OG_271")
+	scaled_nightmare_debuff_first = game.player1.give("OG_271")
+	humility1 = game.player1.give("EX1_360")
+	humility2 = game.player1.give("EX1_360")
+
+	scaled_nightmare_debuff_second.play()
+	game.end_turn(); game.end_turn()
+
+	humility1.play(target=scaled_nightmare_debuff_second)
+	game.end_turn(); game.end_turn()
+
+	assert scaled_nightmare_debuff_second.atk == 2
+	game.end_turn(); game.end_turn()
+
+	assert scaled_nightmare_debuff_second.atk == 4
+
+	scaled_nightmare_debuff_first.play()
+	humility2.play(target=scaled_nightmare_debuff_first)
+	game.end_turn(); game.end_turn()
+
+	assert scaled_nightmare_debuff_first.atk == 2
+	game.end_turn(); game.end_turn()
+
+	assert scaled_nightmare_debuff_first.atk == 4
