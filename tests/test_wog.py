@@ -343,3 +343,13 @@ def test_scaled_nightmare_buff_ordering():
 	game.end_turn(); game.end_turn()
 
 	assert scaled_nightmare_debuff_first.atk == 4
+
+
+def test_vilefin_inquisitor():
+	game = prepare_game()
+	vilefin_inquisitor = game.player1.give("OG_006")
+	vilefin_inquisitor.play()
+	tidal_hand = game.player1.hero.power
+	tidal_hand.use()
+	assert game.player1.field == [vilefin_inquisitor, "OG_006a"]
+	assert tidal_hand == "OG_006b"
