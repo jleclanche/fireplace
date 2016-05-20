@@ -4,11 +4,6 @@ from ..utils import *
 ##
 # Minions
 
-class AT_018:
-	"Confessor Paletress"
-	inspire = Summon(CONTROLLER, RandomMinion(rarity=Rarity.LEGENDARY))
-
-
 class AT_070:
 	"Skycap'n Kragg"
 	cost_mod = -Count(FRIENDLY_MINIONS + PIRATE)

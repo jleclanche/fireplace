@@ -17,13 +17,6 @@ class CS2_235:
 	events = Heal(ALL_MINIONS).on(Draw(CONTROLLER))
 
 
-class EX1_001:
-	"Lightwarden"
-	events = Heal().on(Buff(SELF, "EX1_001e"))
-
-EX1_001e = buff(atk=2)
-
-
 class EX1_091:
 	"Cabal Shadow Priest"
 	play = Steal(TARGET)

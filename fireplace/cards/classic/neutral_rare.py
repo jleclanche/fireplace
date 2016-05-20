@@ -6,6 +6,13 @@ class CS2_181:
 	play = Hit(SELF, 4)
 
 
+class EX1_001:
+	"Lightwarden"
+	events = Heal().on(Buff(SELF, "EX1_001e"))
+
+EX1_001e = buff(atk=2)
+
+
 class EX1_004:
 	"Young Priestess"
 	events = OWN_TURN_END.on(Buff(RANDOM_OTHER_FRIENDLY_MINION, "EX1_004e"))

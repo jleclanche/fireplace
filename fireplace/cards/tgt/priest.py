@@ -23,6 +23,11 @@ class AT_014:
 AT_014e = buff(cost=-1)
 
 
+class AT_018:
+	"Confessor Paletress"
+	inspire = Summon(CONTROLLER, RandomMinion(rarity=Rarity.LEGENDARY))
+
+
 class AT_116:
 	"Wyrmrest Agent"
 	powered_up = HOLDING_DRAGON
