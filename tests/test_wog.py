@@ -353,3 +353,23 @@ def test_vilefin_inquisitor():
 	tidal_hand.use()
 	assert game.player1.field == [vilefin_inquisitor, "OG_006a"]
 	assert tidal_hand == "OG_006b"
+
+
+def test_primal_fusion():
+	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
+	fusion0 = game.player1.give("OG_023")
+	fusion1 = game.player1.give("OG_023")
+	fusion2 = game.player1.give("OG_023")
+	wisp = game.player1.give(WISP)
+	summon_totem = game.player1.hero.power
+	wisp.play()
+	fusion0.play(target=wisp)
+	assert wisp.atk == wisp.health == 1
+	summon_totem.use()
+	fusion1.play(target=wisp)
+	assert wisp.atk == wisp.health == 2
+	game.end_turn(); game.end_turn()
+	
+	summon_totem.use()
+	fusion2.play(target=wisp)
+	assert wisp.atk == wisp.health == 4
