@@ -27,6 +27,11 @@ class OG_207:
 ##
 # Spells
 
+class OG_081:
+	"Shatter"
+	play = Destroy(TARGET)
+
+
 class OG_090:
 	"Cabalist's Tome"
 	play = Give(CONTROLLER, RandomSpell(card_class=CardClass.MAGE)) * 3

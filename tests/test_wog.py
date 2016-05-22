@@ -228,6 +228,21 @@ def test_mire_keeper():
 	assert game.player1.max_mana == 10
 
 
+def test_shatter():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP)
+	wisp1.play()
+	wisp2 = game.player1.give(WISP)
+	wisp2.play()
+	# Freeze wisp1 with Ice Lance.
+	game.player1.give("CS2_031").play(target=wisp1)
+	shatter = game.player1.give("OG_081")
+	assert shatter.targets == [wisp1]
+	# Shatter frozen wisp.
+	shatter.play(target=wisp1)
+	assert wisp1.dead
+
+
 def test_silithid_swarmer():
 	game = prepare_game(CardClass.ROGUE, CardClass.ROGUE)
 	silithid = game.player1.give("OG_034")
