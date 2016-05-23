@@ -228,6 +228,70 @@ def test_mire_keeper():
 	assert game.player1.max_mana == 10
 
 
+def test_primal_fusion():
+	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
+	fusion0 = game.player1.give("OG_023")
+	fusion1 = game.player1.give("OG_023")
+	fusion2 = game.player1.give("OG_023")
+	wisp = game.player1.give(WISP)
+	summon_totem = game.player1.hero.power
+	wisp.play()
+	fusion0.play(target=wisp)
+	assert wisp.atk == wisp.health == 1
+	summon_totem.use()
+	fusion1.play(target=wisp)
+	assert wisp.atk == wisp.health == 2
+	game.end_turn(); game.end_turn()
+
+	summon_totem.use()
+	fusion2.play(target=wisp)
+	assert wisp.atk == wisp.health == 4
+
+
+def test_scaled_nightmare():
+	game = prepare_game()
+	scaled_nightmare = game.player1.give("OG_271")
+	scaled_nightmare.play()
+	game.end_turn()
+	assert scaled_nightmare.atk == 2
+	game.end_turn()
+	assert scaled_nightmare.atk == 4
+	game.end_turn()
+	assert scaled_nightmare.atk == 4
+	game.end_turn()
+	assert scaled_nightmare.atk == 8
+
+
+def test_scaled_nightmare_buff_ordering():
+	# To show that fireplace doesn't have blizzard's truly bizzare bugs.
+	# cf: HearthSim/hs-bugs#462 - "Scaled Nightmare stops doubling Attack if its Attack value is Direct Set"
+	game = prepare_game()
+	scaled_nightmare_debuff_second = game.player1.give("OG_271")
+	scaled_nightmare_debuff_first = game.player1.give("OG_271")
+	humility1 = game.player1.give("EX1_360")
+	humility2 = game.player1.give("EX1_360")
+
+	scaled_nightmare_debuff_second.play()
+	game.end_turn(); game.end_turn()
+
+	humility1.play(target=scaled_nightmare_debuff_second)
+	game.end_turn(); game.end_turn()
+
+	assert scaled_nightmare_debuff_second.atk == 2
+	game.end_turn(); game.end_turn()
+
+	assert scaled_nightmare_debuff_second.atk == 4
+
+	scaled_nightmare_debuff_first.play()
+	humility2.play(target=scaled_nightmare_debuff_first)
+	game.end_turn(); game.end_turn()
+
+	assert scaled_nightmare_debuff_first.atk == 2
+	game.end_turn(); game.end_turn()
+
+	assert scaled_nightmare_debuff_first.atk == 4
+
+
 def test_shatter():
 	game = prepare_game()
 	wisp1 = game.player1.give(WISP)
@@ -289,62 +353,6 @@ def test_thistle_tea():
 	assert game.player1.hand[0] == game.player1.hand[1] == game.player1.hand[2]
 
 
-def test_wisps_of_the_old_gods():
-	game = prepare_game()
-	game.player1.give("OG_195").play(choose="OG_195a")
-	assert len(game.player1.field) == 7
-	game.end_turn(); game.end_turn()
-
-	game.player1.give("OG_195").play(choose="OG_195b")
-	for wisp in game.player1.field:
-		assert wisp.atk ==  wisp.health == 3
-		assert wisp.id == "OG_195c"
-
-
-def test_scaled_nightmare():
-	game = prepare_game()
-	scaled_nightmare = game.player1.give("OG_271")
-	scaled_nightmare.play()
-	game.end_turn()
-	assert scaled_nightmare.atk == 2
-	game.end_turn()
-	assert scaled_nightmare.atk == 4
-	game.end_turn()
-	assert scaled_nightmare.atk == 4
-	game.end_turn()
-	assert scaled_nightmare.atk == 8
-
-
-def test_scaled_nightmare_buff_ordering():
-	# To show that fireplace doesn't have blizzard's truly bizzare bugs.
-	# cf: HearthSim/hs-bugs#462 - "Scaled Nightmare stops doubling Attack if its Attack value is Direct Set"
-	game = prepare_game()
-	scaled_nightmare_debuff_second = game.player1.give("OG_271")
-	scaled_nightmare_debuff_first = game.player1.give("OG_271")
-	humility1 = game.player1.give("EX1_360")
-	humility2 = game.player1.give("EX1_360")
-
-	scaled_nightmare_debuff_second.play()
-	game.end_turn(); game.end_turn()
-
-	humility1.play(target=scaled_nightmare_debuff_second)
-	game.end_turn(); game.end_turn()
-
-	assert scaled_nightmare_debuff_second.atk == 2
-	game.end_turn(); game.end_turn()
-
-	assert scaled_nightmare_debuff_second.atk == 4
-
-	scaled_nightmare_debuff_first.play()
-	humility2.play(target=scaled_nightmare_debuff_first)
-	game.end_turn(); game.end_turn()
-
-	assert scaled_nightmare_debuff_first.atk == 2
-	game.end_turn(); game.end_turn()
-
-	assert scaled_nightmare_debuff_first.atk == 4
-
-
 def test_vilefin_inquisitor():
 	game = prepare_game()
 	vilefin_inquisitor = game.player1.give("OG_006")
@@ -355,21 +363,13 @@ def test_vilefin_inquisitor():
 	assert tidal_hand == "OG_006b"
 
 
-def test_primal_fusion():
-	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
-	fusion0 = game.player1.give("OG_023")
-	fusion1 = game.player1.give("OG_023")
-	fusion2 = game.player1.give("OG_023")
-	wisp = game.player1.give(WISP)
-	summon_totem = game.player1.hero.power
-	wisp.play()
-	fusion0.play(target=wisp)
-	assert wisp.atk == wisp.health == 1
-	summon_totem.use()
-	fusion1.play(target=wisp)
-	assert wisp.atk == wisp.health == 2
+def test_wisps_of_the_old_gods():
+	game = prepare_game()
+	game.player1.give("OG_195").play(choose="OG_195a")
+	assert len(game.player1.field) == 7
 	game.end_turn(); game.end_turn()
-	
-	summon_totem.use()
-	fusion2.play(target=wisp)
-	assert wisp.atk == wisp.health == 4
+
+	game.player1.give("OG_195").play(choose="OG_195b")
+	for wisp in game.player1.field:
+		assert wisp.atk ==  wisp.health == 3
+		assert wisp.id == "OG_195c"
