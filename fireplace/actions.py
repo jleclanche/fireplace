@@ -364,7 +364,11 @@ class MulliganChoice(GameAction):
 		# NOTE: Ideally, we give The Coin when the Mulligan is over.
 		# Unfortunately, that's not compatible with Blizzard's way.
 		self.cards = player.hand.exclude(id="GAME_005")
+		self.source = source
 		self.player = player
+		self.min_count = 0
+		# but weirdly, the game server includes the coin in the mulligan count
+		self.max_count = len(player.hand)
 
 	def choose(self, *cards):
 		self.player.draw(len(cards))
