@@ -4,6 +4,11 @@ from ..utils import *
 ##
 # Minions
 
+class OG_042:
+	"Y'Shaarj, Rage Unbound"
+	events = OWN_TURN_END.on(Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION)))
+
+
 class OG_122:
 	"Mukla, Tyrant of the Vale"
 	play = Give(CONTROLLER, "EX1_014t") * 2

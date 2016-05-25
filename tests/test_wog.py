@@ -568,3 +568,20 @@ def test_wisps_of_the_old_gods():
 	for wisp in game.player1.field:
 		assert wisp.atk ==  wisp.health == 3
 		assert wisp.id == "OG_195c"
+
+
+def test_yshaarj_rage_unbound():
+	game = prepare_empty_game()
+	yshaarj = game.player1.give("OG_042")
+	wisp = game.player1.give(WISP)
+	wisp.shuffle_into_deck()
+	moonfire = game.player1.give(MOONFIRE)
+	moonfire.shuffle_into_deck()
+	yshaarj.play()
+	game.end_turn()
+	assert game.player1.field == [yshaarj, wisp]
+	assert game.player1.deck == [moonfire]
+	game.end_turn(); game.end_turn()
+
+	assert game.player1.field == [yshaarj, wisp]
+	assert len(game.player1.deck) == 0
