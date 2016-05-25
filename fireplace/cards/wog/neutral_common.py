@@ -50,6 +50,11 @@ class OG_256:
 OG_256e = buff(+1, +1)
 
 
+class OG_295:
+	"Cult Apothecary"
+	play = Heal(FRIENDLY_HERO, Count(ENEMY_MINIONS) * 2)
+
+
 class OG_323:
 	"Polluted Hoarder"
 	deathrattle = Draw(CONTROLLER)

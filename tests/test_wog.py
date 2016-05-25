@@ -140,6 +140,23 @@ def test_chogall_cannot_pay_health():
 	assert not fireball.is_playable()
 
 
+def test_cult_apothecary():
+	game = prepare_game()
+	cult_apothecary = game.player1.give("OG_295")
+	game.end_turn()
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	game.player2.give(WISP).play()
+	game.end_turn()
+	game.player1.hero.set_current_health(10)
+	lightwarden = game.player1.give("EX1_001")
+	lightwarden.play()
+	cult_apothecary.play()
+	assert game.player1.hero.health == 10 + 8
+	assert lightwarden.atk == 3
+
+
 def test_demented_frostcaller():
 	game = prepare_game()
 	game.player1.give("OG_085").play()
