@@ -426,6 +426,15 @@ def test_thistle_tea():
 	assert game.player1.hand[0] == game.player1.hand[1] == game.player1.hand[2]
 
 
+def test_undercity_huckster():
+	game = prepare_empty_game()
+	undercity_huckster = game.player1.give("OG_330")
+	undercity_huckster.play()
+	arcane_shot = game.player1.give("DS1_185")
+	arcane_shot.play(target=undercity_huckster)
+	assert game.player1.hand[0].card_class == game.player2.hero.card_class
+
+
 def test_vilefin_inquisitor():
 	game = prepare_game()
 	vilefin_inquisitor = game.player1.give("OG_006")

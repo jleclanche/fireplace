@@ -18,6 +18,11 @@ class OG_267:
 OG_267e = buff(atk=2)
 
 
+class OG_330:
+	"Undercity Huckster"
+	deathrattle = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))
+
+
 ##
 # Spells
 
