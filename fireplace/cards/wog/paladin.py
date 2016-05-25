@@ -33,6 +33,13 @@ class OG_273:
 	play = Summon(CONTROLLER, "CS2_101t") * 5
 
 
+class OG_311:
+	"A Light in the Darkness"
+	play = DISCOVER(RandomMinion()).then(Buff(Discover.CARDS, "OG_311e"))
+
+OG_311e = buff(+1, +1)
+
+
 ##
 # Weapons
 

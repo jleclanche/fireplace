@@ -1,6 +1,20 @@
 from utils import *
 
 
+def test_a_light_in_the_darkness():
+	game = prepare_empty_game(CardClass.PALADIN, CardClass.PALADIN)
+	a_light_in_the_darkness = game.player1.give("OG_311")
+	a_light_in_the_darkness.play()
+	assert len(game.player1.choice.cards) == 3
+	for card in game.player1.choice.cards:
+		assert card.type == CardType.MINION
+		buffhp = card.health
+		card.clear_buffs()
+		basehp = card.health
+		assert buffhp == basehp + 1
+		# TODO: put a test for card class here, once it's implemented
+
+
 def test_addled_grizzly():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
