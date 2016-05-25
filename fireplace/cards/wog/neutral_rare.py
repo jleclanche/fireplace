@@ -9,3 +9,8 @@ class OG_034:
 	update = (NUM_ATTACKS_THIS_TURN(FRIENDLY_HERO) == 0) & (
 		Refresh(SELF, {GameTag.CANT_ATTACK: True})
 	)
+
+
+class OG_322:
+	"Blackwater Pirate"
+	update = Refresh(FRIENDLY_HAND + WEAPON, {GameTag.COST: -2})

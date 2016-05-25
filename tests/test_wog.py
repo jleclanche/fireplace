@@ -26,6 +26,19 @@ def test_addled_grizzly():
 	assert wisp.atk == wisp.health == 3
 
 
+def test_blackwater_pirate():
+	game = prepare_game()
+	game.player1.give("OG_322").play()
+	reaper = game.player1.give("CS2_112")
+	kobold = game.player1.give(KOBOLD_GEOMANCER)
+	mc = game.player1.give(MIND_CONTROL)
+	assert reaper.cost == 3
+	assert kobold.cost == 2
+	assert mc.cost == 10
+	reaper.play()
+	assert reaper.cost == 5
+
+
 def test_blood_to_ichor():
 	game = prepare_game()
 	shieldbearer = game.player1.give("EX1_405").play()
