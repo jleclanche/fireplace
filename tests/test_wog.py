@@ -375,6 +375,21 @@ def test_silithid_swarmer():
 	assert not silithid.can_attack()
 
 
+def test_steward_of_darkshire():
+	game = prepare_game(CardClass.PALADIN, CardClass.PALADIN)
+	steward_of_darkshire = game.player1.give("OG_310")
+	wisp = game.player1.give(WISP)
+	injured_kvaldir = game.player1.give("AT_105")
+	twilight_drake = game.player1.give("EX1_043")
+	steward_of_darkshire.play()
+	wisp.play()
+	assert wisp.divine_shield
+	injured_kvaldir.play()
+	assert not injured_kvaldir.divine_shield
+	twilight_drake.play()
+	assert twilight_drake.divine_shield
+
+
 def test_tentacles_for_arms():
 	game = prepare_game()
 	game.player1.discard_hand()

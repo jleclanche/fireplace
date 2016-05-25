@@ -23,6 +23,11 @@ class OG_229:
 	events = OWN_TURN_END.on(Heal(RANDOM(FRIENDLY + DAMAGED_CHARACTERS), 8))
 
 
+class OG_310:
+	"Steward of Darkshire"
+	events = Summon(CONTROLLER, MINION + (CURRENT_HEALTH == 1)).on(GiveDivineShield(Summon.CARD))
+
+
 ##
 # Spells
 
