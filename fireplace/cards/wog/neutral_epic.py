@@ -26,6 +26,11 @@ class OG_272:
 	deathrattle = Summon(CONTROLLER, "OG_272t")
 
 
+class OG_290:
+	"Ancient Harbinger"
+	events = OWN_TURN_BEGIN.on(ForceDraw(RANDOM(FRIENDLY_DECK + MINION + (COST == 10))))
+
+
 class OG_337:
 	"Cyclopian Horror"
 	play = Buff(SELF, "OG_337e") * Count(ENEMY_MINIONS)

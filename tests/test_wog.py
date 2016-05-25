@@ -26,6 +26,22 @@ def test_addled_grizzly():
 	assert wisp.atk == wisp.health == 3
 
 
+def test_ancient_harbinger():
+	game = prepare_empty_game()
+	game.player1.give(WISP).shuffle_into_deck()
+	game.player1.give(IMP).shuffle_into_deck()
+	game.player1.give(GOLDSHIRE_FOOTMAN).shuffle_into_deck()
+	game.player1.give(MIND_CONTROL).shuffle_into_deck()
+	game.player1.give("EX1_279").shuffle_into_deck()
+	game.player1.give("NEW1_030").shuffle_into_deck()
+	game.player1.give("OG_290").play()
+	game.end_turn(); game.end_turn()
+
+	assert game.player1.hand[0].cost == 10
+	assert game.player1.hand[0].type == CardType.MINION
+	assert len(game.player1.hand) == 2
+
+
 def test_blackwater_pirate():
 	game = prepare_game()
 	game.player1.give("OG_322").play()
