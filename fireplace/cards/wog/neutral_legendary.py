@@ -9,6 +9,11 @@ class OG_122:
 	play = Give(CONTROLLER, "EX1_014t") * 2
 
 
+class OG_317:
+	"Deathwing, Dragonlord"
+	deathrattle = Summon(CONTROLLER, FRIENDLY_HAND + DRAGON)
+
+
 class OG_318:
 	"Hogger, Doom of Elwynn"
 	events = SELF_DAMAGE.on(Summon(CONTROLLER, "OG_318t"))

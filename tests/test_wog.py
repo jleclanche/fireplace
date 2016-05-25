@@ -186,6 +186,19 @@ def test_cult_apothecary():
 	assert lightwarden.atk == 3
 
 
+def test_deathwing_dragonlord():
+	game = prepare_game()
+	game.player1.discard_hand()
+	deathwing = game.player1.give("OG_317")
+	ysera = game.player1.give("EX1_572")
+	azure_drake = game.player1.give("EX1_284")
+	wisp = game.player1.give(WISP)
+	deathwing.play()
+	deathwing.destroy()
+	assert game.player1.hand == [wisp]
+	assert game.player1.field == [ysera, azure_drake]
+
+
 def test_demented_frostcaller():
 	game = prepare_game()
 	game.player1.give("OG_085").play()
