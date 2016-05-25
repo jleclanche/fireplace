@@ -207,6 +207,15 @@ def test_hallazeal_the_ascended():
 	assert hallazeal.dead
 
 
+def test_journey_below():
+	game = prepare_empty_game()
+	journey_below = game.player1.give("OG_072")
+	journey_below.play()
+	assert len(game.player1.choice.cards) == 3
+	for card in game.player1.choice.cards:
+		assert card.has_deathrattle
+
+
 def test_malkorok():
 	game = prepare_game()
 	malkorok = game.player1.give("OG_220")

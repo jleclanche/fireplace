@@ -21,6 +21,11 @@ OG_267e = buff(atk=2)
 ##
 # Spells
 
+class OG_072:
+	"Journey Below"
+	play = DISCOVER(RandomCollectible(deathrattle=True))
+
+
 class OG_073:
 	"Thistle Tea"
 	play = Draw(CONTROLLER).then(Give(CONTROLLER, Copy(Draw.CARD)) * 2)
