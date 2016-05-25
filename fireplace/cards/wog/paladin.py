@@ -18,6 +18,11 @@ class OG_221:
 	deathrattle = GiveDivineShield(RANDOM_FRIENDLY_MINION)
 
 
+class OG_229:
+	"Ragnaros, Lightlord"
+	events = OWN_TURN_END.on(Heal(RANDOM(FRIENDLY + DAMAGED_CHARACTERS), 8))
+
+
 ##
 # Spells
 

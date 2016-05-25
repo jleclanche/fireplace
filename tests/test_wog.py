@@ -262,6 +262,21 @@ def test_primal_fusion():
 	assert wisp.atk == wisp.health == 4
 
 
+def test_ragnaros_lightlord():
+	game = prepare_empty_game()
+	ragnaros_lightlord = game.player1.give("OG_229")
+	injured_blademaster = game.player1.give("CS2_181")
+	injured_blademaster.play()
+	game.end_turn()
+	injured_kvaldir = game.player2.give("AT_105")
+	injured_kvaldir.play()
+	game.end_turn()
+	ragnaros_lightlord.play()
+	game.end_turn()
+	assert injured_blademaster.health == 7
+	assert injured_kvaldir.health == 1
+
+
 def test_scaled_nightmare():
 	game = prepare_game()
 	scaled_nightmare = game.player1.give("OG_271")
