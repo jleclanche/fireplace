@@ -261,6 +261,20 @@ def test_mire_keeper():
 	assert game.player1.max_mana == 10
 
 
+def test_nerubian_prophet():
+	game = prepare_game()
+	nerubian_prophet = game.player1.give("OG_138")
+	assert nerubian_prophet.cost == 6
+	game.end_turn(); game.end_turn()
+	
+	assert nerubian_prophet.cost == 5
+	game.end_turn(); game.end_turn()
+	
+	assert nerubian_prophet.cost == 4
+	nerubian_prophet.play()
+	assert nerubian_prophet.cost == 6
+
+
 def test_primal_fusion():
 	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
 	fusion0 = game.player1.give("OG_023")

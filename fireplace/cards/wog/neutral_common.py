@@ -4,6 +4,16 @@ from ..utils import *
 ##
 # Minions
 
+class OG_138:
+	"Nerubian Prophet"
+	class Hand:
+		events = OWN_TURN_BEGIN.on(Buff(SELF, "OG_138e"))
+
+class OG_138e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -1}
+
+
 class OG_150:
 	"Aberrant Berserker"
 	enrage = Refresh(SELF, buff="OG_150e")
