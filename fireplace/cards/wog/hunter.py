@@ -16,6 +16,16 @@ class OG_292:
 OG_292e = buff(+1, +1)
 
 
+class OG_216:
+	"Infested Wolf"
+	deathrattle = Summon(CONTROLLER, "OG_216a") * 2
+
+
+class OG_309:
+	"Princess Huhuran"
+	play = Deathrattle(TARGET)
+
+
 ##
 # Spells
 
