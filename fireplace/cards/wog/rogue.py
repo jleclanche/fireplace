@@ -11,6 +11,11 @@ class OG_070:
 OG_070e = buff(+1, +1)
 
 
+class OG_080:
+	"Xaril, Poisoned Mind"
+	play = deathrattle = Give(CONTROLLER, RandomEntourage())
+
+
 class OG_267:
 	"Southsea Squidface"
 	deathrattle = Buff(FRIENDLY_WEAPON, "OG_267e")

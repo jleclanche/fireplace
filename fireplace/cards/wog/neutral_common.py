@@ -19,3 +19,8 @@ class OG_158:
 	deathrattle = Buff(RANDOM_FRIENDLY_MINION, "OG_158e")
 
 OG_158e = buff(+1, +1)
+
+
+class OG_323:
+	"Polluted Hoarder"
+	deathrattle = Draw(CONTROLLER)
