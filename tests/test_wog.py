@@ -503,6 +503,22 @@ def test_undercity_huckster():
 	assert game.player1.hand[0].card_class == game.player2.hero.card_class
 
 
+def test_validated_doomsayer():
+	game = prepare_game()
+	validated_doomsayer = game.player1.give("OG_200")
+	validated_doomsayer.play()
+	assert validated_doomsayer.atk == 0
+	game.end_turn()
+	assert validated_doomsayer.atk == 0
+	game.end_turn()
+	assert validated_doomsayer.atk == 7
+	game.end_turn()
+	game.player2.give("EX1_360").play(target=validated_doomsayer)
+	assert validated_doomsayer.atk == 1
+	game.end_turn()
+	assert validated_doomsayer.atk == 7
+
+
 def test_vilefin_inquisitor():
 	game = prepare_game()
 	vilefin_inquisitor = game.player1.give("OG_006")

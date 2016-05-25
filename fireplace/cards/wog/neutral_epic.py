@@ -4,6 +4,15 @@ from ..utils import *
 ##
 # Minions
 
+class OG_200:
+	"Validated Doomsayer"
+	events = OWN_TURN_BEGIN.on(Buff(SELF, "OG_200e"))
+
+class OG_200e:
+	"Doom Free"
+	atk = SET(7)
+
+
 class OG_271:
 	"Scaled Nightmare"
 	events = OWN_TURN_BEGIN.on(Buff(SELF, "OG_271e"))
