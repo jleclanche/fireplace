@@ -11,6 +11,16 @@ class OG_034:
 	)
 
 
+class OG_147:
+	"Corrupted Healbot"
+	deathrattle = Heal(ENEMY_HERO, 8)
+
+
+class OG_161:
+	"Corrupted Seer"
+	play = Hit(ALL_MINIONS - MURLOC, 2)
+
+
 class OG_254:
 	"Eater of Secrets"
 	play = (
@@ -19,6 +29,13 @@ class OG_254:
 	)
 
 OG_254e = buff(+1, +1)
+
+
+class OG_320:
+	"Midnight Drake"
+	play = Buff(SELF, "OG_320e") * Count(FRIENDLY_HAND)
+
+OG_320e = buff(atk=1)
 
 
 class OG_322:
