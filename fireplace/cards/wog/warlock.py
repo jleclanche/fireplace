@@ -37,3 +37,11 @@ class OG_241:
 class OG_116:
 	"Spreading Madness"
 	play = Hit(RANDOM_CHARACTER, 1) * 9
+
+
+class OG_239:
+	"DOOM!"
+	def play(self):
+		minion_count = len(self.controller.field) + len(self.controller.opponent.field)
+		yield Destroy(ALL_MINIONS)
+		yield Draw(CONTROLLER) * minion_count

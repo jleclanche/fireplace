@@ -155,6 +155,16 @@ def test_demented_frostcaller():
 	game.player1.give(THE_COIN).play()
 
 
+def test_doom():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.player1.give("OG_239").play()
+	assert len(game.player1.hand) == 3
+
+
 def test_feral_rage():
 	game = prepare_game()
 	game.player1.give("OG_047").play(choose="OG_047a")
