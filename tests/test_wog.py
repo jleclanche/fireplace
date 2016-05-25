@@ -195,6 +195,20 @@ def test_doom():
 	assert len(game.player1.hand) == 3
 
 
+def test_eater_of_secrets():
+	game = prepare_game()
+	eater_of_secrets = game.player1.give("OG_254")
+	game.end_turn()
+	game.player2.give("EX1_379").play()
+	game.player2.give("EX1_609").play()
+	game.player2.give("EX1_294").play()
+	game.end_turn()
+	eater_of_secrets.play()
+	assert eater_of_secrets.atk == 5
+	assert eater_of_secrets.health == 7
+	assert not game.player2.secrets
+
+
 def test_feral_rage():
 	game = prepare_game()
 	game.player1.give("OG_047").play(choose="OG_047a")
