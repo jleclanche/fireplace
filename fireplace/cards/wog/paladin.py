@@ -21,6 +21,16 @@ class OG_221:
 ##
 # Spells
 
+class OG_223:
+	"Divine Strength"
+	play = Buff(TARGET, "OG_223e")
+
+OG_223e = buff(+1, +2)
+
+
+class OG_273:
+	"Stand Against Darkness"
+	play = Summon(CONTROLLER, "CS2_101t") * 5
 
 
 ##
