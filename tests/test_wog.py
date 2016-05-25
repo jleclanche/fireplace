@@ -292,6 +292,26 @@ def test_scaled_nightmare_buff_ordering():
 	assert scaled_nightmare_debuff_first.atk == 4
 
 
+def test_shadow_word_horror():
+	game = prepare_game()
+	shadow_word_horror = game.player1.give("OG_100")
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	bloodfen_raptor = game.player1.give("CS2_172")
+	bloodfen_raptor.play()
+	game.end_turn()
+	river_crocolisk = game.player2.give("CS2_120")
+	river_crocolisk.play()
+	chillwind_yeti = game.player2.give("CS2_182")
+	chillwind_yeti.play()
+	game.end_turn()
+	shadow_word_horror.play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0] == bloodfen_raptor
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0] == chillwind_yeti
+
+
 def test_shatter():
 	game = prepare_game()
 	wisp1 = game.player1.give(WISP)

@@ -22,3 +22,8 @@ class OG_094:
 	play = Buff(TARGET, "OG_094e")
 
 OG_094e = buff(+2, +6)
+
+
+class OG_100:
+	"Shadow Word: Horror"
+	play = Destroy(ALL_MINIONS + (ATK <= 2))
