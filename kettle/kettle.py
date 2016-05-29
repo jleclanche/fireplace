@@ -327,6 +327,11 @@ class Kettle(socketserver.BaseRequestHandler):
 		return manager
 
 
+class KettleServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+	daemon_threads = True
+	allow_reuse_address = True
+
+
 def main():
 	arguments = ArgumentParser(prog="kettle")
 	arguments.add_argument("hostname", default="127.0.0.1", nargs="?")
@@ -336,9 +341,11 @@ def main():
 	cards.db.initialize()
 
 	INFO("Listening on %s:%i..." % (args.hostname, args.port))
-	socketserver.TCPServer.allow_reuse_address = True
-	kettle = socketserver.TCPServer((args.hostname, args.port), Kettle)
-	kettle.serve_forever()
+	kettle = KettleServer((args.hostname, args.port), Kettle)
+	try:
+		kettle.serve_forever()
+	except KeyboardInterrupt:
+		sys.exit(0)
 
 	return 0
 
