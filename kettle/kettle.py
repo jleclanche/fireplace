@@ -10,6 +10,7 @@ from hearthstone.enums import (
 	CardType, ChoiceType, GameTag, OptionType, Step, Zone
 )
 from fireplace import actions, cards
+from fireplace.exceptions import GameOver
 from fireplace.game import BaseGame as Game
 from fireplace.player import Player
 from fireplace.utils import CardList
@@ -272,19 +273,15 @@ class Kettle(socketserver.BaseRequestHandler):
 			packet = self.read_packet()
 			if packet is None:
 				break
+			try:
+				self.process_packet(packet, manager)
+			except GameOver:
+				break
 
-			if packet["Type"] == "SendOption":
-				manager.process_send_option(packet["SendOption"])
-			elif packet["Type"] == "ChooseEntities":
-				manager.process_choose_entities(packet["ChooseEntities"])
-			elif packet["Type"] == "Concede":
-				player = manager.game.players[packet["Concede"] - 1]
-				player.concede()
-				manager.refresh_full_state()
-			else:
-				raise NotImplementedError
-
-			self.send_payload(manager)
+		# send final power history delta
+		manager.refresh_full_state()
+		self.send_payload(manager)
+		self.request.close()
 
 	def read_packet(self):
 		header = self.request.recv(4)
@@ -301,6 +298,20 @@ class Kettle(socketserver.BaseRequestHandler):
 		response_payload = struct.pack("<i", len(serialized)) + serialized
 		DEBUG("Sending %r" % (response_payload))
 		self.request.sendall(response_payload)
+
+	def process_packet(self, packet, manager):
+		if packet["Type"] == "SendOption":
+			# throws GameOver when game ends
+			manager.process_send_option(packet["SendOption"])
+		elif packet["Type"] == "ChooseEntities":
+			manager.process_choose_entities(packet["ChooseEntities"])
+		elif packet["Type"] == "Concede":
+			player = manager.game.players[packet["Concede"] - 1]
+			player.concede()
+			manager.refresh_full_state()
+		else:
+			raise NotImplementedError
+		self.send_payload(manager)
 
 	def create_game(self, payload):
 		# self.game_id = payload["GameID"]
