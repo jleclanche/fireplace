@@ -242,7 +242,6 @@ class Player(Entity, TargetableByAuras):
 
 	def concede(self):
 		ret = self.game.cheat_action(self, [Concede(self)])
-		self.game.check_for_end_game()
 		return ret
 
 	def fatigue(self):

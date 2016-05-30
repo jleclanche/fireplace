@@ -241,6 +241,7 @@ class Concede(GameAction):
 
 	def do(self, source, player):
 		player.playstate = PlayState.CONCEDED
+		source.game.check_for_end_game()
 
 
 class Disconnect(GameAction):
