@@ -88,6 +88,10 @@ class BaseGame(Entity):
 
 	def action_end(self, type, source):
 		self.manager.action_end(type, source)
+
+		if self.ended:
+			raise GameOver("The game has ended.")
+
 		if type != BlockType.PLAY:
 			self._action_stack -= 1
 		if not self._action_stack:
@@ -179,7 +183,6 @@ class BaseGame(Entity):
 			self.manager.step(self.next_step, Step.FINAL_WRAPUP)
 			self.manager.step(self.next_step, Step.FINAL_GAMEOVER)
 			self.manager.step(self.next_step)
-			raise GameOver("The game has ended.")
 
 	def queue_actions(self, source, actions, event_args=None):
 		"""
