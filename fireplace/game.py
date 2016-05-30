@@ -77,6 +77,10 @@ class BaseGame(Entity):
 	def minions_killed_this_turn(self):
 		return self.players[0].minions_killed_this_turn + self.players[1].minions_killed_this_turn
 
+	@property
+	def ended(self):
+		return self.state == State.COMPLETE
+
 	def action_start(self, type, source, index, target):
 		self.manager.action_start(type, source, index, target)
 		if type != BlockType.PLAY:
