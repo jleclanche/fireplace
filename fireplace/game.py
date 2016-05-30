@@ -172,6 +172,9 @@ class BaseGame(Entity):
 					else:
 						player.playstate = PlayState.WON
 			self.state = State.COMPLETE
+			self.manager.step(self.next_step, Step.FINAL_WRAPUP)
+			self.manager.step(self.next_step, Step.FINAL_GAMEOVER)
+			self.manager.step(self.next_step)
 			raise GameOver("The game has ended.")
 
 	def queue_actions(self, source, actions, event_args=None):
