@@ -39,6 +39,9 @@ class KettleManager:
 
 	def action_start(self, type, source, index, target):
 		DEBUG("Beginning new action %r (%r, %r, %r)", type, source, index, target)
+		# prevent unprocessed updates appearing inside the block
+		# this may happen if queued tag changes are outside of blocks
+		self.refresh_full_state()
 		packet = {
 			"SubType": type,
 			"EntityID": source.entity_id,
