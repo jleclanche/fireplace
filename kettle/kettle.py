@@ -1,8 +1,10 @@
 #!/usr/bin/env python
+import asyncio
 import json
 import logging
 import random
 import socketserver
+import socket
 import struct
 import sys
 from argparse import ArgumentParser
@@ -10,6 +12,8 @@ from hearthstone.enums import (
 	CardType, ChoiceType, GameTag, OptionType, Step, Zone
 )
 from fireplace import actions, cards
+from fireplace.ai.player import BaseAI
+from fireplace.controller import GameController
 from fireplace.exceptions import GameOver
 from fireplace.game import BaseGame as Game
 from fireplace.player import Player
@@ -57,6 +61,8 @@ class KettleManager:
 	def game_step(self, step, next_step):
 		DEBUG("Game.STEP changes to %r (next step is %r)", step, next_step)
 		self.refresh_full_state()
+		if step == Step.MAIN_ACTION:
+			self.refresh_options()
 
 	def add_to_state(self, entity):
 		state = self.game_state[entity.entity_id] = {}
@@ -148,6 +154,8 @@ class KettleManager:
 		self.queued_data.append(payload)
 
 	def refresh_options(self):
+		if isinstance(self.game.current_player, BaseAI):
+			return
 		DEBUG("Refreshing options...")
 		if self.game.current_player.choice:
 			return self.refresh_choices()
@@ -203,6 +211,7 @@ class KettleManager:
 			func(**kwargs)
 		else:
 			raise NotImplementedError
+		self.refresh_options()
 
 	def process_choose_entities(self, data):
 		DEBUG("Processing choose entities, data=%r", data)
@@ -256,50 +265,82 @@ class KettleManager:
 
 class Kettle(socketserver.BaseRequestHandler):
 	def handle(self):
-		data = self.read_packet()
+		# new thread needs a new event loop
+		loop = asyncio.new_event_loop()
+		asyncio.set_event_loop(loop)
+
+		# block until we have game creation packet data
+		data = loop.run_until_complete(self.read_packet(loop))
 		data = data[0]
 		query_type = data["Type"]
 		payload = data[query_type]
 		DEBUG("Got payload %r", payload)
 		assert query_type == "CreateGame"
 
+		# 10ms timeout on receiving data so packet_loop() doesn't block
+		self.request.settimeout(0.01)
+
 		self.serializer = KettleSerializer()
 		manager = self.create_game(payload)
+		controller = GameController(manager.game)
+
+		# run game event loop, blocking until the game is over
+		asyncio.ensure_future(self.packet_loop(manager, loop))
+		controller.run()
+
+		self.request.close()
+
+	async def packet_loop(self, manager, loop):
+		# send initial game state
+		manager.refresh_full_state()
+		if (not isinstance(manager.game.current_player, BaseAI)):
+			manager.refresh_options()
+		await self.send_payload(manager, loop)
 
 		while True:
-			manager.refresh_full_state()
-			manager.refresh_options()
-			self.send_payload(manager)
-			packet = self.read_packet()
+			# see if human player sends SendOption or Concede
+			packet = await self.read_packet(loop)
 			if packet is None:
+				# connection closed
 				break
-			try:
-				self.process_packet(packet, manager)
-			except GameOver:
-				break
+			if packet is not False:
+				# data received
+				try:
+					await self.process_packet(packet, manager, loop)
+				except GameOver:
+					break
+			await self.send_payload(manager, loop)
+			# relinquish control to event loop so game processing can occur
+			await asyncio.sleep(0)
 
 		# send final power history delta
 		manager.refresh_full_state()
-		self.send_payload(manager)
-		self.request.close()
+		await self.send_payload(manager, loop)
 
-	def read_packet(self):
-		header = self.request.recv(4)
+	async def read_packet(self, loop):
+		try:
+			header = await loop.sock_recv(self.request, 4)
+		except socket.timeout:
+			return False
 		if not header:
+			# connection closed?
 			return None
 		body_size, = struct.unpack("<i", header)
-		data = self.request.recv(body_size)
+		data = await loop.sock_recv(self.request, body_size)
 		DEBUG("Got data %r", data)
 		return json.loads(data.decode("utf-8"))
 
-	def send_payload(self, manager):
+	async def send_payload(self, manager, loop):
+		if not len(manager.queued_data):
+			# don't send packets with no updates
+			return
 		serialized = self.serializer.encode(manager.queued_data).encode("utf-8")
 		manager.queued_data = []
 		response_payload = struct.pack("<i", len(serialized)) + serialized
 		DEBUG("Sending %r" % (response_payload))
-		self.request.sendall(response_payload)
+		await loop.sock_sendall(self.request, response_payload)
 
-	def process_packet(self, packet, manager):
+	async def process_packet(self, packet, manager, loop):
 		if packet["Type"] == "SendOption":
 			# throws GameOver when game ends
 			manager.process_send_option(packet["SendOption"])
@@ -311,30 +352,29 @@ class Kettle(socketserver.BaseRequestHandler):
 			manager.refresh_full_state()
 		else:
 			raise NotImplementedError
-		self.send_payload(manager)
+		await self.send_payload(manager, loop)
 
 	def create_game(self, payload):
 		# self.game_id = payload["GameID"]
 		player_data = payload["Players"]
 		players = []
+		first = True
 		for player in player_data:
 			# Shuffle the cards to prevent information leaking
 			cards = player["Cards"]
 			random.shuffle(cards)
-			p = Player(player["Name"], cards, player["Hero"])
+			if first:
+				p = Player(player["Name"], cards, player["Hero"])
+				first = False
+			else:
+				# FIXME: always assume 2nd player is AI
+				p = BaseAI(player["Name"], cards, player["Hero"])
 			players.append(p)
 
 		INFO("Initializing a Kettle game with players=%r", players)
 		game = Game(players=players)
 		manager = KettleManager(game)
 		game.manager.register(manager)
-		game.current_player = game.players[0]  # Dumb.
-		game.start()
-
-		# Skip mulligan
-		for player in game.players:
-			player.choice = None
-
 		return manager
 
 
