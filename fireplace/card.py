@@ -588,7 +588,7 @@ class Minion(Character):
 	def adjacent_minions(self):
 		assert self.zone is Zone.PLAY, self.zone
 		ret = CardList()
-		index = self.zone_position
+		index = self.zone_position - 1
 		left = self.controller.field[:index]
 		right = self.controller.field[index + 1:]
 		if left:
@@ -626,7 +626,7 @@ class Minion(Character):
 	@property
 	def zone_position(self):
 		if self.zone == Zone.PLAY:
-			return self.controller.field.index(self)
+			return self.controller.field.index(self) + 1
 		return super().zone_position
 
 	def _set_zone(self, value):
@@ -703,7 +703,7 @@ class Secret(Spell):
 	@property
 	def zone_position(self):
 		if self.zone == Zone.SECRET:
-			return self.controller.secrets.index(self)
+			return self.controller.secrets.index(self) + 1
 		return super().zone_position
 
 	def _set_zone(self, value):

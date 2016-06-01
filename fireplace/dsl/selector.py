@@ -263,7 +263,7 @@ class BoardPositionSelector(Selector):
 		for e in self.child.eval(entities, source):
 			if getattr(e, "zone", None) == Zone.PLAY:
 				field = e.controller.field
-				position = e.zone_position
+				position = e.zone_position - 1
 				if self.direction == self.Direction.RIGHT:
 					# Swap the list, reverse the position
 					field = list(reversed(field))
