@@ -172,6 +172,14 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		return bool(self.choose_cards)
 
 	@property
+	def must_choose_entity(self) -> bool:
+		"""
+		Returns True if the card requires user input to choose an entity before it resolves
+		"""
+		play_action = self.get_actions_type("play")
+		return isinstance(play_action, actions.GenericChoice) or isinstance(play_action, actions.Discover)
+
+	@property
 	def powered_up(self):
 		"""
 		Returns True whether the card is "powered up".

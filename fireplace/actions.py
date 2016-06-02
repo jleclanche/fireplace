@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from inspect import isclass
-from hearthstone.enums import CardType, CardClass, Mulligan, PlayState, Step, Zone
+from hearthstone.enums import BlockType, CardType, CardClass, Mulligan, PlayState, Step, Zone
 from .dsl import LazyNum, LazyValue, Selector
 from .entity import Entity
 from .logging import log
@@ -351,6 +351,9 @@ class GenericChoice(GameAction):
 			else:
 				_card.discard()
 		self.player.choice = None
+
+		if card.must_choose_entity:
+			self.game.action_end(BlockType.PLAY, card.controller)
 
 
 class MulliganChoice(GameAction):

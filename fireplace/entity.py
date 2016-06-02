@@ -48,6 +48,10 @@ class BaseEntity(object):
 			actions = actions(self)
 		return actions
 
+	def get_actions_type(self, name):
+		actions = getattr(self.data.scripts, name)
+		return actions
+
 	def trigger_event(self, source, event, args):
 		"""
 		Trigger an event on the Entity
