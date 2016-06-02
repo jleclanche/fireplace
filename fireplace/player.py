@@ -137,7 +137,7 @@ class Player(Entity, TargetableByAuras):
 	def minion_slots(self):
 		return max(0, self.game.MAX_MINIONS_ON_FIELD - len(self.field))
 
-	def card(self, id, source=None, zone=Zone.SETASIDE):
+	def card(self, id, source=None, parent=None, zone=Zone.SETASIDE):
 		card = Card(id)
 		card.controller = self
 		card.zone = zone
@@ -145,6 +145,8 @@ class Player(Entity, TargetableByAuras):
 		self.game.play_counter += 1
 		if source is not None:
 			card.creator = source
+		if parent is not None:
+			card.parent_card = parent
 		self.game.manager.new_entity(card)
 		return card
 

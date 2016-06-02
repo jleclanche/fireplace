@@ -206,8 +206,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			# Create the "Choose One" subcards
 			del self.choose_cards[:]
 			for id in self.data.choose_cards:
-				card = self.controller.card(id)
-				card.parent_card = self
+				card = self.controller.card(id, source=self, parent=self)
 				self.choose_cards.append(card)
 
 	def destroy(self):

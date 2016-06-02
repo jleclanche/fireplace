@@ -169,6 +169,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.NUM_TURNS_IN_PLAY: "turns_in_play",
 	GameTag.TAG_ONE_TURN_EFFECT: "one_turn_effect",
 	GameTag.OVERLOAD: "overload",
+	GameTag.PARENT_CARD: "parent_card",
 	GameTag.POISONOUS: "poisonous",
 	GameTag.POWERED_UP: "powered_up",
 	GameTag.RARITY: "rarity",
