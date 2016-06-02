@@ -353,7 +353,7 @@ class GenericChoice(GameAction):
 		self.player.choice = None
 
 		if card.must_choose_entity:
-			self.game.action_end(BlockType.PLAY, card.controller)
+			self.game.action_end(BlockType.PLAY, card)
 
 
 class MulliganChoice(GameAction):
