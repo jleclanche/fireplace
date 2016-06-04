@@ -67,33 +67,35 @@ class KettleManager:
 		# Don't have a way of getting entities by ID in fireplace yet
 		state[GameTag.ENTITY_ID] = entity
 
-	def refresh_tag(self, entity, tag):
+	def refresh_tag(self, entity, tag, queue=True):
 		state = self.game_state[entity.entity_id]
 		value = entity.tags.get(tag, 0)
 		if isinstance(value, str):
 			return
 		if not value:
 			if state.get(tag, 0):
-				self.tag_change(entity, tag, 0)
+				if queue:
+					self.tag_change(entity, tag, 0)
 				del state[tag]
 		elif int(value) != state.get(tag, 0):
-			self.tag_change(entity, tag, int(value))
+			if queue:
+				self.tag_change(entity, tag, int(value))
 			state[tag] = int(value)
 
-	def refresh_full_state(self):
+	def refresh_full_state(self, queue=True):
 		if self.game.step < Step.BEGIN_MULLIGAN:
 			return
 		for entity in self.game:
 			if entity.entity_id in self.game_state:
 				self.refresh_state(entity.entity_id)
 
-	def refresh_state(self, entity_id):
+	def refresh_state(self, entity_id, queue=True):
 		assert entity_id in self.game_state
 		entity = self.game_state[entity_id][GameTag.ENTITY_ID]
 		state = self.game_state[entity.entity_id]
 
 		for tag in entity.tags:
-			self.refresh_tag(entity, tag)
+			self.refresh_tag(entity, tag, queue)
 
 	def get_options(self, entity):
 		ret = []
@@ -142,7 +144,7 @@ class KettleManager:
 			"PlayerId": 1,
 		}
 		for show_choice in choice.cards:
-			self.refresh_state(show_choice.entity_id)
+			self.refresh_state(show_choice.entity_id, False)
 			self.queued_data.append(self.show_entity(show_choice))
 		payload = {"Type": "EntityChoices", "EntityChoices": self.choices}
 		self.queued_data.append(payload)
