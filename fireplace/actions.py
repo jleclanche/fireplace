@@ -352,8 +352,8 @@ class GenericChoice(GameAction):
 				_card.discard()
 		self.player.choice = None
 
-		if card.must_choose_entity:
-			card.game.action_end(BlockType.PLAY, card.controller)
+		if self.source.must_choose_entity:
+			self.source.game.queue_actions(self.source, [BattlecryContinue(self.source, None)])
 
 
 class MulliganChoice(GameAction):
@@ -708,13 +708,27 @@ class Battlecry(TargetedAction):
 			actions = card.get_actions("play")
 
 		source.target = target
-		source.game.main_power(source, actions, target)
+		source.game.action_start(BlockType.POWER, source, -1, target)
+		source.game.queue_actions(source, actions, target)
+		if not card.must_choose_entity:
+			source.game.queue_actions(source, [BattlecryContinue(card, target)])
+
+
+class BattlecryContinue(Battlecry):
+	def do(self, source, card, target):
+		player = card.controller
 
 		if player.extra_battlecries and card.has_battlecry:
+			if card.has_combo and player.combo:
+				actions = card.get_actions("combo")
+			else:
+				actions = card.get_actions("play")
 			source.game.main_power(source, actions, target)
 
 		if card.overload:
 			source.game.queue_actions(card, [Overload(player, card.overload)])
+
+		source.game.action_end(BlockType.POWER, source)
 
 
 class Destroy(TargetedAction):
