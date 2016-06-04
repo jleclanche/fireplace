@@ -38,7 +38,6 @@ class KettleManager:
 		self.queued_data = []
 
 	def action_start(self, type, source, index, target):
-		DEBUG("Beginning new action %r (%r, %r, %r)", type, source, index, target)
 		packet = {
 			"SubType": type,
 			"EntityID": source.entity_id,
@@ -49,13 +48,11 @@ class KettleManager:
 		self.queued_data.append(payload)
 
 	def action_end(self, type, source):
-		DEBUG("Ending action %r", type)
 		self.refresh_full_state()
 		payload = {"Type": "ActionEnd"}
 		self.queued_data.append(payload)
 
 	def game_step(self, step, next_step):
-		DEBUG("Game.STEP changes to %r (next step is %r)", step, next_step)
 		self.refresh_full_state()
 
 	def add_to_state(self, entity):
