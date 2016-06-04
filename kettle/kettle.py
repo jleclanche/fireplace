@@ -214,6 +214,7 @@ class KettleManager:
 			# assert entity_id in self.choices["Entities"]
 			entities.append(self.get_entity(entity_id))
 		self.game.current_player.choice.choose(*entities)
+		self.options_sent = False
 
 	def tag_change(self, entity, tag, value):
 		DEBUG("Queueing a tag change for entity %r: %r -> %r", entity, tag, value)
