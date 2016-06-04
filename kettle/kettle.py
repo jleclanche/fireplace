@@ -141,6 +141,9 @@ class KettleManager:
 			"Source": choice.source.entity_id,
 			"PlayerId": 1,
 		}
+		for show_choice in choice.cards:
+			self.refresh_state(show_choice.entity_id)
+			self.queued_data.append(self.show_entity(show_choice))
 		payload = {"Type": "EntityChoices", "EntityChoices": self.choices}
 		self.queued_data.append(payload)
 
