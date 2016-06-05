@@ -214,6 +214,8 @@ class KettleManager:
 		self.game.current_player.choice.choose(*entities)
 
 	def tag_change(self, entity, tag, value):
+		if tag < 0:
+			return
 		DEBUG("Queueing a tag change for entity %r: %r -> %r", entity, tag, value)
 		payload = {
 			"Type": "TagChange",
