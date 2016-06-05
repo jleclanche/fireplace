@@ -762,9 +762,7 @@ class Discover(TargetedAction):
 		picker = self._args[1] * 3
 		picker = picker.copy_with_weighting(1, card_class=CardClass.NEUTRAL)
 		picker = picker.copy_with_weighting(4, card_class=discover_class)
-		pickedcards = picker.evaluate(source)
-
-		return [[target.card(card) for card in pickedcards]]
+		return [picker.evaluate(source)]
 
 	def do(self, source, target, cards):
 		log.info("%r discovers %r for %s", source, cards, target)
