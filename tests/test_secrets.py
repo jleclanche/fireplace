@@ -92,18 +92,14 @@ def test_counterspell_wild_pyromancer():
 
 
 def test_dart_trap():
-	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
+	game = prepare_game(CardClass.WARLOCK, CardClass.WARLOCK)
 	darttrap = game.player1.give("LOE_021")
 	darttrap.play()
 	game.end_turn()
 
-	wisp = game.player2.give(WISP)
-	wisp.play()
-	assert darttrap in game.player1.secrets
 	assert game.player2.hero.health == 30
 	game.player2.hero.power.use()
-	assert darttrap not in game.player1.secrets
-	assert wisp.dead ^ (game.player2.hero.health == 25)
+	assert game.player2.hero.health == 30 - 5 - 2
 
 
 def test_duplicate():
