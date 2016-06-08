@@ -1,9 +1,11 @@
 from hearthstone.enums import GameTag
 from . import enums
+from . import logging
 
 
 class Manager(object):
 	def __init__(self, obj):
+		self.logger = logging.log
 		self.obj = obj
 		self.observers = []
 
@@ -56,24 +58,29 @@ class GameManager(Manager):
 		obj.entity_id = self.counter
 
 	def action_start(self, type, source, index, target):
+		self.logger.debug("Beginning new action %r (%r, %r, %r)", type, source, index, target)
 		for observer in self.observers:
 			observer.action_start(type, source, index, target)
 
 	def action_end(self, type, source):
+		self.logger.debug("Ending action %r", type)
 		for observer in self.observers:
 			observer.action_end(type, source)
 
 	def new_entity(self, entity):
 		self.counter += 1
 		entity.entity_id = self.counter
+		self.logger.debug("Creating entity %r", entity)
 		for observer in self.observers:
 			observer.new_entity(entity)
 
 	def start_game(self):
+		self.logger.debug("Starting new game")
 		for observer in self.observers:
 			observer.start_game()
 
 	def step(self, step, next_step=None):
+		self.logger.debug("Game.STEP changes to %r (next step is %r)", step, next_step)
 		for observer in self.observers:
 			observer.game_step(step, next_step)
 		self.obj.step = step

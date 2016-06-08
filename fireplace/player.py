@@ -50,6 +50,7 @@ class Player(Entity, TargetableByAuras):
 		self.overload_locked = 0
 		self._max_mana = 0
 		self._start_hand_size = 3
+		self.is_doing_extra_battlecries = False
 		self.playstate = PlayState.INVALID
 		self.temp_mana = 0
 		self.timeout = 75

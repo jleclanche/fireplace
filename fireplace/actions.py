@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from inspect import isclass
-from hearthstone.enums import CardType, CardClass, Mulligan, PlayState, Step, Zone
+from hearthstone.enums import BlockType, CardType, CardClass, Mulligan, PlayState, Step, Zone
 from .dsl import LazyNum, LazyValue, Selector
 from .entity import Entity
 from .logging import log
@@ -351,6 +351,9 @@ class GenericChoice(GameAction):
 			else:
 				_card.discard()
 		self.player.choice = None
+
+		if self.source.must_choose_entity:
+			self.source.game.queue_actions(self.source, [BattlecryContinue(self.source, None)])
 
 
 class MulliganChoice(GameAction):
@@ -705,13 +708,28 @@ class Battlecry(TargetedAction):
 			actions = card.get_actions("play")
 
 		source.target = target
-		source.game.main_power(source, actions, target)
+		source.game.action_start(BlockType.POWER, source, -1, target)
+		source.game.queue_actions(source, actions, target)
+		if not card.must_choose_entity:
+			source.game.queue_actions(source, [BattlecryContinue(card, target)])
 
-		if player.extra_battlecries and card.has_battlecry:
-			source.game.main_power(source, actions, target)
+
+class BattlecryContinue(Battlecry):
+	"""
+	Continue Battlecry on card targets. INTERNAL USE ONLY
+	"""
+	def do(self, source, card, target):
+		player = card.controller
 
 		if card.overload:
 			source.game.queue_actions(card, [Overload(player, card.overload)])
+		source.game.action_end(BlockType.POWER, source)
+
+		if player.extra_battlecries and card.has_battlecry and not player.is_doing_extra_battlecries:
+			player.is_doing_extra_battlecries = True
+			source.game.queue_actions(source, [Battlecry(card, target)])
+		else:
+			player.is_doing_extra_battlecries = False
 
 
 class Destroy(TargetedAction):

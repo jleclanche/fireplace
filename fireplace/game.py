@@ -99,13 +99,16 @@ class BaseGame(Entity):
 			self.refresh_auras()
 			self.process_deaths()
 
-	def action_block(self, source, actions, type, index=-1, target=None, event_args=None):
-		self.action_start(type, source, index, target)
+	def action_block(self, source, actions, type, index=-1, target=None, event_args=None, card_source=None):
+		action_source = queue_source = source
+		if card_source is not None:
+			action_source = card_source
+		self.action_start(type, action_source, index, target)
 		if actions:
-			ret = self.queue_actions(source, actions, event_args)
+			ret = self.queue_actions(queue_source, actions, event_args)
 		else:
 			ret = []
-		self.action_end(type, source)
+		self.action_end(type, action_source)
 		return ret
 
 	def attack(self, source, target):
@@ -125,7 +128,12 @@ class BaseGame(Entity):
 		type = BlockType.PLAY
 		player = card.controller
 		actions = [Play(card, target, index, choose)]
-		return self.action_block(player, actions, type, index, target)
+
+		if card.must_choose_entity:
+			self.action_start(type, card, index, None)
+			return self.queue_actions(player, actions)
+		else:
+			return self.action_block(player, actions, type, index, target, card_source=card)
 
 	def process_deaths(self):
 		type = BlockType.DEATHS

@@ -56,3 +56,20 @@ def test_brann_youthful_brewmaster():
 	brewmaster = game.player1.give("EX1_049")
 	brewmaster.play(target=brann)
 	assert brann in game.player1.hand
+
+
+def test_brann_discover():
+	game, brann = _prepare_game()
+	tomb_spider = game.player1.give("LOE_047")
+	assert not game.player1.choice
+	tomb_spider.play()
+	assert game.player1.choice
+	assert not game.player1.is_doing_extra_battlecries
+	choice = random.choice(game.player1.choice.cards)
+	game.player1.choice.choose(choice)
+	assert game.player1.choice
+	assert game.player1.is_doing_extra_battlecries
+	choice = random.choice(game.player1.choice.cards)
+	game.player1.choice.choose(choice)
+	assert not game.player1.choice
+	assert not game.player1.is_doing_extra_battlecries
