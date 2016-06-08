@@ -178,13 +178,13 @@ class Player(Entity, TargetableByAuras):
 		for card in self.hand[::-1]:
 			card.discard()
 
-	def can_pay_cost(self, card):
+	def can_pay_cost(self, card, with_extra=0):
 		"""
 		Returns whether the player can pay the resource cost of a card.
 		"""
 		if self.spells_cost_health and card.type == CardType.SPELL:
 			return self.hero.health > card.cost
-		return self.mana >= card.cost
+		return self.mana + with_extra >= card.cost
 
 	def pay_cost(self, source, amount: int) -> int:
 		"""
