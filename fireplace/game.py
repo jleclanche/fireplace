@@ -29,13 +29,14 @@ class BaseGame(Entity):
 		self.current_player = None
 		self.tick = 0
 		self.active_aura_buffs = CardList()
+		self.setaside = CardList()
 		self._action_stack = 0
 
 	def __repr__(self):
 		return "%s(players=%r)" % (self.__class__.__name__, self.players)
 
 	def __iter__(self):
-		return chain(self.entities, self.hands, self.decks, self.graveyard, self.discarded)
+		return chain(self.entities, self.hands, self.decks, self.graveyard, self.discarded, self.setaside)
 
 	@property
 	def game(self):
