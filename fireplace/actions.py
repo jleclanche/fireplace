@@ -221,6 +221,7 @@ class Attack(GameAction):
 		attacker.attack_target = None
 		defender.defending = False
 		attacker.num_attacks += 1
+		source.game.manager.step(source.game.next_step, Step.MAIN_END)
 
 
 class BeginTurn(GameAction):
