@@ -230,8 +230,14 @@ class BeginTurn(GameAction):
 	PLAYER = ActionArg()
 
 	def do(self, source, player):
+		source.manager.step(source.next_step, Step.MAIN_READY)
+		source.turn += 1
+		source.log("%s begins turn %i", player, source.turn)
+		source.current_player = player
+		source.manager.step(source.next_step, Step.MAIN_START_TRIGGERS)
+		source.manager.step(source.next_step, source.next_step)
 		self.broadcast(source, EventListener.ON, player)
-		source.game._begin_turn(player)
+		source._begin_turn(player)
 
 
 class Concede(GameAction):

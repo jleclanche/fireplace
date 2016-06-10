@@ -297,11 +297,6 @@ class BaseGame(Entity):
 		return self.queue_actions(self, [BeginTurn(player)])
 
 	def _begin_turn(self, player):
-		self.manager.step(self.next_step, Step.MAIN_READY)
-		self.turn += 1
-		self.log("%s begins turn %i", player, self.turn)
-		self.current_player = player
-		self.manager.step(self.next_step, Step.MAIN_START_TRIGGERS)
 		self.manager.step(self.next_step, Step.MAIN_START)
 		self.manager.step(self.next_step, Step.MAIN_ACTION)
 
