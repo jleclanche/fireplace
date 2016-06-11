@@ -115,6 +115,7 @@ class BaseGame(Entity):
 		result = self.action_block(source, actions, type, target=target)
 		if self.state != State.COMPLETE:
 			self.manager.step(Step.MAIN_ACTION, Step.MAIN_END)
+		return result
 
 	def joust(self, source, challenger, defender, actions):
 		type = BlockType.JOUST
@@ -139,7 +140,7 @@ class BaseGame(Entity):
 
 		actions = []
 		if cards:
-			self.action_start(type, self, -1, None)
+			self.action_start(type, self, 0, None)
 			for card in cards:
 				card.zone = Zone.GRAVEYARD
 				actions.append(Death(card))
