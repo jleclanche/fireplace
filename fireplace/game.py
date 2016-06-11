@@ -112,7 +112,9 @@ class BaseGame(Entity):
 	def attack(self, source, target):
 		type = BlockType.ATTACK
 		actions = [Attack(source, target)]
-		return self.action_block(source, actions, type, target=target)
+		result = self.action_block(source, actions, type, target=target)
+		if self.state != State.COMPLETE:
+			self.manager.step(Step.MAIN_ACTION, Step.MAIN_END)
 
 	def joust(self, source, challenger, defender, actions):
 		type = BlockType.JOUST
