@@ -80,6 +80,10 @@ class GameManager(Manager):
 		if next_step is not None:
 			self.obj.next_step = next_step
 
+	def turn(self, player):
+		for observer in self.observers:
+			observer.turn(player)
+
 
 class PlayerManager(Manager):
 	map = {

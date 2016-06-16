@@ -298,7 +298,9 @@ class BaseGame(Entity):
 		self.begin_turn(self.current_player.opponent)
 
 	def begin_turn(self, player):
-		return self.queue_actions(self, [BeginTurn(player)])
+		ret = self.queue_actions(self, [BeginTurn(player)])
+		self.manager.turn(player)
+		return ret
 
 	def _begin_turn(self, player):
 		self.manager.step(self.next_step, Step.MAIN_START)
