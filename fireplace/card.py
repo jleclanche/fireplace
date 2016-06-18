@@ -350,7 +350,7 @@ class LiveEntity(PlayableCard, Entity):
 
 	def _set_zone(self, zone):
 		super()._set_zone(zone)
-		# See issue #283 (Malorne, Anu'barak)
+		# See issue #283 (Malorne, Anub'arak)
 		self._to_be_destroyed = False
 		if zone == Zone.GRAVEYARD:
 			self.turn_killed = self.game.turn
