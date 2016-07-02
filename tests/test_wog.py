@@ -238,6 +238,17 @@ def test_eater_of_secrets():
 	assert not game.player2.secrets
 
 
+def test_evolved_kobold():
+	game = prepare_game()
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	game.player1.give(MOONFIRE).play(target=statue)
+	assert statue.health == 10 - 1
+	game.player1.give("OG_082").play()
+	game.player1.give(MOONFIRE).play(target=statue)
+	assert statue.health == 10 - 1 - 3
+
+
 def test_feral_rage():
 	game = prepare_game()
 	game.player1.give("OG_047").play(choose="OG_047a")
@@ -339,10 +350,10 @@ def test_nerubian_prophet():
 	nerubian_prophet = game.player1.give("OG_138")
 	assert nerubian_prophet.cost == 6
 	game.end_turn(); game.end_turn()
-	
+
 	assert nerubian_prophet.cost == 5
 	game.end_turn(); game.end_turn()
-	
+
 	assert nerubian_prophet.cost == 4
 	nerubian_prophet.play()
 	assert nerubian_prophet.cost == 6
@@ -566,7 +577,7 @@ def test_wisps_of_the_old_gods():
 
 	game.player1.give("OG_195").play(choose="OG_195b")
 	for wisp in game.player1.field:
-		assert wisp.atk ==  wisp.health == 3
+		assert wisp.atk == wisp.health == 3
 		assert wisp.id == "OG_195c"
 
 
