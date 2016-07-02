@@ -238,6 +238,17 @@ def test_eater_of_secrets():
 	assert not game.player2.secrets
 
 
+def test_evolved_kobold():
+	game = prepare_game()
+	deathlord = game.player1.give("FP1_009")
+	deathlord.play()
+	game.player1.give(MOONFIRE).play(target=deathlord)
+	assert deathlord.health == 7
+	game.player1.give("OG_082").play()
+	game.player1.give(MOONFIRE).play(target=deathlord)
+	assert deathlord.health == 4
+
+
 def test_feral_rage():
 	game = prepare_game()
 	game.player1.give("OG_047").play(choose="OG_047a")
