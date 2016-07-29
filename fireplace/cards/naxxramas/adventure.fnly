@@ -1,0 +1,117 @@
+##
+# Hero Powers
+
+
+(card "NAX1_04"
+	"Skitter"
+	(:activate (summon :CONTROLLER "NAX1_03"))
+)
+
+(card "NAX2_05"
+	(:update
+		(if (current-player :CONTROLLER)
+			(refresh :FRIENDLY_HERO [+ 1 :ATK])
+		)
+	)
+)
+
+(card "NAX3_02" "Web Wrap"
+	(:activate (bounce RANDOM_ENEMY_MINION))
+)
+
+
+(card "NAX3_02H" "Web Wrap"
+	(:activate (* 2 (bounce RANDOM_ENEMY_MINION)))
+)
+
+(card "NAX4_04" "Raise Dead"
+	(:events
+		(death (+ ENEMY MINION) (summon :CONTROLLER "NAX4_03"))
+	)
+)
+
+(card "NAX5_02" "Eruption"
+	(:activate (hit (at 0 ENEMY_MINIONS) 2))
+)
+
+(card "NAX8_02H" "Harvest"
+	(:activate
+		(draw :CONTROLLER)
+		(gain-mana :CONTROLLER)
+	)
+)
+
+(card "NAX9_06" "Unholy Shadow"
+	(:activate (* 2 (draw :CONTROLLER)))
+)
+
+(card "NAX11_02" "Poison Cloud"
+	(:activate
+		(and
+			(hit :ALL_MINIONS 1)
+			(if (dead [:hit :target]) (summon :CONTROLLER "NAX11_03"))
+	)
+)
+
+(card "NAX12_02" "Decimate"
+	(:activate (buff :ENEMY_MINIONS "NAX12_02e"))
+)
+
+(card "NAX12_02e"
+	(:set [= 1 :MAX_HEALTH])
+)
+
+(card "NAX13_02" "Polarity Shift"
+	(:activate (buff :ALL_MINIONS "NAX13_02e"))
+)
+
+(card "NAX13_02e" "Polarity Shift Buff"
+	(swap-atk-and-health)
+)
+
+(card "NAX14_02" "Frost Breath"
+	(:activate (destroy
+		(- :ENEMY_MINIONS :FROZEN (adjacent-to "NAX14_03"))
+	))
+)
+
+
+(card "NAX15_04" "Chains"
+	(:activate (steal :TARGET) (buff :TARGET "NAX15_04a"))
+)
+
+(card "NAX14_04a" "Chains Mind Control Buff"
+	(:events
+		(end-turn (destroy :SELF) (steal :OWNER :OPPONENT))
+		(silence (steal :OWNER :OPPONENT))
+	)
+)
+
+(card "NAX8_03t" "Spectral Trainee"
+	(:events (own-turn-begin (hit :FRIENDLY_HERO 1)))
+)
+
+(card "NAX9_02" "Lady Blaumeux"
+	(:update (refresh :FRIENDLY_HERO [= :CANT_BE_DAMAGED 1]))
+)
+
+(card "NAX4_05" "Plague"
+	(:play (destroy (- :ALL_MINIONS "NAX4_03" "NAX4_03H")))
+)
+
+(card "NAX9_07" "Mark of the Horsemen"
+	(:play (buff (+ :FRIENDLY (| :WEAPON :MINION)) "NAX9_07e"))
+)
+
+(card "NAX9_05H" "Runeblade (Heroic)"
+	(:update
+		(if
+			(find (| "NAX9_02H" "NAX9_03H" "NAX9_04H"))
+			(refresh :SELF [+ 6 :ATK])
+		)
+	)
+)
+
+(card "NAX12_03e"
+	(defnbuff [+ 2 :ATK])
+)
