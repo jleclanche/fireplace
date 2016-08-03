@@ -12,7 +12,6 @@ class CS2_034_H1:
 	"Fireblast (Medivh)"
 	activate = CS2_034.activate
 
-
 class CS2_034_H2:
 	"Fireblast (Khadgar)"
 	activate = CS2_034.activate

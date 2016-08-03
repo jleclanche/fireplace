@@ -73,6 +73,10 @@ class AT_132_SHAMAN:
 	"Totemic Slam"
 	choose = ("AT_132_SHAMANa", "AT_132_SHAMANb", "AT_132_SHAMANc", "AT_132_SHAMANd")
 
+class CS2_049_H1_AT_132:
+	"Totemic Slam (Morgl the Oracle)"
+	choose = AT_132_SHAMAN.choose
+
 
 class AT_132_SHAMANa:
 	"Healing Totem"
