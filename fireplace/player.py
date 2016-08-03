@@ -164,12 +164,15 @@ class Player(Entity, TargetableByAuras):
 		for card in starting_hand:
 			card.zone = Zone.HAND
 
-	def get_spell_damage(self, amount: int) -> int:
+	def get_spell_damage(self, amount: int, receives_double_spelldamage_bonus = 0) -> int:
 		"""
 		Returns the amount of damage \a amount will do, taking
 		SPELLPOWER and SPELLPOWER_DOUBLE into account.
 		"""
-		amount += self.spellpower
+		spellpower = self.spellpower
+		if receives_double_spelldamage_bonus:
+			spellpower *= 2
+		amount += spellpower
 		amount <<= self.controller.spellpower_double
 		return amount
 

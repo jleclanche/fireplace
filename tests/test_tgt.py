@@ -25,6 +25,46 @@ def test_anubarak():
 	assert len(game.player1.hand) == 0
 
 
+def test_arcane_blast():
+	game = prepare_game()
+	statue = game.player1.give(ANIMATED_STATUE)
+	statue.play()
+	# No spellpower
+	game.player1.give("AT_004").play(target=statue)
+	assert statue.health == 10 - 2
+	kobold = game.player1.give(KOBOLD_GEOMANCER)
+	kobold.play()
+	# Spellpower +1
+	game.player1.give("AT_004").play(target=statue)
+	assert statue.health == 10 - 2 - 4
+	kobold2 = game.player1.give(KOBOLD_GEOMANCER)
+	kobold2.play()
+	statue2 = game.player1.give(ANIMATED_STATUE)
+	statue2.play()
+	# Spellpower +2
+	game.player1.give("AT_004").play(target=statue2)
+	assert statue2.health == 10 - 6
+	statue.destroy()
+	statue2.destroy()
+	kobold2.destroy()
+	game.end_turn(); game.end_turn()
+
+	statue3 = game.player1.give(ANIMATED_STATUE)
+	statue3.play()
+	game.player1.give("EX1_350").play()
+	# Spellpower +1 and Velen
+	game.player1.give("AT_004").play(target=statue3)
+	assert statue3.health == 10 - 8
+	kobold.destroy()
+	game.end_turn(); game.end_turn()
+
+	statue4 = game.player1.give(ANIMATED_STATUE)
+	statue4.play()
+	# Velen only
+	game.player1.give("AT_004").play(target=statue4)
+	assert statue4.health == 10 - 4
+
+
 def test_astral_communion():
 	game = prepare_game(game_class=Game)
 	game.player1.discard_hand()
