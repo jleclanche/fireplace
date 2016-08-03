@@ -864,7 +864,7 @@ class GainMana(TargetedAction):
 	AMOUNT = IntArg()
 
 	def do(self, source, target, amount):
-		target.max_mana += amount
+		target.max_mana = max(target.max_mana + amount, 0)
 
 
 class SpendMana(TargetedAction):
@@ -875,7 +875,7 @@ class SpendMana(TargetedAction):
 	AMOUNT = IntArg()
 
 	def do(self, source, target, amount):
-		target.used_mana += amount
+		target.used_mana = max(target.used_mana + amount, 0)
 
 
 class Give(TargetedAction):

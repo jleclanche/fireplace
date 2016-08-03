@@ -1207,6 +1207,22 @@ def test_felguard():
 	assert game.player1.mana == 1
 
 
+def test_felguard_negative_mana():
+	game = prepare_game(game_class=Game)
+	game.player1.give(INNERVATE).play()
+	assert game.player1.max_mana == 1
+	assert game.player1.mana == 3
+	game.player1.give("EX1_301").play()
+	assert game.player1.max_mana == 0
+	assert game.player1.mana == 0
+	game.current_player.give(THE_COIN).play()
+	game.current_player.give(THE_COIN).play()
+	game.current_player.give(THE_COIN).play()
+	game.player1.give("EX1_301").play()
+	assert game.player1.max_mana == 0
+	assert game.player1.mana == 0
+
+
 def test_frostwolf_warlord():
 	game = prepare_game()
 	warlord1 = game.player1.give("CS2_226")
