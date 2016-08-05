@@ -865,7 +865,6 @@ class HeroPower(PlayableCard):
 		ret = self.activate()
 
 		self.controller.times_hero_power_used_this_game += 1
-		self.controller.used_mana += self.cost
 		self.target = None
 
 		return ret

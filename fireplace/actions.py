@@ -459,6 +459,7 @@ class Activate(GameAction):
 		return (source, ) + super().get_args(source)
 
 	def do(self, source, player, heropower, target=None):
+		player.pay_cost(heropower, heropower.cost)
 		self.broadcast(source, EventListener.ON, player, heropower, target)
 
 		actions = heropower.get_actions("activate")
