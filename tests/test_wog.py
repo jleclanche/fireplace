@@ -12,7 +12,7 @@ def test_a_light_in_the_darkness():
 		card.clear_buffs()
 		basehp = card.health
 		assert buffhp == basehp + 1
-		assert not hasattr(card, "card_class") or card.card_class == CardClass.PALADIN
+		assert card.card_class in (CardClass.NEUTRAL, CardClass.PALADIN)
 
 
 def test_addled_grizzly():
