@@ -262,7 +262,9 @@ def test_fencing_coach():
 	game.end_turn(); game.end_turn()
 
 	assert game.player1.hero.power.cost == 0
+	assert game.player1.mana == 10
 	game.player1.hero.power.use()
+	assert game.player1.mana == 10
 	assert game.player1.hero.power.cost == 2
 
 
