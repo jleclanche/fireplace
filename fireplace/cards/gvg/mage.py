@@ -20,11 +20,6 @@ class GVG_007:
 	draw = Hit(ALL_CHARACTERS, 2)
 
 
-class GVG_089:
-	"Illuminator"
-	events = OWN_TURN_END.on(Find(FRIENDLY_SECRETS) & Heal(FRIENDLY_HERO, 4))
-
-
 ##
 # Spells
 

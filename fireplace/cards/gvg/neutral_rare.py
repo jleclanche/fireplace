@@ -9,6 +9,11 @@ class GVG_074:
 	play = Steal(RANDOM(ENEMY_SECRETS))
 
 
+class GVG_089:
+	"Illuminator"
+	events = OWN_TURN_END.on(Find(FRIENDLY_SECRETS) & Heal(FRIENDLY_HERO, 4))
+
+
 class GVG_094:
 	"Jeeves"
 	events = EndTurn().on(DrawUntil(EndTurn.PLAYER, 3))
