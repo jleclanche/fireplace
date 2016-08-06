@@ -11,6 +11,7 @@ from ..events import *
 REMOVED_IN_PLAY = Summon(PLAYER, OWNER).after(Destroy(SELF))
 
 ENEMY_CLASS = Attr(ENEMY_HERO, GameTag.CLASS)
+FRIENDLY_CLASS = Attr(FRIENDLY_HERO, GameTag.CLASS)
 
 
 Freeze = lambda target: SetTag(target, (GameTag.FROZEN, ))
