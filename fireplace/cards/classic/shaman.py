@@ -10,7 +10,7 @@ class CS2_049:
 		totems = [t for t in self.entourage if not self.controller.field.contains(t)]
 		yield Summon(CONTROLLER, random.choice(totems))
 
-class CS2_049:
+class CS2_049_H1:
 	"Totemic Call (Morgl the Oracle)"
 	activate = CS2_049.activate
 
