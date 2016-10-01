@@ -52,11 +52,6 @@ class EX1_162:
 EX1_162o = buff(atk=1)
 
 
-class EX1_398:
-	"Arathi Weaponsmith"
-	play = Summon(CONTROLLER, "EX1_398t")
-
-
 class EX1_399:
 	"Gurubashi Berserker"
 	events = SELF_DAMAGE.on(Buff(SELF, "EX1_399e"))

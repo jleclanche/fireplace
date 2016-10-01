@@ -211,6 +211,14 @@ def test_angry_chicken():
 	assert not chicken.enraged
 
 
+def test_arathi_weaponsmith():
+	game = prepare_game()
+	arathi = game.player1.give("EX1_398")
+	assert not game.player1.weapon
+	arathi.play()
+	assert game.player1.weapon.id == "EX1_398t"
+
+
 def test_arcane_explosion():
 	game = prepare_game()
 	# play some wisps

@@ -16,6 +16,11 @@ class CS2_102_H1:
 ##
 # Minions
 
+class EX1_398:
+	"Arathi Weaponsmith"
+	play = Summon(CONTROLLER, "EX1_398t")
+
+
 class EX1_402:
 	"Armorsmith"
 	events = Damage(FRIENDLY_MINIONS).on(GainArmor(FRIENDLY_HERO, 1))
