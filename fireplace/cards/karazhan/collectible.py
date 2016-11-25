@@ -7,8 +7,9 @@ class KAR_005:
 	"Kindly Grandmother"
 	deathrattle = Summon(CONTROLLER, "KAR_005a")
 
-# class KAR_006:
-# 	"Cloaked Huntress"
+class KAR_006:
+	"Cloaked Huntress"
+	update = Refresh(FRIENDLY_HAND + SECRET, {GameTag.COST: SET(0)})
 
 
 # class KAR_009:
