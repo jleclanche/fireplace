@@ -83,9 +83,9 @@ class KAR_065:
 	powered_up = Find(FRIENDLY_MINIONS + BEAST)
 	play = Summon(CONTROLLER, ExactCopy(TARGET))
 
-# class KAR_069:
-# 	"Swashburglar"
-
+class KAR_069:
+	"Swashburglar"
+	play = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))
 
 # class KAR_070:
 # 	"Ethereal Peddler"

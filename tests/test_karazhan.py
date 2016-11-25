@@ -190,3 +190,11 @@ def test_menagerie_warden():
 	assert beast.health == clone.health
 	assert beast.max_health == clone.max_health
 	assert clone.buffs
+
+def test_swashburglar():
+	game = prepare_empty_game()
+	burglar = game.player1.give("KAR_069")
+	burglar.play()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].card_class == game.player2.hero.card_class
+	assert game.player1.hand[0].type != CardType.HERO
