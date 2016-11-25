@@ -114,3 +114,12 @@ def test_avian_watcher():
     watcher2.play()
     assert watcher2.health == 7
     assert watcher2.atk == 4
+
+def test_moroes():
+    game = prepare_game()
+    moroes = game.player1.give("KAR_044")
+    moroes.play()
+    assert len(game.player1.field) == 1
+    game.end_turn()
+
+    assert len(game.player1.field) == 2
