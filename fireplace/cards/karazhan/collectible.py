@@ -3,9 +3,9 @@ from ..utils import *
 ##
 # Minions
 
-# class KAR_005:
-# 	"Kindly Grandmother"
-
+class KAR_005:
+	"Kindly Grandmother"
+	deathrattle = Summon(CONTROLLER, "KAR_005a")
 
 # class KAR_006:
 # 	"Cloaked Huntress"
