@@ -57,10 +57,9 @@ KAR_037t = buff(+1,+1, taunt=True)
 # class KAR_041:
 # 	"Moat Lurker"
 
-
-# class KAR_044:
-# 	"Moroes"
-
+class KAR_044:
+	"Moroes"
+	events = OWN_TURN_END.on(Summon(CONTROLLER, "KAR_044a"))
 
 # class KAR_057:
 # 	"Ivory Knight"
