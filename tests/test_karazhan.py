@@ -198,3 +198,31 @@ def test_swashburglar():
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].card_class == game.player2.hero.card_class
 	assert game.player1.hand[0].type != CardType.HERO
+
+def test_malchezaars_imp():
+	game = prepare_game()
+	imp = game.player1.give("KAR_089")
+	imp.play()
+	soulfire = game.player1.give(SOULFIRE)
+	assert len(game.player1.hand) == 5
+	soulfire.play(target=game.player2.hero)
+	assert len(game.player1.hand) == 4
+
+	game.end_turn()
+	game.end_turn()
+
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	game.player1.give(CHICKEN)
+	assert len(game.player1.hand) == 1
+	doomguard = game.player1.give("EX1_310")
+	doomguard.play()
+	assert len(game.player1.hand) == 1
+
+	game.end_turn()
+	game.end_turn()
+
+	assert len(game.player1.hand) == 2
+	doomguard2 = game.player1.give("EX1_310")
+	doomguard2.play()
+	assert len(game.player1.hand) == 2
