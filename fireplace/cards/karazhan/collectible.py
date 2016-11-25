@@ -28,9 +28,9 @@ class KAR_029:
 	"Runic Egg"
 	deathratter = Draw(CONTROLLER)
 
-# class KAR_030a:
-# 	"Pantry Spider"
-
+class KAR_030a:
+	"Pantry Spider"
+	play = Summon(CONTROLLER, 'KAR_030')
 
 # class KAR_033:
 # 	"Book Wyrm"
