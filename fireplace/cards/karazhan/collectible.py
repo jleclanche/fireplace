@@ -100,8 +100,9 @@ class KAR_092:
 	powered_up = Find(FRIENDLY_SECRETS)
 	play = powered_up & Hit(TARGET, 3)
 
-# class KAR_094:
-# 	"Deadly Fork"
+class KAR_094:
+	"Deadly Fork"
+	deathrattle = Give(CONTROLLER, "KAR_094a")
 
 
 # class KAR_095:

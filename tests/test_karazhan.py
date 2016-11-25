@@ -238,3 +238,15 @@ def test_medivhs_valet():
 	assert valet2.powered_up
 	valet2.play(target=game.player2.hero)
 	assert game.player2.hero.health == 27
+
+def test_deadly_fork():
+	game=prepare_empty_game()
+	fork = game.player1.give("KAR_094")
+	fork.play()
+	game.player1.give(MOONFIRE).play(target=fork)
+	game.player1.give(MOONFIRE).play(target=fork)
+	assert game.player1.hand[0].id == "KAR_094a"
+
+	game.player1.hand[0].play()
+	assert game.player1.hero.atk == 3
+
