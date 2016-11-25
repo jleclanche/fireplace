@@ -123,12 +123,13 @@ KAR_095e = buff(+1,+1)
 # 	"Medivh, the Guardian"
 
 
-# class KAR_114:
-# 	"Barnes"
+class KAR_114:
+	"Barnes"
+	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY_DECK + MINION))).then(Buff(Summon.CARD, "KAR_114e"))
 
-
-# class KAR_114e:
-
+class KAR_114e:
+	atk = SET(1)
+	max_health = SET(1)
 
 # class KAR_204:
 # 	"Onyx Bishop"

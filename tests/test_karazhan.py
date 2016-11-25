@@ -268,3 +268,22 @@ def test_zoobot():
 	assert dragon.atk == 2
 	assert dragon.health == 2
 	assert dragon.buffs
+
+def test_barnes():
+	game = prepare_empty_game()
+	kobold = game.player1.give(KOBOLD_GEOMANCER)
+	kobold.shuffle_into_deck()
+	barnes = game.player1.give("KAR_114")
+	assert len(game.player1.hand) == 1
+	assert len(game.player1.deck) == 1
+
+	barnes.play()
+
+	assert len(game.player1.deck) == 1
+	assert len(game.player1.field) == 2
+	summon = game.player1.field[-1]
+	assert summon.id == kobold.id
+	assert summon.atk == 1
+	assert summon.health == 1
+
+
