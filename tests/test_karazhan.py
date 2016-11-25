@@ -226,3 +226,15 @@ def test_malchezaars_imp():
 	doomguard2 = game.player1.give("EX1_310")
 	doomguard2.play()
 	assert len(game.player1.hand) == 2
+
+def test_medivhs_valet():
+	game = prepare_game()
+	secret = game.player1.give("EX1_130")
+	valet1 = game.player1.give("KAR_092")
+	assert not valet1.powered_up
+	valet1.play()
+	valet2 = game.player1.give("KAR_092")
+	secret.play()
+	assert valet2.powered_up
+	valet2.play(target=game.player2.hero)
+	assert game.player2.hero.health == 27
