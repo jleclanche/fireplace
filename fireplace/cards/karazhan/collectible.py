@@ -37,9 +37,9 @@ class KAR_033:
 	powered_up = HOLDING_DRAGON, Find(ENEMY_MINIONS + (ATK <= 3))
 	play = HOLDING_DRAGON & Destroy(TARGET)
 
-# class KAR_035:
-# 	"Priest of the Feast"
-
+class KAR_035:
+	"Priest of the Feast"
+	events = OWN_SPELL_PLAY.on(Heal(FRIENDLY_HERO, 3))
 
 # class KAR_036:
 # 	"Arcane Anomaly"
