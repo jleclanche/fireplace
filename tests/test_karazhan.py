@@ -86,3 +86,13 @@ def test_priest_of_the_feast():
     priest.play()
     game.player1.give(THE_COIN).play()
     assert game.player1.hero.health == 28
+
+def test_arcane_anomaly():
+    game = prepare_game()
+    anomaly = game.player1.give("KAR_036")
+    anomaly.play()
+    assert anomaly.health == 1
+    game.player1.give(THE_COIN).play()
+    assert anomaly.health == 2
+    game.player1.give(THE_COIN).play()
+    assert anomaly.health == 3
