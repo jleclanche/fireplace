@@ -65,9 +65,13 @@ class KAR_044:
 # 	"Ivory Knight"
 
 
-# class KAR_061:
-# 	"The Curator"
-
+class KAR_061:
+	"The Curator"
+	play = (
+		ForceDraw(RANDOM(FRIENDLY_DECK + MINION + MURLOC)),
+		ForceDraw(RANDOM(FRIENDLY_DECK + DRAGON)),
+		ForceDraw(RANDOM(FRIENDLY_DECK + BEAST))
+	)
 
 # class KAR_062:
 # 	"Netherspite Historian"
