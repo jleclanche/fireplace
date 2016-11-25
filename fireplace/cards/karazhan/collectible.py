@@ -73,9 +73,10 @@ class KAR_061:
 		ForceDraw(RANDOM(FRIENDLY_DECK + BEAST))
 	)
 
-# class KAR_062:
-# 	"Netherspite Historian"
-
+class KAR_062:
+	"Netherspite Historian"
+	powered_up = HOLDING_DRAGON
+	play = powered_up & DISCOVER(RandomDragon())
 
 # class KAR_065:
 # 	"Menagerie Warden"
