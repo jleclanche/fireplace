@@ -33,3 +33,16 @@ def test_babbling_book():
     assert len(game.player1.hand) == 1
     assert game.player1.hand[0].type == CardType.SPELL
 
+def test_nightbane_templar():
+    game = prepare_game()
+    nightbane1 = game.player1.give("KAR_010")
+    assert not nightbane1.powered_up
+    nightbane1.play()
+    assert len(game.player1.field) == 1
+    game.end_turn()
+
+    game.player2.give(WHELP)
+    nightbane2 = game.player2.give("KAR_010")
+    assert nightbane2.powered_up
+    nightbane2.play()
+    assert len(game.player2.field) == 3

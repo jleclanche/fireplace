@@ -15,10 +15,12 @@ class KAR_009:
 	"Babbling Book"
 	play = Give(CONTROLLER, RandomSpell())
 
+class KAR_010:
+	"Nightbane Templar"
+	powered_up = HOLDING_DRAGON
+	play = powered_up & (Summon(CONTROLLER, "KAR_010a") * 2)
 
 
-# class KAR_010:
-# 	"Nightbane Templar"
 
 
 # class KAR_021:
