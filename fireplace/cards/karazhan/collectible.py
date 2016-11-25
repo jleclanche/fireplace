@@ -47,9 +47,12 @@ class KAR_036:
 
 KAR_036e = buff(health=1)
 
-# class KAR_037:
-# 	"Avian Watcher"
+class KAR_037:
+	"Avian Watcher"
+	powered_up = Find(FRIENDLY_SECRETS)
+	play = powered_up & Buff(SELF, "KAR_037t")
 
+KAR_037t = buff(+1,+1, taunt=True)
 
 # class KAR_041:
 # 	"Moat Lurker"

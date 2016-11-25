@@ -96,3 +96,21 @@ def test_arcane_anomaly():
     assert anomaly.health == 2
     game.player1.give(THE_COIN).play()
     assert anomaly.health == 3
+
+def test_avian_watcher():
+    game = prepare_game()
+    watcher1 = game.player1.give("KAR_037")
+    assert not watcher1.powered_up
+    watcher1.play()
+    assert watcher1.health == 6
+    assert watcher1.atk == 3
+    game.end_turn()
+
+    watcher2 = game.player2.give("KAR_037")
+    secret = game.player2.give("EX1_611")
+    assert not watcher2.powered_up
+    secret.play()
+    assert watcher2.powered_up
+    watcher2.play()
+    assert watcher2.health == 7
+    assert watcher2.atk == 4
