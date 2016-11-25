@@ -91,12 +91,12 @@ class KAR_069:
 # 	"Ethereal Peddler"
 
 
-# class KAR_089:
-# 	"Malchezaar's Imp"
-
 
 # class KAR_092:
 # 	"Medivh's Valet"
+class KAR_089:
+	"Malchezaar's Imp"
+	events = Discard(RANDOM(FRIENDLY_HAND)).on(Draw(CONTROLLER))
 
 
 # class KAR_094:
