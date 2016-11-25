@@ -20,12 +20,9 @@ class KAR_010:
 	powered_up = HOLDING_DRAGON
 	play = powered_up & (Summon(CONTROLLER, "KAR_010a") * 2)
 
-
-
-
-# class KAR_021:
-# 	"Wicked Witchdoctor"
-
+class KAR_021:
+	"Wicked Witchdoctor"
+	events = OWN_SPELL_PLAY.on(Summon(CONTROLLER, RandomTotem()))
 
 # class KAR_029:
 # 	"Runic Egg"
