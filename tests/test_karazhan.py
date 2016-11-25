@@ -141,3 +141,20 @@ def test_the_curator():
 	assert len(game.player2.hand) == 1
 	curator2.play()
 	assert len(game.player2.hand) == 1
+
+def test_netherspite_historian():
+	game = prepare_game()
+	game.player1.discard_hand()
+	historian1 = game.player1.give("KAR_062")
+	assert not historian1.powered_up
+	historian1.play()
+	assert not game.player1.choice
+
+	whelp = game.player1.give(WHELP)
+	historian2 = game.player1.give("KAR_062")
+	assert historian2.powered_up
+	historian2.play()
+	assert len(game.player1.choice.cards) == 3
+	for card in game.player1.choice.cards:
+		assert card.type == CardType.MINION
+		assert card.race == Race.DRAGON
