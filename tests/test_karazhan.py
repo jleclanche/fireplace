@@ -250,3 +250,21 @@ def test_deadly_fork():
 	game.player1.hand[0].play()
 	assert game.player1.hero.atk == 3
 
+def test_zoobot():
+	game = prepare_game()
+	zoobot = game.player1.give("KAR_095")
+	murloc = game.player1.give(MURLOC).play()
+	beast = game.player1.give(CHICKEN).play()
+	dragon = game.player1.give(WHELP).play()
+	assert zoobot.powered_up
+	zoobot.play()
+
+	assert murloc.atk == 2
+	assert murloc.health == 2
+	assert murloc.buffs
+	assert beast.atk == 2
+	assert beast.health == 2
+	assert beast.buffs
+	assert dragon.atk == 2
+	assert dragon.health == 2
+	assert dragon.buffs
