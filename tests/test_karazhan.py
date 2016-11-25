@@ -158,3 +158,35 @@ def test_netherspite_historian():
 	for card in game.player1.choice.cards:
 		assert card.type == CardType.MINION
 		assert card.race == Race.DRAGON
+
+def test_menagerie_warden():
+	game = prepare_game()
+	game.player1.discard_hand()
+	warden1 = game.player1.give("KAR_065")
+	dragon = game.player1.give(WHELP)
+	dragon.play()
+	assert not warden1.powered_up
+	warden1.play()
+	assert len(game.player1.field) == 2
+	game.end_turn()
+
+	game.player2.discard_hand()
+	warden2 = game.player2.give("KAR_065")
+	beast = game.player2.give(CHICKEN)
+	beast.play()
+	motw = game.player2.give("CS2_009")
+	motw.play(target=beast)
+	assert beast.atk == 1 + 2
+	assert beast.health == 1 + 2
+	assert beast.taunt
+	game.player2.give(MOONFIRE).play(target=beast)
+	assert beast.health == 1 + 2 - 1
+	assert warden2.powered_up
+	warden2.play(target=beast)
+	clone = game.player2.field[-1]
+	assert clone.id == CHICKEN
+	assert clone.buffs
+	assert beast.atk == clone.atk
+	assert beast.health == clone.health
+	assert beast.max_health == clone.max_health
+	assert clone.buffs

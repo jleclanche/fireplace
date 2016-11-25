@@ -78,9 +78,10 @@ class KAR_062:
 	powered_up = HOLDING_DRAGON
 	play = powered_up & DISCOVER(RandomDragon())
 
-# class KAR_065:
-# 	"Menagerie Warden"
-
+class KAR_065:
+	"Menagerie Warden"
+	powered_up = Find(FRIENDLY_MINIONS + BEAST)
+	play = Summon(CONTROLLER, ExactCopy(TARGET))
 
 # class KAR_069:
 # 	"Swashburglar"
