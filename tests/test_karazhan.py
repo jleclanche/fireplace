@@ -23,3 +23,13 @@ def test_cloaked_huntress():
         game.player1.give(MOONFIRE).play(target=huntress)
     
     assert secret.cost == 2
+
+def test_babbling_book():
+    game = prepare_game()
+    game.player1.discard_hand()
+    book = game.player1.give("KAR_009")
+    book.play()
+
+    assert len(game.player1.hand) == 1
+    assert game.player1.hand[0].type == CardType.SPELL
+
