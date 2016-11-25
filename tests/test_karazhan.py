@@ -46,3 +46,16 @@ def test_nightbane_templar():
     assert nightbane2.powered_up
     nightbane2.play()
     assert len(game.player2.field) == 3
+
+def test_wicked_witchdoctor():
+    game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
+    witchdoc = game.player1.give("KAR_021")
+    witchdoc.play()
+    game.player1.give(THE_COIN).play()
+
+    assert len(game.player1.field) == 2
+    
+    game.player1.give(TIME_REWINDER).play(target=witchdoc)
+
+    assert game.player1.field[-1].id in game.player1.hero.power.data.entourage
+
