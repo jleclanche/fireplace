@@ -104,10 +104,16 @@ class KAR_094:
 	"Deadly Fork"
 	deathrattle = Give(CONTROLLER, "KAR_094a")
 
+class KAR_095:
+	"Zoobot"
+	powered_up = Find(RANDOM(FRIENDLY_MINIONS + MURLOC) | RANDOM(FRIENDLY_MINIONS + DRAGON) | RANDOM(FRIENDLY_MINIONS + BEAST))
+	play = (
+		Buff(RANDOM(FRIENDLY_MINIONS + MURLOC),"KAR_095e"),
+		Buff(RANDOM(FRIENDLY_MINIONS + DRAGON),"KAR_095e"),
+		Buff(RANDOM(FRIENDLY_MINIONS + BEAST),"KAR_095e")
+	)
 
-# class KAR_095:
-# 	"Zoobot"
-
+KAR_095e = buff(+1,+1)
 
 # class KAR_096:
 # 	"Prince Malchezaar"
