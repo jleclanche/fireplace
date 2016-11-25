@@ -78,3 +78,11 @@ def test_book_wyrm():
     assert len(game.player2.field) == 1
     game.end_turn()
 
+def test_priest_of_the_feast():
+    game = prepare_game()
+    priest = game.player1.give("KAR_035")
+    game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+    assert game.player1.hero.health == 25
+    priest.play()
+    game.player1.give(THE_COIN).play()
+    assert game.player1.hero.health == 28
