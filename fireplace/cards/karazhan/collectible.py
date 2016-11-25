@@ -41,9 +41,11 @@ class KAR_035:
 	"Priest of the Feast"
 	events = OWN_SPELL_PLAY.on(Heal(FRIENDLY_HERO, 3))
 
-# class KAR_036:
-# 	"Arcane Anomaly"
+class KAR_036:
+	"Arcane Anomaly"
+	events = OWN_SPELL_PLAY.on(Buff(SELF, "KAR_036e"))
 
+KAR_036e = buff(health=1)
 
 # class KAR_037:
 # 	"Avian Watcher"
