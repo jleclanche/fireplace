@@ -24,9 +24,9 @@ class KAR_021:
 	"Wicked Witchdoctor"
 	events = OWN_SPELL_PLAY.on(Summon(CONTROLLER, RandomTotem()))
 
-# class KAR_029:
-# 	"Runic Egg"
-
+class KAR_029:
+	"Runic Egg"
+	deathratter = Draw(CONTROLLER)
 
 # class KAR_030a:
 # 	"Pantry Spider"
