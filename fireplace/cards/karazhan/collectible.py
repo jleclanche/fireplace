@@ -32,9 +32,10 @@ class KAR_030a:
 	"Pantry Spider"
 	play = Summon(CONTROLLER, 'KAR_030')
 
-# class KAR_033:
-# 	"Book Wyrm"
-
+class KAR_033:
+	"Book Wyrm"
+	powered_up = HOLDING_DRAGON, Find(ENEMY_MINIONS + (ATK <= 3))
+	play = HOLDING_DRAGON & Destroy(TARGET)
 
 # class KAR_035:
 # 	"Priest of the Feast"

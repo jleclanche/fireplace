@@ -59,3 +59,22 @@ def test_wicked_witchdoctor():
 
     assert game.player1.field[-1].id in game.player1.hero.power.data.entourage
 
+def test_book_wyrm():
+    game = prepare_game()
+    game.player1.discard_hand()
+    whelp = game.player1.give(WHELP)
+    bookwyrm1 = game.player1.give("KAR_033")
+    assert not bookwyrm1.powered_up
+    bookwyrm1.play()
+    assert len(game.player1.field) == 1
+    game.end_turn()
+
+    game.player2.discard_hand()
+    game.player2.give(WHELP)
+    bookwyrm2 = game.player2.give("KAR_033")
+    assert bookwyrm2.powered_up
+    bookwyrm2.play(target=bookwyrm1)
+    assert len(game.player1.field) == 0
+    assert len(game.player2.field) == 1
+    game.end_turn()
+
