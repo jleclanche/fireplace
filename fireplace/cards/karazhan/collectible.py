@@ -22,7 +22,7 @@ class KAR_010:
 
 class KAR_021:
 	"Wicked Witchdoctor"
-	events = OWN_SPELL_PLAY.on(Summon(CONTROLLER, RandomTotem()))
+	events = OWN_SPELL_PLAY.on(Summon(CONTROLLER, RandomBasicTotem()))
 
 class KAR_029:
 	"Runic Egg"

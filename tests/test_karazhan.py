@@ -54,9 +54,6 @@ def test_wicked_witchdoctor():
 	game.player1.give(THE_COIN).play()
 
 	assert len(game.player1.field) == 2
-	
-	game.player1.give(TIME_REWINDER).play(target=witchdoc)
-
 	assert game.player1.field[-1].id in game.player1.hero.power.data.entourage
 
 def test_book_wyrm():
