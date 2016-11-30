@@ -221,7 +221,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.CARD_SET: None,
 	GameTag.CARDTEXT_INHAND: None,
 	GameTag.CardTextInPlay: None,
-	GameTag.Collectible: None,
+	GameTag.COLLECTIBLE: None,
 	GameTag.DevState: None,
 	GameTag.ELITE: None,
 	GameTag.ENCHANTMENT_IDLE_VISUAL: None,
