@@ -21,7 +21,7 @@ def test_cloaked_huntress():
 	# Kill Huntress
 	for i in range(4):
 		game.player1.give(MOONFIRE).play(target=huntress)
-	
+
 	assert secret.cost == 2
 
 def test_babbling_book():
@@ -229,10 +229,12 @@ def test_medivhs_valet():
 	secret = game.player1.give("EX1_130")
 	valet1 = game.player1.give("KAR_092")
 	assert not valet1.powered_up
+	assert not valet1.requires_target()
 	valet1.play()
 	valet2 = game.player1.give("KAR_092")
 	secret.play()
 	assert valet2.powered_up
+	assert valet2.requires_target()
 	valet2.play(target=game.player2.hero)
 	assert game.player2.hero.health == 27
 
