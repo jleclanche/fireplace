@@ -32,7 +32,15 @@ FULL_HAND = Count(FRIENDLY_HAND) == 10
 HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
 
 DISCOVER = lambda *args: Discover(CONTROLLER, *args)
+
+BASIC_HERO_POWERS = [
+	"CS1h_001", "CS2_017", "CS1h_001",
+	"CS2_049", "CS2_056", "CS2_083b",
+	"CS2_101", "CS2_102", "DS1h_292",
+]
+
 RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
+RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
 
 # 50% chance to attack the wrong enemy.
 FORGETFUL = Attack(SELF).on(COINFLIP & Retarget(SELF, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(SELF))))
