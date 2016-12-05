@@ -45,7 +45,7 @@ class BaseCard(BaseEntity):
 		self.tags.update(data.tags)
 
 	def __str__(self):
-		return self.name
+		return self.data.name
 
 	def __hash__(self):
 		return self.id.__hash__()

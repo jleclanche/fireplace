@@ -120,7 +120,7 @@ def custom_card(cls):
 		raise ValueError("No name provided for custom card %r" % (cls))
 	db[id] = CardDB.merge(id, None, cls)
 	# Give the card its fake name
-	db[id]._localized_tags = {
+	db[id].strings = {
 		GameTag.CARDNAME: {"enUS": cls.tags[GameTag.CARDNAME]},
 		GameTag.CARDTEXT_INHAND: {"enUS": ""}
 	}

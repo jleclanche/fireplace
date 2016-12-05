@@ -12,20 +12,19 @@ class CardDB(dict):
 		self.initialized = False
 
 	@staticmethod
-	def merge(id, card, carddef=None):
+	def merge(id, card, cardscript=None):
 		"""
 		Find the xmlcard and the card definition of \a id
 		Then return a merged class of the two
 		"""
 		if card is None:
-			card = cardxml.CardXML()
-			card.id = id
+			card = cardxml.CardXML(id)
 
-		if carddef is None:
-			carddef = get_script_definition(id)
+		if cardscript is None:
+			cardscript = get_script_definition(id)
 
-		if carddef:
-			card.scripts = type(id, (carddef, ), {})
+		if cardscript:
+			card.scripts = type(id, (cardscript, ), {})
 		else:
 			card.scripts = type(id, (), {})
 
@@ -70,13 +69,13 @@ class CardDB(dict):
 			card.scripts.Hand.update = (card.scripts.Hand.update, )
 
 		# Set choose one cards
-		if hasattr(carddef, "choose"):
-			card.choose_cards = carddef.choose[:]
+		if hasattr(cardscript, "choose"):
+			card.choose_cards = cardscript.choose[:]
 		else:
 			card.choose_cards = []
 
-		if hasattr(carddef, "tags"):
-			for tag, value in carddef.tags.items():
+		if hasattr(cardscript, "tags"):
+			for tag, value in cardscript.tags.items():
 				card.tags[tag] = value
 
 		# Set some additional events based on the base tags...
