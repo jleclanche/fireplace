@@ -282,7 +282,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			card = self
 		if not self.is_playable():
 			raise InvalidAction("%r isn't playable." % (self))
-		if card.has_target():
+		if card.requires_target():
 			if not target:
 				raise InvalidAction("%r requires a target to play." % (self))
 			elif target not in self.targets:
@@ -311,7 +311,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		return self.game.cheat_action(self, [actions.Shuffle(self.controller, self)])
 
-	def has_target(self):
+	def requires_target(self):
 		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements:
 			if self.controller.combo:
 				return True
@@ -855,7 +855,7 @@ class HeroPower(PlayableCard):
 
 		self.log("%s uses hero power %r on %r", self.controller, self, target)
 
-		if self.has_target():
+		if self.requires_target():
 			if not target:
 				raise InvalidAction("%r requires a target." % (self))
 			self.target = target

@@ -443,7 +443,7 @@ def test_betrayal_poisonous():
 def test_big_game_hunter():
 	game = prepare_game()
 	bgh1 = game.player1.give("EX1_005")
-	assert not bgh1.has_target()
+	assert not bgh1.requires_target()
 	bgh1.play()
 	game.end_turn()
 
@@ -453,7 +453,7 @@ def test_big_game_hunter():
 	game.end_turn()
 
 	bgh2 = game.player1.give("EX1_005")
-	assert bgh2.has_target()
+	assert bgh2.requires_target()
 	bgh2.play(target=wargolem)
 	assert wargolem.dead
 
@@ -2875,10 +2875,10 @@ def test_si7_agent():
 	game = prepare_game()
 	agent = game.player1.give("EX1_134")
 	agent2 = game.player1.give("EX1_134")
-	assert not agent.has_target()
-	assert not agent2.has_target()
+	assert not agent.requires_target()
+	assert not agent2.requires_target()
 	agent.play()
-	assert agent2.has_target()
+	assert agent2.requires_target()
 	agent2.play(target=agent)
 	assert agent.health == 3 - 2
 

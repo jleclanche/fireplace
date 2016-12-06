@@ -309,7 +309,7 @@ def test_gormok_the_impaler():
 	game.end_turn()
 
 	gormok1 = game.player2.give("AT_122")
-	assert not gormok1.has_target()
+	assert not gormok1.requires_target()
 	gormok1.play()
 	assert game.player1.hero.health == game.player1.hero.max_health
 	assert yeti.health == 5
@@ -324,7 +324,7 @@ def test_gormok_the_impaler():
 	wisp2.play()
 	dummy2.play()
 	assert len(game.player2.field) == 4
-	assert gormok2.has_target()
+	assert gormok2.requires_target()
 	assert game.player1.hero in gormok2.targets
 	assert game.player2.hero in gormok2.targets
 	assert yeti in gormok2.targets

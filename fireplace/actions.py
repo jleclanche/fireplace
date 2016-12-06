@@ -702,7 +702,7 @@ class Battlecry(TargetedAction):
 	def do(self, source, card, target):
 		player = card.controller
 
-		if card.has_target() and not target:
+		if card.requires_target() and not target:
 			log.info("%r has no target, action exits early", card)
 			return
 

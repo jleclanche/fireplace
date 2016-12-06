@@ -185,7 +185,7 @@ def play_turn(game: ".game.Game") -> ".game.Game":
 	while True:
 		heropower = player.hero.power
 		if heropower.is_usable() and random.random() < 0.1:
-			if heropower.has_target():
+			if heropower.requires_target():
 				heropower.use(target=random.choice(heropower.targets))
 			else:
 				heropower.use()
@@ -197,7 +197,7 @@ def play_turn(game: ".game.Game") -> ".game.Game":
 				target = None
 				if card.must_choose_one:
 					card = random.choice(card.choose_cards)
-				if card.has_target():
+				if card.requires_target():
 					target = random.choice(card.targets)
 				print("Playing %r on %r" % (card, target))
 				card.play(target=target)

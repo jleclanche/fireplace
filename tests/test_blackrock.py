@@ -358,13 +358,13 @@ def test_rend_blackhand():
 	game = prepare_empty_game()
 	rend1 = game.player1.give("BRM_029")
 	assert not rend1.powered_up
-	assert not rend1.has_target()
+	assert not rend1.requires_target()
 	game.player1.give(WHELP)
 	assert not rend1.powered_up
-	assert not rend1.has_target()
+	assert not rend1.requires_target()
 	pagle = game.player2.summon("EX1_557")
 	assert rend1.powered_up
-	assert rend1.has_target()
+	assert rend1.requires_target()
 	assert rend1.targets == [pagle]
 	rend1.play(target=pagle)
 	assert pagle.dead
@@ -372,7 +372,7 @@ def test_rend_blackhand():
 	game.end_turn(); game.end_turn()
 
 	rend2 = game.player1.give("BRM_029")
-	assert not rend2.has_target()
+	assert not rend2.requires_target()
 	assert not rend2.targets
 	rend2.play()
 
