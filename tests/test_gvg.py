@@ -908,6 +908,19 @@ def test_siege_engine():
 	assert engine.atk == 7
 
 
+def test_screwjank_clunker():
+	game = prepare_game()
+	screwjank = game.player1.give("GVG_055")
+	assert not screwjank.targets
+	screwjank.play()
+
+	screwjank2 = game.player1.give("GVG_055")
+	assert screwjank2.targets == [screwjank]
+	screwjank2.play(target=screwjank)
+	assert screwjank.atk == 2 + 2
+	assert screwjank.health == 5 + 2
+
+
 def test_siltfin_spiritwalker():
 	game = prepare_game()
 	game.player1.discard_hand()
