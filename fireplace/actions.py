@@ -417,6 +417,14 @@ class Play(GameAction):
 		card.target = target
 		card._summon_index = index
 
+		battlecry_card = choose or card
+		# We check whether the battlecry will trigger, before the card.zone changes
+		if battlecry_card.battlecry_requires_target() and not target:
+			log.info("%r requires a target for its battlecry. Will not trigger.")
+			trigger_battlecry = False
+		else:
+			trigger_battlecry = True
+
 		card.zone = Zone.PLAY
 
 		# NOTE: A Play is not a summon! But it sure looks like one.
@@ -430,8 +438,8 @@ class Play(GameAction):
 
 		# "Can't Play" (aka Counter) means triggers don't happen either
 		if not card.cant_play:
-			battlecry_card = choose or card
-			source.game.queue_actions(card, [Battlecry(battlecry_card, card.target)])
+			if trigger_battlecry:
+				source.game.queue_actions(card, [Battlecry(battlecry_card, card.target)])
 
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.
@@ -701,10 +709,6 @@ class Battlecry(TargetedAction):
 
 	def do(self, source, card, target):
 		player = card.controller
-
-		if card.requires_target() and not target:
-			log.info("%r has no target, action exits early", card)
-			return
 
 		if card.has_combo and player.combo:
 			log.info("Activating %r combo targeting %r", card, target)

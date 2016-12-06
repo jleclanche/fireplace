@@ -368,10 +368,14 @@ def test_rend_blackhand():
 	assert rend1.targets == [pagle]
 	rend1.play(target=pagle)
 	assert pagle.dead
-	rend1.destroy()
 	game.end_turn(); game.end_turn()
 
 	rend2 = game.player1.give("BRM_029")
+	assert rend2.battlecry_requires_target()
+	assert rend2.requires_target()
+	assert rend2.targets == [rend1]
+	rend1.destroy()
+	assert rend2.battlecry_requires_target()
 	assert not rend2.requires_target()
 	assert not rend2.targets
 	rend2.play()
