@@ -245,7 +245,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if not self.controller.can_pay_cost(self):
 			return False
 		if PlayReq.REQ_TARGET_TO_PLAY in self.requirements:
-			if not self.targets:
+			if not self.play_targets:
 				return False
 		if PlayReq.REQ_NUM_MINION_SLOTS in self.requirements:
 			if self.requirements[PlayReq.REQ_NUM_MINION_SLOTS] > self.controller.minion_slots:
@@ -285,7 +285,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if card.requires_target():
 			if not target:
 				raise InvalidAction("%r requires a target to play." % (self))
-			elif target not in self.targets:
+			elif target not in self.play_targets:
 				raise InvalidAction("%r is not a valid target for %r." % (target, self))
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
@@ -332,19 +332,23 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			if self.controller.combo:
 				return True
 		if PlayReq.REQ_TARGET_IF_AVAILABLE in self.requirements:
-			return bool(self.targets)
+			return bool(self.play_targets)
 		if PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND in self.requirements:
 			if self.controller.hand.filter(race=Race.DRAGON):
-				return bool(self.targets)
+				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_MINIONS)
 		if req is not None:
 			if len(self.controller.field) >= req:
-				return bool(self.targets)
+				return bool(self.play_targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
 	@property
-	def targets(self):
+	def play_targets(self):
 		return [card for card in self.game.characters if is_valid_target(self, card)]
+
+	@property
+	def targets(self):
+		return self.play_targets
 
 
 class LiveEntity(PlayableCard, Entity):
@@ -480,9 +484,9 @@ class Character(LiveEntity):
 			return False
 		if self.frozen:
 			return False
-		if not self.targets:
+		if not self.attack_targets:
 			return False
-		if target is not None and target not in self.targets:
+		if target is not None and target not in self.attack_targets:
 			return False
 
 		return True
