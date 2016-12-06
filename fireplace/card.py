@@ -4,7 +4,7 @@ from . import actions, cards, rules
 from .aura import TargetableByAuras
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
 from .managers import CardManager
-from .targeting import is_valid_target
+from .targeting import is_valid_target, TARGETING_PREREQUISITES
 from .utils import CardList
 from .exceptions import InvalidAction
 
@@ -311,7 +311,23 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		return self.game.cheat_action(self, [actions.Shuffle(self.controller, self)])
 
+	def battlecry_requires_target(self):
+		"""
+		True if the play action of the card requires a target
+		"""
+		if self.has_combo and self.controller.combo:
+			if PlayReq.REQ_TARGET_FOR_COMBO in self.requirements:
+				return True
+
+		for req in TARGETING_PREREQUISITES:
+			if req in self.requirements:
+				return True
+		return False
+
 	def requires_target(self):
+		"""
+		True if the card currently requires a target
+		"""
 		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements:
 			if self.controller.combo:
 				return True
