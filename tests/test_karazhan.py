@@ -286,6 +286,24 @@ def test_barnes():
 	assert summon.atk == 1
 	assert summon.health == 1
 
+def test_menagerie_magician():
+	game = prepare_game()
+	zoobot = game.player1.give("KAR_702")
+	murloc = game.player1.give(MURLOC).play()
+	beast = game.player1.give(CHICKEN).play()
+	dragon = game.player1.give(WHELP).play()
+	assert zoobot.powered_up
+	zoobot.play()
+
+	assert murloc.atk == 3
+	assert murloc.health == 3
+	assert murloc.buffs
+	assert beast.atk == 3
+	assert beast.health == 3
+	assert beast.buffs
+	assert dragon.atk == 3
+	assert dragon.health == 3
+	assert dragon.buffs
 
 def test_maelstrom_portal():
 	game = prepare_game()
