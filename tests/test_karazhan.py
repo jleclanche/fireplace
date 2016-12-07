@@ -288,24 +288,39 @@ def test_barnes():
 
 
 def test_maelstrom_portal():
-	g=prepare_game()
-	g.player1.give(WISP).play()
-	g.end_turn()
-	g.player2.give("KAR_073").play()
-	assert len(g.player1.field) == 0
-	assert len(g.player2.field) == 1
-	assert g.player2.field[0].cost == 1
+	game = prepare_game()
+	game.player1.give(WISP).play()
+	game.end_turn()
+	game.player2.give("KAR_073").play()
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].cost == 1
 
 def test_moonglade_portal():
-	g=prepare_game()
-	g.player1.hero.set_current_health(20)
-	g.player1.give("KAR_075").play(target=g.player1.hero)
-	assert len(g.player1.field) == 1
-	assert g.player1.hero.health == 26
+	game = prepare_game()
+	game.player1.hero.set_current_health(20)
+	game.player1.give("KAR_075").play(target=game.player1.hero)
+	assert len(game.player1.field) == 1
+	assert game.player1.hero.health == 26
 
 def test_firelands_portal():
-	g=prepare_game()
-	g.player1.give("KAR_076").play(target=g.player2.hero)
-	assert len(g.player1.field) == 1
-	assert g.player1.field[0].cost == 5
-	assert g.player2.hero.health == 25
+	game = prepare_game()
+	game.player1.give("KAR_076").play(target=game.player2.hero)
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].cost == 5
+	assert game.player2.hero.health == 25
+
+def test_silvermoon_portal():
+	game = prepare_game()
+	portal = game.player1.give("KAR_077")
+	assert not portal.is_playable()
+	whelp = game.player1.give(WHELP).play()
+	portal.play(target=whelp)
+	assert whelp.atk == 3
+	assert whelp.health == 3
+	assert whelp.buff
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].cost == 2
+
+
+
