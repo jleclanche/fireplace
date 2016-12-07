@@ -177,8 +177,9 @@ class KAR_075:
 	"Moonglade Portal"
 	play = Heal(TARGET, 6), Summon(CONTROLLER, RandomMinion(cost=6))
 
-# class KAR_076:
-# 	"Firelands Portal"
+class KAR_076:
+	"Firelands Portal"
+	play = Hit(TARGET, 5), Summon(CONTROLLER, RandomMinion(cost=5))
 
 # class KAR_077:
 # 	"Silvermoon Portal"
