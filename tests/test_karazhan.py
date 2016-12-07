@@ -295,3 +295,10 @@ def test_maelstrom_portal():
 	assert len(g.player1.field) == 0
 	assert len(g.player2.field) == 1
 	assert g.player2.field[0].cost == 1
+
+def test_moonglade_portal():
+	g=prepare_game()
+	g.player1.hero.set_current_health(20)
+	g.player1.give("KAR_075").play(target=g.player1.hero)
+	assert len(g.player1.field) == 1
+	assert g.player1.hero.health == 26
