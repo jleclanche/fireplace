@@ -139,9 +139,16 @@ class KAR_114e:
 # 	"Silverware Golem"
 
 
-# class KAR_702:
-# 	"Menagerie Magician"
+class KAR_702:
+	"Menagerie Magician"
+	powered_up = Find(RANDOM(FRIENDLY_MINIONS + MURLOC) | RANDOM(FRIENDLY_MINIONS + DRAGON) | RANDOM(FRIENDLY_MINIONS + BEAST))
+	play = (
+		Buff(RANDOM(FRIENDLY_MINIONS + MURLOC),"KAR_702e"),
+		Buff(RANDOM(FRIENDLY_MINIONS + DRAGON),"KAR_702e"),
+		Buff(RANDOM(FRIENDLY_MINIONS + BEAST),"KAR_702e")
+	)
 
+KAR_702e = buff(+2,+2)
 
 # class KAR_710:
 # 	"Arcanosmith"
