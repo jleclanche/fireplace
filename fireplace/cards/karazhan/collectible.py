@@ -169,8 +169,9 @@ class KAR_114e:
 # class KAR_026:
 # 	"Protect the King!"
 
-# class KAR_073:
-# 	"Maelstrom Portal"
+class KAR_073:
+	"Maelstrom Portal"
+	play = Hit(ENEMY_MINIONS, 1), Summon(CONTROLLER, RandomMinion(cost=1))
 
 # class KAR_075:
 # 	"Moonglade Portal"

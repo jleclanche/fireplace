@@ -287,3 +287,11 @@ def test_barnes():
 	assert summon.health == 1
 
 
+def test_maelstrom_portal():
+	g=prepare_game()
+	g.player1.give(WISP).play()
+	g.end_turn()
+	g.player2.give("KAR_073").play()
+	assert len(g.player1.field) == 0
+	assert len(g.player2.field) == 1
+	assert g.player2.field[0].cost == 1
