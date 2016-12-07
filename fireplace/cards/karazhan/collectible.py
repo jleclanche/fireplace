@@ -150,9 +150,9 @@ class KAR_702:
 
 KAR_702e = buff(+2,+2)
 
-# class KAR_710:
-# 	"Arcanosmith"
-
+class KAR_710:
+	"Arcanosmith"
+	play = Summon(CONTROLLER, "KAR_710m")
 
 # class KAR_711:
 # 	"Arcane Giant"

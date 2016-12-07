@@ -305,6 +305,13 @@ def test_menagerie_magician():
 	assert dragon.health == 3
 	assert dragon.buffs
 
+def test_arcanosmith():
+	game = prepare_game()
+	game.player1.give("KAR_710").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].id == "KAR_710m"
+	assert game.player1.field[-1].taunt
+
 def test_maelstrom_portal():
 	game = prepare_game()
 	game.player1.give(WISP).play()
