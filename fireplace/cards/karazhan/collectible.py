@@ -187,8 +187,9 @@ class KAR_077:
 
 KAR_077e = buff(+2,+2)
 
-# class KAR_091:
-# 	"Ironforge Portal"
+class KAR_091:
+	"Ironforge Portal"
+	play = GainArmor(FRIENDLY_HERO, 4), Summon(CONTROLLER, RandomMinion(cost=4))
 
 ##
 # Weapons
