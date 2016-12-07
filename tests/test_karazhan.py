@@ -286,6 +286,18 @@ def test_barnes():
 	assert summon.atk == 1
 	assert summon.health == 1
 
+def test_onyx_bishop():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	game.player1.give("CS2_009").play(target=wisp)
+	assert wisp.atk == 3
+	game.player1.give(SOULFIRE).play(target=wisp)
+	assert len(game.player1.field) == 0
+	game.player1.give("KAR_204").play()
+
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].atk == 1
+
 def test_menagerie_magician():
 	game = prepare_game()
 	zoobot = game.player1.give("KAR_702")
