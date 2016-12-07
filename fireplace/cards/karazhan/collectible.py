@@ -181,8 +181,11 @@ class KAR_076:
 	"Firelands Portal"
 	play = Hit(TARGET, 5), Summon(CONTROLLER, RandomMinion(cost=5))
 
-# class KAR_077:
-# 	"Silvermoon Portal"
+class KAR_077:
+	"Silvermoon Portal"
+	play = Buff(TARGET, "KAR_077e"), Summon(CONTROLLER, RandomMinion(cost=2))
+
+KAR_077e = buff(+2,+2)
 
 # class KAR_091:
 # 	"Ironforge Portal"
