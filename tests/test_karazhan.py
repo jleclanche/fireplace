@@ -269,6 +269,34 @@ def test_zoobot():
 	assert dragon.health == 2
 	assert dragon.buffs
 
+def test_medivh():
+	game = prepare_game()
+	game.player1.give("KAR_097").play()
+	assert game.player1.weapon
+	assert game.player1.weapon.durability == 3
+	
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].cost == 0
+	assert game.player1.weapon.durability == 2
+
+	game.end_turn()
+	game.end_turn()
+
+	game.player1.give(UNSTABLE_PORTAL).play()
+	assert len(game.player1.field) == 3
+	assert game.player1.field[-1].cost == 2
+	assert game.player1.weapon.durability == 1
+
+	game.player1.give("EX1_295").play()
+	assert len(game.player1.field) == 4
+	assert game.player1.field[-1].cost == 3
+	assert not game.player1.weapon
+
+	game.player1.give(INNERVATE).play()
+	assert len(game.player1.field) == 4
+	
+
 def test_barnes():
 	game = prepare_empty_game()
 	kobold = game.player1.give(KOBOLD_GEOMANCER)
