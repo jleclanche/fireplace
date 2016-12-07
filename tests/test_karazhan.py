@@ -352,6 +352,16 @@ def test_arcanosmith():
 	assert game.player1.field[-1].id == "KAR_710m"
 	assert game.player1.field[-1].taunt
 
+def test_cat_trick():
+	game = prepare_game()
+	cattrick = game.player1.give("KAR_004").play()
+	assert cattrick in game.player1.secrets
+	game.end_turn()
+
+	game.player2.give("CS2_032").play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[-1].id == "KAR_004a"
+
 def test_maelstrom_portal():
 	game = prepare_game()
 	game.player1.give(WISP).play()

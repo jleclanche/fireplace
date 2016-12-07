@@ -170,8 +170,9 @@ class KAR_710:
 ##
 # Spells
 
-# class KAR_004:
-# 	"Cat Trick"
+class KAR_004:
+	"Cat Trick"
+	secret = Play(ENEMY, SPELL).after(Summon(CONTROLLER, "KAR_004a"))
 
 # class KAR_013:
 # 	"Purify"
