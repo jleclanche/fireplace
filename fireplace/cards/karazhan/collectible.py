@@ -131,9 +131,9 @@ class KAR_114e:
 	atk = SET(1)
 	max_health = SET(1)
 
-# class KAR_204:
-# 	"Onyx Bishop"
-
+class KAR_204:
+	"Onyx Bishop"
+	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))
 
 # class KAR_205:
 # 	"Silverware Golem"
