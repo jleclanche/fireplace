@@ -302,3 +302,10 @@ def test_moonglade_portal():
 	g.player1.give("KAR_075").play(target=g.player1.hero)
 	assert len(g.player1.field) == 1
 	assert g.player1.hero.health == 26
+
+def test_firelands_portal():
+	g=prepare_game()
+	g.player1.give("KAR_076").play(target=g.player2.hero)
+	assert len(g.player1.field) == 1
+	assert g.player1.field[0].cost == 5
+	assert g.player2.hero.health == 25
