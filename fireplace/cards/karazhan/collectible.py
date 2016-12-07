@@ -119,9 +119,15 @@ KAR_095e = buff(+1,+1)
 # 	"Prince Malchezaar"
 
 
-# class KAR_097:
-# 	"Medivh, the Guardian"
+class KAR_097:
+	"Medivh, the Guardian"
+	play = Summon(CONTROLLER, "KAR_097t")
 
+class KAR_097t:
+	events = OWN_SPELL_PLAY.on(
+		Summon(CONTROLLER, RandomMinion(cost=Attr(Play.CARD, GameTag.COST))),
+		Hit(SELF, 1)
+	)
 
 class KAR_114:
 	"Barnes"
