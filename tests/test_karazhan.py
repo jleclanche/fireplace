@@ -392,6 +392,19 @@ def test_kara_kazham():
 	assert len(game.player1.field) == 7
 	assert game.player1.field[-1].id == "KAR_025a"
 
+def test_protect_the_king():
+	game=prepare_game()
+	ptk = game.player1.give("KAR_026")
+	assert not ptk.is_playable()
+	game.end_turn()
+
+	game.player2.give(WISP).play()
+	game.player2.give(WHELP).play()
+	game.end_turn()
+	assert ptk.is_playable()
+	ptk.play()
+	assert len(game.player1.field) == 2
+
 def test_maelstrom_portal():
 	game = prepare_game()
 	game.player1.give(WISP).play()
