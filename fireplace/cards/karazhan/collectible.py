@@ -186,8 +186,9 @@ class KAR_025:
 		Summon(CONTROLLER, "KAR_025c")
 	)
 
-# class KAR_026:
-# 	"Protect the King!"
+class KAR_026:
+	"Protect the King!"
+	play = Summon(CONTROLLER, "KAR_026t") * Count(ENEMY_MINIONS)
 
 class KAR_073:
 	"Maelstrom Portal"
