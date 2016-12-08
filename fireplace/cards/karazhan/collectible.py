@@ -174,8 +174,9 @@ class KAR_004:
 	"Cat Trick"
 	secret = Play(ENEMY, SPELL).after(Summon(CONTROLLER, "KAR_004a"))
 
-# class KAR_013:
-# 	"Purify"
+class KAR_013:
+	"Purify"
+	play = Silence(TARGET), Draw(CONTROLLER)
 
 # class KAR_025:
 # 	"Kara Kazham!"

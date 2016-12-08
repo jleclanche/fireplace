@@ -362,6 +362,24 @@ def test_cat_trick():
 	assert len(game.player1.field) == 1
 	assert game.player1.field[-1].id == "KAR_004a"
 
+def test_purify():
+	game = prepare_game()
+	game.player1.discard_hand()
+	purify = game.player1.give("KAR_013")
+	assert not purify.is_playable()
+	game.end_turn()
+
+	acolyte1 = game.player2.give("EX1_007").play()
+	game.end_turn()
+
+	assert not purify.is_playable()
+	acolyte2 = game.player1.give("EX1_007").play()
+	assert purify.is_playable()
+	purify.play(target=acolyte2)
+	handsize = len(game.player1.hand)
+	game.player1.give(MOONFIRE).play(target=acolyte2)
+	assert len(game.player1.hand) == handsize
+	
 def test_maelstrom_portal():
 	game = prepare_game()
 	game.player1.give(WISP).play()
