@@ -178,8 +178,13 @@ class KAR_013:
 	"Purify"
 	play = Silence(TARGET), Draw(CONTROLLER)
 
-# class KAR_025:
-# 	"Kara Kazham!"
+class KAR_025:
+	"Kara Kazham!"
+	play = (
+		Summon(CONTROLLER, "KAR_025a"),
+		Summon(CONTROLLER, "KAR_025b"),
+		Summon(CONTROLLER, "KAR_025c")
+	)
 
 # class KAR_026:
 # 	"Protect the King!"

@@ -380,6 +380,18 @@ def test_purify():
 	game.player1.give(MOONFIRE).play(target=acolyte2)
 	assert len(game.player1.hand) == handsize
 	
+def test_kara_kazham():
+	game = prepare_game()
+	game.player1.give("KAR_025").play()
+	assert len(game.player1.field) == 3
+	game.player1.give("KAR_025").play()
+	assert len(game.player1.field) == 6
+	game.end_turn()
+	game.end_turn()
+	game.player1.give("KAR_025").play()
+	assert len(game.player1.field) == 7
+	assert game.player1.field[-1].id == "KAR_025a"
+
 def test_maelstrom_portal():
 	game = prepare_game()
 	game.player1.give(WISP).play()
