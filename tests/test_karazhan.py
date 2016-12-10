@@ -35,6 +35,7 @@ def test_babbling_book():
 
 def test_nightbane_templar():
 	game = prepare_game()
+	game.player1.discard_hand()
 	nightbane1 = game.player1.give("KAR_010")
 	assert not nightbane1.powered_up
 	nightbane1.play()
