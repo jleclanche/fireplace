@@ -164,8 +164,9 @@ class KAR_710:
 # 	"Arcane Giant"
 
 
-# class KAR_712:
-# 	"Violet Illusionist"
+class KAR_712:
+	"Violet Illusionist"
+	update = Find(CURRENT_PLAYER + CONTROLLER) & Refresh(FRIENDLY_HERO, {GameTag.IMMUNE: True})
 
 ##
 # Spells
