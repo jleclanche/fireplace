@@ -218,7 +218,7 @@ class KAR_091:
 # class KAR_028:
 # 	"Fool's Bane"
 
-class KAR_063:
-	"Spirit Claws"
-	update = Find( FRIENDLY_MINIONS + SPELLPOWER ) & Refresh(SELF, {GameTag.ATK: +2})
+# class KAR_063:
+# 	"Spirit Claws"
+# 	update = Find( FRIENDLY_MINIONS + SPELLPOWER ) & Refresh(SELF, {GameTag.ATK: +2})
 
