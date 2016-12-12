@@ -352,6 +352,22 @@ def test_arcanosmith():
 	assert game.player1.field[-1].id == "KAR_710m"
 	assert game.player1.field[-1].taunt
 
+def test_violet_illusionist():
+	game = prepare_game()
+	game.player1.give("KAR_712").play()
+	assert game.player1.hero.immune
+	game.player1.give("CS2_064").play() #Dread Infernal
+	assert game.player1.hero.health == 30
+	assert game.player2.hero.health == 29
+
+	game.end_turn()
+
+	assert not game.player1.hero.immune
+	game.player2.give("CS2_064").play() #Dread Infernal
+	assert game.player1.hero.health == 29
+	assert game.player2.hero.health == 28
+
+
 def test_cat_trick():
 	game = prepare_game()
 	cattrick = game.player1.give("KAR_004").play()
