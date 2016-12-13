@@ -87,9 +87,18 @@ class KAR_069:
 	"Swashburglar"
 	play = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))
 
-# class KAR_070:
-# 	"Ethereal Peddler"
+class KAR_070:
+	"Ethereal Peddler"
+	play = Buff(FRIENDLY_HAND - ROGUE, "KAR_070e")
 
+@custom_card
+class KAR_070e:
+	tags = {
+		GameTag.CARDNAME: "Ethereal Peddler Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+		GameTag.COST: -2,
+	}
+	events = REMOVED_IN_PLAY
 
 class KAR_089:
 	"Malchezaar's Imp"
