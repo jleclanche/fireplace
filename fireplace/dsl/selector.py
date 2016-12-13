@@ -371,6 +371,7 @@ CLASS_CARD = EnumSelector(GameTag.CLASS)
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True
 
+ROGUE = AttrValue(GameTag.CLASS) == 7
 
 IN_PLAY = EnumSelector(Zone.PLAY)
 IN_DECK = EnumSelector(Zone.DECK)

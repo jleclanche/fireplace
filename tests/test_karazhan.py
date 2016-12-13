@@ -197,6 +197,19 @@ def test_swashburglar():
 	assert game.player1.hand[0].card_class == game.player2.hero.card_class
 	assert game.player1.hand[0].type != CardType.HERO
 
+def test_ethereal_peddler():
+	game = prepare_empty_game()
+	game.player1.discard_hand()
+	mc = game.player1.give(MIND_CONTROL)
+	evis = game.player1.give("EX1_124") #Eviscerate
+	assert mc.cost == 10
+	assert evis.cost == 2
+	game.player1.give("KAR_070").play()
+	
+	assert mc.cost == 8
+	assert evis.cost == 2
+
+
 def test_malchezaars_imp():
 	game = prepare_game()
 	imp = game.player1.give("KAR_089")
