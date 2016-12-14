@@ -16,8 +16,12 @@ class CFM_617:
 
 CFM_617e = buff(2,2)
 
-#class CFM_816:
-#	"Virmen Sensei"
+class CFM_816:
+	"Virmen Sensei"
+	powered_up  = Find(FRIENDLY_MINIONS + BEAST)
+	play = Buff(TARGET, "CFM_816e")
+
+CFM_816e = buff(2,2)
 
 ##
 # Spells
