@@ -33,3 +33,19 @@ def test_virmen_sensei():
 	assert beast.atk == 3
 	assert beast.health == 3
 
+def test_mark_of_the_lotus():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	chicken = game.player1.give(CHICKEN).play()
+
+	assert wisp.atk == 1
+	assert chicken.atk == 1
+	lotus = game.player1.give("CFM_614").play()
+
+	assert wisp.buffs
+	assert wisp.atk == 2
+	assert wisp.health == 2
+	assert chicken.buffs
+	assert chicken.atk == 2
+	assert chicken.health == 2
+
