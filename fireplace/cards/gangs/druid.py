@@ -35,8 +35,13 @@ class CFM_614:
 
 CFM_614e = buff(+1,+1)
 
-#class CFM_616:
-#	"Pilfered Power"
+class CFM_616:
+	"Pilfered Power"
+	play = (
+		AT_MAX_MANA(CONTROLLER) &
+		Give(CONTROLLER, "CS2_013t") |
+		GainEmptyMana(CONTROLLER, Count(FRIENDLY_MINIONS))
+	)
 
 #class CFM_713:
 #	"Jade Blossom"
