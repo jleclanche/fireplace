@@ -46,6 +46,19 @@ class CFM_616:
 #class CFM_713:
 #	"Jade Blossom"
 
-#class CFM_811:
-#	"Lunar Visions"
+class CFM_811:
+	"Lunar Visions"
+	play = (Draw(CONTROLLER) * 2).then(
+		Find(MINION + Draw.CARD) & Buff(Draw.CARD, "CFM_811e")
+	)
+
+@custom_card
+class CFM_811e:
+	tags = {
+		GameTag.CARDNAME: "Lunar Visions Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+		GameTag.COST: -2,
+	}
+	events = REMOVED_IN_PLAY
+
 

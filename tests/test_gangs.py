@@ -84,3 +84,17 @@ def test_pilfered_power():
 	excess_mana.play()
 	assert len(game.player1.hand) == 1
 
+def test_lunar_visions():
+	game = prepare_empty_game()
+	golem = game.player1.give("CS2_186").shuffle_into_deck() #War Golem
+	portal = game.player1.give(UNSTABLE_PORTAL).shuffle_into_deck()
+
+	game.player1.give("CFM_811").play()
+	assert len(game.player1.hand) == 2
+	def check_cost(c):
+		if c.id == "CS2_186":
+			assert c.cost == 5
+		else:
+			assert c.cost == 2
+	for c in game.player1.hand:
+		check_cost(c)
