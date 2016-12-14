@@ -3,8 +3,9 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_315:
-#	"Alleycat"
+class CFM_315:
+	"Alleycat"
+	play = Summon(CONTROLLER, "CFM_315t")
 
 #class CFM_316:
 #	"Rat Pack"

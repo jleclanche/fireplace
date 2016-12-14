@@ -98,3 +98,10 @@ def test_lunar_visions():
 			assert c.cost == 2
 	for c in game.player1.hand:
 		check_cost(c)
+
+def test_alleycat():
+	game = prepare_game()
+	game.player1.give("CFM_315").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[0].id == "CFM_315"
+	assert game.player1.field[1].id == "CFM_315t"
