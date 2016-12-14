@@ -9,8 +9,12 @@ from ..utils import *
 #class CFM_343:
 #	"Jade Behemoth"
 
-#class CFM_617:
-#	"Celestial Dreamer"
+class CFM_617:
+	"Celestial Dreamer"
+	powered_up = Find(FRIENDLY_MINIONS + (ATK >= 5))
+	play = powered_up & Buff(SELF, "CFM_617e")
+
+CFM_617e = buff(2,2)
 
 #class CFM_816:
 #	"Virmen Sensei"
