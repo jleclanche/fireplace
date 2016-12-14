@@ -49,3 +49,38 @@ def test_mark_of_the_lotus():
 	assert chicken.atk == 2
 	assert chicken.health == 2
 
+def test_pilfered_power():
+	game = prepare_game(game_class=Game)
+	game.end_turn(); game.end_turn()
+	game.end_turn(); game.end_turn()
+	assert game.player1.max_mana == 3
+	pilfered1 = game.player1.give("CFM_616")
+	pilfered1.play()
+	assert game.player1.mana == 0
+	assert game.player1.used_mana == 3
+	assert game.player1.max_mana == 3
+
+	game.end_turn(); game.end_turn()
+
+	assert game.player1.max_mana == 4
+	livingroots = game.player1.give("AT_037").play(choose="AT_037b")
+	assert len(game.player1.field) == 2
+	pilfered2 = game.player1.give("CFM_616").play()
+	assert game.player1.mana == 0
+	assert game.player1.used_mana == 4 + 2
+	assert game.player1.max_mana ==  4 + 2
+
+	for i in range(4):
+		game.end_turn(); game.end_turn()
+
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	assert game.player1.max_mana == 10
+	pilfered3 = game.player1.give("CFM_616").play()
+	assert len(game.player1.hand) == 1
+	assert game.player1.max_mana == 10
+	excess_mana = game.player1.hand[0]
+	assert excess_mana.id == "CS2_013t"
+	excess_mana.play()
+	assert len(game.player1.hand) == 1
+
