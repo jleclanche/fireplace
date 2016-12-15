@@ -7,8 +7,10 @@ class CFM_315:
 	"Alleycat"
 	play = Summon(CONTROLLER, "CFM_315t")
 
-#class CFM_316:
-#	"Rat Pack"
+# class CFM_316:
+# 	"Rat Pack"
+#	TODO: Find a way to cache the atk value before death
+# 	deathrattle = Summon(CONTROLLER, "CFM_316t") * ATK(SELF)
 
 #class CFM_333:
 #	"Knuckles"

@@ -105,3 +105,14 @@ def test_alleycat():
 	assert len(game.player1.field) == 2
 	assert game.player1.field[0].id == "CFM_315"
 	assert game.player1.field[1].id == "CFM_315t"
+
+# def test_rat_pack():
+# 	game = prepare_empty_game()
+# 	ratpack = game.player1.give("CFM_316").play()
+# 	timberwolf = game.player1.give("DS1_175").play()
+
+# 	assert ratpack.atk == 3
+
+# 	game.player1.give(SOULFIRE).play(target=ratpack)
+# 	assert len(game.player1.field) == 4
+
