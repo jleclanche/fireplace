@@ -123,3 +123,16 @@ def test_alleycat():
 # 	kodo.play(target = game.player2.hero)
 
 # 	assert game.player2.hero.health == 30 - 3
+
+def test_shaky_zipgunner():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	gunner = game.player1.give("CFM_336").play()
+	game.player1.give("CS2_057").play(target=gunner) #Shadow Bolt
+	assert wisp.atk == 3
+	assert wisp.health == 3
+
+	wisp.play()
+
+	assert wisp.atk == 3
+	assert wisp.health == 3
