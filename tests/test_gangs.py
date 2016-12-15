@@ -204,3 +204,31 @@ def test_piranha_launcher():
 
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == "CFM_337t"
+
+def test_kabal_lackey():
+	game = prepare_empty_game()
+	counterspell = game.player1.give("EX1_287")
+	assert counterspell.cost == 3
+	vaporize = game.player1.give("EX1_594")
+	assert vaporize.cost == 3
+	missiles = game.player1.give("EX1_277")
+	assert missiles.cost == 1
+	game.player1.give("CFM_066").play()
+	assert counterspell.cost == 0
+	assert vaporize.cost == 0
+	assert missiles.cost == 1
+
+	missiles.play()
+	assert counterspell.cost == 0
+	assert vaporize.cost == 0
+
+	counterspell.play()
+	assert vaporize.cost == 3
+
+	game.player1.give("CFM_066").play()
+	assert vaporize.cost == 0
+
+	game.end_turn()
+	assert vaporize.cost == 3
+	game.end_turn()
+	assert vaporize.cost == 3
