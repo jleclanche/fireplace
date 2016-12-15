@@ -7,8 +7,9 @@ class CFM_066:
 	"Kabal Lackey"
 	play = Buff(CONTROLLER, "EX1_612o")
 
-#class CFM_660:
-#	"Manic Soulcaster"
+class CFM_660:
+	"Manic Soulcaster"
+	play = Shuffle(CONTROLLER, Copy(TARGET))
 
 #class CFM_671:
 #	"Cryomancer"
