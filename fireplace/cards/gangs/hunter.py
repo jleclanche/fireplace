@@ -44,8 +44,11 @@ class CFM_026:
 
 CFM_026e = buff(+2, +2)
 
-#class CFM_334:
-#	"Smuggler's Crate"
+class CFM_334:
+	"Smuggler's Crate"
+	play = Buff(RANDOM(FRIENDLY_HAND + MINION + BEAST), "CFM_334e")
+
+CFM_334e = buff(+2, +2)
 
 ##
 # Weapons

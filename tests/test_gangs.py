@@ -177,3 +177,19 @@ def test_hidden_cache():
 	assert wisp.buffs
 	assert wisp.atk == 3
 	assert wisp.health == 3
+
+def test_smugglers_crate():
+	# Game allows card to be played with no beast in hand
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	crate = game.player1.give("CFM_334")
+	beast = game.player1.give(CHICKEN)
+	crate.play()
+	assert beast.buffs
+	assert beast.atk == 3
+	assert beast.health == 3
+
+	beast.play()
+	assert beast.buffs
+	assert beast.atk == 3
+	assert beast.health == 3
