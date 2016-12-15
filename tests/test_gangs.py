@@ -118,3 +118,20 @@ def test_shaky_zipgunner():
 
 	assert wisp.atk == 3
 	assert wisp.health == 3
+
+def test_trogg_beastrager():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	trogg1 = game.player1.give("CFM_338").play()
+	assert wisp.atk == 1
+	beast = game.player1.give(CHICKEN)
+	trogg2 = game.player1.give("CFM_338").play()
+	assert beast.buffs
+	assert beast.atk == 2
+	assert beast.health == 2
+
+	beast.play()
+
+	assert beast.buffs
+	assert beast.atk == 2
+	assert beast.health == 2
