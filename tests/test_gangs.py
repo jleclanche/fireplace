@@ -230,3 +230,15 @@ def test_manic_soulcaster():
 	assert len(game.player1.hand) == 1
 	assert not game.player1.hand[0].divine_shield
 	assert game.player1.hand[0].health == 1
+
+def test_cryomancer():
+	game = prepare_empty_game()
+	cryomancer = game.player1.give("CFM_671")
+	assert not cryomancer.powered_up
+
+	game.player1.give("CS2_031").play(target=game.player2.hero)
+	assert cryomancer.powered_up
+	cryomancer.play()
+	assert cryomancer.buffs
+	assert cryomancer.atk == 7
+	assert cryomancer.health == 7
