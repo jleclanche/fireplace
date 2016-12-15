@@ -214,3 +214,19 @@ def test_kabal_lackey():
 	assert vaporize.cost == 3
 	game.end_turn()
 	assert vaporize.cost == 3
+
+def test_manic_soulcaster():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	game.player1.give(HAND_OF_PROTECTION).play(target=wisp)
+	game.player1.give("CS2_236").play(target=wisp) #Inner Fire
+	assert wisp.divine_shield
+	assert wisp.health == 2
+	game.player1.give("CFM_660").play(target=wisp)
+	assert len(game.player1.deck) == 1
+
+	game.end_turn()
+	game.end_turn()
+	assert len(game.player1.hand) == 1
+	assert not game.player1.hand[0].divine_shield
+	assert game.player1.hand[0].health == 1
