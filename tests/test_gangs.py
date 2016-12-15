@@ -242,3 +242,19 @@ def test_cryomancer():
 	assert cryomancer.buffs
 	assert cryomancer.atk == 7
 	assert cryomancer.health == 7
+
+	def test_inkmaster_solia():
+		game = prepare_empty_game()
+		btg = game.player1.give("AT_035")# Beneath the Grounds
+		game.player1.give("CFM_687").play()
+		assert btg.cost == 0
+		btg.play()
+		game.end_turn()
+
+		solia = game.player2.give("CFM_687")
+		assert not solia.powered_up
+		mc = game.player2.give(MIND_CONTROL)
+		solia.play()
+		assert mc.cost == 10
+		
+
