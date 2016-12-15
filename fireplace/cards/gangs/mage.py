@@ -18,8 +18,15 @@ class CFM_671:
 
 CFM_671e = buff(+2, +2)
 
-#class CFM_687:
-#	"Inkmaster Solia"
+class CFM_687:
+	"Inkmaster Solia"
+	powered_up = -FindDuplicates(FRIENDLY_DECK)
+	play = powered_up & Buff(CONTROLLER, "CFM_687e")
+
+class CFM_687e:
+	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: SET(0)})
+	events = OWN_SPELL_PLAY.on(Destroy(SELF))
+
 
 #class CFM_760:
 #	"Kabal Crystal Runner"
