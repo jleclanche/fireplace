@@ -49,6 +49,6 @@ CFM_334e = buff(+2, +2)
 ##
 # Weapons
 
-#class CFM_337:
-	#"Piranha Launcher"
-
+class CFM_337:
+	"Piranha Launcher"
+	events = Attack(FRIENDLY_HERO).after(Summon(CONTROLLER, "CFM_337t"))

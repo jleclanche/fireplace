@@ -175,3 +175,14 @@ def test_smugglers_crate():
 	assert beast.buffs
 	assert beast.atk == 3
 	assert beast.health == 3
+
+def test_piranha_launcher():
+	game = prepare_empty_game()
+	game.player1.give("CFM_337").play()
+	game.end_turn()
+	wisp = game.player2.give(WISP).play()
+	game.end_turn()
+	game.player1.hero.attack(target=wisp)
+
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_337t"
