@@ -35,8 +35,14 @@ CFM_338e = buff(+1, +1)
 ##
 # Spells
 
-#class CFM_026:
-#	"Hidden Cache"
+class CFM_026:
+	"Hidden Cache"
+	secret = Play(OPPONENT, MINION).after(
+		(Count(FRIENDLY_HAND + MINION) == 0) |
+		(Reveal(SELF), Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_026e"))
+		)
+
+CFM_026e = buff(+2, +2)
 
 #class CFM_334:
 #	"Smuggler's Crate"
