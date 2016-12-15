@@ -3,8 +3,9 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_066:
-#	"Kabal Lackey"
+class CFM_066:
+	"Kabal Lackey"
+	play = Buff(CONTROLLER, "EX1_612o")
 
 #class CFM_660:
 #	"Manic Soulcaster"
