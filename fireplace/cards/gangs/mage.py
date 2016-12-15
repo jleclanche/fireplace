@@ -11,8 +11,12 @@ class CFM_660:
 	"Manic Soulcaster"
 	play = Shuffle(CONTROLLER, Copy(TARGET))
 
-#class CFM_671:
-#	"Cryomancer"
+class CFM_671:
+	"Cryomancer"
+	powered_up = Find(ENEMY_CHARACTERS + FROZEN)
+	play = powered_up & Buff(SELF, "CFM_671e")
+
+CFM_671e = buff(+2, +2)
 
 #class CFM_687:
 #	"Inkmaster Solia"
