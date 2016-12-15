@@ -153,3 +153,27 @@ def test_trogg_beastrager():
 	assert beast.buffs
 	assert beast.atk == 2
 	assert beast.health == 2
+
+def test_hidden_cache():
+	game = prepare_empty_game()
+	cache = game.player1.give("CFM_026").play()
+	assert game.player1.secrets
+	game.end_turn()
+	game.player2.give(WISP).play()
+	assert game.player1.secrets
+
+	game.end_turn()
+	wisp = game.player1.give(WISP)
+	game.end_turn()
+	game.player2.give(WISP).play()
+	assert not game.player1.secrets
+	assert wisp.buffs
+	assert wisp.atk == 3
+	assert wisp.health == 3
+
+	game.end_turn()
+
+	wisp.play()
+	assert wisp.buffs
+	assert wisp.atk == 3
+	assert wisp.health == 3
