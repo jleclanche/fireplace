@@ -105,3 +105,16 @@ def test_alleycat():
 	assert len(game.player1.field) == 2
 	assert game.player1.field[0].id == "CFM_315"
 	assert game.player1.field[1].id == "CFM_315t"
+
+def test_shaky_zipgunner():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	gunner = game.player1.give("CFM_336").play()
+	game.player1.give("CS2_057").play(target=gunner) #Shadow Bolt
+	assert wisp.atk == 3
+	assert wisp.health == 3
+
+	wisp.play()
+
+	assert wisp.atk == 3
+	assert wisp.health == 3

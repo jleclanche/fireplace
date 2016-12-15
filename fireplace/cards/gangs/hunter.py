@@ -16,8 +16,11 @@ class CFM_315:
 #class CFM_335:
 #	"Dispatch Kodo"
 
-#class CFM_336:
-#	"Shaky Zipgunner"
+class CFM_336:
+	"Shaky Zipgunner"
+	deathrattle = Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_336e")
+
+CFM_336e = buff(+2, +2)
 
 #class CFM_338:
 #	"Trogg Beastrager"
