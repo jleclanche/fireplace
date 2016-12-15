@@ -15,8 +15,10 @@ class CFM_315:
 #class CFM_333:
 #	"Knuckles"
 
-#class CFM_335:
-#	"Dispatch Kodo"
+# class CFM_335:
+# 	"Dispatch Kodo"
+#	TODO: Battlecry needs to resolve after aura refresh to be accurate
+# 	play = Hit(TARGET, ATK(SELF))
 
 #class CFM_336:
 #	"Shaky Zipgunner"

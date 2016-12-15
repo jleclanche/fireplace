@@ -116,3 +116,10 @@ def test_alleycat():
 # 	game.player1.give(SOULFIRE).play(target=ratpack)
 # 	assert len(game.player1.field) == 4
 
+# def test_dispatch_kodo():
+# 	game = prepare_empty_game()
+# 	kodo = game.player1.give("CFM_335")
+# 	timberwolf = game.player1.give("DS1_175").play()
+# 	kodo.play(target = game.player2.hero)
+
+# 	assert game.player2.hero.health == 30 - 3
