@@ -516,3 +516,10 @@ def test_defias_cleaner():
 	game.player2.give("CFM_855").play(target=loothoarder)
 	game.player2.give(MOONFIRE).play(target=loothoarder)
 	assert len(game.player1.hand) == 0
+
+def test_small_time_buccaneer():
+	game = prepare_game()
+	buccaneer = game.player1.give("CFM_325").play()
+	assert buccaneer.atk == 1
+	game.player1.give(LIGHTS_JUSTICE).play()
+	assert buccaneer.atk == 3
