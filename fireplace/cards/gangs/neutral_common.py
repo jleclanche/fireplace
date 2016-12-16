@@ -69,8 +69,11 @@ class CFM_809:
 	powered_up = Count(ENEMY_HAND) == 0
 	play = powered_up & GiveCharge(SELF)
 
-#class CFM_851:
-#	"Daring Reporter"
+class CFM_851:
+	"Daring Reporter"
+	events = Draw(OPPONENT).on(Buff(SELF, "CFM_851e"))
+
+CFM_851e = buff(+1, +1)
 
 #class CFM_853:
 #	"Grimestreet Smuggler"
