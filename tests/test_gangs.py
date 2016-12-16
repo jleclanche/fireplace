@@ -337,3 +337,18 @@ def test_big_time_racketeer():
 	game.player1.give("CFM_648").play()
 	assert len(game.player1.field) == 2
 	assert game.player1.field[1].id == "CFM_648t"
+
+def test_naga_corsair():
+	game = prepare_empty_game()
+	game.player1.give("CS2_097").play() #Truesliver Champion
+	game.player1.give("CFM_651").play()
+
+	assert game.player1.hero.atk == 5
+
+def test_friendly_bartender():
+	game = prepare_empty_game()
+	game.player1.give("CFM_654").play()
+	game.player1.give(KOBOLD_GEOMANCER).play()
+	game.player1.hero.set_current_health(1)
+	game.end_turn()
+	assert game.player1.hero.health == 1 + 1
