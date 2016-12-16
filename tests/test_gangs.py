@@ -313,3 +313,15 @@ def test_red_mana_wyrm():
 
 	game.player1.give(CIRCLE_OF_HEALING).play()
 	assert wyrm.atk == 6
+
+def test_hozen_healer():
+	game = prepare_empty_game()
+	blademaster1 = game.player1.give("CS2_181").play()
+	assert blademaster1.health == 3
+	game.player1.give("CFM_067").play(target=blademaster1)
+	assert blademaster1.health == 7
+	game.end_turn()
+
+	game.player2.give("EX1_591").play()
+	game.player2.give("CFM_067").play(target=blademaster1)
+	assert blademaster1.dead
