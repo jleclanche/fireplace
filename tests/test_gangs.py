@@ -452,3 +452,18 @@ def test_wind_up_burglebot():
 	windupbot.attack(wolfrider2)
 	assert len(game.player1.hand) == handsize
 
+def test_blubber_baron():
+	game = prepare_game()
+	baron = game.player1.give("CFM_064")
+	assert baron.atk == 1
+	assert baron.health == 1
+	game.player1.give("EX1_015").play()
+	assert baron.atk == 2
+	assert baron.health == 2
+	game.player1.give("EX1_015").play()
+	assert baron.atk == 3
+	assert baron.health == 3
+
+	baron.play()
+	assert baron.atk == 3
+	assert baron.health == 3
