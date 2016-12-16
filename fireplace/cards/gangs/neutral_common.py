@@ -19,8 +19,9 @@ class CFM_067:
 	"Hozen Healer"
 	play = FullHeal(TARGET)
 
-#class CFM_120:
-#	"Mistress of Mixtures"
+class CFM_120:
+	"Mistress of Mixtures"
+	deathrattle = Heal(ALL_HEROES, 4)
 
 #class CFM_619:
 #	"Kabal Chemist"
