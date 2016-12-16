@@ -23,8 +23,9 @@ class CFM_328:
 	"Fight Promoter"
 	play = Find(FRIENDLY_MINIONS + (CURRENT_HEALTH >= 6)) & Draw(CONTROLLER) * 2
 
-#class CFM_609:
-#	"Fel Orc Soulfiend"
+class CFM_609:
+	"Fel Orc Soulfiend"
+	events = OWN_TURN_BEGIN.on(Hit(SELF, 2))
 
 #class CFM_669:
 #	"Burgly Bully"
