@@ -19,8 +19,9 @@ CFM_064e = buff(+1, +1)
 #	TODO: Engine attempts to remove Weasel from Opponent's GRAVEYARd, resulting in ValueError
 # 	deathrattle = Shuffle(OPPONENT, SELF)
 
-#class CFM_328:
-#	"Fight Promoter"
+class CFM_328:
+	"Fight Promoter"
+	play = Find(FRIENDLY_MINIONS + (CURRENT_HEALTH >= 6)) & Draw(CONTROLLER) * 2
 
 #class CFM_609:
 #	"Fel Orc Soulfiend"
