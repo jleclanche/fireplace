@@ -53,8 +53,9 @@ class CFM_655:
 	"Toxic Sewer Ooze"
 	play = Hit(ENEMY_WEAPON, 1)
 
-#class CFM_656:
-#	"Streetwise Investigator"
+class CFM_656:
+	"Streetwise Investigator"
+	play = Unstealth(ENEMY_MINIONS)
 
 #class CFM_659:
 #	"Gadgetzan Socialite"
