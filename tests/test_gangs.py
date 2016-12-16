@@ -325,3 +325,9 @@ def test_hozen_healer():
 	game.player2.give("EX1_591").play()
 	game.player2.give("CFM_067").play(target=blademaster1)
 	assert blademaster1.dead
+
+def test_kabal_chemist():
+	game = prepare_empty_game()
+	game.player1.give("CFM_619").play()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].id in fireplace.cards.utils.POTIONS
