@@ -679,3 +679,13 @@ def test_small_time_recruits():
 	assert game.player1.deck
 	for i in range(3):
 		assert game.player1.hand[i].id == GOLDSHIRE_FOOTMAN
+
+def test_raza_the_chained():
+	game = prepare_empty_game()
+	game.player1.give("CFM_020").play()
+	assert game.player1.hero.power.cost == 0
+	game.player1.give("EX1_625").play()
+	assert game.player1.hero.power.cost == 0
+	game.end_turn();game.end_turn()
+	game.player1.give("EX1_323").play()
+	assert game.player1.hero.power.cost == 0
