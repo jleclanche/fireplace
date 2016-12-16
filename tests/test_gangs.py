@@ -561,3 +561,14 @@ def test_bomb_squad():
 	assert defender.health == 2
 	bombsquad.destroy()
 	assert game.player2.hero.health == 25
+
+def test_spiked_hogrider():
+	game = prepare_game()
+	hog1 = game.player1.give("CFM_688")
+	assert not hog1.powered_up
+	defender = game.player1.give("CFM_300").play() #Public Defender
+	game.end_turn()
+	hog2 = game.player2.give("CFM_688")
+	assert hog2.powered_up
+	hog2.play()
+	assert hog2.charge
