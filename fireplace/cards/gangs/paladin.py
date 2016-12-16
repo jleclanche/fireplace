@@ -28,8 +28,9 @@ CFM_753e = buff(+1, +1)
 #class CFM_759:
 #	"Meanstreet Marshal"
 
-#class CFM_815:
-#	"Wickerflame Burnbristle"
+class CFM_815:
+	"Wickerflame Burnbristle"
+	events = Damage(CHARACTER, None, SELF).after(Heal(FRIENDLY_HERO, Damage.AMOUNT))
 
 ##
 # Spells
