@@ -9,8 +9,11 @@ class CFM_060:
 
 CFM_060e = buff(+2)
 
-#class CFM_063:
-#	"Kooky Chemist"
+class CFM_063:
+	"Kooky Chemist"
+	play = Buff(TARGET, "CFM_063e")
+
+CFM_063e = AttackHealthSwapBuff()
 
 #class CFM_067:
 #	"Hozen Healer"
