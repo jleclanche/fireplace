@@ -281,3 +281,24 @@ def test_potion_of_polymorph():
 	assert len(game.player2.field) == 1
 	assert game.player2.field[0].id == "CS2_tk1"
 	assert not game.player1.secrets
+
+def test_greater_arcane_missiles():
+	game = prepare_game()
+	acolyte = game.player1.give("EX1_007").play()
+	game.player1.give("CS2_004").play(target=acolyte) #Power Word: Shield
+	game.player1.discard_hand()
+	game.end_turn()
+	game.player2.give(KOBOLD_GEOMANCER).play()
+	game.player2.give("CFM_623").play()
+	
+	if acolyte.dead:
+		assert len(game.player1.hand) == 2
+		assert game.player1.hero.health == 30 - 4
+	elif acolyte.health == 1:
+		assert len(game.player1.hand) == 1
+		assert game.player1.hero.health == 30 - 8
+	elif acolyte.health == 5:
+		assert len(game.player1.hand) == 0
+		assert game.player1.hero.health == 30 - 12
+	else:
+		assert False

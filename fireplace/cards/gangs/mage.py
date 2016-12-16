@@ -46,6 +46,7 @@ class CFM_620:
 	"Potion of Polymorph"
 	secret = Play(OPPONENT, MINION).on(Reveal(SELF), Morph(Play.CARD, "CS2_tk1"))
 
-#class CFM_623:
-#	"Greater Arcane Missiles"
+class CFM_623:
+	"Greater Arcane Missiles"
+	play = Hit(RANDOM_ENEMY_CHARACTER, 3) * 3
 
