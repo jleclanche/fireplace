@@ -349,3 +349,9 @@ def test_kabal_chemist():
 	game.player1.give("CFM_619").play()
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].id in fireplace.cards.utils.POTIONS
+
+def test_big_time_racketeer():
+	game = prepare_empty_game()
+	game.player1.give("CFM_648").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1].id == "CFM_648t"
