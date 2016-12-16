@@ -467,3 +467,12 @@ def test_blubber_baron():
 	baron.play()
 	assert baron.atk == 3
 	assert baron.health == 3
+
+def test_weasel_tunneler():
+	game = prepare_empty_game()
+	weasel = game.player1.give("CFM_095").play()
+	#hat = game.player1.give("LOE_105").play(target=weasel)
+	weasel.destroy()
+	assert len(game.player1.hand) == 0
+	#assert len(game.player2.hand) == 2
+	assert len(game.player2.deck) == 1
