@@ -16,8 +16,13 @@ class CFM_325e:
 #class CFM_649:
 #	"Kabal Courier"
 
-#class CFM_652:
-#	"Second-Rate Bruiser"
+class CFM_652:
+	"Second-Rate Bruiser"
+	class Hand:
+		update = ( 
+			(Count(ENEMY_MINIONS) >= 3) & 
+			Refresh(SELF, {GameTag.COST: -2}) 
+			)
 
 #class CFM_658:
 #	"Backroom Bouncer"
