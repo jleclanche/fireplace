@@ -498,3 +498,13 @@ def test_fel_orc_soulfiend():
 	assert orc.health == 1
 	game.end_turn();game.end_turn()
 	assert orc.dead
+
+def test_burgly_bully():
+	game = prepare_empty_game()
+	bully = game.player1.give("CFM_669").play()
+	game.player1.give(INNERVATE).play()
+	assert len(game.player1.hand) == 0
+	game.end_turn()
+	game.player2.give(INNERVATE).play()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].id == "GAME_005"

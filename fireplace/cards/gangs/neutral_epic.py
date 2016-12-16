@@ -27,8 +27,9 @@ class CFM_609:
 	"Fel Orc Soulfiend"
 	events = OWN_TURN_BEGIN.on(Hit(SELF, 2))
 
-#class CFM_669:
-#	"Burgly Bully"
+class CFM_669:
+	"Burgly Bully"
+	events = Play(OPPONENT, SPELL).on(Give(CONTROLLER, "GAME_005"))
 
 #class CFM_790:
 #	"Dirty Rat"
