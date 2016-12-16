@@ -3,8 +3,9 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_062:
-#	"Grimestreet Protector"
+class CFM_062:
+	"Grimestreet Protector"
+	play = GiveDivineShield(SELF_ADJACENT)
 
 #class CFM_639:
 #	"Grimestreet Enforcer"
