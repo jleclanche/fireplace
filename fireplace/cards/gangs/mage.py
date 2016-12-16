@@ -42,8 +42,9 @@ class CFM_065:
 	"Volcanic Potion"
 	play = Hit(ALL_MINIONS, 2)
 
-#class CFM_620:
-#	"Potion of Polymorph"
+class CFM_620:
+	"Potion of Polymorph"
+	secret = Play(OPPONENT, MINION).on(Reveal(SELF), Morph(Play.CARD, "CS2_tk1"))
 
 #class CFM_623:
 #	"Greater Arcane Missiles"

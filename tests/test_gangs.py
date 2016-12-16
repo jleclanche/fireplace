@@ -270,3 +270,14 @@ def test_inkmaster_solia():
 	game.end_turn()
 	assert mc.cost == 10
 
+def test_potion_of_polymorph():
+	game = prepare_game()
+	game.player1.give("CFM_620").play()
+	game.player1.give(WISP).play()
+	assert game.player1.secrets
+	game.end_turn()
+
+	game.player2.give(WISP).play()
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].id == "CS2_tk1"
+	assert not game.player1.secrets
