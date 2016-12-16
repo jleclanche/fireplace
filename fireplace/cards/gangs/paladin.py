@@ -13,8 +13,11 @@ class CFM_639:
 
 CFM_639e = buff(+1, +1)
 
-#class CFM_650:
-#	"Grimscale Chum"
+class CFM_650:
+	"Grimscale Chum"
+	play = Buff(FRIENDLY_HAND + MURLOC, "CFM_650e")
+
+CFM_650e = buff(+1, +1)
 
 #class CFM_753:
 #	"Grimestreet Outfitter"
