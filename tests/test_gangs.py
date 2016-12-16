@@ -637,3 +637,20 @@ def test_wickerflame_burnbristle():
 	game.player2.give(LIGHTS_JUSTICE).play()
 	game.player2.hero.attack(target=wickerflame)
 	assert game.player1.hero.health == 10 + wickerflame.atk
+
+def test_smugglers_run():
+	game = prepare_empty_game()
+	murloc = game.player1.give(MURLOC)
+	wisp = game.player1.give(WISP)
+	spell = game.player1.give(INNERVATE)
+	summoned_dummy = game.player1.give(TARGET_DUMMY).play()
+	game.player1.give("CFM_305").play()
+	assert murloc.buffs
+	assert murloc.atk == 2
+	assert murloc.health == 2
+	assert wisp.buffs
+	assert wisp.atk == 2
+	assert wisp.health == 2
+	assert not summoned_dummy.buffs	
+	assert summoned_dummy.atk == 0
+	assert summoned_dummy.health == 2

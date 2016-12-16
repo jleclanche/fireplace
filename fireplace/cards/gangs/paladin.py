@@ -35,8 +35,11 @@ class CFM_815:
 ##
 # Spells
 
-#class CFM_305:
-#	"Smuggler's Run"
+class CFM_305:
+	"Smuggler's Run"
+	play = Buff(FRIENDLY_HAND + MINION, "CFM_305e")
+
+CFM_305e = buff(+1, +1)
 
 #class CFM_800:
 #	"Getaway Kodo"
