@@ -590,7 +590,7 @@ def test_bomb_squad():
 	assert game.player2.hero.health == 25
 
 def test_spiked_hogrider():
-	game = prepare_game()
+	game = prepare_empty_game()
 	hog1 = game.player1.give("CFM_688")
 	assert not hog1.powered_up
 	defender = game.player1.give("CFM_300").play() #Public Defender
@@ -599,3 +599,14 @@ def test_spiked_hogrider():
 	assert hog2.powered_up
 	hog2.play()
 	assert hog2.charge
+
+def test_grimestreet_protector():
+	game = prepare_empty_game()
+	wisp1 = game.player1.give(WISP).play()
+	wisp2 = game.player1.give(WISP).play()
+	wisp3 = game.player1.give(WISP).play()
+	protector = game.player1.give("CFM_062").play(index=1)
+	assert game.player1.field == [wisp1, protector, wisp2, wisp3]
+	assert wisp1.divine_shield
+	assert wisp2.divine_shield
+	assert not wisp3.divine_shield
