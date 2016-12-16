@@ -38,8 +38,9 @@ class CFM_021:
 	"Freezing Potion"
 	play = Freeze(TARGET)
 
-#class CFM_065:
-#	"Volcanic Potion"
+class CFM_065:
+	"Volcanic Potion"
+	play = Hit(ALL_MINIONS, 2)
 
 #class CFM_620:
 #	"Potion of Polymorph"
