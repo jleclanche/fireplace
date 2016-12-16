@@ -3,11 +3,11 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_039:
-#	"Street Trickster"
+class CFM_060:
+	"Red Mana Wyrm"
+	events = OWN_SPELL_PLAY.on(Buff(SELF, "CFM_060e"))
 
-#class CFM_060:
-#	"Red Mana Wyrm"
+CFM_060e = buff(+2)
 
 #class CFM_063:
 #	"Kooky Chemist"

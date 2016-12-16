@@ -302,3 +302,14 @@ def test_greater_arcane_missiles():
 		assert game.player1.hero.health == 30 - 12
 	else:
 		assert False
+
+def test_red_mana_wyrm():
+	game = prepare_game()
+	wyrm = game.player1.give("CFM_060").play()
+	assert wyrm.atk == 2
+
+	game.player1.give(INNERVATE).play()
+	assert wyrm.atk == 4
+
+	game.player1.give(CIRCLE_OF_HEALING).play()
+	assert wyrm.atk == 6
