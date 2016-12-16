@@ -61,17 +61,13 @@ class CFM_659:
 	"Gadgetzan Socialite"
 	play = Heal(TARGET, 2)
 
-#class CFM_665:
-#	"Worgen Greaser"
-
-#class CFM_666:
-#	"Grook Fu Master"
-
 #class CFM_715:
 #	"Jade Spirit"
 
-#class CFM_809:
-#	"Tanaris Hogchopper"
+class CFM_809:
+	"Tanaris Hogchopper"
+	powered_up = Count(ENEMY_HAND) == 0
+	play = powered_up & GiveCharge(SELF)
 
 #class CFM_851:
 #	"Daring Reporter"
