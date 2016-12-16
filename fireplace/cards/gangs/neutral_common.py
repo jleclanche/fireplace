@@ -80,8 +80,3 @@ class CFM_853:
 	play = (Count(FRIENDLY_HAND + MINION) > 0) & Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_853e")
 
 CFM_853e = buff(+1, +1)
-
-
-#class CFM_854:
-#	"Ancient of Blossoms"
-

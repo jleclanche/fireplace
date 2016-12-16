@@ -3,8 +3,9 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_025:
-#	"Wind-up Burglebot"
+class CFM_025:
+	"Wind-up Burglebot"
+	events = Attack(SELF, MINION).after((CURRENT_HEALTH(SELF) <= 0) | Draw(CONTROLLER))
 
 #class CFM_064:
 #	"Blubber Baron"
