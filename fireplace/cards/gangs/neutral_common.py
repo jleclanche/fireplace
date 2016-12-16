@@ -23,8 +23,9 @@ class CFM_120:
 	"Mistress of Mixtures"
 	deathrattle = Heal(ALL_HEROES, 4)
 
-#class CFM_619:
-#	"Kabal Chemist"
+class CFM_619:
+	"Kabal Chemist"
+	play = Give(CONTROLLER, RandomPotion())
 
 #class CFM_646:
 #	"Backstreet Leper"
