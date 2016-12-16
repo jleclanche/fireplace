@@ -628,3 +628,12 @@ def test_grimestreet_outfitter():
 	assert not summoned_dummy.buffs	
 	assert summoned_dummy.atk == 0
 	assert summoned_dummy.health == 2
+
+def test_wickerflame_burnbristle():
+	game = prepare_game()
+	wickerflame = game.player1.give("CFM_815").play()
+	game.end_turn()
+	game.player1.hero.set_current_health(10)
+	game.player2.give(LIGHTS_JUSTICE).play()
+	game.player2.hero.attack(target=wickerflame)
+	assert game.player1.hero.health == 10 + wickerflame.atk
