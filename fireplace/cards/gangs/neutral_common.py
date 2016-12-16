@@ -27,8 +27,9 @@ class CFM_619:
 	"Kabal Chemist"
 	play = Give(CONTROLLER, RandomPotion())
 
-#class CFM_646:
-#	"Backstreet Leper"
+class CFM_646:
+	"Backstreet Leper"
+	deathrattle = Hit(ENEMY_HERO, 2)
 
 #class CFM_647:
 #	"Blowgill Sniper"
