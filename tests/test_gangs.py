@@ -182,6 +182,8 @@ def test_smugglers_crate():
 	# Game allows card to be played with no beast in hand
 	game = prepare_empty_game()
 	wisp = game.player1.give(WISP)
+	game.player1.give("CFM_334").play()
+	assert not wisp.buffs
 	crate = game.player1.give("CFM_334")
 	beast = game.player1.give(CHICKEN)
 	crate.play()
