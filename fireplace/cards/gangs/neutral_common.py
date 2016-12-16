@@ -57,8 +57,9 @@ class CFM_656:
 	"Streetwise Investigator"
 	play = Unstealth(ENEMY_MINIONS)
 
-#class CFM_659:
-#	"Gadgetzan Socialite"
+class CFM_659:
+	"Gadgetzan Socialite"
+	play = Heal(TARGET, 2)
 
 #class CFM_665:
 #	"Worgen Greaser"
