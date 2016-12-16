@@ -380,3 +380,18 @@ def test_streetwise_investigator():
 
 	assert not stealthy1.stealthed
 	assert stealthy2.stealthed
+
+def test_tanaris_hogchopper():
+	game = prepare_empty_game()
+	hog1 = game.player1.give("CFM_809")
+	assert not hog1.powered_up #Opponent bas Coin
+	hog1.play()
+	assert not hog1.charge
+	game.end_turn()
+
+	assert len(game.player1.hand) == 0
+	hog2 = game.player2.give("CFM_809")
+	assert hog2.powered_up
+	hog2.play()
+	assert hog2.charge
+	hog2.attack(game.player1.hero)
