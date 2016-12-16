@@ -243,18 +243,30 @@ def test_cryomancer():
 	assert cryomancer.atk == 7
 	assert cryomancer.health == 7
 
-	def test_inkmaster_solia():
-		game = prepare_empty_game()
-		btg = game.player1.give("AT_035")# Beneath the Grounds
-		game.player1.give("CFM_687").play()
-		assert btg.cost == 0
-		btg.play()
-		game.end_turn()
+def test_inkmaster_solia():
+	game = prepare_empty_game()
+	btg = game.player1.give("AT_035")# Beneath the Grounds
+	soulfire = game.player1.give(SOULFIRE)
+	assert btg.cost == 3
+	assert soulfire.cost == 1
+	game.player1.give("CFM_687").play()
+	assert btg.cost == 0
+	assert soulfire.cost == 0
+	btg.play()
+	assert soulfire.cost == 1
+	game.end_turn()
 
-		solia = game.player2.give("CFM_687")
-		assert not solia.powered_up
-		mc = game.player2.give(MIND_CONTROL)
-		solia.play()
-		assert mc.cost == 10
-		
+	game.player2.give(WISP).shuffle_into_deck()
+	game.player2.give(WISP).shuffle_into_deck()
+	solia = game.player2.give("CFM_687")
+	mc = game.player2.give(MIND_CONTROL)
+	solia.play()
+	assert mc.cost == 10
+	game.end_turn()
+	game.end_turn()
+	game.player2.give("CFM_687").play()
+	assert mc.cost == 0
+	game.end_turn()
+	game.end_turn()
+	assert mc.cost == 10
 
