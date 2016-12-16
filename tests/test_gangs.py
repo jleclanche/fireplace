@@ -414,3 +414,16 @@ def test_daring_reporter():
 	assert reporter.max_health == 8
 	assert reporter.health == 1
 
+def test_grimstreet_smuggler():
+	game = prepare_empty_game()
+	smuggler1 = game.player1.give("CFM_853").play()
+	wisp = game.player1.give(WISP)
+	smuggler2 = game.player1.give("CFM_853").play()
+	assert wisp.atk == 2
+	assert wisp.health == 2
+
+	wisp.play()
+
+	assert "CFM_853e" in wisp.buffs
+	assert wisp.atk == 2
+	assert wisp.health == 2
