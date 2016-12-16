@@ -523,3 +523,20 @@ def test_small_time_buccaneer():
 	assert buccaneer.atk == 1
 	game.player1.give(LIGHTS_JUSTICE).play()
 	assert buccaneer.atk == 3
+
+def test_second_rate_bruiser():
+	game = prepare_game()
+	bruiser = game.player1.give("CFM_652")
+	assert bruiser.cost == 5
+	bruiser.play()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	assert len(game.player1.field) == 3
+	game.end_turn()
+
+	bruiser2 = game.player2.give("CFM_652")
+	assert bruiser2.cost == 3
+	bruiser2.play()
+	assert game.player2.mana == 7
+	assert bruiser2.cost == 5
+
