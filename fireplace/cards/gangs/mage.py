@@ -34,8 +34,9 @@ class CFM_687e:
 ##
 # Spells
 
-#class CFM_021:
-#	"Freezing Potion"
+class CFM_021:
+	"Freezing Potion"
+	play = Freeze(TARGET)
 
 #class CFM_065:
 #	"Volcanic Potion"
