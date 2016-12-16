@@ -30,7 +30,7 @@ CFM_753e = buff(+1, +1)
 
 class CFM_815:
 	"Wickerflame Burnbristle"
-	events = Damage(CHARACTER, None, SELF).after(Heal(FRIENDLY_HERO, Damage.AMOUNT))
+	events = Damage(CHARACTER, None, SELF).on(Heal(FRIENDLY_HERO, Damage.AMOUNT))
 
 ##
 # Spells
