@@ -49,8 +49,9 @@ class CFM_654:
 	"Friendly Bartender"
 	events = OWN_TURN_END.on(Heal(FRIENDLY_HERO, 1))
 
-#class CFM_655:
-#	"Toxic Sewer Ooze"
+class CFM_655:
+	"Toxic Sewer Ooze"
+	play = Hit(ENEMY_WEAPON, 1)
 
 #class CFM_656:
 #	"Streetwise Investigator"
