@@ -485,3 +485,16 @@ def test_fight_promoter():
 	assert promoter.health == 6
 	promoter.play()
 	assert len(game.player1.hand) == 2
+
+def test_fel_orc_soulfiend():
+	game = prepare_empty_game()
+	orc = game.player1.give("CFM_609").play()
+	assert orc.health == 7
+	game.end_turn();game.end_turn()
+	assert orc.health == 5
+	game.end_turn();game.end_turn()	
+	assert orc.health == 3
+	game.end_turn();game.end_turn()
+	assert orc.health == 1
+	game.end_turn();game.end_turn()
+	assert orc.dead
