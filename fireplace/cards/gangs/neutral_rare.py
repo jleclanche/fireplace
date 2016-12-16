@@ -24,8 +24,11 @@ class CFM_652:
 			Refresh(SELF, {GameTag.COST: -2}) 
 			)
 
-#class CFM_658:
-#	"Backroom Bouncer"
+class CFM_658:
+	"Backroom Bouncer"
+	events = Death(FRIENDLY + MINION).on(Buff(SELF, "CFM_658e"))
+
+CFM_658e = buff(+1)
 
 #class CFM_667:
 #	"Bomb Squad"
