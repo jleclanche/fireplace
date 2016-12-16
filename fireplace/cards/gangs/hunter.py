@@ -24,7 +24,8 @@ CFM_336e = buff(+2, +2)
 
 class CFM_338:
 	"Trogg Beastrager"
-	play = Buff(RANDOM(FRIENDLY_HAND + MINION + BEAST), "CFM_338e")
+	powered_up = Count(FRIENDLY_HAND + MINION + BEAST) > 0
+	play = powered_up & Buff(RANDOM(FRIENDLY_HAND + MINION + BEAST), "CFM_338e")
 
 CFM_338e = buff(+1, +1)
 
