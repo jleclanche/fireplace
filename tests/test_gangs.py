@@ -602,3 +602,12 @@ def test_grimestreet_enforcer():
 	assert summoned_dummy.atk == 0
 	assert summoned_dummy.health == 2
 
+def test_grimscale_chum():
+	game = prepare_empty_game()
+	murloc = game.player1.give(MURLOC)
+	wisp = game.player1.give(WISP)
+	game.player1.give("CFM_650").play()
+	assert murloc.buffs
+	assert murloc.atk == 2
+	assert murloc.health == 2
+	assert not wisp.buffs
