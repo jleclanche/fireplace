@@ -19,8 +19,11 @@ class CFM_650:
 
 CFM_650e = buff(+1, +1)
 
-#class CFM_753:
-#	"Grimestreet Outfitter"
+class CFM_753:
+	"Grimestreet Outfitter"
+	play = Buff(FRIENDLY_HAND + MINION, "CFM_753e")
+
+CFM_753e = buff(+1, +1)
 
 #class CFM_759:
 #	"Meanstreet Marshal"
