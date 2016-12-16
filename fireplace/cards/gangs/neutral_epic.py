@@ -29,9 +29,10 @@ class CFM_669:
 	"Burgly Bully"
 	events = Play(OPPONENT, SPELL).on(Give(CONTROLLER, "GAME_005"))
 
-#class CFM_790:
-#	"Dirty Rat"
-
+class CFM_790:
+	"Dirty Rat"
+	play = Summon(OPPONENT, RANDOM(ENEMY_HAND + MINION))
+	
 #class CFM_810:
 #	"Leatherclad Hogleader"
 
