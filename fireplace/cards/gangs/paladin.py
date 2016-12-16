@@ -45,6 +45,7 @@ class CFM_800:
 	"Getaway Kodo"
 	secret = Death(FRIENDLY + MINION).on(Reveal(SELF), Bounce(Death.ENTITY))
 
-#class CFM_905:
-#	"Small-Time Recruits"
+class CFM_905:
+	"Small-Time Recruits"
+	play = ForceDraw( RANDOM(FRIENDLY_DECK + MINION + (COST == 1)) ) * 3 
 
