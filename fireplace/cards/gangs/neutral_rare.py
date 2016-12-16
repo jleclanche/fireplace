@@ -6,9 +6,12 @@ from ..utils import *
 #class CFM_321:
 #	"Grimestreet Informant"
 
-#class CFM_325:
-# 	"Small-Time Buccaneer"
+class CFM_325:
+	"Small-Time Buccaneer"
+	update = Find(FRIENDLY_WEAPON) & Refresh(SELF, buff="CFM_325e")
 
+class CFM_325e:
+	tags = {GameTag.ATK: +2}
 
 #class CFM_649:
 #	"Kabal Courier"
