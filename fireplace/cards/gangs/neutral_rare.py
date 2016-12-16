@@ -38,8 +38,10 @@ class CFM_667:
 #class CFM_668:
 #	"Doppelgangster"
 
-#class CFM_688:
-#	"Spiked Hogrider"
+class CFM_688:
+	"Spiked Hogrider"
+	powered_up = Find(ENEMY_MINIONS + TAUNT)
+	play = powered_up & GiveCharge(SELF)
 
 #class CFM_852:
 #	"Lotus Agents"
