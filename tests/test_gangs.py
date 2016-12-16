@@ -540,3 +540,14 @@ def test_second_rate_bruiser():
 	assert game.player2.mana == 7
 	assert bruiser2.cost == 5
 
+def test_backroom_bouncer():
+	game = prepare_empty_game()
+	bouncer = game.player1.give("CFM_658").play()
+	assert bouncer.atk == 4
+	friendly_wisp = game.player1.give(WISP).play()
+	game.end_turn()
+	unfriendly_wisp = game.player2.give(WISP).play()
+	game.player2.give("EX1_400").play() #Whirlwind
+	assert friendly_wisp.dead
+	assert unfriendly_wisp.dead
+	assert bouncer.atk == 5
