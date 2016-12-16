@@ -681,3 +681,14 @@ def test_smugglers_run():
 	assert not summoned_dummy.buffs	
 	assert summoned_dummy.atk == 0
 	assert summoned_dummy.health == 2
+
+def test_getaway_kodo():
+	game = prepare_game()
+	game.player1.give("CFM_800").play()
+	loothoarder = game.player1.give("EX1_096").play()
+	game.player1.discard_hand()
+	game.end_turn()
+	game.player2.give(MOONFIRE).play(target=loothoarder)
+	assert not game.player1.secrets
+	assert len(game.player1.hand) == 2
+	assert loothoarder in game.player1.hand

@@ -41,8 +41,9 @@ class CFM_305:
 
 CFM_305e = buff(+1, +1)
 
-#class CFM_800:
-#	"Getaway Kodo"
+class CFM_800:
+	"Getaway Kodo"
+	secret = Death(FRIENDLY + MINION).on(Reveal(SELF), Bounce(Death.ENTITY))
 
 #class CFM_905:
 #	"Small-Time Recruits"
