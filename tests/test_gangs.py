@@ -370,3 +370,13 @@ def test_friendly_bartender():
 	game.player1.hero.set_current_health(1)
 	game.end_turn()
 	assert game.player1.hero.health == 1 + 1
+
+def test_streetwise_investigator():
+	game = prepare_empty_game()
+	stealthy1 = game.player1.give("EX1_010").play() #Worgen Infiltrator
+	game.end_turn()
+	stealthy2 = game.player2.give("EX1_010").play() #Worgen Infiltrator
+	game.player2.give("CFM_656").play()
+
+	assert not stealthy1.stealthed
+	assert stealthy2.stealthed
