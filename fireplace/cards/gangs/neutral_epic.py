@@ -40,6 +40,8 @@ class CFM_810:
 	powered_up = Count(ENEMY_HAND) > 5
 	play = powered_up & GiveCharge(SELF)
 
-#class CFM_855:
-#	"Defias Cleaner"
+class CFM_855:
+	"Defias Cleaner"
+	play = Silence(TARGET)
+
 
