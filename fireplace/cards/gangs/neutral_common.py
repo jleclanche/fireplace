@@ -15,8 +15,9 @@ class CFM_063:
 
 CFM_063e = AttackHealthSwapBuff()
 
-#class CFM_067:
-#	"Hozen Healer"
+class CFM_067:
+	"Hozen Healer"
+	play = FullHeal(TARGET)
 
 #class CFM_120:
 #	"Mistress of Mixtures"
