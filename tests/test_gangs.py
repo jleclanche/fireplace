@@ -610,3 +610,22 @@ def test_grimestreet_protector():
 	assert wisp1.divine_shield
 	assert wisp2.divine_shield
 	assert not wisp3.divine_shield
+
+def test_grimestreet_enforcer():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	beast = game.player1.give(CHICKEN)
+	spell = game.player1.give(INNERVATE)
+	summoned_dummy = game.player1.give(TARGET_DUMMY).play()
+	game.player1.give("CFM_639").play()
+	game.end_turn()
+	assert wisp.buffs
+	assert wisp.atk == 2
+	assert wisp.health == 2
+	assert beast.buffs
+	assert beast.atk == 2
+	assert beast.health == 2
+	assert not summoned_dummy.buffs	
+	assert summoned_dummy.atk == 0
+	assert summoned_dummy.health == 2
+
