@@ -692,3 +692,17 @@ def test_getaway_kodo():
 	assert not game.player1.secrets
 	assert len(game.player1.hand) == 2
 	assert loothoarder in game.player1.hand
+
+def test_small_time_recruits():
+	game = prepare_empty_game()
+	game.player1.give(GOLDSHIRE_FOOTMAN).shuffle_into_deck()
+	game.player1.give(GOLDSHIRE_FOOTMAN).shuffle_into_deck()
+	game.player1.give(GOLDSHIRE_FOOTMAN).shuffle_into_deck()
+	game.player1.give(KOBOLD_GEOMANCER).shuffle_into_deck()
+	game.player1.give(SOULFIRE).shuffle_into_deck()
+	game.player1.give("CFM_905").play()
+	assert len(game.player1.hand) == 3
+	assert len(game.player1.deck) == 2
+	assert game.player1.deck
+	for i in range(3):
+		assert game.player1.hand[i].id == GOLDSHIRE_FOOTMAN
