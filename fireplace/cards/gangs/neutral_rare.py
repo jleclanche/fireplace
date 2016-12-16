@@ -30,8 +30,10 @@ class CFM_658:
 
 CFM_658e = buff(+1)
 
-#class CFM_667:
-#	"Bomb Squad"
+class CFM_667:
+	"Bomb Squad"
+	play = Hit(TARGET, 5)
+	deathrattle = Hit(FRIENDLY_HERO, 5)
 
 #class CFM_668:
 #	"Doppelgangster"

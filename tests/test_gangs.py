@@ -551,3 +551,13 @@ def test_backroom_bouncer():
 	assert friendly_wisp.dead
 	assert unfriendly_wisp.dead
 	assert bouncer.atk == 5
+
+def test_bomb_squad():
+	game = prepare_empty_game()
+	defender = game.player1.give("CFM_300").play() #Public Defender
+	game.end_turn()
+	bombsquad = game.player2.give("CFM_667")
+	bombsquad.play(target=defender)
+	assert defender.health == 2
+	bombsquad.destroy()
+	assert game.player2.hero.health == 25
