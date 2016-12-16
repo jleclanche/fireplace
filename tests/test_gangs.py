@@ -491,3 +491,19 @@ def test_dirty_rat():
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == "EX1_015"
 	assert len(game.player1.hand) == 0
+
+def test_leatherclad_hogleader():
+	game = prepare_game()
+	for i in range(3):
+		game.player1.give(WISP)
+	assert len(game.player1.hand) > 5
+	hog1 = game.player1.give("CFM_810")
+	assert not hog1.powered_up
+	hog1.play()
+	assert not hog1.charge
+	game.end_turn()
+
+	hog2 = game.player2.give("CFM_810")
+	assert hog2.powered_up
+	hog2.play()
+	assert hog2.charge

@@ -32,9 +32,11 @@ class CFM_669:
 class CFM_790:
 	"Dirty Rat"
 	play = Summon(OPPONENT, RANDOM(ENEMY_HAND + MINION))
-	
-#class CFM_810:
-#	"Leatherclad Hogleader"
+
+class CFM_810:
+	"Leatherclad Hogleader"
+	powered_up = Count(ENEMY_HAND) > 5
+	play = powered_up & GiveCharge(SELF)
 
 #class CFM_855:
 #	"Defias Cleaner"
