@@ -75,8 +75,12 @@ class CFM_851:
 
 CFM_851e = buff(+1, +1)
 
-#class CFM_853:
-#	"Grimestreet Smuggler"
+class CFM_853:
+	"Grimestreet Smuggler"
+	play = (Count(FRIENDLY_HAND + MINION) > 0) & Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_853e")
+
+CFM_853e = buff(+1, +1)
+
 
 #class CFM_854:
 #	"Ancient of Blossoms"
