@@ -508,3 +508,13 @@ def test_burgly_bully():
 	game.player2.give(INNERVATE).play()
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].id == "GAME_005"
+
+def test_dirty_rat():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player1.give("EX1_015") #Novice Engineer
+	game.end_turn()
+	game.player2.give("CFM_790").play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "EX1_015"
+	assert len(game.player1.hand) == 0
