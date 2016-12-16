@@ -429,3 +429,26 @@ def test_grimstreet_smuggler():
 	assert "CFM_853e" in wisp.buffs
 	assert wisp.atk == 2
 	assert wisp.health == 2
+
+def test_wind_up_burglebot():
+	game = prepare_game()
+	windupbot = game.player1.give("CFM_025").play()
+	game.end_turn()
+
+	wolfrider1 = game.player2.give("CS2_124").play()
+	handsize = len(game.player1.hand)
+	wolfrider1.attack(windupbot)
+	assert len(game.player1.hand) == handsize
+	wisp = game.player2.give(WISP).play()
+	wolfrider2 = game.player2.give("CS2_124").play()
+	game.end_turn()
+
+	handsize = len(game.player1.hand)
+	windupbot.attack(wisp)
+	assert len(game.player1.hand) == handsize + 1
+	game.end_turn(); game.end_turn()
+	game.player1.discard_hand()
+	handsize = len(game.player1.hand)
+	windupbot.attack(wolfrider2)
+	assert len(game.player1.hand) == handsize
+
