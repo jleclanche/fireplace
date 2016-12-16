@@ -7,8 +7,12 @@ class CFM_025:
 	"Wind-up Burglebot"
 	events = Attack(SELF, MINION).after((CURRENT_HEALTH(SELF) <= 0) | Draw(CONTROLLER))
 
-#class CFM_064:
-#	"Blubber Baron"
+class CFM_064:
+	"Blubber Baron"
+	class Hand:
+		events = Play(CONTROLLER, MINION + BATTLECRY).on(Buff(SELF, "CFM_064e"))
+
+CFM_064e = buff(+1, +1)
 
 #class CFM_095:
 #	"Weasel Tunneler"
