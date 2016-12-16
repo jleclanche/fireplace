@@ -507,3 +507,12 @@ def test_leatherclad_hogleader():
 	assert hog2.powered_up
 	hog2.play()
 	assert hog2.charge
+
+def test_defias_cleaner():
+	game = prepare_empty_game()
+	game.player1.give("CFM_855").play()
+	loothoarder = game.player1.give("EX1_096").play()
+	game.end_turn()
+	game.player2.give("CFM_855").play(target=loothoarder)
+	game.player2.give(MOONFIRE).play(target=loothoarder)
+	assert len(game.player1.hand) == 0
