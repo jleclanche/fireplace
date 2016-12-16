@@ -17,8 +17,9 @@ CFM_064e = buff(+1, +1)
 #class CFM_095:
 #	"Weasel Tunneler"
 
-#class CFM_328:
-#	"Fight Promoter"
+class CFM_328:
+	"Fight Promoter"
+	play = Find(FRIENDLY_MINIONS + (CURRENT_HEALTH >= 6)) & Draw(CONTROLLER) * 2
 
 #class CFM_609:
 #	"Fel Orc Soulfiend"

@@ -449,3 +449,12 @@ def test_blubber_baron():
 	baron.play()
 	assert baron.atk == 3
 	assert baron.health == 3
+
+def test_fight_promoter():
+	game = prepare_game()
+	game.player1.discard_hand()
+	promoter = game.player1.give("CFM_328")
+	zipgunner = game.player1.give("CFM_336").play().destroy()
+	assert promoter.health == 6
+	promoter.play()
+	assert len(game.player1.hand) == 2
