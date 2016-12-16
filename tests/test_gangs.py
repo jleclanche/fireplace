@@ -340,10 +340,10 @@ def test_big_time_racketeer():
 
 def test_naga_corsair():
 	game = prepare_empty_game()
-	game.player1.give("CS2_097").play() #Truesliver Champion
+	game.player1.give(LIGHTS_JUSTICE).play()
 	game.player1.give("CFM_651").play()
 
-	assert game.player1.hero.atk == 5
+	assert game.player1.hero.atk == 2
 
 def test_friendly_bartender():
 	game = prepare_empty_game()
@@ -377,3 +377,22 @@ def test_tanaris_hogchopper():
 	hog2.play()
 	assert hog2.charge
 	hog2.attack(game.player1.hero)
+
+def test_daring_reporter():
+	game = prepare_game()
+	reporter = game.player1.give("CFM_851").play()
+	assert reporter.health == 3
+	game.end_turn()
+
+	assert reporter.atk == 4
+	assert reporter.health == 4
+	game.player2.give("EX1_164").play(choose="EX1_164b") #Nourish, draw 3
+	assert reporter.atk == 7
+	assert reporter.health == 7
+	reporter.set_current_health(1)
+	game.player2.give("EX1_154").play(target=reporter, choose="EX1_154b") #Wrath, 1 damage
+	assert not reporter.dead
+	assert reporter.atk == 8
+	assert reporter.max_health == 8
+	assert reporter.health == 1
+
