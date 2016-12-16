@@ -31,8 +31,9 @@ class CFM_646:
 	"Backstreet Leper"
 	deathrattle = Hit(ENEMY_HERO, 2)
 
-#class CFM_647:
-#	"Blowgill Sniper"
+class CFM_647:
+	"Blowgill Sniper"
+	play = Hit(TARGET, 1)
 
 #class CFM_648:
 #	"Big-Time Racketeer"
