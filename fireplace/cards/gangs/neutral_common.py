@@ -35,8 +35,9 @@ class CFM_647:
 	"Blowgill Sniper"
 	play = Hit(TARGET, 1)
 
-#class CFM_648:
-#	"Big-Time Racketeer"
+class CFM_648:
+	"Big-Time Racketeer"
+	play = Summon(CONTROLLER, "CFM_648t")
 
 #class CFM_651:
 #	"Naga Corsair"
