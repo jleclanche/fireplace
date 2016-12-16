@@ -39,14 +39,15 @@ class CFM_648:
 	"Big-Time Racketeer"
 	play = Summon(CONTROLLER, "CFM_648t")
 
-#class CFM_651:
-#	"Naga Corsair"
+class CFM_651:
+	"Naga Corsair"
+	play = Buff(FRIENDLY_WEAPON, "CFM_651e")
 
-#class CFM_653:
-#	"Hired Gun"
+CFM_651e = buff(+1)
 
-#class CFM_654:
-#	"Friendly Bartender"
+class CFM_654:
+	"Friendly Bartender"
+	events = OWN_TURN_END.on(Heal(FRIENDLY_HERO, 1))
 
 #class CFM_655:
 #	"Toxic Sewer Ooze"
