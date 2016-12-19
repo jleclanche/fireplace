@@ -774,3 +774,118 @@ def test_kabal_talonpriest():
 	assert "CFM_626e" in talonpriest1.buffs
 	assert talonpriest1.atk == 3
 	assert talonpriest1.health == 4 + 3
+
+def test_potion_of_madness_attacked_last_turn():
+	"""
+	Test that Potion of Madness-ing a minion that was just played by the opponent
+	lets it attack
+	"""
+	game = prepare_game()
+
+	wisp = game.player1.give(WISP).play()
+	game.end_turn()
+	assert wisp.controller is game.player1
+
+	shadowmadness = game.player2.give("CFM_603")
+	shadowmadness.play(target=wisp)
+	assert wisp.controller is game.player2
+	assert wisp.can_attack()
+	wisp.attack(game.player1.hero)
+	game.end_turn()
+
+	# make sure it can attack when control returns
+	assert wisp.controller is game.player1
+	assert wisp.can_attack()
+
+
+def test_potion_of_madness_bounce():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	game.player2.discard_hand()
+	shadowmadness = game.player2.give("CFM_603")
+	assert wisp.controller is game.player1
+	shadowmadness.play(target=wisp)
+	assert wisp.controller is game.player2
+	game.player2.give(TIME_REWINDER).play(target=wisp)
+	assert wisp in game.player2.hand
+	assert wisp.controller is game.player2
+	game.end_turn()
+
+	assert wisp in game.player2.hand
+	assert wisp.controller is game.player2
+	game.end_turn()
+
+	assert wisp in game.player2.hand
+	assert wisp.controller is game.player2
+	game.end_turn()
+
+	assert wisp in game.player2.hand
+	assert wisp.controller is game.player2
+
+
+def test_potion_of_madness_just_played():
+	"""
+	test that Potion of Madness-ing a minion that attacked on the opponent's previous
+	turn lets it attack
+	"""
+	game = prepare_game()
+
+	wisp = game.player1.give(WISP).play()
+	game.end_turn(); game.end_turn()
+	assert wisp.controller is game.player1
+	assert wisp.can_attack()
+	wisp.attack(game.player2.hero)
+	game.end_turn()
+
+	shadowmadness = game.player2.give("CFM_603")
+	shadowmadness.play(target=wisp)
+	assert wisp.controller is game.player2
+	assert wisp.can_attack()
+	wisp.attack(game.player1.hero)
+	game.end_turn()
+
+	# make sure it can attack when the player regains control
+	assert wisp.controller is game.player1
+	assert wisp.can_attack()
+
+
+def test_potion_of_madness_silence():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn()
+
+	assert wisp.controller == game.player1
+	shadowmadness = game.player2.give("CFM_603")
+	shadowmadness.play(target=wisp)
+	assert wisp.controller == game.player2
+	game.player2.give(SILENCE).play(target=wisp)
+	assert wisp.controller == game.player1
+	game.end_turn()
+
+	assert wisp.controller == game.player1
+
+
+def test_potion_of_madness_wild_pyro():
+	game = prepare_game()
+	pyromancer = game.player1.give("NEW1_020")
+	pyromancer.play()
+	game.end_turn()
+
+	assert pyromancer.controller == game.player1
+	assert pyromancer in game.player1.field
+	assert pyromancer.health == 2
+	game.player2.give("GVG_011").play(target=pyromancer) # Shrinkmeister
+	shadowmadness = game.player2.give("CFM_603")
+	shadowmadness.play(target=pyromancer)
+	assert pyromancer.controller == game.player2
+	assert pyromancer in game.player2.field
+	assert pyromancer.health == 1
+	game.end_turn()
+
+	assert pyromancer.controller == game.player1
+	assert pyromancer in game.player1.field
+
