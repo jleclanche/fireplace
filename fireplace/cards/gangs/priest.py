@@ -21,8 +21,11 @@ class CFM_606:
 	"Mana Geode"
 	events = Heal(SELF).on(Summon(CONTROLLER, "CFM_606t"))
 
-#class CFM_626:
-#	"Kabal Talonpriest"
+class CFM_626:
+	"Kabal Talonpriest"
+	play = Buff(TARGET, "CFM_626e")
+
+CFM_626e = buff(0, +3)
 
 #class CFM_657:
 #	"Kabal Songstealer"
