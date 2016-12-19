@@ -17,8 +17,9 @@ class CFM_605:
 		decklist = [i.id for i in self.controller.opponent.deck]
 		yield HOLDING_DRAGON & DISCOVER(RandomID(*decklist))
 
-#class CFM_606:
-#	"Mana Geode"
+class CFM_606:
+	"Mana Geode"
+	events = Heal(SELF).on(Summon(CONTROLLER, "CFM_606t"))
 
 #class CFM_626:
 #	"Kabal Talonpriest"
