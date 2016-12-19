@@ -13,8 +13,9 @@ class CFM_020e:
 #class CFM_605:
 #	"Drakonid Operative"
 
-#class CFM_606:
-#	"Mana Geode"
+class CFM_606:
+	"Mana Geode"
+	events = Heal(SELF).on(Summon(CONTROLLER, "CFM_606t"))
 
 #class CFM_626:
 #	"Kabal Talonpriest"

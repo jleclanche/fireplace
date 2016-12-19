@@ -689,3 +689,12 @@ def test_raza_the_chained():
 	game.end_turn();game.end_turn()
 	game.player1.give("EX1_323").play()
 	assert game.player1.hero.power.cost == 0
+
+def test_mana_geode():
+	game = prepare_empty_game()
+	geode = game.player1.give("CFM_606").play()
+	geode.set_current_health(1)
+	game.player1.give(CIRCLE_OF_HEALING).play()
+	assert len(game.player1.field) == 2
+	assert geode.health == 3
+	assert game.player1.field[-1].id == "CFM_606t"
