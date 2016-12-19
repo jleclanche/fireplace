@@ -821,3 +821,28 @@ def test_potion_of_madness_wild_pyro():
 	assert pyromancer.controller == game.player1
 	assert pyromancer in game.player1.field
 
+def test_pint_size_potion():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	kobold = game.player1.give(KOBOLD_GEOMANCER).play()
+	wargolem = game.player1.give("CS2_186").play()
+
+	game.end_turn()
+
+	chicken = game.player2.give(CHICKEN).play()
+	game.player2.give("CFM_661").play()
+
+	assert wisp.atk == 0
+	assert kobold.atk == 0
+	assert wargolem.atk == 7 - 3
+	assert chicken.atk == 1
+
+	game.player2.give("AT_016").play()
+	
+	assert len(game.player1.field) == 1
+	assert wisp.dead
+	assert kobold.dead
+	
+	game.end_turn()
+	assert wargolem.health == 4
+	assert wargolem.atk == 7
