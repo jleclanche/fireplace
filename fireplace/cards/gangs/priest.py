@@ -45,8 +45,9 @@ class CFM_603e:
 	]
 	tags = {GameTag.CHARGE: True}
 
-#class CFM_604:
-#	"Greater Healing Potion"
+class CFM_604:
+	"Greater Healing Potion"
+	play = Heal(TARGET, 12)
 
 #class CFM_661:
 #	"Pint-Size Potion"
