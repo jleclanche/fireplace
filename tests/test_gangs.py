@@ -716,3 +716,44 @@ def test_raza_the_chained():
 	game.end_turn();game.end_turn()
 	game.player1.give("EX1_323").play()
 	assert game.player1.hero.power.cost == 0
+	
+def test_drakonid_operative():
+	game = prepare_empty_game()
+	game.player1.give(WISP).shuffle_into_deck()
+	game.player1.give(SOULFIRE).shuffle_into_deck()
+	#game.player1.give(CHICKEN).shuffle_into_deck()
+	game.end_turn()
+
+	operative = game.player2.give("CFM_605")
+	assert not operative.powered_up
+	game.player2.give(WHELP)
+	assert operative.powered_up
+	operative.play()
+	assert game.player2.choice
+	assert len(game.player2.choice.cards) == 2
+	assert WISP in game.player2.choice.cards
+	assert SOULFIRE in game.player2.choice.cards
+	chosen_card = game.player2.choice.cards[0]
+	game.player2.choice.choose(chosen_card)
+	assert len(game.player2.hand) == 3
+	assert chosen_card in game.player2.hand
+	assert chosen_card.id in [i.id for i in game.player1.deck]
+
+	player2_deck = [CIRCLE_OF_HEALING, MIND_CONTROL, TARGET_DUMMY, KOBOLD_GEOMANCER]
+	for card in player2_deck:
+		game.player2.give(card).shuffle_into_deck()
+	assert len(game.player2.deck) == 4
+	game.end_turn()
+
+	game.player1.discard_hand()
+	game.player1.give(WHELP)
+	game.player1.give("CFM_605").play()
+	assert game.player1.choice
+	assert len(game.player1.choice.cards) == 3
+	for card_choice in game.player1.choice.cards:
+		assert card_choice in player2_deck
+	chosen_card  = game.player1.choice.cards[0]
+	game.player1.choice.choose(chosen_card)
+	assert len(game.player1.hand) == 2
+	assert game.player1.hand[-1].id in player2_deck
+	assert len(game.player2.deck) == 4
