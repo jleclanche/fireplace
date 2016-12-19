@@ -757,3 +757,12 @@ def test_drakonid_operative():
 	assert len(game.player1.hand) == 2
 	assert game.player1.hand[-1].id in player2_deck
 	assert len(game.player2.deck) == 4
+
+def test_mana_geode():
+	game = prepare_empty_game()
+	geode = game.player1.give("CFM_606").play()
+	geode.set_current_health(1)
+	game.player1.give(CIRCLE_OF_HEALING).play()
+	assert len(game.player1.field) == 2
+	assert geode.health == 3
+	assert game.player1.field[-1].id == "CFM_606t"
