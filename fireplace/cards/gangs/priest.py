@@ -49,8 +49,11 @@ class CFM_604:
 	"Greater Healing Potion"
 	play = Heal(TARGET, 12)
 
-#class CFM_661:
-#	"Pint-Size Potion"
+class CFM_661:
+	"Pint-Size Potion"
+	play = Buff(ENEMY_MINIONS, "CFM_661e")
+
+CFM_661e = buff(-3)
 
 #class CFM_662:
 #	"Dragonfire Potion"
