@@ -30,8 +30,16 @@ class CFM_657:
 ##
 # Spells
 
-#class CFM_603:
-#	"Potion of Madness"
+class CFM_603:
+	"Potion of Madness"
+	play = Steal(TARGET), Buff(TARGET, "CFM_603e")
+
+class CFM_603e:
+	events = [
+		TURN_END.on(Destroy(SELF), Steal(OWNER, OPPONENT)),
+		Silence(OWNER).on(Steal(OWNER, OPPONENT))
+	]
+	tags = {GameTag.CHARGE: True}
 
 #class CFM_604:
 #	"Greater Healing Potion"
