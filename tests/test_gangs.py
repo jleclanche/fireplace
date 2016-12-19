@@ -698,3 +698,11 @@ def test_mana_geode():
 	assert len(game.player1.field) == 2
 	assert geode.health == 3
 	assert game.player1.field[-1].id == "CFM_606t"
+
+def test_kabal_talonpriest():
+	game = prepare_empty_game()
+	talonpriest1 = game.player1.give("CFM_626").play()
+	talonpriest2 = game.player1.give("CFM_626").play(target=talonpriest1)
+	assert "CFM_626e" in talonpriest1.buffs
+	assert talonpriest1.atk == 3
+	assert talonpriest1.health == 4 + 3
