@@ -914,3 +914,19 @@ def test_pint_size_potion():
 	game.end_turn()
 	assert wargolem.health == 4
 	assert wargolem.atk == 7
+
+def test_dragonfire_potion():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	whelp = game.player1.give(WHELP).play()
+	wargolem = game.player1.give("CS2_186").play()
+	game.end_turn()
+
+	murloc = game.player2.give(MURLOC).play()
+	beast = game.player2.give(CHICKEN).play()
+	game.player2.give("CFM_662").play()
+	assert wisp.dead
+	assert murloc.dead
+	assert beast.dead
+	assert not whelp.dead
+	assert wargolem.health == 2

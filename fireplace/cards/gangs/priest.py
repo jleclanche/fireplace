@@ -55,6 +55,7 @@ class CFM_661:
 
 CFM_661e = buff(-3)
 
-#class CFM_662:
-#	"Dragonfire Potion"
+class CFM_662:
+	"Dragonfire Potion"
+	play = Hit(ALL_MINIONS - DRAGON, 5)
 
