@@ -23,8 +23,9 @@ class CFM_626:
 
 CFM_626e = buff(0, +3)
 
-#class CFM_657:
-#	"Kabal Songstealer"
+class CFM_657:
+	"Kabal Songstealer"
+	play = Silence(TARGET)
 
 ##
 # Spells
