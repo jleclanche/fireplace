@@ -30,8 +30,12 @@ class CFM_672:
 		if targets:
 			yield Shuffle(CONTROLLER, TARGET)
 			yield Summon(CONTROLLER, random.sample(targets, 1))
-#class CFM_685:
-#	"Don Han'Cho"
+
+class CFM_685:
+	"Don Han'Cho"
+	play = Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_685e")
+
+CFM_685e = buff(+5, +5)
 
 #class CFM_806:
 #	"Wrathion"
