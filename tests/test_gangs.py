@@ -1000,3 +1000,13 @@ def test_krul_the_unshackled():
 	krul = game.player1.give("CFM_750").play()
 	assert len(game.player1.field) == 4
 	assert len(game.player1.hand) == 1
+
+def test_unlicensed_apothecary():
+	game = prepare_empty_game()
+	apothecary = game.player1.give("CFM_900").play()
+	assert game.player1.hero.health == 30
+	game.player1.give(WISP).play()
+	assert game.player1.hero.health == 25
+	game.end_turn()
+	game.player2.give("BRM_026").play()
+	assert game.player1.hero.health == 20
