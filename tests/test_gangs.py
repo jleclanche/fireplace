@@ -957,3 +957,10 @@ def test_call_in_the_finishers():
 	game.end_turn();game.end_turn()
 	callin = game.player2.give("CFM_310")
 	assert not callin.is_playable()
+
+def test_finders_keepers():
+	game = prepare_empty_game()
+	game.player1.give("CFM_313").play()
+	assert game.player1.choice
+	for card in game.player1.choice.cards:
+		assert card.overload
