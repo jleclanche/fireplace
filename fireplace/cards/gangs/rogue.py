@@ -26,6 +26,9 @@ class CFM_694:
 
 CFM_694e = buff(+2, +2)
 
+#class CFM_781:
+#	"Shaku, the Collector"
+
 ##
 # Spells
 

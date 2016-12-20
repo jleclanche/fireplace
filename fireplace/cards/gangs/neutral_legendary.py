@@ -3,8 +3,7 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_324:
-#	"White Eyes"
+
 
 #class CFM_341:
 #	"Sergeant Sally"
@@ -26,9 +25,6 @@ from ..utils import *
 
 #class CFM_685:
 #	"Don Han'Cho"
-
-#class CFM_781:
-#	"Shaku, the Collector"
 
 #class CFM_806:
 #	"Wrathion"
