@@ -4,12 +4,12 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_300:
-#	"Public Defender"
+class CFM_643:
+	"Hobart Grapplehammer"
+	play = Buff(FRIENDLY + WEAPON + IN_HAND, "CFM_643e"), Buff(FRIENDLY + WEAPON + IN_DECK, "CFM_643e2")
 
-# class CFM_643:
-# 	"Hobart Grapplehammer"
-
+CFM_643e = buff(+1)
+CFM_643e2 = buff(+1)
 
 #class CFM_754:
 #	"Grimy Gadgeteer"
