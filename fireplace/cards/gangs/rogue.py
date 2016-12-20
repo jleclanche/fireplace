@@ -10,8 +10,9 @@ class CFM_342:
 
 CFM_342e = buff(+4, +4)
 
-#class CFM_634:
-#	"Lotus Assassin"
+class CFM_634:
+	"Lotus Assassin"
+	events = Attack(SELF).after(Find(Attack.DEFENDER + MORTALLY_WOUNDED) & Stealth(SELF))
 
 #class CFM_691:
 #	"Jade Swarmer"
