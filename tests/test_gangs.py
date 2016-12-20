@@ -990,3 +990,13 @@ def test_kabal_trafficker():
 	game.end_turn()
 	assert len(game.player1.hand) == 1
 	assert len(game.player2.hand) == 1
+
+def test_krul_the_unshackled():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	imp = game.player1.give(IMP)
+	flameimp = game.player1.give("EX1_319")
+	jaraxxus = game.player1.give("EX1_323")
+	krul = game.player1.give("CFM_750").play()
+	assert len(game.player1.field) == 4
+	assert len(game.player1.hand) == 1
