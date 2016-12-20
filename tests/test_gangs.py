@@ -974,6 +974,15 @@ def test_shadow_sensei():
 	assert infiltrator.atk == 4
 	assert infiltrator.health == 3
 
+def test_shaku_the_collector():
+	game = prepare_empty_game()
+	shaku = game.player1.give("CFM_781").play()
+	game.end_turn();game.end_turn()
+	game.player1.discard_hand()
+	shaku.attack(game.player2.hero)
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].card_class == game.player2.hero.card_class
+
 def test_lotus_illusionist():
 	game = prepare_empty_game()
 	lotus1 = game.player1.give("CFM_697").play()
