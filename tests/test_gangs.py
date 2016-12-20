@@ -1060,3 +1060,15 @@ def test_grimy_gadgeteer():
 	assert wisp.buffs
 	assert wisp.atk == 3
 	assert wisp.health == 3
+
+def test_grimestreet_pawnbroker():
+	game = prepare_empty_game()
+	lightsjustice1 = game.player1.give(LIGHTS_JUSTICE).play()
+	lightsjustice2 = game.player1.give(LIGHTS_JUSTICE)
+	game.player1.give("CFM_755").play()
+	assert not lightsjustice1.buffs
+	assert lightsjustice2.buffs
+	assert lightsjustice1.atk == 1
+	assert lightsjustice1.durability == 4
+	assert lightsjustice2.atk == 2
+	assert lightsjustice2.durability == 5
