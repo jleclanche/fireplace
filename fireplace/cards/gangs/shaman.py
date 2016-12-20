@@ -3,8 +3,9 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_061:
-#	"Jinyu Waterspeaker"
+class CFM_061:
+	"Jinyu Waterspeaker"
+	play = Heal(TARGET, 6)
 
 #class CFM_312:
 #	"Jade Chieftain"
