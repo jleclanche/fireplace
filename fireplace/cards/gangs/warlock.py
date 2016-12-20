@@ -16,8 +16,10 @@ class CFM_663:
 #class CFM_699:
 #	"Seadevil Stinger"
 
-#class CFM_750:
-#	"Krul the Unshackled"
+class CFM_750:
+	"Krul the Unshackled"
+	powered_up = -FindDuplicates(FRIENDLY_DECK)
+	play = powered_up & Summon(CONTROLLER, FRIENDLY_HAND + DEMON)
 
 #class CFM_751:
 #	"Abyssal Enforcer"
