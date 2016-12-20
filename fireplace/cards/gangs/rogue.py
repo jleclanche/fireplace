@@ -26,8 +26,9 @@ class CFM_694:
 
 CFM_694e = buff(+2, +2)
 
-#class CFM_781:
-#	"Shaku, the Collector"
+class CFM_781:
+	"Shaku, the Collector"
+	events = Attack(SELF).on(Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS)))
 
 ##
 # Spells
