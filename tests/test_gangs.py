@@ -924,3 +924,19 @@ def test_lotus_illusionist():
 	current_id = game.player2.field[0].id
 	game.player2.field[0].attack(game.player1.hero)
 	assert game.player2.field[0].id == current_id
+
+def test_call_in_the_finishers():
+	game = prepare_empty_game()
+	game.player1.give("CFM_310").play()
+	assert len(game.player1.field) == 4
+	for i in game.player1.field:
+		assert i.id == "CFM_310t"
+
+	game.end_turn()
+	game.player2.give("EX1_538").play()
+	assert len(game.player2.field) == 4
+	game.player2.give("CFM_310").play()
+	assert len(game.player2.field) == 7
+	game.end_turn();game.end_turn()
+	callin = game.player2.give("CFM_310")
+	assert not callin.is_playable()

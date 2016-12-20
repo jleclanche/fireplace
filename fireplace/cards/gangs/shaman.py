@@ -10,6 +10,9 @@ class CFM_061:
 #class CFM_312:
 #	"Jade Chieftain"
 
+#class CFM_324:
+#	"White Eyes"
+
 class CFM_697:
 	"Lotus Illusionist"
 	events = Attack(SELF, ENEMY_HERO).after(Morph(SELF, RandomMinion(cost=6)))
@@ -17,8 +20,9 @@ class CFM_697:
 ##
 # Spells
 
-#class CFM_310:
-#	"Call in the Finishers"
+class CFM_310:
+	"Call in the Finishers"
+	play = Summon(CONTROLLER, "CFM_310t") * 4
 
 #class CFM_313:
 #	"Finders Keepers"
