@@ -3,8 +3,11 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_610:
-#	"Crystalweaver"
+class CFM_610:
+	"Crystalweaver"
+	play = Buff(FRIENDLY_MINIONS + DEMON, "CFM_610e")
+
+CFM_610e = buff(+1, +1)
 
 #class CFM_663:
 #	"Kabal Trafficker"
