@@ -25,8 +25,9 @@ class CFM_751:
 	"Abyssal Enforcer"
 	play = Hit(ALL_CHARACTERS - SELF, 3)
 
-#class CFM_900:
-#	"Unlicensed Apothecary"
+class CFM_900:
+	"Unlicensed Apothecary"
+	events = Summon(CONTROLLER).on(Hit(FRIENDLY_HERO, 5))
 
 ##
 # Spells
