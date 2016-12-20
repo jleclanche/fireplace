@@ -10,11 +10,9 @@ class CFM_061:
 #class CFM_312:
 #	"Jade Chieftain"
 
-#class CFM_324:
-#	"White Eyes"
-
-#class CFM_697:
-#	"Lotus Illusionist"
+class CFM_697:
+	"Lotus Illusionist"
+	events = Attack(SELF, ENEMY_HERO).after(Morph(SELF, RandomMinion(cost=6)))
 
 ##
 # Spells

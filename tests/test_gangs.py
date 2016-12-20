@@ -905,3 +905,22 @@ def test_shadow_sensei():
 	assert infiltrator.buffs
 	assert infiltrator.atk == 4
 	assert infiltrator.health == 3
+
+def test_lotus_illusionist():
+	game = prepare_empty_game()
+	lotus1 = game.player1.give("CFM_697").play()
+	game.end_turn()
+	lotus2 = game.player2.give("CFM_697").play()
+	wisp = game.player2.give(WISP).play()
+	game.end_turn()
+	lotus1.attack(wisp)
+	assert lotus1.id == "CFM_697"
+	game.end_turn()
+	lotus2.attack(game.player1.hero)
+	assert lotus2.morphed
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].cost == 6
+	game.end_turn(); game.end_turn()
+	current_id = game.player2.field[0].id
+	game.player2.field[0].attack(game.player1.hero)
+	assert game.player2.field[0].id == current_id
