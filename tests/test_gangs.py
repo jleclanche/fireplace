@@ -1078,3 +1078,12 @@ def test_unlicensed_apothecary():
 	game.end_turn()
 	game.player2.give("BRM_026").play()
 	assert game.player1.hero.health == 20
+
+def test_blastcrystal_potion():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	game.end_turn()
+	assert game.player2.max_mana == 10
+	game.player2.give("CFM_608").play(target=wisp)
+	assert wisp.dead
+	assert game.player2.max_mana == 9

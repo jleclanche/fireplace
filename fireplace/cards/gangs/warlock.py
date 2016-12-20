@@ -36,8 +36,9 @@ class CFM_094:
 	"Felfire Potion"
 	play = Hit(ALL_CHARACTERS, 5)
 
-#class CFM_608:
-#	"Blastcrystal Potion"
+class CFM_608:
+	"Blastcrystal Potion"
+	play = Destroy(TARGET), GainMana(CONTROLLER, -1), SpendMana(CONTROLLER, -1)
 
 #class CFM_611:
 #	"Bloodfury Potion"
