@@ -34,11 +34,12 @@ CFM_685e = buff(+5, +5)
 #class CFM_806:
 #	"Wrathion"
 
-#class CFM_807:
-#	"Auctionmaster Beardo"
+# class CFM_807:
+# 	"Auctionmaster Beardo"
 
-#class CFM_808:
-#	"Genzo, the Shark"
+class CFM_808:
+	"Genzo, the Shark"
+	events = Attack(SELF).on(DrawUntil(ALL_PLAYERS, 3))
 
 #class CFM_902:
 #	"Aya Blackpaw"

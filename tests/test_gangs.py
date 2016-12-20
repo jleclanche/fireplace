@@ -551,6 +551,18 @@ def test_don_han_cho():
 	assert chicken.atk == 6
 	assert chicken.health == 6	
 
+def test_genzo_the_shark():
+	game = prepare_game()
+	game.player1.discard_hand()
+	game.player2.discard_hand()
+	genzo  = game.player1.give("CFM_808").play()
+	game.end_turn();game.end_turn()
+	assert len(game.player1.hand) == 1
+	assert len(game.player2.hand) == 1
+	genzo.attack(game.player2.hero)
+	assert len(game.player1.hand) == 3
+	assert len(game.player2.hand) == 3
+
 def test_small_time_buccaneer():
 	game = prepare_game()
 	buccaneer = game.player1.give("CFM_325").play()
