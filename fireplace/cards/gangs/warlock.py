@@ -9,8 +9,9 @@ class CFM_610:
 
 CFM_610e = buff(+1, +1)
 
-#class CFM_663:
-#	"Kabal Trafficker"
+class CFM_663:
+	"Kabal Trafficker"
+	events = OWN_TURN_END.on(Give(CONTROLLER, RandomDemon()))
 
 #class CFM_699:
 #	"Seadevil Stinger"
