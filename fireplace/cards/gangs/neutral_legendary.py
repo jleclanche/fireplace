@@ -3,13 +3,15 @@ from ..utils import *
 ##
 # Minions
 
-
-
 #class CFM_341:
 #	"Sergeant Sally"
 
-#class CFM_344:
-#	"Finja, the Flying Star"
+class CFM_344:
+	"Finja, the Flying Star"
+	events = Attack(SELF).after(
+		Find(Attack.DEFENDER + MORTALLY_WOUNDED) & 
+		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MURLOC) * 2)
+		)
 
 #class CFM_621:
 #	"Kazakus"
