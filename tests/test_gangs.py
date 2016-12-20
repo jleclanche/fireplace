@@ -537,6 +537,20 @@ def test_finja_the_flying_star():
 	assert len(game.player1.field) == 3
 
 
+def test_don_han_cho():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	chicken = game.player1.give(CHICKEN)
+	hancho = game.player1.give("CFM_685").play()
+	assert not wisp.buffs
+	assert chicken.buffs
+	assert chicken.atk == 6
+	assert chicken.health == 6
+	chicken.play()
+	assert chicken.buffs
+	assert chicken.atk == 6
+	assert chicken.health == 6	
+
 def test_small_time_buccaneer():
 	game = prepare_game()
 	buccaneer = game.player1.give("CFM_325").play()
