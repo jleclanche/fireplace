@@ -1114,3 +1114,17 @@ def test_hobart_grapplehammer():
 	assert gorehowl.buffs
 	assert fwa.atk == 4
 	assert gorehowl.atk == 8
+
+def test_grimy_gadgeteer():
+	game = prepare_empty_game()
+	gadgeteer = game.player1.give("CFM_754").play()
+	game.end_turn();game.end_turn()
+	wisp = game.player1.give(WISP)
+	game.end_turn();game.end_turn()
+	assert wisp.buffs
+	assert wisp.atk == 3
+	assert wisp.health == 3
+	wisp.play()
+	assert wisp.buffs
+	assert wisp.atk == 3
+	assert wisp.health == 3

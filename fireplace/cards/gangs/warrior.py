@@ -11,8 +11,11 @@ class CFM_643:
 CFM_643e = buff(+1)
 CFM_643e2 = buff(+1)
 
-#class CFM_754:
-#	"Grimy Gadgeteer"
+class CFM_754:
+	"Grimy Gadgeteer"
+	events = OWN_TURN_END.on(Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_754e"))
+
+CFM_754e = buff(+2, +2)
 
 #class CFM_755:
 #	"Grimestreet Pawnbroker"
