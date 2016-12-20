@@ -32,8 +32,9 @@ class CFM_900:
 ##
 # Spells
 
-#class CFM_094:
-#	"Felfire Potion"
+class CFM_094:
+	"Felfire Potion"
+	play = Hit(ALL_CHARACTERS, 5)
 
 #class CFM_608:
 #	"Blastcrystal Potion"
