@@ -589,6 +589,26 @@ def test_don_han_cho():
 	assert chicken.atk == 6
 	assert chicken.health == 6	
 
+def test_wrathion():
+	game = prepare_empty_game()
+	# Test stopping when draw non-dragon
+	game.player1.give(WISP).shuffle_into_deck()
+	for i in range(3):
+		game.player1.give(WHELP).shuffle_into_deck()
+	game.player1.give("CFM_806").play()
+	assert game.player1.hand[-1].id == WISP
+	game.end_turn()
+	# Test stopping when overdraw
+	for i in range(15):
+		game.player2.give(WHELP).shuffle_into_deck()
+	game.player2.give("CFM_806").play()
+	assert len(game.player2.hand) == 10
+	assert len(game.player2.deck) == 15 - 10
+	game.end_turn()
+	#Test stopping when no cards left
+	game.player1.give("CFM_806").play()
+	assert len(game.player1.deck) == 0
+
 def test_small_time_buccaneer():
 	game = prepare_game()
 	buccaneer = game.player1.give("CFM_325").play()

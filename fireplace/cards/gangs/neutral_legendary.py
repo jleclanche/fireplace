@@ -37,8 +37,22 @@ class CFM_685:
 
 CFM_685e = buff(+5, +5)
 
-#class CFM_806:
-#	"Wrathion"
+class CFM_806:
+	"Wrathion"
+	def play(self):
+		while True:
+			current_handsize = len(self.controller.hand)
+			yield Draw(self.controller)
+			if len(self.controller.hand) == current_handsize:
+				#Unable to draw card due to fatigue or max hand size
+				break
+			card = self.controller.hand[-1]
+			if card.type == CardType.MINION and card.race == Race.DRAGON:
+				continue
+			else:
+				break
+
+
 
 #class CFM_807:
 #	"Auctionmaster Beardo"
