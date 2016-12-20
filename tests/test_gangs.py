@@ -915,6 +915,14 @@ def test_shaku_the_collector():
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].card_class == game.player2.hero.card_class
 
+def test_white_eyes():
+	game = prepare_empty_game()
+	assert len(game.player1.deck) == 0
+	whiteeyes = game.player1.give("CFM_324").play()
+	whiteeyes.destroy()
+	assert len(game.player1.deck) == 1
+	assert "CFM_324t" == game.player1.deck[0]
+
 def test_lotus_illusionist():
 	game = prepare_empty_game()
 	lotus1 = game.player1.give("CFM_697").play()
