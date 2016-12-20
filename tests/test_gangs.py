@@ -1093,3 +1093,17 @@ def test_sleep_with_the_fishes():
 	game.player1.give("CFM_716").play()
 	assert wargolem.damage == 4
 	assert targetdummy.dead
+
+def test_stolen_goods():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	targetdummy = game.player1.give(TARGET_DUMMY)
+	game.player1.give("CFM_752").play()
+	assert targetdummy.buffs
+	assert targetdummy.atk == 3
+	assert targetdummy.health == 5
+	assert not wisp.buffs
+	targetdummy.play()
+	assert targetdummy.buffs
+	assert targetdummy.atk == 3
+	assert targetdummy.health == 5	
