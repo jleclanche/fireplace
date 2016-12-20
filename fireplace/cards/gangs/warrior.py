@@ -47,6 +47,8 @@ class CFM_940:
 ##
 # Weapons
 
-#class CFM_631:
-	#"Brass Knuckles"
+class CFM_631:
+	"Brass Knuckles"
+	events = Attack(FRIENDLY_HERO).after(Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_631e"))
 
+CFM_631e = buff(+1, +1)
