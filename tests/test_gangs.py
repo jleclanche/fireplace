@@ -1174,4 +1174,11 @@ def test_stolen_goods():
 	targetdummy.play()
 	assert targetdummy.buffs
 	assert targetdummy.atk == 3
-	assert targetdummy.health == 5	
+	assert targetdummy.health == 5
+
+def test_i_know_a_guy():
+	game = prepare_empty_game()
+	game.player1.give("CFM_940").play()
+	assert game.player1.choice
+	for c in game.player1.choice.cards:	
+		assert c.taunt
