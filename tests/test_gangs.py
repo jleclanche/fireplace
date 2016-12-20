@@ -964,3 +964,19 @@ def test_finders_keepers():
 	assert game.player1.choice
 	for card in game.player1.choice.cards:
 		assert card.overload
+
+def test_crystalweaver():
+	game = prepare_empty_game()
+	imp = game.player1.give(IMP).play()
+	wisp = game.player1.give(WISP).play()
+	imp_in_hand = game.player1.give(IMP)
+	crystalweaver = game.player1.give("CFM_610").play()
+	assert imp.buffs
+	assert imp.atk == 2
+	assert imp.health == 2
+	assert not wisp.buffs
+	assert wisp.atk == 1
+	assert wisp.health == 1
+	assert not imp_in_hand.buffs
+	assert imp_in_hand.atk == 1
+	assert imp_in_hand.health == 1
