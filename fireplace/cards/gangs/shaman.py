@@ -10,8 +10,9 @@ class CFM_061:
 #class CFM_312:
 #	"Jade Chieftain"
 
-#class CFM_324:
-#	"White Eyes"
+class CFM_324:
+	"White Eyes"
+	deathrattle = Shuffle(CONTROLLER, "CFM_324t")
 
 class CFM_697:
 	"Lotus Illusionist"
