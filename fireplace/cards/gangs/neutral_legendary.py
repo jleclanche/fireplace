@@ -3,6 +3,9 @@ from ..utils import *
 ##
 # Minions
 
+#class CFM_324:
+#	"White Eyes"
+
 #class CFM_341:
 #	"Sergeant Sally"
 
