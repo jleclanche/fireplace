@@ -1140,3 +1140,13 @@ def test_grimestreet_pawnbroker():
 	assert lightsjustice1.durability == 4
 	assert lightsjustice2.atk == 2
 	assert lightsjustice2.durability == 5
+
+def test_alley_armorsmith():
+	game = prepare_empty_game()
+	armorsmith = game.player1.give("CFM_756").play()
+	assert game.player1.hero.armor == 0
+	game.player1.give(MOONFIRE).play(target=armorsmith)
+	assert game.player1.hero.armor == 0
+	game.end_turn();game.end_turn()
+	armorsmith.attack(game.player2.hero)
+	assert game.player1.hero.armor == 2
