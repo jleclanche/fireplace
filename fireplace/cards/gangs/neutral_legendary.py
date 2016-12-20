@@ -24,6 +24,9 @@ from ..utils import *
 #class CFM_685:
 #	"Don Han'Cho"
 
+#class CFM_781:
+#	"Shaku, the Collector"
+
 #class CFM_806:
 #	"Wrathion"
 
