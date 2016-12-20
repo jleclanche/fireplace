@@ -862,3 +862,20 @@ def test_dragonfire_potion():
 	assert beast.dead
 	assert not whelp.dead
 	assert wargolem.health == 2
+
+def test_luckydo_buccaneer():
+	game = prepare_game()
+	buc1 = game.player1.give("CFM_342")
+	assert not buc1.powered_up
+	buc1.play()
+	assert buc1.atk == 5
+	assert buc1.health == 5
+
+	game.end_turn()
+	game.player2.give("CS2_106").play()
+	buc2 = game.player2.give("CFM_342")
+	assert buc2.powered_up
+	buc2.play()
+	assert "CFM_342e" in buc2.buffs
+	assert buc2.atk == 9
+	assert buc2.health == 9
