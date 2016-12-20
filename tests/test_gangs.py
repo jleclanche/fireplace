@@ -1100,3 +1100,17 @@ def test_bloodfury_potion():
 	assert "CFM_611e" in wisp.buffs
 	assert wisp.atk == 4
 	assert wisp.health == 1
+
+def test_hobart_grapplehammer():
+	game = prepare_empty_game()
+	lightsjustice = game.player1.give(LIGHTS_JUSTICE).play()
+	fwa = game.player1.give("CS2_106")
+	gorehowl = game.player1.give("EX1_411").shuffle_into_deck()
+	game.player1.give("CFM_643").play()
+	assert not lightsjustice.buffs
+	assert fwa.buffs
+	game.end_turn();game.end_turn()
+	gorehowl = game.player1.hand[-1]
+	assert gorehowl.buffs
+	assert fwa.atk == 4
+	assert gorehowl.atk == 8
