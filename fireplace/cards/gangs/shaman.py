@@ -25,8 +25,10 @@ class CFM_310:
 	"Call in the Finishers"
 	play = Summon(CONTROLLER, "CFM_310t") * 4
 
-#class CFM_313:
-#	"Finders Keepers"
+class CFM_313:
+	"Finders Keepers"
+	#Force Shaman class cards or else will not work for other classes
+	play = DISCOVER(RandomCollectible(card_class=CardClass.SHAMAN, overload=True))
 
 #class CFM_696:
 #	"Devolve"
