@@ -948,6 +948,19 @@ def test_luckydo_buccaneer():
 	assert buc2.atk == 9
 	assert buc2.health == 9
 
+def test_lotus_assassin():
+	game = prepare_empty_game()
+	assassin = game.player1.give("CFM_634").play()
+	game.end_turn()
+	wisp = game.player2.give(WISP).play()
+	game.end_turn()
+	assassin.attack(wisp)
+	assert assassin.stealthed
+	game.end_turn();game.end_turn()
+	assert assassin.stealthed
+	assassin.attack(game.player2.hero)
+	assert not assassin.stealthed
+
 def test_gadgetzan_ferryman():
 	game = prepare_empty_game()
 	wisp = game.player1.give(WISP).play()
