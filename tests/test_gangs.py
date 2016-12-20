@@ -891,3 +891,17 @@ def test_gadgetzan_ferryman():
 	# game.player2.hand[0].play() #The Coin
 	# game.player2.give("CFM_693").play(target=self)
 	# assert len(game.player2.field) == 1
+
+def test_shadow_sensei():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	sensei1 = game.player1.give("CFM_694")
+	assert wisp not in sensei1.targets
+	sensei1.play()
+	infiltrator = game.player1.give("EX1_010").play()
+	sensei2 = game.player1.give("CFM_694")
+	assert infiltrator in sensei2.targets
+	sensei2.play(target=infiltrator)
+	assert infiltrator.buffs
+	assert infiltrator.atk == 4
+	assert infiltrator.health == 3
