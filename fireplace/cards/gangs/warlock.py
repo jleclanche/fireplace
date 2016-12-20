@@ -21,8 +21,9 @@ class CFM_750:
 	powered_up = -FindDuplicates(FRIENDLY_DECK)
 	play = powered_up & Summon(CONTROLLER, FRIENDLY_HAND + DEMON)
 
-#class CFM_751:
-#	"Abyssal Enforcer"
+class CFM_751:
+	"Abyssal Enforcer"
+	play = Hit(ALL_CHARACTERS - SELF, 3)
 
 #class CFM_900:
 #	"Unlicensed Apothecary"
