@@ -40,8 +40,9 @@ class CFM_752:
 
 CFM_752e =  buff(+3, +3)
 
-#class CFM_940:
-#	"I Know a Guy"
+class CFM_940:
+	"I Know a Guy"
+	play = DISCOVER(RandomMinion(taunt=True))
 
 ##
 # Weapons
