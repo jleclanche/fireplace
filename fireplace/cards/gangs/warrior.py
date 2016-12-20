@@ -34,8 +34,11 @@ class CFM_716:
 	"Sleep with the Fishes"
 	play = Hit(ALL_MINIONS + DAMAGED, 3)
 
-#class CFM_752:
-#	"Stolen Goods"
+class CFM_752:
+	"Stolen Goods"
+	play = Buff(RANDOM(FRIENDLY_HAND + MINION + TAUNT), "CFM_752e")
+
+CFM_752e =  buff(+3, +3)
 
 #class CFM_940:
 #	"I Know a Guy"
