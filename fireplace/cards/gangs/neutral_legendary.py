@@ -16,15 +16,20 @@ class CFM_344:
 #class CFM_621:
 #	"Kazakus"
 
-#class CFM_637:
-#	"Patches the Pirate"
+# class CFM_637:
+# 	"Patches the Pirate"
 
 #class CFM_670:
 #	"Mayor Noggenfogger"
+#	TODO: Requires implementation of GameTag.ALL_TARGETS_RANDOM: 477
 
-#class CFM_672:
-#	"Madam Goya"
-
+class CFM_672:
+	"Madam Goya"
+	def play(self):
+		targets = self.controller.deck.filter(type=CardType.MINION)
+		if targets:
+			yield Shuffle(CONTROLLER, TARGET)
+			yield Summon(CONTROLLER, random.sample(targets, 1))
 #class CFM_685:
 #	"Don Han'Cho"
 

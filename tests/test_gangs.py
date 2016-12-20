@@ -563,6 +563,17 @@ def test_finja_the_flying_star():
 	finja.attack(game.player2.hero)
 	assert len(game.player1.field) == 3
 
+def test_madam_goya():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	goya = game.player1.give("CFM_672").play(target=wisp)
+	assert len(game.player1.field) == 2
+	game.end_turn()
+	chicken = game.player2.give(CHICKEN).play()
+	game.player2.give(KOBOLD_GEOMANCER).shuffle_into_deck()
+	game.player2.give("CFM_672").play(target=chicken)
+	assert len(game.player2.field) == 2
+	assert KOBOLD_GEOMANCER in [i.id for i in game.player2.field]
 
 def test_small_time_buccaneer():
 	game = prepare_game()
