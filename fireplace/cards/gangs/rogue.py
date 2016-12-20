@@ -16,8 +16,9 @@ CFM_342e = buff(+4, +4)
 #class CFM_691:
 #	"Jade Swarmer"
 
-#class CFM_693:
-#	"Gadgetzan Ferryman"
+class CFM_693:
+	"Gadgetzan Ferryman"
+	combo = Bounce(TARGET)
 
 #class CFM_694:
 #	"Shadow Sensei"

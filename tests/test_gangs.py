@@ -947,3 +947,15 @@ def test_luckydo_buccaneer():
 	assert "CFM_342e" in buc2.buffs
 	assert buc2.atk == 9
 	assert buc2.health == 9
+
+def test_gadgetzan_ferryman():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	ferryman = game.player1.give("CFM_693").play(target=wisp)
+	assert len(game.player1.field) == 1
+
+	#Unconfirmed but ferryman does not have a REQ_TARGET_IF_AVAIL so it theoretically cannot be played with empty board
+	# game.end_turn()
+	# game.player2.hand[0].play() #The Coin
+	# game.player2.give("CFM_693").play(target=self)
+	# assert len(game.player2.field) == 1
