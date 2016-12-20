@@ -17,8 +17,11 @@ class CFM_754:
 
 CFM_754e = buff(+2, +2)
 
-#class CFM_755:
-#	"Grimestreet Pawnbroker"
+class CFM_755:
+	"Grimestreet Pawnbroker"
+	play = Buff(RANDOM(FRIENDLY_HAND + WEAPON), "CFM_755e")
+
+CFM_755e = buff(+1, +1)
 
 #class CFM_756:
 #	"Alley Armorsmith"
