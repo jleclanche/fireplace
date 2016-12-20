@@ -1082,3 +1082,14 @@ def test_alley_armorsmith():
 	game.end_turn();game.end_turn()
 	armorsmith.attack(game.player2.hero)
 	assert game.player1.hero.armor == 2
+
+def test_sleep_with_the_fishes():
+	game = prepare_empty_game()
+	wargolem = game.player1.give("CS2_186").play()
+	targetdummy = game.player1.give(TARGET_DUMMY).play()
+	game.player1.give("EX1_400").play()
+	assert wargolem.damage == 1
+	assert targetdummy.damage == 1
+	game.player1.give("CFM_716").play()
+	assert wargolem.damage == 4
+	assert targetdummy.dead
