@@ -544,6 +544,26 @@ def test_defias_cleaner():
 	game.player2.give(MOONFIRE).play(target=loothoarder)
 	assert len(game.player1.hand) == 0
 
+def test_finja_the_flying_star():
+	game = prepare_empty_game()
+	for i in range(3):
+		game.player1.give(MURLOC).shuffle_into_deck()
+	game.player1.give(WISP).shuffle_into_deck()
+	assert len(game.player1.deck) == 4
+	finja = game.player1.give("CFM_344").play()
+	game.end_turn()
+	wisp = game.player2.give(WISP).play()
+	game.end_turn()
+	finja.attack(wisp)
+	assert len(game.player1.field) == 3
+	assert len(game.player1.deck) == 1
+	for minion in game.player1.field:
+		assert minion.race == Race.MURLOC
+	game.end_turn();game.end_turn()
+	finja.attack(game.player2.hero)
+	assert len(game.player1.field) == 3
+
+
 def test_small_time_buccaneer():
 	game = prepare_game()
 	buccaneer = game.player1.give("CFM_325").play()
