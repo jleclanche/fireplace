@@ -20,8 +20,11 @@ class CFM_693:
 	"Gadgetzan Ferryman"
 	combo = Bounce(TARGET)
 
-#class CFM_694:
-#	"Shadow Sensei"
+class CFM_694:
+	"Shadow Sensei"
+	play = Buff(TARGET, "CFM_694e")
+
+CFM_694e = buff(+2, +2)
 
 #class CFM_781:
 #	"Shaku, the Collector"
