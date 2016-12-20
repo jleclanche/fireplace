@@ -26,14 +26,12 @@ class CFM_694:
 
 CFM_694e = buff(+2, +2)
 
-#class CFM_781:
-#	"Shaku, the Collector"
-
 ##
 # Spells
 
-#class CFM_630:
-#	"Counterfeit Coin"
+class CFM_630:
+	"Counterfeit Coin"
+	play = ManaThisTurn(CONTROLLER, 1)
 
 #class CFM_690:
 #	"Jade Shuriken"
