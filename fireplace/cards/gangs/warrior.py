@@ -30,8 +30,9 @@ class CFM_756:
 ##
 # Spells
 
-#class CFM_716:
-#	"Sleep with the Fishes"
+class CFM_716:
+	"Sleep with the Fishes"
+	play = Hit(ALL_MINIONS + DAMAGED, 3)
 
 #class CFM_752:
 #	"Stolen Goods"
