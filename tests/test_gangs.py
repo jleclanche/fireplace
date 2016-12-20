@@ -1019,3 +1019,16 @@ def test_blastcrystal_potion():
 	game.player2.give("CFM_608").play(target=wisp)
 	assert wisp.dead
 	assert game.player2.max_mana == 9
+
+def test_bloodfury_potion():
+	game = prepare_empty_game()
+	imp = game.player1.give(IMP).play()
+	wisp =game.player1.give(WISP).play()
+	game.player1.give("CFM_611").play(target=imp)
+	assert "CFM_611e2" in imp.buffs
+	assert imp.atk == 4
+	assert imp.health == 4
+	game.player1.give("CFM_611").play(target=wisp)
+	assert "CFM_611e" in wisp.buffs
+	assert wisp.atk == 4
+	assert wisp.health == 1

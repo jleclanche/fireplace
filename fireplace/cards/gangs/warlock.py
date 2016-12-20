@@ -40,6 +40,9 @@ class CFM_608:
 	"Blastcrystal Potion"
 	play = Destroy(TARGET), GainMana(CONTROLLER, -1), SpendMana(CONTROLLER, -1)
 
-#class CFM_611:
-#	"Bloodfury Potion"
+class CFM_611:
+	"Bloodfury Potion"
+	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "CFM_611e2") | Buff(TARGET, "CFM_611e")
 
+CFM_611e = buff(+3)
+CFM_611e2 = buff(+3, +3)
