@@ -1114,3 +1114,18 @@ def test_i_know_a_guy():
 	assert game.player1.choice
 	for c in game.player1.choice.cards:	
 		assert c.taunt
+
+def test_brass_knuckles():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	game.player1.give("CFM_631").play()
+	game.player1.hero.attack(game.player2.hero)
+	assert not wisp.buffs
+	game.end_turn();game.end_turn()
+	chicken = game.player1.give(CHICKEN)
+	game.player1.hero.attack(game.player2.hero)
+	assert chicken.buffs
+	chicken.play()
+	assert chicken.buffs
+	assert chicken.atk == 2
+	assert chicken.health == 2
