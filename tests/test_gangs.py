@@ -980,3 +980,13 @@ def test_crystalweaver():
 	assert not imp_in_hand.buffs
 	assert imp_in_hand.atk == 1
 	assert imp_in_hand.health == 1
+
+def test_kabal_trafficker():
+	game = prepare_empty_game()
+	trafficker = game.player1.give("CFM_663").play()
+	game.end_turn()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].race == Race.DEMON
+	game.end_turn()
+	assert len(game.player1.hand) == 1
+	assert len(game.player2.hand) == 1
