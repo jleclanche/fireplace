@@ -23,8 +23,9 @@ class CFM_755:
 
 CFM_755e = buff(+1, +1)
 
-#class CFM_756:
-#	"Alley Armorsmith"
+class CFM_756:
+	"Alley Armorsmith"
+	events = Damage(CHARACTER, None, SELF).on(GainArmor(FRIENDLY_HERO, Damage.AMOUNT))
 
 ##
 # Spells
