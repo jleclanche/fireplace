@@ -2,7 +2,7 @@ import operator
 import random
 from abc import ABCMeta, abstractmethod
 from enum import IntEnum
-from hearthstone.enums import CardType, GameTag, Race, Rarity, Zone
+from hearthstone.enums import CardType, GameTag, Race, Rarity, Zone, CardClass
 from typing import Any, Union, List, Callable, Iterable, Optional, Set
 from .. import enums
 from ..entity import BaseEntity
@@ -353,7 +353,7 @@ CardType.test = lambda self, entity, *args: entity is not None and self == entit
 Race.test = lambda self, entity, *args: entity is not None and self == getattr(entity, "race", Race.INVALID)
 Rarity.test = lambda self, entity, *args: entity is not None and self == getattr(entity, "rarity", Rarity.INVALID)
 Zone.test = lambda self, entity, *args: entity is not None and self == entity.zone
-
+CardClass.test = lambda self, entity, *args: entity is not None and self == getattr(entity, "card_class", CardClass.INVALID)
 
 BATTLECRY = EnumSelector(GameTag.BATTLECRY)
 CHARGE = EnumSelector(GameTag.CHARGE)
@@ -371,7 +371,7 @@ CLASS_CARD = EnumSelector(GameTag.CLASS)
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True
 
-ROGUE = AttrValue(GameTag.CLASS) == 7
+ROGUE = EnumSelector(CardClass.ROGUE)
 
 IN_PLAY = EnumSelector(Zone.PLAY)
 IN_DECK = EnumSelector(Zone.DECK)
