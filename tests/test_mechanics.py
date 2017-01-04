@@ -912,3 +912,21 @@ def test_weapon_sheathing():
 	game.end_turn()
 
 	assert not weapon.exhausted
+
+def test_jade_golem():
+	game = prepare_game()
+	jade_spirit1 = game.player1.give("CFM_715").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].id == "CFM_712_t01"
+	jade_spirit2 = game.player1.give("CFM_715").play()
+	assert len(game.player1.field) == 4
+	assert game.player1.field[-1].id == "CFM_712_t02"
+
+	game.end_turn()
+	jade_spirit3 = game.player2.give("CFM_715").play()
+	assert len(game.player2.field) == 2
+	assert game.player2.field[-1].id == "CFM_712_t01"
+	jade_spirit4 = game.player2.give("CFM_715").play()
+	assert len(game.player2.field) == 4
+	assert game.player2.field[-1].id == "CFM_712_t02"
+

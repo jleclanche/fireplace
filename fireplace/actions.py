@@ -1219,3 +1219,18 @@ class UnlockOverload(TargetedAction):
 		log.info("%s overload gets cleared", target)
 		target.overloaded = 0
 		target.overload_locked = 0
+
+class SummonJadeGolem(TargetedAction):
+	def do(self, source, target):
+		"""
+		Summons a Jade Golem for target player according to his Jade Golem Status
+		"""
+		jade_size = "CFM_712_t" + str(target.jade_golem).zfill(2)
+		log.info("%s summons a Jade Golem for %s", source, target)
+		target.jade_golem += 1
+		jade_golem = _eval_card(source, jade_size)[0]
+		jade_golem.zone = Zone.PLAY
+		summon_action = Summon(target, jade_golem)
+		self.queue_broadcast(summon_action, (target, EventListener.ON, target, jade_golem))
+		self.broadcast(target, EventListener.ON, target, jade_golem)
+		self.resolve_broadcasts()
