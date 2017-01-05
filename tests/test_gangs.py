@@ -6,6 +6,13 @@ def test_kun_the_forgotten_king():
 	assert game.player1.mana == 10
 	kun2 = game.player1.give("CFM_308").play(choose="CFM_308a")
 	assert game.player1.hero.armor == 10
+	game.end_turn()
+
+	game.player2.max_mana = 6
+	assert game.player2.mana == 6
+	game.player2.give(INNERVATE).play();game.player2.give(INNERVATE).play()
+	kun3 = game.player2.give("CFM_308").play(choose="CFM_308b")
+	assert game.player2.mana == 6
 
 def test_celestial_dreamer():
 	game = prepare_game()

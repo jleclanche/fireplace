@@ -11,7 +11,7 @@ class CFM_308a:
 	play = GainArmor(FRIENDLY_HERO, 10)
 
 class CFM_308b:
-	play = ManaThisTurn(CONTROLLER, 10)
+	play = FillMana(CONTROLLER, USED_MANA(CONTROLLER))
 
 class CFM_343:
 	"Jade Behemoth"
