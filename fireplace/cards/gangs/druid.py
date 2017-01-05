@@ -13,8 +13,9 @@ class CFM_308a:
 class CFM_308b:
 	play = ManaThisTurn(CONTROLLER, 10)
 
-#class CFM_343:
-#	"Jade Behemoth"
+class CFM_343:
+	"Jade Behemoth"
+	play = SummonJadeGolem(CONTROLLER)
 
 class CFM_617:
 	"Celestial Dreamer"
