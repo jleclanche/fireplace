@@ -1124,6 +1124,13 @@ def test_jade_shuriken():
 	assert len(game.player1.field) == 1
 	assert game.player2.hero.health == 26
 
+def test_jade_chieftain():
+	game = prepare_game()
+	game.player1.give("CFM_312").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].taunt
+	assert game.player1.field[-1].id == "CFM_712_t01"
+
 def test_white_eyes():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
