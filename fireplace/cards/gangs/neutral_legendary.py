@@ -16,8 +16,10 @@ class CFM_344:
 #class CFM_621:
 #	"Kazakus"
 
-# class CFM_637:
-# 	"Patches the Pirate"
+class CFM_637:
+	"Patches the Pirate"
+	class Deck:
+		events = Summon(CONTROLLER, FRIENDLY + MINION + PIRATE).after(Summon(CONTROLLER, SELF))
 
 #class CFM_670:
 #	"Mayor Noggenfogger"

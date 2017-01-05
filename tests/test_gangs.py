@@ -605,6 +605,18 @@ def test_finja_the_flying_star():
 	finja.attack(game.player2.hero)
 	assert len(game.player1.field) == 3
 
+def test_patches_the_pirate():
+	game = prepare_empty_game()
+	patches = game.player1.give("CFM_637").shuffle_into_deck()
+	pirate = game.player1.give("CFM_637").play()
+	assert len(game.player1.deck) == 0
+	assert len(game.player1.field) == 2
+
+	game.end_turn()
+	game.player2.give("CFM_637")
+	game.player2.give("CFM_637").play()
+	assert len(game.player2.field) == 1
+
 def test_madam_goya():
 	game = prepare_empty_game()
 	wisp = game.player1.give(WISP).play()
