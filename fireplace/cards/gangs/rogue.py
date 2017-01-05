@@ -39,6 +39,7 @@ class CFM_630:
 	"Counterfeit Coin"
 	play = ManaThisTurn(CONTROLLER, 1)
 
-#class CFM_690:
-#	"Jade Shuriken"
-
+class CFM_690:
+	"Jade Shuriken"
+	play = Hit(TARGET, 2)
+	combo = Hit(TARGET, 2), SummonJadeGolem(CONTROLLER)

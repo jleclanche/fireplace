@@ -1115,6 +1115,15 @@ def test_shaku_the_collector():
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].card_class == game.player2.hero.card_class
 
+def test_jade_shuriken():
+	game = prepare_game()
+	shuriken1 = game.player1.give("CFM_690").play(game.player2.hero)
+	assert len(game.player1.field) == 0
+	assert game.player2.hero.health == 28
+	shuriken2 = game.player1.give("CFM_690").play(game.player2.hero)
+	assert len(game.player1.field) == 1
+	assert game.player2.hero.health == 26
+
 def test_white_eyes():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
