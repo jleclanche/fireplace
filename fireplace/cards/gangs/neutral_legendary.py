@@ -9,7 +9,7 @@ from ..utils import *
 class CFM_344:
 	"Finja, the Flying Star"
 	events = Attack(SELF).after(
-		Find(Attack.DEFENDER + MORTALLY_WOUNDED) & 
+		Find(Attack.DEFENDER + MORTALLY_WOUNDED) &
 		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MURLOC) * 2)
 		)
 
@@ -59,6 +59,7 @@ class CFM_808:
 	"Genzo, the Shark"
 	events = Attack(SELF).on(DrawUntil(ALL_PLAYERS, 3))
 
-#class CFM_902:
-#	"Aya Blackpaw"
-
+class CFM_902:
+	"Aya Blackpaw"
+	play = SummonJadeGolem(CONTROLLER)
+	deathrattle = SummonJadeGolem(CONTROLLER)
