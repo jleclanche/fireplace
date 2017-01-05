@@ -1,5 +1,12 @@
 from utils import *
 
+def test_kun_the_forgotten_king():
+	game = prepare_game()
+	kun1 = game.player1.give("CFM_308").play(choose="CFM_308b")
+	assert game.player1.mana == 10
+	kun2 = game.player1.give("CFM_308").play(choose="CFM_308a")
+	assert game.player1.hero.armor == 10
+
 def test_celestial_dreamer():
 	game = prepare_game()
 	dreamer = game.player1.give("CFM_617")
@@ -310,7 +317,7 @@ def test_greater_arcane_missiles():
 	game.end_turn()
 	game.player2.give(KOBOLD_GEOMANCER).play()
 	game.player2.give("CFM_623").play()
-	
+
 	if acolyte.dead:
 		assert len(game.player1.hand) == 2
 		assert game.player1.hero.health == 30 - 4
@@ -492,7 +499,7 @@ def test_fel_orc_soulfiend():
 	assert orc.health == 7
 	game.end_turn();game.end_turn()
 	assert orc.health == 5
-	game.end_turn();game.end_turn()	
+	game.end_turn();game.end_turn()
 	assert orc.health == 3
 	game.end_turn();game.end_turn()
 	assert orc.health == 1
@@ -587,7 +594,7 @@ def test_don_han_cho():
 	chicken.play()
 	assert chicken.buffs
 	assert chicken.atk == 6
-	assert chicken.health == 6	
+	assert chicken.health == 6
 
 def test_wrathion():
 	game = prepare_empty_game()
@@ -702,7 +709,7 @@ def test_grimestreet_enforcer():
 	assert beast.buffs
 	assert beast.atk == 2
 	assert beast.health == 2
-	assert not summoned_dummy.buffs	
+	assert not summoned_dummy.buffs
 	assert summoned_dummy.atk == 0
 	assert summoned_dummy.health == 2
 
@@ -729,7 +736,7 @@ def test_grimestreet_outfitter():
 	assert wisp.buffs
 	assert wisp.atk == 2
 	assert wisp.health == 2
-	assert not summoned_dummy.buffs	
+	assert not summoned_dummy.buffs
 	assert summoned_dummy.atk == 0
 	assert summoned_dummy.health == 2
 
@@ -755,7 +762,7 @@ def test_smugglers_run():
 	assert wisp.buffs
 	assert wisp.atk == 2
 	assert wisp.health == 2
-	assert not summoned_dummy.buffs	
+	assert not summoned_dummy.buffs
 	assert summoned_dummy.atk == 0
 	assert summoned_dummy.health == 2
 
@@ -793,7 +800,7 @@ def test_raza_the_chained():
 	game.end_turn();game.end_turn()
 	game.player1.give("EX1_323").play()
 	assert game.player1.hero.power.cost == 0
-	
+
 def test_drakonid_operative():
 	game = prepare_empty_game()
 	game.player1.give(WISP).shuffle_into_deck()
@@ -983,11 +990,11 @@ def test_pint_size_potion():
 	assert chicken.atk == 1
 
 	game.player2.give("AT_016").play()
-	
+
 	assert len(game.player1.field) == 1
 	assert wisp.dead
 	assert kobold.dead
-	
+
 	game.end_turn()
 	assert wargolem.health == 4
 	assert wargolem.atk == 7
@@ -1270,7 +1277,7 @@ def test_i_know_a_guy():
 	game = prepare_empty_game()
 	game.player1.give("CFM_940").play()
 	assert game.player1.choice
-	for c in game.player1.choice.cards:	
+	for c in game.player1.choice.cards:
 		assert c.taunt
 
 def test_brass_knuckles():

@@ -3,8 +3,15 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_308:
-#	"Kun the Forgotten King"
+class CFM_308:
+	"Kun the Forgotten King"
+	choose = ("CFM_308a", "CFM_308b")
+
+class CFM_308a:
+	play = GainArmor(FRIENDLY_HERO, 10)
+
+class CFM_308b:
+	play = ManaThisTurn(CONTROLLER, 10)
 
 #class CFM_343:
 #	"Jade Behemoth"
