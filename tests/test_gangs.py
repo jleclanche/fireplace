@@ -109,6 +109,23 @@ def test_pilfered_power():
 	excess_mana.play()
 	assert len(game.player1.hand) == 1
 
+def test_jade_blossom():
+	game = prepare_game()
+	game.player1.max_mana = 3
+	game.player1.give("CFM_713").play()
+	assert game.player1.max_mana == 4
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"
+	game.end_turn()
+
+	game.player2.discard_hand()
+	assert game.player2.max_mana == 10
+	game.player2.give("CFM_713").play()
+	assert game.player2.max_mana == 10
+	assert game.player2.mana == 10 - 3
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].id == "CFM_712_t01"
+
 def test_lunar_visions():
 	game = prepare_empty_game()
 	golem = game.player1.give("CS2_186").shuffle_into_deck() #War Golem

@@ -58,8 +58,12 @@ class CFM_616:
 		GainEmptyMana(CONTROLLER, Count(FRIENDLY_MINIONS))
 	)
 
-#class CFM_713:
-#	"Jade Blossom"
+class CFM_713:
+	"Jade Blossom"
+	play = (
+		AT_MAX_MANA(CONTROLLER) & SummonJadeGolem(CONTROLLER) |
+		(SummonJadeGolem(CONTROLLER), *GainEmptyMana(CONTROLLER, 1))
+		)
 
 class CFM_811:
 	"Lunar Visions"
