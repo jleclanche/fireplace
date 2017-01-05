@@ -34,8 +34,15 @@ CFM_816e = buff(+2,+2)
 ##
 # Spells
 
-#class CFM_602:
-#	"Jade Idol"
+class CFM_602:
+	"Jade Idol"
+	choose = ("CFM_602a", "CFM_602b")
+
+class CFM_602a:
+	play = SummonJadeGolem(CONTROLLER)
+
+class CFM_602b:
+	play = Shuffle(CONTROLLER, "CFM_602") * 3
 
 class CFM_614:
 	"Mark of the Lotus"

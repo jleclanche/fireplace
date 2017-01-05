@@ -40,6 +40,17 @@ def test_virmen_sensei():
 	assert beast.atk == 3
 	assert beast.health == 3
 
+def test_jade_idol():
+	game = prepare_empty_game()
+	idol1 = game.player1.give("CFM_602").play(choose="CFM_602a")
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"
+
+	idol2 = game.player1.give("CFM_602").play(choose="CFM_602b")
+	assert len(game.player1.deck) == 3
+	for card in game.player1.deck:
+		assert card.id == "CFM_602"
+
 def test_mark_of_the_lotus():
 	game = prepare_game()
 	wisp = game.player1.give(WISP).play()
