@@ -930,3 +930,10 @@ def test_jade_golem():
 	assert len(game.player2.field) == 4
 	assert game.player2.field[-1].id == "CFM_712_t02"
 
+def test_jade_golem_increase_size():
+	game = prepare_game()
+	for i in range(1, 10):
+		game.player1.give("CFM_602").play(choose="CFM_602a")
+		assert game.player1.jade_golem == i + 1
+		if i > 7:
+			assert len(game.player1.field) == 7

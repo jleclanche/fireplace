@@ -1229,8 +1229,9 @@ class SummonJadeGolem(TargetedAction):
 		log.info("%s summons a Jade Golem for %s", source, target)
 		target.jade_golem += 1
 		jade_golem = _eval_card(source, jade_size)[0]
-		jade_golem.zone = Zone.PLAY
-		summon_action = Summon(target, jade_golem)
-		self.queue_broadcast(summon_action, (target, EventListener.ON, target, jade_golem))
-		self.broadcast(target, EventListener.ON, target, jade_golem)
-		self.resolve_broadcasts()
+		if jade_golem.is_summonable():
+			jade_golem.zone = Zone.PLAY
+			summon_action = Summon(target, jade_golem)
+			self.queue_broadcast(summon_action, (target, EventListener.ON, target, jade_golem))
+			self.broadcast(target, EventListener.ON, target, jade_golem)
+			self.resolve_broadcasts()
