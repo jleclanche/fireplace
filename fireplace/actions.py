@@ -1221,17 +1221,24 @@ class UnlockOverload(TargetedAction):
 		target.overload_locked = 0
 
 class SummonJadeGolem(TargetedAction):
-	def do(self, source, target):
-		"""
-		Summons a Jade Golem for target player according to his Jade Golem Status
-		"""
+	"""
+	Summons a Jade Golem for target player according to his Jade Golem Status
+	"""
+	TARGET = ActionArg()
+	CARD = CardArg()
+
+	def get_target_args(self, source, target):
 		jade_size = "CFM_712_t" + str(target.jade_golem).zfill(2)
+		return _eval_card(source, jade_size)
+
+	def do(self, source, target, card):
+		#jade_size = "CFM_712_t" + str(target.jade_golem).zfill(2)
 		log.info("%s summons a Jade Golem for %s", source, target)
 		target.jade_golem += 1
-		jade_golem = _eval_card(source, jade_size)[0]
-		if jade_golem.is_summonable():
-			jade_golem.zone = Zone.PLAY
-			summon_action = Summon(target, jade_golem)
-			self.queue_broadcast(summon_action, (target, EventListener.ON, target, jade_golem))
-			self.broadcast(target, EventListener.ON, target, jade_golem)
+		#jade_golem = _eval_card(source, jade_size)[0]
+		if card.is_summonable():
+			card.zone = Zone.PLAY
+			summon_action = Summon(target, card)
+			self.queue_broadcast(summon_action, (target, EventListener.ON, target, card))
+			self.broadcast(target, EventListener.ON, target, card)
 			self.resolve_broadcasts()
