@@ -34,8 +34,9 @@ class CFM_313:
 #class CFM_696:
 #	"Devolve"
 
-#class CFM_707:
-#	"Jade Lightning"
+class CFM_707:
+	"Jade Lightning"
+	play = Hit(TARGET, 4), SummonJadeGolem(CONTROLLER)
 
 ##
 # Weapons
