@@ -140,6 +140,9 @@ class Action(metaclass=ActionMeta):
 		for entity in source.game.hands:
 			self._broadcast(entity, source, at, *args)
 
+		for entity in source.game.decks:
+			self._broadcast(entity, source, at, *args)
+
 	def queue_broadcast(self, obj, args):
 		self.event_queue.append((obj, args))
 
