@@ -937,3 +937,11 @@ def test_jade_golem_increase_size():
 		assert game.player1.jade_golem == i + 1
 		if i > 7:
 			assert len(game.player1.field) == 7
+	# Ensure Jade Golem max size is 30 and works
+	game.end_turn()
+	game.player2.jade_golem = 29
+	for i in range(5):
+		game.player2.give("CFM_602").play(choose="CFM_602a")
+		assert game.player2.jade_golem == 30
+	assert len(game.player2.field) == 5
+	assert game.player2.field[-1] == "CFM_712_t30"

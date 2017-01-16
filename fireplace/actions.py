@@ -1232,9 +1232,8 @@ class SummonJadeGolem(TargetedAction):
 		return _eval_card(source, jade_size)
 
 	def do(self, source, target, card):
-		#jade_size = "CFM_712_t" + str(target.jade_golem).zfill(2)
 		log.info("%s summons a Jade Golem for %s", source, target)
-		target.jade_golem += 1
+		target.jade_golem = target.jade_golem+1 if target.jade_golem <=29 else 30
 		#jade_golem = _eval_card(source, jade_size)[0]
 		if card.is_summonable():
 			card.zone = Zone.PLAY
