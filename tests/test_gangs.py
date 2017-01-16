@@ -663,6 +663,15 @@ def test_genzo_the_shark():
 	assert len(game.player1.hand) == 3
 	assert len(game.player2.hand) == 3
 
+def test_aya_blackpaw_with_baron():
+	game = prepare_empty_game()
+	aya = game.player1.give("CFM_902").play()
+	baron = game.player1.give("FP1_031").play()
+	assert len(game.player1.field) == 3
+	aya.destroy()
+	assert len(game.player1.field) == 4
+	assert game.player1.field[-1].id == "CFM_712_t03"
+
 def test_small_time_buccaneer():
 	game = prepare_game()
 	buccaneer = game.player1.give("CFM_325").play()
