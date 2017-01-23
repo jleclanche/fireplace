@@ -1366,3 +1366,168 @@ def test_brass_knuckles():
 	assert chicken.buffs
 	assert chicken.atk == 2
 	assert chicken.health == 2
+
+##
+# Kazakus Potions Individual Effects test
+
+def test_heart_of_fire():
+	game = prepare_game()
+	assert game.player2.hero.health == 30
+	game.player1.give("CFM_621t2").play(game.player2.hero)
+	assert game.player2.hero.health == 30 - 3
+	game.player1.give("CFM_621t16").play(game.player2.hero)
+	assert game.player2.hero.health == 30 - 3 - 5
+	game.end_turn()
+
+	assert game.player1.hero.health == 30
+	game.player2.give("CFM_621t25").play(game.player1.hero)
+	assert game.player1.hero.health == 30 - 10
+
+def test_stonescale_oil():
+	game = prepare_game()
+	assert game.player1.hero.armor == 0
+	game.player1.give("CFM_621t3").play()
+	assert game.player1.hero.armor == 0 + 4
+	game.player1.give("CFM_621t17").play()
+	assert game.player1.hero.armor == 0 + 4 + 7
+	game.end_turn()
+
+	assert game.player2.hero.armor == 0
+	game.player2.give("CFM_621t26").play()
+	assert game.player2.hero.armor == 0 + 10
+
+def test_felbloom():
+	game = prepare_game()
+	defender1 = game.player1.give("CFM_300").play() # Public Defender
+	game.end_turn()
+	defender2 = game.player2.give("CFM_300").play() # Public Defender
+	game.end_turn()
+	assert defender1.health == 7
+	assert defender2.health == 7
+	game.player1.give("CFM_621t4").play()
+	assert defender1.health == 7 - 2
+	assert defender2.health == 7 - 2
+	game.player1.give("CFM_621t18").play()
+	assert defender1.health == 7 - 2 - 4
+	assert defender2.health == 7 - 2 - 4
+	game.end_turn()
+
+	defender1.set_current_health(7)
+	defender2.set_current_health(7)
+	assert defender1.health == 7
+	assert defender2.health == 7
+	game.player2.give("CFM_621t33").play()
+	assert defender1.health == 7 - 6
+	assert defender2.health == 7 - 6
+
+def test_icecap():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP).play()
+	wisp2 = game.player1.give(WISP).play()
+	wisp3 = game.player1.give(WISP).play()
+	game.end_turn()
+
+	wisps = [wisp1, wisp2, wisp3]
+	assert sum([w.frozen for w in wisps]) == 0
+	game.player2.give("CFM_621t5").play()
+	assert sum([w.frozen for w in wisps]) == 1
+
+	game.end_turn();game.end_turn()
+	game.player2.give("CFM_621t19").play()
+	assert sum([w.frozen for w in wisps]) == 2
+
+	game.end_turn();game.end_turn()
+	game.player2.give("CFM_621t27").play()
+	assert sum([w.frozen for w in wisps]) == 3
+
+def test_goldthorn():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP).play()
+	chicken1 = game.player1.give(CHICKEN).play()
+	game.end_turn()
+	wisp2 = game.player2.give(WISP).play()
+	chicken2 = game.player2.give(CHICKEN).play()
+
+	game.player2.give("CFM_621t6").play()
+	assert wisp1.health == 1
+	assert chicken1.health == 1
+	assert wisp2.health == 1 + 2
+	assert chicken2.health == 1 + 2
+
+	game.player2.give("CFM_621t24").play()
+	assert wisp1.health == 1
+	assert chicken1.health == 1
+	assert wisp2.health == 1 + 2 + 4
+	assert chicken2.health == 1 + 2 + 4
+	game.end_turn()
+
+	game.player1.give("CFM_621t32").play()
+	assert wisp1.health == 1 + 6
+	assert chicken1.health == 1 + 6
+	assert wisp2.health == 1 + 2 + 4
+	assert chicken2.health == 1 + 2 + 4
+
+def test_kingsblood():
+	game = prepare_game()
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	game.player1.give("CFM_621t8").play()
+	assert len(game.player1.hand) == 0 + 1
+	game.player1.give("CFM_621t22").play()
+	assert len(game.player1.hand) == 0 + 1 + 2
+	game.end_turn()
+
+	game.player2.discard_hand()
+	assert len(game.player2.hand) == 0
+	game.player2.give("CFM_621t30").play()
+	assert len(game.player2.hand) == 0 + 3
+
+def test_shadow_oil():
+	game = prepare_game()
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	game.player1.give("CFM_621t9").play()
+	assert len(game.player1.hand) == 0 + 1
+	game.player1.give("CFM_621t23").play()
+	assert len(game.player1.hand) == 0 + 1 + 2
+	for card in game.player1.hand:
+		assert card.race ==Race.DEMON
+	game.end_turn()
+
+	game.player2.discard_hand()
+	assert len(game.player2.hand) == 0
+	game.player2.give("CFM_621t31").play()
+	assert len(game.player2.hand) == 0 + 3
+	for card in game.player2.hand:
+		assert card.race ==Race.DEMON
+
+def test_netherbloom():
+	game = prepare_game()
+	assert len(game.player1.field) == 0
+	game.player1.give("CFM_621t10").play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[-1].id == "CFM_621_m4"
+	game.player1.give("CFM_621t20").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].id == "CFM_621_m2"
+	game.end_turn()
+
+	assert len(game.player2.field) == 0
+	game.player2.give("CFM_621t28").play()
+	assert len(game.player2.field) == 1
+	assert game.player2.field[-1].id == "CFM_621_m3"
+
+def test_mystic_wool():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP).play()
+	chicken1 = game.player1.give(CHICKEN).play()
+	game.end_turn()
+	wisp2 = game.player2.give(WISP).play()
+	chicken2 = game.player2.give(CHICKEN).play()
+	game.player2.give("CFM_621t21").play()
+	assert sum([m.id == "CFM_621_m5" for m in game.player1.field]) == 1
+	assert sum([m.id == "CFM_621_m5" for m in game.player2.field]) == 0
+	game.end_turn()
+	game.player1.give("CFM_621t29").play()
+	assert sum([m.id == "CFM_621_m5" for m in game.player1.field]) == len(game.player1.field)
+	assert sum([m.id == "CFM_621_m5" for m in game.player2.field]) == len(game.player2.field)
