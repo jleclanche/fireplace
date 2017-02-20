@@ -54,8 +54,20 @@ class CFM_806:
 			else:
 				break
 
-# class CFM_807:
-# 	"Auctionmaster Beardo"
+class CFM_807:
+	"Auctionmaster Beardo"
+	events = OWN_SPELL_PLAY.after(Buff(FRIENDLY_HERO_POWER, "CFM_807e"))
+
+CFM_807e = buff()
+@custom_card
+class CFM_807e:
+	tags = {
+		GameTag.CARDNAME: "Auctionmaster Beardo Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+		GameTag.HEROPOWER_ADDITIONAL_ACTIVATIONS: 1,
+		GameTag.TAG_ONE_TURN_EFFECT: 1
+	}
+
 
 class CFM_808:
 	"Genzo, the Shark"

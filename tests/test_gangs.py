@@ -663,6 +663,20 @@ def test_wrathion():
 	game.player1.give("CFM_806").play()
 	assert len(game.player1.deck) == 0
 
+def test_auctionmaster_beardo():
+	game = prepare_game(CardClass.DRUID, CardClass.DRUID)
+	beardo = game.player1.give("CFM_807").play()
+	game.player1.hero.power.use()
+	assert game.player1.hero.power.exhausted
+	game.player1.give(INNERVATE).play()
+	assert not game.player1.hero.power.exhausted
+	game.player1.hero.power.use()
+	assert game.player1.hero.atk == 2
+	game.end_turn();game.end_turn()
+	game.player1.hero.power.use()
+	assert game.player1.hero.power.exhausted
+
+
 def test_genzo_the_shark():
 	game = prepare_game()
 	game.player1.discard_hand()

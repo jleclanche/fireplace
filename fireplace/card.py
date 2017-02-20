@@ -544,6 +544,8 @@ class Hero(Character):
 		yield self
 		if self.power:
 			yield self.power
+			if self.power.buffs:
+				yield from self.power.buffs
 		if self.controller.weapon:
 			yield self.controller.weapon
 		yield from self.buffs
@@ -757,6 +759,7 @@ class Enchantment(BaseCard):
 	incoming_damage_multiplier = int_property("incoming_damage_multiplier")
 	max_health = int_property("max_health")
 	spellpower = int_property("spellpower")
+	additional_activations = int_property("additional_activations")
 
 	buffs = []
 	slots = []
