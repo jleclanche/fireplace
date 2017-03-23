@@ -234,7 +234,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	def heal(self, target, amount):
 		return self.game.cheat_action(self, [actions.Heal(target, amount)])
 
-	def is_playable(self):
+	def is_playable(self, with_extra=0):
 		if self.controller.choice:
 			return False
 		if not self.controller.current_player:
@@ -242,7 +242,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		zone = self.parent_card.zone if self.parent_card else self.zone
 		if zone != self.playable_zone:
 			return False
-		if not self.controller.can_pay_cost(self):
+		if not self.controller.can_pay_cost(self, with_extra):
 			return False
 		if PlayReq.REQ_TARGET_TO_PLAY in self.requirements:
 			if not self.play_targets:
