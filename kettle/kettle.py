@@ -4,7 +4,7 @@ import logging
 import random
 import socketserver
 import struct
-import sys
+import sys; sys.path.append("../fireplace")
 from argparse import ArgumentParser
 from hearthstone.enums import (
 	CardType, ChoiceType, GameTag, OptionType, Step, Zone
