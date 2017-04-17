@@ -520,6 +520,25 @@ def test_power_word_glory():
 	wisp2.attack(wisp1)
 	assert game.player1.hero.health == 15 + 4 + 4
 
+def test_saboteur():
+	game = prepare_game()
+	assert game.player1.hero.power.cost == 2
+	assert game.player2.hero.power.cost == 2
+	saboteur = game.player1.give("AT_086")
+	saboteur.play()
+	assert game.player1.hero.power.cost == 2
+	assert game.player2.hero.power.cost == 2 + 5
+	game.end_turn()
+
+	assert game.player1.hero.power.cost == 2
+	assert game.player2.hero.power.cost == 2 + 5
+	saboteur.destroy()
+	assert game.player1.hero.power.cost == 2
+	assert game.player2.hero.power.cost == 2 + 5
+	game.end_turn()
+
+	assert game.player1.hero.power.cost == 2
+	assert game.player2.hero.power.cost == 2
 
 def test_saboteur():
 	game = prepare_game()
