@@ -1229,3 +1229,20 @@ def test_jade_behemoth():
 	assert game.player1.field[1].id == "CFM_712_t01"
 	assert game.player1.jade_counter == 2
 	assert game.player2.jade_counter == 1
+
+def test_jade_blossom():
+	game = prepare_game(game_class=Game)
+	game.end_turn(); game.end_turn();
+	game.end_turn(); game.end_turn();
+	assert game.player1.max_mana == 3
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+
+	blossom = game.player1.give("CFM_713")
+	blossom.play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"
+	assert game.player1.jade_counter == 2
+	assert game.player2.jade_counter == 1
+	assert game.player1.mana == 0
+	assert game.player1.max_mana == 3 + 1
