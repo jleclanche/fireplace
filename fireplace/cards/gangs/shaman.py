@@ -7,8 +7,9 @@ class CFM_061:
 	"Jinyu Waterspeaker"
 	play = Heal(TARGET, 6)
 
-#class CFM_312:
-#	"Jade Chieftain"
+class CFM_312:
+	"Jade Chieftain"
+	play = Summon(CONTROLLER, JadeGolem()).then(Taunt(Summon.CARD))
 
 class CFM_324:
 	"White Eyes"

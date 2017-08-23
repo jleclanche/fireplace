@@ -1330,3 +1330,19 @@ def test_jade_claws():
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == "CFM_712_t01"
 	assert game.player1.overloaded == 1
+
+def test_jade_chieftain():
+	game = prepare_empty_game()
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+
+	idol = game.player1.give("CFM_602").play(choose="CFM_602a")
+	chieftain = game.player1.give("CFM_312").play()
+	assert game.player1.jade_counter == 3
+	assert game.player2.jade_counter == 1
+	assert len(game.player1.field) == 3
+	assert game.player1.field[0].id == "CFM_712_t01"
+	assert game.player1.field[1].id == "CFM_312"
+	assert game.player1.field[2].id == "CFM_712_t02"
+	assert not game.player1.field[0].taunt
+	assert game.player1.field[2].taunt
