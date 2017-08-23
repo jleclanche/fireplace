@@ -1287,3 +1287,21 @@ def test_jade_swarmer():
 	assert game.player2.jade_counter == 1
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == "CFM_712_t01"
+
+def test_jade_shuriken():
+	game = prepare_empty_game()
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+
+	shuriken = game.player1.give("CFM_690").play(target=game.player2.hero)
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+	assert len(game.player1.field) == 0
+	assert game.player2.hero.health == 30 - 2
+
+	shuriken = game.player1.give("CFM_690").play(target=game.player2.hero)
+	assert game.player1.jade_counter == 2
+	assert game.player2.jade_counter == 1
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"
+	assert game.player2.hero.health == 30 - 2 - 2
