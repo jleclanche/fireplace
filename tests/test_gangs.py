@@ -1273,3 +1273,17 @@ def test_jade_idol():
 	assert len(game.player1.deck) == 2
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].id == "CFM_602"
+
+def test_jade_swarmer():
+	game = prepare_empty_game()
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+	
+	swarmer = game.player1.give("CFM_691").play()
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+	moonfire = game.player1.give(MOONFIRE).play(target=swarmer)
+	assert game.player1.jade_counter == 2
+	assert game.player2.jade_counter == 1
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"

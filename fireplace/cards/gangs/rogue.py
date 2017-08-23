@@ -14,8 +14,9 @@ class CFM_634:
 	"Lotus Assassin"
 	events = Attack(SELF).after(Find(Attack.DEFENDER + MORTALLY_WOUNDED) & Stealth(SELF))
 
-#class CFM_691:
-#	"Jade Swarmer"
+class CFM_691:
+	"Jade Swarmer"
+	deathrattle = Summon(CONTROLLER, JadeGolem())
 
 class CFM_693:
 	"Gadgetzan Ferryman"
