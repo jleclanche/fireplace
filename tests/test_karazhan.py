@@ -492,12 +492,12 @@ def test_ironforge_portal():
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].cost == 4
 
-# def test_spirit_claws():
-# 	game = prepare_game()
-# 	game.player1.give("KAR_063").play()
-# 	assert game.player1.hero.atk == 1
-# 	kobold = game.player1.give(KOBOLD_GEOMANCER).play()
-# 	assert game.player1.hero.atk == 3
+def test_spirit_claws():
+	game = prepare_game()
+	game.player1.give("KAR_063").play()
+	assert game.player1.hero.atk == 1
+	kobold = game.player1.give(KOBOLD_GEOMANCER).play()
+	assert game.player1.hero.atk == 3
 
-# 	game.player1.give(SILENCE).play(target=kobold)
-# 	assert game.player1.hero.atk == 1
+	game.player1.give(SILENCE).play(target=kobold)
+	assert game.player1.hero.atk == 1

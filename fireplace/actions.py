@@ -1084,6 +1084,10 @@ class Silence(TargetedAction):
 			if getattr(target, attr):
 				setattr(target, attr, False)
 
+		# Handle spellpower
+		if getattr(target, "spellpower"):
+			setattr(target, "spellpower", 0)
+
 		# Wipe the event listeners
 		target._events = []
 		target.silenced = True
