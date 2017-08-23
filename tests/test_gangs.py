@@ -1317,3 +1317,16 @@ def test_jade_lightning():
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == "CFM_712_t01"
 	assert game.player2.hero.health == 30 - 4
+
+def test_jade_claws():
+	game = prepare_empty_game()
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+	assert game.player1.overloaded == 0
+
+	claws = game.player1.give("CFM_717").play()
+	assert game.player1.jade_counter == 2
+	assert game.player2.jade_counter == 1
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"
+	assert game.player1.overloaded == 1

@@ -40,6 +40,7 @@ class CFM_707:
 ##
 # Weapons
 
-#class CFM_717:
-	#"Jade Claws"
+class CFM_717:
+	"Jade Claws"
+	play = Summon(CONTROLLER, JadeGolem())
 
