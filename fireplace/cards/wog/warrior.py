@@ -21,6 +21,10 @@ class OG_220:
 	play = Summon(CONTROLLER, RandomWeapon())
 
 
+# class OG_301:
+#	"Ancient Shieldbearer"
+
+
 class OG_312:
 	"N'Zoth's First Mate"
 	play = Summon(CONTROLLER, "OG_058")

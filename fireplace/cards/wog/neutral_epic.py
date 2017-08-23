@@ -4,6 +4,18 @@ from ..utils import *
 ##
 # Minions
 
+# class OG_102:
+#	"Darkspeaker"
+
+
+# class OG_173:
+#	"Blood of The Ancient One"
+
+
+# class OG_174:
+# 	"Faceless Shambler"
+
+
 class OG_200:
 	"Validated Doomsayer"
 	events = OWN_TURN_BEGIN.on(Buff(SELF, "OG_200e"))
@@ -29,6 +41,10 @@ class OG_272:
 class OG_290:
 	"Ancient Harbinger"
 	events = OWN_TURN_BEGIN.on(ForceDraw(RANDOM(FRIENDLY_DECK + MINION + (COST == 10))))
+
+
+# class OG_321:
+# 	"Crazed Worshipper"
 
 
 class OG_337:

@@ -21,6 +21,10 @@ class OG_161:
 	play = Hit(ALL_MINIONS - MURLOC, 2)
 
 
+# class OG_162:
+#	"Disciple of C'Thun"
+
+
 class OG_254:
 	"Eater of Secrets"
 	play = (
@@ -29,6 +33,9 @@ class OG_254:
 	)
 
 OG_254e = buff(+1, +1)
+
+# class OG_255:
+# 	"Doomcaller"
 
 
 class OG_320:
@@ -41,3 +48,7 @@ OG_320e = buff(atk=1)
 class OG_322:
 	"Blackwater Pirate"
 	update = Refresh(FRIENDLY_HAND + WEAPON, {GameTag.COST: -2})
+
+
+# class OG_339:
+# 	"Skeram Cultist"

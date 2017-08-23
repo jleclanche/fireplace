@@ -50,6 +50,18 @@ class OG_256:
 OG_256e = buff(+1, +1)
 
 
+# class OG_281:
+#	"Beckoner of Evil"
+
+# class OG_283:
+#	"C'Thun's Chosen"
+
+# class OG_284:
+#	"Twilight Geomancer"
+
+# class OG_286:
+#	"Twilight Elder"
+
 class OG_295:
 	"Cult Apothecary"
 	play = Heal(FRIENDLY_HERO, Count(ENEMY_MINIONS) * 2)

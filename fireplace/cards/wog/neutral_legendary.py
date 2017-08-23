@@ -14,6 +14,30 @@ class OG_122:
 	play = Give(CONTROLLER, "EX1_014t") * 2
 
 
+# class OG_123:
+# 	"Shifter Zerus"
+
+
+# class OG_131:
+#	"Twin Emperor Vek'lor"
+
+
+# class OG_133:
+#	"N'Zoth, the Corruptor"
+
+
+# class OG_134:
+#	"Yogg-Saron, Hope's End"
+
+
+# class OG_279:
+#	"C'Thun"
+
+
+# class OG_300:
+#	"The Boogeymonster"
+
+
 class OG_317:
 	"Deathwing, Dragonlord"
 	deathrattle = Summon(CONTROLLER, FRIENDLY_HAND + DRAGON)
