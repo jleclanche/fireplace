@@ -1305,3 +1305,15 @@ def test_jade_shuriken():
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == "CFM_712_t01"
 	assert game.player2.hero.health == 30 - 2 - 2
+
+def test_jade_lightning():
+	game = prepare_empty_game()
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+
+	lightning = game.player1.give("CFM_707").play(target=game.player2.hero)
+	assert game.player1.jade_counter == 2
+	assert game.player2.jade_counter == 1
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"
+	assert game.player2.hero.health == 30 - 4
