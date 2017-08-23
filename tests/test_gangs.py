@@ -1188,3 +1188,44 @@ def test_brass_knuckles():
 	assert chicken.buffs
 	assert chicken.atk == 2
 	assert chicken.health == 2
+
+def test_jade_spirit():
+	game = prepare_empty_game()
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+
+	idol = game.player1.give("CFM_715").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[0].id == "CFM_715"
+	assert game.player1.field[1].id == "CFM_712_t01"
+	assert game.player1.jade_counter == 2
+	assert game.player2.jade_counter == 1
+
+	idol = game.player1.give("CFM_715").play()
+	assert len(game.player1.field) == 4
+	assert game.player1.field[0].id == "CFM_715"
+	assert game.player1.field[1].id == "CFM_712_t01"
+	assert game.player1.field[2].id == "CFM_715"
+	assert game.player1.field[3].id == "CFM_712_t02"
+	assert game.player1.jade_counter == 3
+	assert game.player2.jade_counter == 1
+
+	game.end_turn()
+	idol = game.player2.give("CFM_715").play()
+	assert  len(game.player2.field) == 2
+	assert game.player2.field[0].id == "CFM_715"
+	assert game.player2.field[1].id == "CFM_712_t01"
+	assert game.player1.jade_counter == 3
+	assert game.player2.jade_counter == 2
+
+def test_jade_behemoth():
+	game = prepare_empty_game()
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+
+	behemoth = game.player1.give("CFM_343").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[0].id == "CFM_343"
+	assert game.player1.field[1].id == "CFM_712_t01"
+	assert game.player1.jade_counter == 2
+	assert game.player2.jade_counter == 1

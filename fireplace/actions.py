@@ -1127,7 +1127,6 @@ class Summon(TargetedAction):
 
 		return cards
 
-
 class Shuffle(TargetedAction):
 	"""
 	Shuffle card targets into player target's deck.

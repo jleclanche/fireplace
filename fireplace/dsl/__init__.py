@@ -1,5 +1,6 @@
 from .copy import *
 from .evaluator import *
+from .jades import *
 from .hijack import *
 from .lazynum import *
 from .random_picker import *

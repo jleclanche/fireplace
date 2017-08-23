@@ -6,8 +6,9 @@ from ..utils import *
 #class CFM_308:
 #	"Kun the Forgotten King"
 
-#class CFM_343:
-#	"Jade Behemoth"
+class CFM_343:
+	"Jade Behemoth"
+	play = Summon(CONTROLLER, JadeGolem())
 
 class CFM_617:
 	"Celestial Dreamer"

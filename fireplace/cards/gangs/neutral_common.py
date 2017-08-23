@@ -61,8 +61,9 @@ class CFM_659:
 	"Gadgetzan Socialite"
 	play = Heal(TARGET, 2)
 
-#class CFM_715:
-#	"Jade Spirit"
+class CFM_715:
+	"Jade Spirit"
+	play = Summon(CONTROLLER, JadeGolem())
 
 class CFM_809:
 	"Tanaris Hogchopper"
