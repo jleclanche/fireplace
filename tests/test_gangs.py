@@ -1246,3 +1246,30 @@ def test_jade_blossom():
 	assert game.player2.jade_counter == 1
 	assert game.player1.mana == 0
 	assert game.player1.max_mana == 3 + 1
+
+def test_jade_idol():
+	game = prepare_empty_game()
+	assert game.player1.jade_counter == 1
+	assert game.player2.jade_counter == 1
+	assert len(game.player1.deck) == 0
+
+	idol = game.player1.give("CFM_602")
+	idol.play(choose="CFM_602a")
+	assert len(game.player1.deck) == 0
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"
+	assert game.player1.jade_counter == 2
+	assert game.player2.jade_counter == 1
+	assert len(game.player1.deck) == 0
+
+	idol = game.player1.give("CFM_602")
+	idol.play(choose="CFM_602b")
+	assert len(game.player1.field) == 1
+	assert game.player1.jade_counter == 2
+	assert game.player2.jade_counter == 1
+	assert len(game.player1.deck) == 3
+
+	game.end_turn(); game.end_turn();
+	assert len(game.player1.deck) == 2
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].id == "CFM_602"
