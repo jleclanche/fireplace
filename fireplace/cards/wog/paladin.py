@@ -31,8 +31,12 @@ class OG_310:
 ##
 # Spells
 
-# class OG_198:
-# 	"Forbidden Healing"
+class OG_198:
+	"Forbidden Healing"
+	play = (
+		Heal(TARGET, Attr(CONTROLLER, "mana") * 2),
+		SpendMana(CONTROLLER, Attr(CONTROLLER, "mana")),
+	)
 
 class OG_223:
 	"Divine Strength"
