@@ -83,9 +83,24 @@ def test_bounce():
 	brewmaster2.play(target=brewmaster1)
 	assert brewmaster1.health == 2
 	assert brewmaster2.health == 2
+
+	# test for buff reset on bounce
+	game.player1.give("EX1_014t").play(target=brewmaster2)
+	assert brewmaster2.atk == 4
+	assert brewmaster2.health == 3
+	brewmaster1.play(target=brewmaster2)
+	assert brewmaster1.atk == 3
+	assert brewmaster1.health == 2
+	assert brewmaster2.atk == 3
+	assert brewmaster2.health == 2
+	brewmaster2.play(target=brewmaster1)
+	assert brewmaster1.atk == 3
+	assert brewmaster1.health == 2
+	assert brewmaster2.atk == 3
+	assert brewmaster2.health == 2
+
 	brewmaster1.discard()
 	game.end_turn()
-
 	# fill the hand with some bananas
 	for i in range(10):
 		game.player1.give("EX1_014t")
