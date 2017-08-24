@@ -3,12 +3,19 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_308:
-#	"Kun the Forgotten King"
+class CFM_308:
+	"Kun the Forgotten King"
+	choose = ("CFM_308a", "CFM_308b")
+
+class CFM_308a:
+	play = GainArmor(FRIENDLY_HERO, 10)
+
+class CFM_308b:
+	play = FillMana(CONTROLLER, USED_MANA(CONTROLLER))
 
 class CFM_343:
 	"Jade Behemoth"
-	play = Summon(CONTROLLER, JadeGolem())
+	play = SummonJadeGolem(CONTROLLER)
 
 class CFM_617:
 	"Celestial Dreamer"
@@ -32,7 +39,7 @@ class CFM_602:
 	choose = ("CFM_602a", "CFM_602b")
 
 class CFM_602a:
-	play = Summon(CONTROLLER, JadeGolem())
+	play = SummonJadeGolem(CONTROLLER)
 
 class CFM_602b:
 	play = Shuffle(CONTROLLER, "CFM_602") * 3
@@ -53,7 +60,10 @@ class CFM_616:
 
 class CFM_713:
 	"Jade Blossom"
-	play = Summon(CONTROLLER, JadeGolem()), GainMana(CONTROLLER, 1), SpendMana(CONTROLLER, 1)
+	play = (
+		AT_MAX_MANA(CONTROLLER) & SummonJadeGolem(CONTROLLER) |
+		(SummonJadeGolem(CONTROLLER), *GainEmptyMana(CONTROLLER, 1))
+		)
 
 class CFM_811:
 	"Lunar Visions"

@@ -63,7 +63,7 @@ class CFM_659:
 
 class CFM_715:
 	"Jade Spirit"
-	play = Summon(CONTROLLER, JadeGolem())
+	play = SummonJadeGolem(CONTROLLER)
 
 class CFM_809:
 	"Tanaris Hogchopper"

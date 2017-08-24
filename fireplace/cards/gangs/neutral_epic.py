@@ -14,8 +14,10 @@ class CFM_064:
 
 CFM_064e = buff(+1, +1)
 
-#class CFM_095:
-#	"Weasel Tunneler"
+# class CFM_095:
+# 	"Weasel Tunneler"
+#	TODO: Engine attempts to remove Weasel from Opponent's GRAVEYARd, resulting in ValueError
+# 	deathrattle = Shuffle(OPPONENT, SELF)
 
 class CFM_328:
 	"Fight Promoter"

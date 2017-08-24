@@ -10,8 +10,12 @@ class CFM_020:
 class CFM_020e:
 	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: SET(0)})
 
-#class CFM_605:
-#	"Drakonid Operative"
+class CFM_605:
+	"Drakonid Operative"
+	powered_up = HOLDING_DRAGON
+	def play(self):
+		decklist = [i.id for i in self.controller.opponent.deck]
+		yield HOLDING_DRAGON & DISCOVER(RandomID(*decklist))
 
 class CFM_606:
 	"Mana Geode"

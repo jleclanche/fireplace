@@ -5,7 +5,7 @@ from ..utils import *
 
 class CFM_342:
 	"Luckydo Buccaneer"
-	powered_up = Find(FRIENDLY_WEAPON + (ATK >= 3)) 
+	powered_up = Find(FRIENDLY_WEAPON + (ATK >= 3))
 	play = powered_up & Buff(SELF, "CFM_342e")
 
 CFM_342e = buff(+4, +4)
@@ -16,7 +16,7 @@ class CFM_634:
 
 class CFM_691:
 	"Jade Swarmer"
-	deathrattle = Summon(CONTROLLER, JadeGolem())
+	deathrattle = SummonJadeGolem(CONTROLLER)
 
 class CFM_693:
 	"Gadgetzan Ferryman"
@@ -42,5 +42,4 @@ class CFM_630:
 class CFM_690:
 	"Jade Shuriken"
 	play = Hit(TARGET, 2)
-	combo = Hit(TARGET, 2), Summon(CONTROLLER, JadeGolem())
-
+	combo = Hit(TARGET, 2), SummonJadeGolem(CONTROLLER)

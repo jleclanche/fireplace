@@ -9,7 +9,7 @@ class CFM_061:
 
 class CFM_312:
 	"Jade Chieftain"
-	play = Summon(CONTROLLER, JadeGolem()).then(Taunt(Summon.CARD))
+	play = SummonJadeGolem(CONTROLLER).then(Taunt(SummonJadeGolem.CARD))
 
 class CFM_324:
 	"White Eyes"
@@ -36,12 +36,12 @@ class CFM_313:
 
 class CFM_707:
 	"Jade Lightning"
-	play = Hit(TARGET, 4), Summon(CONTROLLER, JadeGolem())
+	play = Hit(TARGET, 4), SummonJadeGolem(CONTROLLER)
 
 ##
 # Weapons
 
 class CFM_717:
 	"Jade Claws"
-	play = Summon(CONTROLLER, JadeGolem())
+	play = SummonJadeGolem(CONTROLLER)
 

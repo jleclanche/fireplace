@@ -1,5 +1,19 @@
 from utils import *
 
+def test_kun_the_forgotten_king():
+	game = prepare_game()
+	kun1 = game.player1.give("CFM_308").play(choose="CFM_308b")
+	assert game.player1.mana == 10
+	kun2 = game.player1.give("CFM_308").play(choose="CFM_308a")
+	assert game.player1.hero.armor == 10
+	game.end_turn()
+
+	game.player2.max_mana = 6
+	assert game.player2.mana == 6
+	game.player2.give(INNERVATE).play();game.player2.give(INNERVATE).play()
+	kun3 = game.player2.give("CFM_308").play(choose="CFM_308b")
+	assert game.player2.mana == 6
+
 def test_celestial_dreamer():
 	game = prepare_game()
 	dreamer = game.player1.give("CFM_617")
@@ -32,6 +46,17 @@ def test_virmen_sensei():
 	assert beast.buffs
 	assert beast.atk == 3
 	assert beast.health == 3
+
+def test_jade_idol():
+	game = prepare_empty_game()
+	idol1 = game.player1.give("CFM_602").play(choose="CFM_602a")
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"
+
+	idol2 = game.player1.give("CFM_602").play(choose="CFM_602b")
+	assert len(game.player1.deck) == 3
+	for card in game.player1.deck:
+		assert card.id == "CFM_602"
 
 def test_mark_of_the_lotus():
 	game = prepare_game()
@@ -84,6 +109,23 @@ def test_pilfered_power():
 	excess_mana.play()
 	assert len(game.player1.hand) == 1
 
+def test_jade_blossom():
+	game = prepare_game()
+	game.player1.max_mana = 3
+	game.player1.give("CFM_713").play()
+	assert game.player1.max_mana == 4
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == "CFM_712_t01"
+	game.end_turn()
+
+	game.player2.discard_hand()
+	assert game.player2.max_mana == 10
+	game.player2.give("CFM_713").play()
+	assert game.player2.max_mana == 10
+	assert game.player2.mana == 10 - 3
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].id == "CFM_712_t01"
+
 def test_lunar_visions():
 	game = prepare_empty_game()
 	golem = game.player1.give("CS2_186").shuffle_into_deck() #War Golem
@@ -105,6 +147,24 @@ def test_alleycat():
 	assert len(game.player1.field) == 2
 	assert game.player1.field[0].id == "CFM_315"
 	assert game.player1.field[1].id == "CFM_315t"
+
+# def test_rat_pack():
+# 	game = prepare_empty_game()
+# 	ratpack = game.player1.give("CFM_316").play()
+# 	timberwolf = game.player1.give("DS1_175").play()
+
+# 	assert ratpack.atk == 3
+
+# 	game.player1.give(SOULFIRE).play(target=ratpack)
+# 	assert len(game.player1.field) == 4
+
+# def test_dispatch_kodo():
+# 	game = prepare_empty_game()
+# 	kodo = game.player1.give("CFM_335")
+# 	timberwolf = game.player1.give("DS1_175").play()
+# 	kodo.play(target = game.player2.hero)
+
+# 	assert game.player2.hero.health == 30 - 3
 
 def test_shaky_zipgunner():
 	game = prepare_empty_game()
@@ -292,7 +352,7 @@ def test_greater_arcane_missiles():
 	game.end_turn()
 	game.player2.give(KOBOLD_GEOMANCER).play()
 	game.player2.give("CFM_623").play()
-	
+
 	if acolyte.dead:
 		assert len(game.player1.hand) == 2
 		assert game.player1.hero.health == 30 - 4
@@ -450,6 +510,15 @@ def test_blubber_baron():
 	assert baron.atk == 3
 	assert baron.health == 3
 
+# def test_weasel_tunneler():
+# 	game = prepare_empty_game()
+# 	weasel = game.player1.give("CFM_095").play()
+# 	#hat = game.player1.give("LOE_105").play(target=weasel)
+# 	weasel.destroy()
+# 	assert len(game.player1.hand) == 0
+# 	#assert len(game.player2.hand) == 2
+# 	assert len(game.player2.deck) == 1
+
 def test_fight_promoter():
 	game = prepare_game()
 	game.player1.discard_hand()
@@ -465,7 +534,7 @@ def test_fel_orc_soulfiend():
 	assert orc.health == 7
 	game.end_turn();game.end_turn()
 	assert orc.health == 5
-	game.end_turn();game.end_turn()	
+	game.end_turn();game.end_turn()
 	assert orc.health == 3
 	game.end_turn();game.end_turn()
 	assert orc.health == 1
@@ -536,6 +605,29 @@ def test_finja_the_flying_star():
 	finja.attack(game.player2.hero)
 	assert len(game.player1.field) == 3
 
+def test_patches_the_pirate():
+	game = prepare_empty_game()
+	patches = game.player1.give("CFM_637").shuffle_into_deck()
+	pirate = game.player1.give("CFM_637").play()
+	assert len(game.player1.deck) == 0
+	assert len(game.player1.field) == 2
+
+	game.end_turn()
+	game.player2.give("CFM_637")
+	game.player2.give("CFM_637").play()
+	assert len(game.player2.field) == 1
+
+def test_madam_goya():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	goya = game.player1.give("CFM_672").play(target=wisp)
+	assert len(game.player1.field) == 2
+	game.end_turn()
+	chicken = game.player2.give(CHICKEN).play()
+	game.player2.give(KOBOLD_GEOMANCER).shuffle_into_deck()
+	game.player2.give("CFM_672").play(target=chicken)
+	assert len(game.player2.field) == 2
+	assert KOBOLD_GEOMANCER in [i.id for i in game.player2.field]
 
 def test_don_han_cho():
 	game = prepare_empty_game()
@@ -549,7 +641,40 @@ def test_don_han_cho():
 	chicken.play()
 	assert chicken.buffs
 	assert chicken.atk == 6
-	assert chicken.health == 6	
+	assert chicken.health == 6
+
+def test_wrathion():
+	game = prepare_empty_game()
+	# Test stopping when draw non-dragon
+	game.player1.give(WISP).shuffle_into_deck()
+	for i in range(3):
+		game.player1.give(WHELP).shuffle_into_deck()
+	game.player1.give("CFM_806").play()
+	assert game.player1.hand[-1].id == WISP
+	game.end_turn()
+	# Test stopping when overdraw
+	for i in range(15):
+		game.player2.give(WHELP).shuffle_into_deck()
+	game.player2.give("CFM_806").play()
+	assert len(game.player2.hand) == 10
+	assert len(game.player2.deck) == 15 - 10
+	game.end_turn()
+	#Test stopping when no cards left
+	game.player1.give("CFM_806").play()
+	assert len(game.player1.deck) == 0
+
+def test_auctionmaster_beardo():
+	game = prepare_game(CardClass.DRUID, CardClass.DRUID)
+	beardo = game.player1.give("CFM_807").play()
+	game.player1.hero.power.use()
+	assert game.player1.hero.power.exhausted
+	game.player1.give(INNERVATE).play()
+	assert not game.player1.hero.power.exhausted
+	game.player1.hero.power.use()
+	assert game.player1.hero.atk == 2
+	game.end_turn();game.end_turn()
+	game.player1.hero.power.use()
+	assert game.player1.hero.power.exhausted
 
 def test_genzo_the_shark():
 	game = prepare_game()
@@ -562,6 +687,15 @@ def test_genzo_the_shark():
 	genzo.attack(game.player2.hero)
 	assert len(game.player1.hand) == 3
 	assert len(game.player2.hand) == 3
+
+def test_aya_blackpaw_with_baron():
+	game = prepare_empty_game()
+	aya = game.player1.give("CFM_902").play()
+	baron = game.player1.give("FP1_031").play()
+	assert len(game.player1.field) == 3
+	aya.destroy()
+	assert len(game.player1.field) == 4
+	assert game.player1.field[-1].id == "CFM_712_t03"
 
 def test_small_time_buccaneer():
 	game = prepare_game()
@@ -644,7 +778,7 @@ def test_grimestreet_enforcer():
 	assert beast.buffs
 	assert beast.atk == 2
 	assert beast.health == 2
-	assert not summoned_dummy.buffs	
+	assert not summoned_dummy.buffs
 	assert summoned_dummy.atk == 0
 	assert summoned_dummy.health == 2
 
@@ -671,7 +805,7 @@ def test_grimestreet_outfitter():
 	assert wisp.buffs
 	assert wisp.atk == 2
 	assert wisp.health == 2
-	assert not summoned_dummy.buffs	
+	assert not summoned_dummy.buffs
 	assert summoned_dummy.atk == 0
 	assert summoned_dummy.health == 2
 
@@ -697,7 +831,7 @@ def test_smugglers_run():
 	assert wisp.buffs
 	assert wisp.atk == 2
 	assert wisp.health == 2
-	assert not summoned_dummy.buffs	
+	assert not summoned_dummy.buffs
 	assert summoned_dummy.atk == 0
 	assert summoned_dummy.health == 2
 
@@ -735,6 +869,47 @@ def test_raza_the_chained():
 	game.end_turn();game.end_turn()
 	game.player1.give("EX1_323").play()
 	assert game.player1.hero.power.cost == 0
+
+def test_drakonid_operative():
+	game = prepare_empty_game()
+	game.player1.give(WISP).shuffle_into_deck()
+	game.player1.give(SOULFIRE).shuffle_into_deck()
+	#game.player1.give(CHICKEN).shuffle_into_deck()
+	game.end_turn()
+
+	operative = game.player2.give("CFM_605")
+	assert not operative.powered_up
+	game.player2.give(WHELP)
+	assert operative.powered_up
+	operative.play()
+	assert game.player2.choice
+	assert len(game.player2.choice.cards) == 2
+	assert WISP in game.player2.choice.cards
+	assert SOULFIRE in game.player2.choice.cards
+	chosen_card = game.player2.choice.cards[0]
+	game.player2.choice.choose(chosen_card)
+	assert len(game.player2.hand) == 3
+	assert chosen_card in game.player2.hand
+	assert chosen_card.id in [i.id for i in game.player1.deck]
+
+	player2_deck = [CIRCLE_OF_HEALING, MIND_CONTROL, TARGET_DUMMY, KOBOLD_GEOMANCER]
+	for card in player2_deck:
+		game.player2.give(card).shuffle_into_deck()
+	assert len(game.player2.deck) == 4
+	game.end_turn()
+
+	game.player1.discard_hand()
+	game.player1.give(WHELP)
+	game.player1.give("CFM_605").play()
+	assert game.player1.choice
+	assert len(game.player1.choice.cards) == 3
+	for card_choice in game.player1.choice.cards:
+		assert card_choice in player2_deck
+	chosen_card  = game.player1.choice.cards[0]
+	game.player1.choice.choose(chosen_card)
+	assert len(game.player1.hand) == 2
+	assert game.player1.hand[-1].id in player2_deck
+	assert len(game.player2.deck) == 4
 
 def test_mana_geode():
 	game = prepare_empty_game()
@@ -884,11 +1059,10 @@ def test_pint_size_potion():
 	assert chicken.atk == 1
 
 	game.player2.give("AT_016").play()
-	
 	assert len(game.player1.field) == 1
 	assert wisp.dead
 	assert kobold.dead
-	
+
 	game.end_turn()
 	assert wargolem.health == 4
 	assert wargolem.atk == 7
@@ -973,6 +1147,22 @@ def test_shaku_the_collector():
 	shaku.attack(game.player2.hero)
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].card_class == game.player2.hero.card_class
+
+def test_jade_shuriken():
+	game = prepare_game()
+	shuriken1 = game.player1.give("CFM_690").play(game.player2.hero)
+	assert len(game.player1.field) == 0
+	assert game.player2.hero.health == 28
+	shuriken2 = game.player1.give("CFM_690").play(game.player2.hero)
+	assert len(game.player1.field) == 1
+	assert game.player2.hero.health == 26
+
+def test_jade_chieftain():
+	game = prepare_game()
+	game.player1.give("CFM_312").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].taunt
+	assert game.player1.field[-1].id == "CFM_712_t01"
 
 def test_white_eyes():
 	game = prepare_empty_game()
@@ -1171,7 +1361,7 @@ def test_i_know_a_guy():
 	game = prepare_empty_game()
 	game.player1.give("CFM_940").play()
 	assert game.player1.choice
-	for c in game.player1.choice.cards:	
+	for c in game.player1.choice.cards:
 		assert c.taunt
 
 def test_brass_knuckles():
@@ -1189,160 +1379,167 @@ def test_brass_knuckles():
 	assert chicken.atk == 2
 	assert chicken.health == 2
 
-def test_jade_spirit():
-	game = prepare_empty_game()
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
+##
+# Kazakus Potions Individual Effects test
 
-	idol = game.player1.give("CFM_715").play()
-	assert len(game.player1.field) == 2
-	assert game.player1.field[0].id == "CFM_715"
-	assert game.player1.field[1].id == "CFM_712_t01"
-	assert game.player1.jade_counter == 2
-	assert game.player2.jade_counter == 1
-
-	idol = game.player1.give("CFM_715").play()
-	assert len(game.player1.field) == 4
-	assert game.player1.field[0].id == "CFM_715"
-	assert game.player1.field[1].id == "CFM_712_t01"
-	assert game.player1.field[2].id == "CFM_715"
-	assert game.player1.field[3].id == "CFM_712_t02"
-	assert game.player1.jade_counter == 3
-	assert game.player2.jade_counter == 1
-
+def test_heart_of_fire():
+	game = prepare_game()
+	assert game.player2.hero.health == 30
+	game.player1.give("CFM_621t2").play(game.player2.hero)
+	assert game.player2.hero.health == 30 - 3
+	game.player1.give("CFM_621t16").play(game.player2.hero)
+	assert game.player2.hero.health == 30 - 3 - 5
 	game.end_turn()
-	idol = game.player2.give("CFM_715").play()
-	assert  len(game.player2.field) == 2
-	assert game.player2.field[0].id == "CFM_715"
-	assert game.player2.field[1].id == "CFM_712_t01"
-	assert game.player1.jade_counter == 3
-	assert game.player2.jade_counter == 2
 
-def test_jade_behemoth():
-	game = prepare_empty_game()
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
+	assert game.player1.hero.health == 30
+	game.player2.give("CFM_621t25").play(game.player1.hero)
+	assert game.player1.hero.health == 30 - 10
 
-	behemoth = game.player1.give("CFM_343").play()
-	assert len(game.player1.field) == 2
-	assert game.player1.field[0].id == "CFM_343"
-	assert game.player1.field[1].id == "CFM_712_t01"
-	assert game.player1.jade_counter == 2
-	assert game.player2.jade_counter == 1
+def test_stonescale_oil():
+	game = prepare_game()
+	assert game.player1.hero.armor == 0
+	game.player1.give("CFM_621t3").play()
+	assert game.player1.hero.armor == 0 + 4
+	game.player1.give("CFM_621t17").play()
+	assert game.player1.hero.armor == 0 + 4 + 7
+	game.end_turn()
 
-def test_jade_blossom():
-	game = prepare_game(game_class=Game)
-	game.end_turn(); game.end_turn();
-	game.end_turn(); game.end_turn();
-	assert game.player1.max_mana == 3
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
+	assert game.player2.hero.armor == 0
+	game.player2.give("CFM_621t26").play()
+	assert game.player2.hero.armor == 0 + 10
 
-	blossom = game.player1.give("CFM_713")
-	blossom.play()
-	assert len(game.player1.field) == 1
-	assert game.player1.field[0].id == "CFM_712_t01"
-	assert game.player1.jade_counter == 2
-	assert game.player2.jade_counter == 1
-	assert game.player1.mana == 0
-	assert game.player1.max_mana == 3 + 1
+def test_felbloom():
+	game = prepare_game()
+	defender1 = game.player1.give("CFM_300").play() # Public Defender
+	game.end_turn()
+	defender2 = game.player2.give("CFM_300").play() # Public Defender
+	game.end_turn()
+	assert defender1.health == 7
+	assert defender2.health == 7
+	game.player1.give("CFM_621t4").play()
+	assert defender1.health == 7 - 2
+	assert defender2.health == 7 - 2
+	game.player1.give("CFM_621t18").play()
+	assert defender1.health == 7 - 2 - 4
+	assert defender2.health == 7 - 2 - 4
+	game.end_turn()
 
-def test_jade_idol():
-	game = prepare_empty_game()
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
-	assert len(game.player1.deck) == 0
+	defender1.set_current_health(7)
+	defender2.set_current_health(7)
+	assert defender1.health == 7
+	assert defender2.health == 7
+	game.player2.give("CFM_621t33").play()
+	assert defender1.health == 7 - 6
+	assert defender2.health == 7 - 6
 
-	idol = game.player1.give("CFM_602")
-	idol.play(choose="CFM_602a")
-	assert len(game.player1.deck) == 0
-	assert len(game.player1.field) == 1
-	assert game.player1.field[0].id == "CFM_712_t01"
-	assert game.player1.jade_counter == 2
-	assert game.player2.jade_counter == 1
-	assert len(game.player1.deck) == 0
+def test_icecap():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP).play()
+	wisp2 = game.player1.give(WISP).play()
+	wisp3 = game.player1.give(WISP).play()
+	game.end_turn()
 
-	idol = game.player1.give("CFM_602")
-	idol.play(choose="CFM_602b")
-	assert len(game.player1.field) == 1
-	assert game.player1.jade_counter == 2
-	assert game.player2.jade_counter == 1
-	assert len(game.player1.deck) == 3
+	wisps = [wisp1, wisp2, wisp3]
+	assert sum([w.frozen for w in wisps]) == 0
+	game.player2.give("CFM_621t5").play()
+	assert sum([w.frozen for w in wisps]) == 1
 
-	game.end_turn(); game.end_turn();
-	assert len(game.player1.deck) == 2
-	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].id == "CFM_602"
+	game.end_turn();game.end_turn()
+	game.player2.give("CFM_621t19").play()
+	assert sum([w.frozen for w in wisps]) == 2
 
-def test_jade_swarmer():
-	game = prepare_empty_game()
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
-	
-	swarmer = game.player1.give("CFM_691").play()
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
-	moonfire = game.player1.give(MOONFIRE).play(target=swarmer)
-	assert game.player1.jade_counter == 2
-	assert game.player2.jade_counter == 1
-	assert len(game.player1.field) == 1
-	assert game.player1.field[0].id == "CFM_712_t01"
+	game.end_turn();game.end_turn()
+	game.player2.give("CFM_621t27").play()
+	assert sum([w.frozen for w in wisps]) == 3
 
-def test_jade_shuriken():
-	game = prepare_empty_game()
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
+def test_goldthorn():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP).play()
+	chicken1 = game.player1.give(CHICKEN).play()
+	game.end_turn()
+	wisp2 = game.player2.give(WISP).play()
+	chicken2 = game.player2.give(CHICKEN).play()
 
-	shuriken = game.player1.give("CFM_690").play(target=game.player2.hero)
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
+	game.player2.give("CFM_621t6").play()
+	assert wisp1.health == 1
+	assert chicken1.health == 1
+	assert wisp2.health == 1 + 2
+	assert chicken2.health == 1 + 2
+
+	game.player2.give("CFM_621t24").play()
+	assert wisp1.health == 1
+	assert chicken1.health == 1
+	assert wisp2.health == 1 + 2 + 4
+	assert chicken2.health == 1 + 2 + 4
+	game.end_turn()
+
+	game.player1.give("CFM_621t32").play()
+	assert wisp1.health == 1 + 6
+	assert chicken1.health == 1 + 6
+	assert wisp2.health == 1 + 2 + 4
+	assert chicken2.health == 1 + 2 + 4
+
+def test_kingsblood():
+	game = prepare_game()
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	game.player1.give("CFM_621t8").play()
+	assert len(game.player1.hand) == 0 + 1
+	game.player1.give("CFM_621t22").play()
+	assert len(game.player1.hand) == 0 + 1 + 2
+	game.end_turn()
+
+	game.player2.discard_hand()
+	assert len(game.player2.hand) == 0
+	game.player2.give("CFM_621t30").play()
+	assert len(game.player2.hand) == 0 + 3
+
+def test_shadow_oil():
+	game = prepare_game()
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	game.player1.give("CFM_621t9").play()
+	assert len(game.player1.hand) == 0 + 1
+	game.player1.give("CFM_621t23").play()
+	assert len(game.player1.hand) == 0 + 1 + 2
+	for card in game.player1.hand:
+		assert card.race ==Race.DEMON
+	game.end_turn()
+
+	game.player2.discard_hand()
+	assert len(game.player2.hand) == 0
+	game.player2.give("CFM_621t31").play()
+	assert len(game.player2.hand) == 0 + 3
+	for card in game.player2.hand:
+		assert card.race ==Race.DEMON
+
+def test_netherbloom():
+	game = prepare_game()
 	assert len(game.player1.field) == 0
-	assert game.player2.hero.health == 30 - 2
-
-	shuriken = game.player1.give("CFM_690").play(target=game.player2.hero)
-	assert game.player1.jade_counter == 2
-	assert game.player2.jade_counter == 1
+	game.player1.give("CFM_621t10").play()
 	assert len(game.player1.field) == 1
-	assert game.player1.field[0].id == "CFM_712_t01"
-	assert game.player2.hero.health == 30 - 2 - 2
+	assert game.player1.field[-1].id == "CFM_621_m4"
+	game.player1.give("CFM_621t20").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].id == "CFM_621_m2"
+	game.end_turn()
 
-def test_jade_lightning():
-	game = prepare_empty_game()
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
+	assert len(game.player2.field) == 0
+	game.player2.give("CFM_621t28").play()
+	assert len(game.player2.field) == 1
+	assert game.player2.field[-1].id == "CFM_621_m3"
 
-	lightning = game.player1.give("CFM_707").play(target=game.player2.hero)
-	assert game.player1.jade_counter == 2
-	assert game.player2.jade_counter == 1
-	assert len(game.player1.field) == 1
-	assert game.player1.field[0].id == "CFM_712_t01"
-	assert game.player2.hero.health == 30 - 4
-
-def test_jade_claws():
-	game = prepare_empty_game()
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
-	assert game.player1.overloaded == 0
-
-	claws = game.player1.give("CFM_717").play()
-	assert game.player1.jade_counter == 2
-	assert game.player2.jade_counter == 1
-	assert len(game.player1.field) == 1
-	assert game.player1.field[0].id == "CFM_712_t01"
-	assert game.player1.overloaded == 1
-
-def test_jade_chieftain():
-	game = prepare_empty_game()
-	assert game.player1.jade_counter == 1
-	assert game.player2.jade_counter == 1
-
-	idol = game.player1.give("CFM_602").play(choose="CFM_602a")
-	chieftain = game.player1.give("CFM_312").play()
-	assert game.player1.jade_counter == 3
-	assert game.player2.jade_counter == 1
-	assert len(game.player1.field) == 3
-	assert game.player1.field[0].id == "CFM_712_t01"
-	assert game.player1.field[1].id == "CFM_312"
-	assert game.player1.field[2].id == "CFM_712_t02"
-	assert not game.player1.field[0].taunt
-	assert game.player1.field[2].taunt
+def test_mystic_wool():
+	game = prepare_game()
+	wisp1 = game.player1.give(WISP).play()
+	chicken1 = game.player1.give(CHICKEN).play()
+	game.end_turn()
+	wisp2 = game.player2.give(WISP).play()
+	chicken2 = game.player2.give(CHICKEN).play()
+	game.player2.give("CFM_621t21").play()
+	assert sum([m.id == "CFM_621_m5" for m in game.player1.field]) == 1
+	assert sum([m.id == "CFM_621_m5" for m in game.player2.field]) == 0
+	game.end_turn()
+	game.player1.give("CFM_621t29").play()
+	assert sum([m.id == "CFM_621_m5" for m in game.player1.field]) == len(game.player1.field)
+	assert sum([m.id == "CFM_621_m5" for m in game.player2.field]) == len(game.player2.field)
