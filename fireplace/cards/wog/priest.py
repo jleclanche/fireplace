@@ -40,8 +40,12 @@ class OG_100:
 	play = Destroy(ALL_MINIONS + (ATK <= 2))
 
 
-# class OG_101:
-# 	"Forbidden Shaping"
+class OG_101:
+	"Forbidden Shaping"
+	play = (
+		Summon(CONTROLLER, RandomMinion(cost=Attr(CONTROLLER, "mana"))),
+		SpendMana(CONTROLLER, Attr(CONTROLLER, "mana")),
+	)
 
 
 # class OG_104:

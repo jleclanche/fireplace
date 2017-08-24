@@ -300,6 +300,15 @@ def test_forbidden_healing():
 	assert game.player1.hero.health == 1 + 2 * 6
 
 
+def test_forbidden_shaping():
+	game = prepare_game()
+	assert game.player1.mana == 10
+	shaping = game.player1.give("OG_101").play()
+	assert game.player1.mana == 0
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].cost == 10
+
+
 def test_forlorn_stalker():
 	game = prepare_game()
 	leper = game.player1.give("EX1_029")
