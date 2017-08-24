@@ -37,8 +37,12 @@ class OG_241:
 ##
 # Spells
 
-# class OG_114:
-# 	"Forbidden Ritual"
+class OG_114:
+	"Forbidden Ritual"
+	play = (
+		Summon(CONTROLLER, "OG_114a") * Attr(CONTROLLER, "mana"),
+		SpendMana(CONTROLLER, Attr(CONTROLLER, "mana")),
+	)
 
 class OG_116:
 	"Spreading Madness"

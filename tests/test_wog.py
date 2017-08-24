@@ -300,6 +300,27 @@ def test_forbidden_healing():
 	assert game.player1.hero.health == 1 + 2 * 6
 
 
+def test_forbidden_ritual():
+	game = prepare_game()
+	assert game.player1.mana == 10
+	ritual = game.player1.give("OG_114").play()
+	assert game.player1.mana == 0
+	assert len(game.player1.field) == 7
+	for i in range(7):
+		assert game.player1.field[i].id == "OG_114a"
+	
+	game.end_turn()
+	assert game.player2.mana == 10
+	fireball = game.player2.give("CS2_029").play(target=game.player1.hero)
+	fireball = game.player2.give("CS2_029").play(target=game.player1.hero)
+	assert game.player2.mana == 2
+	ritual = game.player2.give("OG_114").play()
+	assert game.player2.mana == 0
+	assert len(game.player2.field) == 2
+	for i in range(2):
+		assert game.player2.field[i].id == "OG_114a"
+
+
 def test_forbidden_shaping():
 	game = prepare_game()
 	assert game.player1.mana == 10
