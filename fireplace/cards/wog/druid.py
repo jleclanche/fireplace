@@ -7,8 +7,16 @@ from ..utils import *
 # class OG_044:
 #	"Fandral Staghelm"
 
-# class OG_051:
-#	"Forbidden Ancient"
+class OG_051:
+	"Forbidden Ancient"
+	play = (
+		Buff(SELF, "OG_051e") * Attr(CONTROLLER, "mana"), 
+		SpendMana(CONTROLLER, Attr(CONTROLLER, "mana")),
+	)
+
+# Mildly hacky, but in principle it should work? 
+# Is there any case where multiple buffs will break it?
+OG_051e = buff(atk=1,health=1)
 
 # class OG_188:
 # 	"Klaxxi Amber-Weaver"

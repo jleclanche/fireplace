@@ -882,6 +882,10 @@ class SpendMana(TargetedAction):
 	AMOUNT = IntArg()
 
 	def do(self, source, target, amount):
+		# TODO(czxcjx): Maybe merge this with player.pay_cost()?
+		used_temp = max(0, min(target.temp_mana, amount))
+		amount -= used_temp
+		target.temp_mana -= used_temp
 		target.used_mana = max(target.used_mana + amount, 0)
 
 

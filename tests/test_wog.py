@@ -275,6 +275,19 @@ def test_forbidden_flame():
 	assert ysera.health == 6
 	assert game.player2.mana == 0
 
+def test_forbidden_ancient():
+	game = prepare_game()
+	assert game.player1.mana == 10
+	ancient = game.player1.give("OG_051")
+	fireball = game.player1.give("CS2_029").play(target=game.player2.hero)
+	innervate = game.player1.give("EX1_169").play()
+	assert game.player1.mana == 8
+	ancient.play()
+	assert len(game.player1.field) == 1
+	assert ancient.atk == 8
+	assert ancient.health == 8
+	assert game.player1.mana == 0
+
 
 def test_forlorn_stalker():
 	game = prepare_game()
