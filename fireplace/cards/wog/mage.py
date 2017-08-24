@@ -38,8 +38,12 @@ class OG_081:
 	play = Destroy(TARGET)
 
 
-# class OG_086:
-# 	"Forbidden Flame"
+class OG_086:
+	"Forbidden Flame"
+	play = (
+		Hit(TARGET, Attr(CONTROLLER, "mana")),
+		SpendMana(CONTROLLER, Attr(CONTROLLER, "mana")),
+	)
 
 class OG_090:
 	"Cabalist's Tome"

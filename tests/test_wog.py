@@ -262,6 +262,20 @@ def test_feral_rage():
 	assert game.player1.hero.armor == 8
 
 
+def test_forbidden_flame():
+	game = prepare_game()
+	ysera = game.player1.give("EX1_572").play()
+	assert ysera.health == 12
+	game.end_turn()
+	flame = game.player2.give("OG_086")
+	assert game.player2.mana == 10
+	fireball = game.player2.give("CS2_029").play(target=game.player1.hero)
+	assert game.player2.mana == 6
+	flame.play(target=ysera)
+	assert ysera.health == 6
+	assert game.player2.mana == 0
+
+
 def test_forlorn_stalker():
 	game = prepare_game()
 	leper = game.player1.give("EX1_029")
