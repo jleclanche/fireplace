@@ -283,6 +283,7 @@ class Death(GameAction):
 		self.broadcast(source, EventListener.ON, target)
 		if target.deathrattles:
 			source.game.queue_actions(source, [Deathrattle(target)])
+		target.reset()
 
 
 class EndTurn(GameAction):
@@ -616,6 +617,7 @@ class Bounce(TargetedAction):
 			return source.game.queue_actions(source, [Destroy(target)])
 		else:
 			log.info("%r is bounced back to %s's hand", target, target.controller)
+			target.reset()
 			target.zone = Zone.HAND
 
 
@@ -745,6 +747,7 @@ class Destroy(TargetedAction):
 			if target.type == CardType.ENCHANTMENT:
 				target.remove()
 			else:
+				target.reset()
 				target.zone = Zone.GRAVEYARD
 
 

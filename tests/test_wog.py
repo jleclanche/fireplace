@@ -426,6 +426,46 @@ def test_nerubian_prophet():
 	assert nerubian_prophet.cost == 6
 
 
+def test_nzoth():
+	game = prepare_game()
+	loot_hoarder = game.player1.give("EX1_096").play()
+	leper_gnome = game.player1.give("EX1_029").play()
+	loot_hoarder.destroy()
+	leper_gnome.destroy()
+	game.end_turn(); game.end_turn()
+
+	nzoth = game.player1.give("OG_133").play()
+	assert len(game.player1.field) == 3
+	for i in range(1,3):
+		assert game.player1.field[i].has_deathrattle
+
+
+def test_nzoth_silenced_deathrattle():
+	game = prepare_game()
+	loot_hoarder = game.player1.give("EX1_096").play()
+	assert loot_hoarder.has_deathrattle
+	silence = game.player1.give(SILENCE).play(target=loot_hoarder)
+	assert not loot_hoarder.has_deathrattle
+	loot_hoarder.destroy()
+	assert loot_hoarder.has_deathrattle
+	game.end_turn(); game.end_turn()
+	nzoth = game.player1.give("OG_133").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1] == loot_hoarder
+
+
+def test_nzoth_added_deathrattle():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	ancestral_spirit = game.player1.give("CS2_038").play(target=wisp)
+	assert wisp.has_deathrattle
+	wisp.destroy()
+	assert not wisp.has_deathrattle
+	game.end_turn(); game.end_turn()
+	nzoth = game.player1.give("OG_133").play()
+	assert len(game.player1.field) == 2
+
+
 def test_primal_fusion():
 	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
 	fusion0 = game.player1.give("OG_023")

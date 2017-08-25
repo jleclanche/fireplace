@@ -22,8 +22,9 @@ class OG_122:
 #	"Twin Emperor Vek'lor"
 
 
-# class OG_133:
-#	"N'Zoth, the Corruptor"
+class OG_133:
+	"N'Zoth, the Corruptor"
+	play = Summon(CONTROLLER, Copy(FRIENDLY + MINION + KILLED + DEATHRATTLE))
 
 
 # class OG_134:

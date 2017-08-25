@@ -114,6 +114,21 @@ def test_bounce():
 	assert brewmaster2 in game.graveyard
 
 
+def test_bounce_silence():
+	game = prepare_game()
+	leper_gnome = game.player1.give("EX1_029").play()
+	assert leper_gnome.has_deathrattle
+	silence = game.player1.give(SILENCE).play(target=leper_gnome)
+	assert not leper_gnome.has_deathrattle
+	brewmaster = game.player1.give("EX1_049")
+	brewmaster.play(target=leper_gnome)
+	leper_gnome.play()
+	assert leper_gnome.has_deathrattle
+	assert game.player2.hero.health == 30
+	leper_gnome.destroy()
+	assert game.player2.hero.health == 30 - 2
+
+
 def test_card_draw():
 	game = prepare_game()
 	# pass turn 1
@@ -326,7 +341,6 @@ def test_divine_shield():
 	assert not squire.divine_shield
 	game.player1.give(MOONFIRE).play(target=squire)
 	assert len(game.player1.field) == 0
-	assert not squire.divine_shield
 	game.end_turn(); game.end_turn()
 
 	# test spell damage events with Divine Shield

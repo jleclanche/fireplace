@@ -66,12 +66,12 @@ class CFM_621t13:
 	pass
 
 class CFM_621t14:
-	"Kazakus' Potion"
+	"Kazakus Potion"
 	# 5 Cost Potion
 	pass
 
 class CFM_621t15:
-	"Kazakus' Potion"
+	"Kazakus Potion"
 	# 10 Cost Potion
 	pass
 
