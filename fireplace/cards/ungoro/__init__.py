@@ -9,5 +9,5 @@
 #from .warrior import *
 from .neutral_common import *
 from .neutral_rare import *
-#from .neutral_epic import *
+from .neutral_epic import *
 #from .neutral_legendary import *
