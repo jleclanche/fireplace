@@ -24,6 +24,14 @@ def test_bright_eyed_scout():
 	wisp.play()
 	assert game.player1.mana == 1
 
+def test_earthen_scales():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	scales = game.player1.give("UNG_108").play(target=wisp)
+	assert wisp.atk == 2
+	assert wisp.health == 2
+	assert game.player1.hero.armor == 2
+
 def test_frozen_crusher():
 	game = prepare_game()
 	frozen_crusher = game.player1.give("UNG_079").play()
@@ -36,6 +44,23 @@ def test_frozen_crusher():
 	assert frozen_crusher.frozen
 	game.end_turn(); game.end_turn()
 	assert not frozen_crusher.frozen
+
+def test_giant_anaconda():
+	game = prepare_empty_game()
+	anaconda1 = game.player1.give("UNG_086").play()
+	anaconda1.destroy()
+	assert len(game.player1.field) == 0
+
+	game.end_turn(); game.end_turn()
+	anaconda2 = game.player1.give("UNG_086").play()
+	ogre = game.player1.give("CS2_200")
+	for i in range(8):
+		game.player1.give(WISP)
+	assert len(game.player1.hand) == 9
+	anaconda2.destroy()
+	assert len(game.player1.field) == 1
+	assert len(game.player1.hand) == 8
+	assert game.player1.field[0] == ogre
 
 def test_gluttonous_ooze():
 	game = prepare_game();
