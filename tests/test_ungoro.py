@@ -10,6 +10,20 @@ def test_bittertide_hydra():
 	pyroblast = game.player2.give("EX1_279").play(target=bittertide_hydra)
 	assert game.player1.hero.health == 30 - 3 - 3
 
+def test_bright_eyed_scout():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	wisp.shuffle_into_deck()
+	assert game.player1.mana == 10
+	assert wisp.cost == 0
+	scout = game.player1.give("UNG_113").play()
+	assert game.player1.mana == 6
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0] == wisp
+	assert wisp.cost == 5
+	wisp.play()
+	assert game.player1.mana == 1
+
 def test_frozen_crusher():
 	game = prepare_game()
 	frozen_crusher = game.player1.give("UNG_079").play()

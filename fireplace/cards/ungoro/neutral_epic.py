@@ -20,8 +20,15 @@ class UNG_087:
 # class UNG_099:
 # 	"Charged Devilsaur"
 
-# class UNG_113:
-# 	"Bright-Eyed Scout"
+class UNG_113:
+	"Bright-Eyed Scout"
+	play = Draw(CONTROLLER).then(
+		Buff(Draw.CARD, "UNG_113e")
+	)
+
+class UNG_113e:
+	cost = SET(5)
+
 
 # class UNG_847:
 #	"Blazecaller"
