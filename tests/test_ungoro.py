@@ -34,6 +34,21 @@ def test_gluttonous_ooze():
 	assert game.player1.hero.armor == 3
 	assert waraxe.dead
 
+def test_hemet_jungle_hunter():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).shuffle_into_deck()
+	ice_barrier = game.player1.give("EX1_289").shuffle_into_deck()
+	fireball = game.player1.give("CS2_029").shuffle_into_deck()
+	antonidas = game.player1.give("EX1_559").shuffle_into_deck()
+
+	hemet = game.player1.give("UNG_840")
+	assert len(game.player1.deck) == 4
+	hemet.play()
+	assert len(game.player1.deck) == 2
+	for card in game.player1.deck:
+		assert card.cost > 3
+
+
 def test_nesting_roc():
 	game = prepare_game()
 	wisp = game.player1.give(WISP).play()
