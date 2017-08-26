@@ -238,6 +238,26 @@ def test_malchezaars_imp():
 	doomguard2.play()
 	assert len(game.player1.hand) == 2
 
+def test_malchezaars_imp_double():
+	game = prepare_empty_game()
+
+	imp1 = game.player1.give("KAR_089").play()
+	imp2 = game.player1.give("KAR_089").play()
+
+	soulfire = game.player1.give("EX1_308")
+	for i in range(2):
+		game.player1.give(WISP).shuffle_into_deck()
+	for i in range(9):
+		game.player1.give(WISP)
+	assert len(game.player1.hand) == 10
+	assert len(game.player1.discarded) == 0
+	assert len(game.player1.deck) == 2
+	soulfire.play(target=game.player2.hero)
+	assert len(game.player1.hand) == 10
+	assert len(game.player1.discarded) == 1
+	assert len(game.player1.deck) == 0
+	
+
 def test_medivhs_valet():
 	game = prepare_game()
 	secret = game.player1.give("EX1_130")
@@ -501,3 +521,14 @@ def test_spirit_claws():
 
 	game.player1.give(SILENCE).play(target=kobold)
 	assert game.player1.hero.atk == 1
+
+def test_silverware_golem():
+	game = prepare_empty_game()
+	soulfire = game.player1.give("EX1_308")
+	silverware_golem = game.player1.give("KAR_205")
+	assert len(game.player1.hand) == 2
+	soulfire.play(target=game.player2.hero)
+	assert len(game.player1.hand) == 0
+	assert len(game.player1.field) == 1
+	assert game.player1.mana == 10 - 1
+	assert game.player1.field[0] == silverware_golem

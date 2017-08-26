@@ -12,6 +12,27 @@ class CardDB(dict):
 		self.initialized = False
 
 	@staticmethod
+	def setup_zone_script_defaults(card, zone_name):
+		if not hasattr(card.scripts, zone_name):
+			setattr(card.scripts, zone_name, type(zone_name, (), {}))
+
+		zone = getattr(card.scripts, zone_name)
+
+		if not hasattr(zone, "events"):
+			zone.events = []
+
+		if not hasattr(zone.events, "__iter__"):
+			zone.events = [zone.events]
+
+		if not hasattr(zone, "update"):
+			zone.update = ()
+
+		if not hasattr(zone.update, "__iter__"):
+			zone.update = (zone.update, )
+
+
+
+	@staticmethod
 	def merge(id, card, cardscript=None):
 		"""
 		Find the xmlcard and the card definition of \a id
@@ -54,36 +75,11 @@ class CardDB(dict):
 			card.scripts.cost_mod = None
 
 		#Setup Hand defaults
-		if not hasattr(card.scripts, "Hand"):
-			card.scripts.Hand = type("Hand", (), {})
-
-		if not hasattr(card.scripts.Hand, "events"):
-			card.scripts.Hand.events = []
-
-		if not hasattr(card.scripts.Hand.events, "__iter__"):
-			card.scripts.Hand.events = [card.scripts.Hand.events]
-
-		if not hasattr(card.scripts.Hand, "update"):
-			card.scripts.Hand.update = ()
-
-		if not hasattr(card.scripts.Hand.update, "__iter__"):
-			card.scripts.Hand.update = (card.scripts.Hand.update, )
-
+		CardDB.setup_zone_script_defaults(card, "Hand")
 		#Setup Deck defaults
-		if not hasattr(card.scripts, "Deck"):
-			card.scripts.Deck = type("Deck", (), {})
-
-		if not hasattr(card.scripts.Deck, "events"):
-			card.scripts.Deck.events = []
-
-		if not hasattr(card.scripts.Deck.events, "__iter__"):
-			card.scripts.Deck.events = [card.scripts.Deck.events]
-
-		if not hasattr(card.scripts.Deck, "update"):
-			card.scripts.Deck.update = ()
-
-		if not hasattr(card.scripts.Deck.update, "__iter__"):
-			card.scripts.Deck.update = (card.scripts.Deck.update, )
+		CardDB.setup_zone_script_defaults(card, "Deck")
+		#Setup Discard defaults
+		CardDB.setup_zone_script_defaults(card, "Discard")
 
 		# Set choose one cards
 		if hasattr(cardscript, "choose"):

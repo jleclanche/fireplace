@@ -102,7 +102,7 @@ class KAR_070e:
 
 class KAR_089:
 	"Malchezaar's Imp"
-	events = Discard(RANDOM(FRIENDLY_HAND)).on(Draw(CONTROLLER))
+	events = Discard(DISCARDED).after(Draw(CONTROLLER))
 
 class KAR_092:
 	"Medivh's Valet"
@@ -150,8 +150,10 @@ class KAR_204:
 	"Onyx Bishop"
 	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))
 
-# class KAR_205:
-# 	"Silverware Golem"
+class KAR_205:
+	"Silverware Golem"
+	class Discard:
+		events = Discard(SELF).after(Summon(CONTROLLER, SELF))
 
 
 class KAR_702:

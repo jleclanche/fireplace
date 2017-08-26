@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from inspect import isclass
 from hearthstone.enums import BlockType, CardType, CardClass, Mulligan, PlayState, Step, Zone
-from .dsl import LazyNum, LazyValue, Selector
+from .dsl import LazyNum, LazyValue, Selector, RandomSelector
 from .entity import Entity
 from .logging import log
 from .exceptions import InvalidAction
@@ -141,6 +141,9 @@ class Action(metaclass=ActionMeta):
 			self._broadcast(entity, source, at, *args)
 
 		for entity in source.game.decks:
+			self._broadcast(entity, source, at, *args)
+
+		for entity in source.game.discarded:
 			self._broadcast(entity, source, at, *args)
 
 	def queue_broadcast(self, obj, args):
@@ -758,6 +761,7 @@ class Discard(TargetedAction):
 	def do(self, source, target):
 		self.broadcast(source, EventListener.ON, target)
 		target.discard()
+		self.broadcast(source, EventListener.AFTER, target)
 
 
 class Discover(TargetedAction):

@@ -378,6 +378,7 @@ IN_DECK = EnumSelector(Zone.DECK)
 IN_HAND = EnumSelector(Zone.HAND)
 HIDDEN = EnumSelector(Zone.SECRET)
 KILLED = EnumSelector(Zone.GRAVEYARD)
+DISCARDED = EnumSelector(Zone.DISCARD)
 
 GAME = EnumSelector(CardType.GAME)
 PLAYER = EnumSelector(CardType.PLAYER)

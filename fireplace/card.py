@@ -148,6 +148,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			return self.data.scripts.Hand.events
 		if self.zone == Zone.DECK:
 			return self.data.scripts.Deck.events
+		if self.zone == Zone.DISCARD:
+			return self.data.scripts.Discard.events
 		return self.base_events + self._events
 
 	@property
