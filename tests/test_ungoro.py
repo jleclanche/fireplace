@@ -24,6 +24,19 @@ def test_bright_eyed_scout():
 	wisp.play()
 	assert game.player1.mana == 1
 
+def test_dinomancy():
+	game = prepare_game()
+	dinomancy = game.player1.give("UNG_917").play()
+	river_crocolisk = game.player1.give("CS2_120").play()
+	wisp = game.player1.give(WISP).play()
+
+	assert river_crocolisk.atk == 2
+	assert river_crocolisk.health == 3
+	game.player1.hero.power.use(target=river_crocolisk)
+	assert river_crocolisk.atk == 2 + 2
+	assert river_crocolisk.health == 3 + 2
+
+
 def test_earthen_scales():
 	game = prepare_game()
 	wisp = game.player1.give(WISP).play()
@@ -73,6 +86,16 @@ def test_gluttonous_ooze():
 	assert game.player1.hero.armor == 3
 	assert waraxe.dead
 
+def test_grievous_bite():
+	game = prepare_game()
+	for i in range(3):
+		river_crocolisk = game.player1.give("CS2_120").play()
+	game.end_turn()
+
+	grievous_bite = game.player2.give("UNG_910").play(target=game.player1.field[1])
+	assert game.player1.field[0].health == game.player1.field[2].health == 3 - 1
+	assert game.player1.field[1].health == 3 - 2
+
 def test_hemet_jungle_hunter():
 	game = prepare_empty_game()
 	wisp = game.player1.give(WISP).shuffle_into_deck()
@@ -87,7 +110,6 @@ def test_hemet_jungle_hunter():
 	for card in game.player1.deck:
 		assert card.cost > 3
 
-
 def test_nesting_roc():
 	game = prepare_game()
 	wisp = game.player1.give(WISP).play()
@@ -95,3 +117,17 @@ def test_nesting_roc():
 	assert not nesting_roc1.taunt
 	nesting_roc2 = game.player1.give("UNG_801").play()
 	assert nesting_roc2.taunt
+
+def test_stampede():
+	game = prepare_empty_game()
+	stampede = game.player1.give("UNG_916").play()
+	assert len(game.player1.hand) == 0
+	river_crocolisk = game.player1.give("CS2_120").play()
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].race == Race.BEAST
+
+	game.end_turn(); game.end_turn()
+	assert len(game.player1.hand) == 1
+	river_crocolisk = game.player1.give("CS2_120").play()
+	assert len(game.player1.hand) == 1
+
