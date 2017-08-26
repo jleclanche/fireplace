@@ -455,6 +455,9 @@ class Play(GameAction):
 				summon_action.broadcast(player, EventListener.AFTER, player, played_card)
 			elif played_card.type == CardType.SPELL:
 				player.spells_played_this_game += 1
+				from .card import Secret
+				if isinstance(played_card, Secret):
+					player.secrets_played_this_game += 1
 			self.broadcast(player, EventListener.AFTER, player, played_card, target)
 
 		player.combo = True

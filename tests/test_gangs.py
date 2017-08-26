@@ -332,6 +332,13 @@ def test_inkmaster_solia():
 	game.end_turn()
 	assert mc.cost == 10
 
+def test_kabal_crystal_runner():
+	game = prepare_game()
+	runner = game.player1.give("CFM_760")
+	assert runner.cost == 6
+	ice_block = game.player1.give("EX1_295").play()
+	assert runner.cost == 6 - 2
+
 def test_potion_of_polymorph():
 	game = prepare_game()
 	game.player1.give("CFM_620").play()
