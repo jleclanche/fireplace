@@ -236,6 +236,17 @@ def test_eater_of_secrets():
 	assert eater_of_secrets.health == 7
 	assert not game.player2.secrets
 
+def test_embrace_the_shadow():
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
+	embrace = game.player1.give("OG_104").play()
+	game.player1.hero.power.use(target=game.player2.hero)
+	assert game.player2.hero.health == 30 - 2
+	flash_heal = game.player1.give("AT_055").play(target=game.player2.hero)
+	assert game.player2.hero.health == 30 - 2 - 5
+	game.end_turn(); game.end_turn()
+	game.player1.hero.power.use(target=game.player2.hero)
+	assert game.player2.hero.health == 30 -2 - 5 + 2
+
 
 def test_evolved_kobold():
 	game = prepare_game()

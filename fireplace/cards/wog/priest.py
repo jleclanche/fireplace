@@ -48,5 +48,11 @@ class OG_101:
 	)
 
 
-# class OG_104:
-#	"Embrace the Shadow"
+class OG_104:
+	"Embrace the Shadow"
+	play = Buff(CONTROLLER, "OG_104e")
+
+class OG_104e:
+	update = Refresh(CONTROLLER, {
+		GameTag.EMBRACE_THE_SHADOW: True,
+	})
