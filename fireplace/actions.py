@@ -453,6 +453,8 @@ class Play(GameAction):
 			played_card = card.morphed or card
 			if played_card.type in (CardType.MINION, CardType.WEAPON):
 				summon_action.broadcast(player, EventListener.AFTER, player, played_card)
+			elif played_card.type == CardType.SPELL:
+				player.spells_played_this_game += 1
 			self.broadcast(player, EventListener.AFTER, player, played_card, target)
 
 		player.combo = True

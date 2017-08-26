@@ -532,3 +532,24 @@ def test_silverware_golem():
 	assert len(game.player1.field) == 1
 	assert game.player1.mana == 10 - 1
 	assert game.player1.field[0] == silverware_golem
+
+def test_arcane_giant():
+	game = prepare_game()
+	arcane_giant = game.player1.give("KAR_711")
+	assert arcane_giant.cost == 12
+	assert game.player1.spells_played_this_game == 0
+	moonfire1 = game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert game.player1.spells_played_this_game == 1
+	assert arcane_giant.cost == 12 - 1
+
+	game.end_turn(); game.end_turn()
+	moonfire2 = game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	moonfire3 = game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert arcane_giant.cost == 12 - 3
+	arcane_giant.play()
+	assert game.player1.mana == 10 - 9
+	
+	game.end_turn(); game.end_turn()
+	moonfire4 = game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	brewmaster = game.player1.give("EX1_049").play(target=arcane_giant)
+	assert arcane_giant.cost == 12 - 4

@@ -171,8 +171,9 @@ class KAR_710:
 	"Arcanosmith"
 	play = Summon(CONTROLLER, "KAR_710m")
 
-# class KAR_711:
-# 	"Arcane Giant"
+class KAR_711:
+	"Arcane Giant"
+	cost_mod = - Attr(CONTROLLER, "spells_played_this_game")
 
 
 class KAR_712:
