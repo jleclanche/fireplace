@@ -9,7 +9,9 @@ A Hearthstone simulator and implementation, written in Python.
 
 ### Installation
 
-* `pip install -r requirements.txt`
+* `git clone https://github.com/HearthSim/python-hearthstone`
+* `cd python-hearthstone`
+* `git reset --hard 98894a6`
 * (optional) `./setup.py install` to install as a library
 
 ### Documentation
