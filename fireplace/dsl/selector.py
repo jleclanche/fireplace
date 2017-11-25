@@ -116,7 +116,7 @@ class AttrValue(SelectorEntityValue):
 		return Attr(selector, self.tag)
 
 	def __repr__(self):
-		return "<%s>" % (self.tag.name)
+		return "<%s>" % (getattr(self.tag, "name", int(self.tag)))
 
 
 ARMOR = AttrValue(GameTag.ARMOR)
