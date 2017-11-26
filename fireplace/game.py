@@ -36,7 +36,7 @@ class BaseGame(Entity):
 		return "%s(players=%r)" % (self.__class__.__name__, self.players)
 
 	def __iter__(self):
-		return chain(self.entities, self.hands, self.decks, self.graveyard, self.discarded, self.setaside)
+		return chain(self.entities, self.hands, self.decks, self.graveyard, self.setaside)
 
 	@property
 	def game(self):
