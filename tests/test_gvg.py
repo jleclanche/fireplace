@@ -637,7 +637,8 @@ def test_malorne_slam():
 	game.end_turn(); game.end_turn()
 
 	game.player1.discard_hand()
-	game.player1.give(DAMAGE_5).play(target=malorne)
+	for _ in range(5):
+		game.player1.give(MOONFIRE).play(target=malorne)
 	assert malorne.health == 2
 	slam = game.player1.give("EX1_391")
 	slam.play(target=malorne)

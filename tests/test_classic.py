@@ -131,7 +131,8 @@ def test_ancestral_healing():
 	game = prepare_empty_game()
 	statue = game.player1.give(ANIMATED_STATUE)
 	statue.play()
-	game.player1.give(DAMAGE_5).play(target=statue)
+	for _ in range(5):
+		game.player1.give(MOONFIRE).play(target=statue)
 	assert not statue.taunt
 	assert statue.damage == 5
 	assert statue.health == 10 - 5
@@ -157,8 +158,9 @@ def test_ancient_of_lore():
 	game = prepare_game()
 	game.player1.discard_hand()
 
-	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
-	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	for _ in range(10):
+		game.player1.give(MOONFIRE).play(target=game.player1.hero)
+
 	assert game.player1.hero.health == 30 - 10
 
 	ancient1 = game.player1.give("NEW1_008")

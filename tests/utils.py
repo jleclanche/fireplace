@@ -24,6 +24,7 @@ WHELP = "ds1_whelptoken"
 # Token spells
 INNERVATE = "EX1_169"
 MOONFIRE = "CS2_008"
+PYROBLAST = "EX1_279"
 CIRCLE_OF_HEALING = "EX1_621"
 DREAM = "DREAM_04"
 SILENCE = "EX1_332"
@@ -33,15 +34,10 @@ MIND_CONTROL = "CS1_113"
 TIME_REWINDER = "PART_002"
 SOULFIRE = "EX1_308"
 UNSTABLE_PORTAL = "GVG_003"
+HOLY_LIGHT = "CS2_089"
 
 # Token weapon
 LIGHTS_JUSTICE = "CS2_091"
-
-# Debug spells
-DAMAGE_5 = "XXX_002"
-RESTORE_1 = "XXX_003"
-DESTROY = "XXX_005"
-DESTROY_DECK = "XXX_047"
 
 # Collectible cards excluded from random drafts
 BLACKLIST = (

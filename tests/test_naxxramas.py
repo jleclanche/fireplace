@@ -53,7 +53,9 @@ def test_baron_rivendare_soul_of_the_forest():
 	assert wisp.dead
 	assert rivendare.zone == Zone.PLAY
 	assert len(game.player1.field) == 3  # Rivendare and two treants
-	game.player1.give(DESTROY).play(target=rivendare)
+	assert game.player1.mana == 2
+	game.player1.used_mana = 0
+	game.player1.give(PYROBLAST).play(target=rivendare)
 	assert len(game.player1.field) == 3  # Only one treant spawns
 
 
