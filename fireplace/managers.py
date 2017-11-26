@@ -215,6 +215,7 @@ CARD_ATTRIBUTE_MAP = {
 	enums.ALWAYS_WINS_BRAWLS: "always_wins_brawls",
 	enums.EXTRA_BATTLECRIES: "extra_battlecries",
 	enums.KILLED_THIS_TURN: "killed_this_turn",
+	enums.DISCARDED: "discarded",
 	GameTag.AFFECTED_BY_SPELL_POWER: None,
 	GameTag.ARTISTNAME: None,
 	GameTag.AttackVisualType: None,

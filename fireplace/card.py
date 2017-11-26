@@ -1,6 +1,6 @@
 from itertools import chain
 from hearthstone.enums import CardType, PlayReq, PlayState, Race, Rarity, Step, Zone
-from . import actions, cards, rules
+from . import actions, cards, rules, enums
 from .aura import TargetableByAuras
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
 from .managers import CardManager
@@ -85,7 +85,6 @@ class BaseCard(BaseEntity):
 		caches = {
 			Zone.HAND: self.controller.hand,
 			Zone.DECK: self.controller.deck,
-			Zone.DISCARD: self.controller.discarded,
 			Zone.GRAVEYARD: self.controller.graveyard,
 			Zone.SETASIDE: self.game.setaside,
 		}
@@ -214,8 +213,9 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		return self.game.cheat_action(self, [actions.Destroy(self), actions.Deaths()])
 
 	def discard(self):
-		self.log("Discarding %r" % (self))
-		self.zone = Zone.DISCARD
+		self.log("Discarding %r" % self)
+		self.tags[enums.DISCARDED] = True
+		self.zone = Zone.GRAVEYARD
 
 	def draw(self):
 		if len(self.controller.hand) >= self.controller.max_hand_size:
@@ -373,11 +373,11 @@ class LiveEntity(PlayableCard, Entity):
 		self.turn_killed = -1
 
 	def _set_zone(self, zone):
+		if zone == Zone.GRAVEYARD and self.zone == Zone.PLAY:
+			self.turn_killed = self.game.turn
 		super()._set_zone(zone)
 		# See issue #283 (Malorne, Anub'arak)
 		self._to_be_destroyed = False
-		if zone == Zone.GRAVEYARD:
-			self.turn_killed = self.game.turn
 
 	@property
 	def immune(self):
@@ -660,7 +660,7 @@ class Minion(Character):
 				self.controller.field.insert(self._summon_index, self)
 			else:
 				self.controller.field.append(self)
-		elif value == Zone.GRAVEYARD:
+		elif value == Zone.GRAVEYARD and self.zone == Zone.PLAY:
 			self.controller.minions_killed_this_turn += 1
 
 		if self.zone == Zone.PLAY:
