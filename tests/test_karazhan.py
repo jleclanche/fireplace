@@ -79,7 +79,8 @@ def test_book_wyrm():
 def test_priest_of_the_feast():
 	game = prepare_game()
 	priest = game.player1.give("KAR_035")
-	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	for _ in range(5):
+		game.player1.give(MOONFIRE).play(target=game.player1.hero)
 	assert game.player1.hero.health == 25
 	priest.play()
 	game.player1.give(THE_COIN).play()
@@ -205,7 +206,7 @@ def test_ethereal_peddler():
 	assert mc.cost == 10
 	assert evis.cost == 2
 	game.player1.give("KAR_070").play()
-	
+
 	assert mc.cost == 8
 	assert evis.cost == 2
 
@@ -287,7 +288,7 @@ def test_medivh():
 	game.player1.give("KAR_097").play()
 	assert game.player1.weapon
 	assert game.player1.weapon.durability == 3
-	
+
 	game.player1.give(MOONFIRE).play(target=game.player1.hero)
 	assert len(game.player1.field) == 2
 	assert game.player1.field[-1].cost == 0
@@ -308,7 +309,7 @@ def test_medivh():
 
 	game.player1.give(INNERVATE).play()
 	assert len(game.player1.field) == 4
-	
+
 
 def test_barnes():
 	game = prepare_empty_game()
@@ -408,7 +409,7 @@ def test_purify():
 	handsize = len(game.player1.hand)
 	game.player1.give(MOONFIRE).play(target=acolyte2)
 	assert len(game.player1.hand) == handsize
-	
+
 def test_kara_kazham():
 	game = prepare_game()
 	game.player1.give("KAR_025").play()
