@@ -425,8 +425,9 @@ def test_graveyard_minions():
 	assert wisp2 in game.graveyard
 	wisp3 = game.player1.give(WISP)
 	wisp3.discard()
-	assert wisp3 not in game.player1.graveyard
-	assert wisp3 not in game.graveyard
+	assert wisp3 in game.player1.graveyard
+	assert wisp3 in game.graveyard
+	assert wisp3.discarded
 
 
 def test_graveyard_weapons():
@@ -762,8 +763,8 @@ def test_spell_power():
 	expected_health -= 1 + 1 + 5
 	assert game.player2.hero.health == expected_health
 	# Test heals are not affected
-	game.player1.give(RESTORE_1).play(target=game.player2.hero)
-	expected_health += 1
+	game.player1.give(HOLY_LIGHT).play(target=game.player2.hero)
+	expected_health += 6
 	assert game.player2.hero.health == expected_health
 	game.end_turn(); game.end_turn()
 
