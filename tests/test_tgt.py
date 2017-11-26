@@ -98,10 +98,12 @@ def test_bolf_ramshield():
 	game.player1.give(MOONFIRE).play(target=game.player1.hero)
 	assert game.player1.hero.health == 30
 	assert bolf.damage == 1
-	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	for _ in range(5):
+		game.player1.give(MOONFIRE).play(target=game.player1.hero)
 	assert game.player1.hero.health == 30
 	assert bolf.damage == 1 + 5
-	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	game.player1.used_mana = 0
+	game.player1.give(PYROBLAST).play(target=bolf)
 	assert bolf.dead
 	assert game.player1.hero.health == 30
 
@@ -274,7 +276,7 @@ def test_fist_of_jaraxxus():
 	assert game.player2.hero.health == 30
 	game.player1.give(SOULFIRE).play(target=game.player1.hero)
 	assert game.player2.hero.health == 30 - 4
-	assert fist1.zone == Zone.DISCARD
+	assert fist1.zone == Zone.GRAVEYARD
 	fist2 = game.player1.give("AT_022")
 	fist2.play()
 	assert game.player2.hero.health == 30 - 4 - 4

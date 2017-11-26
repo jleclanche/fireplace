@@ -22,7 +22,7 @@ def test_animated_armor():
 	armor.play()
 	game.player1.give(MOONFIRE).play(target=game.player1.hero)
 	assert game.player1.hero.damage == 1
-	game.player1.give(DAMAGE_5).play(target=game.player1.hero)
+	game.player1.give(SOULFIRE).play(target=game.player1.hero)
 	assert game.player1.hero.damage == 1 + 1
 
 

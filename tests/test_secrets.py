@@ -364,7 +364,7 @@ def test_ice_block():
 	assert game.player1.hero.armor == 1
 	assert game.player1.hero.health == 1
 	assert ib2 in game.player1.secrets
-	game.player2.give(DAMAGE_5).play(target=game.player1.hero)
+	game.player2.give(PYROBLAST).play(target=game.player1.hero)
 	assert game.player1.hero.armor == 1
 	assert game.player1.hero.health == 1
 	assert game.player1.hero.immune
