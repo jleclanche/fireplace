@@ -138,6 +138,7 @@ class PlayerManager(Manager):
 		GameTag.TIMEOUT: "timeout",
 		GameTag.TURN_START: "turn_start",
 		enums.CANT_OVERLOAD: "cant_overload",
+		GameTag.JADE_GOLEM: "jade_golem"
 	}
 
 

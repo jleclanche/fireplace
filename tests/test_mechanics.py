@@ -913,3 +913,36 @@ def test_weapon_sheathing():
 	game.end_turn()
 
 	assert not weapon.exhausted
+
+def test_jade_golem():
+	game = prepare_game()
+	jade_spirit1 = game.player1.give("CFM_715").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].id == "CFM_712_t01"
+	jade_spirit2 = game.player1.give("CFM_715").play()
+	assert len(game.player1.field) == 4
+	assert game.player1.field[-1].id == "CFM_712_t02"
+
+	game.end_turn()
+	jade_spirit3 = game.player2.give("CFM_715").play()
+	assert len(game.player2.field) == 2
+	assert game.player2.field[-1].id == "CFM_712_t01"
+	jade_spirit4 = game.player2.give("CFM_715").play()
+	assert len(game.player2.field) == 4
+	assert game.player2.field[-1].id == "CFM_712_t02"
+
+def test_jade_golem_increase_size():
+	game = prepare_game()
+	for i in range(1, 10):
+		game.player1.give("CFM_602").play(choose="CFM_602a")
+		assert game.player1.jade_golem == i + 1
+		if i > 7:
+			assert len(game.player1.field) == 7
+	# Ensure Jade Golem max size is 30 and works
+	game.end_turn()
+	game.player2.jade_golem = 29
+	for i in range(5):
+		game.player2.give("CFM_602").play(choose="CFM_602a")
+		assert game.player2.jade_golem == 30
+	assert len(game.player2.field) == 5
+	assert game.player2.field[-1] == "CFM_712_t30"
