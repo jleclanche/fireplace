@@ -60,26 +60,7 @@ def cleanup_description(description):
 	return ret
 
 
-def main():
-	p = argparse.ArgumentParser()
-	p.add_argument(
-		"--implemented",
-		action="store_true",
-		dest="implemented",
-		help="Show only implemented cards"
-	)
-	p.add_argument(
-		"--unimplemented",
-		action="store_true",
-		dest="unimplemented",
-		help="Show only unimplemented cards"
-	)
-	args = p.parse_args(sys.argv[1:])
-
-	if not args.implemented and not args.unimplemented:
-		args.implemented = True
-		args.unimplemented = True
-
+def resolve_implemented_cards():
 	implemented_cards = set()
 	unimplemented_cards = set()
 
@@ -102,17 +83,47 @@ def main():
 		if carddef:
 			implemented = True
 
+		if implemented:
+			implemented_cards.add(card)
+		else:
+			unimplemented_cards.add(card)
+
+	return implemented_cards, unimplemented_cards
+
+
+def main():
+	p = argparse.ArgumentParser()
+	p.add_argument(
+		"--implemented",
+		action="store_true",
+		dest="implemented",
+		help="Show only implemented cards"
+	)
+	p.add_argument(
+		"--unimplemented",
+		action="store_true",
+		dest="unimplemented",
+		help="Show only unimplemented cards"
+	)
+	args = p.parse_args(sys.argv[1:])
+
+	if not args.implemented and not args.unimplemented:
+		args.implemented = True
+		args.unimplemented = True
+
+	implemented_cards, unimplemented_cards = resolve_implemented_cards()
+
+	for card in sorted(implemented_cards | unimplemented_cards, key=lambda x: x.id):
+
+		implemented = card in implemented_cards
+
 		color = GREEN if implemented else RED
 		name = color + "%s: %s" % (PREFIXES[color], card.name) + ENDC
 
-		if implemented:
-			implemented_cards.add(card)
-			if args.implemented:
-				print("%s (%s)" % (name, id))
-		else:
-			unimplemented_cards.add(card)
-			if args.unimplemented:
-				print("%s (%s)" % (name, id))
+		if args.unimplemented and not implemented:
+			print("%s (%s)" % (name, card.id))
+		elif args.implemented and implemented:
+			print("%s (%s)" % (name, card.id))
 
 	total = len(implemented_cards) + len(unimplemented_cards)
 
@@ -135,7 +146,7 @@ def main():
 	standard_total = standard_impl + standard_unimpl
 
 	print("%i / %i of standard cards implemented (%i%%)" % (
-	standard_impl, standard_total, (standard_impl / standard_total) * 100))
+		standard_impl, standard_total, (standard_impl / standard_total) * 100))
 
 	print("%i / %i cards implemented (%i%%)" % (len(implemented_cards), total, (len(implemented_cards) / total) * 100))
 
