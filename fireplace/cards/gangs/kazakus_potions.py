@@ -3,10 +3,10 @@ from ..utils import *
 ##
 # Potions
 
-class CFM_621t:
-	"Kazakus Potion"
-	# 1 Cost Potion
-	pass
+# class CFM_621t:
+# 	"Kazakus Potion"
+# 	# 1 Cost Potion
+# 	pass
 
 class CFM_621t2:
 	"Heart of Fire"
@@ -50,30 +50,30 @@ class CFM_621t10:
 	# 1 Cost: Summon 2/2
 	play = Summon(CONTROLLER, "CFM_621_m4")
 
-class CFM_621t11:
-	"Lesser Potion"
-	# 1 Cost Selector
-	pass
-
-class CFM_621t12:
-	"Greater Potion"
-	# 5 Cost Selector
-	pass
-
-class CFM_621t13:
-	"Superior Potion"
-	# 10 Cost Selector
-	pass
-
-class CFM_621t14:
-	"Kazakus Potion"
-	# 5 Cost Potion
-	pass
-
-class CFM_621t15:
-	"Kazakus Potion"
-	# 10 Cost Potion
-	pass
+# class CFM_621t11:
+# 	"Lesser Potion"
+# 	# 1 Cost Selector
+# 	pass
+#
+# class CFM_621t12:
+# 	"Greater Potion"
+# 	# 5 Cost Selector
+# 	pass
+#
+# class CFM_621t13:
+# 	"Superior Potion"
+# 	# 10 Cost Selector
+# 	pass
+#
+# class CFM_621t14:
+# 	"Kazakus Potion"
+# 	# 5 Cost Potion
+# 	pass
+#
+# class CFM_621t15:
+# 	"Kazakus Potion"
+# 	# 10 Cost Potion
+# 	pass
 
 class CFM_621t16:
 	"Heart of Fire"
