@@ -2,14 +2,17 @@
 import argparse
 import re
 import string
-import sys; sys.path.append("..")
+import sys;
+
+sys.path.append("..")
 from fireplace import cards
 from fireplace.utils import get_script_definition
 from hearthstone.enums import CardSet
-
+from hearthstone.stringsfile import load_globalstrings
 
 GREEN = "\033[92m"
 RED = "\033[91m"
+ORANGE = "\u001b[38;5;208m"
 ENDC = "\033[0m"
 PREFIXES = {
 	GREEN: "Implemented",
@@ -58,9 +61,6 @@ def cleanup_description(description):
 
 
 def main():
-	impl = 0
-	unimpl = 0
-
 	p = argparse.ArgumentParser()
 	p.add_argument(
 		"--implemented",
@@ -79,6 +79,9 @@ def main():
 	if not args.implemented and not args.unimplemented:
 		args.implemented = True
 		args.unimplemented = True
+
+	implemented_cards = set()
+	unimplemented_cards = set()
 
 	cards.db.initialize()
 	for id in sorted(cards.db):
@@ -103,17 +106,38 @@ def main():
 		name = color + "%s: %s" % (PREFIXES[color], card.name) + ENDC
 
 		if implemented:
-			impl += 1
+			implemented_cards.add(card)
 			if args.implemented:
 				print("%s (%s)" % (name, id))
 		else:
-			unimpl += 1
+			unimplemented_cards.add(card)
 			if args.unimplemented:
 				print("%s (%s)" % (name, id))
 
-	total = impl + unimpl
+	total = len(implemented_cards) + len(unimplemented_cards)
 
-	print("%i / %i cards implemented (%i%%)" % (impl, total, (impl / total) * 100))
+	globalstrings = load_globalstrings()
+	print("\nState of Implementation (Standard Cards)\n")
+	for card_set in CardSet:
+		if not card_set.is_standard:
+			continue
+
+		impl = sum(c.card_set == card_set for c in implemented_cards)
+		unimpl = sum(c.card_set == card_set for c in unimplemented_cards)
+
+		color = GREEN if unimpl == 0 else ORANGE
+		card_set_name = color + globalstrings[card_set.name_global]['TEXT'] + ENDC
+
+		print("{}: {} cards implemented ({:.1f}%)".format(card_set_name, impl, 100 * impl / (impl + unimpl)))
+
+	standard_impl = sum(c.card_set.is_standard for c in implemented_cards)
+	standard_unimpl = sum(c.card_set.is_standard for c in unimplemented_cards)
+	standard_total = standard_impl + standard_unimpl
+
+	print("%i / %i of standard cards implemented (%i%%)" % (
+	standard_impl, standard_total, (standard_impl / standard_total) * 100))
+
+	print("%i / %i cards implemented (%i%%)" % (len(implemented_cards), total, (len(implemented_cards) / total) * 100))
 
 
 if __name__ == "__main__":
