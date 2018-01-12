@@ -148,7 +148,7 @@ class KAR_114e:
 
 class KAR_204:
 	"Onyx Bishop"
-	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION - DISCARDED)))
+	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))
 
 # class KAR_205:
 # 	"Silverware Golem"
