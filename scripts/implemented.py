@@ -2,9 +2,11 @@
 import argparse
 import re
 import string
-import sys;
+import sys
 
-sys.path.append("..")
+if __name__ == "__main__":
+	sys.path.append("..")
+
 from fireplace import cards
 from fireplace.utils import get_script_definition
 from hearthstone.enums import CardSet
