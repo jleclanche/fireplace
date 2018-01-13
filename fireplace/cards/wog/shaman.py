@@ -16,13 +16,24 @@ class OG_026:
 	play = UnlockOverload(CONTROLLER)
 
 
+# class OG_028:
+#	"Thing from Below"
+
+
 class OG_209:
 	"Hallazeal the Ascended"
 	events = Damage(source=SPELL + FRIENDLY).on(Heal(FRIENDLY_HERO, Damage.AMOUNT))
 
 
+# class OG_328:
+#	"Master of Evolution"
+
+
 ##
 # Spells
+
+# class OG_027:
+#	"Evolve"
 
 class OG_206:
 	"Stormcrack"

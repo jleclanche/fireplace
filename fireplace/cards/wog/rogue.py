@@ -23,6 +23,14 @@ class OG_267:
 OG_267e = buff(atk=2)
 
 
+# class OG_282:
+#	"Blade of C'Thun"
+
+
+# class OG_291:
+# 	"Shadowcaster"
+
+
 class OG_330:
 	"Undercity Huckster"
 	deathrattle = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))

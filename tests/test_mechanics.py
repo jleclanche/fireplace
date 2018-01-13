@@ -83,9 +83,24 @@ def test_bounce():
 	brewmaster2.play(target=brewmaster1)
 	assert brewmaster1.health == 2
 	assert brewmaster2.health == 2
+
+	# test for buff reset on bounce
+	game.player1.give("EX1_014t").play(target=brewmaster2)
+	assert brewmaster2.atk == 4
+	assert brewmaster2.health == 3
+	brewmaster1.play(target=brewmaster2)
+	assert brewmaster1.atk == 3
+	assert brewmaster1.health == 2
+	assert brewmaster2.atk == 3
+	assert brewmaster2.health == 2
+	brewmaster2.play(target=brewmaster1)
+	assert brewmaster1.atk == 3
+	assert brewmaster1.health == 2
+	assert brewmaster2.atk == 3
+	assert brewmaster2.health == 2
+
 	brewmaster1.discard()
 	game.end_turn()
-
 	# fill the hand with some bananas
 	for i in range(10):
 		game.player1.give("EX1_014t")
@@ -97,6 +112,21 @@ def test_bounce():
 	assert brewmaster2 not in game.player1.field
 	assert brewmaster2 in game.player1.graveyard
 	assert brewmaster2 in game.graveyard
+
+
+def test_bounce_silence():
+	game = prepare_game()
+	leper_gnome = game.player1.give("EX1_029").play()
+	assert leper_gnome.has_deathrattle
+	silence = game.player1.give(SILENCE).play(target=leper_gnome)
+	assert not leper_gnome.has_deathrattle
+	brewmaster = game.player1.give("EX1_049")
+	brewmaster.play(target=leper_gnome)
+	leper_gnome.play()
+	assert leper_gnome.has_deathrattle
+	assert game.player2.hero.health == 30
+	leper_gnome.destroy()
+	assert game.player2.hero.health == 30 - 2
 
 
 def test_card_draw():
@@ -311,7 +341,6 @@ def test_divine_shield():
 	assert not squire.divine_shield
 	game.player1.give(MOONFIRE).play(target=squire)
 	assert len(game.player1.field) == 0
-	assert not squire.divine_shield
 	game.end_turn(); game.end_turn()
 
 	# test spell damage events with Divine Shield

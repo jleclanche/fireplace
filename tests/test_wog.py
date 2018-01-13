@@ -236,6 +236,17 @@ def test_eater_of_secrets():
 	assert eater_of_secrets.health == 7
 	assert not game.player2.secrets
 
+def test_embrace_the_shadow():
+	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
+	embrace = game.player1.give("OG_104").play()
+	game.player1.hero.power.use(target=game.player2.hero)
+	assert game.player2.hero.health == 30 - 2
+	flash_heal = game.player1.give("AT_055").play(target=game.player2.hero)
+	assert game.player2.hero.health == 30 - 2 - 5
+	game.end_turn(); game.end_turn()
+	game.player1.hero.power.use(target=game.player2.hero)
+	assert game.player2.hero.health == 30 -2 - 5 + 2
+
 
 def test_evolved_kobold():
 	game = prepare_game()
@@ -260,6 +271,74 @@ def test_feral_rage():
 
 	assert game.player1.hero.atk == 0
 	assert game.player1.hero.armor == 8
+
+def test_forbidden_ancient():
+	game = prepare_game()
+	assert game.player1.mana == 10
+	ancient = game.player1.give("OG_051")
+	fireball = game.player1.give("CS2_029").play(target=game.player2.hero)
+	innervate = game.player1.give("EX1_169").play()
+	assert game.player1.mana == 8
+	ancient.play()
+	assert len(game.player1.field) == 1
+	assert ancient.atk == 8
+	assert ancient.health == 8
+	assert game.player1.mana == 0
+
+
+def test_forbidden_flame():
+	game = prepare_game()
+	ysera = game.player1.give("EX1_572").play()
+	assert ysera.health == 12
+	game.end_turn()
+	flame = game.player2.give("OG_086")
+	assert game.player2.mana == 10
+	fireball = game.player2.give("CS2_029").play(target=game.player1.hero)
+	assert game.player2.mana == 6
+	flame.play(target=ysera)
+	assert ysera.health == 6
+	assert game.player2.mana == 0
+
+
+def test_forbidden_healing():
+	game = prepare_game()
+	game.player1.hero.set_current_health(1)
+	assert game.player1.mana == 10
+	fireball = game.player1.give("CS2_029").play(target=game.player2.hero)
+	assert game.player1.mana == 6
+	healing = game.player1.give("OG_198").play(target=game.player1.hero)
+	assert game.player1.mana == 0
+	assert game.player1.hero.health == 1 + 2 * 6
+
+
+def test_forbidden_ritual():
+	game = prepare_game()
+	assert game.player1.mana == 10
+	ritual = game.player1.give("OG_114").play()
+	assert game.player1.mana == 0
+	assert len(game.player1.field) == 7
+	for i in range(7):
+		assert game.player1.field[i].id == "OG_114a"
+	
+	game.end_turn()
+	assert game.player2.mana == 10
+	fireball = game.player2.give("CS2_029").play(target=game.player1.hero)
+	fireball = game.player2.give("CS2_029").play(target=game.player1.hero)
+	assert game.player2.mana == 2
+	ritual = game.player2.give("OG_114").play()
+	assert game.player2.mana == 0
+	assert len(game.player2.field) == 2
+	for i in range(2):
+		assert game.player2.field[i].id == "OG_114a"
+
+
+def test_forbidden_shaping():
+	game = prepare_game()
+	assert game.player1.mana == 10
+	shaping = game.player1.give("OG_101").play()
+	assert game.player1.mana == 0
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].cost == 10
 
 
 def test_forlorn_stalker():
@@ -356,6 +435,46 @@ def test_nerubian_prophet():
 	assert nerubian_prophet.cost == 4
 	nerubian_prophet.play()
 	assert nerubian_prophet.cost == 6
+
+
+def test_nzoth():
+	game = prepare_game()
+	loot_hoarder = game.player1.give("EX1_096").play()
+	leper_gnome = game.player1.give("EX1_029").play()
+	loot_hoarder.destroy()
+	leper_gnome.destroy()
+	game.end_turn(); game.end_turn()
+
+	nzoth = game.player1.give("OG_133").play()
+	assert len(game.player1.field) == 3
+	for i in range(1,3):
+		assert game.player1.field[i].has_deathrattle
+
+
+def test_nzoth_silenced_deathrattle():
+	game = prepare_game()
+	loot_hoarder = game.player1.give("EX1_096").play()
+	assert loot_hoarder.has_deathrattle
+	silence = game.player1.give(SILENCE).play(target=loot_hoarder)
+	assert not loot_hoarder.has_deathrattle
+	loot_hoarder.destroy()
+	assert loot_hoarder.has_deathrattle
+	game.end_turn(); game.end_turn()
+	nzoth = game.player1.give("OG_133").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1] == loot_hoarder
+
+
+def test_nzoth_added_deathrattle():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	ancestral_spirit = game.player1.give("CS2_038").play(target=wisp)
+	assert wisp.has_deathrattle
+	wisp.destroy()
+	assert not wisp.has_deathrattle
+	game.end_turn(); game.end_turn()
+	nzoth = game.player1.give("OG_133").play()
+	assert len(game.player1.field) == 2
 
 
 def test_primal_fusion():

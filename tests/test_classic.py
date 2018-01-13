@@ -714,6 +714,24 @@ def test_crazed_alchemist_damage_silence():
 	assert snapjaw.atk == 2
 	assert snapjaw.health == 6
 
+def test_spellpower_silence():
+	game = prepare_game()
+	geomancer = game.player1.give(KOBOLD_GEOMANCER)
+	geomancer.play()
+	assert geomancer.spellpower == 1
+	game.player1.give(SILENCE).play(target=geomancer)
+	assert geomancer.spellpower == 0
+
+def test_buff_silence():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	assert wisp.atk == 1
+	game.player1.give("CS2_087").play(target=wisp)
+	assert wisp.atk == 4
+	game.player1.give(SILENCE).play(target=wisp)
+	assert wisp.atk == 1
+
 
 def test_commanding_shout():
 	game = prepare_game()
@@ -1163,7 +1181,9 @@ def test_faceless_manipulator_velens_chosen():
 	game = prepare_game()
 	kobold = game.player1.give(KOBOLD_GEOMANCER)
 	kobold.play()
+	assert kobold.spellpower == 1
 	game.player1.give("GVG_010").play(target=kobold)
+	assert kobold.spellpower == 2
 	assert game.player1.spellpower == 2
 	faceless = game.player1.give("EX1_564")
 	faceless.play(target=kobold)

@@ -102,7 +102,7 @@ class KAR_070e:
 
 class KAR_089:
 	"Malchezaar's Imp"
-	events = Discard(RANDOM(FRIENDLY_HAND)).on(Draw(CONTROLLER))
+	events = Discard(DISCARDED).after(Draw(CONTROLLER))
 
 class KAR_092:
 	"Medivh's Valet"
@@ -150,8 +150,10 @@ class KAR_204:
 	"Onyx Bishop"
 	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))
 
-# class KAR_205:
-# 	"Silverware Golem"
+class KAR_205:
+	"Silverware Golem"
+	class Discard:
+		events = Discard(SELF).after(Summon(CONTROLLER, SELF))
 
 
 class KAR_702:
@@ -169,8 +171,9 @@ class KAR_710:
 	"Arcanosmith"
 	play = Summon(CONTROLLER, "KAR_710m")
 
-# class KAR_711:
-# 	"Arcane Giant"
+class KAR_711:
+	"Arcane Giant"
+	cost_mod = - Attr(CONTROLLER, "spells_played_this_game")
 
 
 class KAR_712:
@@ -228,7 +231,7 @@ class KAR_091:
 # class KAR_028:
 # 	"Fool's Bane"
 
-# class KAR_063:
-# 	"Spirit Claws"
-# 	update = Find( FRIENDLY_MINIONS + SPELLPOWER ) & Refresh(SELF, {GameTag.ATK: +2})
+class KAR_063:
+	"Spirit Claws"
+	update = Find( FRIENDLY_MINIONS + SPELLPOWER ) & Refresh(SELF, {GameTag.ATK: +2})
 

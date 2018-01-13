@@ -31,12 +31,26 @@ class OG_241:
 	deathrattle = Summon(CONTROLLER, "OG_241a")
 
 
+# class OG_302:
+# 	"Usher of Souls"
+
 ##
 # Spells
+
+class OG_114:
+	"Forbidden Ritual"
+	play = (
+		Summon(CONTROLLER, "OG_114a") * Attr(CONTROLLER, "mana"),
+		SpendMana(CONTROLLER, Attr(CONTROLLER, "mana")),
+	)
 
 class OG_116:
 	"Spreading Madness"
 	play = Hit(RANDOM_CHARACTER, 1) * 9
+
+
+# class OG_118:
+# 	"Renounce Darkness"
 
 
 class OG_239:

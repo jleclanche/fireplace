@@ -28,8 +28,9 @@ class CFM_687e:
 	events = OWN_SPELL_PLAY.on(Destroy(SELF))
 
 
-#class CFM_760:
-#	"Kabal Crystal Runner"
+class CFM_760:
+	"Kabal Crystal Runner"
+	cost_mod = - Attr(CONTROLLER, "secrets_played_this_game") * 2
 
 ##
 # Spells

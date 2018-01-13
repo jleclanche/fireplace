@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from inspect import isclass
 from hearthstone.enums import BlockType, CardType, CardClass, Mulligan, PlayState, Step, Zone
-from .dsl import LazyNum, LazyValue, Selector
+from .dsl import LazyNum, LazyValue, Selector, RandomSelector
 from .entity import Entity
 from .logging import log
 from .exceptions import InvalidAction
@@ -141,6 +141,9 @@ class Action(metaclass=ActionMeta):
 			self._broadcast(entity, source, at, *args)
 
 		for entity in source.game.decks:
+			self._broadcast(entity, source, at, *args)
+
+		for entity in source.game.discarded:
 			self._broadcast(entity, source, at, *args)
 
 	def queue_broadcast(self, obj, args):
@@ -283,6 +286,7 @@ class Death(GameAction):
 		self.broadcast(source, EventListener.ON, target)
 		if target.deathrattles:
 			source.game.queue_actions(source, [Deathrattle(target)])
+		target.reset()
 
 
 class EndTurn(GameAction):
@@ -449,6 +453,11 @@ class Play(GameAction):
 			played_card = card.morphed or card
 			if played_card.type in (CardType.MINION, CardType.WEAPON):
 				summon_action.broadcast(player, EventListener.AFTER, player, played_card)
+			elif played_card.type == CardType.SPELL:
+				player.spells_played_this_game += 1
+				from .card import Secret
+				if isinstance(played_card, Secret):
+					player.secrets_played_this_game += 1
 			self.broadcast(player, EventListener.AFTER, player, played_card, target)
 
 		player.combo = True
@@ -616,6 +625,7 @@ class Bounce(TargetedAction):
 			return source.game.queue_actions(source, [Destroy(target)])
 		else:
 			log.info("%r is bounced back to %s's hand", target, target.controller)
+			target.reset()
 			target.zone = Zone.HAND
 
 
@@ -745,6 +755,7 @@ class Destroy(TargetedAction):
 			if target.type == CardType.ENCHANTMENT:
 				target.remove()
 			else:
+				target.reset()
 				target.zone = Zone.GRAVEYARD
 
 
@@ -755,6 +766,7 @@ class Discard(TargetedAction):
 	def do(self, source, target):
 		self.broadcast(source, EventListener.ON, target)
 		target.discard()
+		self.broadcast(source, EventListener.AFTER, target)
 
 
 class Discover(TargetedAction):
@@ -882,6 +894,10 @@ class SpendMana(TargetedAction):
 	AMOUNT = IntArg()
 
 	def do(self, source, target, amount):
+		# TODO(czxcjx): Maybe merge this with player.pay_cost()?
+		used_temp = max(0, min(target.temp_mana, amount))
+		amount -= used_temp
+		target.temp_mana -= used_temp
 		target.used_mana = max(target.used_mana + amount, 0)
 
 
@@ -1087,6 +1103,10 @@ class Silence(TargetedAction):
 			if getattr(target, attr):
 				setattr(target, attr, False)
 
+		# Handle spellpower
+		if getattr(target, "spellpower"):
+			setattr(target, "spellpower", 0)
+
 		# Wipe the event listeners
 		target._events = []
 		target.silenced = True
@@ -1125,7 +1145,6 @@ class Summon(TargetedAction):
 			self.broadcast(source, EventListener.AFTER, target, card)
 
 		return cards
-
 
 class Shuffle(TargetedAction):
 	"""

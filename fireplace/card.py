@@ -147,6 +147,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			return self.data.scripts.Hand.events
 		if self.zone == Zone.DECK:
 			return self.data.scripts.Deck.events
+		if self.zone == Zone.DISCARD:
+			return self.data.scripts.Discard.events
 		return self.base_events + self._events
 
 	@property
@@ -355,6 +357,13 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	@property
 	def targets(self):
 		return self.play_targets
+
+	def reset(self):
+		if self.data:
+			self._events = self.data.scripts.events[:]
+		else:
+			self._events = []
+		self.tags.update(self.data.tags)
 
 
 class LiveEntity(PlayableCard, Entity):
@@ -701,6 +710,14 @@ class Minion(Character):
 	def silence(self):
 		return self.game.cheat_action(self, [actions.Silence(self)])
 
+	def reset(self):
+		for attr in self.silenceable_attributes:
+			setattr(self, attr, None)
+		self.silenced = False
+		self.clear_buffs()
+		super().reset()
+		
+
 
 class Spell(PlayableCard):
 	def __init__(self, data):
@@ -715,6 +732,7 @@ class Spell(PlayableCard):
 		if self.receives_double_spelldamage_bonus:
 			amount *= 2
 		return amount
+
 
 
 class Secret(Spell):

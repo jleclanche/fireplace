@@ -4,6 +4,23 @@ from ..utils import *
 ##
 # Minions
 
+# class OG_044:
+#	"Fandral Staghelm"
+
+class OG_051:
+	"Forbidden Ancient"
+	play = (
+		Buff(SELF, "OG_051e") * Attr(CONTROLLER, "mana"), 
+		SpendMana(CONTROLLER, Attr(CONTROLLER, "mana")),
+	)
+
+# Mildly hacky, but in principle it should work? 
+# Is there any case where multiple buffs will break it?
+OG_051e = buff(atk=1,health=1)
+
+# class OG_188:
+# 	"Klaxxi Amber-Weaver"
+
 class OG_202:
 	"Mire Keeper"
 	choose = ("OG_202a", "OG_202b")
@@ -14,6 +31,10 @@ class OG_202a:
 class OG_202b:
 	play = AT_MAX_MANA(CONTROLLER) | GainEmptyMana(CONTROLLER, 1)
 
+
+# class OG_293:
+#	"Dark Arakkoa"
+	
 
 class OG_313:
 	"Addled Grizzly"
