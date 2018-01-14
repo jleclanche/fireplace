@@ -6,8 +6,8 @@ A Hearthstone simulator and implementation, written in Python.
 
 ### State Of Implementation (59% of Standard Card Sets)
 
-| Card Set      | Implemented |      |
-| ------------- | ----------- | ---- |
+| Card Set      | Implemented |       |
+| ------------- |    :---:    | :---: |
 | **Basic**     | 209/209     | **100.0%**
 | **Classic** | 383/386 | **99.2%**
 | **Whispers of the Old Gods** | 162/218 | **74.3%**
