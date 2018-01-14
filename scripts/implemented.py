@@ -131,6 +131,9 @@ def main():
 
 	globalstrings = load_globalstrings()
 	print("\nState of Implementation (Standard Cards)\n")
+
+	card_set_impl_details = []
+
 	for card_set in CardSet:
 		if not card_set.is_standard:
 			continue
@@ -141,16 +144,22 @@ def main():
 		color = GREEN if unimpl == 0 else ORANGE
 		card_set_name = color + globalstrings[card_set.name_global]['TEXT'] + ENDC
 
-		print("{}: {} cards implemented ({:.1f}%)".format(card_set_name, impl, 100 * impl / (impl + unimpl)))
+		card_set_impl_details.append((globalstrings[card_set.name_global]['TEXT'], impl, unimpl))
+
+		print("{}: {}/{} cards implemented ({:.1f}%)".format(card_set_name, impl, impl + unimpl,
+															 100 * impl / (impl + unimpl)))
 
 	standard_impl = sum(c.card_set.is_standard for c in implemented_cards)
 	standard_unimpl = sum(c.card_set.is_standard for c in unimplemented_cards)
 	standard_total = standard_impl + standard_unimpl
 
-	print("%i / %i of standard cards implemented (%i%%)" % (
-		standard_impl, standard_total, (standard_impl / standard_total) * 100))
+	standard_percentage = (standard_impl / standard_total) * 100
+
+	print("%i / %i of standard cards implemented (%i%%)" % (standard_impl, standard_total, standard_percentage))
 
 	print("%i / %i cards implemented (%i%%)" % (len(implemented_cards), total, (len(implemented_cards) / total) * 100))
+
+	return card_set_impl_details, standard_percentage
 
 
 if __name__ == "__main__":

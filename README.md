@@ -4,11 +4,13 @@
 ## Overview
 A Hearthstone simulator and implementation, written in Python.
 
-### State Of Implementation (59% of Standard Card Sets)
+<target>
+
+### State Of Implementation (59.1% of Standard Card Sets)
 
 | Card Set      | Implemented |       |
 | ------------- |    :---:    | :---: |
-| **Basic**     | 209/209     | **100.0%**
+| **Basic** | 209/209 | **100.0%**
 | **Classic** | 383/386 | **99.2%**
 | **Whispers of the Old Gods** | 162/218 | **74.3%**
 | **One Night in Karazhan** | 108/220 | **49.1%**
@@ -18,6 +20,7 @@ A Hearthstone simulator and implementation, written in Python.
 | **Kobolds & Catacombs** | 181/541 | **33.5%**
 
 
+</target>
 
 ## Requirements
 
