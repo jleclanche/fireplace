@@ -314,10 +314,10 @@ def test_discover():
 	game = prepare_empty_game(CardClass.PRIEST, CardClass.PRIEST)
 
 	# Museum Curator
-	assert game.player1.choice == None
+	assert game.player1.choice is None
 	curator = game.player1.give("LOE_006")
 	curator.play()
-	assert not game.player1.choice == None
+	assert not game.player1.choice is None
 	assert len(game.player1.choice.cards) == 3
 
 	for card in game.player1.choice.cards:
@@ -327,7 +327,7 @@ def test_discover():
 
 	choice = random.choice(game.player1.choice.cards)
 	game.player1.choice.choose(choice)
-	assert game.player1.choice == None
+	assert game.player1.choice is None
 	assert len(game.player1.hand) == 1
 
 
