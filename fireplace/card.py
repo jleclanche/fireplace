@@ -147,7 +147,9 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			return self.data.scripts.Hand.events
 		if self.zone == Zone.DECK:
 			return self.data.scripts.Deck.events
-		
+		if self.zone == Zone.GRAVEYARD and self.tags[enums.DISCARDED] is True:
+			return self.data.scripts.Discard.events
+
 		return self.base_events + self._events
 
 	@property

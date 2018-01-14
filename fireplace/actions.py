@@ -6,6 +6,7 @@ from .entity import Entity
 from .logging import log
 from .exceptions import InvalidAction
 from .utils import random_class
+from . import enums
 
 
 def _eval_card(source, card):
@@ -143,8 +144,9 @@ class Action(metaclass=ActionMeta):
 		for entity in source.game.decks:
 			self._broadcast(entity, source, at, *args)
 
-		for entity in source.game.discarded:
-			self._broadcast(entity, source, at, *args)
+		for entity in source.game.graveyard:
+			if entity.tags[enums.DISCARDED]:
+				self._broadcast(entity, source, at, *args)
 
 	def queue_broadcast(self, obj, args):
 		self.event_queue.append((obj, args))

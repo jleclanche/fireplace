@@ -251,13 +251,14 @@ def test_malchezaars_imp_double():
 	for i in range(9):
 		game.player1.give(WISP)
 	assert len(game.player1.hand) == 10
-	assert len(game.player1.discarded) == 0
 	assert len(game.player1.deck) == 2
 	soulfire.play(target=game.player2.hero)
 	assert len(game.player1.hand) == 10
-	assert len(game.player1.discarded) == 1
 	assert len(game.player1.deck) == 0
-	
+
+	assert len(game.player1.graveyard) == 1
+	assert game.player1.graveyard[0].discarded
+
 
 def test_medivhs_valet():
 	game = prepare_game()
@@ -549,7 +550,7 @@ def test_arcane_giant():
 	assert arcane_giant.cost == 12 - 3
 	arcane_giant.play()
 	assert game.player1.mana == 10 - 9
-	
+
 	game.end_turn(); game.end_turn()
 	moonfire4 = game.player1.give(MOONFIRE).play(target=game.player2.hero)
 	brewmaster = game.player1.give("EX1_049").play(target=arcane_giant)
