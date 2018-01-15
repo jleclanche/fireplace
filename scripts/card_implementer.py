@@ -131,6 +131,8 @@ class CardImplementationHelper():
 		self.increase_levenshtein_cache(10, cards_in_set_filter)
 
 		cards = list(filter(cards_in_set_filter, [fireplace.cards.db[i] for i in self.levenshtein_cache_full_cards]))
+		cards = [c for c in cards if c in self.unimplemented]
+
 		best_cards = sorted(cards,
 							key=lambda x: max([self.get_similarity(x, t) for t in self.implemented])
 							)[:best_n]
