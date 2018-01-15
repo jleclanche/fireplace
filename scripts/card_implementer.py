@@ -10,7 +10,7 @@ from hearthstone.stringsfile import load_globalstrings
 if __name__ == "__main__":
 	sys.path.append("..")
 
-from implemented import resolve_implemented_cards
+from implemented import resolve_implemented_cards, SOLVED_KEYWORDS
 import fireplace.cards
 from fireplace.utils import get_script_definition
 
@@ -22,6 +22,7 @@ def clean_text(text):
 	:return: Description no longer containing tags, newlines and other non-typical characters
 	"""
 	text = re.sub('<.*?>', '', text)
+	text = re.sub("(" + "|".join(SOLVED_KEYWORDS) + ")", "", text)
 	text = text.replace('\n', ' ')
 	text = text.replace('_', ' ')
 	text = text.replace('\'', '')
