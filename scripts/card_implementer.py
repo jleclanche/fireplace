@@ -1,6 +1,10 @@
+import inspect
 import re
 import sys
-import inspect
+import random
+
+from hearthstone.enums import CardSet
+from hearthstone.stringsfile import load_globalstrings
 
 if __name__ == "__main__":
 	sys.path.append("..")
@@ -57,6 +61,7 @@ class CardImplementationHelper():
 
 	def __init__(self):
 		self.implemented, self.unimplemented = resolve_implemented_cards()
+		self.implemented = list(filter(lambda x: x.card_set.is_standard or x.card_set.craftable, self.implemented))
 
 	def search_card(self):
 
@@ -74,23 +79,56 @@ class CardImplementationHelper():
 
 		return similar[:best_n]
 
+	def recommend_easy_cards(self, card_set, best_n=5):
+		cards_in_set = list(filter(lambda x: x.card_set == card_set, self.unimplemented))
+
+		if len(cards_in_set) > 30:
+			cards_in_set = random.sample(cards_in_set, 30)
+
+		cache = {}
+		for unimpl in cards_in_set:
+			print("!!")
+			for impl in self.implemented:
+				cache[(unimpl, impl)] = levenshtein(clean_text(impl.description), clean_text(unimpl.description))
+
+
+		best_cards = sorted(cards_in_set, key=lambda x: max([cache[(x, t)] for t in self.implemented]))[:best_n]
+
+		return best_cards
+
 
 def main():
 	helper = CardImplementationHelper()
-	print("Some unimplemented cards: ", end="")
-	print(list(filter(lambda x: x.card_set.is_standard, helper.unimplemented))[:10])
+	globalstrings = load_globalstrings()
+
+	print("Interested in implementing some cards?\nTry some of these standard card sets:")
+	standard_card_sets = list(filter(lambda x: x.is_standard, list(CardSet)))
+
+	for i, cardset in enumerate(standard_card_sets):
+		print("{} - {}".format(i + 1, globalstrings[cardset.name_global]['TEXT']))
+
+	cardset_selection = int(input("Select a Card Set (1-{}): ".format(len(list(standard_card_sets)))))
+
+	card_set = standard_card_sets[cardset_selection - 1]
+
+	best_cards = helper.recommend_easy_cards(card_set)
+
+	print("The following card might be easy to implement due to high similarity with existing implementations:")
+
+	for card in best_cards:
+		print("{}: {}".format(card.id, clean_text(card.description)))
+
 	card = helper.search_card()
 
 	similar = helper.get_similar_descriptions(card)
-	print(*["{}: {}".format(c.id, clean_text(c.description)) for c in similar], sep='\n')
 
 	for c in similar:
+		print("{}: {}".format(c.id, clean_text(c.description)))
 		script = get_script_definition(c.id)
 		lines = inspect.getsourcelines(script)
 		print("".join(lines[0]))
 
 	template = "\nclass {id}:\n\t\"{name}\"\n\tplay = None".format(id=card.id, name=card.name)
-
 
 	print(template)
 
