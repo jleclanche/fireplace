@@ -6,7 +6,7 @@ A Hearthstone simulator and implementation, written in Python.
 
 <target>
 
-### State Of Implementation (59.1% of Standard Card Sets)
+### State Of Implementation (59.5% of Standard Card Sets)
 
 | Card Set      | Implemented |       |
 | ------------- |    :---:    | :---: |
@@ -16,7 +16,7 @@ A Hearthstone simulator and implementation, written in Python.
 | **One Night in Karazhan** | 108/220 | **49.1%**
 | **Mean Streets of Gadgetzan** | 233/257 | **90.7%**
 | **Journey to Un'Goro** | 72/225 | **32.0%**
-| **Knights of the Frozen Throne** | 43/297 | **14.5%**
+| **Knights of the Frozen Throne** | 51/297 | **17.2%**
 | **Kobolds & Catacombs** | 181/541 | **33.5%**
 
 
