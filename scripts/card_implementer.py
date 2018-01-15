@@ -2,6 +2,7 @@ import inspect
 import random
 import re
 import sys
+import pickle
 
 from hearthstone.enums import CardSet
 from hearthstone.stringsfile import load_globalstrings
@@ -10,7 +11,7 @@ if __name__ == "__main__":
 	sys.path.append("..")
 
 from implemented import resolve_implemented_cards
-from fireplace import cards
+import fireplace.cards
 from fireplace.utils import get_script_definition
 
 
@@ -66,17 +67,40 @@ class CardImplementationHelper():
 		self.levenshtein_cache = {}
 		self.levenshtein_cache_full_cards = set()
 
+		self.save_load_levenshtein_cache()
+
+	def save_load_levenshtein_cache(self):
+		CACHE_PATH = "levenshtein.p"
+
+		print(len(self.levenshtein_cache_full_cards))
+
+		try:
+			with open(CACHE_PATH, 'rb') as f:
+				data = pickle.load(f)
+
+				self.levenshtein_cache.update(data[0])
+				self.levenshtein_cache_full_cards.update(data[1])
+		except FileNotFoundError:
+			pass
+
+		with open(CACHE_PATH, 'wb') as f:
+			data = (self.levenshtein_cache, self.levenshtein_cache_full_cards)
+			pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+
 	def increase_levenshtein_cache(self, n=10, filt = None):
 
 		new_cards = list(filter(filt, self.unimplemented)) if filt is not None else self.unimplemented
-		new_cards = list(filter(lambda x: x not in self.levenshtein_cache_full_cards, new_cards))
-		new_cards = random.sample(new_cards, n)
+		new_cards = list(filter(lambda x: x.id not in self.levenshtein_cache_full_cards, new_cards))
+
+		if len(new_cards) >= n:
+			new_cards = random.sample(new_cards, n)
 
 		for u in new_cards:
 			for i in self.implemented | self.unimplemented:
 				self.get_similarity(u, i)
 
-		self.levenshtein_cache_full_cards.update(new_cards)
+		self.levenshtein_cache_full_cards.update([card.id for card in new_cards])
+		self.save_load_levenshtein_cache()
 
 	def search_card(self):
 
@@ -84,7 +108,7 @@ class CardImplementationHelper():
 			matching_cards = []
 			searchstr = input("Enter a card ID: ")
 			try:
-				return cards.db[searchstr]
+				return fireplace.cards.db[searchstr]
 			except KeyError:
 				print("Card not found. Please try again")
 
@@ -95,7 +119,7 @@ class CardImplementationHelper():
 	def get_similarity(self, card1, card2):
 		cards = list(sorted([card1, card2], key=lambda c: c.id))
 
-		key = (cards[0], cards[1])
+		key = (cards[0].id, cards[1].id)
 		if key in self.levenshtein_cache:
 			return self.levenshtein_cache[key]
 		else:
@@ -108,7 +132,7 @@ class CardImplementationHelper():
 		cards_in_set_filter = lambda x: x.card_set == card_set
 		self.increase_levenshtein_cache(10, cards_in_set_filter)
 
-		cards = list(filter(cards_in_set_filter, self.levenshtein_cache_full_cards))
+		cards = list(filter(cards_in_set_filter, [fireplace.cards.db[i] for i in self.levenshtein_cache_full_cards]))
 		print(cards)
 		best_cards = sorted(cards,
 							key=lambda x: max([self.get_similarity(x, t) for t in self.implemented])
