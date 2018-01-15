@@ -1,6 +1,5 @@
-import string
-import sys
 import re
+import sys
 
 if __name__ == "__main__":
 	sys.path.append("..")
@@ -9,30 +8,27 @@ from implemented import resolve_implemented_cards
 from fireplace import cards
 
 
-def cleanhtml(raw_html):
-	cleanr = re.compile('<.*?>')
-	cleantext = re.sub(cleanr, '', raw_html)
-	return cleantext
-
-
 def clean_text(text):
-	text = cleanhtml(text)
+	"""
+	Cleans the description of a card
+	:param text: Description as taken from CardDefs.xml
+	:return: Description no longer containing tags, newlines and other non-typical characters
+	"""
+	text = re.sub('<.*?>', '', text)
 	text = text.replace('\n', ' ')
 	text = text.replace('_', ' ')
-	# text = text.replace('\'s', '')
-	# text = text.replace('@', '')
 	text = text.replace('\'', '')
 	text = text.replace('\"', '')
 	text = text.replace(']', ' ')
-	# text = text.replace('\'re', '')
-
 	text = text.translate(str.maketrans('', '', '@.,:;[]()!’-'))
 
 	return text
 
 
 def levenshtein(a, b):
-	"Calculates the Levenshtein distance between a and b."
+	"""
+	Calculates the Levenshtein distance between a and b.
+	"""
 	n, m = len(a), len(b)
 	if n > m:
 		# Make sure n <= m, to use O(min(n,m)) space
@@ -50,6 +46,7 @@ def levenshtein(a, b):
 			current[j] = min(add, delete, change)
 
 	return current[n]
+
 
 class CardImplementationHelper():
 	"""
@@ -69,6 +66,12 @@ class CardImplementationHelper():
 			except KeyError:
 				print("Card not found. Please try again")
 
+	def get_similar_descriptions(self, card, best_n=5):
+		similar = sorted(self.implemented,
+						 key=lambda x: levenshtein(clean_text(x.description), clean_text(card.description)))
+
+		return similar[:best_n]
+
 
 def main():
 	helper = CardImplementationHelper()
@@ -76,15 +79,11 @@ def main():
 	print(list(filter(lambda x: x.card_set.is_standard, helper.unimplemented))[:10])
 	card = helper.search_card()
 
-	# script = get_script_definition(card.id)
+	similar = helper.get_similar_descriptions(card)
+	print(*["{}: {}".format(c.id, clean_text(c.description)) for c in similar], sep='\n')
 
 
-	distances = sorted(helper.implemented, key=lambda x: levenshtein(clean_text(x.description), clean_text(card.description)))[:10]
-
-	print(*["{}: {}".format(c.id, clean_text(c.description)) for c in distances], sep='\n')
-
-
-	template = "class {id}:\n" \
+	template = "\nclass {id}:\n" \
 			   "\t\"{name}\n\t{description}\"\n\tplay = None".format(id=card.id, name=card.name,
 																	 description=card.description.replace("\n", ""))
 
