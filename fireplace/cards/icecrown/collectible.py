@@ -10,3 +10,13 @@ class ICC_911:
 
 ##
 # Spells
+
+
+##
+# Secrets
+
+class ICC_082:
+	"Frozen Clone"
+	secret = Play(OPPONENT, MINION).after(
+			Reveal(SELF), Give(CONTROLLER, Copy(Play.CARD))*2
+	)
