@@ -61,9 +61,22 @@ class CardImplementationHelper():
 
 	def __init__(self):
 		self.implemented, self.unimplemented = resolve_implemented_cards()
-		self.implemented = list(filter(lambda x: x.card_set.is_standard or x.card_set.craftable, self.implemented))
+		self.implemented = set(filter(lambda x: x.card_set.is_standard or x.card_set.craftable, self.implemented))
 
 		self.levenshtein_cache = {}
+		self.levenshtein_cache_full_cards = set()
+
+	def increase_levenshtein_cache(self, n=10, filt = None):
+
+		new_cards = list(filter(filt, self.unimplemented)) if filt is not None else self.unimplemented
+		new_cards = list(filter(lambda x: x not in self.levenshtein_cache_full_cards, new_cards))
+		new_cards = random.sample(new_cards, n)
+
+		for u in new_cards:
+			for i in self.implemented | self.unimplemented:
+				self.get_similarity(u, i)
+
+		self.levenshtein_cache_full_cards.update(new_cards)
 
 	def search_card(self):
 
@@ -91,12 +104,13 @@ class CardImplementationHelper():
 			return self.levenshtein_cache[key]
 
 	def recommend_easy_cards(self, card_set, best_n=5):
-		cards_in_set = list(filter(lambda x: x.card_set == card_set, self.unimplemented))
 
-		if len(cards_in_set) > 10:
-			cards_in_set = random.sample(cards_in_set, 10)
+		cards_in_set_filter = lambda x: x.card_set == card_set
+		self.increase_levenshtein_cache(10, cards_in_set_filter)
 
-		best_cards = sorted(cards_in_set,
+		cards = list(filter(cards_in_set_filter, self.levenshtein_cache_full_cards))
+		print(cards)
+		best_cards = sorted(cards,
 							key=lambda x: max([self.get_similarity(x, t) for t in self.implemented])
 							)[:best_n]
 
