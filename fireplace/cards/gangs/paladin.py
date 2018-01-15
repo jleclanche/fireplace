@@ -28,9 +28,6 @@ CFM_753e = buff(+1, +1)
 #class CFM_759:
 #	"Meanstreet Marshal"
 
-class CFM_815:
-	"Wickerflame Burnbristle"
-	events = Damage(CHARACTER, None, SELF).on(Heal(FRIENDLY_HERO, Damage.AMOUNT))
 
 ##
 # Spells
@@ -47,5 +44,5 @@ class CFM_800:
 
 class CFM_905:
 	"Small-Time Recruits"
-	play = ForceDraw( RANDOM(FRIENDLY_DECK + MINION + (COST == 1)) ) * 3 
+	play = ForceDraw( RANDOM(FRIENDLY_DECK + MINION + (COST == 1)) ) * 3
 
