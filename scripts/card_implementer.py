@@ -1,11 +1,13 @@
 import re
 import sys
+import inspect
 
 if __name__ == "__main__":
 	sys.path.append("..")
 
 from implemented import resolve_implemented_cards
 from fireplace import cards
+from fireplace.utils import get_script_definition
 
 
 def clean_text(text):
@@ -82,10 +84,13 @@ def main():
 	similar = helper.get_similar_descriptions(card)
 	print(*["{}: {}".format(c.id, clean_text(c.description)) for c in similar], sep='\n')
 
+	for c in similar:
+		script = get_script_definition(c.id)
+		lines = inspect.getsourcelines(script)
+		print("".join(lines[0]))
 
-	template = "\nclass {id}:\n" \
-			   "\t\"{name}\n\t{description}\"\n\tplay = None".format(id=card.id, name=card.name,
-																	 description=card.description.replace("\n", ""))
+	template = "\nclass {id}:\n\t\"{name}\"\n\tplay = None".format(id=card.id, name=card.name)
+
 
 	print(template)
 
