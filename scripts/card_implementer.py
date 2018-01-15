@@ -1,7 +1,7 @@
 import inspect
+import random
 import re
 import sys
-import random
 
 from hearthstone.enums import CardSet
 from hearthstone.stringsfile import load_globalstrings
@@ -63,6 +63,8 @@ class CardImplementationHelper():
 		self.implemented, self.unimplemented = resolve_implemented_cards()
 		self.implemented = list(filter(lambda x: x.card_set.is_standard or x.card_set.craftable, self.implemented))
 
+		self.levenshtein_cache = {}
+
 	def search_card(self):
 
 		while True:
@@ -74,25 +76,29 @@ class CardImplementationHelper():
 				print("Card not found. Please try again")
 
 	def get_similar_descriptions(self, card, best_n=5):
-		similar = sorted(self.implemented,
-						 key=lambda x: levenshtein(clean_text(x.description), clean_text(card.description)))
-
+		similar = sorted(self.implemented, key=lambda x: self.get_similarity(card, x))
 		return similar[:best_n]
+
+	def get_similarity(self, card1, card2):
+		cards = list(sorted([card1, card2], key=lambda c: c.id))
+
+		key = (cards[0], cards[1])
+		if key in self.levenshtein_cache:
+			return self.levenshtein_cache[key]
+		else:
+			self.levenshtein_cache[key] = levenshtein(clean_text(cards[0].description),
+													  clean_text(cards[1].description))
+			return self.levenshtein_cache[key]
 
 	def recommend_easy_cards(self, card_set, best_n=5):
 		cards_in_set = list(filter(lambda x: x.card_set == card_set, self.unimplemented))
 
-		if len(cards_in_set) > 30:
-			cards_in_set = random.sample(cards_in_set, 30)
+		if len(cards_in_set) > 10:
+			cards_in_set = random.sample(cards_in_set, 10)
 
-		cache = {}
-		for unimpl in cards_in_set:
-			print("!!")
-			for impl in self.implemented:
-				cache[(unimpl, impl)] = levenshtein(clean_text(impl.description), clean_text(unimpl.description))
-
-
-		best_cards = sorted(cards_in_set, key=lambda x: max([cache[(x, t)] for t in self.implemented]))[:best_n]
+		best_cards = sorted(cards_in_set,
+							key=lambda x: max([self.get_similarity(x, t) for t in self.implemented])
+							)[:best_n]
 
 		return best_cards
 
