@@ -134,6 +134,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.entourage = CardList(data.entourage)
 		self.has_battlecry = False
 		self.has_combo = False
+		self.lifesteal = False
 		self.overload = 0
 		self.target = None
 		self.rarity = Rarity.INVALID

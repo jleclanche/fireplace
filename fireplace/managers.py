@@ -196,6 +196,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.OVERLOAD: "overload",
 	GameTag.PARENT_CARD: "parent_card",
 	GameTag.POISONOUS: "poisonous",
+	GameTag.LIFESTEAL: "lifesteal",
 	GameTag.POWERED_UP: "powered_up",
 	GameTag.RARITY: "rarity",
 	GameTag.RECEIVES_DOUBLE_SPELLDAMAGE_BONUS: "receives_double_spelldamage_bonus",

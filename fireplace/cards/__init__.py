@@ -1,9 +1,9 @@
 import os
 from pkg_resources import resource_filename
 from hearthstone import cardxml
-from hearthstone.enums import CardType
+from hearthstone.enums import CardType, GameTag
 from ..logging import log
-from ..rules import POISONOUS
+from ..rules import POISONOUS, LIFESTEAL
 from ..utils import get_script_definition
 
 
@@ -94,6 +94,9 @@ class CardDB(dict):
 		# Set some additional events based on the base tags...
 		if card.poisonous:
 			card.scripts.events.append(POISONOUS)
+
+		if GameTag.LIFESTEAL in card.tags:  # fix until replaced in python-hearthstone. then: if card.lifesteal
+			card.scripts.events.append(LIFESTEAL)
 
 		return card
 

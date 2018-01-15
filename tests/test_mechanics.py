@@ -1,5 +1,5 @@
-from utils import *
 from fireplace.cards.utils import Give, JOUST
+from utils import *
 
 
 def test_armor():
@@ -689,6 +689,45 @@ def test_poisonous():
 	zchow3.attack(cobra)
 	assert zchow3 in game.current_player.field
 	assert cobra in game.current_player.opponent.field
+
+
+def test_lifesteal():
+	game = prepare_game()
+	agony = game.player1.give("ICC_212")  # acolyte of agony (just lifesteal)
+	agony.play()
+
+	assert agony.lifesteal
+
+	game.end_turn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+
+	assert not wisp.lifesteal
+
+	game.end_turn()
+
+	assert game.player1.hero.health == 30
+	agony.attack(target=game.player2.hero)
+	assert game.player1.hero.health == 30  # should not be healed since hero already full health
+	assert game.player2.hero.health == 30 - agony.atk
+
+	game.end_turn()
+	wisp.attack(target=game.player1.hero)
+	game.end_turn()
+	assert game.player1.hero.health == 30 - wisp.atk
+
+	agony.attack(target=wisp)
+	assert game.player1.hero.health == 30
+
+	game.end_turn()
+	game.player2.give(PYROBLAST).play(target=game.player1.hero)
+
+	game.end_turn()
+	assert game.player1.hero.health == 30 - 10
+
+	agony.attack(game.player2.hero)
+	assert game.player1.hero.health == 30 - 10 + agony.atk
 
 
 def test_positioning():
