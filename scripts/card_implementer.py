@@ -1,8 +1,8 @@
 import inspect
+import pickle
 import random
 import re
 import sys
-import pickle
 
 from hearthstone.enums import CardSet
 from hearthstone.stringsfile import load_globalstrings
@@ -72,8 +72,6 @@ class CardImplementationHelper():
 	def save_load_levenshtein_cache(self):
 		CACHE_PATH = "levenshtein.p"
 
-		print(len(self.levenshtein_cache_full_cards))
-
 		try:
 			with open(CACHE_PATH, 'rb') as f:
 				data = pickle.load(f)
@@ -87,7 +85,7 @@ class CardImplementationHelper():
 			data = (self.levenshtein_cache, self.levenshtein_cache_full_cards)
 			pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
 
-	def increase_levenshtein_cache(self, n=10, filt = None):
+	def increase_levenshtein_cache(self, n=10, filt=None):
 
 		new_cards = list(filter(filt, self.unimplemented)) if filt is not None else self.unimplemented
 		new_cards = list(filter(lambda x: x.id not in self.levenshtein_cache_full_cards, new_cards))
@@ -133,7 +131,6 @@ class CardImplementationHelper():
 		self.increase_levenshtein_cache(10, cards_in_set_filter)
 
 		cards = list(filter(cards_in_set_filter, [fireplace.cards.db[i] for i in self.levenshtein_cache_full_cards]))
-		print(cards)
 		best_cards = sorted(cards,
 							key=lambda x: max([self.get_similarity(x, t) for t in self.implemented])
 							)[:best_n]
@@ -145,7 +142,7 @@ def main():
 	helper = CardImplementationHelper()
 	globalstrings = load_globalstrings()
 
-	print("Interested in implementing some cards?\nTry some of these standard card sets:")
+	print("\nInterested in implementing some cards?\nTry some of these standard card sets:")
 	standard_card_sets = list(filter(lambda x: x.is_standard, list(CardSet)))
 
 	for i, cardset in enumerate(standard_card_sets):
@@ -155,15 +152,20 @@ def main():
 
 	card_set = standard_card_sets[cardset_selection - 1]
 
+	print("Searching for easy cards (might take a while)...\n"
+		  "If you run this program several times, recommendations will improve!\n\n")
 	best_cards = helper.recommend_easy_cards(card_set)
 
-	print("The following card might be easy to implement due to high similarity with existing implementations:")
+	print("The following cards might be easy to implement due to high similarity with existing implementations:\n")
 
 	for card in best_cards:
 		print("{}: {}".format(card.id, clean_text(card.description)))
 
+	print()
 	card = helper.search_card()
 
+	print("We found: {}!\nDescription:\n{}\n".format(card.id, clean_text(card.description)))
+	print("Some cards and their implementations that are quite similar:\n")
 	similar = helper.get_similar_descriptions(card)
 
 	for c in similar:
