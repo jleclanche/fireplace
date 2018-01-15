@@ -607,7 +607,7 @@ class Minion(Character):
 	silenceable_attributes = (
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
-		"forgetful", "frozen", "has_deathrattle", "has_inspire", "poisonous",
+		"forgetful", "frozen", "has_deathrattle", "has_inspire", "poisonous", "lifesteal",
 		"stealthed", "taunt", "windfury", "cannot_attack_heroes",
 	)
 
