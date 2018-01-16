@@ -131,3 +131,36 @@ def test_stampede():
 	river_crocolisk = game.player1.give("CS2_120").play()
 	assert len(game.player1.hand) == 1
 
+def test_razorpetal():
+	"UNG_057t1"
+	game = prepare_empty_game()
+	razorpetal = game.player1.give("UNG_057t1")
+	assert game.player2.hero.health == 30
+	razorpetal.play(target=game.player2.hero)
+	assert game.player2.hero.health == 30 - 1
+
+
+def test_razorpetal_volley():
+	"UNG_058"
+	game = prepare_game()
+	lasher = game.player1.give("UNG_057")
+	assert len(game.player1.hand) == 4 + 1
+	lasher.play()
+	assert len(game.player1.field) == 0
+	assert len(game.player1.hand) == 4 + 1 - 1 + 2
+	assert game.player1.hand[-1].id == "UNG_057t1"  # razorpetal
+	assert game.player1.hand[-2].id == "UNG_057t1"  # razorpetal
+
+
+
+def test_razorpetal_lasher():
+	"UNG_058"
+	game = prepare_game()
+	lasher = game.player1.give("UNG_058")
+	assert len(game.player1.hand) == 4 + 1
+	lasher.play()
+	assert len(game.player1.field) == 1
+	assert len(game.player1.hand) == 4 + 1 - 1 + 1
+	assert game.player1.hand[-1].id == "UNG_057t1"  # razorpetal
+
+
