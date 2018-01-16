@@ -11,7 +11,7 @@ class UNG_058:
 # Spells
 
 class UNG_057:
-	"Razorpetal"
+	"Razorpetal Volley"
 	play = Give(CONTROLLER, "UNG_057t1") * 2
 
 
