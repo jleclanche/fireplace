@@ -1678,3 +1678,21 @@ def test_mystic_wool():
 	game.player1.give("CFM_621t29").play()
 	assert sum([m.id == "CFM_621_m5" for m in game.player1.field]) == len(game.player1.field)
 	assert sum([m.id == "CFM_621_m5" for m in game.player2.field]) == len(game.player2.field)
+
+
+def test_meanstreet_marshal():
+	"CFM_759"
+	game = prepare_game()
+	marshal1 = game.player1.give("CFM_759").play()
+	marshal2 = game.player1.give("CFM_759").play()
+	game.player1.give("CS2_087").play(target=marshal2) # blessing of might
+
+	assert len(game.player1.hand) == 4
+	game.end_turn()
+
+	game.player2.give(SOULFIRE).play(marshal1)
+
+	assert len(game.player1.hand) == 4
+	game.player2.give(SOULFIRE).play(marshal2)
+	assert len(game.player1.hand) == 5
+

@@ -25,8 +25,9 @@ class CFM_753:
 
 CFM_753e = buff(+1, +1)
 
-#class CFM_759:
-#	"Meanstreet Marshal"
+class CFM_759:
+	"Meanstreet Marshal"
+	deathrattle = (ATK(SELF) >= 2) & Draw(CONTROLLER)
 
 
 ##
