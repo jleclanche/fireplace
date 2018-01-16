@@ -15,20 +15,22 @@ import fireplace.cards
 from fireplace.utils import get_script_definition
 
 
-def clean_text(text):
+def clean_text(text, for_display=False):
 	"""
 	Cleans the description of a card
 	:param text: Description as taken from CardDefs.xml
 	:return: Description no longer containing tags, newlines and other non-typical characters
 	"""
 	text = re.sub('<.*?>', '', text)
-	text = re.sub("(" + "|".join(SOLVED_KEYWORDS) + ")", "", text)
+	if not for_display:
+		text = re.sub("(" + "|".join(SOLVED_KEYWORDS) + ")", "", text)
 	text = text.replace('\n', ' ')
 	text = text.replace('_', ' ')
 	text = text.replace('\'', '')
 	text = text.replace('\"', '')
 	text = text.replace(']', ' ')
-	text = text.translate(str.maketrans('', '', '@.,:;[]()!’-'))
+	if not for_display:
+		text = text.translate(str.maketrans('', '', '@.,:;[]()!’-'))
 
 	return text
 
@@ -157,22 +159,22 @@ def main():
 
 	print("Searching for easy cards (might take a while)...\n"
 		  "If you run this program several times, recommendations will improve!\n\n")
-	best_cards = helper.recommend_easy_cards(card_set)
+	best_cards = helper.recommend_easy_cards(card_set, 8)
 
 	print("The following cards might be easy to implement due to high similarity with existing implementations:\n")
 
 	for card in best_cards:
-		print("{}: {}".format(card.id, clean_text(card.description)))
+		print("{} ({}): {}".format(card.name, card.id, clean_text(card.description, for_display=True)))
 
 	print()
 	card = helper.search_card()
 
-	print("We found: {}!\nDescription:\n{}\n".format(card.id, clean_text(card.description)))
+	print("We found: {}!\nDescription:\n{}\n".format(card.id, clean_text(card.description, for_display=True)))
 	print("Some cards and their implementations that are quite similar:\n")
 	similar = helper.get_similar_descriptions(card)
 
 	for c in similar:
-		print("{}: {}".format(c.id, clean_text(c.description)))
+		print("{} ({}): {}".format(c.name, c.id, clean_text(c.description, for_display=True)))
 		script = get_script_definition(c.id)
 		lines = inspect.getsourcelines(script)
 		print("".join(lines[0]))
