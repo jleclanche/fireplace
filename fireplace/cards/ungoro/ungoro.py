@@ -973,17 +973,19 @@ class UNG_058:
 # 	https://hearthstone.gamepedia.com/Obsidian_Shard
 # 	"""
 # 	pass
-#
-#
-# class UNG_063:
-# 	"""
-# 	Biteweed - (Minion)
-# 	Combo: Gain +1/+1 for each other card you've played this turn.
-# 	https://hearthstone.gamepedia.com/Biteweed
-# 	"""
-# 	pass
-#
-#
+
+
+class UNG_063:
+	"""
+	Biteweed - (Minion)
+	Combo: Gain +1/+1 for each other card you've played this turn.
+	https://hearthstone.gamepedia.com/Biteweed
+	"""
+	combo = Buff(SELF, "UNG_063e") * Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
+
+UNG_063e = buff(+1, +1)
+
+
 # class UNG_063e:
 # 	"""
 # 	Sprout - (Enchantment)

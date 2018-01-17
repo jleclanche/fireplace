@@ -192,3 +192,27 @@ def test_crystalline_oracle():
 
 	assert (game.player1.hand.contains(WISP)
 		   or game.player1.hand.contains(TARGET_DUMMY))
+
+
+def test_biteweed():
+
+	#similar to vancleef
+	game = prepare_game()
+	biteweed1 = game.current_player.give("UNG_063")
+	biteweed2 = game.current_player.give("UNG_063")
+
+	assert not game.current_player.cards_played_this_turn
+	for i in range(5):
+		game.player1.give(THE_COIN).play()
+	assert game.current_player.cards_played_this_turn == 5
+	biteweed1.play()
+	assert game.current_player.cards_played_this_turn == 6
+	assert biteweed1.atk == 6
+	assert biteweed1.health == 6
+	game.end_turn()
+	game.end_turn()
+	assert not game.current_player.cards_played_this_turn
+	biteweed2.play()
+	assert game.current_player.cards_played_this_turn == 1
+	assert biteweed2.atk == 1
+	assert biteweed2.health == 1
