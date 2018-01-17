@@ -1353,17 +1353,26 @@ class UNG_032:
 # 	https://hearthstone.gamepedia.com/Steam_Surger
 # 	"""
 # 	play = None
-#
-#
-# class UNG_024:
-# 	"""
-# 	Mana Bind - (Spell)
-# 	Secret: When your opponent casts a spell, add a copy to your hand that costs (0).
-# 	https://hearthstone.gamepedia.com/Mana_Bind
-# 	"""
-# 	pass
-#
-#
+
+
+class UNG_024:
+	"""
+	Mana Bind - (Spell)
+	Secret: When your opponent casts a spell, add a copy to your hand that costs (0).
+	https://hearthstone.gamepedia.com/Mana_Bind
+	"""
+	secret = Play(ENEMY, SPELL).on(Give(CONTROLLER, Copy(Play.CARD)).then(Buff(Give.CARD, "UNG_024e")))
+
+@custom_card
+class UNG_024e:
+	tags = {
+		GameTag.CARDNAME: "Mana Bind Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+	}
+	cost = SET(0)
+	events = REMOVED_IN_PLAY
+
+
 # class UNG_027:
 # 	"""
 # 	Pyros - (Minion)

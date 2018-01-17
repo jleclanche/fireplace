@@ -216,3 +216,28 @@ def test_biteweed():
 	assert game.current_player.cards_played_this_turn == 1
 	assert biteweed2.atk == 1
 	assert biteweed2.health == 1
+
+
+def test_mana_bind():
+	"UNG_024"
+
+	game = prepare_game()
+	game.player1.give("UNG_024").play()
+
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+
+	game.end_turn()
+
+	game.player2.give(PYROBLAST).play(target=game.player2.hero)
+
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].id == PYROBLAST
+
+	assert game.player1.hand[0].cost == 0
+	# TODO: this should eventually work..
+	# game.end_turn()
+	# game.end_turn()
+	#
+	# game.player2.give("FP1_030").play() # loatheb
+	# assert game.player1.hand[0].cost == 5
