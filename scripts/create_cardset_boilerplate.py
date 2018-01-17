@@ -2,6 +2,7 @@ import argparse
 import sys
 import urllib.parse
 import re
+from itertools import groupby
 
 from hearthstone.enums import CardSet
 from hearthstone.stringsfile import load_globalstrings
@@ -35,12 +36,22 @@ CARDDEF_TEMPLATE = (
 
 BATTLECRY_LINE = (
 """\
-# \t# play = None
+# \tplay = None
 """
 )
 DEATHRATTLE_LINE = (
 """\
-# \t# deathrattle = None
+# \tdeathrattle = None
+"""
+)
+
+PLAYER_CLASS_COMMENT = (
+"""
+###############################################################################
+##                                                                           ##
+##{:^75}##
+##                                                                           ##
+###############################################################################
 """
 )
 
@@ -85,20 +96,23 @@ def main(*args):
 
 	implemented, unimplemented = resolve_implemented_cards()
 
-	for card in unimplemented:
+	unimplemented = filter(lambda x: x.card_set == card_set, unimplemented)
+	unimplemented = sorted(unimplemented, key=lambda x: (-x.card_class, x.id))
 
-		if card.card_set != card_set:
-			continue
+	for key, group in groupby(unimplemented, key=lambda x: x.card_class):
 
-		outfile.write(CARDDEF_TEMPLATE.format(
-			id=card.id,
-			name=card.name,
-			type=globalstrings[card.type.name_global]['TEXT'],
-			description=prettify_description(card.description),
-			link=make_gamepedia_link(card),
-			battlecry=BATTLECRY_LINE if card.battlecry else "",
-			deathrattle=DEATHRATTLE_LINE if card.deathrattle else "",
-		))
+		outfile.write(PLAYER_CLASS_COMMENT.format(globalstrings[key.name_global]['TEXT']))
+
+		for card in group:
+			outfile.write(CARDDEF_TEMPLATE.format(
+				id=card.id,
+				name=card.name,
+				type=globalstrings[card.type.name_global]['TEXT'],
+				description=prettify_description(card.description),
+				link=make_gamepedia_link(card),
+				battlecry=BATTLECRY_LINE if card.battlecry else "",
+				deathrattle=DEATHRATTLE_LINE if card.deathrattle else "",
+			))
 
 	outfile.close()
 
