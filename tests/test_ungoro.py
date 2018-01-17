@@ -164,3 +164,31 @@ def test_razorpetal_lasher():
 	assert game.player1.hand[-1].id == "UNG_057t1"  # razorpetal
 
 
+def test_crystalline_oracle():
+	"UNG_032"
+	game = prepare_empty_game()
+
+	assert len(game.player1.hand) == 0
+	assert len(game.player2.deck) == 0
+	oracle = game.player1.give("UNG_032").play()
+	game.player1.give(SOULFIRE).play(target=oracle)
+	assert len(game.player1.hand) == 0
+
+	game.player2.give(WISP).shuffle_into_deck()
+	assert len(game.player2.deck) == 1
+	oracle = game.player1.give("UNG_032").play()
+	game.player1.give(SOULFIRE).play(target=oracle)
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].id == WISP
+	game.player1.discard_hand()
+
+	assert len(game.player1.hand) == 0
+	game.player2.give(TARGET_DUMMY).shuffle_into_deck()
+	assert len(game.player2.deck) == 2
+
+	oracle=game.player1.give("UNG_032").play()
+	game.player1.give(SOULFIRE).play(target=oracle)
+	assert len(game.player1.hand) == 1
+
+	assert (game.player1.hand.contains(WISP)
+		   or game.player1.hand.contains(TARGET_DUMMY))

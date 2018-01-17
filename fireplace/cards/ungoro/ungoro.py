@@ -1098,15 +1098,15 @@ class UNG_058:
 # 	pass
 #
 #
-# class UNG_032:
-# 	"""
-# 	Crystalline Oracle - (Minion)
-# 	Deathrattle: Copy a card from your opponent's deck _and add it to your hand.
-# 	https://hearthstone.gamepedia.com/Crystalline_Oracle
-# 	"""
-# 	deathrattle = None
-#
-#
+class UNG_032:
+	"""
+	Crystalline Oracle - (Minion)
+	Deathrattle: Copy a card from your opponent's deck _and add it to your hand.
+	https://hearthstone.gamepedia.com/Crystalline_Oracle
+	"""
+	deathrattle = Give(CONTROLLER, Copy(RANDOM(ENEMY_DECK)))
+
+
 # class UNG_034:
 # 	"""
 # 	Radiant Elemental - (Minion)
