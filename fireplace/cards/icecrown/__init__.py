@@ -1,1 +1,1 @@
-from .collectible import *
+from .icecrown import *
