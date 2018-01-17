@@ -215,6 +215,10 @@ class UNG_113:
 		Buff(Draw.CARD, "UNG_113e")
 	)
 
+
+class UNG_113e:
+	cost = SET(5)
+
 #
 # class UNG_202e:
 # 	"""
@@ -1515,6 +1519,12 @@ class UNG_916:
 	https://hearthstone.gamepedia.com/Stampede
 	"""
 	play = Buff(CONTROLLER, "UNG_916e")
+
+
+class UNG_916e:
+	events = Play(CONTROLLER, FRIENDLY_MINIONS + BEAST).after(
+		Give(CONTROLLER, RandomBeast())
+	)
 
 
 class UNG_917:
