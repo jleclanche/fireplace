@@ -41,8 +41,8 @@ def test_play_scripts():
 def test_card_docstrings():
 	for card in CARDS.values():
 		c = utils.fireplace.utils.get_script_definition(card.id)
-		name = c.__doc__
-		if name is not None:
-			if name.endswith(")"):
+		doc = c.__doc__
+		if doc is not None:
+			if doc.endswith(")"):
 				continue
-			assert name == card.name
+			assert doc.strip().startswith(card.name)
