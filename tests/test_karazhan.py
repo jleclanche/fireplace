@@ -32,6 +32,8 @@ def test_babbling_book():
 
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].type == CardType.SPELL
+	assert game.player1.hand[0].card_class == CardClass.MAGE
+
 
 def test_nightbane_templar():
 	game = prepare_game()

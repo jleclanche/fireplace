@@ -13,7 +13,7 @@ class KAR_006:
 
 class KAR_009:
 	"Babbling Book"
-	play = Give(CONTROLLER, RandomSpell())
+	play = Give(CONTROLLER, RandomSpell(card_class=CardClass.MAGE))
 
 class KAR_010:
 	"Nightbane Templar"
