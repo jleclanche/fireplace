@@ -1443,17 +1443,17 @@ class UNG_024e:
 # 	https://hearthstone.gamepedia.com/Primal_Magic
 # 	"""
 # 	pass
-#
-#
-# class UNG_948:
-# 	"""
-# 	Molten Reflection - (Spell)
-# 	Choose a friendly minion. Summon a copy of it.
-# 	https://hearthstone.gamepedia.com/Molten_Reflection
-# 	"""
-# 	pass
-#
-#
+
+
+class UNG_948:
+	"""
+	Molten Reflection - (Spell)
+	Choose a friendly minion. Summon a copy of it.
+	https://hearthstone.gamepedia.com/Molten_Reflection
+	"""
+	play = Summon(CONTROLLER, ExactCopy(TARGET))
+
+
 # class UNG_955:
 # 	"""
 # 	Meteor - (Spell)

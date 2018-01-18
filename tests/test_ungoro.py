@@ -241,3 +241,37 @@ def test_mana_bind():
 	#
 	# game.player2.give("FP1_030").play() # loatheb
 	# assert game.player1.hand[0].cost == 5
+
+
+def test_molten_reflection():
+	"UNG_948"
+	game = prepare_game()
+	game.player1.discard_hand()
+	molten = game.player1.give("UNG_948")
+	assert not molten.is_playable()
+	game.player1.give(WISP).play()
+	assert molten.is_playable()
+	molten.play(game.player1.field[0])
+
+	assert len(game.player1.field) == 2
+
+	assert game.player1.field[0].id == WISP and game.player1.field[1].id == WISP
+
+	game.end_turn()
+
+	molten = game.player2.give("UNG_948")
+	assert not molten.is_playable()
+
+	wisp = game.player2.give(WISP).play()
+
+	game.player2.give("CS2_087").play(target=wisp) # blessing of might
+	assert wisp.atk == 1 + 3
+
+	molten.play(target=wisp)
+
+	assert len(game.player2.field) == 2
+	assert game.player2.field[0].id == WISP and game.player2.field[1].id == WISP
+
+	assert game.player2.field[0].atk == 4 and game.player2.field[1].atk == 4
+
+
