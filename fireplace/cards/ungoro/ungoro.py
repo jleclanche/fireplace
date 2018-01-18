@@ -723,17 +723,22 @@ class UNG_957:
 # 	https://hearthstone.gamepedia.com/Corrupting_Mist
 # 	"""
 # 	pass
-#
-#
-# class UNG_832:
-# 	"""
-# 	Bloodbloom - (Spell)
-# 	The next spell you cast this turn costs Health instead of Mana.
-# 	https://hearthstone.gamepedia.com/Bloodbloom
-# 	"""
-# 	pass
-#
-#
+
+
+class UNG_832:
+	"""
+	Bloodbloom - (Spell)
+	The next spell you cast this turn costs Health instead of Mana.
+	https://hearthstone.gamepedia.com/Bloodbloom
+	"""
+	play = Buff(CONTROLLER, "UNG_832e")
+
+
+class UNG_832e:
+	events = OWN_SPELL_PLAY.on(Destroy(SELF))
+	update = Refresh(CONTROLLER, {GameTag.SPELLS_COST_HEALTH: True})
+
+
 # class UNG_833:
 # 	"""
 # 	Lakkari Felhound - (Minion)

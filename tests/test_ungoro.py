@@ -301,3 +301,25 @@ def test_lyra_the_sunshard():
 	assert game.player1.hand[-1].card_class == CardClass.PRIEST
 
 	assert len(game.player2.hand) == 1
+
+
+def test_bloodbloom():
+	"UNG_832"
+
+	game = prepare_empty_game()
+
+	assert game.player1.mana == 10
+
+	game.player1.give("UNG_832").play()
+	assert game.player1.mana == 10 - 2
+
+	game.player1.give(PYROBLAST).play(game.player2.hero)
+	assert game.player1.mana == 10 - 2
+	assert game.player2.hero.health == 30 - 10
+	assert game.player1.hero.health == 30 - 10
+
+	game.player1.give(SOULFIRE).play(game.player2.hero)
+	assert game.player1.mana == 10 - 2 - 1
+	assert game.player1.hero.health == 30 - 10
+
+
