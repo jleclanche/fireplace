@@ -323,3 +323,61 @@ def test_bloodbloom():
 	assert game.player1.hero.health == 30 - 10
 
 
+def test_pyros():
+	"UNG_027"
+	game = prepare_empty_game()
+
+	pyro = game.player1.give("UNG_027").play()
+
+	assert len(game.player1.field) == 1
+
+	game.player1.give("EX1_161").play(target=pyro) # naturalize
+
+	assert len(game.player1.field) == 0
+	assert len(game.player1.hand) == 1
+
+	pyro = game.player1.hand[0]
+
+	assert pyro.cost == 6
+	assert pyro.atk == 6
+	assert pyro.health == 6
+
+	pyro.play()
+
+	assert len(game.player1.field) == 1
+	assert len(game.player1.hand) == 0
+
+	game.player1.give("EX1_161").play(target=pyro)  # naturalize
+
+	assert len(game.player1.field) == 0
+	assert len(game.player1.hand) == 1
+
+	pyro = game.player1.hand[0]
+
+	assert pyro.cost == 10
+	assert pyro.atk == 10
+	assert pyro.health == 10
+
+	# TODO: baron rivendale should not trigger this deathrattle twice
+	
+	# game.player1.discard_hand()
+	#
+	# game.end_turn()
+	# game.end_turn()
+	#
+	# pyro = game.player1.give("UNG_027").play()
+	#
+	# game.player1.give("FP1_031").play() # baron rivendale
+	# game.player1.give("EX1_161").play(target=pyro)  # naturalize
+	#
+	# assert len(game.player1.field) == 1
+	# assert len(game.player1.hand) == 1
+	#
+	# pyro = game.player1.hand[0]
+	#
+	# assert pyro.cost == 6
+	# assert pyro.atk == 6
+	# assert pyro.health == 6
+
+
+

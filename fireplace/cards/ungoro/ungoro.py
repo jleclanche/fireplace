@@ -1378,24 +1378,24 @@ class UNG_024e:
 	events = REMOVED_IN_PLAY
 
 
-# class UNG_027:
-# 	"""
-# 	Pyros - (Minion)
-# 	Deathrattle: Return this to_your hand as a 6/6 that costs (6).
-# 	https://hearthstone.gamepedia.com/Pyros
-# 	"""
-# 	deathrattle = None
-#
-#
-# class UNG_027t2:
-# 	"""
-# 	Pyros - (Minion)
-# 	Deathrattle: Return this to_your hand as a 10/10 that costs (10).
-# 	https://hearthstone.gamepedia.com/Pyros
-# 	"""
-# 	deathrattle = None
-#
-#
+class UNG_027:
+	"""
+	Pyros - (Minion)
+	Deathrattle: Return this to_your hand as a 6/6 that costs (6).
+	https://hearthstone.gamepedia.com/Pyros
+	"""
+	deathrattle = Bounce(SELF), Morph(SELF, "UNG_027t2")
+
+
+class UNG_027t2:
+	"""
+	Pyros - (Minion)
+	Deathrattle: Return this to_your hand as a 10/10 that costs (10).
+	https://hearthstone.gamepedia.com/Pyros
+	"""
+	deathrattle = Bounce(SELF), Morph(SELF, "UNG_027t4")
+
+
 # class UNG_028:
 # 	"""
 # 	Open the Waygate - (Spell)
