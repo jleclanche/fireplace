@@ -1671,17 +1671,29 @@ UNG_108e = buff(+1, +1)
 # 	https://hearthstone.gamepedia.com/Elder_Longneck
 # 	"""
 # 	play = None
-#
-#
-# class UNG_111:
-# 	"""
-# 	Living Mana - (Spell)
-# 	Transform your Mana Crystals into 2/2 minions. Recover the mana when they die.
-# 	https://hearthstone.gamepedia.com/Living_Mana
-# 	"""
-# 	pass
-#
-#
+
+
+class UNG_111:
+	"""
+	Living Mana - (Spell)
+	Transform your Mana Crystals into 2/2 minions. Recover the mana when they die.
+	https://hearthstone.gamepedia.com/Living_Mana
+	"""
+
+	def play(self):
+		actions = (FULL_BOARD | (*GainEmptyMana(CONTROLLER, -1),), Summon(CONTROLLER, "UNG_111t1")) * self.controller.max_mana
+		for action in actions:
+			yield action
+
+
+class UNG_111t1:
+	"""
+	Mana Treant - (Minion)
+	Deathrattle: Gain an empty mana crystal.
+	https://hearthstone.gamepedia.com/Mana_Treant
+	"""
+	deathrattle = GainEmptyMana(CONTROLLER, 1)
+
 # class UNG_116:
 # 	"""
 # 	Jungle Giants - (Spell)

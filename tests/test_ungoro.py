@@ -359,7 +359,7 @@ def test_pyros():
 	assert pyro.health == 10
 
 	# TODO: baron rivendale should not trigger this deathrattle twice
-	
+
 	# game.player1.discard_hand()
 	#
 	# game.end_turn()
@@ -379,5 +379,72 @@ def test_pyros():
 	# assert pyro.atk == 6
 	# assert pyro.health == 6
 
+def test_living_mana_1():
+	"UNG_111"
+	game = prepare_empty_game()
 
+	assert game.player1.mana == 10
 
+	game.player1.give("UNG_111").play()
+
+	assert game.player1.max_mana == 10 - 7
+	assert game.player1.mana == 3 # empty crystals are consumed first
+
+	assert len(game.player1.field) == 7
+	assert game.player1.field[0].id == "UNG_111t1"
+
+	assert game.player1.field[0].has_deathrattle
+	game.end_turn()
+
+	game.player2.give("EX1_161").play(target=game.player1.field[0])
+
+	assert game.player1.max_mana == 10 - 7 + 1
+
+def test_living_mana_2():
+	"UNG_111"
+	game = prepare_empty_game()
+
+	game.player1.max_mana = 5
+	assert game.player1.mana == 5
+
+	game.player1.give("UNG_111").play()
+
+	assert game.player1.max_mana == 5 - 5
+	assert game.player1.mana == 0
+
+	assert len(game.player1.field) == 5
+	assert game.player1.field[0].id == "UNG_111t1"
+
+	assert game.player1.field[0].has_deathrattle
+	game.end_turn()
+
+	game.player2.give("EX1_161").play(target=game.player1.field[0])
+
+	assert game.player1.max_mana == 5 - 5 + 1
+
+def test_living_mana_innervate():
+	"UNG_111"
+	game = prepare_empty_game()
+
+	game.player1.max_mana = 3
+	assert game.player1.mana == 3
+
+	# innervate doesn't increase the number of summoned treants
+	game.player1.give(INNERVATE).play()
+
+	assert game.player1.max_mana == 3
+
+	game.player1.give("UNG_111").play()
+
+	assert game.player1.max_mana == 3 - 3
+	assert game.player1.mana == 0
+
+	assert len(game.player1.field) == 3
+	assert game.player1.field[0].id == "UNG_111t1"
+
+	assert game.player1.field[0].has_deathrattle
+	game.end_turn()
+
+	game.player2.give("EX1_161").play(target=game.player1.field[0])
+
+	assert game.player1.max_mana == 3 - 3 + 1
