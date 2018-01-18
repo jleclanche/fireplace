@@ -1172,14 +1172,14 @@ class UNG_032:
 # 	play = None
 #
 #
-# class UNG_963:
-# 	"""
-# 	Lyra the Sunshard - (Minion)
-# 	Whenever you cast a spell, add a random Priest spell to your hand.
-# 	https://hearthstone.gamepedia.com/Lyra_the_Sunshard
-# 	"""
-# 	pass
-#
+class UNG_963:
+	"""
+	Lyra the Sunshard - (Minion)
+	Whenever you cast a spell, add a random Priest spell to your hand.
+	https://hearthstone.gamepedia.com/Lyra_the_Sunshard
+	"""
+	events = OWN_SPELL_PLAY.on(Give(CONTROLLER, RandomSpell(card_class=CardClass.PRIEST)))
+
 ###############################################################################
 ##                                                                           ##
 ##                                  Paladin                                  ##

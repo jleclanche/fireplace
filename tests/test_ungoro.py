@@ -282,3 +282,22 @@ def test_direhorn_hatchling():
 	game.player1.give("EX1_161").play(direhorn) #naturalize it
 
 	assert game.player1.deck.contains("UNG_957t1")
+
+
+def test_lyra_the_sunshard():
+	"UNG_963"
+	game = prepare_empty_game()
+
+	game.player1.give("UNG_963").play()
+
+	assert len(game.player1.hand) == 0
+	game.player1.give(THE_COIN).play()
+
+	assert len(game.player1.hand) == 1
+	assert game.player1.hand[0].card_class == CardClass.PRIEST
+
+	game.player1.give(THE_COIN).play()
+	assert len(game.player1.hand) == 2
+	assert game.player1.hand[-1].card_class == CardClass.PRIEST
+
+	assert len(game.player2.hand) == 1
