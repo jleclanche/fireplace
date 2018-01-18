@@ -636,16 +636,16 @@ class UNG_946:
 # 	https://hearthstone.gamepedia.com/Sulfuras
 # 	"""
 # 	play = None
-#
-#
-# class UNG_957:
-# 	"""
-# 	Direhorn Hatchling - (Minion)
-# 	Taunt Deathrattle: Shuffle a 6/9 Direhorn with Taunt into your deck.
-# 	https://hearthstone.gamepedia.com/Direhorn_Hatchling
-# 	"""
-# 	deathrattle = None
-#
+
+
+class UNG_957:
+	"""
+	Direhorn Hatchling - (Minion)
+	Taunt Deathrattle: Shuffle a 6/9 Direhorn with Taunt into your deck.
+	https://hearthstone.gamepedia.com/Direhorn_Hatchling
+	"""
+	deathrattle = Shuffle(CONTROLLER, "UNG_957t1")
+
 ###############################################################################
 ##                                                                           ##
 ##                                  Warlock                                  ##

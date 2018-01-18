@@ -275,3 +275,10 @@ def test_molten_reflection():
 	assert game.player2.field[0].atk == 4 and game.player2.field[1].atk == 4
 
 
+def test_direhorn_hatchling():
+	"UNG_957"
+	game = prepare_game()
+	direhorn = game.player1.give("UNG_957").play()
+	game.player1.give("EX1_161").play(direhorn) #naturalize it
+
+	assert game.player1.deck.contains("UNG_957t1")
