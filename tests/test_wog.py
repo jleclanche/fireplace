@@ -714,3 +714,38 @@ def test_yshaarj_rage_unbound():
 
 	assert game.player1.field == [yshaarj, wisp]
 	assert len(game.player1.deck) == 0
+
+
+def test_fandral_staghelm():
+	game = prepare_empty_game()
+	fandral = game.player1.give("OG_044")
+	assert game.player1.choose_both == False
+	fandral.play()
+	assert game.player1.choose_both == True
+	claw = game.player1.give("EX1_165")
+	assert claw.must_choose_one == False
+	claw.play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[1].id == "OG_044a"
+	game.end_turn()
+	game.end_turn()
+	ancient = game.player1.give("EX1_178").play()
+	assert ancient.atk == 10
+	assert ancient.health == 10
+	assert ancient.taunt == True
+
+def test_giant_sand_worm():
+	game = prepare_empty_game()
+	worm = game.player1.give("OG_308")
+	worm.play()
+	game.end_turn()
+	wisp1 = game.player2.give(WISP).play()
+	wisp2 = game.player2.give(WISP).play()
+	game.end_turn()
+	assert worm.num_attacks == 0
+	worm.attack(target=wisp1)
+	assert worm.num_attacks == 0
+	worm.attack(target=wisp2)
+	assert worm.num_attacks == 0
+	worm.attack(target=game.player2.hero)
+	assert worm.num_attacks == 1

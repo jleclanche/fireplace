@@ -35,6 +35,7 @@ class BRM_009:
 class BRM_010:
 	"Druid of the Flame"
 	choose = ("BRM_010a", "BRM_010b")
+	play = ChooseBoth(CONTROLLER) & Morph(SELF, "OG_044b")
 
 class BRM_010a:
 	play = Morph(SELF, "BRM_010t")

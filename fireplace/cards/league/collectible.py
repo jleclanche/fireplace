@@ -281,6 +281,7 @@ LOE_113e = buff(+2, +2)
 class LOE_115:
 	"Raven Idol"
 	choose = ("LOE_115a", "LOE_115b")
+	play = ChooseBoth(CONTROLLER) & (DISCOVER(RandomMinion()), DISCOVER(RandomSpell()))
 
 class LOE_115a:
 	play = DISCOVER(RandomMinion())

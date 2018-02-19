@@ -6,6 +6,7 @@ from ..utils import *
 class CFM_308:
 	"Kun the Forgotten King"
 	choose = ("CFM_308a", "CFM_308b")
+	play = ChooseBoth(CONTROLLER) & (GainArmor(FRIENDLY_HERO, 10), FillMana(CONTROLLER, USED_MANA(CONTROLLER)))
 
 class CFM_308a:
 	play = GainArmor(FRIENDLY_HERO, 10)
@@ -37,6 +38,7 @@ CFM_816e = buff(+2,+2)
 class CFM_602:
 	"Jade Idol"
 	choose = ("CFM_602a", "CFM_602b")
+	play = ChooseBoth(CONTROLLER) & (SummonJadeGolem(CONTROLLER), Shuffle(CONTROLLER, "CFM_602") * 3)
 
 class CFM_602a:
 	play = SummonJadeGolem(CONTROLLER)

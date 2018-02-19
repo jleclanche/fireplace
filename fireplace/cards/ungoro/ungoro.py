@@ -1642,6 +1642,7 @@ class UNG_101:
 	https://hearthstone.gamepedia.com/Shellshifter
 	"""
 	choose = ("UNG_101a", "UNG_101b")
+	play = ChooseBoth(CONTROLLER) & Morph(SELF, "UNG_101t3")
 
 #
 # class UNG_103:

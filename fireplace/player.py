@@ -14,6 +14,7 @@ from .utils import CardList
 class Player(Entity, TargetableByAuras):
 	Manager = PlayerManager
 	cant_overload = slot_property("cant_overload")
+	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
 	extra_deathrattles = slot_property("extra_deathrattles")
 	healing_double = slot_property("healing_double", sum)
@@ -61,6 +62,7 @@ class Player(Entity, TargetableByAuras):
 		self.jade_golem = 1
 		self.spells_played_this_game = 0
 		self.secrets_played_this_game = 0
+		self.cthun = None
 
 	def __str__(self):
 		return self.name
@@ -157,6 +159,7 @@ class Player(Entity, TargetableByAuras):
 		self.summon(self.starting_hero)
 		for id in self.starting_deck:
 			self.card(id, zone=Zone.DECK)
+		self.cthun = self.card("OG_280")
 		self.shuffle_deck()
 		self.playstate = PlayState.PLAYING
 
