@@ -1265,3 +1265,13 @@ class SummonJadeGolem(TargetedAction):
 			self.queue_broadcast(summon_action, (target, EventListener.ON, target, card))
 			self.broadcast(target, EventListener.ON, target, card)
 			self.resolve_broadcasts()
+
+class ExtraAttack(TargetedAction):
+	"""
+	Get target an extra attack change
+	"""
+	TARGET = ActionArg()
+
+	def do(self, source, target):
+		log.info("%s gets an extra attack change.", target)
+		target.num_attacks -= 1
