@@ -3,8 +3,12 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_321:
-#	"Grimestreet Informant"
+class CFM_321:
+	"Grimestreet Informant"
+	play = GenericChoice(CONTROLLER, [
+		RandomCollectible(card_class=CardClass.HUNTER), 
+		RandomCollectible(card_class=CardClass.PALADIN),
+		RandomCollectible(card_class=CardClass.WARRIOR)])
 
 class CFM_325:
 	"Small-Time Buccaneer"
@@ -13,8 +17,12 @@ class CFM_325:
 class CFM_325e:
 	tags = {GameTag.ATK: +2}
 
-#class CFM_649:
-#	"Kabal Courier"
+class CFM_649:
+	"Kabal Courier"
+	play = GenericChoice(CONTROLLER, [
+		RandomCollectible(card_class=CardClass.MAGE),
+		RandomCollectible(card_class=CardClass.PRIEST),
+		RandomCollectible(card_class=CardClass.WARLOCK)])
 
 class CFM_652:
 	"Second-Rate Bruiser"
@@ -43,6 +51,11 @@ class CFM_688:
 	powered_up = Find(ENEMY_MINIONS + TAUNT)
 	play = powered_up & GiveCharge(SELF)
 
-#class CFM_852:
-#	"Lotus Agents"
+class CFM_852:
+	"Lotus Agents"
+	play = GenericChoice(CONTROLLER, [
+		RandomCollectible(card_class=CardClass.DRUID), 
+		RandomCollectible(card_class=CardClass.ROGUE),
+		RandomCollectible(card_class=CardClass.SHAMAN)])
+
 
