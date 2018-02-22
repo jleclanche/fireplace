@@ -21,6 +21,8 @@ Taunt = lambda target: SetTag(target, (GameTag.TAUNT, ))
 GiveCharge = lambda target: SetTag(target, (GameTag.CHARGE, ))
 GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD, ))
 GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
+CantAttackHero = lambda target: SetTag(target, (GameTag.CANNOT_ATTACK_HEROES, ))
+UnCantAttackHero = lambda target: UnsetTag(target, (GameTag.CANNOT_ATTACK_HEROES, ))
 
 
 CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))
@@ -31,6 +33,7 @@ FULL_BOARD = Count(FRIENDLY_MINIONS) == 7
 FULL_HAND = Count(FRIENDLY_HAND) == 10
 HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
 CTHUN_CHECK = ATK(HIGHEST_ATK(CTHUN)) >= 10
+PLAYED_ELEMENTAL = AttrValue('elemental_played_last_turn')(CONTROLLER) > 0
 
 DISCOVER = lambda *args: Discover(CONTROLLER, *args)
 

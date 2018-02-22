@@ -749,3 +749,8 @@ def test_giant_sand_worm():
 	assert worm.num_attacks == 0
 	worm.attack(target=game.player2.hero)
 	assert worm.num_attacks == 1
+
+def test_servant_of_yoggsaron():
+	game = prepare_empty_game()
+	servant = game.player1.give("OG_087")
+	servant.play()

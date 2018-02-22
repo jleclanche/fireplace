@@ -276,14 +276,13 @@ from ..utils import *
 # 	pass
 
 
-# class ICC_019:
-# 	"""
-# 	Skelemancer - (Minion)
-# 	Deathrattle: If it's your opponent's turn, summon an 8/8 Skeleton.
-# 	https://hearthstone.gamepedia.com/Skelemancer
-# 	"""
-# 	deathrattle = None
-# 	pass
+class ICC_019:
+	"""
+	Skelemancer - (Minion)
+	Deathrattle: If it's your opponent's turn, summon an 8/8 Skeleton.
+	https://hearthstone.gamepedia.com/Skelemancer
+	"""
+	deathrattle = Find(CURRENT_PLAYER + CONTROLLER) | Summon(CONTROLLER, "ICC_019t")
 
 
 class ICC_025:
@@ -297,24 +296,22 @@ class ICC_025:
 
 
 
-# class ICC_026:
-# 	"""
-# 	Grim Necromancer - (Minion)
-# 	Battlecry: Summon two 1/1 Skeletons.
-# 	https://hearthstone.gamepedia.com/Grim_Necromancer
-# 	"""
-# 	play = None
-# 	pass
+class ICC_026:
+	"""
+	Grim Necromancer - (Minion)
+	Battlecry: Summon two 1/1 Skeletons.
+	https://hearthstone.gamepedia.com/Grim_Necromancer
+	"""
+	play = Summon(CONTROLLER, "ICC_026t") * 2
 
 
-# class ICC_027:
-# 	"""
-# 	Bone Drake - (Minion)
-# 	Deathrattle: Add a random Dragon to your hand.
-# 	https://hearthstone.gamepedia.com/Bone_Drake
-# 	"""
-# 	deathrattle = None
-# 	pass
+class ICC_027:
+	"""
+	Bone Drake - (Minion)
+	Deathrattle: Add a random Dragon to your hand.
+	https://hearthstone.gamepedia.com/Bone_Drake
+	"""
+	deathrattle = Give(CONTROLLER, RandomDragon())
 
 
 # class ICC_028:

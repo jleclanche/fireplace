@@ -7,18 +7,27 @@ class CFM_315:
 	"Alleycat"
 	play = Summon(CONTROLLER, "CFM_315t")
 
-# class CFM_316:
-# 	"Rat Pack"
-#	TODO: Find a way to cache the atk value before death
-# 	deathrattle = Summon(CONTROLLER, "CFM_316t") * ATK(SELF)
+class CFM_316:
+	"Rat Pack"
+	def deathrattle(self):
+		if self.dead:
+			count = self.preatk
+		else:
+			count = self.atk
+		for i in range(count):
+			yield Summon(CONTROLLER, "CFM_316t")
 
-#class CFM_333:
-#	"Knuckles"
+class CFM_333:
+	"Knuckles"
+	def play(self):
+		self.game.refresh_auras()
+		yield Hit(TARGET, ATK(SELF))
 
-# class CFM_335:
-# 	"Dispatch Kodo"
-#	TODO: Battlecry needs to resolve after aura refresh to be accurate
-# 	play = Hit(TARGET, ATK(SELF))
+class CFM_335:
+	"Dispatch Kodo"
+	def play(self):
+		self.game.refresh_auras()
+		yield Hit(TARGET, ATK(SELF))
 
 class CFM_336:
 	"Shaky Zipgunner"

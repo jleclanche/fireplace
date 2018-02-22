@@ -3,26 +3,35 @@ from ..utils import *
 ##
 # Minions
 
-#class CFM_341:
-#	"Sergeant Sally"
+class CFM_341:
+	"Sergeant Sally"
+	def deathrattle(self):
+		if self.dead:
+			count = self.preatk
+		else:
+			count = self.atk
+		yield Hit(ENEMY_MINIONS, count)
 
 class CFM_344:
 	"Finja, the Flying Star"
 	events = Attack(SELF).after(
-		Find(Attack.DEFENDER + MORTALLY_WOUNDED) &
+		Dead(Attack.DEFENDER + ALL_MINIONS) &
 		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MURLOC) * 2)
-		)
+	)
 
-#class CFM_621:
-#	"Kazakus"
+class CFM_621:
+	"Kazakus"
+	powered_up = -FindDuplicates(FRIENDLY_DECK)
+	play = powered_up & Kazakus(CONTROLLER)
 
 class CFM_637:
 	"Patches the Pirate"
 	class Deck:
 		events = Summon(CONTROLLER, FRIENDLY + MINION + PIRATE).after(Summon(CONTROLLER, SELF))
 
-#class CFM_670:
-#	"Mayor Noggenfogger"
+class CFM_670:
+	"Mayor Noggenfogger"
+	update = Refresh(ALL_PLAYERS, {GameTag.ALL_TARGETS_RANDOM: True})
 #	TODO: Requires implementation of GameTag.ALL_TARGETS_RANDOM: 477
 
 class CFM_672:

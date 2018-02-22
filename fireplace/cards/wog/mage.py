@@ -14,8 +14,9 @@ class OG_085:
 	events = OWN_SPELL_PLAY.after(Freeze(RANDOM(ENEMY_CHARACTERS - MORTALLY_WOUNDED - FROZEN)))
 
 
-# class OG_087:
-#	"Servant of Yogg-Saron"
+class OG_087:
+	"Servant of Yogg-Saron"
+	play = CastSpell(RandomSpell(cost=[0,1,2,3,4,5]))
 
 
 class OG_120:
@@ -27,8 +28,11 @@ class OG_207:
 	"Faceless Summoner"
 	play = Summon(CONTROLLER, RandomMinion(cost=3))
 
-# class OG_303:
-# 	"Cult Sorcerer"
+class OG_303:
+	"Cult Sorcerer"
+	events = OWN_SPELL_PLAY.after(Buff(CTHUN, "OG_303e"))
+
+OG_303e = buff(+1, +1)
 
 ##
 # Spells

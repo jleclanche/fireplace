@@ -31,8 +31,11 @@ class OG_241:
 	deathrattle = Summon(CONTROLLER, "OG_241a")
 
 
-# class OG_302:
-# 	"Usher of Souls"
+class OG_302:
+	"Usher of Souls"
+	events = Death(FRIENDLY_MINIONS).on(Buff(CTHUN, "OG_302e"))
+
+OG_302e = buff(+1, +1)
 
 ##
 # Spells
@@ -49,8 +52,37 @@ class OG_116:
 	play = Hit(RANDOM_CHARACTER, 1) * 9
 
 
-# class OG_118:
-# 	"Renounce Darkness"
+class OG_118:
+	"Renounce Darkness"
+	def play(self):
+		RandomClass = random.choice([
+			"DRUID", "HUNTER", "MAGE", "PALADIN",
+			"PRIEST", "ROGUE", "SHAMAN", "WARRIOR"]
+		)
+		ClassMap = {
+			"DRUID": CardClass.DRUID,
+			"HUNTER": CardClass.HUNTER,
+			"MAGE": CardClass.MAGE,
+			"PALADIN": CardClass.PALADIN,
+			"PRIEST": CardClass.PRIEST,
+			"ROGUE": CardClass.ROGUE,
+			"SHAMAN": CardClass.SHAMAN,
+			"WARRIOR": CardClass.WARRIOR
+		}
+		HeroPowerMap = {
+			"DRUID": "CS2_017",
+			"HUNTER": "DS1h_292",
+			"MAGE": "CS2_034",
+			"PALADIN": "CS2_101",
+			"PRIEST": "CS1h_001",
+			"ROGUE": "CS2_083b",
+			"SHAMAN": "CS2_049",
+			"WARRIOR": "CS2_102"
+		}
+		yield Summon(CONTROLLER, HeroPowerMap[RandomClass])
+		yield Morph(FRIENDLY + (IN_DECK | IN_HAND) + WARRIOR, RandomCollectible(card_class=ClassMap[RandomClass])).then(
+			Buff(Morph.CARD, "OG_118f")
+		)
 
 
 class OG_239:

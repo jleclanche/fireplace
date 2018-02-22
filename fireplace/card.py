@@ -24,6 +24,8 @@ def Card(id):
 	}[data.type]
 	if subclass is Spell and data.secret:
 		subclass = Secret
+	if subclass is Spell and data.quest:
+		subclass = Quest
 	return subclass(data)
 
 
@@ -43,6 +45,9 @@ class BaseCard(BaseEntity):
 		self.heropower_damage = 0
 		self._zone = Zone.INVALID
 		self.tags.update(data.tags)
+		self.card_set = data.card_set
+		self.secret = data.secret
+		self.quest = data.quest
 
 	def __str__(self):
 		return self.data.name
@@ -91,7 +96,10 @@ class BaseCard(BaseEntity):
 		if caches.get(old) is not None:
 			caches[old].remove(self)
 		if caches.get(value) is not None:
-			caches[value].append(self)
+			if hasattr(self, "_summon_index") and self._summon_index is not None:
+				caches[value].insert(self._summon_index, self)
+			else:
+				caches[value].append(self)
 		self._zone = value
 
 		if value == Zone.PLAY:
@@ -166,6 +174,14 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 					ret += r
 		ret = self._getattr("cost", ret)
 		return max(0, ret)
+
+	@property
+	def cost_add(self):
+		return self.cost+1
+
+	@property
+	def cost_dec(self):
+		return self.cost-1
 
 	@cost.setter
 	def cost(self, value):
@@ -298,6 +314,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				raise InvalidAction("%r is not a valid target for %r." % (target, self))
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
+		if self.controller.all_targets_random:
+			target = self.game.cheat_action(self, [actions.Retarget(self, random.choice(self.controller.opponent.characters))])[0][0]
 		self.game.play_card(self, target, index, choose)
 		return self
 
@@ -531,6 +549,8 @@ class Character(LiveEntity):
 	def attack(self, target):
 		if not self.can_attack(target):
 			raise InvalidAction("%r can't attack %r." % (self, target))
+		if self.controller.all_targets_random:
+			target = self.game.cheat_action(self, [actions.Retarget(self, random.choice(self.controller.opponent.characters))])[0][0]
 		self.game.attack(self, target)
 
 	@property
@@ -775,6 +795,46 @@ class Secret(Spell):
 		return super().is_summonable()
 
 
+class Quest(Spell):
+	def __init__(self, data):
+		self.quest_progress_total = data.quest_progress_total
+		self.quest_progress = 0
+		self.quest_map = {}
+		super().__init__(data)
+
+
+	@property
+	def events(self):
+		ret = super().events
+		if self.zone == Zone.SECRET:
+			ret += self.data.scripts.secret
+		return ret
+
+	@property
+	def zone_position(self):
+		if self.zone == Zone.SECRET:
+			return self.controller.secrets.index(self) + 1
+		return super().zone_position
+
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			# Move secrets to the SECRET Zone when played
+			value = Zone.SECRET
+		if self.zone == Zone.SECRET:
+			self.controller.secrets.remove(self)
+		if value == Zone.SECRET:
+			self.controller.secrets.insert(0, self)
+		super()._set_zone(value)
+
+	def is_summonable(self):
+		# secrets are all unique
+		for i in self.controller.secrets:
+			if i.quest:
+				return False
+		return super().is_summonable()
+
+
+
 class Enchantment(BaseCard):
 	atk = int_property("atk")
 	cost = int_property("cost")
@@ -829,6 +889,8 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "max_health"):
 			self.log("%r removes all damage from %r", self, target)
 			target.damage = 0
+		if hasattr(self.data.scripts, "hand"):
+			target.data.scripts.Hand.events.append(self.data.scripts.hand)
 		self.zone = Zone.PLAY
 
 	def remove(self):

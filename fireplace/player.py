@@ -13,6 +13,7 @@ from .utils import CardList
 
 class Player(Entity, TargetableByAuras):
 	Manager = PlayerManager
+	all_targets_random = slot_property("all_targets_random")
 	cant_overload = slot_property("cant_overload")
 	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
@@ -63,6 +64,10 @@ class Player(Entity, TargetableByAuras):
 		self.spells_played_this_game = 0
 		self.secrets_played_this_game = 0
 		self.cthun = None
+		self.totems_played_this_game = 0
+		self.next_choice = []
+		self.elemental_played_this_turn = 0
+		self.elemental_played_last_turn = 0
 
 	def __str__(self):
 		return self.name

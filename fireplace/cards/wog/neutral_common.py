@@ -50,17 +50,29 @@ class OG_256:
 OG_256e = buff(+1, +1)
 
 
-# class OG_281:
-#	"Beckoner of Evil"
+class OG_281:
+	"Beckoner of Evil"
+	play = Buff(CTHUN, "OG_281e")
 
-# class OG_283:
-#	"C'Thun's Chosen"
+OG_281e = buff(+2, +2)
 
-# class OG_284:
-#	"Twilight Geomancer"
+class OG_283:
+	"C'Thun's Chosen"
+	play = Buff(CTHUN, "OG_283e")
 
-# class OG_286:
-#	"Twilight Elder"
+OG_283e = buff(+2, +2)
+
+class OG_284:
+	"Twilight Geomancer"
+	play = Buff(CTHUN, "OG_284e")
+
+OG_284e = buff(taunt=True)
+
+class OG_286:
+	"Twilight Elder"
+	events = OWN_TURN_END.on(Buff(CTHUN, "OG_286e"))
+
+OG_286e = buff(+1, +1)
 
 class OG_295:
 	"Cult Apothecary"

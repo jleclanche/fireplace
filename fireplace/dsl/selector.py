@@ -124,6 +124,8 @@ ATK = AttrValue(GameTag.ATK)
 CONTROLLER = AttrValue(GameTag.CONTROLLER)
 CURRENT_HEALTH = AttrValue("health")
 COST = AttrValue(GameTag.COST)
+COST_ADD = AttrValue("cost_add")
+COST_DEC = AttrValue("cost_dec")
 DAMAGE = AttrValue(GameTag.DAMAGE)
 MANA = AttrValue(GameTag.RESOURCES)
 USED_MANA = AttrValue(GameTag.RESOURCES_USED)
@@ -301,6 +303,28 @@ class RandomSelector(Selector):
 	def __mul__(self, other):
 		return RandomSelector(self.child, self.times * other)
 
+
+class SelectorOne(Selector):
+	"""
+	Selects a 1-member of the targets.
+	This selector can be multiplied to select more than 1 target.
+	"""
+	def __init__(self, child: SelectorLike, times=1):
+		if isinstance(child, LazyValue):
+			child = LazyValueSelector(child)
+		self.child = child
+		self.times = times
+
+	def eval(self, entities, source):
+		child_entities = self.child.eval(entities, source)
+		if len(child_entities) == 0:
+			return []
+		return [child_entities[0]]
+
+	def __mul__(self, other):
+		return SelectorOne(self.child, self.times * other)
+
+
 RANDOM = RandomSelector
 
 MORTALLY_WOUNDED = CURRENT_HEALTH <= 0
@@ -397,6 +421,7 @@ MECH = EnumSelector(Race.MECHANICAL)
 MURLOC = EnumSelector(Race.MURLOC)
 PIRATE = EnumSelector(Race.PIRATE)
 TOTEM = EnumSelector(Race.TOTEM)
+ELEMENTAL = EnumSelector(Race.ELEMENTAL)
 
 COMMON = EnumSelector(Rarity.COMMON)
 RARE = EnumSelector(Rarity.RARE)

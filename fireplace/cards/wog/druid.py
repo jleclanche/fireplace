@@ -23,7 +23,7 @@ class OG_188:
 	"Klaxxi Amber-Weaver"
 	play = CTHUN_CHECK & Buff(SELF, "OG_188e")
 
-OG_188e = buff(health = 5)
+OG_188e = buff(health=5)
 
 class OG_202:
 	"Mire Keeper"

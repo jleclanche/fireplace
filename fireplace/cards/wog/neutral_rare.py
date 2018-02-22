@@ -21,8 +21,11 @@ class OG_161:
 	play = Hit(ALL_MINIONS - MURLOC, 2)
 
 
-# class OG_162:
-#	"Disciple of C'Thun"
+class OG_162:
+	"Disciple of C'Thun"
+	play = Hit(TARGET, 2), Buff(CTHUN, "OG_162e")
+
+OG_162e = buff(+2, +2)
 
 
 class OG_254:
@@ -34,9 +37,14 @@ class OG_254:
 
 OG_254e = buff(+1, +1)
 
-# class OG_255:
-# 	"Doomcaller"
+class OG_255:
+	"Doomcaller"
+	play = (
+		Buff(CTHUN, "OG_255e"),
+		Find(FRIENDLY + KILLED + CTHUN) & Shuffle(CONTROLLER, ExactCopy(SelectorOne(CTHUN)))
+	)
 
+OG_255e = buff(+2, +2)
 
 class OG_320:
 	"Midnight Drake"
@@ -50,5 +58,8 @@ class OG_322:
 	update = Refresh(FRIENDLY_HAND + WEAPON, {GameTag.COST: -2})
 
 
-# class OG_339:
-# 	"Skeram Cultist"
+class OG_339:
+	"Skeram Cultist"
+	play = Buff(CTHUN, "OG_339e")
+
+OG_339e = buff(+2, +2)
