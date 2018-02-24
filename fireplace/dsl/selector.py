@@ -391,6 +391,7 @@ STEALTH = EnumSelector(GameTag.STEALTH)
 TAUNT = EnumSelector(GameTag.TAUNT)
 WINDFURY = EnumSelector(GameTag.WINDFURY)
 CLASS_CARD = EnumSelector(GameTag.CLASS)
+LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True

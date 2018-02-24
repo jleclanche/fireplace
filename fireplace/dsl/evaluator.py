@@ -124,6 +124,22 @@ class Dead(Evaluator):
 		return True
 
 
+class DeadOne(Evaluator):
+	"""
+	Evaluates to True if has one target in \a selector is dead
+	"""
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def check(self, source):
+		for target in self.selector.eval(source.game, source):
+			if target.dead:
+				return True
+		return False
+
+
+
 class Find(Evaluator):
 	"""
 	Evaluates to True if \a selector has a match.

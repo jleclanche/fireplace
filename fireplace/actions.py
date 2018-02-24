@@ -362,6 +362,8 @@ class GenericChoice(GameAction):
 					_card.zone = Zone.PLAY
 				elif self.source.id in ["UNG_088", "UNG_211"]:
 					self.player.game.cheat_action(self.source, [CastSpell(card)])
+				elif self.source.id in ["ICC_213"]:
+					self.player.game.cheat_action(self.source, [Summon(card)])
 				elif len(self.player.hand) < self.player.max_hand_size:
 					_card.zone = Zone.HAND
 				else:
@@ -765,6 +767,15 @@ class Destroy(TargetedAction):
 				target.reset()
 				target.zone = Zone.GRAVEYARD
 
+
+class Remove(TargetedAction):
+	"""
+	Remove character targets.
+	"""
+	TARGET = ActionArg()
+
+	def do(self, source, target):
+		target.zone = Zone.SETASIDE
 
 class Discard(TargetedAction):
 	"""
