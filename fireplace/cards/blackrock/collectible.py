@@ -67,10 +67,9 @@ class BRM_018:
 	"Dragon Consort"
 	play = Buff(CONTROLLER, "BRM_018e")
 
-BRM_018e = buff(cost=-3)
-
 
 class BRM_018e:
+	update = Refresh(FRIENDLY_HAND + DRAGON, {GameTag.COST: -2})
 	events = Play(CONTROLLER, DRAGON).on(Destroy(SELF))
 
 

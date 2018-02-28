@@ -69,6 +69,39 @@ def test_chromaggus_naturalize():
 	assert game.player1.hand[2] == game.player1.hand[3]
 
 
+def test_dragon_consort():
+	game = prepare_game()
+	game.player1.discard_hand()
+	consort1 = game.player1.give("BRM_018")
+	consort2 = game.player1.give("BRM_018")
+	ysera = game.player1.give("EX1_572")
+	scaled1 = game.player1.give("OG_271")
+	scaled2 = game.player2.give("OG_271")
+	corruptor1 = game.player1.give("BRM_034")
+	corruptor2 = game.player2.give("BRM_034")
+	consort1.play()
+	assert consort2.cost == 5 - 2
+	assert ysera.cost == 9 - 2
+	assert scaled1.cost == 6 - 2
+	assert scaled2.cost == 6
+	assert corruptor1.cost == corruptor2.cost == 5
+	consort2.play()
+	assert ysera.cost == 9 - 2
+	assert scaled1.cost == 6 - 2
+	assert scaled2.cost == 6
+	assert corruptor1.cost == corruptor2.cost == 5
+	game.end_turn()
+	game.end_turn()
+	
+	assert ysera.cost == 9 - 2
+	assert scaled1.cost == 6 - 2
+	assert scaled2.cost == 6
+	assert corruptor1.cost == corruptor2.cost == 5
+	ysera.play()
+	assert scaled1.cost == scaled2.cost == 6
+	assert corruptor1.cost == corruptor2.cost == 5
+
+
 def test_dragon_egg():
 	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	egg = game.player1.give("BRM_022")
