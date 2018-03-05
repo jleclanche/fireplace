@@ -8,6 +8,27 @@ def test_dark_pact():
 	pact.play(target=vulgar)
 	assert game.player1.hero.health == 30
 
+def test_hooked_reaver():
+	game = prepare_game()
+	hooked1 = game.player1.give("LOOT_018")
+	hooked2 = game.player2.give("LOOT_018")
+	assert not hooked1.powered_up
+	assert not hooked2.powered_up
+	for _ in range(15):
+		game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert not hooked1.powered_up
+	assert hooked2.powered_up
+	assert game.player1.hero.health == 30
+	assert game.player2.hero.health == 15
+	hooked1.play()
+	game.end_turn()
+	
+	hooked2.play()
+	assert hooked1.health == hooked1.atk == 4
+	assert hooked2.health == hooked2.atk == 7
+	assert not hooked1.taunt
+	assert hooked2.taunt
+	
 def test_psychic_scream():
 	game = prepare_game()
 	decksize = len(game.player1.deck)
