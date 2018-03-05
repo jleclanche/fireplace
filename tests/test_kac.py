@@ -25,3 +25,9 @@ def test_psychic_scream():
 	assert len(game.player1.field)==0
 	assert len(game.player2.field)==0
 	assert len(game.player1.deck)==decksize+14
+
+def test_vulgar_homunculus():
+	game = prepare_game()
+	assert game.player1.hero.health == 30
+	game.player1.give("LOOT_013").play()
+	assert game.player1.hero.health == 28
