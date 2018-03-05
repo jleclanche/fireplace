@@ -1,5 +1,13 @@
 from utils import *
 
+def test_dark_pact():
+	game = prepare_game()
+	vulgar = game.player1.give("LOOT_013").play()
+	pact = game.player1.give('LOOT_017')
+	assert game.player1.hero.health == 28
+	pact.play(target=vulgar)
+	assert game.player1.hero.health == 30
+
 def test_psychic_scream():
 	game = prepare_game()
 	decksize = len(game.player1.deck)
@@ -31,3 +39,4 @@ def test_vulgar_homunculus():
 	assert game.player1.hero.health == 30
 	game.player1.give("LOOT_013").play()
 	assert game.player1.hero.health == 28
+

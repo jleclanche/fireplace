@@ -14,3 +14,6 @@ class LOOT_014:
 ##
 # Spells
 
+class LOOT_017:
+	"Dark Pact"
+	play = Destroy(TARGET), Heal(FRIENDLY_HERO, 8)
