@@ -329,7 +329,7 @@ def test_barnes():
 	assert summon.health == 1
 
 def test_onyx_bishop():
-	game = prepare_game()
+	game = prepare_empty_game()
 	wisp = game.player1.give(WISP).play()
 	game.player1.give("CS2_009").play(target=wisp)
 	assert wisp.atk == 3
