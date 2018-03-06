@@ -8,6 +8,18 @@ def test_dark_pact():
 	pact.play(target=vulgar)
 	assert game.player1.hero.health == 30
 
+def test_faldorei_strider():
+	game = prepare_empty_game()
+	assert len(game.player1.deck) == 0
+	game.player1.give("LOOT_026").play()
+	assert len(game.player1.deck) == 3
+	assert len(game.player1.field) == 1
+	game.end_turn()
+	game.end_turn()
+	
+	assert len(game.player1.field) == 4
+	assert len(game.player1.deck) == 0
+
 def test_hooked_reaver():
 	game = prepare_game()
 	hooked1 = game.player1.give("LOOT_018")
