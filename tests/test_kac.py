@@ -1,9 +1,22 @@
 from utils import *
 
+def test_cavern_shinyfinder():
+	game = prepare_empty_game()
+	assert len(game.player1.deck) == 0
+	weapon = game.player1.give("AT_077")
+	wisp = game.player1.give(WISP)
+	weapon.shuffle_into_deck()
+	wisp.shuffle_into_deck()
+	assert len(game.player1.deck) == 2
+	game.player1.give("LOOT_033").play()
+	assert len(game.player1.deck) == 1
+	game.player1.give("LOOT_033").play()
+	assert len(game.player1.deck) == 1
+
 def test_dark_pact():
 	game = prepare_game()
 	vulgar = game.player1.give("LOOT_013").play()
-	pact = game.player1.give('LOOT_017')
+	pact = game.player1.give("LOOT_017")
 	assert game.player1.hero.health == 28
 	pact.play(target=vulgar)
 	assert game.player1.hero.health == 30
