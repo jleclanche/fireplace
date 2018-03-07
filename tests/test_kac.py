@@ -53,6 +53,15 @@ def test_hooked_reaver():
 	assert hooked2.health == hooked2.atk == 7
 	assert not hooked1.taunt
 	assert hooked2.taunt
+
+def test_kobold_barbarian():
+	game = prepare_game()
+	assert game.player2.hero.health == 30
+	game.player1.give("LOOT_041").play()
+	game.end_turn()
+	game.end_turn()
+	
+	assert game.player2.hero.health == 26
 	
 def test_psychic_scream():
 	game = prepare_game()
@@ -85,4 +94,3 @@ def test_vulgar_homunculus():
 	assert game.player1.hero.health == 30
 	game.player1.give("LOOT_013").play()
 	assert game.player1.hero.health == 28
-
