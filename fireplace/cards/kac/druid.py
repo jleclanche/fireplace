@@ -36,6 +36,21 @@ class LOOT_051t3:
 	"Greater Jasper Spellstone"
 	play = Hit(TARGET, 6)
 
+class LOOT_054:
+	"Branching Paths"
+	choose = ("LOOT_054b", "LOOT_054c", "LOOT_054d")#, choose = ("LOOT_054b", "LOOT_054c", "LOOT_054d")
+
+class LOOT_054b:
+	play = Buff(FRIENDLY_MINIONS, "LOOT_054be")
+
+LOOT_054be = buff(atk=+1)
+
+class LOOT_054c:
+	play = GainArmor(FRIENDLY_HERO, 6)
+
+class LOOT_054d:
+	play = Draw(CONTROLLER)
+
 ##
 # Weapons
 

@@ -55,6 +55,27 @@ def test_bladed_gauntlet():
 	assert game.player1.hero.armor == 2
 	assert gauntlet.atk == game.player1.hero.atk == 2
 
+def test_branching_paths():
+	game = prepare_game()
+	game.player1.discard_hand()
+	wisp1 = game.player1.give(WISP)
+	wisp2 = game.player1.give(WISP)
+	wisp1.play()
+	wisp2.play()
+	branching1 = game.player1.give("LOOT_054")
+	branching2 = game.player1.give("LOOT_054")
+	assert game.player1.hero.armor == 0
+	assert wisp1.atk == wisp2.atk == 1
+	assert len(game.player1.hand) == 2
+	branching1.play(choose="LOOT_054c")#, choose="LOOT_054d")
+	assert game.player1.hero.armor == 6
+	assert wisp1.atk == wisp2.atk == 1
+	assert len(game.player1.hand) == 2
+	branching2.play(choose="LOOT_054b")#, choose="LOOT_054b")
+	assert game.player1.hero.armor == 6
+	assert wisp1.atk == wisp2.atk == 3
+	assert len(game.player1.hand) == 1
+
 def test_cavern_shinyfinder():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
