@@ -13,4 +13,7 @@ class LOOT_041:
 ##
 # Weapons
 
+class LOOT_044:
+	"Bladed Gauntlet"
+	update = Refresh(FRIENDLY_WEAPON, buff=buff(atk=ARMOR(FRIENDLY_HERO)))
 

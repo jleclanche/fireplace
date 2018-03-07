@@ -28,6 +28,23 @@ def test_amethyst_spellstone():
 	stone2.play(target = wisp2) #Not sure how to refer to upgraded spellstone, because it's no longer stone
 	assert game.player1.hero.health == 25 #Currently fails because stone does not upgrade
 
+def test_bladed_gauntlet():
+	game = prepare_game()
+	gauntlet = game.player1.give("LOOT_044")
+	gauntlet.play()
+	assert game.player1.hero.armor == 0
+	assert gauntlet.atk == game.player1.hero.atk == 0
+	game.player1.give("EX1_606").play()
+	assert game.player1.hero.armor == 5
+	assert gauntlet.atk == game.player1.hero.atk == 5
+	game.end_turn()
+	
+	wolfrider = game.player2.give("CS2_124")
+	wolfrider.play()
+	wolfrider.attack(game.player1.hero)
+	assert game.player1.hero.armor == 2
+	assert gauntlet.atk == game.player1.hero.atk == 2
+
 def test_cavern_shinyfinder():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
