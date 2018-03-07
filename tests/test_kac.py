@@ -28,6 +28,27 @@ def test_amethyst_spellstone():
 	stone2.play(target = wisp2) #Not sure how to refer to upgraded spellstone, because it's no longer stone
 	assert game.player1.hero.health == 25 #Currently fails because stone does not upgrade
 
+def test_astral_tiger():
+	game = prepare_empty_game()
+	assert len(game.player1.deck) == 0
+	game.player1.give("LOOT_056")
+	for i in range(3):
+		tiger = game.player1.hand[0]
+		assert tiger.id == "LOOT_056"
+		tiger.play()
+		assert len(game.player1.field) == 1
+		assert len(game.player1.hand) == 0
+		assert len(game.player1.deck) == 0
+		tiger.destroy()
+		assert len(game.player1.field) == 0
+		assert len(game.player1.deck) == 1
+		assert len(game.player1.hand) == 0
+		game.end_turn(); game.end_turn()
+
+		assert len(game.player1.field) == 0
+		assert len(game.player1.deck) == 0
+		assert len(game.player1.hand) == 1
+
 def test_barkskin():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)

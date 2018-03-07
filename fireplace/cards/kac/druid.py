@@ -7,6 +7,10 @@ class LOOT_048:
 	"Ironwood Golem"
 	update = (ARMOR(FRIENDLY_HERO) < 3) & Refresh(SELF, {GameTag.CANT_ATTACK: True})
 
+class LOOT_056:
+	"Astral Tiger"
+	deathrattle = Shuffle(CONTROLLER, Copy(SELF))
+
 ##
 # Spells
 
