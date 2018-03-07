@@ -24,3 +24,20 @@ LOOT_018e = buff(+3, +3, taunt=True)
 class LOOT_017:
 	"Dark Pact"
 	play = Destroy(TARGET), Heal(FRIENDLY_HERO, 8)
+
+class LOOT_043:
+	"Lesser Amethyst Spellstone"
+	play = Hit(TARGET, 3), Heal(FRIENDLY_HERO, 3)
+	class Hand:
+		events = Predamage(FRIENDLY_HERO, CONTROLLER).on(Morph(SELF, 'LOOT_043t2'))
+
+class LOOT_043t2:
+	"Amethyst Spellstone"
+	play = Hit(TARGET, 5), Heal(FRIENDLY_HERO, 5)
+	class Hand:
+		events = Predamage(FRIENDLY_HERO, CONTROLLER).on(Morph(SELF, 'LOOT_043t3'))
+
+class LOOT_043t3:
+	"Greater Amethyst Spellstone"
+	play = Hit(TARGET, 7), Heal(FRIENDLY_HERO, 7)
+

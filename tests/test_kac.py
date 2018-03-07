@@ -1,5 +1,33 @@
 from utils import *
 
+def test_amethyst_spellstone():
+	game = prepare_empty_game() #LOOT_043,CS2_062
+	wisp1 = game.player1.give(WISP)
+	wisp2 = game.player1.give(WISP)
+	wisp3 = game.player1.give(WISP)
+	wisp4 = game.player1.give(WISP)
+	for _ in range(10):
+		game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 20
+	stone1 = game.player1.give("LOOT_043") #lesser spellstone
+	wisp1.play()
+	stone1.play(target = wisp1)
+	assert game.player1.hero.health == 23
+	stone2 = game.player1.give("LOOT_043")
+	game.player1.give("CS2_062").play() #Hellfire
+	stone2 = game.player1.hand[end]
+	assert stone2.id == "LOOT_043t2"
+	game.end_turn()
+	
+	game.player2.give("CS2_062").play() #Hellfire
+	assert stone2 in game.player1.hand
+	game.end_turn()
+	
+	assert game.player1.hero.health == 20
+	wisp2.play()
+	stone2.play(target = wisp2) #Not sure how to refer to upgraded spellstone, because it's no longer stone
+	assert game.player1.hero.health == 25 #Currently fails because stone does not upgrade
+
 def test_cavern_shinyfinder():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
