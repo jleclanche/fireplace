@@ -16,6 +16,26 @@ class LOOT_047:
 
 LOOT_047e = buff(health=3)
 
+class LOOT_051:
+	"Lesser Jasper Spellstone"
+#	armor_count = 0
+	play = Hit(TARGET, 2)
+#	class Hand:
+#		armor_count += GainArmor(FRIENDLY_HERO)
+#		events = GainArmor(FRIENDLY_HERO).on((armor_count < 3) | Morph(SELF, 'LOOT_051t2'))
+
+class LOOT_051t2:
+	"Jasper Spellstone"
+#	armor_count_2 = 0
+	play = Hit(TARGET, 4)
+#	class Hand:
+#		armor_count_2 += GainArmor(FRIENDLY_HERO)
+#		events = GainArmor(FRIENDLY_HERO).on((armor_count_2 < 3) | Morph(SELF, 'LOOT_051t3'))
+
+class LOOT_051t3:
+	"Greater Jasper Spellstone"
+	play = Hit(TARGET, 6)
+
 ##
 # Weapons
 

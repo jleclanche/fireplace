@@ -122,6 +122,18 @@ def test_ironwood_golem():
 	assert game.player1.hero.armor >= 3
 	assert golem.can_attack()
 
+def test_jasper_spellstone():
+	game = prepare_game()
+	stone1 = game.player1.give("LOOT_051")
+	assert stone1 in game.player1.hand
+	game.player1.give("CS2_005").play()
+	assert stone1 in game.player1.hand
+	game.player1.give("CS2_005").play()
+	assert not stone1 in game.player1.hand
+	stone2 = game.player1.give("LOOT_051t2")
+	game.player1.give("EX1_606").play()
+	assert not stone2 in game.player1.hand
+
 def test_kobold_barbarian():
 	game = prepare_game()
 	assert game.player2.hero.health == 30
