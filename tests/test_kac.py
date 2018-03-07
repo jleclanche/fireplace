@@ -184,6 +184,12 @@ def test_kobold_barbarian():
 	game.end_turn()
 	
 	assert game.player2.hero.health == 26
+
+def test_kobold_hermit():
+	game = prepare_empty_game()
+	hermit = game.player1.give("LOOT_062")
+	hermit.play(choose = "CS2_051")
+	assert len(game.board) == 2
 	
 def test_psychic_scream():
 	game = prepare_game()
