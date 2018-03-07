@@ -28,6 +28,16 @@ def test_amethyst_spellstone():
 	stone2.play(target = wisp2) #Not sure how to refer to upgraded spellstone, because it's no longer stone
 	assert game.player1.hero.health == 25 #Currently fails because stone does not upgrade
 
+def test_barkskin():
+	game = prepare_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	barkskin = game.player1.give("LOOT_047")
+	assert wisp.health == 1
+	barkskin.play(target=wisp)
+	assert wisp.health == 4
+	assert game.player1.hero.armor == 3
+
 def test_bladed_gauntlet():
 	game = prepare_game()
 	gauntlet = game.player1.give("LOOT_044")
