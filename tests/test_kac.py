@@ -109,6 +109,19 @@ def test_hooked_reaver():
 	assert not hooked1.taunt
 	assert hooked2.taunt
 
+def test_ironwood_golem():
+	game = prepare_game()
+	golem = game.player1.give("LOOT_048")
+	golem.play()
+	game.end_turn()
+	game.end_turn()
+	
+	assert game.player1.hero.armor < 3
+	assert not golem.can_attack()
+	game.player1.give("EX1_606").play()
+	assert game.player1.hero.armor >= 3
+	assert golem.can_attack()
+
 def test_kobold_barbarian():
 	game = prepare_game()
 	assert game.player2.hero.health == 30
