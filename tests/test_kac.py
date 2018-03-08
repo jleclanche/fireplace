@@ -97,6 +97,20 @@ def test_branching_paths():
 	assert wisp1.atk == wisp2.atk == 3
 	assert len(game.player1.hand) == 1
 
+def test_cave_hydra():
+	game = prepare_empty_game()
+	hydra = game.player1.give("LOOT_078").play()
+	game.end_turn()
+	
+	wisp1 = game.player2.give(WISP).play()
+	wisp2 = game.player2.give(WISP).play()
+	wisp3 = game.player2.give(WISP).play()
+	game.end_turn()
+	
+	hydra.attack(wisp1)
+	assert len(game.player2.field) == 1
+	assert hydra.health == 3
+
 def test_cavern_shinyfinder():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
@@ -129,6 +143,18 @@ def test_faldorei_strider():
 	
 	assert len(game.player1.field) == 4
 	assert len(game.player1.deck) == 0
+
+def test_flanking_strike():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP)
+	wisp.play()
+	game.end_turn()
+	
+	strike = game.player2.give("LOOT_077")
+	strike.play(target=wisp)
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 1
+	assert game.player2.field[0].id == "LOOT_077t"
 
 def test_hooked_reaver():
 	game = prepare_game()
