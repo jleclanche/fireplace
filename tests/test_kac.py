@@ -267,3 +267,15 @@ def test_vulgar_homunculus():
 	assert game.player1.hero.health == 30
 	game.player1.give("LOOT_013").play()
 	assert game.player1.hero.health == 28
+
+def test_wandering_monster():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	game.end_turn()
+	
+	game.player2.give("LOOT_079").play()
+	game.end_turn()
+	
+	assert game.player2.hero.health == 30
+	wisp.attack(game.player2.hero)
+	assert game.player2.hero.health == 30
