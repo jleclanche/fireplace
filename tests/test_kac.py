@@ -229,6 +229,13 @@ def test_sapphire_spellstone():
 	game.player1.give("EX1_243").play() #Dust Devil
 	assert stone2 in game.player1.hand
 
+def test_sewer_crawler():
+	game = prepare_empty_game()
+	sewer = game.player1.give("LOOT_069")
+	assert len(game.player1.field) == 0
+	sewer.play()
+	assert len(game.player1.field) == 2
+
 def test_vulgar_homunculus():
 	game = prepare_game()
 	assert game.player1.hero.health == 30
