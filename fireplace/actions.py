@@ -185,8 +185,18 @@ class Attack(GameAction):
 	DEFENDER = ActionArg()
 
 	def get_args(self, source):
-		ret = super().get_args(source)
-		return ret
+		attacker, defender = self._args[0:2]
+		if isinstance(attacker, Selector):
+			attacker = attacker.eval(source.game, source)
+			assert len(attacker) == 1
+			attacker = attacker[0]
+
+		if isinstance(defender, Selector):
+			defender = defender.eval(source.game, source)
+			assert len(defender) == 1
+			defender = defender[0]
+
+		return attacker, defender
 
 	def do(self, source, attacker, defender):
 		log.info("%r attacks %r", attacker, defender)
