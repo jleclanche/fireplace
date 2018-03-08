@@ -217,6 +217,18 @@ def test_psychic_scream():
 	assert len(game.player2.field)==0
 	assert len(game.player1.deck)==decksize+14
 
+def test_sapphire_spellstone():
+	game = prepare_empty_game()
+	stone1 = game.player1.give("LOOT_064")
+	assert stone1 in game.player1.hand
+	game.player1.give("EX1_243").play() #Dust Devil
+	assert stone1 in game.player1.hand
+	game.player1.give("EX1_250").play() #Earth Elemental
+	assert not stone1 in game.player1.hand
+	stone2 = game.player1.hand[end]
+	game.player1.give("EX1_243").play() #Dust Devil
+	assert stone2 in game.player1.hand
+
 def test_vulgar_homunculus():
 	game = prepare_game()
 	assert game.player1.hero.health == 30
