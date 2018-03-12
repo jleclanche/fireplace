@@ -1,17 +1,17 @@
-# https://travis-ci.org/#!/jleclanche/fireplace
+# https://travis-ci.org/jleclanche/fireplace
 sudo: false
 language: python
-python:
-  - 3.5
-cache:
-  directories:
-    - $HOME/.pip-cache/
-    - $HOME/virtualenv/python3.5
+
+python: "3.6"
+cache: pip
+
 install:
   - pip install .[tests] pytest-benchmark[aspect]
+
 script:
   - py.test
   - py.test tests/benchmarks.py
+
 notifications:
   email:
     on_failure: always
