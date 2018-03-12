@@ -1,13 +1,8 @@
 #!/usr/bin/env python
 
-import os.path
 import fireplace
 from setuptools import setup, find_packages
 
-_basedir = os.path.dirname(__file__)
-README = open(os.path.join(_basedir, "README.md")).read()
-with open(os.path.join(_basedir, "requirements.txt")) as f:
-	requirements = f.read().splitlines()
 
 CLASSIFIERS = [
 	"Development Status :: 2 - Pre-Alpha",
@@ -25,7 +20,7 @@ setup(
 	name="fireplace",
 	version=fireplace.__version__,
 	packages=find_packages(exclude="tests"),
-	install_requires=requirements,
+	install_requires=["hearthstone"],
 	tests_require=[tests_require],
 	extras_require={"tests": tests_require},
 	author=fireplace.__author__,
@@ -33,7 +28,6 @@ setup(
 	description="Pure-python Hearthstone re-implementation and simulator",
 	classifiers=CLASSIFIERS,
 	download_url="https://github.com/jleclanche/fireplace/tarball/master",
-	long_description=README,
 	license="AGPLv3",
 	url="https://github.com/jleclanche/fireplace",
 	zip_safe=True,
