@@ -1,10 +1,11 @@
-import random
 import os.path
+import random
 from bisect import bisect
 from importlib import import_module
 from pkgutil import iter_modules
 from typing import List
 from xml.etree import ElementTree
+
 from hearthstone.enums import CardClass, CardType
 
 

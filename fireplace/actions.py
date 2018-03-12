@@ -1,10 +1,13 @@
 from collections import OrderedDict
-from inspect import isclass
-from hearthstone.enums import BlockType, CardType, CardClass, Mulligan, PlayState, Step, Zone
+
+from hearthstone.enums import (
+	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone
+)
+
 from .dsl import LazyNum, LazyValue, Selector
 from .entity import Entity
-from .logging import log
 from .exceptions import InvalidAction
+from .logging import log
 from .utils import random_class
 
 

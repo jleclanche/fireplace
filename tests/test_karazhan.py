@@ -1,5 +1,6 @@
 from utils import *
 
+
 def test_kindly_grandmother():
 	game = prepare_game()
 	grandma = game.player1.give("KAR_005")

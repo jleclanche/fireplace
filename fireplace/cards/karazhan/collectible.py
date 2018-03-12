@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Minions
 
@@ -231,4 +232,3 @@ class KAR_091:
 # class KAR_063:
 # 	"Spirit Claws"
 # 	update = Find( FRIENDLY_MINIONS + SPELLPOWER ) & Refresh(SELF, {GameTag.ATK: +2})
-

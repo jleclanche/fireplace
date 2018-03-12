@@ -2,6 +2,7 @@ import copy
 import operator
 import random
 from abc import ABCMeta, abstractmethod
+
 from .evaluator import Evaluator
 
 

@@ -1,5 +1,6 @@
 import pytest
 from utils import *
+
 from fireplace.exceptions import GameOver
 
 

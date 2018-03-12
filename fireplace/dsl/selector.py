@@ -2,8 +2,10 @@ import operator
 import random
 from abc import ABCMeta, abstractmethod
 from enum import IntEnum
-from hearthstone.enums import CardType, GameTag, Race, Rarity, Zone, CardClass
-from typing import Any, Union, List, Callable, Iterable, Optional, Set
+from typing import Any, Callable, Iterable, List, Optional, Set, Union
+
+from hearthstone.enums import CardClass, CardType, GameTag, Race, Rarity, Zone
+
 from .. import enums
 from ..entity import BaseEntity
 from .lazynum import Attr, LazyValue, OpAttr

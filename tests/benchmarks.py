@@ -9,10 +9,12 @@ To increase the number of iterations, set --benchmark-min-rounds.
 """
 
 import sys; sys.path.append("..")
-import fireplace.utils
 import pytest
 from full_game import test_full_game
 from utils import *
+
+import fireplace.utils
+
 
 ARBITRARY_SEED = 1857
 

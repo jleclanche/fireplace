@@ -2,10 +2,14 @@
 import argparse
 import re
 import string
-import sys; sys.path.append("..")
+
+from hearthstone.enums import CardSet
+
 from fireplace import cards
 from fireplace.utils import get_script_definition
-from hearthstone.enums import CardSet
+
+
+import sys; sys.path.append("..")
 
 
 GREEN = "\033[92m"

@@ -1,6 +1,8 @@
 import random
 from copy import copy, deepcopy
+
 from hearthstone.enums import CardType, Race, Rarity
+
 from .lazynum import LazyValue
 
 

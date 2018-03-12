@@ -6,9 +6,9 @@ import socketserver
 import struct
 import sys
 from argparse import ArgumentParser
-from hearthstone.enums import (
-	CardType, ChoiceType, GameTag, OptionType, Step, Zone
-)
+
+from hearthstone.enums import CardType, ChoiceType, GameTag, OptionType, Step, Zone
+
 from fireplace import actions, cards
 from fireplace.exceptions import GameOver
 from fireplace.game import BaseGame as Game

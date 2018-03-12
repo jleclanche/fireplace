@@ -1,5 +1,6 @@
 from utils import *
-from fireplace.cards.utils import Give, JOUST
+
+from fireplace.cards.utils import JOUST, Give
 
 
 def test_armor():

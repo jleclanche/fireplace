@@ -4,6 +4,7 @@ Who's the Boss Now?
 
 from ..utils import *
 
+
 class BRMA01_2H_2_TB:
 	"Pile On!!!"
 	activate = (

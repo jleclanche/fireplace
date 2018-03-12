@@ -3,8 +3,8 @@ Battle of the Builds
 Deal Your Fate
 """
 
-from .banana_brawl import RandomBanana
 from ..utils import *
+from .banana_brawl import RandomBanana
 
 
 RandomFate = RandomID(

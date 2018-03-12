@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 import pytest
 from utils import *
+
+from fireplace.card import Card
 from fireplace.dsl import *
 from fireplace.exceptions import *
-from fireplace.card import Card
 
 
 def test_selector():

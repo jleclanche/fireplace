@@ -1,12 +1,13 @@
 import random
 from itertools import chain
+
 from hearthstone.enums import CardType, PlayState, Zone
+
 from .actions import Concede, Draw, Fatigue, Give, Hit, Steal, Summon
 from .aura import TargetableByAuras
 from .card import Card
 from .deck import Deck
-from .entity import Entity
-from .entity import slot_property
+from .entity import Entity, slot_property
 from .managers import PlayerManager
 from .utils import CardList
 
