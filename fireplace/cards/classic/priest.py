@@ -52,6 +52,7 @@ class EX1_623:
 	"Temple Enforcer"
 	play = Buff(TARGET, "EX1_623e")
 
+
 EX1_623e = buff(health=3)
 
 
@@ -61,6 +62,7 @@ EX1_623e = buff(health=3)
 class CS2_004:
 	"Power Word: Shield"
 	play = Buff(TARGET, "CS2_004e"), Draw(CONTROLLER)
+
 
 CS2_004e = buff(health=2)
 
@@ -78,6 +80,7 @@ class CS1_113:
 class CS1_129:
 	"Inner Fire"
 	play = Buff(TARGET, "CS1_129e")
+
 
 class CS1_129e:
 	atk = lambda self, i: self._xatk
@@ -119,6 +122,7 @@ class EX1_332:
 class EX1_334:
 	"Shadow Madness"
 	play = Steal(TARGET), Buff(TARGET, "EX1_334e")
+
 
 class EX1_334e:
 	events = [
@@ -165,10 +169,12 @@ class EX1_625:
 		None: Summon(CONTROLLER, "EX1_625t"),
 	})
 
+
 class EX1_625t:
 	"Mind Spike"
 	activate = Hit(TARGET, 2)
 	update = Refresh(CONTROLLER, {GameTag.SHADOWFORM: True})
+
 
 class EX1_625t2:
 	"Mind Shatter"

@@ -8,6 +8,7 @@ class AT_006:
 	"Dalaran Aspirant"
 	inspire = Buff(SELF, "AT_006e")
 
+
 AT_006e = buff(spellpower=1)
 
 

@@ -8,6 +8,7 @@ class GVG_110:
 	"Dr. Boom"
 	play = Summon(CONTROLLER, "GVG_110t") * 2
 
+
 class GVG_110t:
 	"Boom Bot"
 	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, RandomNumber(1, 2, 3, 4))
@@ -20,13 +21,19 @@ class GVG_111:
 		(Destroy(FRIENDLY_MINIONS + MECH), Deaths(), Summon(CONTROLLER, "GVG_111t"))
 	)
 
+
 class GVG_111t:
 	tags = {GameTag.WINDFURY: 3}
 
 
 class GVG_112:
 	"Mogor the Ogre"
-	events = Attack(MINION).on(COINFLIP & Retarget(Attack.ATTACKER, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(Attack.ATTACKER))))
+	events = Attack(MINION).on(
+		COINFLIP & Retarget(
+			Attack.ATTACKER,
+			RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(Attack.ATTACKER))
+		)
+	)
 
 
 class GVG_113:

@@ -425,7 +425,8 @@ def test_stalagg_feugen():
 	stalagg2.destroy()
 	assert stalagg2.dead
 	assert len(game.player1.field) == 0
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	feugen.play()
 	feugen.destroy()
@@ -480,7 +481,8 @@ def test_stoneskin_gargoyle():
 	# damage the gargoyle by 1
 	game.player1.give(MOONFIRE).play(target=gargoyle)
 	assert gargoyle.health == 3
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert gargoyle.health == 4
 

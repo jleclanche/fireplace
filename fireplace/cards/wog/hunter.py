@@ -13,6 +13,7 @@ class OG_292:
 	"Forlorn Stalker"
 	play = Buff(FRIENDLY_HAND + MINION + DEATHRATTLE, "OG_292e")
 
+
 OG_292e = buff(+1, +1)
 
 
@@ -32,6 +33,7 @@ class OG_309:
 class OG_045:
 	"Infest"
 	play = Buff(FRIENDLY_MINIONS, "OG_045a")
+
 
 class OG_045a:
 	"Nerubian Spores"

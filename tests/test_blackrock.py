@@ -45,7 +45,8 @@ def test_chromaggus():
 	game = prepare_game()
 	chromaggus = game.player1.give("BRM_031")
 	chromaggus.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.discard_hand()
 	arcint = game.player1.give("CS2_023")
@@ -92,7 +93,7 @@ def test_dragon_consort():
 	assert corruptor1.cost == corruptor2.cost == 5
 	game.end_turn()
 	game.end_turn()
-	
+
 	assert ysera.cost == 9 - 2
 	assert scaled1.cost == 6 - 2
 	assert scaled2.cost == 6
@@ -204,7 +205,8 @@ def test_emperor_thaurissan_molten_recombobulator():
 	molten = game.player1.give("EX1_620")
 	thaurissan = game.player1.give("BRM_028")
 	thaurissan.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert molten.cost == 25 - 1
 	thaurissan.destroy()
@@ -212,7 +214,8 @@ def test_emperor_thaurissan_molten_recombobulator():
 	ancestor.play()
 	assert molten.cost == 25
 	assert molten in game.player1.field
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	recomb = game.player1.give("GVG_108")
 	recomb.play(target=molten)
@@ -266,10 +269,12 @@ def test_lava_shock():
 	lava.play(target=game.player2.hero)
 	assert game.player2.hero.health == 28
 	assert game.player1.overloaded == 0
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.give("EX1_243").play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.give("EX1_243").play()
 	assert game.player1.overloaded == 2
@@ -284,7 +289,8 @@ def test_majordomo_executus():
 	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	majordomo = game.player1.give("BRM_027")
 	majordomo.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.hero.power.use()
 	assert game.player1.hero.power.exhausted
@@ -401,7 +407,8 @@ def test_rend_blackhand():
 	assert rend1.targets == [pagle]
 	rend1.play(target=pagle)
 	assert pagle.dead
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	rend2 = game.player1.give("BRM_029")
 	assert rend2.battlecry_requires_target()

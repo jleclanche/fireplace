@@ -14,6 +14,7 @@ class AT_057:
 	"Stablemaster"
 	play = Buff(TARGET, "AT_057o")
 
+
 AT_057o = buff(immune=True)
 
 
@@ -48,6 +49,7 @@ class AT_056:
 class AT_061:
 	"Lock and Load"
 	play = Buff(CONTROLLER, "AT_061e")
+
 
 class AT_061e:
 	events = OWN_SPELL_PLAY.on(

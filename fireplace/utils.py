@@ -70,7 +70,7 @@ def random_draft(card_class: CardClass, exclude=[]):
 
 	deck = []
 	collection = []
-	hero = card_class.default_hero
+	# hero = card_class.default_hero
 
 	for card in cards.db.keys():
 		if card in exclude:

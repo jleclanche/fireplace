@@ -293,7 +293,9 @@ class EndTurn(GameAction):
 
 	def do(self, source, player):
 		if player.choice:
-			raise InvalidAction("%r cannot end turn with the open choice %r." % (player, player.choice))
+			raise InvalidAction(
+				"%r cannot end turn with the open choice %r." % (player, player.choice)
+			)
 		self.broadcast(source, EventListener.ON, player)
 		source.game._end_turn()
 

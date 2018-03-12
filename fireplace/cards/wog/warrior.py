@@ -13,6 +13,7 @@ class OG_218:
 	"Bloodhoof Brave"
 	enrage = Refresh(SELF, buff="OG_218e")
 
+
 OG_218e = buff(atk=3)
 
 
@@ -30,6 +31,7 @@ class OG_315:
 	"Bloodsail Cultist"
 	play = Find(FRIENDLY_MINIONS + PIRATE - SELF) & Buff(FRIENDLY_WEAPON, "OG_315e")
 
+
 OG_315e = buff(+1, +1)
 
 
@@ -43,7 +45,7 @@ class OG_276:
 
 class OG_314:
 	"Blood To Ichor"
-	play = Hit(TARGET,1), Dead(TARGET) | Summon(CONTROLLER, "OG_314b")
+	play = Hit(TARGET, 1), Dead(TARGET) | Summon(CONTROLLER, "OG_314b")
 
 
 ##

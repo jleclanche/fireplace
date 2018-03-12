@@ -14,12 +14,14 @@ class AT_039:
 	"Savage Combatant"
 	inspire = Buff(FRIENDLY_HERO, "AT_039e")
 
+
 AT_039e = buff(atk=2)
 
 
 class AT_040:
 	"Wildwalker"
 	play = Buff(TARGET, "AT_040e")
+
 
 AT_040e = buff(health=3)
 
@@ -28,6 +30,7 @@ class AT_041:
 	"Knight of the Wild"
 	events = Summon(CONTROLLER, BEAST).on(Buff(SELF, "AT_041e"))
 
+
 AT_041e = buff(cost=-1)
 
 
@@ -35,8 +38,10 @@ class AT_042:
 	"Druid of the Saber"
 	choose = ("AT_042a", "AT_042b")
 
+
 class AT_042a:
 	play = Morph(SELF, "AT_042t")
+
 
 class AT_042b:
 	play = Morph(SELF, "AT_042t2")
@@ -54,8 +59,10 @@ class AT_037:
 	"Living Roots"
 	choose = ("AT_037a", "AT_037b")
 
+
 class AT_037a:
 	play = Hit(TARGET, 2)
+
 
 class AT_037b:
 	play = Summon(CONTROLLER, "AT_037t") * 2

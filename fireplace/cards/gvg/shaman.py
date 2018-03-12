@@ -47,4 +47,5 @@ class GVG_036:
 	"Powermace"
 	deathrattle = Buff(RANDOM(FRIENDLY_MINIONS + MECH), "GVG_036e")
 
+
 GVG_036e = buff(+2, +2)

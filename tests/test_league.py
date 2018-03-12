@@ -33,7 +33,8 @@ def test_anubisath_sentinel():
 	sentinel1.play()
 	sentinel2 = game.player1.give("LOE_061")
 	sentinel2.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert sentinel2.atk == sentinel2.health == 4
 	game.player1.give("CS2_029").play(target=sentinel1)
@@ -50,7 +51,8 @@ def test_anyfin_can_happen():
 	wisp = game.player1.give(WISP)
 	wisp.play()
 	game.player1.give(MOONFIRE).play(target=wisp)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert len(game.player1.field) == 0
 	assert len(game.player2.field) == 0
@@ -76,7 +78,8 @@ def test_anyfin_can_happen():
 	othermurloc = game.player1.give("CS2_168")
 	othermurloc.play()
 	game.player1.give(MOONFIRE).play(target=othermurloc)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert len(game.player1.field) == 0
 	game.player1.give("LOE_026").play()
@@ -105,7 +108,8 @@ def test_curse_of_rafaam():
 
 	assert game.player2.hero.health == 30 - 2 - 2
 	cursed.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player2.hero.health == 30 - 2 - 2
 
@@ -115,7 +119,7 @@ def test_cursed_blade():
 	blade = game.player1.give("LOE_118")
 	blade.play()
 	game.player1.give(MOONFIRE).play(target=game.player1.hero)
-	assert game.player1.hero.health == 30 - (1*2)
+	assert game.player1.hero.health == 30 - (1 * 2)
 
 
 def test_cursed_blade_bolf_ramshield():
@@ -142,7 +146,8 @@ def test_desert_camel():
 	assert camel1 in game.player1.field
 	assert goldshire1 in game.player1.field
 	assert len(game.player2.field) == 0
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	goldshire2 = game.player2.give(GOLDSHIRE_FOOTMAN)
 	goldshire2.shuffle_into_deck()
@@ -193,7 +198,8 @@ def test_eerie_statue():
 	statue = game.player1.give("LOE_107")
 	statue.play()
 	assert not statue.can_attack()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert statue.can_attack()
 	wisp = game.player1.give(WISP)
@@ -283,7 +289,8 @@ def test_fossilized_devilsaur():
 	devilsaur1 = game.player1.give("LOE_073")
 	devilsaur1.play()
 	assert not devilsaur1.taunt
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	chicken = game.player1.give(CHICKEN)
 	chicken.play()
@@ -298,7 +305,8 @@ def test_gorillabot_a3():
 	assert not gorillabot1.powered_up
 	gorillabot1.play()
 	assert not game.player1.choice
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert gorillabot1.race == Race.MECHANICAL
 	gorillabot2 = game.player1.give("LOE_039")
@@ -343,14 +351,16 @@ def test_keeper_of_uldaman():
 	game.player1.give(MOONFIRE).play(target=goldshire)
 	statue = game.player1.give(ANIMATED_STATUE)
 	statue.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	for minion in (wisp, goldshire, statue):
 		keeper = game.player1.give("LOE_017")
 		keeper.play(target=minion)
 		assert minion.atk == minion.health == 3
 		assert not minion.damaged
-		game.end_turn(); game.end_turn()
+		game.end_turn()
+		game.end_turn()
 
 
 def test_naga_sea_witch():
@@ -413,12 +423,14 @@ def test_reno_jackson():
 	game.player1.give(WISP).shuffle_into_deck()
 	game.player1.give("LOE_011").play()
 	assert game.player1.hero.health == 10
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert len(game.player1.deck) == 1
 	game.player1.give("LOE_011").play()
 	assert game.player1.hero.health == 30
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert len(game.player1.deck) == 0
 	game.player1.hero.set_current_health(10)
@@ -559,7 +571,8 @@ def test_jeweled_scarab():
 	wisp.play()
 	moonfire = game.player1.give(MOONFIRE)
 	game.player1.give(LIGHTS_JUSTICE).play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert wisp.can_attack()
 	assert moonfire.is_playable()

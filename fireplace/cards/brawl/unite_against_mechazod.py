@@ -30,6 +30,8 @@ HRW02_1 = TB_CoOp_Mechazod
 TB_CoOp_Mechazod_V2 = TB_CoOp_Mechazod
 
 # Overloaded Mechazod (unused?)
+
+
 class TB_CoOp_Mechazod2(TB_CoOp_Mechazod):
 	"Overloaded Mechazod"
 
@@ -52,6 +54,7 @@ class TB_CoOpBossSpell_3:
 class TB_CoOpBossSpell_4:
 	"Overclock"
 	play = Buff(MECHAZOD, "HRW02_1e")
+
 
 HRW02_1e = buff(atk=2)
 

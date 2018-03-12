@@ -8,9 +8,11 @@ class CS2_034:
 	"Fireblast (Jaina Proudmoore)"
 	activate = Hit(TARGET, 1)
 
+
 class CS2_034_H1:
 	"Fireblast (Medivh)"
 	activate = CS2_034.activate
+
 
 class CS2_034_H2:
 	"Fireblast (Khadgar)"
@@ -29,6 +31,7 @@ class EX1_274:
 	"Ethereal Arcanist"
 	events = OWN_TURN_END.on(Find(FRIENDLY_SECRETS) & Buff(SELF, "EX1_274e"))
 
+
 EX1_274e = buff(+2, +2)
 
 
@@ -46,6 +49,7 @@ class EX1_612:
 	"Kirin Tor Mage"
 	play = Buff(CONTROLLER, "EX1_612o")
 
+
 class EX1_612o:
 	update = Refresh(FRIENDLY_HAND + SECRET, {GameTag.COST: SET(0)})
 	events = Play(CONTROLLER, SECRET).on(Destroy(SELF))
@@ -54,6 +58,7 @@ class EX1_612o:
 class NEW1_012:
 	"Mana Wyrm"
 	events = OWN_SPELL_PLAY.on(Buff(SELF, "NEW1_012o"))
+
 
 NEW1_012o = buff(atk=1)
 
@@ -173,6 +178,7 @@ class EX1_295:
 			Predamage(FRIENDLY_HERO, 0)
 		)
 	)
+
 
 EX1_295o = buff(immune=True)
 

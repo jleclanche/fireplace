@@ -8,6 +8,7 @@ class CS2_102:
 	"Armor Up! (Garrosh Hellscream)"
 	activate = GainArmor(FRIENDLY_HERO, 2)
 
+
 class CS2_102_H1:
 	"Armor Up! (Magni Bronzebeard)"
 	activate = CS2_102.activate
@@ -30,6 +31,7 @@ class EX1_414:
 	"Grommash Hellscream"
 	enrage = Refresh(SELF, buff="EX1_414e")
 
+
 EX1_414e = buff(atk=6)
 
 
@@ -37,11 +39,14 @@ class EX1_603:
 	"Cruel Taskmaster"
 	play = Buff(TARGET, "EX1_603e"), Hit(TARGET, 1)
 
+
 EX1_603e = buff(atk=2)
+
 
 class EX1_604:
 	"Frothing Berserker"
 	events = Damage(ALL_MINIONS).on(Buff(SELF, "EX1_604o"))
+
 
 EX1_604o = buff(atk=1)
 
@@ -53,12 +58,14 @@ class CS2_103:
 	"Charge"
 	play = Buff(TARGET, "CS2_103e2")
 
+
 CS2_103e2 = buff(atk=2, charge=True)
 
 
 class CS2_104:
 	"Rampage"
 	play = Buff(TARGET, "CS2_104e")
+
 
 CS2_104e = buff(+3, +3)
 
@@ -67,7 +74,9 @@ class CS2_105:
 	"Heroic Strike"
 	play = Buff(FRIENDLY_HERO, "CS2_105e")
 
+
 CS2_105e = buff(atk=4)
+
 
 class CS2_108:
 	"Execute"
@@ -117,6 +126,7 @@ class EX1_409:
 		Summon(CONTROLLER, "EX1_409t")
 	)
 
+
 EX1_409e = buff(+1, +1)
 
 
@@ -134,6 +144,7 @@ class EX1_607:
 	"Inner Rage"
 	play = Buff(TARGET, "EX1_607e"), Hit(TARGET, 1)
 
+
 EX1_607e = buff(atk=2)
 
 
@@ -141,8 +152,10 @@ class NEW1_036:
 	"Commanding Shout"
 	play = Buff(FRIENDLY_MINIONS, "NEW1_036e"), Buff(CONTROLLER, "NEW1_036e2")
 
+
 class NEW1_036e2:
 	events = Summon(CONTROLLER, MINION).on(Buff(Summon.CARD, "NEW1_036e"))
+
 
 NEW1_036e = buff(health_minimum=1)
 
@@ -150,6 +163,7 @@ NEW1_036e = buff(health_minimum=1)
 class EX1_084:
 	"Warsong Commander"
 	update = Refresh(FRIENDLY_MINIONS + CHARGE, buff="EX1_084e")
+
 
 EX1_084e = buff(atk=1)
 
@@ -161,6 +175,7 @@ class EX1_411:
 	"Gorehowl"
 	update = Attacking(FRIENDLY_HERO, MINION) & Refresh(SELF, buff="EX1_411e")
 	events = Attack(FRIENDLY_HERO, MINION).after(Buff(SELF, "EX1_411e2"))
+
 
 EX1_411e = buff(immune=True)
 EX1_411e2 = buff(atk=-1)

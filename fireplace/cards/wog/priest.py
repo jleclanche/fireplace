@@ -21,6 +21,7 @@ class OG_094:
 	"Power Word: Tentacles"
 	play = Buff(TARGET, "OG_094e")
 
+
 OG_094e = buff(+2, +6)
 
 

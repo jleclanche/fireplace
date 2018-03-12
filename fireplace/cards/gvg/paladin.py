@@ -8,6 +8,7 @@ class GVG_060:
 	"Quartermaster"
 	play = Buff(FRIENDLY_MINIONS + ID("CS2_101t"), "GVG_060e")
 
+
 GVG_060e = buff(+2, +2)
 
 
@@ -20,6 +21,7 @@ class GVG_063:
 	"Bolvar Fordragon"
 	class Hand:
 		events = Death(FRIENDLY + MINION).on(Buff(SELF, "GVG_063a"))
+
 
 GVG_063a = buff(atk=1)
 
@@ -35,6 +37,7 @@ class GVG_101:
 class GVG_057:
 	"Seal of Light"
 	play = Heal(FRIENDLY_HERO, 4), Buff(FRIENDLY_HERO, "GVG_057a")
+
 
 GVG_057a = buff(atk=2)
 

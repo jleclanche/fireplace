@@ -21,6 +21,7 @@ class GVG_021:
 		Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True}),
 	)
 
+
 GVG_021e = buff(+2, +2)
 
 
@@ -32,6 +33,7 @@ class GVG_077:
 class GVG_100:
 	"Floating Watcher"
 	events = Damage(FRIENDLY_HERO).on(CurrentPlayer(CONTROLLER) & Buff(SELF, "GVG_100e"))
+
 
 GVG_100e = buff(+2, +2)
 
@@ -47,6 +49,7 @@ class GVG_015:
 class GVG_019:
 	"Demonheart"
 	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "GVG_019e") | Hit(TARGET, 5)
+
 
 GVG_019e = buff(+5, +5)
 

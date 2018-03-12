@@ -39,6 +39,7 @@ class LOE_017:
 	"Keeper of Uldaman"
 	play = Buff(TARGET, "LOE_017e")
 
+
 class LOE_017e:
 	atk = SET(3)
 	max_health = SET(3)
@@ -48,12 +49,14 @@ class LOE_018:
 	"Tunnel Trogg"
 	events = Overload(CONTROLLER).on(Buff(SELF, "LOE_018e") * Overload.AMOUNT)
 
+
 LOE_018e = buff(atk=1)
 
 
 class LOE_019:
 	"Unearthed Raptor"
 	play = Buff(SELF, "LOE_019e").then(CopyDeathrattles(Buff.BUFF, TARGET))
+
 
 LOE_019e = buff(deathrattle=True)
 
@@ -109,12 +112,15 @@ class LOE_051:
 
 class LOE_053:
 	"Djinni of Zephyrs"
-	events = Play(CONTROLLER, SPELL, FRIENDLY + MINION - SELF).after(Battlecry(Play.CARD, SELF))
+	events = Play(CONTROLLER, SPELL, FRIENDLY + MINION - SELF).after(
+		Battlecry(Play.CARD, SELF)
+	)
 
 
 class LOE_061:
 	"Anubisath Sentinel"
 	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "LOE_061e")
+
 
 LOE_061e = buff(+3, +3)
 
@@ -179,6 +185,7 @@ class LOEA16_3:
 	"Lantern of Power"
 	play = Buff(TARGET, "LOEA16_3e")
 
+
 LOEA16_3e = buff(+10, +10)
 
 
@@ -203,6 +210,7 @@ class LOE_110:
 	"Ancient Shade"
 	play = Shuffle(CONTROLLER, "LOE_110t")
 
+
 class LOE_110t:
 	"Ancient Curse"
 	draw = Destroy(SELF), Hit(FRIENDLY_HERO, 7), Draw(CONTROLLER)
@@ -212,6 +220,7 @@ class LOE_116:
 	"Reliquary Seeker"
 	powered_up = Count(FRIENDLY_MINIONS) == 6
 	play = (Count(FRIENDLY_MINIONS) == 7) & Buff(SELF, "LOE_009e")
+
 
 LOE_009e = buff(+4, +4)
 
@@ -228,6 +237,7 @@ class LOE_002:
 	"Forgotten Torch"
 	play = Hit(TARGET, 3), Shuffle(CONTROLLER, "LOE_002t")
 
+
 class LOE_002t:
 	play = Hit(TARGET, 6)
 
@@ -235,6 +245,7 @@ class LOE_002t:
 class LOE_007:
 	"Curse of Rafaam"
 	play = Give(OPPONENT, "LOE_007t")
+
 
 class LOE_007t:
 	"Cursed!"
@@ -256,6 +267,7 @@ class LOE_105:
 	"Explorer's Hat"
 	play = Buff(TARGET, "LOE_105e")
 
+
 class LOE_105e:
 	deathrattle = Give(CONTROLLER, "LOE_105")
 	tags = {
@@ -275,6 +287,7 @@ class LOE_113:
 	cost_mod = -Count(FRIENDLY_MINIONS + MURLOC)
 	play = Buff(FRIENDLY_MINIONS, "LOE_113e")
 
+
 LOE_113e = buff(+2, +2)
 
 
@@ -282,8 +295,10 @@ class LOE_115:
 	"Raven Idol"
 	choose = ("LOE_115a", "LOE_115b")
 
+
 class LOE_115a:
 	play = DISCOVER(RandomMinion())
+
 
 class LOE_115b:
 	play = DISCOVER(RandomSpell())
@@ -314,6 +329,7 @@ class LOE_027:
 class LOE_118:
 	"Cursed Blade"
 	update = Refresh(FRIENDLY_HERO, buff="LOE_118e")
+
 
 class LOE_118e:
 	tags = {GameTag.INCOMING_DAMAGE_MULTIPLIER: True}

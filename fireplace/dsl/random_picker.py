@@ -83,7 +83,7 @@ class RandomCardPicker(LazyValue):
 		else:
 			# Otherwise find cards for each set of filters
 			# add the global filters to each set of filters
-			wf = [{ **x, **self.filters } for x in self.weightedfilters]
+			wf = [{**x, **self.filters} for x in self.weightedfilters]
 			card_sets = [self.find_cards(source, **x) for x in wf]
 
 		# get weighted sample of card pools

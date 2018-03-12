@@ -45,6 +45,7 @@ class XXX_009:
 	"Enchant"
 	play = Buff(TARGET, "XXX_009e")
 
+
 class XXX_009e:
 	pass
 
@@ -113,6 +114,7 @@ class XXX_021:
 class XXX_022:
 	"Free Cards"
 	play = Buff(FRIENDLY_HERO, "XXX_022e")
+
 
 class XXX_022e:
 	update = Refresh(FRIENDLY_HAND, {GameTag.COST: SET(0)})
@@ -229,12 +231,14 @@ class XXX_054:
 	"Weapon Buff"
 	play = Buff(FRIENDLY_WEAPON, "XXX_054e")
 
+
 XXX_054e = buff(+100, +100)
 
 
 class XXX_055:
 	"1000 Stats"
 	play = Buff(TARGET, "XXX_055e")
+
 
 XXX_055e = buff(+1000, +1000)
 
@@ -252,6 +256,7 @@ class XXX_057:
 class XXX_058:
 	"Weapon Nerf"
 	play = Buff(WEAPON + CONTROLLED_BY(TARGET), "XXX_058e")
+
 
 class XXX_058e:
 	pass

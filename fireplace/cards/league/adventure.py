@@ -6,9 +6,11 @@ from ..utils import *
 
 RandomWish = RandomID("LOEA02_03", "LOEA02_04", "LOEA02_05", "LOEA02_06", "LOEA02_10")
 
+
 class LOEA02_02:
 	"Djinn’s Intuition"
 	activate = Draw(CONTROLLER), Give(OPPONENT, RandomWish)
+
 
 class LOEA02_02h:
 	activate = Draw(CONTROLLER), GainMana(CONTROLLER, 1), Give(OPPONENT, RandomWish)
@@ -58,6 +60,7 @@ class LOEA01_02:
 		)
 	)
 
+
 class LOEA01_02h:
 	events = Summon(CONTROLLER, ID("LOEA01_11h")).on(Buff(Summon.CARD, "LOEA01_11he"))
 	update = (
@@ -66,12 +69,15 @@ class LOEA01_02h:
 		)
 	)
 
+
 class LOEA01_11:
 	"Rod of the Sun"
 	deathrattle = Summon(OPPONENT, "LOEA01_11")
 
+
 class LOEA01_11h:
 	deathrattle = Summon(OPPONENT, "LOEA01_11h")
+
 
 LOEA01_11he = buff(+3, +3)
 
@@ -79,6 +85,7 @@ LOEA01_11he = buff(+3, +3)
 class LOEA01_12:
 	"Tol'vir Hoplite"
 	deathrattle = Hit(ALL_HEROES, 5)
+
 
 class LOEA01_12h:
 	deathrattle = Hit(ALL_HEROES, 5)
@@ -91,9 +98,11 @@ class LOEA04_06:
 	"Pit of Spikes"
 	choose = ("LOEA04_06a", "LOEA04_06b")
 
+
 class LOEA04_06a:
 	"Swing Across"
 	play = COINFLIP & Hit(FRIENDLY_HERO, 10)
+
 
 class LOEA04_06b:
 	"Walk Across Gingerly"
@@ -104,9 +113,11 @@ class LOEA04_28:
 	"A Glowing Pool"
 	choose = ("LOEA04_28a", "LOEA04_28b")
 
+
 class LOEA04_28a:
 	"Drink Deeply"
 	play = Draw(CONTROLLER)
+
 
 class LOEA04_28b:
 	"Wade Through"
@@ -117,9 +128,11 @@ class LOEA04_29:
 	"The Eye"
 	choose = ("LOEA04_29a", "LOEA04_29b")
 
+
 class LOEA04_29a:
 	"Touch It"
 	play = Heal(FRIENDLY_HERO, 10)
+
 
 class LOEA04_29b:
 	"Investigate the Runes"
@@ -130,9 +143,11 @@ class LOEA04_30:
 	"The Darkness"
 	choose = ("LOEA04_30a", "LOEA04_31b")
 
+
 class LOEA04_30a:
 	"Take the Shortcut"
 	play = Summon(OPPONENT, "CS2_186")
+
 
 class LOEA04_31b:
 	"No Way!"
@@ -142,6 +157,7 @@ class LOEA04_31b:
 class LOEA04_25:
 	"Seething Statue"
 	events = OWN_TURN_END.on(Hit(ENEMY_CHARACTERS, 2))
+
 
 class LOEA04_25h:
 	events = OWN_TURN_END.on(Hit(ENEMY_CHARACTERS, 5))
@@ -162,11 +178,14 @@ class LOEA05_02:
 	# to do that, we implement it as a Summon every turn instead.
 	pass
 
+
 class LOEA05_02a:
 	update = Refresh(ENEMY_HAND + MINION, {GameTag.COST: +2})
 
+
 class LOEA05_02h:
 	pass
+
 
 class LOEA05_02ha:
 	update = Refresh(ENEMY_HAND + MINION, {GameTag.COST: SET(11)})
@@ -175,6 +194,7 @@ class LOEA05_02ha:
 class LOEA05_03:
 	"Trogg Hate Spells!"
 	update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: +2})
+
 
 class LOEA05_03h:
 	update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: SET(11)})
@@ -215,6 +235,7 @@ class LOEA06_02:
 	"Stonesculpting"
 	activate = Summon(ALL_PLAYERS, "LOEA06_02t")
 
+
 class LOEA06_02h:
 	activate = Summon(CONTROLLER, "LOEA06_02t"), Summon(OPPONENT, "LOEA06_02th")
 
@@ -223,10 +244,13 @@ class LOEA06_03:
 	"Animate Earthen"
 	play = Buff(FRIENDLY_MINIONS, "LOEA06_03e")
 
+
 LOEA06_03e = buff(+1, +1, taunt=True)
+
 
 class LOEA06_03h:
 	play = Buff(FRIENDLY_MINIONS, "LOEA06_03eh")
+
 
 LOEA06_03eh = buff(+3, +3, taunt=True)
 
@@ -237,6 +261,7 @@ class LOEA06_04:
 		Hit(TARGET, Count(ALL_MINIONS + ID("LOEA06_02t"))),
 		Destroy(ALL_MINIONS + ID("LOEA06_02t"))
 	)
+
 
 class LOEA06_04h:
 	play = (
@@ -262,11 +287,14 @@ class LOEA09_2:
 	"Enraged!"
 	activate = Buff(FRIENDLY_HERO, "LOEA09_2e")
 
+
 LOEA09_2e = buff(atk=2)
+
 
 class LOEA09_2H:
 	"Enraged! (Heroic)"
 	activate = Buff(FRIENDLY_HERO, "LOEA09_2e")
+
 
 LOEA09_2eH = buff(atk=5)
 
@@ -274,16 +302,23 @@ LOEA09_2eH = buff(atk=5)
 class LOEA09_3:
 	"Getting Hungry"
 	activate = Summon("LOEA09_5").then(
-		Buff(Summon.CARD, "LOEA09_3a") * Attr(CONTROLLER, GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME)
+		Buff(Summon.CARD, "LOEA09_3a") * Attr(
+			CONTROLLER, GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME
+		)
 	)
 
+
 LOEA09_3a = buff(atk=1)
+
 
 class LOEA09_3H:
 	"Getting Hungry (Heroic)"
 	activate = Summon("LOEA09_5").then(
-		Buff(Summon.CARD, "LOEA09_3aH") * Attr(CONTROLLER, GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME)
+		Buff(Summon.CARD, "LOEA09_3aH") * Attr(
+			CONTROLLER, GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME
+		)
 	)
+
 
 LOEA09_3aH = buff(+1, +1)
 
@@ -292,8 +327,10 @@ class LOEA09_3b:
 	"Getting Hungry (Unused versions)"
 	activate = Summon(CONTROLLER, "LOEA09_11")
 
+
 class LOEA09_3c:
 	activate = Summon(CONTROLLER, "LOEA09_10")
+
 
 class LOEA09_3d:
 	activate = Summon(CONTROLLER, "LOEA09_13")
@@ -302,6 +339,7 @@ class LOEA09_3d:
 class LOEA09_6:
 	"Slithering Archer"
 	play = Hit(TARGET, 1)
+
 
 class LOEA09_6H:
 	"Slithering Archer (Heroic)"
@@ -312,6 +350,7 @@ class LOEA09_7:
 	"Cauldron"
 	deathrattle = Give(OPPONENT, "LOE_076"), Summon(CONTROLLER, "LOEA09_2")
 
+
 class LOEA09_7H:
 	"Cauldron (Unused)"
 	deathrattle = Give(OPPONENT, "LOE_076"), Summon(CONTROLLER, "LOEA09_2H")
@@ -320,6 +359,7 @@ class LOEA09_7H:
 class LOEA09_9:
 	"Naga Repellent"
 	play = Destroy(ALL_MINIONS + HUNGRY_NAGA)
+
 
 class LOEA09_9H:
 	"Naga Repellent (Heroic)"
@@ -333,6 +373,7 @@ class LOEA10_2:
 	"Mrglmrgl MRGL!"
 	activate = DrawUntil(CONTROLLER, Count(ENEMY_HAND))
 
+
 class LOEA10_2H:
 	"Mrglmrgl MRGL! (Heroic)"
 	activate = Draw(CONTROLLER) * 2
@@ -341,6 +382,7 @@ class LOEA10_2H:
 class LOEA10_5:
 	"Mrgl Mrgl Nyah Nyah"
 	play = Summon(CONTROLLER, Copy(RANDOM(KILLED + MURLOC) * 5))
+
 
 class LOEA10_5H:
 	"Mrgl Mrgl Nyah Nyah (Heroic)"
@@ -354,9 +396,11 @@ class LOEA13_2:
 	"Ancient Power"
 	activate = Give(ALL_PLAYERS, RandomCollectible()).then(Buff(Give.CARD, "LOEA13_2e"))
 
+
 class LOEA13_2H:
 	"Ancient Power (Heroic)"
 	activate = Give(CONTROLLER, RandomCollectible()).then(Buff(Give.CARD, "LOEA13_2e"))
+
 
 @custom_card
 class LOEA13_2e:
@@ -374,6 +418,7 @@ class LOEA14_2:
 	"Platemail Armor"
 	update = Refresh(FRIENDLY_HERO, {GameTag.HEAVILY_ARMORED: True})
 
+
 class LOEA14_2H:
 	"Platemail Armor (Heroic)"
 	update = Refresh(FRIENDLY_CHARACTERS, {GameTag.HEAVILY_ARMORED: True})
@@ -386,6 +431,7 @@ class LOEA15_2:
 	"Unstable Portal"
 	activate = Give(CONTROLLER, RandomMinion()).then(Buff(Give.CARD, "GVG_003e"))
 
+
 class LOEA15_2H:
 	"Unstable Portal (Heroic)"
 	activate = Give(CONTROLLER, RandomMinion()).then(Buff(Give.CARD, "GVG_003e"))
@@ -394,6 +440,7 @@ class LOEA15_2H:
 class LOEA09_4:
 	"Rare Spear"
 	events = Play(OPPONENT, RARE).on(Buff(SELF, "EX1_409e"))
+
 
 class LOEA09_4H:
 	"Rare Spear (Heroic)"
@@ -407,6 +454,7 @@ class LOEA16_2:
 	"Staff of Origination"
 	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
 
+
 class LOEA16_2H:
 	"Staff of Origination (Heroic)"
 	update = Refresh(FRIENDLY_HERO, {GameTag.CANT_BE_DAMAGED: True})
@@ -415,6 +463,7 @@ class LOEA16_2H:
 class LOEA16_16:
 	"Rummage"
 	activate = Give(CONTROLLER, RandomEntourage())
+
 
 class LOEA16_16H:
 	"Rummage (Heroic)"
@@ -434,6 +483,7 @@ class LOEA16_7:
 class LOEA16_8:
 	"Putress' Vial"
 	play = Destroy(RANDOM_ENEMY_MINION)
+
 
 # Putressed (Unused)
 LOEA16_8a = AttackHealthSwapBuff()
@@ -466,6 +516,7 @@ class LOEA16_14:
 		Give(PLAYER, RandomSpell()).then(Buff(Give.CARD, "LOEA16_14e"))
 	)
 
+
 @custom_card
 class LOEA16_14e:
 	tags = {
@@ -484,6 +535,7 @@ class LOEA16_18:
 	"Zinaar"
 	events = OWN_TURN_END.on(Give(CONTROLLER, RandomWish))
 
+
 class LOEA16_18H:
 	"Zinaar (Heroic)"
 	events = OWN_TURN_END.on(Give(CONTROLLER, RandomWish))
@@ -493,9 +545,11 @@ class LOEA16_19:
 	"Sun Raider Phaerix"
 	events = OWN_TURN_END.on(Give(CONTROLLER, "LOEA16_20"))
 
+
 class LOEA16_19H:
 	"Sun Raider Phaerix (Heroic)"
 	update = Refresh(FRIENDLY_MINIONS - SELF, {GameTag.CANT_BE_DAMAGED: True})
+
 
 LOEA16_20H = buff(immune=True)
 
@@ -503,6 +557,7 @@ LOEA16_20H = buff(immune=True)
 class LOEA16_21:
 	"Chieftain Scarvash"
 	update = Refresh(ENEMY_HAND, {GameTag.COST: +1})
+
 
 class LOEA16_21H:
 	"Chieftain Scarvash (Heroic)"
@@ -513,6 +568,7 @@ class LOEA16_22:
 	"Archaedas"
 	events = OWN_TURN_END.on(Morph(RANDOM_ENEMY_MINION, "LOEA06_02t"))
 
+
 class LOEA16_22H:
 	"Archaedas (Heroic)"
 	events = OWN_TURN_END.on(Morph(RANDOM_ENEMY_MINION, "LOEA06_02t"))
@@ -522,6 +578,7 @@ class LOEA16_23:
 	"Lord Slitherspear"
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOEA09_5") * Count(ENEMY_MINIONS))
 
+
 class LOEA16_23H:
 	"Lord Slitherspear (Heroic)"
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOEA09_5") * Count(ENEMY_MINIONS))
@@ -530,6 +587,7 @@ class LOEA16_23H:
 class LOEA16_24:
 	"Giantfin"
 	events = OWN_TURN_END.on(DrawUntil(CONTROLLER, Count(ENEMY_HAND)))
+
 
 class LOEA16_24H:
 	"Giantfin (Heroic)"
@@ -542,6 +600,7 @@ class LOEA16_26:
 		Give(ALL_PLAYERS, RandomCollectible()).then(Buff(Give.CARD, "LOEA13_2e"))
 	)
 
+
 class LOEA16_26H:
 	"Skelesaurus Hex (Heroic)"
 	events = OWN_TURN_END.on(
@@ -553,6 +612,7 @@ class LOEA16_27:
 	"The Steel Sentinel"
 	tags = {GameTag.HEAVILY_ARMORED: True}
 
+
 class LOEA16_27H:
 	"The Steel Sentinel (Heroic)"
 	tags = {GameTag.HEAVILY_ARMORED: True}
@@ -561,6 +621,7 @@ class LOEA16_27H:
 class LOEA16_20:
 	"Blessing of the Sun"
 	play = Buff(TARGET, "LOEA16_20e")
+
 
 LOEA16_20e = buff(immune=True)
 
@@ -572,6 +633,7 @@ class LOE_008:
 	"Eye of Hakkar (Unused)"
 	play = Summon(CONTROLLER, RANDOM(ENEMY_DECK + SECRET))
 
+
 class LOE_008H:
 	"Eye of Hakkar (Unused) (Heroic)"
 	play = Summon(CONTROLLER, RANDOM(ENEMY_DECK + SECRET))
@@ -581,6 +643,7 @@ class LOEA_01:
 	"Looming Presence"
 	play = Draw(CONTROLLER) * 2, GainArmor(FRIENDLY_HERO, 4)
 
+
 class LOEA_01H:
 	"Looming Presence (Heroic)"
 	play = Draw(CONTROLLER) * 3, GainArmor(FRIENDLY_HERO, 6)
@@ -589,6 +652,7 @@ class LOEA_01H:
 class LOEA15_3:
 	"Boneraptor (Unused)"
 	play = Steal(ENEMY_WEAPON)
+
 
 class LOEA15_3H:
 	"Boneraptor (Unused) (Heroic)"

@@ -14,6 +14,7 @@ class BRM_004:
 	powered_up = HOLDING_DRAGON
 	play = powered_up & Buff(SELF, "BRM_004e")
 
+
 BRM_004e = buff(health=2)
 
 
@@ -36,8 +37,10 @@ class BRM_010:
 	"Druid of the Flame"
 	choose = ("BRM_010a", "BRM_010b")
 
+
 class BRM_010a:
 	play = Morph(SELF, "BRM_010t")
+
 
 class BRM_010b:
 	play = Morph(SELF, "BRM_010t2")
@@ -47,6 +50,7 @@ class BRM_012:
 	"Fireguard Destroyer"
 	play = Buff(SELF, "BRM_012e") * RandomNumber(1, 2, 3, 4)
 
+
 BRM_012e = buff(atk=1)
 
 
@@ -54,6 +58,7 @@ class BRM_014:
 	"Core Rager"
 	powered_up = Count(FRIENDLY_HAND - SELF) == 0
 	play = EMPTY_HAND & Buff(SELF, "BRM_014e")
+
 
 BRM_014e = buff(+3, +3)
 
@@ -82,6 +87,7 @@ class BRM_020:
 	"Dragonkin Sorcerer"
 	events = Play(CONTROLLER, SPELL, SELF).on(Buff(SELF, "BRM_020e"))
 
+
 BRM_020e = buff(+1, +1)
 
 
@@ -94,6 +100,7 @@ class BRM_024:
 	"Drakonid Crusher"
 	powered_up = CURRENT_HEALTH(ENEMY_HERO) <= 15
 	play = powered_up & Buff(SELF, "BRM_024e")
+
 
 BRM_024e = buff(+3, +3)
 
@@ -112,9 +119,11 @@ class BRM_027:
 	"Majordomo Executus"
 	deathrattle = Summon(CONTROLLER, "BRM_027h")
 
+
 class BRM_027p:
 	"DIE, INSECT!"
 	activate = Hit(RANDOM_ENEMY_CHARACTER, 8)
+
 
 class BRM_027pH:
 	"DIE, INSECTS!"
@@ -124,6 +133,7 @@ class BRM_027pH:
 class BRM_028:
 	"Emperor Thaurissan"
 	events = OWN_TURN_END.on(Buff(FRIENDLY_HAND, "BRM_028e"))
+
 
 class BRM_028e:
 	events = REMOVED_IN_PLAY
@@ -144,6 +154,7 @@ class BRM_030:
 		Give(CONTROLLER, "BRM_030t") * 2
 	)
 
+
 class BRM_030t:
 	"Tail Swipe"
 	play = Hit(TARGET, 4)
@@ -158,6 +169,7 @@ class BRM_033:
 	"Blackwing Technician"
 	powered_up = HOLDING_DRAGON
 	play = powered_up & Buff(SELF, "BRM_033e")
+
 
 BRM_033e = buff(+1, +1)
 
@@ -187,6 +199,7 @@ class BRM_003:
 	play = Hit(TARGET, 4)
 	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
+
 # Dragon's Might (Unused)
 BRM_003e = buff(cost=-3)
 
@@ -204,6 +217,7 @@ class BRM_007:
 class BRM_011:
 	"Lava Shock"
 	play = Hit(TARGET, 2), UnlockOverload(CONTROLLER)
+
 
 class BRM_011t:
 	"Lava Shock (Unused)"

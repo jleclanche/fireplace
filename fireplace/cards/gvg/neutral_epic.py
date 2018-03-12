@@ -20,6 +20,7 @@ class GVG_104:
 	"Hobgoblin"
 	events = Play(CONTROLLER, MINION + (ATK == 1)).on(Buff(Play.CARD, "GVG_104a"))
 
+
 GVG_104a = buff(+2, +2)
 
 
@@ -31,6 +32,7 @@ class GVG_105:
 class GVG_106:
 	"Junkbot"
 	events = Death(FRIENDLY + MECH).on(Buff(SELF, "GVG_106e"))
+
 
 GVG_106e = buff(+2, +2)
 

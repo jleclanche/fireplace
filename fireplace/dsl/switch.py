@@ -10,7 +10,6 @@ class Switch:
 	@property
 	def default(self):
 		return self.map.get(None, ())
-		return ret
 
 	def evaluate(self, source):
 		entities = self.selector.eval(source.game, source)

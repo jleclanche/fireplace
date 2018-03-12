@@ -7,7 +7,8 @@ def test_anima_golem():
 	anima.play()
 	wisp1 = game.player1.summon(WISP)
 	wisp2 = game.player2.summon(WISP)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert not anima.dead
 	wisp1.destroy()
@@ -53,7 +54,8 @@ def test_bolvar_fordragon():
 	wisp.play()
 	game.player1.give(MOONFIRE).play(target=wisp)
 	assert bolvar.atk == 3
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert bolvar.atk == 3
 	assert bolvar.buffs
@@ -125,7 +127,8 @@ def test_crackle_malygos():
 	game = prepare_game()
 	malygos = game.player1.give("EX1_563")
 	malygos.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	crackle = game.player1.give("GVG_038")
 	crackle.play(target=game.player2.hero)
@@ -211,7 +214,8 @@ def test_druid_of_the_fang():
 	assert fang.id == "GVG_080"
 	assert fang.atk == 4
 	assert fang.health == 4
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	fang2 = game.player1.give("GVG_080")
 	assert not fang2.powered_up
@@ -246,7 +250,8 @@ def test_fel_cannon():
 	game = prepare_game()
 	cannon = game.player1.give("GVG_020")
 	cannon.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.hero.health == game.player2.hero.health == 30
 	assert cannon.health == 5
@@ -393,7 +398,8 @@ def test_goblin_blastmage():
 	assert game.player1.hero.health == 30
 	blastmage1.play()
 	assert game.player1.hero.health == 30
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	blastmage2 = game.player1.give("GVG_004")
 	assert not blastmage2.powered_up
@@ -403,13 +409,15 @@ def test_goblin_blastmage():
 	assert blastmage2.powered_up
 	blastmage2.play()
 	assert game.player2.hero.health == 30 - 4
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 
 def test_grove_tender():
 	game = prepare_game(game_class=Game)
 	for i in range(3):
-		game.end_turn(); game.end_turn()
+		game.end_turn()
+		game.end_turn()
 
 	assert game.player1.max_mana == 4
 	assert game.player2.max_mana == 3
@@ -419,7 +427,8 @@ def test_grove_tender():
 	assert game.player2.max_mana == 4
 	assert game.player1.mana == 2
 	assert game.player1.used_mana == 3
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.discard_hand()
 	game.player2.discard_hand()
@@ -612,6 +621,7 @@ def test_malorne():
 	game = prepare_empty_game()
 	assert len(game.player1.deck) == 0
 	game.player1.give("GVG_035")
+
 	for i in range(3):
 		malorne = game.player1.hand[0]
 		assert malorne.id == "GVG_035"
@@ -623,7 +633,8 @@ def test_malorne():
 		assert len(game.player1.field) == 0
 		assert len(game.player1.deck) == 1
 		assert len(game.player1.hand) == 0
-		game.end_turn(); game.end_turn()
+		game.end_turn()
+		game.end_turn()
 
 		assert len(game.player1.field) == 0
 		assert len(game.player1.deck) == 0
@@ -634,7 +645,8 @@ def test_malorne_slam():
 	game = prepare_game()
 	malorne = game.player1.give("GVG_035")
 	malorne.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.discard_hand()
 	for _ in range(5):
@@ -735,7 +747,8 @@ def test_mimirons_head():
 	game = prepare_game()
 	head = game.player1.give("GVG_111")
 	head.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert not head.dead
 	assert head.race == Race.MECHANICAL
@@ -768,7 +781,8 @@ def test_mimirons_head_full_board():
 	head.play()
 	for i in range(6):
 		game.player1.give(TARGET_DUMMY).play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert head.dead
 	assert len(game.player1.field) == 1
@@ -781,10 +795,14 @@ def test_mogor_the_ogre():
 	game.end_turn()
 
 	wisp = game.player2.give(WISP).play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	wisp.attack(game.player1.hero)
-	assert (mogor.health == 5 and wisp.dead) ^ (game.player1.hero.health == 29 and not wisp.dead)
+	assert (
+		(mogor.health == 5 and wisp.dead) ^
+		(game.player1.hero.health == 29 and not wisp.dead)
+	)
 
 
 def test_neptulon():
@@ -844,7 +862,8 @@ def test_recombobulator_molten_giant():
 	molten = game.player1.give("EX1_620")
 	assert molten.cost == 25 - 15
 	molten.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	recom = game.player1.give("GVG_108")
 	recom.play(target=molten)
@@ -859,7 +878,8 @@ def test_reversing_switch():
 	switch = game.player1.give("PART_006")
 	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
 	goldshire.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	switch.play(goldshire)
 	assert goldshire.atk == 2

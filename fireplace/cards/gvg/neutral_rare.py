@@ -29,6 +29,7 @@ class GVG_097:
 	# The Enchantment ID is correct
 	play = Buff(SELF, "GVG_101e") * Count(ENEMY_MINIONS + DEATHRATTLE)
 
+
 GVG_101e = buff(+1, +1)
 
 

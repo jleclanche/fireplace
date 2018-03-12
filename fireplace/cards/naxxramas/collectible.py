@@ -28,6 +28,7 @@ class FP1_005:
 	"Shade of Naxxramas"
 	events = OWN_TURN_BEGIN.on(Buff(SELF, "FP1_005e"))
 
+
 FP1_005e = buff(+1, +1)
 
 
@@ -85,6 +86,7 @@ class FP1_023:
 	"Dark Cultist"
 	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "FP1_023e")
 
+
 FP1_023e = buff(health=3)
 
 
@@ -107,6 +109,7 @@ class FP1_028:
 	"Undertaker"
 	events = Summon(CONTROLLER, MINION + DEATHRATTLE).on(Buff(SELF, "FP1_028e"))
 
+
 FP1_028e = buff(atk=1)
 
 
@@ -118,6 +121,7 @@ class FP1_029:
 class FP1_030:
 	"Loatheb"
 	play = Buff(OPPONENT, "FP1_030e")
+
 
 class FP1_030e:
 	update = CurrentPlayer(OWNER) & Refresh(ENEMY_HAND + SPELL, {GameTag.COST: +5})
@@ -163,6 +167,7 @@ class FP1_020:
 	secret = Death(FRIENDLY + MINION).on(EMPTY_BOARD | (
 		Reveal(SELF), Buff(RANDOM_FRIENDLY_MINION, "FP1_020e")
 	))
+
 
 FP1_020e = buff(+3, +2)
 

@@ -8,6 +8,7 @@ class AT_086:
 	"Saboteur"
 	play = Buff(OPPONENT, "AT_086e")
 
+
 class AT_086e:
 	update = CurrentPlayer(OWNER) & Refresh(ENEMY_HERO_POWER, {GameTag.COST: +5})
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
@@ -37,6 +38,7 @@ class AT_109:
 	"Argent Watchman"
 	inspire = Buff(SELF, "AT_109e")
 
+
 AT_109e = buff(cant_attack=False)
 
 
@@ -53,6 +55,7 @@ class AT_112:
 class AT_115:
 	"Fencing Coach"
 	play = Buff(CONTROLLER, "AT_115e")
+
 
 class AT_115e:
 	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: -2})

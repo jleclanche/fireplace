@@ -14,12 +14,14 @@ class OG_113:
 	"Darkshire Councilman"
 	events = Summon(MINION, CONTROLLER).on(Buff(SELF, "OG_113e"))
 
+
 OG_113e = buff(atk=1)
 
 
 class OG_121:
 	"Cho'gall"
 	play = Buff(CONTROLLER, "OG_121e")
+
 
 class OG_121e:
 	events = OWN_SPELL_PLAY.on(Destroy(SELF))

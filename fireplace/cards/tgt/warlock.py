@@ -13,6 +13,7 @@ class AT_021:
 	"Tiny Knight of Evil"
 	events = Discard(FRIENDLY).on(Buff(SELF, "AT_021e"))
 
+
 AT_021e = buff(+1, +1)
 
 
@@ -29,6 +30,7 @@ class AT_026:
 class AT_027:
 	"Wilfred Fizzlebang"
 	events = Draw(CONTROLLER, None, FRIENDLY_HERO_POWER).on(Buff(Draw.CARD, "AT_027e"))
+
 
 class AT_027e:
 	cost = SET(0)
@@ -48,6 +50,7 @@ class AT_022:
 class AT_024:
 	"Demonfuse"
 	play = Buff(TARGET, "AT_024e"), GainMana(OPPONENT, 1)
+
 
 AT_024e = buff(+3, +3)
 

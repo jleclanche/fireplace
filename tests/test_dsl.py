@@ -97,7 +97,7 @@ def test_high_low_atk_selectors():
 
 	# Give two wisps and make sure we only get back one
 	wisp = game.player1.give(WISP)
-	wisp2 = game.player1.give(WISP)
+	game.player1.give(WISP)
 
 	IN_HAND = EnumSelector(Zone.HAND)
 	high_selector = HIGHEST_ATK(IN_HAND)

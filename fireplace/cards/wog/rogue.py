@@ -8,6 +8,7 @@ class OG_070:
 	"Bladed Cultist"
 	combo = Buff(SELF, "OG_070e")
 
+
 OG_070e = buff(+1, +1)
 
 
@@ -19,6 +20,7 @@ class OG_080:
 class OG_267:
 	"Southsea Squidface"
 	deathrattle = Buff(FRIENDLY_WEAPON, "OG_267e")
+
 
 OG_267e = buff(atk=2)
 

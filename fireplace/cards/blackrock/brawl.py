@@ -8,6 +8,7 @@ class TBA01_5:
 	"Wild Magic"
 	activate = Buff(Give(CONTROLLER, RandomSpell()), "TBA01_5e")
 
+
 @custom_card
 class TBA01_5e:
 	tags = {
@@ -39,7 +40,9 @@ class BRMC_86:
 	"Atramedes"
 	events = Play(OPPONENT).on(Buff(SELF, "BRMC_86e"))
 
+
 BRMC_86e = buff(atk=2)
+
 
 class BRMC_87:
 	"Moira Bronzebeard"
@@ -87,6 +90,7 @@ class BRMC_98:
 	"Razorgore"
 	events = OWN_TURN_BEGIN.on(Buff(FRIENDLY_MINIONS, "BRMC_98e"))
 
+
 BRMC_98e = buff(atk=3)
 
 
@@ -112,6 +116,7 @@ class BRMC_95h:
 	"Core Hound Puppies"
 	play = Summon(CONTROLLER, "BRMC_95he") * 2
 
+
 class BRMC_95he:
 	events = TURN_END.on(Summon(CONTROLLER, Copy(ID("BRMC_95he") + KILLED_THIS_TURN)))
 
@@ -119,6 +124,7 @@ class BRMC_95he:
 class BRMC_100:
 	"Living Bomb"
 	play = Buff(TARGET, "BRMC_100e")
+
 
 class BRMC_100e:
 	events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_MINIONS, 5))

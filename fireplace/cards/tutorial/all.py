@@ -29,8 +29,10 @@ class TU4f_007:
 	"Crazy Monkey"
 	play = Give(OPPONENT, "TU4c_006")
 
+
 class TU4c_006:
 	play = Buff(TARGET, "TU4c_006e")
+
 
 # Bananas
 TU4c_006e = buff(+1, +1)
@@ -58,6 +60,7 @@ class TU4c_008:
 	"Will of Mukla"
 	play = Heal(FRIENDLY_HERO, 8)
 
+
 # Might of Mukla (Unused)
 TU4c_008e = buff(atk=8)
 
@@ -71,6 +74,7 @@ class TU4f_004:
 	"Legacy of the Emperor"
 	play = Buff(FRIENDLY_MINIONS, "TU4f_004o")
 
+
 TU4f_004o = buff(+2, +2)
 
 
@@ -78,7 +82,9 @@ class TU4f_006:
 	"Transcendence"
 	play = Buff(FRIENDLY_HERO, "TU4f_006o")
 
+
 class TU4f_006o:
+	"Transcendence"
 	events = Death(FRIENDLY + MINION).on(
 		Find(FRIENDLY_MINIONS) | Destroy(SELF)
 	)

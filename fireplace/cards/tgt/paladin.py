@@ -8,6 +8,7 @@ class AT_075:
 	"Warhorse Trainer"
 	update = Refresh(FRIENDLY + ID("CS2_101t"), buff="AT_075e")
 
+
 AT_075e = buff(atk=1)
 
 
@@ -25,6 +26,7 @@ class AT_081:
 	"Eadric the Pure"
 	play = Buff(ENEMY_MINIONS, "AT_081e")
 
+
 class AT_081e:
 	atk = SET(1)
 
@@ -41,6 +43,7 @@ class AT_074:
 	"Seal of Champions"
 	play = Buff(TARGET, "AT_074e2"), GiveDivineShield(TARGET)
 
+
 AT_074e2 = buff(atk=3)
 
 
@@ -52,6 +55,7 @@ class AT_073:
 	events = OWN_TURN_BEGIN.on(EMPTY_BOARD | (
 		Reveal(SELF), Buff(FRIENDLY_MINIONS, "AT_073e")
 	))
+
 
 AT_073e = buff(+1, +1)
 
@@ -67,5 +71,6 @@ class AT_078:
 class AT_077:
 	"Argent Lance"
 	play = JOUST & Buff(SELF, "AT_077e")
+
 
 AT_077e = buff(health=1)

@@ -15,9 +15,11 @@ class EX1_014:
 	"King Mukla"
 	play = Give(OPPONENT, "EX1_014t") * 2
 
+
 class EX1_014t:
 	"Bananas"
 	play = Buff(TARGET, "EX1_014te")
+
 
 EX1_014te = buff(+1, +1)
 
@@ -51,19 +53,24 @@ class EX1_112:
 	"Gelbin Mekkatorque"
 	play = Summon(CONTROLLER, RandomEntourage())
 
+
 class Mekka1:
 	"Homing Chicken"
 	events = OWN_TURN_BEGIN.on(Destroy(SELF), Draw(CONTROLLER) * 3)
+
 
 class Mekka2:
 	"Repair Bot"
 	events = OWN_TURN_END.on(Heal(RANDOM(DAMAGED_CHARACTERS), 6))
 
+
 class Mekka3:
 	"Emboldener 3000"
 	events = OWN_TURN_END.on(Buff(RANDOM_MINION, "Mekka3e"))
 
+
 Mekka3e = buff(+1, +1)
+
 
 class Mekka4:
 	"Poultryizer"
@@ -110,6 +117,7 @@ class EX1_561:
 		SetCurrentHealth(TARGET, 15)
 	)
 
+
 class EX1_561e:
 	max_health = SET(15)
 
@@ -125,17 +133,21 @@ class EX1_572:
 		Give(CONTROLLER, RandomCard(card_class=CardClass.DREAM))
 	)
 
+
 class DREAM_02:
 	"Ysera Awakens"
 	play = Hit(ALL_CHARACTERS - ID("EX1_572"), 5)
+
 
 class DREAM_04:
 	"Dream"
 	play = Bounce(TARGET)
 
+
 class DREAM_05:
 	"Nightmare"
 	play = Buff(TARGET, "DREAM_05e")
+
 
 class DREAM_05e:
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))
@@ -155,11 +167,14 @@ class NEW1_024:
 	"Captain Greenskin"
 	play = Buff(FRIENDLY_WEAPON, "NEW1_024o")
 
+
 NEW1_024o = buff(+1, +1)
+
 
 class NEW1_029:
 	"Millhouse Manastorm"
 	play = Buff(ENEMY_HERO, "NEW1_029t")
+
 
 class NEW1_029t:
 	update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: lambda self, i: 0})
@@ -175,6 +190,7 @@ class NEW1_038:
 	"Gruul"
 	events = TURN_END.on(Buff(SELF, "NEW1_038o"))
 
+
 NEW1_038o = buff(+1, +1)
 
 
@@ -187,9 +203,11 @@ class PRO_001:
 	"Elite Tauren Chieftain"
 	play = Give(ALL_PLAYERS, RandomEntourage())
 
+
 class PRO_001a:
 	"I Am Murloc"
 	play = Summon(CONTROLLER, "PRO_001at") * RandomNumber(3, 4, 5)
+
 
 class PRO_001b:
 	"Rogues Do It..."

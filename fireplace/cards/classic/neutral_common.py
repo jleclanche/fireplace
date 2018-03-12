@@ -8,6 +8,7 @@ class CS2_122:
 	"Raid Leader"
 	update = Refresh(FRIENDLY_MINIONS - SELF, buff="CS2_122e")
 
+
 CS2_122e = buff(atk=1)
 
 
@@ -15,12 +16,14 @@ class CS2_222:
 	"Stormwind Champion"
 	update = Refresh(FRIENDLY_MINIONS - SELF, buff="CS2_222o")
 
+
 CS2_222o = buff(+1, +1)
 
 
 class CS2_226:
 	"Frostwolf Warlord"
 	play = Buff(SELF, "CS2_226e") * Count(FRIENDLY_MINIONS - SELF)
+
 
 CS2_226e = buff(+1, +1)
 
@@ -49,6 +52,7 @@ class EX1_162:
 	"Dire Wolf Alpha"
 	update = Refresh(SELF_ADJACENT, buff="EX1_162o")
 
+
 EX1_162o = buff(atk=1)
 
 
@@ -56,12 +60,14 @@ class EX1_399:
 	"Gurubashi Berserker"
 	events = SELF_DAMAGE.on(Buff(SELF, "EX1_399e"))
 
+
 EX1_399e = buff(atk=3)
 
 
 class EX1_508:
 	"Grimscale Oracle"
 	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_508o")
+
 
 EX1_508o = buff(atk=1)
 
@@ -118,6 +124,7 @@ class CS2_188:
 	"Abusive Sergeant"
 	play = Buff(TARGET, "CS2_188o")
 
+
 CS2_188o = buff(atk=2)
 
 
@@ -134,6 +141,7 @@ class CS2_203:
 class CS2_221:
 	"Spiteful Smith"
 	enrage = Refresh(FRIENDLY_WEAPON, buff="CS2_221e")
+
 
 CS2_221e = buff(atk=2)
 
@@ -157,6 +165,7 @@ class EX1_019:
 	"Shattered Sun Cleric"
 	play = Buff(TARGET, "EX1_019e")
 
+
 EX1_019e = buff(+1, +1)
 
 
@@ -173,6 +182,7 @@ class EX1_029:
 class EX1_046:
 	"Dark Iron Dwarf"
 	play = Buff(TARGET, "EX1_046e")
+
 
 EX1_046e = buff(atk=2)
 
@@ -211,6 +221,7 @@ class EX1_390:
 	"Tauren Warrior"
 	enrage = Refresh(SELF, buff="EX1_390e")
 
+
 EX1_390e = buff(atk=3)
 
 
@@ -218,12 +229,14 @@ class EX1_393:
 	"Amani Berserker"
 	enrage = Refresh(SELF, buff="EX1_393e")
 
+
 EX1_393e = buff(atk=3)
 
 
 class EX1_412:
 	"Raging Worgen"
 	enrage = Refresh(SELF, buff="EX1_412e")
+
 
 class EX1_412e:
 	tags = {GameTag.ATK: +1}
@@ -258,6 +271,7 @@ class NEW1_022:
 class tt_004:
 	"Flesheating Ghoul"
 	events = Death(MINION).on(Buff(SELF, "tt_004o"))
+
 
 tt_004o = buff(atk=1)
 

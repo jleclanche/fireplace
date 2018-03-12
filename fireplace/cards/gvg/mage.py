@@ -32,6 +32,7 @@ class GVG_003:
 	"Unstable Portal"
 	play = Give(CONTROLLER, RandomMinion()).then(Buff(Give.CARD, "GVG_003e"))
 
+
 @custom_card
 class GVG_003e:
 	tags = {

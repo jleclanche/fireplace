@@ -9,6 +9,7 @@ class AT_017:
 	powered_up = HOLDING_DRAGON
 	play = powered_up & Buff(SELF, "AT_017e")
 
+
 AT_017e = buff(atk=1, taunt=True)
 
 
@@ -37,6 +38,7 @@ class AT_117:
 	powered_up = Find(FRIENDLY_MINIONS + SPELLPOWER)
 	play = powered_up & Buff(SELF, "AT_117e")
 
+
 AT_117e = buff(+2, +2)
 
 
@@ -53,5 +55,6 @@ class AT_120:
 class AT_121:
 	"Crowd Favorite"
 	events = Play(CONTROLLER, BATTLECRY).on(Buff(SELF, "AT_121e"))
+
 
 AT_121e = buff(+1, +1)

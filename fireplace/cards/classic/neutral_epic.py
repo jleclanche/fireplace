@@ -15,6 +15,7 @@ class EX1_507:
 	"Murloc Warleader"
 	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_507e")
 
+
 EX1_507e = buff(+2, +1)
 
 
@@ -35,6 +36,7 @@ class EX1_590:
 		UnsetTag(ALL_MINIONS, (GameTag.DIVINE_SHIELD, ))
 	)
 
+
 EX1_590e = buff(+3, +3)
 
 
@@ -52,6 +54,7 @@ class NEW1_017:
 	"Hungry Crab"
 	play = Destroy(TARGET), Buff(SELF, "NEW1_017e")
 
+
 NEW1_017e = buff(+2, +2)
 
 
@@ -63,5 +66,6 @@ class NEW1_021:
 class NEW1_027:
 	"Southsea Captain"
 	update = Refresh(FRIENDLY_MINIONS + PIRATE - SELF, buff="NEW1_027e")
+
 
 NEW1_027e = buff(+1, +1)

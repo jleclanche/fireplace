@@ -13,6 +13,7 @@ class TB_010:
 		OWN_TURN_END.on(Shuffle(CONTROLLER, FRIENDLY_HAND))
 	)
 
+
 class TB_011:
 	"Tarnished Coin"
 	play = ManaThisTurn(CONTROLLER, 1)

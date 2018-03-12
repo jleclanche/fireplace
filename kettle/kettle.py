@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 
 from hearthstone.enums import CardType, ChoiceType, GameTag, OptionType, Step, Zone
 
-from fireplace import actions, cards
+from fireplace import cards
 from fireplace.exceptions import GameOver
 from fireplace.game import BaseGame as Game
 from fireplace.player import Player
@@ -96,7 +96,7 @@ class KettleManager:
 	def refresh_state(self, entity_id):
 		assert entity_id in self.game_state
 		entity = self.game_state[entity_id][GameTag.ENTITY_ID]
-		state = self.game_state[entity.entity_id]
+		# state = self.game_state[entity.entity_id]
 
 		for tag in entity.tags:
 			self.refresh_tag(entity, tag)

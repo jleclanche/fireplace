@@ -23,12 +23,14 @@ class GVG_067:
 	"Stonesplinter Trogg"
 	events = Play(OPPONENT, SPELL).on(Buff(SELF, "GVG_067a"))
 
+
 GVG_067a = buff(atk=1)
 
 
 class GVG_068:
 	"Burly Rockjaw Trogg"
 	events = Play(OPPONENT, SPELL).on(Buff(SELF, "GVG_068a"))
+
 
 GVG_068a = buff(atk=2)
 
@@ -73,6 +75,7 @@ class GVG_102:
 	powered_up = Find(FRIENDLY_MINIONS + MECH)
 	play = powered_up & (Buff(SELF, "GVG_102e"), Give(CONTROLLER, RandomSparePart()))
 
+
 GVG_102e = buff(+1, +1)
 
 
@@ -80,5 +83,6 @@ class GVG_103:
 	"Micro Machine"
 	# That card ID is not a mistake
 	events = TURN_BEGIN.on(Buff(SELF, "GVG_076a"))
+
 
 GVG_076a = buff(atk=1)

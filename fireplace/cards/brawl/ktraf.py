@@ -33,6 +33,7 @@ class TB_KTRAF_4:
 	"Gothik the Harvester"
 	deathrattle = Summon(OPPONENT, "TB_KTRAF_4m")
 
+
 class TB_KTRAF_4m:
 	events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 4))
 
@@ -67,6 +68,7 @@ class TB_KTRAF_10:
 	events = Death(ENEMY + MINION).on(
 		Summon(CONTROLLER, "NAX4_03"), Buff(FRIENDLY_MINIONS - SELF, "TB_KTRAF_10e")
 	)
+
 
 TB_KTRAF_10e = buff(+1, +1)
 

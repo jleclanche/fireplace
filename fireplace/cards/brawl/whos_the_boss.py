@@ -17,6 +17,7 @@ class BRMA02_2_2_TB:
 	"Jeering Crowd"
 	activate = Summon(CONTROLLER, "BRMA02_2t")
 
+
 class BRMA02_2_2c_TB:
 	"Jeering Crowd (Unused)"
 	play = Summon(CONTROLLER, "BRMA02_2t")
@@ -30,6 +31,7 @@ class BRMA06_2H_TB:
 class BRMA07_2_2_TB:
 	"ME SMASH"
 	activate = Destroy(RANDOM_ENEMY_MINION)
+
 
 class BRMA07_2_2c_TB:
 	"ME SMASH (Unused)"
@@ -76,6 +78,7 @@ class NAX11_02H_2_TB:
 class NAX12_02H_2_TB:
 	"Decimate"
 	activate = Buff(ENEMY_MINIONS, "NAX12_02e")
+
 
 class NAX12_02H_2c_TB:
 	"Decimate (Unused)"

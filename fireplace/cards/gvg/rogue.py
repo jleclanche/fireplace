@@ -8,6 +8,7 @@ class GVG_023:
 	"Goblin Auto-Barber"
 	play = Buff(FRIENDLY_WEAPON, "GVG_023a")
 
+
 GVG_023a = buff(atk=1)
 
 
@@ -20,6 +21,7 @@ class GVG_027:
 	"Iron Sensei"
 	events = OWN_TURN_END.on(Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_027e"))
 
+
 GVG_027e = buff(+2, +2)
 
 
@@ -29,6 +31,7 @@ class GVG_028:
 		Give(CONTROLLER, Copy(Play.CARD)),
 		Give(OPPONENT, "GVG_028t")
 	)
+
 
 class GVG_028t:
 	play = ManaThisTurn(CONTROLLER, 1)
@@ -46,6 +49,7 @@ class GVG_022:
 	"Tinker's Sharpsword Oil"
 	play = Buff(FRIENDLY_WEAPON, "GVG_022a")
 	combo = Buff(FRIENDLY_WEAPON, "GVG_022a"), Buff(RANDOM_FRIENDLY_CHARACTER, "GVG_022b")
+
 
 GVG_022a = buff(atk=3)  # Weapon
 GVG_022b = buff(atk=3)  # Minion

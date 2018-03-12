@@ -45,7 +45,9 @@ RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1
 RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
 
 # 50% chance to attack the wrong enemy.
-FORGETFUL = Attack(SELF).on(COINFLIP & Retarget(SELF, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(SELF))))
+FORGETFUL = Attack(SELF).on(
+	COINFLIP & Retarget(SELF, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(SELF)))
+)
 
 AT_MAX_MANA = lambda s: MANA(s) == 10
 
@@ -65,6 +67,7 @@ class JoustHelper(Evaluator):
 		)
 
 		return action.trigger(source)
+
 
 JOUST = JoustHelper(
 	RANDOM(FRIENDLY_DECK + MINION),

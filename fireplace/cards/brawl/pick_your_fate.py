@@ -36,8 +36,10 @@ class TB_PickYourFate_2:
 	"Fate: Bananas"
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_2_Ench")
 
+
 class TB_PickYourFate_2_Ench:
 	events = Summon(CONTROLLER, MINION).on(Buff(Summon.CARD, "TB_PickYourFate_2_EnchMinion"))
+
 
 class TB_PickYourFate_2_EnchMinion:
 	deathrattle = Give(CONTROLLER, RandomBanana)
@@ -47,6 +49,7 @@ class TB_PickYourFate_2_EnchMinion:
 class TB_PickYourFate_5:
 	"Fate: Spells"
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_5_Ench")
+
 
 class TB_PickYourFate_5_Ench:
 	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -1})
@@ -64,8 +67,10 @@ class TB_PickYourFate_7:
 		Buff(ALL_MINIONS, "TB_PickYourFate_7_EnchMinion"),
 	)
 
+
 class TB_PickYourFate_7Ench:
 	events = Summon(CONTROLLER, MINION).on(Buff(Summon.CARD, "TB_PickYourFate_7_EnchMinion"))
+
 
 class TB_PickYourFate_7_EnchMinion:
 	deathrattle = Give(CONTROLLER, "TB_011")
@@ -76,6 +81,7 @@ class TB_PickYourFate_8rand:
 	"Fate: Armor"
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_8_EnchRand")
 
+
 class TB_PickYourFate_8_EnchRand:
 	events = OWN_TURN_BEGIN.on(GainArmor(FRIENDLY_HERO, 2))
 
@@ -84,8 +90,10 @@ class TB_PickYourFate_12:
 	"Fate: Confusion"
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_12_Ench")
 
+
 class TB_PickYourFate_12_Ench:
 	events = OWN_TURN_END.on(Buff(ALL_MINIONS, "TB_PickYourFate_Confused"))
+
 
 TB_PickYourFate_Confused = AttackHealthSwapBuff()
 
@@ -97,8 +105,10 @@ class TB_PickYourFate_1:
 		Buff(ALL_MINIONS, "TB_AllMinionsTauntCharge")
 	)
 
+
 class TB_PickYourFate_1_Ench:
 	events = Play(CONTROLLER, MINION).on(Buff(Play.CARD, "TB_AllMinionsTauntCharge"))
+
 
 TB_AllMinionsTauntCharge = buff(taunt=True, charge=True)
 
@@ -126,8 +136,10 @@ class TB_PickYourFate_4:
 		Buff(ALL_MINIONS, "TB_PickYourFate_4_EnchMinion")
 	)
 
+
 class TB_PickYourFate_4_Ench:
 	events = Summon(CONTROLLER, MINION).on(Buff(Summon.CARD, "TB_PickYourFate_4_EnchMinion"))
+
 
 class TB_PickYourFate_4_EnchMinion:
 	deathrattle = Draw(CONTROLLER)
@@ -146,11 +158,16 @@ class TB_PickYourFate_7_2nd:
 		Buff(ALL_MINIONS, "TB_PickYourFate_7_EnchMiniom2nd")
 	)
 
+
 class TB_PickYourFate_7_Ench_2nd:
-	events = Summon(CONTROLLER, MINION).on(Buff(Summon.CARD, "TB_PickYourFate_7_EnchMiniom2nd"))
+	events = Summon(CONTROLLER, MINION).on(
+		Buff(Summon.CARD, "TB_PickYourFate_7_EnchMiniom2nd")
+	)
+
 
 class TB_PickYourFate_7_EnchMiniom2nd:
 	deathrattle = Buff(RANDOM(FRIENDLY_HAND + (COST > 0)), "TB_PickYourFate_7_EnchMiniom2nde")
+
 
 @custom_card
 class TB_PickYourFate_7_EnchMiniom2nde:
@@ -170,6 +187,7 @@ class TB_PickYourFate_11:
 	"Murlocs (Unused)"
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_11_Ench")
 
+
 class TB_PickYourFate_11_Ench:
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOEA10_3"))
 
@@ -181,6 +199,7 @@ class TB_PickYourFate_8:
 	"Spell Bonus"
 	play = Buff(CONTROLLER, "TB_PickYourFate_8_Ench")
 
+
 class TB_PickYourFate_8_Ench:
 	events = OWN_SPELL_PLAY.on(GainArmor(FRIENDLY_HERO, 3))
 
@@ -189,8 +208,10 @@ class TB_PickYourFate_9:
 	"Deathrattle Bonus"
 	play = Buff(CONTROLLER, "TB_PickYourFate_9_Ench")
 
+
 class TB_PickYourFate_9_Ench:
 	update = Refresh(FRIENDLY_MINIONS + DEATHRATTLE, "TB_PickYourFate_9_EnchMinion")
+
 
 TB_PickYourFate_9_EnchMinion = buff(+1, +1)
 
@@ -199,8 +220,10 @@ class TB_PickYourFate_10:
 	"Battlecry Bonus"
 	play = Buff(CONTROLLER, "TB_PickYourFate_10_Ench")
 
+
 class TB_PickYourFate_10_Ench:
 	update = Refresh(FRIENDLY_MINIONS + BATTLECRY, "TB_PickYourFate_10_EnchMinion")
+
 
 TB_PickYourFate_10_EnchMinion = buff(+1, +1)
 
@@ -208,6 +231,3 @@ TB_PickYourFate_10_EnchMinion = buff(+1, +1)
 class TB_PickYourFate_11b:
 	"Murloc Bonus"
 	play = Buff(CONTROLLER, "TB_PickYourFate_11_Ench")
-
-class TB_PickYourFate_11_Ench:
-	events = OWN_TURN_END.on(Summon(CONTROLLER, "LOEA10_3"))

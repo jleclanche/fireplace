@@ -12,12 +12,14 @@ class TB_006:
 	"Big Banana"
 	play = Buff(TARGET, "TB_006e")
 
+
 TB_006e = buff(+2, +2)
 
 
 class TB_007:
 	"Deviate Banana"
 	play = Buff(TARGET, "TB_007e")
+
 
 TB_007e = AttackHealthSwapBuff()
 

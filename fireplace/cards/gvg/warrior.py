@@ -8,6 +8,7 @@ class GVG_051:
 	"Warbot"
 	enrage = Refresh(SELF, buff="GVG_051e")
 
+
 GVG_051e = buff(atk=1)
 
 
@@ -21,12 +22,14 @@ class GVG_055:
 	powered_up = Find(FRIENDLY_MINIONS + MECH)
 	play = Buff(TARGET, "GVG_055e")
 
+
 GVG_055e = buff(+2, +2)
 
 
 class GVG_056:
 	"Iron Juggernaut"
 	play = Shuffle(OPPONENT, "GVG_056t")
+
 
 class GVG_056t:
 	"Burrowing Mine"
@@ -36,6 +39,7 @@ class GVG_056t:
 class GVG_086:
 	"Siege Engine"
 	events = GainArmor(FRIENDLY_HERO).on(Buff(SELF, "GVG_086e"))
+
 
 GVG_086e = buff(atk=1)
 

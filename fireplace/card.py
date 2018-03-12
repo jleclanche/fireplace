@@ -239,29 +239,41 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	def is_playable(self):
 		if self.controller.choice:
 			return False
+
 		if not self.controller.current_player:
 			return False
+
 		zone = self.parent_card.zone if self.parent_card else self.zone
 		if zone != self.playable_zone:
 			return False
+
 		if not self.controller.can_pay_cost(self):
 			return False
+
 		if PlayReq.REQ_TARGET_TO_PLAY in self.requirements:
 			if not self.play_targets:
 				return False
+
 		if PlayReq.REQ_NUM_MINION_SLOTS in self.requirements:
 			if self.requirements[PlayReq.REQ_NUM_MINION_SLOTS] > self.controller.minion_slots:
 				return False
-		if len(self.controller.opponent.field) < self.requirements.get(PlayReq.REQ_MINIMUM_ENEMY_MINIONS, 0):
+
+		min_enemy_minions = self.requirements.get(PlayReq.REQ_MINIMUM_ENEMY_MINIONS, 0)
+		if len(self.controller.opponent.field) < min_enemy_minions:
 			return False
-		if len(self.controller.game.board) < self.requirements.get(PlayReq.REQ_MINIMUM_TOTAL_MINIONS, 0):
+
+		min_total_minions = self.requirements.get(PlayReq.REQ_MINIMUM_TOTAL_MINIONS, 0)
+		if len(self.controller.game.board) < min_total_minions:
 			return False
+
 		if PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY in self.requirements:
 			if not [id for id in self.entourage if not self.controller.field.contains(id)]:
 				return False
+
 		if PlayReq.REQ_WEAPON_EQUIPPED in self.requirements:
 			if not self.controller.weapon:
 				return False
+
 		if PlayReq.REQ_FRIENDLY_MINION_DIED_THIS_GAME in self.requirements:
 			if not self.controller.graveyard.filter(type=CardType.MINION):
 				return False

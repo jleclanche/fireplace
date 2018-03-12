@@ -16,6 +16,7 @@ class CS2_059:
 	"Blood Imp"
 	events = OWN_TURN_END.on(Buff(RANDOM_OTHER_FRIENDLY_MINION, "CS2_059o"))
 
+
 CS2_059o = buff(health=1)
 
 
@@ -71,6 +72,7 @@ class EX1_323:
 		Summon(CONTROLLER, "EX1_323w")
 	)
 
+
 class EX1_tk33:
 	"INFERNO!"
 	activate = Summon(CONTROLLER, "EX1_tk34")
@@ -92,6 +94,7 @@ class CS2_062:
 class CS2_063:
 	"Corruption"
 	play = Buff(TARGET, "CS2_063e")
+
 
 class CS2_063e:
 	events = OWN_TURN_BEGIN.on(Destroy(OWNER))
@@ -131,6 +134,7 @@ class EX1_316:
 	"Power Overwhelming"
 	play = Buff(TARGET, "EX1_316e")
 
+
 class EX1_316e:
 	events = TURN_END.on(Destroy(OWNER))
 	tags = {
@@ -156,6 +160,7 @@ class EX1_320:
 class EX1_596:
 	"Demonfire"
 	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "EX1_596e") | Hit(TARGET, 2)
+
 
 EX1_596e = buff(+2, +2)
 

@@ -8,6 +8,7 @@ class OG_006:
 	"Vilefin Inquisitor"
 	play = Summon(CONTROLLER, "OG_006b")
 
+
 class OG_006b:
 	"The Tidal Hand"
 	activate = Summon(CONTROLLER, "OG_006a")
@@ -25,7 +26,9 @@ class OG_229:
 
 class OG_310:
 	"Steward of Darkshire"
-	events = Summon(CONTROLLER, MINION + (CURRENT_HEALTH == 1)).on(GiveDivineShield(Summon.CARD))
+	events = Summon(CONTROLLER, MINION + (CURRENT_HEALTH == 1)).on(
+		GiveDivineShield(Summon.CARD)
+	)
 
 
 ##
@@ -34,6 +37,7 @@ class OG_310:
 class OG_223:
 	"Divine Strength"
 	play = Buff(TARGET, "OG_223e")
+
 
 OG_223e = buff(+1, +2)
 
@@ -47,6 +51,7 @@ class OG_311:
 	"A Light in the Darkness"
 	play = DISCOVER(RandomMinion()).then(Buff(Discover.CARDS, "OG_311e"))
 
+
 OG_311e = buff(+1, +1)
 
 
@@ -56,5 +61,6 @@ OG_311e = buff(+1, +1)
 class OG_222:
 	"Rallying Blade"
 	play = Buff(FRIENDLY_MINIONS + DIVINE_SHIELD, "OG_222e")
+
 
 OG_222e = buff(+1, +1)

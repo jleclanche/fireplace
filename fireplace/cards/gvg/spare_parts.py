@@ -10,6 +10,7 @@ class PART_001:
 	play = Buff(TARGET, "PART_001e")
 	tags = {GameTag.SPARE_PART: True}
 
+
 PART_001e = buff(health=1)
 
 
@@ -46,6 +47,7 @@ class PART_006:
 	play = Buff(TARGET, "PART_006a")
 	tags = {GameTag.SPARE_PART: True}
 
+
 PART_006a = AttackHealthSwapBuff()
 
 
@@ -53,5 +55,6 @@ class PART_007:
 	"Whirling Blades"
 	play = Buff(TARGET, "PART_007e")
 	tags = {GameTag.SPARE_PART: True}
+
 
 PART_007e = buff(atk=1)

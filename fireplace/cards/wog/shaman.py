@@ -8,6 +8,7 @@ class OG_023:
 	"Primal Fusion"
 	play = Buff(TARGET, "OG_023t") * Count(FRIENDLY_MINIONS + TOTEM)
 
+
 OG_023t = buff(+1, +1)
 
 

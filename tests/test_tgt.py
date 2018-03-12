@@ -15,7 +15,8 @@ def test_anubarak():
 	assert token.id == "AT_036t"
 	anubarak = game.player1.hand[0]
 	assert anubarak.id == "AT_036"
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	# Test for issue #283: play Anub'arak again
 	anubarak.play()
@@ -126,7 +127,8 @@ def test_dalaran_aspirant():
 	assert aspirant.spellpower == game.player1.spellpower == 0
 	game.player1.hero.power.use()
 	assert aspirant.spellpower == game.player1.spellpower == 1
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.hero.power.use()
 	assert aspirant.spellpower == game.player1.spellpower == 2
@@ -213,7 +215,8 @@ def test_dragonhawk_rider():
 	game.player1.give(SILENCE).play(target=rider)
 	assert not rider.windfury
 	assert not rider.can_attack()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 	game.player1.hero.power.use()
 	assert not rider.windfury
 
@@ -261,7 +264,8 @@ def test_fencing_coach():
 	assert game.player1.hero.power.cost == 2
 	coach.play()
 	assert game.player1.hero.power.cost == 0
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.hero.power.cost == 0
 	assert game.player1.mana == 10
@@ -293,7 +297,8 @@ def test_garrison_commander():
 	assert heropower.is_usable()
 	heropower.use()
 	assert not heropower.is_usable()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert heropower.is_usable()
 	heropower.use()
@@ -408,7 +413,8 @@ def test_lance_carrier():
 	assert wisp.atk == 1
 	carrier2.play(target=wisp)
 	assert wisp.atk == 3
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert wisp.atk == 3
 
@@ -435,7 +441,8 @@ def test_lowly_squire():
 	assert squire.atk == 1
 	game.player1.hero.power.use()
 	assert squire.atk == 2
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert squire.atk == 2
 	game.player1.hero.power.use()
@@ -501,12 +508,14 @@ def test_power_word_glory():
 	wisp1.play()
 	glory1 = game.player1.give("AT_013")
 	glory1.play(target=wisp1)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.hero.health == 30
 	wisp1.attack(game.player2.hero)
 	assert game.player1.hero.health == 30
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.hero.set_current_health(15)
 	assert game.player1.hero.health == 15
@@ -553,7 +562,8 @@ def test_seal_of_champions():
 	seal1.play(target=wisp)
 	assert wisp.divine_shield
 	assert wisp.atk == 1 + 3
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert wisp.divine_shield
 	assert wisp.atk == 1 + 3
@@ -612,7 +622,8 @@ def test_skycapn_kragg():
 	assert kragg.cost == 7 - 1
 	game.player1.field[-1].destroy()
 	assert kragg.cost == 7
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.summon("CS2_146")
 	assert kragg.cost == 7 - 1
@@ -719,7 +730,8 @@ def test_wilfred_fizzlebang():
 	fireball1 = game.player1.hand[0]
 	assert fireball1.cost == 0
 	fireball1.discard()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	fireball2 = game.player1.hand[0]
 	assert fireball2.cost == 4

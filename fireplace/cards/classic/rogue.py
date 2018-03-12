@@ -8,6 +8,7 @@ class CS2_083b:
 	"Dagger Mastery"
 	activate = Find(FRIENDLY_WEAPON + ID("AT_034")) | Summon(CONTROLLER, "CS2_082")
 
+
 # Sharpened (Unused)
 CS2_083e = buff(atk=1)
 
@@ -29,6 +30,7 @@ class EX1_613:
 	"Edwin VanCleef"
 	combo = Buff(SELF, "EX1_613e") * Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
 
+
 EX1_613e = buff(+2, +2)
 
 
@@ -40,6 +42,7 @@ class NEW1_005:
 class NEW1_014:
 	"Master of Disguise"
 	play = Buff(TARGET - STEALTH, "NEW1_014e")
+
 
 class NEW1_014e:
 	"Disguised"
@@ -60,6 +63,7 @@ class CS2_073:
 	play = Buff(TARGET, "CS2_073e")
 	combo = Buff(TARGET, "CS2_073e2")
 
+
 CS2_073e = buff(atk=2)
 CS2_073e2 = buff(atk=4)
 
@@ -67,6 +71,7 @@ CS2_073e2 = buff(atk=4)
 class CS2_074:
 	"Deadly Poison"
 	play = Buff(FRIENDLY_WEAPON, "CS2_074e")
+
 
 CS2_074e = buff(atk=2)
 
@@ -109,6 +114,7 @@ class EX1_128:
 		Stealth(FRIENDLY_MINIONS),
 	)
 
+
 class EX1_128e:
 	events = OWN_TURN_BEGIN.on(Unstealth(OWNER), Destroy(SELF))
 
@@ -128,6 +134,7 @@ class EX1_144:
 	"Shadowstep"
 	play = Bounce(TARGET), Buff(TARGET, "EX1_144e")
 
+
 @custom_card
 class EX1_144e:
 	tags = {
@@ -141,6 +148,7 @@ class EX1_144e:
 class EX1_145:
 	"Preparation"
 	play = Buff(CONTROLLER, "EX1_145o")
+
 
 class EX1_145o:
 	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -3})

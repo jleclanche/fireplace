@@ -9,6 +9,7 @@ class GAME_003:
 	"Coin's Vengeance"
 	events = Play(CONTROLLER, MINION).on(Buff(Play.CARD, "GAME_003e"), Destroy(SELF))
 
+
 GAME_003e = buff(+1, +1)
 
 

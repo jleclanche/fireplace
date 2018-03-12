@@ -8,12 +8,14 @@ class AT_028:
 	"Shado-Pan Rider"
 	combo = Buff(SELF, "AT_028e")
 
+
 AT_028e = buff(atk=3)
 
 
 class AT_029:
 	"Buccaneer"
 	events = Summon(FRIENDLY_WEAPON).on(Buff(Summon.TARGET, "AT_029e"))
+
 
 AT_029e = buff(atk=1)
 
@@ -32,6 +34,7 @@ class AT_032:
 	"Shady Dealer"
 	powered_up = Find(FRIENDLY_MINIONS + PIRATE)
 	play = powered_up & Buff(SELF, "AT_032e")
+
 
 AT_032e = buff(+1, +1)
 
@@ -53,6 +56,7 @@ class AT_035:
 	"Beneath the Grounds"
 	play = Shuffle(OPPONENT, "AT_035t") * 3
 
+
 class AT_035t:
 	draw = Destroy(SELF), Summon(OPPONENT, "AT_036t"), Draw(CONTROLLER)
 
@@ -63,5 +67,6 @@ class AT_035t:
 class AT_034:
 	"Poisoned Blade"
 	inspire = Buff(SELF, "AT_034e")
+
 
 AT_034e = buff(atk=1)

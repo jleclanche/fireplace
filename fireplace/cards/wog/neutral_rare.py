@@ -28,12 +28,14 @@ class OG_254:
 		Destroy(ENEMY_SECRETS)
 	)
 
+
 OG_254e = buff(+1, +1)
 
 
 class OG_320:
 	"Midnight Drake"
 	play = Buff(SELF, "OG_320e") * Count(FRIENDLY_HAND)
+
 
 OG_320e = buff(atk=1)
 

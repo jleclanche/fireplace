@@ -8,7 +8,8 @@ def _prepare_game():
 	game = prepare_game()
 	brann = game.player1.give(BRANN_BRONZEBEARD)
 	brann.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.discard_hand()
 

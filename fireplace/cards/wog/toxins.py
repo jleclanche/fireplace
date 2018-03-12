@@ -14,6 +14,7 @@ class OG_080c:
 	"Bloodthistle Toxin"
 	play = Bounce(TARGET), Buff(TARGET, "EX1_144e")
 
+
 class OG_080ae:
 	tags = {
 		GameTag.CARDNAME: "Bloodthistle",
@@ -27,6 +28,7 @@ class OG_080d:
 	"Briarthorn Toxin"
 	play = Buff(TARGET, "OG_080ee")
 
+
 OG_080ee = buff(atk=3)
 
 
@@ -36,6 +38,7 @@ class OG_080e:
 		Buff(TARGET - STEALTH, "OG_080de"),
 		Stealth(TARGET)
 	)
+
 
 class OG_080de:
 	"Fadeleaf"

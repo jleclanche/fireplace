@@ -103,7 +103,8 @@ def test_bounce():
 def test_card_draw():
 	game = prepare_game()
 	# pass turn 1
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.current_player.cards_drawn_this_turn == 1
 	assert len(game.current_player.hand) == 5
@@ -134,14 +135,17 @@ def test_cant_draw():
 
 	assert len(game.player1.hand) == 0
 	game.player1.cant_draw = True
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert len(game.player1.hand) == 0
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert len(game.player1.hand) == 0
 	game.player1.cant_draw = False
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert len(game.player1.hand) == 1
 
@@ -181,7 +185,8 @@ def test_charge():
 	game.current_player.give("CS2_103").play(target=watcher)
 	assert watcher.charge
 	assert not watcher.can_attack()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert not watcher.can_attack()
 	watcher.silence()
@@ -194,7 +199,8 @@ def test_choices():
 	wisp.play()
 	moonfire = game.player1.give(MOONFIRE)
 	game.player1.give(LIGHTS_JUSTICE).play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert wisp.can_attack()
 	assert moonfire.is_playable()
@@ -252,7 +258,8 @@ def test_deathrattle():
 	assert loothoarder.damage == 0
 	assert loothoarder.dead
 	assert len(game.current_player.opponent.hand) == cardcount + 1
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	# test soul of the forest: deathrattle in slots
 	assert not archer.has_deathrattle
@@ -273,7 +280,8 @@ def test_discard_enchanted_cards():
 	deathwing = game.player1.give("NEW1_030")
 	thaurissan = game.player1.give("BRM_028")
 	thaurissan.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert deathwing.cost == 9
 	deathwing.play()
@@ -285,20 +293,22 @@ def test_discover():
 	game = prepare_empty_game(CardClass.PRIEST, CardClass.PRIEST)
 
 	# Museum Curator
-	assert game.player1.choice == None
+	assert game.player1.choice is None
 	curator = game.player1.give("LOE_006")
 	curator.play()
-	assert not game.player1.choice == None
+	assert game.player1.choice is not None
 	assert len(game.player1.choice.cards) == 3
 
 	for card in game.player1.choice.cards:
-		assert (fireplace.cards.db[card].card_class == CardClass.NEUTRAL
-				or fireplace.cards.db[card].card_class == CardClass.PRIEST)
-		assert fireplace.cards.db[card].deathrattle == True
+		assert (
+			fireplace.cards.db[card].card_class == CardClass.NEUTRAL or
+			fireplace.cards.db[card].card_class == CardClass.PRIEST
+		)
+		assert fireplace.cards.db[card].deathrattle
 
 	choice = random.choice(game.player1.choice.cards)
 	game.player1.choice.choose(choice)
-	assert game.player1.choice == None
+	assert game.player1.choice is None
 	assert len(game.player1.hand) == 1
 
 
@@ -313,7 +323,8 @@ def test_divine_shield():
 	game.player1.give(MOONFIRE).play(target=squire)
 	assert len(game.player1.field) == 0
 	assert not squire.divine_shield
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	# test spell damage events with Divine Shield
 	gurubashi = game.player1.summon("EX1_399")
@@ -364,7 +375,8 @@ def test_fatigue():
 	assert game.player1.hero.health == 30 - 1 - 2 - 3
 	game.player1.draw(1)
 	assert game.player1.hero.health == 30 - 1 - 2 - 3 - 4
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 	assert game.player1.hero.health == 30 - 1 - 2 - 3 - 4 - 5
 
 
@@ -416,7 +428,8 @@ def test_graveyard_minions():
 	wisp1 = game.player1.give(WISP)
 	wisp1.play()
 	wisp2 = game.player2.summon(WISP)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 	wisp1.attack(target=wisp2)
 	assert wisp1 in game.player1.graveyard
 	assert wisp1 not in game.player2.graveyard
@@ -441,7 +454,8 @@ def test_graveyard_weapons():
 	assert axe1 not in game.player2.graveyard
 	assert axe1 in game.graveyard
 	game.player1.hero.attack(game.player2.hero)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.hero.attack(game.player2.hero)
 	assert axe2.dead
@@ -528,7 +542,8 @@ def test_mana():
 
 	assert game.player2.temp_mana == 0
 	assert game.player2.mana == 1
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.mana == 3
 	assert game.player1.max_mana == 3
@@ -538,7 +553,8 @@ def test_mana():
 	assert game.player1.max_mana == 2
 
 	for i in range(10):
-		game.end_turn(); game.end_turn()
+		game.end_turn()
+		game.end_turn()
 
 	assert game.player1.mana == game.player1.max_resources == 10
 	assert game.player2.mana == game.player2.max_resources == 10
@@ -564,7 +580,8 @@ def test_morph():
 	assert game.player2.field[0].id == "hexfrog"
 	# Test that buzzard no longer draws on poly/hex (fixed in GVG)
 	assert not game.player2.hand
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert len(game.player2.hand) == 1
 	polymorph = game.player1.give("CS2_022")
@@ -624,7 +641,8 @@ def test_overload():
 	dustdevil = game.player1.give("EX1_243")
 	dustdevil.play()
 	assert game.player1.overloaded == 2
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 	assert game.player1.overloaded == 0
 	assert game.player1.overload_locked == 2
 	assert game.current_player.mana == 0
@@ -675,7 +693,8 @@ def test_positioning():
 	assert wisp1.adjacent_minions == [wisp2]
 	assert wisp2.adjacent_minions == [wisp1, wisp3]
 	assert wisp3.adjacent_minions == [wisp2]
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 	flametongue = game.current_player.give("EX1_565")
 	flametongue.play()
 	wisp4 = game.current_player.give(WISP)
@@ -767,7 +786,8 @@ def test_spell_power():
 	game.player1.give(HOLY_LIGHT).play(target=game.player2.hero)
 	expected_health += 6
 	assert game.player2.hero.health == expected_health
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	# Check hero power is unaffected
 	game.player1.hero.power.use()
@@ -777,7 +797,8 @@ def test_spell_power():
 	game.player1.give("CS2_189").play(target=game.player2.hero)
 	expected_health -= 1
 	assert game.player2.hero.health == expected_health
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	malygos.destroy()
 	# Check arcane missiles doesn't wreck everything
@@ -816,7 +837,8 @@ def test_windfury():
 	wisp = game.player1.give(WISP)
 	wisp.play()
 	assert not wisp.can_attack()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	wisp.attack(game.player2.hero)
 	windfury = game.player1.give("CS2_039")
@@ -876,7 +898,8 @@ def test_taunt():
 	wisp1 = game.player1.summon(WISP)
 	goldshire2 = game.player2.give(GOLDSHIRE_FOOTMAN)
 	wisp2 = game.player2.summon(WISP)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert wisp1.can_attack()
 	assert wisp1.targets == [game.player2.hero, wisp2]

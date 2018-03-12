@@ -25,4 +25,5 @@ class TB_BlingBrawl_Hero1p:
 	"Sharpen (Unused)"
 	activate = Buff(FRIENDLY_WEAPON, "TB_BlingBrawl_Hero1e")
 
+
 TB_BlingBrawl_Hero1e = buff(atk=1)
