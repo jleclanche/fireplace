@@ -5,12 +5,16 @@ language: python
 python: "3.6"
 cache: pip
 
+env:
+  - TOXENV=py36
+  - TOXENV=flake8
+  - TOXENV=benchmark
+
 install:
-  - pip install .[tests] pytest-benchmark[aspect]
+  - pip install tox
 
 script:
-  - py.test
-  - py.test tests/benchmarks.py
+  - tox
 
 notifications:
   email:
