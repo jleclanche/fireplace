@@ -88,5 +88,7 @@ def is_valid_target(self, target, requirements=None):
 		elif req == PlayReq.REQ_TARGET_WITH_DEATHRATTLE:
 			if not target.has_deathrattle:
 				return False
-
+		elif req == PlayReq.REQ_STEALTHED_TARGET:
+			if not target.stealthed:
+				return False
 	return True

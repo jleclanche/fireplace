@@ -1,0 +1,57 @@
+from ..utils import *
+
+##
+# Minions
+
+class CFM_020:
+	"Raza the Chained"
+	play = Buff(CONTROLLER, "CFM_020e")
+
+class CFM_020e:
+	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: SET(0)})
+
+#class CFM_605:
+#	"Drakonid Operative"
+
+class CFM_606:
+	"Mana Geode"
+	events = Heal(SELF).on(Summon(CONTROLLER, "CFM_606t"))
+
+class CFM_626:
+	"Kabal Talonpriest"
+	play = Buff(TARGET, "CFM_626e")
+
+CFM_626e = buff(0, +3)
+
+class CFM_657:
+	"Kabal Songstealer"
+	play = Silence(TARGET)
+
+##
+# Spells
+
+class CFM_603:
+	"Potion of Madness"
+	play = Steal(TARGET), Buff(TARGET, "CFM_603e")
+
+class CFM_603e:
+	events = [
+		TURN_END.on(Destroy(SELF), Steal(OWNER, OPPONENT)),
+		Silence(OWNER).on(Steal(OWNER, OPPONENT))
+	]
+	tags = {GameTag.CHARGE: True}
+
+class CFM_604:
+	"Greater Healing Potion"
+	play = Heal(TARGET, 12)
+
+class CFM_661:
+	"Pint-Size Potion"
+	play = Buff(ENEMY_MINIONS, "CFM_661e")
+
+CFM_661e = buff(-3)
+
+class CFM_662:
+	"Dragonfire Potion"
+	play = Hit(ALL_MINIONS - DRAGON, 5)
+

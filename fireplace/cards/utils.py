@@ -41,8 +41,22 @@ BASIC_HERO_POWERS = [
 	"CS2_101", "CS2_102", "DS1h_292",
 ]
 
+POTIONS = [
+	"CFM_021", #Freezing Potion
+	"CFM_065", #Volcanic Potion
+	"CFM_620", #Potion of Polymorph
+	"CFM_603", #Potion of Madness
+	"CFM_604", #Greater Healing Potion
+	"CFM_661", #Pint-Size Potion
+	"CFM_662", #Dragonfire Potion
+	"CFM_094", #Felfire Potion
+	"CFM_608", #Blastcrystal Potion
+	"CFM_611"  #Bloodfury Potion
+]
+
 RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
 RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
+RandomPotion = lambda *args: RandomID(*POTIONS)
 
 # 50% chance to attack the wrong enemy.
 FORGETFUL = Attack(SELF).on(
