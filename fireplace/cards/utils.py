@@ -21,6 +21,7 @@ Taunt = lambda target: SetTag(target, (GameTag.TAUNT, ))
 GiveCharge = lambda target: SetTag(target, (GameTag.CHARGE, ))
 GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD, ))
 GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
+GivePoisonous = lambda target: SetTag(target, (GameTag.POISONOUS, ))
 
 
 CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))
@@ -37,6 +38,13 @@ BASIC_HERO_POWERS = [
 	"CS1h_001", "CS2_017", "CS1h_001",
 	"CS2_049", "CS2_056", "CS2_083b",
 	"CS2_101", "CS2_102", "DS1h_292",
+]
+
+BASIC_ADAPTATIONS = [
+	"UNG_999t2", "UNG_999t3", "UNG_999t4",
+	"UNG_999t5", "UNG_999t6", "UNG_999t7",
+	"UNG_999t8", "UNG_999t10", "UNG_999t13",
+	"UNG_999t14",
 ]
 
 RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
