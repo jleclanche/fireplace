@@ -25,6 +25,7 @@ class Player(Entity, TargetableByAuras):
 	spellpower_double = slot_property("spellpower_double", sum)
 	spellpower_adjustment = slot_property("spellpower", sum)
 	spells_cost_health = slot_property("spells_cost_health")
+	extra_turn = slot_property("extra_turn")
 	type = CardType.PLAYER
 
 	def __init__(self, name, deck, hero):
@@ -62,6 +63,8 @@ class Player(Entity, TargetableByAuras):
 		self.zone = Zone.INVALID
 		self.jade_golem = 1
 		self.spells_played_this_game = 0
+		self.spells_played_this_game_cost_ge_5 = 0
+		self.spell_cast_on_your_minions = []
 		self.secrets_played_this_game = 0
 		self.cthun = None
 		self.totems_played_this_game = 0
@@ -164,6 +167,8 @@ class Player(Entity, TargetableByAuras):
 		self.summon(self.starting_hero)
 		for id in self.starting_deck:
 			self.card(id, zone=Zone.DECK)
+		for card in self.deck:
+			card.starting_deck = True
 		self.cthun = self.card("OG_280")
 		self.shuffle_deck()
 		self.playstate = PlayState.PLAYING
