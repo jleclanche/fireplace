@@ -295,7 +295,11 @@ class BaseGame(Entity):
 		for buff in self.entities.filter(one_turn_effect=True):
 			self.log("Ending One-Turn effect: %r", buff)
 			buff.remove()
-		self.begin_turn(self.current_player.opponent)
+		if self.current_player.extra_turn:
+			self.current_player.extra_turn = False
+			self.begin_turn(self.current_player)
+		else:
+			self.begin_turn(self.current_player.opponent)
 
 	def begin_turn(self, player):
 		ret = self.queue_actions(self, [BeginTurn(player)])
