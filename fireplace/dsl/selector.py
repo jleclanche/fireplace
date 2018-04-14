@@ -333,7 +333,6 @@ MORTALLY_WOUNDED = CURRENT_HEALTH <= 0
 HIGHEST_ATK = lambda sel: RANDOM(sel + (AttrValue(GameTag.ATK) == OpAttr(sel, GameTag.ATK, max)))
 LOWEST_ATK = lambda sel: RANDOM(sel + (AttrValue(GameTag.ATK) == OpAttr(sel, GameTag.ATK, min)))
 
-
 class Controller(LazyValue):
 	def __init__(self, child: Optional[SelectorLike]=None):
 		if isinstance(child, LazyValue):
@@ -404,6 +403,7 @@ IN_HAND = EnumSelector(Zone.HAND)
 HIDDEN = EnumSelector(Zone.SECRET)
 DISCARDED = AttrValue(enums.DISCARDED) == True
 KILLED = EnumSelector(Zone.GRAVEYARD) - DISCARDED
+STARTING_DECK = AttrValue("starting_deck") == True
 
 GAME = EnumSelector(CardType.GAME)
 PLAYER = EnumSelector(CardType.PLAYER)
