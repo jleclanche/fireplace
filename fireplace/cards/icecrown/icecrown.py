@@ -554,8 +554,8 @@ class ICC_314t7e:
 	https://hearthstone.gamepedia.com/Anti-Magic_Shell
 	"""
 	tag = {
-		GameTag.ATK = +2,
-		GameTag.HEALTH = +2,
+		GameTag.ATK: +2,
+		GameTag.HEALTH: +2,
 		GameTag.CANT_BE_TARGETED_BY_ABILITIES: True,
 		GameTag.CANT_BE_TARGETED_BY_HERO_POWERS: True,
 	}
@@ -685,7 +685,7 @@ class ICC_810:
 	Battlecry: Give a random Lifesteal minion in your hand +2/+2.
 	https://hearthstone.gamepedia.com/Deathaxe_Punisher
 	"""
-	play = Buff(Random(LIFESTEAL + FRIENDLY_HAND + MINION), "ICC_810e")
+	play = Buff(RANDOM(LIFESTEAL + FRIENDLY_HAND + MINION), "ICC_810e")
 
 ICC_810e = buff(+2,+2)
 # class ICC_810e:
@@ -754,7 +754,7 @@ class ICC_832p:
 	https://hearthstone.gamepedia.com/Plague_Lord
 	"""
 	choose = ("ICC_832pa", "ICC_832pb")
-	activate = ChooseBoth(CONTROLLER) & (GainArmor(FRIENDLY_HERO, 3), Buff(FIRENDLY_HERO, "ICC_832e")) 	
+	activate = ChooseBoth(CONTROLLER) & (GainArmor(FRIENDLY_HERO, 3), Buff(FRIENDLY_HERO, "ICC_832e"))
 
 
 class ICC_833e:
@@ -817,8 +817,8 @@ class ICC_851:
 	Battlecry: If your deck has_no 2-Cost cards, give_all minions in your deck +1/+1.
 	https://hearthstone.gamepedia.com/Prince_Keleseth
 	"""
-	powered_up = Find(FIRENDLY_DECK + (COST == 2))
-	play = powered_up | Buff(FRIENDLY_DECK + MINION, "ICC_851e")
+	powered_up = -Find(FRIENDLY_DECK + (COST == 2))
+	play = powered_up & Buff(FRIENDLY_DECK + MINION, "ICC_851e")
 
 ICC_851e = buff(+1,+1)
 # class ICC_851e:
@@ -836,8 +836,8 @@ class ICC_852:
 	Battlecry: If your deck has_no 3-Cost cards, transform into a 3/3 copy of a minion.
 	https://hearthstone.gamepedia.com/Prince_Taldaram
 	"""
-	powered_up = Find(FIRENDLY_DECK + (COST == 3))
-	play = powered_up | Morph(SELF, ExactCopy(TARGET)).then(Buff(Morph.CARD, "ICC_852e"))
+	powered_up = -Find(FRIENDLY_DECK + (COST == 3))
+	play = powered_up & Morph(SELF, ExactCopy(TARGET)).then(Buff(Morph.CARD, "ICC_852e"))
 
 
 class ICC_852e:
@@ -856,8 +856,8 @@ class ICC_853:
 	Battlecry: If your deck has no 4-Cost cards, gain Lifesteal and Taunt.
 	https://hearthstone.gamepedia.com/Prince_Valanar
 	"""
-	powered_up = Find(FIRENDLY_DECK + (COST == 4))
-	play = powered_up | (Lifesteal(SELF), Taunt(SELF))
+	powered_up = -Find(FRIENDLY_DECK + (COST == 4))
+	play = powered_up & (Lifesteal(SELF), Taunt(SELF))
 
 
 class ICC_854:
@@ -1155,7 +1155,7 @@ class ICC_469:
 	Choose a friendly minion. Destroy it and a random enemy minion.
 	https://hearthstone.gamepedia.com/Unwilling_Sacrifice
 	"""
-	play = Destroy(TARGET), Destroy(Random(ENEMY_MINIONS))
+	play = Destroy(TARGET), Destroy(RANDOM_ENEMY_MINION)
 
 
 class ICC_831:
@@ -1503,7 +1503,7 @@ class ICC_214:
 	Taunt, Lifesteal Deathrattle: Destroy a  random enemy minion.
 	https://hearthstone.gamepedia.com/Obsidian_Statue
 	"""
-	deathrattle = Destroy(RADNOM(ENEMY_MINIONS))
+	deathrattle = Destroy(RANDOM_ENEMY_MINION)
 
 
 class ICC_215:
@@ -1631,7 +1631,7 @@ class ICC_245:
 	Whenever your hero is healed, deal that much damage to a random enemy minion.
 	https://hearthstone.gamepedia.com/Blackguard
 	"""
-	events = Heal(FIRENDLY_HERO).on(Hit(RANDOM(RANDOM_MINION, Heal.AMOUNT)))
+	events = Heal(FRIENDLY_HERO).on(Hit(RANDOM(RANDOM_MINION, Heal.AMOUNT)))
 
 
 class ICC_801:
@@ -1738,7 +1738,7 @@ class ICC_252:
 	Battlecry: If an enemy is Frozen, draw a card.
 	https://hearthstone.gamepedia.com/Coldwraith
 	"""
-	play = Find(ENEMY_CHARACTERS + FROZEN) + Draw(CONTROLLER)
+	play = Find(ENEMY_CHARACTERS + FROZEN) & Draw(CONTROLLER)
 
 
 class ICC_823:
@@ -1818,7 +1818,7 @@ class ICC_049:
 	Deal $2 damage to a minion. If it survives, give it Poisonous.
 	https://hearthstone.gamepedia.com/Toxic_Arrow
 	"""
-	play = Hit(TARGET, 2).then(Dead(TARGET) | POISONOUS(TARGET))
+	play = Hit(TARGET, 2).then(Dead(TARGET) | Poisonous(TARGET))
 
 
 class ICC_052:
@@ -1883,7 +1883,7 @@ class ICC_825:
 	Deathrattle: Summon a random friendly Beast that died this game.
 	https://hearthstone.gamepedia.com/Abominable_Bowman
 	"""
-	deathrattle = Summon(CONTROLLER, Copy(RANDOM(FRINEDLY + KILLED + MINION + BEAST)))
+	deathrattle = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION + BEAST)))
 
 
 class ICC_828:
@@ -2103,7 +2103,7 @@ class ICC_832pa:
 	+3 Armor.
 	https://hearthstone.gamepedia.com/Scarab_Shell
 	"""
-	activate = GainArmor(FRIENDLY_HERO, 3)
+	play = GainArmor(FRIENDLY_HERO, 3)
 
 
 class ICC_832pb:
@@ -2112,7 +2112,7 @@ class ICC_832pb:
 	+3 Attack.
 	https://hearthstone.gamepedia.com/Spider_Fangs
 	"""
-	activate = Buff(FRIENDLY_HERO, "ICC_832e")
+	play = Buff(FRIENDLY_HERO, "ICC_832e")
 
 
 class ICC_835:
