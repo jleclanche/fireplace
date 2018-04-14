@@ -24,7 +24,7 @@ GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD, ))
 GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
 CantAttackHero = lambda target: SetTag(target, (GameTag.CANNOT_ATTACK_HEROES, ))
 UnCantAttackHero = lambda target: UnsetTag(target, (GameTag.CANNOT_ATTACK_HEROES, ))
-
+Poisonous = lambda target: SetTag(target, (GameTag.POISONOUS, ))
 
 CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))
 COINFLIP = RandomNumber(0, 1) == 1
@@ -88,6 +88,10 @@ JOUST = JoustHelper(
 	RANDOM(ENEMY_DECK + MINION)
 )
 
+JOUST_SPELL = JoustHelper(
+	RANDOM(FRIENDLY_DECK + SPELL),
+	RANDOM(ENEMY_DECK + SPELL)
+)
 
 def SET(amt):
 	return lambda self, i: amt
