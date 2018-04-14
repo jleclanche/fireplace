@@ -149,6 +149,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.rarity = Rarity.INVALID
 		self.choose_cards = CardList()
 		self.morphed = None
+		self.starting_deck = False
 		super().__init__(data)
 
 	@property
@@ -480,6 +481,7 @@ class Character(LiveEntity):
 		self.cannot_attack_heroes = False
 		self.num_attacks = 0
 		self.race = Race.INVALID
+		self.quest_progress = 0
 		super().__init__(data)
 
 	@property
@@ -798,7 +800,6 @@ class Secret(Spell):
 class Quest(Spell):
 	def __init__(self, data):
 		self.quest_progress_total = data.quest_progress_total
-		self.quest_progress = 0
 		self.quest_map = {}
 		super().__init__(data)
 
