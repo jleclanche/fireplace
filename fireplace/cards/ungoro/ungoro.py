@@ -639,7 +639,7 @@ class UNG_934:
 	https://hearthstone.gamepedia.com/Fire_Plume%27s_Heart
 	"""
 	quest = Play(FRIENDLY, Taunt).on(CompleteQuest(Play.CARD))
-	reward = Give(CONTROLLER, "UNG_934t1")
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_934t1")
 #
 #
 class UNG_934t1:
@@ -691,7 +691,7 @@ class UNG_829:
 	https://hearthstone.gamepedia.com/Lakkari_Sacrifice
 	"""
 	quest = Discard(FRIENDLY_HAND).on(CompleteQuest(Discard.TARGET))
-	reward = Give(CONTROLLER, "UNG_934t1")
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_934t1")
 #
 #
 class UNG_829t1:
@@ -921,7 +921,7 @@ class UNG_942:
 	https://hearthstone.gamepedia.com/Unite_the_Murlocs
 	"""
 	quest = Summon(FRIENDLY, MURLOC).on(CompleteQuest(Summon.CARD))
-	reward = Give(CONTROLLER, "UNG_942t")
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_942t")
 #
 #
 class UNG_942t:
@@ -1059,7 +1059,7 @@ class UNG_067:
 	https://hearthstone.gamepedia.com/The_Caverns_Below
 	"""
 	quest = Play(FRIENDLY, MINION).on(CompleteQuest(Play.CARD))
-	reward = Give(CONTROLLER, "UNG_067t1")
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_067t1")
 #
 #
 class UNG_067t1:
@@ -1201,7 +1201,7 @@ class UNG_940:
 	https://hearthstone.gamepedia.com/Awaken_the_Makers
 	"""
 	quest = Summon(CONTROLLER, DEATHRATTLE).on(CompleteQuest(Summon.CARD))
-	reward = Give(CONTROLLER, "UNG_940t8")
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_940t8")
 #
 #
 class UNG_940t8:
@@ -1330,7 +1330,7 @@ class UNG_954:
 	https://hearthstone.gamepedia.com/The_Last_Kaleidosaur
 	"""
 	quest = Play(FRIENDLY, SPELL, FRIENDLY_MINIONS).on(CompleteQuest(Play.CARD))
-	reward = Give(CONTROLLER, "UNG_954t1")
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_954t1")
 #
 #
 class UNG_954t1:
@@ -1629,7 +1629,7 @@ class UNG_920:
 	https://hearthstone.gamepedia.com/The_Marsh_Queen
 	"""
 	quest = Play(FRIENDLY, MINION + (COST == 1)).on(CompleteQuest(Play.CARD))
-	reward = Give(CONTROLLER, "UNG_920t1")
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_920t1")
 #
 #
 class UNG_920t1:
@@ -1750,7 +1750,7 @@ class UNG_116:
 	https://hearthstone.gamepedia.com/Jungle_Giants
 	"""
 	quest = Summon(FRIENDLY, MINION + (ATK >= 5)).on(CompleteQuest(Summon.CARD))
-	reward = Give(CONTROLLER, "UNG_116t")
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_116t")
 #
 #
 class UNG_116t:
