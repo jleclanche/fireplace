@@ -462,6 +462,11 @@ class Play(GameAction):
 				summon_action.broadcast(player, EventListener.AFTER, player, played_card)
 			elif played_card.type == CardType.SPELL:
 				player.spells_played_this_game += 1
+				if played_card.cost >= 5:
+					player.spells_played_this_game_cost_ge_5 += 1
+				if card.target != None:
+					if card.target.type == CardType.MINION and card.target.controller == played_card.controller:
+						player.spell_cast_on_your_minions.append(played_card.id)
 				from .card import Secret
 				if isinstance(played_card, Secret):
 					player.secrets_played_this_game += 1
@@ -1204,9 +1209,9 @@ class Shuffle(TargetedAction):
 			cards = [cards]
 
 		for card in cards:
+			card.zone = Zone.DECK
 			if card.controller != target:
 				card.controller = target
-			card.zone = Zone.DECK
 			target.shuffle_deck()
 
 
@@ -1230,6 +1235,24 @@ class Swap(TargetedAction):
 			orig = target.zone
 			target.zone = other.zone
 			other.zone = orig
+
+
+class SwapAtk(TargetedAction):
+	"""
+	Swap health between two minions using \a buff.
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, other, buff):
+		other = other[0]
+		buff1 = source.controller.card(buff)
+		buff1.atk = other.atk
+		buff2 = source.controller.card(buff)
+		buff2.atk = target.atk
+		buff1.apply(target)
+		buff2.apply(other)
 
 
 class SwapHealth(TargetedAction):
@@ -1640,3 +1663,16 @@ class Adapt(GameAction):
 		for v in self.target:
 			self.source.target = v
 			self.source.game.main_power(self.source, actions, v)
+
+class UpdateSpellStone(TargetedAction):
+	"""
+	Hit character targets by \a amount.
+	"""
+	AMOUNT = IntArg()
+	TOTAL = IntArg()
+	def do(self, source, amount, total):
+		source.quest_progress += amount
+		if (source.quest_progress >= total):
+			source.quest_progress = 0
+			action = source.data.scripts.reward
+			source.game.main_power(source, action, None)
