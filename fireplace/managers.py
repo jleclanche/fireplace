@@ -138,7 +138,8 @@ class PlayerManager(Manager):
 		GameTag.TIMEOUT: "timeout",
 		GameTag.TURN_START: "turn_start",
 		enums.CANT_OVERLOAD: "cant_overload",
-		GameTag.JADE_GOLEM: "jade_golem"
+		GameTag.JADE_GOLEM: "jade_golem",
+		GameTag.EXTRA_TURNS_TAKEN_THIS_GAME: "extra_turn"
 	}
 
 
