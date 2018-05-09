@@ -2142,18 +2142,19 @@ def test_mirror_image():
 def test_molten_giant():
 	game = prepare_game()
 	molten = game.current_player.give("EX1_620")
-	assert molten.cost == 25
+	molten_base_cost = 20
+	assert molten.cost == molten_base_cost
 	game.current_player.give(MOONFIRE).play(target=game.player1.hero)
-	assert molten.cost == 25 - 1
+	assert molten.cost == molten_base_cost - 1
 	game.current_player.give(MOONFIRE).play(target=game.player1.hero)
-	assert molten.cost == 25 - 2
+	assert molten.cost == molten_base_cost - 2
 	game.current_player.give(MOONFIRE).play(target=game.player1.hero)
-	assert molten.cost == 25 - 3
+	assert molten.cost == molten_base_cost - 3
 	game.end_turn()
 
-	assert molten.cost == 25 - 3
+	assert molten.cost == molten_base_cost - 3
 	molten2 = game.player2.give("EX1_620")
-	assert molten2.cost == 25
+	assert molten2.cost == molten_base_cost
 
 
 def test_mortal_coil():
@@ -3083,7 +3084,8 @@ def test_summoning_portal():
 	weapon = game.player1.give(LIGHTS_JUSTICE)
 	assert weapon.cost == 1
 	molten = game.player1.give("EX1_620")
-	assert molten.cost == 25
+	molten_base_cost = 20
+	assert molten.cost == molten_base_cost
 	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
 	assert goldshire.cost == 1
 	frostwolf = game.player1.give("CS2_121")
@@ -3093,15 +3095,15 @@ def test_summoning_portal():
 	portal.play()
 	assert wisp.cost == 0
 	assert weapon.cost == 1
-	assert molten.cost == 25 - 2
+	assert molten.cost == molten_base_cost - 2
 	assert goldshire.cost == 1
 	assert frostwolf.cost == 1
 	game.player1.give(MOONFIRE).play(target=game.player1.hero)
-	assert molten.cost == 25 - 3
+	assert molten.cost == molten_base_cost - 3
 	portal2 = game.player1.give("EX1_315")
 	portal2.play()
 	assert wisp.cost == 0
-	assert molten.cost == 25 - 2 - 1 - 2
+	assert molten.cost == molten_base_cost - 2 - 1 - 2
 	assert goldshire.cost == 1
 	assert frostwolf.cost == 1
 
