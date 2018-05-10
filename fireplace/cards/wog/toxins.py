@@ -1,6 +1,6 @@
-"""""
+"""
 Xaril's Toxins
-"""""
+"""
 
 from ..utils import *
 
