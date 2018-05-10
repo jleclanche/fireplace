@@ -1,6 +1,6 @@
-"""""
+"""
 Who's the Boss Now?
-"""""
+"""
 
 from ..utils import *
 

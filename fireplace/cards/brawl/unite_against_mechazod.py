@@ -1,6 +1,6 @@
-"""""
+"""
 Unite Against Mechazod!
-"""""
+"""
 
 from ..utils import *
 

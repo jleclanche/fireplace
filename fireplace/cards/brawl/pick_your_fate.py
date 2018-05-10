@@ -179,12 +179,12 @@ class TB_PickYourFate_7_EnchMiniom2nde:
 
 
 class TB_PickYourFate_11rand:
-	"Dire Fate: Murlocs"
+	"""Dire Fate: Murlocs"""
 	play = Morph(ALL_MINIONS, "LOEA10_3")
 
 
 class TB_PickYourFate_11:
-	"Murlocs (Unused)"
+	"""Murlocs (Unused)"""
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_11_Ench")
 
 
@@ -196,7 +196,7 @@ class TB_PickYourFate_11_Ench:
 # Battle of the Builds
 
 class TB_PickYourFate_8:
-	"Spell Bonus"
+	"""Spell Bonus"""
 	play = Buff(CONTROLLER, "TB_PickYourFate_8_Ench")
 
 
@@ -205,7 +205,7 @@ class TB_PickYourFate_8_Ench:
 
 
 class TB_PickYourFate_9:
-	"Deathrattle Bonus"
+	"""Deathrattle Bonus"""
 	play = Buff(CONTROLLER, "TB_PickYourFate_9_Ench")
 
 
@@ -217,7 +217,7 @@ TB_PickYourFate_9_EnchMinion = buff(+1, +1)
 
 
 class TB_PickYourFate_10:
-	"Battlecry Bonus"
+	"""Battlecry Bonus"""
 	play = Buff(CONTROLLER, "TB_PickYourFate_10_Ench")
 
 
@@ -229,5 +229,5 @@ TB_PickYourFate_10_EnchMinion = buff(+1, +1)
 
 
 class TB_PickYourFate_11b:
-	"Murloc Bonus"
+	"""Murloc Bonus"""
 	play = Buff(CONTROLLER, "TB_PickYourFate_11_Ench")

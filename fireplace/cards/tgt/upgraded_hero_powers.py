@@ -1,6 +1,6 @@
-"""""
+"""
 Upgraded Hero Powers from Justicar Trueheart (AT_132)
-"""""
+"""
 from ..utils import *
 
 

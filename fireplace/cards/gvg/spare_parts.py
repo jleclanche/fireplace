@@ -1,6 +1,6 @@
-"""""
+"""
 Spare Parts
-"""""
+"""
 
 from ..utils import *
 
