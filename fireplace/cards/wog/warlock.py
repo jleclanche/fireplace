@@ -5,13 +5,13 @@ from ..utils import *
 # Minions
 
 class OG_109:
-	"Darkshire Librarian"
+	"""Darkshire Librarian"""
 	play = Discard(RANDOM(FRIENDLY_HAND))
 	deathrattle = Draw(CONTROLLER)
 
 
 class OG_113:
-	"Darkshire Councilman"
+	"""Darkshire Councilman"""
 	events = Summon(MINION, CONTROLLER).on(Buff(SELF, "OG_113e"))
 
 
@@ -19,7 +19,7 @@ OG_113e = buff(atk=1)
 
 
 class OG_121:
-	"Cho'gall"
+	"""Cho'gall"""
 	play = Buff(CONTROLLER, "OG_121e")
 
 
@@ -29,7 +29,7 @@ class OG_121e:
 
 
 class OG_241:
-	"Possessed Villager"
+	"""Possessed Villager"""
 	deathrattle = Summon(CONTROLLER, "OG_241a")
 
 
@@ -37,12 +37,12 @@ class OG_241:
 # Spells
 
 class OG_116:
-	"Spreading Madness"
+	"""Spreading Madness"""
 	play = Hit(RANDOM_CHARACTER, 1) * 9
 
 
 class OG_239:
-	"DOOM!"
+	"""DOOM!"""
 	def play(self):
 		minion_count = len(self.controller.field) + len(self.controller.opponent.field)
 		yield Destroy(ALL_MINIONS)

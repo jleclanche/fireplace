@@ -5,27 +5,27 @@ from ..utils import *
 # Minions
 
 class OG_006:
-	"Vilefin Inquisitor"
+	"""Vilefin Inquisitor"""
 	play = Summon(CONTROLLER, "OG_006b")
 
 
 class OG_006b:
-	"The Tidal Hand"
+	"""The Tidal Hand"""
 	activate = Summon(CONTROLLER, "OG_006a")
 
 
 class OG_221:
-	"Selfless Hero"
+	"""Selfless Hero"""
 	deathrattle = GiveDivineShield(RANDOM_FRIENDLY_MINION)
 
 
 class OG_229:
-	"Ragnaros, Lightlord"
+	"""Ragnaros, Lightlord"""
 	events = OWN_TURN_END.on(Heal(RANDOM(FRIENDLY + DAMAGED_CHARACTERS), 8))
 
 
 class OG_310:
-	"Steward of Darkshire"
+	"""Steward of Darkshire"""
 	events = Summon(CONTROLLER, MINION + (CURRENT_HEALTH == 1)).on(
 		GiveDivineShield(Summon.CARD)
 	)
@@ -35,7 +35,7 @@ class OG_310:
 # Spells
 
 class OG_223:
-	"Divine Strength"
+	"""Divine Strength"""
 	play = Buff(TARGET, "OG_223e")
 
 
@@ -43,12 +43,12 @@ OG_223e = buff(+1, +2)
 
 
 class OG_273:
-	"Stand Against Darkness"
+	"""Stand Against Darkness"""
 	play = Summon(CONTROLLER, "CS2_101t") * 5
 
 
 class OG_311:
-	"A Light in the Darkness"
+	"""A Light in the Darkness"""
 	play = DISCOVER(RandomMinion()).then(Buff(Discover.CARDS, "OG_311e"))
 
 
@@ -59,7 +59,7 @@ OG_311e = buff(+1, +1)
 # Weapons
 
 class OG_222:
-	"Rallying Blade"
+	"""Rallying Blade"""
 	play = Buff(FRIENDLY_MINIONS + DIVINE_SHIELD, "OG_222e")
 
 
