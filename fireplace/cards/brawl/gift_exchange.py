@@ -6,17 +6,17 @@ from ..utils import *
 
 
 class TB_GiftExchange_Snowball:
-	"Hardpacked Snowballs"
+	"""Hardpacked Snowballs"""
 	play = Bounce(RANDOM_ENEMY_MINION) * 3
 
 
 class TB_GiftExchange_Treasure:
-	"Winter's Veil Gift"
+	"""Winter's Veil Gift"""
 	deathrattle = Give(CURRENT_PLAYER, "TB_GiftExchange_Treasure_Spell")
 
 
 class TB_GiftExchange_Treasure_Spell:
-	"Stolen Winter's Veil Gift"
+	"""Stolen Winter's Veil Gift"""
 	# Surely none of this even sort of works.
 	RandomGift = RandomCollectible(
 		# COST >= 5,

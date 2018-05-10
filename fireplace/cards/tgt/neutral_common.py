@@ -5,7 +5,7 @@ from ..utils import *
 # Minions
 
 class AT_082:
-	"Lowly Squire"
+	"""Lowly Squire"""
 	inspire = Buff(SELF, "AT_082e")
 
 
@@ -13,7 +13,7 @@ AT_082e = buff(atk=1)
 
 
 class AT_083:
-	"Dragonhawk Rider"
+	"""Dragonhawk Rider"""
 	inspire = Buff(SELF, "AT_083e")
 
 
@@ -22,7 +22,7 @@ class AT_083e:
 
 
 class AT_084:
-	"Lance Carrier"
+	"""Lance Carrier"""
 	play = Buff(TARGET, "AT_084e")
 
 
@@ -30,12 +30,12 @@ AT_084e = buff(atk=2)
 
 
 class AT_085:
-	"Maiden of the Lake"
+	"""Maiden of the Lake"""
 	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: SET(1)})
 
 
 class AT_089:
-	"Boneguard Lieutenant"
+	"""Boneguard Lieutenant"""
 	inspire = Buff(SELF, "AT_089e")
 
 
@@ -43,7 +43,7 @@ AT_089e = buff(health=1)
 
 
 class AT_090:
-	"Mukla's Champion"
+	"""Mukla's Champion"""
 	inspire = Buff(FRIENDLY_MINIONS, "AT_090e")
 
 
@@ -51,17 +51,17 @@ AT_090e = buff(+1, +1)
 
 
 class AT_091:
-	"Tournament Medic"
+	"""Tournament Medic"""
 	inspire = Heal(FRIENDLY_HERO, 2)
 
 
 class AT_094:
-	"Flame Juggler"
+	"""Flame Juggler"""
 	play = Hit(RANDOM_ENEMY_CHARACTER, 1)
 
 
 class AT_096:
-	"Clockwork Knight"
+	"""Clockwork Knight"""
 	play = Buff(TARGET, "AT_096e")
 
 
@@ -69,22 +69,22 @@ AT_096e = buff(+1, +1)
 
 
 class AT_100:
-	"Silver Hand Regent"
+	"""Silver Hand Regent"""
 	inspire = Summon(CONTROLLER, "CS2_101t")
 
 
 class AT_103:
-	"North Sea Kraken"
+	"""North Sea Kraken"""
 	play = Hit(TARGET, 4)
 
 
 class AT_111:
-	"Refreshment Vendor"
+	"""Refreshment Vendor"""
 	play = Heal(ALL_HEROES, 4)
 
 
 class AT_119:
-	"Kvaldir Raider"
+	"""Kvaldir Raider"""
 	inspire = Buff(SELF, "AT_119e")
 
 
@@ -92,7 +92,7 @@ AT_119e = buff(+2, +2)
 
 
 class AT_133:
-	"Gadgetzan Jouster"
+	"""Gadgetzan Jouster"""
 	play = JOUST & Buff(SELF, "AT_133e")
 
 
