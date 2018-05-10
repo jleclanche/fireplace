@@ -5,18 +5,18 @@ from ..utils import *
 # Minions
 
 class GVG_002:
-	"Snowchugger"
+	"""Snowchugger"""
 	events = Damage(CHARACTER, None, SELF).on(Freeze(Damage.TARGET))
 
 
 class GVG_004:
-	"Goblin Blastmage"
+	"""Goblin Blastmage"""
 	powered_up = Find(FRIENDLY_MINIONS + MECH)
 	play = powered_up & Hit(RANDOM_ENEMY_CHARACTER, 1) * 4
 
 
 class GVG_007:
-	"Flame Leviathan"
+	"""Flame Leviathan"""
 	draw = Hit(ALL_CHARACTERS, 2)
 
 
@@ -24,12 +24,12 @@ class GVG_007:
 # Spells
 
 class GVG_001:
-	"Flamecannon"
+	"""Flamecannon"""
 	play = Hit(RANDOM_ENEMY_MINION, 4)
 
 
 class GVG_003:
-	"Unstable Portal"
+	"""Unstable Portal"""
 	play = Give(CONTROLLER, RandomMinion()).then(Buff(Give.CARD, "GVG_003e"))
 
 
@@ -45,5 +45,5 @@ class GVG_003e:
 
 
 class GVG_005:
-	"Echo of Medivh"
+	"""Echo of Medivh"""
 	play = Give(CONTROLLER, Copy(FRIENDLY_MINIONS))
