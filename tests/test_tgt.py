@@ -62,9 +62,10 @@ def test_aviana():
 	deathwing = game.player1.give("NEW1_030")
 	assert deathwing.cost == 10
 	molten = game.player1.give("EX1_620")
-	assert molten.cost == 25
+	molten_base_cost = 20
+	assert molten.cost == molten_base_cost
 	game.player1.give(MOONFIRE).play(game.player1.hero)
-	assert molten.cost == 25 - 1
+	assert molten.cost == molten_base_cost - 1
 	aviana.play()
 	for minion in (wisp1, deathwing, molten):
 		assert minion.cost == 1
@@ -73,7 +74,7 @@ def test_aviana():
 	aviana.destroy()
 	assert wisp1.cost == 0
 	assert deathwing.cost == 10
-	assert molten.cost == 25 - 1
+	assert molten.cost == molten_base_cost - 1
 
 
 def test_beneath_the_grounds():
