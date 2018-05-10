@@ -1,12 +1,12 @@
-"""
+"""""
 Spare Parts
-"""
+"""""
 
 from ..utils import *
 
 
 class PART_001:
-	"Armor Plating"
+	"""Armor Plating"""
 	play = Buff(TARGET, "PART_001e")
 	tags = {GameTag.SPARE_PART: True}
 
@@ -15,19 +15,19 @@ PART_001e = buff(health=1)
 
 
 class PART_002:
-	"Time Rewinder"
+	"""Time Rewinder"""
 	play = Bounce(TARGET)
 	tags = {GameTag.SPARE_PART: True}
 
 
 class PART_003:
-	"Rusty Horn"
+	"""Rusty Horn"""
 	play = Taunt(TARGET)
 	tags = {GameTag.SPARE_PART: True}
 
 
 class PART_004:
-	"Finicky Cloakfield"
+	"""Finicky Cloakfield"""
 	play = Buff(TARGET - STEALTH, "PART_004e")
 	tags = {GameTag.SPARE_PART: True}
 
@@ -37,13 +37,13 @@ class PART_004e:
 
 
 class PART_005:
-	"Emergency Coolant"
+	"""Emergency Coolant"""
 	play = Freeze(TARGET)
 	tags = {GameTag.SPARE_PART: True}
 
 
 class PART_006:
-	"Reversing Switch"
+	"""Reversing Switch"""
 	play = Buff(TARGET, "PART_006a")
 	tags = {GameTag.SPARE_PART: True}
 
@@ -52,7 +52,7 @@ PART_006a = AttackHealthSwapBuff()
 
 
 class PART_007:
-	"Whirling Blades"
+	"""Whirling Blades"""
 	play = Buff(TARGET, "PART_007e")
 	tags = {GameTag.SPARE_PART: True}
 

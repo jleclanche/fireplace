@@ -5,7 +5,7 @@ from ..utils import *
 # Minions
 
 class AT_011:
-	"Holy Champion"
+	"""Holy Champion"""
 	events = Heal().on(Buff(SELF, "AT_011e"))
 
 
@@ -13,12 +13,12 @@ AT_011e = buff(atk=2)
 
 
 class AT_012:
-	"Spawn of Shadows"
+	"""Spawn of Shadows"""
 	inspire = Hit(ALL_HEROES, 4)
 
 
 class AT_014:
-	"Shadowfiend"
+	"""Shadowfiend"""
 	events = Draw(CONTROLLER).on(Buff(Draw.CARD, "AT_014e"))
 
 
@@ -26,12 +26,12 @@ AT_014e = buff(cost=-1)
 
 
 class AT_018:
-	"Confessor Paletress"
+	"""Confessor Paletress"""
 	inspire = Summon(CONTROLLER, RandomMinion(rarity=Rarity.LEGENDARY))
 
 
 class AT_116:
-	"Wyrmrest Agent"
+	"""Wyrmrest Agent"""
 	powered_up = HOLDING_DRAGON
 	play = powered_up & Buff(SELF, "AT_116e")
 
@@ -43,7 +43,7 @@ AT_116e = buff(atk=1, taunt=True)
 # Spells
 
 class AT_013:
-	"Power Word: Glory"
+	"""Power Word: Glory"""
 	play = Buff(TARGET, "AT_013e")
 
 
@@ -52,12 +52,12 @@ class AT_013e:
 
 
 class AT_015:
-	"Convert"
+	"""Convert"""
 	play = Give(CONTROLLER, Copy(TARGET))
 
 
 class AT_016:
-	"Confuse"
+	"""Confuse"""
 	play = Buff(ALL_MINIONS, "AT_016e")
 
 
@@ -65,5 +65,5 @@ AT_016e = AttackHealthSwapBuff()
 
 
 class AT_055:
-	"Flash Heal"
+	"""Flash Heal"""
 	play = Heal(TARGET, 5)

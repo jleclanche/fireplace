@@ -19,21 +19,21 @@ RandomDireFate = RandomID(
 
 
 class TB_PickYourFateRandom:
-	"Pick Your Fate Random"
+	"""Pick Your Fate Random"""
 	events = OWN_TURN_BEGIN.on(
 		GenericChoice(CONTROLLER, RandomFate * 4), Destroy(SELF)
 	)
 
 
 class TB_PickYourFate_2nd:
-	"Pick Your Fate Randon 2nd"
+	"""Pick Your Fate Randon 2nd"""
 	events = OWN_TURN_BEGIN.on((CURRENT_HEALTH(FRIENDLY_HERO) <= 20) & (
 		GenericChoice(CONTROLLER, RandomDireFate * 4), Destroy(SELF)
 	))
 
 
 class TB_PickYourFate_2:
-	"Fate: Bananas"
+	"""Fate: Bananas"""
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_2_Ench")
 
 
@@ -47,7 +47,7 @@ class TB_PickYourFate_2_EnchMinion:
 
 
 class TB_PickYourFate_5:
-	"Fate: Spells"
+	"""Fate: Spells"""
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_5_Ench")
 
 
@@ -56,12 +56,12 @@ class TB_PickYourFate_5_Ench:
 
 
 class TB_PickYourFate_6:
-	"Fate: Portals"
+	"""Fate: Portals"""
 	play = Shuffle(ALL_PLAYERS, "GVG_003") * 10
 
 
 class TB_PickYourFate_7:
-	"Fate: Coin"
+	"""Fate: Coin"""
 	play = (
 		Buff(ALL_PLAYERS, "TB_PickYourFate_7Ench"),
 		Buff(ALL_MINIONS, "TB_PickYourFate_7_EnchMinion"),
@@ -78,7 +78,7 @@ class TB_PickYourFate_7_EnchMinion:
 
 
 class TB_PickYourFate_8rand:
-	"Fate: Armor"
+	"""Fate: Armor"""
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_8_EnchRand")
 
 
@@ -87,7 +87,7 @@ class TB_PickYourFate_8_EnchRand:
 
 
 class TB_PickYourFate_12:
-	"Fate: Confusion"
+	"""Fate: Confusion"""
 	play = Buff(ALL_PLAYERS, "TB_PickYourFate_12_Ench")
 
 
@@ -99,7 +99,7 @@ TB_PickYourFate_Confused = AttackHealthSwapBuff()
 
 
 class TB_PickYourFate_1:
-	"Dire Fate: Taunt and Charge"
+	"""Dire Fate: Taunt and Charge"""
 	play = (
 		Buff(ALL_PLAYERS, "TB_PickYourFate_1_Ench"),
 		Buff(ALL_MINIONS, "TB_AllMinionsTauntCharge")
@@ -114,7 +114,7 @@ TB_AllMinionsTauntCharge = buff(taunt=True, charge=True)
 
 
 class TB_PickYourFate_3:
-	"Dire Fate: Windfury"
+	"""Dire Fate: Windfury"""
 	play = (
 		Buff(ALL_PLAYERS, "TB_PickYourFate_3_Ench"),
 		Buff(ALL_MINIONS - WINDFURY, "TB_PickYourFate_Windfury")
@@ -130,7 +130,7 @@ class TB_PickYourFate_Windfury:
 
 
 class TB_PickYourFate_4:
-	"Dire Fate: Card"
+	"""Dire Fate: Card"""
 	play = (
 		Buff(ALL_PLAYERS, "TB_PickYourFate_4_Ench"),
 		Buff(ALL_MINIONS, "TB_PickYourFate_4_EnchMinion")
@@ -147,12 +147,12 @@ class TB_PickYourFate_4_EnchMinion:
 
 
 class TB_PickYourFate_6_2nd:
-	"Dire Fate: Unstable Portals"
+	"""Dire Fate: Unstable Portals"""
 	play = Give(ALL_PLAYERS, "GVG_003") * 3
 
 
 class TB_PickYourFate_7_2nd:
-	"Dire Fate: Manaburst"
+	"""Dire Fate: Manaburst"""
 	play = (
 		Buff(ALL_PLAYERS, "TB_PickYourFate_7_Ench_2nd"),
 		Buff(ALL_MINIONS, "TB_PickYourFate_7_EnchMiniom2nd")
