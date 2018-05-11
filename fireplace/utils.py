@@ -32,7 +32,9 @@ class CardList(list):
 		return len(self)
 
 	def contains(self, x):
-		"True if list contains any instance of x"
+		"""
+		True if list contains any instance of x
+		"""
 		for item in self:
 			if x == item:
 				return True

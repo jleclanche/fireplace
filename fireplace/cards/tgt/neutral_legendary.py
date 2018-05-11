@@ -5,54 +5,54 @@ from ..utils import *
 # Minions
 
 class AT_070:
-	"Skycap'n Kragg"
+	"""Skycap'n Kragg"""
 	cost_mod = -Count(FRIENDLY_MINIONS + PIRATE)
 
 
 class AT_122:
-	"Gormok the Impaler"
+	"""Gormok the Impaler"""
 	play = (Count(FRIENDLY_MINIONS) >= 4) & Hit(TARGET, 4)
 
 
 class AT_123:
-	"Chillmaw"
+	"""Chillmaw"""
 	deathrattle = HOLDING_DRAGON & Hit(ALL_MINIONS, 3)
 
 
 class AT_124:
-	"Bolf Ramshield"
+	"""Bolf Ramshield"""
 	events = Predamage(FRIENDLY_HERO).on(
 		Predamage(FRIENDLY_HERO, 0), Hit(SELF, Predamage.AMOUNT)
 	)
 
 
 class AT_125:
-	"Icehowl"
+	"""Icehowl"""
 	tags = {GameTag.CANNOT_ATTACK_HEROES: True}
 
 
 class AT_127:
-	"Nexus-Champion Saraad"
+	"""Nexus-Champion Saraad"""
 	inspire = Give(CONTROLLER, RandomSpell())
 
 
 class AT_128:
-	"The Skeleton Knight"
+	"""The Skeleton Knight"""
 	deathrattle = JOUST & Bounce(SELF)
 
 
 class AT_129:
-	"Fjola Lightbane"
+	"""Fjola Lightbane"""
 	events = Play(CONTROLLER, SPELL, SELF).on(GiveDivineShield(SELF))
 
 
 class AT_131:
-	"Eydis Darkbane"
+	"""Eydis Darkbane"""
 	events = Play(CONTROLLER, SPELL, SELF).on(Hit(RANDOM_ENEMY_CHARACTER, 3))
 
 
 class AT_132:
-	"Justicar Trueheart"
+	"""Justicar Trueheart"""
 	HERO_POWER_MAP = {
 		"CS2_017": "AT_132_DRUID",
 		"DS1h_292": "AT_132_HUNTER",

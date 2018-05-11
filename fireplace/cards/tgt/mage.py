@@ -5,7 +5,7 @@ from ..utils import *
 # Minions
 
 class AT_006:
-	"Dalaran Aspirant"
+	"""Dalaran Aspirant"""
 	inspire = Buff(SELF, "AT_006e")
 
 
@@ -13,17 +13,17 @@ AT_006e = buff(spellpower=1)
 
 
 class AT_007:
-	"Spellslinger"
+	"""Spellslinger"""
 	play = Give(ALL_PLAYERS, RandomSpell())
 
 
 class AT_008:
-	"Coldarra Drake"
+	"""Coldarra Drake"""
 	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.HEROPOWER_ADDITIONAL_ACTIVATIONS: SET(-1)})
 
 
 class AT_009:
-	"Rhonin"
+	"""Rhonin"""
 	deathrattle = Give(CONTROLLER, "EX1_277") * 3
 
 
@@ -31,17 +31,17 @@ class AT_009:
 # Spells
 
 class AT_001:
-	"Flame Lance"
+	"""Flame Lance"""
 	play = Hit(TARGET, 8)
 
 
 class AT_004:
-	"Arcane Blast"
+	"""Arcane Blast"""
 	play = Hit(TARGET, 2)
 
 
 class AT_005:
-	"Polymorph: Boar"
+	"""Polymorph: Boar"""
 	play = Morph(TARGET, "AT_005t")
 
 
@@ -49,7 +49,7 @@ class AT_005:
 # Secrets
 
 class AT_002:
-	"Effigy"
+	"""Effigy"""
 	secret = Death(FRIENDLY + MINION).on(FULL_BOARD | (
 		Reveal(SELF),
 		Summon(CONTROLLER, RandomMinion(cost=COST(Death.ENTITY)))

@@ -5,12 +5,12 @@ from ..utils import *
 # Minions
 
 class OG_179:
-	"Fiery Bat"
+	"""Fiery Bat"""
 	deathrattle = Hit(RANDOM_ENEMY_CHARACTER, 1)
 
 
 class OG_292:
-	"Forlorn Stalker"
+	"""Forlorn Stalker"""
 	play = Buff(FRIENDLY_HAND + MINION + DEATHRATTLE, "OG_292e")
 
 
@@ -18,12 +18,12 @@ OG_292e = buff(+1, +1)
 
 
 class OG_216:
-	"Infested Wolf"
+	"""Infested Wolf"""
 	deathrattle = Summon(CONTROLLER, "OG_216a") * 2
 
 
 class OG_309:
-	"Princess Huhuran"
+	"""Princess Huhuran"""
 	play = Deathrattle(TARGET)
 
 
@@ -31,23 +31,23 @@ class OG_309:
 # Spells
 
 class OG_045:
-	"Infest"
+	"""Infest"""
 	play = Buff(FRIENDLY_MINIONS, "OG_045a")
 
 
 class OG_045a:
-	"Nerubian Spores"
+	"""Nerubian Spores"""
 	deathrattle = Give(CONTROLLER, RandomBeast())
 	tags = {GameTag.DEATHRATTLE: True}
 
 
 class OG_061:
-	"On the Hunt"
+	"""On the Hunt"""
 	play = Hit(TARGET, 1), Summon(CONTROLLER, "OG_061t")
 
 
 class OG_211:
-	"Call of the Wild"
+	"""Call of the Wild"""
 	play = (
 		Summon(CONTROLLER, "NEW1_034"),
 		Summon(CONTROLLER, "NEW1_033"),

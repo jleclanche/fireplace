@@ -16,7 +16,7 @@ ALL_MINIONS = ALL_MINIONS - MECHAZOD
 
 
 class TB_CoOp_Mechazod:
-	"Gearmaster Mechazod"
+	"""Gearmaster Mechazod"""
 	events = (
 		EndTurn().on((Count(ENEMY_MINIONS) == 7) & Destroy(ENEMY_MINIONS)),
 		BeginTurn().on(Steal(BeginTurn.PLAYER, SELF))
@@ -33,26 +33,26 @@ TB_CoOp_Mechazod_V2 = TB_CoOp_Mechazod
 
 
 class TB_CoOp_Mechazod2(TB_CoOp_Mechazod):
-	"Overloaded Mechazod"
+	"""Overloaded Mechazod"""
 
 
 class TB_CoOpBossSpell_1:
-	"Prioritize"
+	"""Prioritize"""
 	play = Hit(HIGHEST_ATK(ALL_MINIONS), ATK(MECHAZOD))
 
 
 class TB_CoOpBossSpell_2:
-	"Bomb Salvo"
+	"""Bomb Salvo"""
 	play = Hit(RANDOM(ALL_CHARACTERS - MECHAZOD) * 3, ATK(MECHAZOD))
 
 
 class TB_CoOpBossSpell_3:
-	"Release Coolant"
+	"""Release Coolant"""
 	play = Hit(ALL_MINIONS, ATK(MECHAZOD)), Freeze(ALL_MINIONS)
 
 
 class TB_CoOpBossSpell_4:
-	"Overclock"
+	"""Overclock"""
 	play = Buff(MECHAZOD, "HRW02_1e")
 
 
@@ -60,10 +60,10 @@ HRW02_1e = buff(atk=2)
 
 
 class TB_CoOpBossSpell_5:
-	"Double Zap"
+	"""Double Zap"""
 	play = Hit(ALL_HEROES, ATK(MECHAZOD))
 
 
 class TB_CoOpBossSpell_6:
-	"Kill the Lorewalker"
+	"""Kill the Lorewalker"""
 	play = Destroy(ID("EX1_100")[0])
