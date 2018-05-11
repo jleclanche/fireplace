@@ -5,22 +5,22 @@ from ..utils import *
 # Minions
 
 class GVG_039:
-	"Vitality Totem"
+	"""Vitality Totem"""
 	events = OWN_TURN_END.on(Heal(FRIENDLY_HERO, 4))
 
 
 class GVG_040:
-	"Siltfin Spiritwalker"
+	"""Siltfin Spiritwalker"""
 	events = Death(FRIENDLY + MURLOC).on(Draw(CONTROLLER))
 
 
 class GVG_042:
-	"Neptulon"
+	"""Neptulon"""
 	play = Give(CONTROLLER, RandomMurloc()) * 4
 
 
 class GVG_066:
-	"Dunemaul Shaman"
+	"""Dunemaul Shaman"""
 	events = FORGETFUL
 
 
@@ -28,7 +28,7 @@ class GVG_066:
 # Spells
 
 class GVG_029:
-	"Ancestor's Call"
+	"""Ancestor's Call"""
 	play = (
 		Summon(CONTROLLER, RANDOM(FRIENDLY_HAND + MINION)),
 		Summon(OPPONENT, RANDOM(ENEMY_HAND + MINION)),
@@ -36,7 +36,7 @@ class GVG_029:
 
 
 class GVG_038:
-	"Crackle"
+	"""Crackle"""
 	play = Hit(TARGET, RandomNumber(3, 4, 5, 6))
 
 
@@ -44,7 +44,7 @@ class GVG_038:
 # Weapons
 
 class GVG_036:
-	"Powermace"
+	"""Powermace"""
 	deathrattle = Buff(RANDOM(FRIENDLY_MINIONS + MECH), "GVG_036e")
 
 
