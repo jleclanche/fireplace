@@ -287,6 +287,23 @@ def test_fist_of_jaraxxus():
 	assert game.player2.hero.health == 30 - 4 - 4
 
 
+def test_flame_lance():
+	# now the prepare_game includes neutral cards
+	game = prepare_game(CardClass.MAGE)
+
+	# assume that I am controlling player1
+	spell = game.player1.give("AT_001")
+	friend_minion = game.player1.give(WISP).play()
+
+	# basic information of the card
+	assert spell.cost == 5
+	assert spell.type == CardType.SPELL
+
+	# friend minion should die
+	spell.play(target=friend_minion)
+	assert len(game.player1.field) == 0
+
+
 def test_garrison_commander():
 	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	heropower = game.player1.hero.power
