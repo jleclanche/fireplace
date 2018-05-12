@@ -1,5 +1,5 @@
 """
-All test cases are sorted by its ID
+All the unit test cases are sorted by its ID
 Test for its description is automatically tested by test_carddb.py
 This test suites will ignore it and cover basic and complex situations
 """
