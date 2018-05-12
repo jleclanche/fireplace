@@ -83,7 +83,8 @@ def random_draft(card_class: CardClass, exclude=[]):
 		if cls.type == CardType.HERO:
 			# Heroes are collectible...
 			continue
-		if cls.card_class and cls.card_class != card_class:
+		if cls.card_class and cls.card_class not in [card_class, CardClass.NEUTRAL]:
+                        # Init deck should add Class card and Neutral card
 			continue
 		collection.append(cls)
 
