@@ -2277,6 +2277,30 @@ def test_onyxia():
 	assert game.player1.field == ["ds1_whelptoken"] * 3 + ["EX1_562"] + ["ds1_whelptoken"] * 3
 
 
+def test_perditions_blade():
+	# weapon with both battlecry and combo, should trigger only one of them
+	game = prepare_game()
+	# This summoned minion has 8 health
+	enemy_minion_ragnaros = game.player2.summon("EX1_298")
+	assert game.player2.field[0].health == 8
+	untriggerred_combo_blade = game.player1.give("EX1_133")
+	triggerred_combo_blade = game.player1.give("EX1_133")
+	triggerred_twice_blade = game.player1.give("EX1_133")
+
+	# the first card played with one damage dealt for battlecry only
+	untriggerred_combo_blade.play(target=enemy_minion_ragnaros)
+	assert game.player2.field[0].health == 7
+
+	# should deal two damage for combo and cancel battlecry damage
+	triggerred_combo_blade.play(target=enemy_minion_ragnaros)
+	assert game.player2.field[0].health == 5
+
+	# brann will trigger this combo twice
+	game.player1.summon("LOE_077")
+	triggerred_twice_blade.play(target=enemy_minion_ragnaros)
+	assert game.player2.field[0].health == 1
+
+
 def test_pint_sized_summoner():
 	game = prepare_game()
 	goldshire1 = game.current_player.give(GOLDSHIRE_FOOTMAN)
