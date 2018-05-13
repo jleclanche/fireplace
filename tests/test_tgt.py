@@ -293,15 +293,21 @@ def test_flame_lance():
 
 	# assume that I am controlling player1
 	spell = game.player1.give("AT_001")
-	friend_minion = game.player1.give(WISP).play()
+	friendly_minion = game.player1.give(WISP).play()
 
 	# basic information of the card
+	assert spell.card_class == CardClass.MAGE
 	assert spell.cost == 5
 	assert spell.type == CardType.SPELL
 
-	# friend minion should die
-	spell.play(target=friend_minion)
-	assert len(game.player1.field) == 0
+	# friendly minion should die
+	spell.play(target=friendly_minion)
+	assert len(game.player1.field) == len(game.player2.field) == 0
+
+	# enemy minion Ysera with 12 health should survive the damage
+	enemy_minion = game.player2.summon("EX1_572")
+	game.player1.give("AT_001").play(target=enemy_minion)
+	assert game.player2.field[0].health == 4
 
 
 def test_garrison_commander():
