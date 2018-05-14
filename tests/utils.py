@@ -40,6 +40,14 @@ HOLY_LIGHT = "CS2_089"
 # Token weapon
 LIGHTS_JUSTICE = "CS2_091"
 
+# Secret cost map
+SECRET_COST_OF_CLASS = {
+	"PALADIN": 1,
+	"ROGUE": 2,
+	"HUNTER": 2,
+	"MAGE": 3,
+}
+
 # Collectible cards excluded from random drafts
 BLACKLIST = (
 	"GVG_007",  # Flame Leviathan
@@ -63,6 +71,9 @@ _heroes = fireplace.cards.filter(collectible=True, type=CardType.HERO)
 class BaseTestGame(CoinRules, BaseGame):
 	def start(self):
 		super().start()
+		# When player2 win the Tossing, switch names to fix confusing logs.
+		if self.player1.name == "Player2":
+			(self.player1.name, self.player2.name) = (self.player2.name, self.player1.name)
 		self.player1.max_mana = 10
 		self.player2.max_mana = 10
 
