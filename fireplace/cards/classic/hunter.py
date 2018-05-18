@@ -158,7 +158,7 @@ class EX1_554:
 
 class EX1_609:
 	"""Snipe"""
-	secret = Play(OPPONENT, MINION | HERO).after(
+	secret = Play(OPPONENT, MINION).after(
 		Reveal(SELF), Hit(Play.CARD, 4)
 	)
 
