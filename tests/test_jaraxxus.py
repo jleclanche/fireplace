@@ -97,9 +97,8 @@ def test_jaraxxus_snipe():
 
 	jaraxxus = game.player2.give(LORD_JARAXXUS)
 	jaraxxus.play()
-	assert not game.player1.secrets
-	assert game.player2.hero.damage == 4
-	assert game.player2.hero.health == 11
+	assert len(game.player1.secrets) == 1
+	assert game.player2.hero.health == 15
 
 
 def test_jaraxxus_sacred_trial():
