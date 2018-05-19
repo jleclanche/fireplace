@@ -63,6 +63,9 @@ _heroes = fireplace.cards.filter(collectible=True, type=CardType.HERO)
 class BaseTestGame(CoinRules, BaseGame):
 	def start(self):
 		super().start()
+		# When player2 win the Tossing, switch names to fix confusing logs.
+		if self.player1.name == "Player2":
+			(self.player1.name, self.player2.name) = (self.player2.name, self.player1.name)
 		self.player1.max_mana = 10
 		self.player2.max_mana = 10
 
