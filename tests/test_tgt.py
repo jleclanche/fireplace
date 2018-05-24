@@ -1,3 +1,4 @@
+import pytest
 from utils import *
 
 
@@ -308,6 +309,21 @@ def test_flame_lance():
 	enemy_minion = game.player2.summon("EX1_572")
 	game.player1.give("AT_001").play(target=enemy_minion)
 	assert game.player2.field[0].health == 4
+
+	# targeting at illegal target will cause alerts
+	game.end_turn()
+	dragon = game.player2.summon("NEW1_023")
+	flame_lance = game.player2.give("AT_001")
+	assert dragon not in flame_lance.targets
+	assert game.player1.hero not in flame_lance.targets
+	assert game.player2.hero not in flame_lance.targets
+
+	with pytest.raises(InvalidAction):
+		flame_lance.play(target=dragon)
+	with pytest.raises(InvalidAction):
+		flame_lance.play(target=game.player1.hero)
+	with pytest.raises(InvalidAction):
+		flame_lance.play(target=game.player2.hero)
 
 
 def test_garrison_commander():
