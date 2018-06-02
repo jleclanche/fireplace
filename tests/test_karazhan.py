@@ -512,11 +512,12 @@ def test_silvermoon_portal():
 	assert whelp.health == 1
 
 	portal.play(target=whelp)
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].cost == 2
+	game.player1.field[-1].bounce()
 	assert whelp.atk == 3
 	assert whelp.health == 3
 	assert whelp.buff
-	assert len(game.player1.field) == 2
-	assert game.player1.field[-1].cost == 2
 
 
 def test_ironforge_portal():
