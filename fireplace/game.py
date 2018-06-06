@@ -280,6 +280,8 @@ class BaseGame(Entity):
 		self.begin_turn(self.player1)
 
 	def end_turn(self):
+		for player in self.players:
+			player.minions_killed_this_turn = 0
 		return self.queue_actions(self, [EndTurn(self.current_player)])
 
 	def _end_turn(self):
