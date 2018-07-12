@@ -5,9 +5,10 @@ from ..utils import *
 # Minions
 
 class OG_138:
-	"Nerubian Prophet"
+	"""Nerubian Prophet"""
 	class Hand:
 		events = OWN_TURN_BEGIN.on(Buff(SELF, "OG_138e"))
+
 
 class OG_138e:
 	events = REMOVED_IN_PLAY
@@ -15,37 +16,40 @@ class OG_138e:
 
 
 class OG_150:
-	"Aberrant Berserker"
+	"""Aberrant Berserker"""
 	enrage = Refresh(SELF, buff="OG_150e")
+
 
 OG_150e = buff(atk=2)
 
 
 class OG_151:
-	"Tentacle of N'Zoth"
+	"""Tentacle of N'Zoth"""
 	deathrattle = Hit(ALL_MINIONS, 1)
 
 
 class OG_156:
-	"Bilefin Tidehunter"
+	"""Bilefin Tidehunter"""
 	play = Summon(CONTROLLER, "OG_156a")
 
 
 class OG_158:
-	"Zealous Initiate"
+	"""Zealous Initiate"""
 	deathrattle = Buff(RANDOM_FRIENDLY_MINION, "OG_158e")
+
 
 OG_158e = buff(+1, +1)
 
 
 class OG_249:
-	"Infested Tauren"
+	"""Infested Tauren"""
 	deathrattle = Summon(CONTROLLER, "OG_249a")
 
 
 class OG_256:
-	"Spawn of N'Zoth"
+	"""Spawn of N'Zoth"""
 	deathrattle = Buff(FRIENDLY_MINIONS, "OG_256e")
+
 
 OG_256e = buff(+1, +1)
 
@@ -75,10 +79,10 @@ class OG_286:
 OG_286e = buff(+1, +1)
 
 class OG_295:
-	"Cult Apothecary"
+	"""Cult Apothecary"""
 	play = Heal(FRIENDLY_HERO, Count(ENEMY_MINIONS) * 2)
 
 
 class OG_323:
-	"Polluted Hoarder"
+	"""Polluted Hoarder"""
 	deathrattle = Draw(CONTROLLER)

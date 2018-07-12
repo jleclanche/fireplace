@@ -1,5 +1,6 @@
 from utils import *
 
+
 def test_kindly_grandmother():
 	game = prepare_game()
 	grandma = game.player1.give("KAR_005")
@@ -9,6 +10,7 @@ def test_kindly_grandmother():
 	game.player1.give(MOONFIRE).play(target=grandma)
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == "KAR_005a"
+
 
 def test_cloaked_huntress():
 	game = prepare_game()
@@ -24,6 +26,7 @@ def test_cloaked_huntress():
 
 	assert secret.cost == 2
 
+
 def test_babbling_book():
 	game = prepare_game()
 	game.player1.discard_hand()
@@ -33,6 +36,7 @@ def test_babbling_book():
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].type == CardType.SPELL
 	assert game.player1.hand[0].card_class == CardClass.MAGE
+
 
 
 def test_nightbane_templar():
@@ -50,6 +54,7 @@ def test_nightbane_templar():
 	nightbane2.play()
 	assert len(game.player2.field) == 3
 
+
 def test_wicked_witchdoctor():
 	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
 	witchdoc = game.player1.give("KAR_021")
@@ -59,10 +64,11 @@ def test_wicked_witchdoctor():
 	assert len(game.player1.field) == 2
 	assert game.player1.field[-1].id in game.player1.hero.power.data.entourage
 
+
 def test_book_wyrm():
 	game = prepare_game()
 	game.player1.discard_hand()
-	whelp = game.player1.give(WHELP)
+	game.player1.give(WHELP)
 	bookwyrm1 = game.player1.give("KAR_033")
 	assert not bookwyrm1.powered_up
 	bookwyrm1.play()
@@ -78,6 +84,7 @@ def test_book_wyrm():
 	assert len(game.player2.field) == 1
 	game.end_turn()
 
+
 def test_priest_of_the_feast():
 	game = prepare_game()
 	priest = game.player1.give("KAR_035")
@@ -88,6 +95,7 @@ def test_priest_of_the_feast():
 	game.player1.give(THE_COIN).play()
 	assert game.player1.hero.health == 28
 
+
 def test_arcane_anomaly():
 	game = prepare_game()
 	anomaly = game.player1.give("KAR_036")
@@ -97,6 +105,7 @@ def test_arcane_anomaly():
 	assert anomaly.health == 2
 	game.player1.give(THE_COIN).play()
 	assert anomaly.health == 3
+
 
 def test_avian_watcher():
 	game = prepare_game()
@@ -116,6 +125,7 @@ def test_avian_watcher():
 	assert watcher2.health == 7
 	assert watcher2.atk == 4
 
+
 def test_moroes():
 	game = prepare_game()
 	moroes = game.player1.give("KAR_044")
@@ -125,23 +135,29 @@ def test_moroes():
 
 	assert len(game.player1.field) == 2
 
+
 def test_the_curator():
 	game = prepare_empty_game()
-	murloc = game.player1.give("PRO_001at").shuffle_into_deck()
-	dragon = game.player1.give("ds1_whelptoken").shuffle_into_deck()
-	beast = game.player1.give("GVG_092t").shuffle_into_deck()
+	murloc = game.player1.give(MURLOC)
+	murloc.shuffle_into_deck()
+	dragon = game.player1.give(WHELP)
+	dragon.shuffle_into_deck()
+	beast = game.player1.give(CHICKEN)
+	beast.shuffle_into_deck()
 	curator = game.player1.give("KAR_061")
 	assert len(game.player1.hand) == 1
 	curator.play()
 	assert len(game.player1.hand) == 3
 	game.end_turn()
 
-	game.player2.discard_hand() #RID THE COIN
-	murloc2 = game.player2.give("PRO_001at").shuffle_into_deck()
+	game.player2.discard_hand()  # Get rid of the coin
+	murloc2 = game.player2.give(MURLOC)
+	murloc2.shuffle_into_deck()
 	curator2 = game.player2.give("KAR_061")
 	assert len(game.player2.hand) == 1
 	curator2.play()
 	assert len(game.player2.hand) == 1
+
 
 def test_netherspite_historian():
 	game = prepare_game()
@@ -151,7 +167,7 @@ def test_netherspite_historian():
 	historian1.play()
 	assert not game.player1.choice
 
-	whelp = game.player1.give(WHELP)
+	game.player1.give(WHELP)
 	historian2 = game.player1.give("KAR_062")
 	assert historian2.powered_up
 	historian2.play()
@@ -159,6 +175,7 @@ def test_netherspite_historian():
 	for card in game.player1.choice.cards:
 		assert card.type == CardType.MINION
 		assert card.race == Race.DRAGON
+
 
 def test_menagerie_warden():
 	game = prepare_game()
@@ -192,6 +209,7 @@ def test_menagerie_warden():
 	assert beast.max_health == clone.max_health
 	assert clone.buffs
 
+
 def test_swashburglar():
 	game = prepare_empty_game()
 	burglar = game.player1.give("KAR_069")
@@ -200,11 +218,12 @@ def test_swashburglar():
 	assert game.player1.hand[0].card_class == game.player2.hero.card_class
 	assert game.player1.hand[0].type != CardType.HERO
 
+
 def test_ethereal_peddler():
 	game = prepare_empty_game()
 	game.player1.discard_hand()
 	mc = game.player1.give(MIND_CONTROL)
-	evis = game.player1.give("EX1_124") #Eviscerate
+	evis = game.player1.give("EX1_124")  # Eviscerate
 	assert mc.cost == 10
 	assert evis.cost == 2
 	game.player1.give("KAR_070").play()
@@ -276,8 +295,9 @@ def test_medivhs_valet():
 	valet2.play(target=game.player2.hero)
 	assert game.player2.hero.health == 27
 
+
 def test_deadly_fork():
-	game=prepare_empty_game()
+	game = prepare_empty_game()
 	fork = game.player1.give("KAR_094")
 	fork.play()
 	game.player1.give(MOONFIRE).play(target=fork)
@@ -286,6 +306,7 @@ def test_deadly_fork():
 
 	game.player1.hand[0].play()
 	assert game.player1.hero.atk == 3
+
 
 def test_zoobot():
 	game = prepare_game()
@@ -305,6 +326,7 @@ def test_zoobot():
 	assert dragon.atk == 2
 	assert dragon.health == 2
 	assert dragon.buffs
+
 
 def test_medivh():
 	game = prepare_game()
@@ -351,8 +373,9 @@ def test_barnes():
 	assert summon.atk == 1
 	assert summon.health == 1
 
+
 def test_onyx_bishop():
-	game = prepare_game()
+	game = prepare_empty_game()
 	wisp = game.player1.give(WISP).play()
 	game.player1.give("CS2_009").play(target=wisp)
 	assert wisp.atk == 3
@@ -362,6 +385,7 @@ def test_onyx_bishop():
 
 	assert len(game.player1.field) == 2
 	assert game.player1.field[-1].atk == 1
+
 
 def test_menagerie_magician():
 	game = prepare_game()
@@ -382,6 +406,7 @@ def test_menagerie_magician():
 	assert dragon.health == 3
 	assert dragon.buffs
 
+
 def test_arcanosmith():
 	game = prepare_game()
 	game.player1.give("KAR_710").play()
@@ -389,18 +414,19 @@ def test_arcanosmith():
 	assert game.player1.field[-1].id == "KAR_710m"
 	assert game.player1.field[-1].taunt
 
+
 def test_violet_illusionist():
 	game = prepare_game()
 	game.player1.give("KAR_712").play()
 	assert game.player1.hero.immune
-	game.player1.give("CS2_064").play() #Dread Infernal
+	game.player1.give("CS2_064").play()  # Dread Infernal
 	assert game.player1.hero.health == 30
 	assert game.player2.hero.health == 29
 
 	game.end_turn()
 
 	assert not game.player1.hero.immune
-	game.player2.give("CS2_064").play() #Dread Infernal
+	game.player2.give("CS2_064").play()  # Dread Infernal
 	assert game.player1.hero.health == 29
 	assert game.player2.hero.health == 28
 
@@ -415,6 +441,7 @@ def test_cat_trick():
 	assert len(game.player1.field) == 1
 	assert game.player1.field[-1].id == "KAR_004a"
 
+
 def test_purify():
 	game = prepare_game()
 	game.player1.discard_hand()
@@ -422,7 +449,8 @@ def test_purify():
 	assert not purify.is_playable()
 	game.end_turn()
 
-	acolyte1 = game.player2.give("EX1_007").play()
+	acolyte1 = game.player2.give("EX1_007")
+	acolyte1.play()
 	game.end_turn()
 
 	assert not purify.is_playable()
@@ -433,6 +461,10 @@ def test_purify():
 	game.player1.give(MOONFIRE).play(target=acolyte2)
 	assert len(game.player1.hand) == handsize
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 def test_kara_kazham():
 	game = prepare_game()
 	game.player1.give("KAR_025").play()
@@ -445,8 +477,9 @@ def test_kara_kazham():
 	assert len(game.player1.field) == 7
 	assert game.player1.field[-1].id == "KAR_025a"
 
+
 def test_protect_the_king():
-	game=prepare_game()
+	game = prepare_game()
 	ptk = game.player1.give("KAR_026")
 	assert not ptk.is_playable()
 	game.end_turn()
@@ -457,6 +490,7 @@ def test_protect_the_king():
 	assert ptk.is_playable()
 	ptk.play()
 	assert len(game.player1.field) == 2
+
 
 def test_maelstrom_portal():
 	game = prepare_game()
@@ -470,6 +504,7 @@ def test_maelstrom_portal():
 	assert len(game.player2.field) == 1
 	assert game.player2.field[0].cost == 1
 
+
 def test_moonglade_portal():
 	game = prepare_game()
 	game.player1.hero.set_current_health(20)
@@ -479,6 +514,7 @@ def test_moonglade_portal():
 	game.player1.give("KAR_075").play(target=game.player1.hero)
 	assert len(game.player1.field) == 1
 	assert game.player1.hero.health == 26
+
 
 def test_firelands_portal():
 	game = prepare_game()
@@ -490,6 +526,7 @@ def test_firelands_portal():
 	assert game.player1.field[0].cost == 5
 	assert game.player2.hero.health == 25
 
+
 def test_silvermoon_portal():
 	game = prepare_game()
 	portal = game.player1.give("KAR_077")
@@ -500,18 +537,21 @@ def test_silvermoon_portal():
 	assert whelp.health == 1
 
 	portal.play(target=whelp)
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].cost == 2
+	game.player1.field[-1].bounce()
 	assert whelp.atk == 3
 	assert whelp.health == 3
 	assert whelp.buff
-	assert len(game.player1.field) == 2
-	assert game.player1.field[-1].cost == 2
+
 
 def test_ironforge_portal():
 	game = prepare_game()
 	assert game.player1.hero.armor == 0
 	assert len(game.player1.field) == 0
 
-	portal = game.player1.give("KAR_091").play()
+	portal = game.player1.give("KAR_091")
+	portal.play()
 	assert game.player1.hero.armor == 4
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].cost == 4

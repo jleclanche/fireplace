@@ -2,13 +2,15 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
-from hearthstone.enums import CardType, PlayState, BlockType, State, Step, Zone
+
+from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
+
 from .actions import Attack, BeginTurn, Death, EndTurn, EventListener, Play
 from .card import THE_COIN
 from .entity import Entity
+from .exceptions import GameOver
 from .managers import GameManager
 from .utils import CardList
-from .exceptions import GameOver
 
 
 class BaseGame(Entity):
@@ -278,6 +280,8 @@ class BaseGame(Entity):
 		self.begin_turn(self.player1)
 
 	def end_turn(self):
+		for player in self.players:
+			player.minions_killed_this_turn = 0
 		return self.queue_actions(self, [EndTurn(self.current_player)])
 
 	def _end_turn(self):

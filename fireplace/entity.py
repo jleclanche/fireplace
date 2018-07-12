@@ -1,5 +1,7 @@
 import uuid
+
 from hearthstone.enums import CardType
+
 from . import logging
 
 

@@ -37,7 +37,8 @@ def test_old_warsong_commander_buffed():
 	raider.play()
 	assert raider.atk == 2 + 3
 	assert not raider.charge
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	# test 5 - Warsong, Argent Squire, then Blood Knight
 	squire = game.player1.give("EX1_008")
@@ -101,7 +102,8 @@ def test_old_warsong_commander_stormwind_champion():
 	game = prepare_game()
 	game.player1.give(WARSONG_COMMANDER).play()
 	game.player1.give("CS2_222").play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	worgen = game.player1.give("EX1_412")
 	worgen.play()

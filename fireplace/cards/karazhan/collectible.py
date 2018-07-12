@@ -1,95 +1,114 @@
 from ..utils import *
 
+
 ##
 # Minions
 
 class KAR_005:
-	"Kindly Grandmother"
+	"""Kindly Grandmother"""
 	deathrattle = Summon(CONTROLLER, "KAR_005a")
 
+
 class KAR_006:
-	"Cloaked Huntress"
+	"""Cloaked Huntress"""
 	update = Refresh(FRIENDLY_HAND + SECRET, {GameTag.COST: SET(0)})
+
 
 class KAR_009:
 	"Babbling Book"
 	play = Give(CONTROLLER, RandomSpell(card_class=CardClass.MAGE))
 
+
 class KAR_010:
-	"Nightbane Templar"
+	"""Nightbane Templar"""
 	powered_up = HOLDING_DRAGON
 	play = powered_up & (Summon(CONTROLLER, "KAR_010a") * 2)
 
+
 class KAR_021:
-	"Wicked Witchdoctor"
+	"""Wicked Witchdoctor"""
 	events = OWN_SPELL_PLAY.on(Summon(CONTROLLER, RandomBasicTotem()))
 
+
 class KAR_029:
-	"Runic Egg"
+	"""Runic Egg"""
 	deathratter = Draw(CONTROLLER)
 
+
 class KAR_030a:
-	"Pantry Spider"
-	play = Summon(CONTROLLER, 'KAR_030')
+	"""Pantry Spider"""
+	play = Summon(CONTROLLER, "KAR_030")
+
 
 class KAR_033:
-	"Book Wyrm"
+	"""Book Wyrm"""
 	powered_up = HOLDING_DRAGON, Find(ENEMY_MINIONS + (ATK <= 3))
 	play = HOLDING_DRAGON & Destroy(TARGET)
 
+
 class KAR_035:
-	"Priest of the Feast"
+	"""Priest of the Feast"""
 	events = OWN_SPELL_PLAY.on(Heal(FRIENDLY_HERO, 3))
 
+
 class KAR_036:
-	"Arcane Anomaly"
+	"""Arcane Anomaly"""
 	events = OWN_SPELL_PLAY.on(Buff(SELF, "KAR_036e"))
+
 
 KAR_036e = buff(health=1)
 
+
 class KAR_037:
-	"Avian Watcher"
+	"""Avian Watcher"""
 	powered_up = Find(FRIENDLY_SECRETS)
 	play = powered_up & Buff(SELF, "KAR_037t")
 
-KAR_037t = buff(+1,+1, taunt=True)
+
+KAR_037t = buff(+1, +1, taunt=True)
 
 # class KAR_041:
-# 	"Moat Lurker"
+# 	"""Moat Lurker"""
+
 
 class KAR_044:
-	"Moroes"
+	"""Moroes"""
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "KAR_044a"))
 
 # class KAR_057:
-# 	"Ivory Knight"
+# 	"""Ivory Knight"""
 
 
 class KAR_061:
-	"The Curator"
+	"""The Curator"""
 	play = (
 		ForceDraw(RANDOM(FRIENDLY_DECK + MINION + MURLOC)),
 		ForceDraw(RANDOM(FRIENDLY_DECK + DRAGON)),
 		ForceDraw(RANDOM(FRIENDLY_DECK + BEAST))
 	)
 
+
 class KAR_062:
-	"Netherspite Historian"
+	"""Netherspite Historian"""
 	powered_up = HOLDING_DRAGON
 	play = powered_up & DISCOVER(RandomDragon())
 
+
 class KAR_065:
-	"Menagerie Warden"
+	"""Menagerie Warden"""
 	powered_up = Find(FRIENDLY_MINIONS + BEAST)
 	play = Summon(CONTROLLER, ExactCopy(TARGET))
 
+
 class KAR_069:
-	"Swashburglar"
+	"""Swashburglar"""
 	play = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))
 
+
 class KAR_070:
-	"Ethereal Peddler"
+	"""Ethereal Peddler"""
 	play = Buff(FRIENDLY_HAND - ROGUE, "KAR_070e")
+
 
 @custom_card
 class KAR_070e:
@@ -100,37 +119,47 @@ class KAR_070e:
 	}
 	events = REMOVED_IN_PLAY
 
+
 class KAR_089:
 	"Malchezaar's Imp"
 	events = Discard(DISCARDED).after(Draw(CONTROLLER))
 
+
 class KAR_092:
-	"Medivh's Valet"
+	"""Medivh's Valet"""
 	powered_up = Find(FRIENDLY_SECRETS)
 	play = powered_up & Hit(TARGET, 3)
 
+
 class KAR_094:
-	"Deadly Fork"
+	"""Deadly Fork"""
 	deathrattle = Give(CONTROLLER, "KAR_094a")
 
+
 class KAR_095:
-	"Zoobot"
-	powered_up = Find(RANDOM(FRIENDLY_MINIONS + MURLOC) | RANDOM(FRIENDLY_MINIONS + DRAGON) | RANDOM(FRIENDLY_MINIONS + BEAST))
+	"""Zoobot"""
+	powered_up = Find(
+		RANDOM(FRIENDLY_MINIONS + MURLOC) |
+		RANDOM(FRIENDLY_MINIONS + DRAGON) |
+		RANDOM(FRIENDLY_MINIONS + BEAST)
+	)
 	play = (
-		Buff(RANDOM(FRIENDLY_MINIONS + MURLOC),"KAR_095e"),
-		Buff(RANDOM(FRIENDLY_MINIONS + DRAGON),"KAR_095e"),
-		Buff(RANDOM(FRIENDLY_MINIONS + BEAST),"KAR_095e")
+		Buff(RANDOM(FRIENDLY_MINIONS + MURLOC), "KAR_095e"),
+		Buff(RANDOM(FRIENDLY_MINIONS + DRAGON), "KAR_095e"),
+		Buff(RANDOM(FRIENDLY_MINIONS + BEAST), "KAR_095e")
 	)
 
-KAR_095e = buff(+1,+1)
+
+KAR_095e = buff(+1, +1)
 
 # class KAR_096:
-# 	"Prince Malchezaar"
+# 	"""Prince Malchezaar"""
 
 
 class KAR_097:
-	"Medivh, the Guardian"
+	"""Medivh, the Guardian"""
 	play = Summon(CONTROLLER, "KAR_097t")
+
 
 class KAR_097t:
 	events = OWN_SPELL_PLAY.on(
@@ -138,16 +167,21 @@ class KAR_097t:
 		Hit(SELF, 1)
 	)
 
+
 class KAR_114:
-	"Barnes"
-	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY_DECK + MINION))).then(Buff(Summon.CARD, "KAR_114e"))
+	"""Barnes"""
+	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY_DECK + MINION))).then(
+		Buff(Summon.CARD, "KAR_114e")
+	)
+
 
 class KAR_114e:
 	atk = SET(1)
 	max_health = SET(1)
 
+
 class KAR_204:
-	"Onyx Bishop"
+	"""Onyx Bishop"""
 	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))
 
 class KAR_205:
@@ -157,18 +191,24 @@ class KAR_205:
 
 
 class KAR_702:
-	"Menagerie Magician"
-	powered_up = Find(RANDOM(FRIENDLY_MINIONS + MURLOC) | RANDOM(FRIENDLY_MINIONS + DRAGON) | RANDOM(FRIENDLY_MINIONS + BEAST))
+	"""Menagerie Magician"""
+	powered_up = Find(
+		RANDOM(FRIENDLY_MINIONS + MURLOC) |
+		RANDOM(FRIENDLY_MINIONS + DRAGON) |
+		RANDOM(FRIENDLY_MINIONS + BEAST)
+	)
 	play = (
-		Buff(RANDOM(FRIENDLY_MINIONS + MURLOC),"KAR_702e"),
-		Buff(RANDOM(FRIENDLY_MINIONS + DRAGON),"KAR_702e"),
-		Buff(RANDOM(FRIENDLY_MINIONS + BEAST),"KAR_702e")
+		Buff(RANDOM(FRIENDLY_MINIONS + MURLOC), "KAR_702e"),
+		Buff(RANDOM(FRIENDLY_MINIONS + DRAGON), "KAR_702e"),
+		Buff(RANDOM(FRIENDLY_MINIONS + BEAST), "KAR_702e")
 	)
 
-KAR_702e = buff(+2,+2)
+
+KAR_702e = buff(+2, +2)
+
 
 class KAR_710:
-	"Arcanosmith"
+	"""Arcanosmith"""
 	play = Summon(CONTROLLER, "KAR_710m")
 
 class KAR_711:
@@ -177,59 +217,69 @@ class KAR_711:
 
 
 class KAR_712:
-	"Violet Illusionist"
+	"""Violet Illusionist"""
 	update = Find(CURRENT_PLAYER + CONTROLLER) & Refresh(FRIENDLY_HERO, {GameTag.IMMUNE: True})
 
 ##
 # Spells
 
+
 class KAR_004:
-	"Cat Trick"
+	"""Cat Trick"""
 	secret = Play(ENEMY, SPELL).after(Summon(CONTROLLER, "KAR_004a"))
 
+
 class KAR_013:
-	"Purify"
+	"""Purify"""
 	play = Silence(TARGET), Draw(CONTROLLER)
 
+
 class KAR_025:
-	"Kara Kazham!"
+	"""Kara Kazham!"""
 	play = (
 		Summon(CONTROLLER, "KAR_025a"),
 		Summon(CONTROLLER, "KAR_025b"),
 		Summon(CONTROLLER, "KAR_025c")
 	)
 
+
 class KAR_026:
-	"Protect the King!"
+	"""Protect the King!"""
 	play = Summon(CONTROLLER, "KAR_026t") * Count(ENEMY_MINIONS)
 
+
 class KAR_073:
-	"Maelstrom Portal"
+	"""Maelstrom Portal"""
 	play = Hit(ENEMY_MINIONS, 1), Summon(CONTROLLER, RandomMinion(cost=1))
 
+
 class KAR_075:
-	"Moonglade Portal"
+	"""Moonglade Portal"""
 	play = Heal(TARGET, 6), Summon(CONTROLLER, RandomMinion(cost=6))
 
+
 class KAR_076:
-	"Firelands Portal"
+	"""Firelands Portal"""
 	play = Hit(TARGET, 5), Summon(CONTROLLER, RandomMinion(cost=5))
 
+
 class KAR_077:
-	"Silvermoon Portal"
+	"""Silvermoon Portal"""
 	play = Buff(TARGET, "KAR_077e"), Summon(CONTROLLER, RandomMinion(cost=2))
 
-KAR_077e = buff(+2,+2)
+
+KAR_077e = buff(+2, +2)
+
 
 class KAR_091:
-	"Ironforge Portal"
+	"""Ironforge Portal"""
 	play = GainArmor(FRIENDLY_HERO, 4), Summon(CONTROLLER, RandomMinion(cost=4))
 
 ##
 # Weapons
 
 # class KAR_028:
-# 	"Fool's Bane"
+# 	"""Fool's Bane"""
 
 class KAR_063:
 	"Spirit Claws"

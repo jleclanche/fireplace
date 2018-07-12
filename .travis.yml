@@ -1,27 +1,17 @@
-# https://travis-ci.org/#!/jleclanche/fireplace
+# https://travis-ci.org/jleclanche/fireplace
 sudo: false
 language: python
-python:
-  - 3.5
-cache:
-  directories:
-    - $HOME/.pip-cache/
-    - $HOME/virtualenv/python3.5
+
+python: "3.6"
+cache: pip
+
+env:
+  - TOXENV=py36
+  - TOXENV=flake8
+  - TOXENV=benchmark
+
 install:
-  - pip install .[tests] pytest-benchmark[aspect]
+  - pip install tox
+
 script:
-  - py.test
-  - py.test tests/benchmarks.py
-notifications:
-  email:
-    on_failure: always
-    on_success: change
-  irc:
-    channels:
-      - "chat.freenode.net#hearthsim-commits"
-    use_notice: true
-    skip_join: true
-    on_failure: always
-    on_success: change
-    template:
-      - "(%{branch} @ %{commit} : %{author}): %{message} %{build_url}"
+  - tox

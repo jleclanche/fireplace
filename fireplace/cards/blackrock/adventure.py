@@ -5,14 +5,15 @@ from ..utils import *
 # Hero Powers
 
 class BRMA01_2:
-	"Pile On!"
+	"""Pile On!"""
 	activate = (
 		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION)),
 		Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION))
 	)
 
+
 class BRMA01_2H:
-	"Pile On! (Heroic)"
+	"""Pile On! (Heroic)"""
 	activate = (
 		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION) * 2),
 		Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION))
@@ -20,40 +21,42 @@ class BRMA01_2H:
 
 
 class BRMA01_3:
-	"Dark Iron Bouncer"
+	"""Dark Iron Bouncer"""
 	tags = {
 		enums.ALWAYS_WINS_BRAWLS: True,
 	}
 
 
 class BRMA02_2:
-	"Jeering Crowd"
+	"""Jeering Crowd"""
 	activate = Summon(CONTROLLER, "BRMA02_2t")
 
+
 class BRMA02_2H:
-	"Jeering Crowd (Heroic)"
+	"""Jeering Crowd (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA02_2t")
 
 
 class BRMA03_2:
-	"Power of the Firelord"
+	"""Power of the Firelord"""
 	activate = Hit(TARGET, 2)
 
 
 class BRMA04_2:
-	"Magma Pulse"
+	"""Magma Pulse"""
 	activate = Hit(ALL_MINIONS, 1)
 
 
 class BRMA05_2:
-	"Ignite Mana"
+	"""Ignite Mana"""
 	activate = (
 		(MANA(OPPONENT) <= USED_MANA(OPPONENT)) &
 		Hit(ENEMY_HERO, 5)
 	)
 
+
 class BRMA05_2H:
-	"Ignite Mana (Heroic)"
+	"""Ignite Mana (Heroic)"""
 	activate = (
 		(MANA(OPPONENT) <= USED_MANA(OPPONENT)) &
 		Hit(ENEMY_HERO, 10)
@@ -61,32 +64,35 @@ class BRMA05_2H:
 
 
 class BRMA06_2:
-	"The Majordomo"
+	"""The Majordomo"""
 	activate = Summon(CONTROLLER, "BRMA06_4")
 
+
 class BRMA06_2H:
-	"The Majordomo (Heroic)"
+	"""The Majordomo (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA06_4H")
 
 
 class BRMA07_2:
-	"ME SMASH"
+	"""ME SMASH"""
 	activate = Destroy(RANDOM(ENEMY_MINIONS + DAMAGED))
 
+
 class BRMA07_2H:
-	"ME SMASH (Heroic)"
+	"""ME SMASH (Heroic)"""
 	activate = Destroy(RANDOM_ENEMY_MINION)
 
 
 class BRMA08_2:
-	"Intense Gaze"
+	"""Intense Gaze"""
 	update = (
 		Refresh(ALL_PLAYERS, {GameTag.MAXRESOURCES: SET(1)}),
 		Refresh(IN_HAND, {GameTag.COST: SET(1)})
 	)
 
+
 class BRMA08_2H:
-	"Intense Gaze (Heroic)"
+	"""Intense Gaze (Heroic)"""
 	update = (
 		Refresh(CONTROLLER, {GameTag.MAXRESOURCES: SET(2)}),
 		Refresh(OPPONENT, {GameTag.MAXRESOURCES: SET(1)}),
@@ -95,85 +101,94 @@ class BRMA08_2H:
 
 
 class BRMA09_2:
-	"Open the Gates"
+	"""Open the Gates"""
 	activate = Summon(CONTROLLER, "BRMA09_2t") * 3, Summon(CONTROLLER, RandomEntourage())
 
+
 class BRMA09_2H:
-	"Open the Gates (Heroic)"
+	"""Open the Gates (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA09_2Ht") * 3, Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_3:
-	"Old Horde"
+	"""Old Horde"""
 	activate = Summon(CONTROLLER, "BRMA09_3t") * 2, Summon(CONTROLLER, RandomEntourage())
 
+
 class BRMA09_3H:
-	"Old Horde (Heroic)"
+	"""Old Horde (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA09_3Ht") * 2, Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_4:
-	"Blackwing"
+	"""Blackwing"""
 	activate = Summon(CONTROLLER, "BRMA09_4t"), Summon(CONTROLLER, RandomEntourage())
 
+
 class BRMA09_4H:
-	"Blackwing (Heroic)"
+	"""Blackwing (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA09_4Ht"), Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_5:
-	"Dismount"
+	"""Dismount"""
 	activate = Summon(CONTROLLER, "BRMA09_5t"), Summon(CONTROLLER, RandomEntourage())
 
+
 class BRMA09_5H:
-	"Dismount (Heroic)"
+	"""Dismount (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA09_5Ht"), Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA10_3:
-	"The Rookery"
+	"""The Rookery"""
 	activate = Buff(ALL_MINIONS + ID("BRMA10_4"), "BRMA10_3e"), Summon(CONTROLLER, "BRMA10_4")
 
+
 class BRMA10_3H:
-	"The Rookery"
+	"""The Rookery"""
 	activate = Buff(ALL_MINIONS + ID("BRMA10_4"), "BRMA10_3e"), Summon(CONTROLLER, "BRMA10_4")
+
 
 BRMA10_3e = buff(health=1)
 
 
 class BRMA11_2:
-	"Essence of the Red"
+	"""Essence of the Red"""
 	activate = Draw(ALL_PLAYERS) * 2
 
+
 class BRMA11_2H:
-	"Essence of the Red (Heroic)"
+	"""Essence of the Red (Heroic)"""
 	activate = Draw(ALL_PLAYERS) * 3, GainMana(CONTROLLER, 1)
 
 
 class BRMA12_2:
-	"Brood Affliction"
+	"""Brood Affliction"""
 	activate = Give(OPPONENT, RandomEntourage())
 
+
 class BRMA12_2H:
-	"Brood Affliction (Heroic)"
+	"""Brood Affliction (Heroic)"""
 	activate = Give(OPPONENT, RandomEntourage())
 
 
 class BRMA12_10:
-	"Mutation (Unused)"
+	"""Mutation (Unused)"""
 	activate = Discard(RANDOM(FRIENDLY_HAND))
 
 
 class BRMA13_2:
-	"True Form"
+	"""True Form"""
 	activate = (
 		Summon(CONTROLLER, "BRMA13_3"),
 		Draw(CONTROLLER) * 2,
 		GainArmor(CONTROLLER, 30)
 	)
 
+
 class BRMA13_2H:
-	"True Form (Heroic)"
+	"""True Form (Heroic)"""
 	activate = (
 		Summon(CONTROLLER, "BRMA13_3H"),
 		Draw(CONTROLLER) * 2,
@@ -182,104 +197,115 @@ class BRMA13_2H:
 
 
 class BRMA13_4:
-	"Wild Magic"
+	"""Wild Magic"""
 	activate = Give(CONTROLLER, RandomSpell(card_class=ENEMY_CLASS))
 
+
 class BRMA13_4H:
-	"Wild Magic (Heroic)"
+	"""Wild Magic (Heroic)"""
 	activate = Give(CONTROLLER, RandomSpell(card_class=ENEMY_CLASS))
 
 
 class BRMA14_2:
-	"Activate Arcanotron"
+	"""Activate Arcanotron"""
 	activate = Summon(CONTROLLER, "BRMA14_3"), Summon(CONTROLLER, "BRMA14_4")
 
+
 class BRMA14_2H:
-	"Activate Arcanotron (Heroic)"
+	"""Activate Arcanotron (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA14_3"), Summon(CONTROLLER, "BRMA14_4H")
 
 
 class BRMA14_4:
-	"Activate Toxitron"
+	"""Activate Toxitron"""
 	activate = Summon(CONTROLLER, "BRMA14_5"), Summon(CONTROLLER, "BRMA14_6")
 
+
 class BRMA14_4H:
-	"Activate Toxitron (Heroic)"
+	"""Activate Toxitron (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA14_5H"), Summon(CONTROLLER, "BRMA14_6H")
 
 
 class BRMA14_6:
-	"Activate Electron"
+	"""Activate Electron"""
 	activate = Summon(CONTROLLER, "BRMA14_7"), Summon(CONTROLLER, "BRMA14_8")
 
+
 class BRMA14_6H:
-	"Activate Electron (Heroic)"
+	"""Activate Electron (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA14_7H"), Summon(CONTROLLER, "BRMA14_8H")
 
 
 class BRMA14_8:
-	"Activate Magmatron"
+	"""Activate Magmatron"""
 	activate = Summon(CONTROLLER, "BRMA14_9"), Summon(CONTROLLER, "BRMA14_10")
 
+
 class BRMA14_8H:
-	"Activate Magmatron (Heroic)"
+	"""Activate Magmatron (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA14_9H"), Summon(CONTROLLER, "BRMA14_10H")
 
 
 class BRMA14_10:
-	"Activate!"
+	"""Activate!"""
 	activate = Summon(CONTROLLER, RandomEntourage())
 
+
 class BRMA14_10H:
-	"Activate! (Heroic)"
+	"""Activate! (Heroic)"""
 	activate = Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA15_2:
-	"The Alchemist"
+	"""The Alchemist"""
 	events = Summon(ALL_PLAYERS, MINION).on(Buff(Summon.CARD, "BRMA15_2e"))
+
 
 class BRMA15_2e(AttackHealthSwapBuff()):
 	tags = {
-		GameTag.CARDNAME: "The Alchemist Attack/Health Swap Buff"
+		GameTag.CARDNAME: "The Alchemist Attack/Health Swap Buff"""
 	}
 
 
 class BRMA15_2H:
-	"The Alchemist (Heroic)"
+	"""The Alchemist (Heroic)"""
 	events = (
 		Summon(ALL_PLAYERS, MINION).on(Buff(Summon.CARD, "BRMA15_2e")),
 		Summon(CONTROLLER, MINION).on(Buff(Summon.CARD, "BRMA15_2He"))
 	)
+
 
 # Potion of Might (The Alchemist)
 BRMA15_2He = buff(+2, +2)
 
 
 class BRMA16_2:
-	"Echolocate"
+	"""Echolocate"""
 	activate = Summon(CONTROLLER, "BRMA16_5")
 
+
 class BRMA16_2H:
-	"Echolocate (Heroic)"
+	"""Echolocate (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA16_5")
 
 
 class BRMA17_5:
-	"Bone Minions"
+	"""Bone Minions"""
 	activate = Summon(CONTROLLER, "BRMA17_6") * 2
 
+
 class BRMA17_5H:
-	"Bone Minions (Heroic)"
+	"""Bone Minions (Heroic)"""
 	activate = Summon(CONTROLLER, "BRMA17_6H") * 2
 
 
 class BRMA17_8:
-	"Nefarian Strikes!"
+	"""Nefarian Strikes!"""
 	activate = Hit(ENEMY_HERO, 1) * RandomNumber(0, 1, 2, 3, 4, 20)
 
+
 class BRMA17_8H:
-	"Nefarian Strikes! (Heroic)"
+	"""Nefarian Strikes! (Heroic)"""
 	activate = Hit(ENEMY_HERO, 1) * RandomNumber(0, 1, 2, 3, 4, 20)
 
 
@@ -287,41 +313,45 @@ class BRMA17_8H:
 # Minions
 
 class BRMA03_3:
-	"Moira Bronzebeard"
+	"""Moira Bronzebeard"""
 	update = Refresh(ALL_HERO_POWERS + ID("BRMA03_2"), {GameTag.CANT_PLAY: True})
 
+
 class BRMA03_3H:
-	"Moira Bronzebeard (Heroic)"
+	"""Moira Bronzebeard (Heroic)"""
 	update = Refresh(ALL_HERO_POWERS + ID("BRMA03_2"), {GameTag.CANT_PLAY: True})
 
 
 class BRMA10_4:
-	"Corrupted Egg"
+	"""Corrupted Egg"""
 	update = (CURRENT_HEALTH(SELF) >= 4) & (Destroy(SELF), Summon(CONTROLLER, "BRMA10_5"))
 
+
 class BRMA10_4H:
-	"Corrupted Egg (Heroic)"
+	"""Corrupted Egg (Heroic)"""
 	update = (CURRENT_HEALTH(SELF) >= 5) & (Destroy(SELF), Summon(CONTROLLER, "BRMA10_5H"))
 
 
 class BRMA04_3:
-	"Firesworn"
+	"""Firesworn"""
 	deathrattle = Hit(ENEMY_HERO, Count(ID("BRMA04_3") + KILLED_THIS_TURN))
 
+
 class BRMA04_3H:
-	"Firesworn (Heroic)"
+	"""Firesworn (Heroic)"""
 	deathrattle = Hit(ENEMY_HERO, Count(ID("BRMA04_3H") + KILLED_THIS_TURN))
 
 
 class BRMA12_8t:
-	"Chromatic Dragonkin"
+	"""Chromatic Dragonkin"""
 	events = Play(OPPONENT, SPELL).on(Buff(SELF, "BRMA12_8te"))
+
 
 BRMA12_8te = buff(+2, +2)
 
 
 class BRMA13_5:
-	"Son of the Flame"
+	"""Son of the Flame"""
 	play = Hit(TARGET, 6)
 
 
@@ -329,125 +359,133 @@ class BRMA13_5:
 # Spells
 
 class BRMA_01:
-	"Flameheart"
+	"""Flameheart"""
 	play = Draw(CONTROLLER) * 2, GainArmor(FRIENDLY_HERO, 4)
 
 
 class BRMA01_4:
-	"Get 'em!"
+	"""Get 'em!"""
 	play = Summon(CONTROLLER, "BRMA01_4t") * 4
 
 
 class BRMA05_3:
-	"Living Bomb"
+	"""Living Bomb"""
 	play = Buff(TARGET, "BRMA05_3e")
+
 
 class BRMA05_3e:
 	events = OWN_TURN_BEGIN.on(Hit(ENEMY_CHARACTERS, 5))
 
+
 class BRMA05_3H:
-	"Living Bomb (Heroic)"
+	"""Living Bomb (Heroic)"""
 	play = Buff(TARGET, "BRMA05_3He")
+
 
 class BRMA05_3He:
 	events = OWN_TURN_BEGIN.on(Hit(ENEMY_CHARACTERS, 10))
 
 
 class BRMA07_3:
-	"TIME FOR SMASH"
+	"""TIME FOR SMASH"""
 	play = Hit(RANDOM_ENEMY_MINION, 5), GainArmor(FRIENDLY_HERO, 5)
 
 
 class BRMA08_3:
-	"Drakkisath's Command"
+	"""Drakkisath's Command"""
 	play = Destroy(TARGET), GainArmor(FRIENDLY_HERO, 10)
 
 
 class BRMA09_6:
-	"The True Warchief"
+	"""The True Warchief"""
 	play = Destroy(TARGET)
 
 
 class BRMA04_4:
-	"Rock Out"
+	"""Rock Out"""
 	play = Summon(CONTROLLER, "BRMA04_3") * 3
 
+
 class BRMA04_4H:
-	"Rock Out (Heroic)"
+	"""Rock Out (Heroic)"""
 	play = Summon(CONTROLLER, "BRMA04_3H") * 3
 
 
 class BRMA11_3:
-	"Burning Adrenaline"
+	"""Burning Adrenaline"""
 	play = Hit(ENEMY_HERO, 2)
 
 
 class BRMA12_8:
-	"Chromatic Mutation (Unused)"
+	"""Chromatic Mutation (Unused)"""
 	play = Morph(TARGET, "BRMA12_8t")
 
 
 class BRMA14_11:
-	"Recharge"
+	"""Recharge"""
 	play = FillMana(CONTROLLER, USED_MANA(CONTROLLER))
 
 
 class BRMA13_8:
-	"DIE, INSECT!"
+	"""DIE, INSECT!"""
 	play = Hit(RANDOM_ENEMY_CHARACTER, 8)
 
 
 class BRMA15_3:
-	"Release the Aberrations!"
+	"""Release the Aberrations!"""
 	play = Summon(CONTROLLER, "BRMA15_4") * 3
 
 
 class BRMA14_3:
-	"Arcanotron"
+	"""Arcanotron"""
 	update = Refresh(ALL_PLAYERS, {GameTag.SPELLPOWER: +2})
 
 
 class BRMA14_5:
-	"Toxitron"
+	"""Toxitron"""
 	events = OWN_TURN_BEGIN.on(Hit(ALL_MINIONS - SELF, 1))
 
+
 class BRMA14_5H:
-	"Toxitron (Heroic)"
+	"""Toxitron (Heroic)"""
 	events = OWN_TURN_BEGIN.on(Hit(ALL_MINIONS - SELF, 1))
 
 
 class BRMA14_7:
-	"Electron"
+	"""Electron"""
 	update = Refresh(IN_HAND + SPELL, {GameTag.COST: -3})
 
+
 class BRMA14_7H:
-	"Electron (Heroic)"
+	"""Electron (Heroic)"""
 	update = Refresh(IN_HAND + SPELL, {GameTag.COST: -3})
 
 
 class BRMA14_9:
-	"Magmatron"
+	"""Magmatron"""
 	events = Play().on(Hit(ALL_HEROES + CONTROLLED_BY(Play.PLAYER)))
 
+
 class BRMA14_9H:
-	"Magmatron"
+	"""Magmatron"""
 	events = Play().on(Hit(ALL_HEROES + CONTROLLED_BY(Play.PLAYER)))
 
 
 class BRMA16_3:
-	"Sonic Breath"
+	"""Sonic Breath"""
 	play = Hit(TARGET, 3), Buff(FRIENDLY_WEAPON, "BRMA16_3e")
+
 
 BRMA16_3e = buff(atk=3)
 
 
 class BRMA16_4:
-	"Reverberating Gong"
+	"""Reverberating Gong"""
 	play = Destroy(ENEMY_WEAPON)
 
 
 class BRMA17_4:
-	"LAVA!"
+	"""LAVA!"""
 	play = Hit(ALL_MINIONS, 2)
 
 
@@ -455,15 +493,17 @@ class BRMA17_4:
 # Weapons
 
 class BRMA10_6:
-	"Razorgore's Claws (Unused)"
+	"""Razorgore's Claws (Unused)"""
 	events = Death(MINION + ID("BRMA10_4")).on(Buff(SELF, "BRMA10_6e"))
+
 
 BRMA10_6e = buff(atk=1)
 
 
 class BRMA16_5:
-	"Dragonteeth"
+	"""Dragonteeth"""
 	events = Play(OPPONENT).on(Buff(SELF, "BRMA16_5e"))
+
 
 BRMA16_5e = buff(atk=1)
 
@@ -472,55 +512,60 @@ BRMA16_5e = buff(atk=1)
 # Brood Afflictions (Chromaggus)
 
 class BRMA12_3:
-	"Brood Affliction: Red"
+	"""Brood Affliction: Red"""
 	class Hand:
 		events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 1))
 
+
 class BRMA12_3H:
-	"Brood Affliction: Red (Heroic)"
+	"""Brood Affliction: Red (Heroic)"""
 	class Hand:
 		events = OWN_TURN_BEGIN.on(Hit(FRIENDLY_HERO, 3))
 
 
 class BRMA12_4:
-	"Brood Affliction: Green"
+	"""Brood Affliction: Green"""
 	class Hand:
 		events = OWN_TURN_BEGIN.on(Heal(ENEMY_HERO, 2))
 
+
 class BRMA12_4H:
-	"Brood Affliction: Green (Heroic)"
+	"""Brood Affliction: Green (Heroic)"""
 	class Hand:
 		events = OWN_TURN_BEGIN.on(Heal(ENEMY_HERO, 6))
 
 
 class BRMA12_5:
-	"Brood Affliction: Blue"
+	"""Brood Affliction: Blue"""
 	class Hand:
 		update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: -1})
 
+
 class BRMA12_5H:
-	"Brood Affliction: Blue (Heroic)"
+	"""Brood Affliction: Blue (Heroic)"""
 	class Hand:
 		update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: -3})
 
 
 class BRMA12_6:
-	"Brood Affliction: Black"
+	"""Brood Affliction: Black"""
 	class Hand:
 		events = Draw(OPPONENT).on(Give(OPPONENT, Copy(Draw.CARD)))
 
+
 class BRMA12_6H:
-	"Brood Affliction: Black (Heroic)"
+	"""Brood Affliction: Black (Heroic)"""
 	class Hand:
 		events = Draw(OPPONENT).on(Give(OPPONENT, Copy(Draw.CARD)))
 
 
 class BRMA12_7:
-	"Brood Affliction: Bronze"
+	"""Brood Affliction: Bronze"""
 	class Hand:
 		update = Refresh(ENEMY_HAND + MINION, {GameTag.COST: -1})
 
+
 class BRMA12_7H:
-	"Brood Affliction: Bronze (Heroic)"
+	"""Brood Affliction: Bronze (Heroic)"""
 	class Hand:
 		update = Refresh(ENEMY_HAND + MINION, {GameTag.COST: -3})

@@ -45,7 +45,8 @@ def test_bear_trap():
 	wisp2.play()
 	wisp3 = game.player2.give(WISP)
 	wisp3.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert trap in game.player1.secrets
 	wisp2.attack(wisp1)
@@ -185,7 +186,8 @@ def test_explosive_trap():
 	game.player2.give(WISP).play()
 	game.player2.give(WISP).play()
 	game.player2.give(WISP).play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert len(game.player2.field) == 4
 	assert explosivetrap in game.player1.secrets
@@ -316,13 +318,15 @@ def test_ice_barrier():
 	assert game.player1.secrets
 	assert icebarrier in game.player1.secrets
 	assert not game.player1.hero.armor
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert not icebarrier2.is_playable()
 	friendlywisp.attack(target=game.player1.opponent.hero)
 	assert not game.player1.hero.armor
 	assert not game.player1.opponent.hero.armor
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	friendlywisp.attack(target=wisp2)
 	assert not game.player1.hero.armor
@@ -384,7 +388,8 @@ def test_kezan_mystic():
 	kezan.play()
 	assert not kezan.dead
 	assert snipe in game.player1.secrets
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	kezan2 = game.player1.give("GVG_074")
 	kezan2.play()

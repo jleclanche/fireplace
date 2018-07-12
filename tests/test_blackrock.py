@@ -45,7 +45,8 @@ def test_chromaggus():
 	game = prepare_game()
 	chromaggus = game.player1.give("BRM_031")
 	chromaggus.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.discard_hand()
 	arcint = game.player1.give("CS2_023")
@@ -67,6 +68,39 @@ def test_chromaggus_naturalize():
 	assert len(game.player1.hand) == 4
 	assert game.player1.hand[0] == game.player1.hand[1]
 	assert game.player1.hand[2] == game.player1.hand[3]
+
+
+def test_dragon_consort():
+	game = prepare_game()
+	game.player1.discard_hand()
+	consort1 = game.player1.give("BRM_018")
+	consort2 = game.player1.give("BRM_018")
+	ysera = game.player1.give("EX1_572")
+	scaled1 = game.player1.give("OG_271")
+	scaled2 = game.player2.give("OG_271")
+	corruptor1 = game.player1.give("BRM_034")
+	corruptor2 = game.player2.give("BRM_034")
+	consort1.play()
+	assert consort2.cost == 5 - 2
+	assert ysera.cost == 9 - 2
+	assert scaled1.cost == 6 - 2
+	assert scaled2.cost == 6
+	assert corruptor1.cost == corruptor2.cost == 5
+	consort2.play()
+	assert ysera.cost == 9 - 2
+	assert scaled1.cost == 6 - 2
+	assert scaled2.cost == 6
+	assert corruptor1.cost == corruptor2.cost == 5
+	game.end_turn()
+	game.end_turn()
+
+	assert ysera.cost == 9 - 2
+	assert scaled1.cost == 6 - 2
+	assert scaled2.cost == 6
+	assert corruptor1.cost == corruptor2.cost == 5
+	ysera.play()
+	assert scaled1.cost == scaled2.cost == 6
+	assert corruptor1.cost == corruptor2.cost == 5
 
 
 def test_dragon_egg():
@@ -171,15 +205,17 @@ def test_emperor_thaurissan_molten_recombobulator():
 	molten = game.player1.give("EX1_620")
 	thaurissan = game.player1.give("BRM_028")
 	thaurissan.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
-	assert molten.cost == 25 - 1
+	assert molten.cost == 20 - 1
 	thaurissan.destroy()
 	ancestor = game.player1.give("GVG_029")
 	ancestor.play()
-	assert molten.cost == 25
+	assert molten.cost == 20
 	assert molten in game.player1.field
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	recomb = game.player1.give("GVG_108")
 	recomb.play(target=molten)
@@ -233,10 +269,12 @@ def test_lava_shock():
 	lava.play(target=game.player2.hero)
 	assert game.player2.hero.health == 28
 	assert game.player1.overloaded == 0
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.give("EX1_243").play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.give("EX1_243").play()
 	assert game.player1.overloaded == 2
@@ -251,7 +289,8 @@ def test_majordomo_executus():
 	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	majordomo = game.player1.give("BRM_027")
 	majordomo.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.hero.power.use()
 	assert game.player1.hero.power.exhausted
@@ -368,7 +407,8 @@ def test_rend_blackhand():
 	assert rend1.targets == [pagle]
 	rend1.play(target=pagle)
 	assert pagle.dead
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	rend2 = game.player1.give("BRM_029")
 	assert rend2.battlecry_requires_target()
@@ -409,8 +449,11 @@ def test_solemn_vigil():
 	assert vigil.cost == 5
 	game.player1.summon(WISP).destroy()
 	assert vigil.cost == 4
+	vigil2 = game.player2.give("BRM_001")
 	game.player2.summon(WISP).destroy()
 	assert vigil.cost == 3
+	# no matter when it is acquired
+	assert vigil2.cost == 3
 	wisp1 = game.player1.summon(WISP)
 	game.player1.give(MOONFIRE).play(target=wisp1)
 	assert vigil.cost == 2
@@ -424,6 +467,39 @@ def test_solemn_vigil():
 	vigil.play()
 	assert len(game.player1.hand) == 2
 	assert game.player1.used_mana == 0
+	game.end_turn()
+
+	vigil3 = game.player1.give("BRM_001")
+	vigil4 = game.player2.give("BRM_001")
+	assert vigil3.cost == vigil4.cost == 5
+	game.player1.summon(WISP)
+	game.player1.summon(WISP)
+	game.player2.summon(WISP)
+	game.player2.summon(WISP)
+	# spell Revenge will kill all minions
+	game.current_player.give("BRM_015").play()
+	assert vigil3.cost == vigil4.cost == 1
+	assert len(game.current_player.field) == 0
+
+	# to be no less than 0, but with a Loatheb?
+	game.current_player.give("FP1_030").play()
+	attack1 = game.player1.summon(WISP)
+	attack2 = game.player1.summon(WISP)
+	attack3 = game.player1.summon(WISP)
+	defend1 = game.player2.summon(WISP)
+	defend2 = game.player2.summon(WISP)
+	defend3 = game.player2.summon(WISP)
+	assert vigil3.cost == vigil4.cost == 1
+	game.end_turn()
+
+	# trade and spells trigger deaths also work
+	assert vigil3.cost == 10
+	assert vigil4.cost == 5
+	attack1.attack(defend1)
+	attack2.attack(defend2)
+	attack3.attack(defend3)
+	assert vigil3.cost == 4
+	assert vigil4.cost == 0
 
 
 ##

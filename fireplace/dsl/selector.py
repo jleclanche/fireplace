@@ -2,8 +2,10 @@ import operator
 import random
 from abc import ABCMeta, abstractmethod
 from enum import IntEnum
-from hearthstone.enums import CardType, GameTag, Race, Rarity, Zone, CardClass
-from typing import Any, Union, List, Callable, Iterable, Optional, Set
+from typing import Any, Callable, Iterable, List, Optional, Set, Union
+
+from hearthstone.enums import CardClass, CardType, GameTag, Race, Rarity, Zone
+
 from .. import enums
 from ..entity import BaseEntity
 from .lazynum import Attr, LazyValue, OpAttr
@@ -141,11 +143,14 @@ class ComparisonSelector(Selector):
 		self.right = right
 
 	def eval(self, entities, source):
-		right_value = (self.right.evaluate(source)
-					   if isinstance(self.right, LazyValue)
-					   else self.right)
-		return [e for e in entities if
-				self.op(self.left.value(e, source), right_value)]
+		right_value = (
+			self.right.evaluate(source) if isinstance(self.right, LazyValue)
+			else self.right
+		)
+		return [
+			e for e in entities
+			if self.op(self.left.value(e, source), right_value)
+		]
 
 	def __repr__(self):
 		if self.op.__name__ == "eq":
@@ -216,8 +221,10 @@ class SetOpSelector(Selector):
 	def eval(self, entities, source):
 		left_children = self.left.eval(entities, source)
 		right_children = self.right.eval(entities, source)
-		result_entity_ids = self.op(self._entity_id_set(left_children),
-									self._entity_id_set(right_children))
+		result_entity_ids = self.op(
+			self._entity_id_set(left_children),
+			self._entity_id_set(right_children)
+		)
 		# Preserve input ordering and multiplicity
 		return [e for e in entities if e.entity_id in result_entity_ids]
 
@@ -236,7 +243,9 @@ class SetOpSelector(Selector):
 
 
 SELF = FuncSelector(lambda _, source: [source])
-OWNER = FuncSelector(lambda entities, source: [source.owner] if hasattr(source, "owner") else [])
+OWNER = FuncSelector(
+	lambda entities, source: [source.owner] if hasattr(source, "owner") else []
+)
 
 
 def LazyValueSelector(value):
@@ -245,6 +254,7 @@ def LazyValueSelector(value):
 
 def ID(id):
 	return FilterSelector(lambda entity, source: getattr(entity, "id", None) == id)
+
 
 TARGET = FuncSelector(lambda entities, source: [source.target])
 
@@ -330,8 +340,12 @@ RANDOM = RandomSelector
 MORTALLY_WOUNDED = CURRENT_HEALTH <= 0
 
 # Selects the highest and lowest attack entities, respectively
-HIGHEST_ATK = lambda sel: RANDOM(sel + (AttrValue(GameTag.ATK) == OpAttr(sel, GameTag.ATK, max)))
-LOWEST_ATK = lambda sel: RANDOM(sel + (AttrValue(GameTag.ATK) == OpAttr(sel, GameTag.ATK, min)))
+HIGHEST_ATK = lambda sel: (
+	RANDOM(sel + (AttrValue(GameTag.ATK) == OpAttr(sel, GameTag.ATK, max)))
+)
+LOWEST_ATK = lambda sel: (
+	RANDOM(sel + (AttrValue(GameTag.ATK) == OpAttr(sel, GameTag.ATK, min)))
+)
 
 class Controller(LazyValue):
 	def __init__(self, child: Optional[SelectorLike]=None):
@@ -360,6 +374,7 @@ class Opponent(Controller):
 	def _get_entity_attr(self, entity):
 		return entity.controller.opponent
 
+
 FRIENDLY = CONTROLLER == Controller()
 ENEMY = CONTROLLER == Opponent()
 
@@ -367,16 +382,29 @@ ENEMY = CONTROLLER == Opponent()
 def CONTROLLED_BY(selector):
 	return AttrValue(GameTag.CONTROLLER) == Controller(selector)
 
+
 CONTROLLED_BY_OWNER_OPPONENT = CONTROLLER == Opponent(OWNER)
 
 
 # Enum tests
-GameTag.test = lambda self, entity, *args: entity is not None and bool(entity.tags.get(self))
-CardType.test = lambda self, entity, *args: entity is not None and self == entity.type
-Race.test = lambda self, entity, *args: entity is not None and self == getattr(entity, "race", Race.INVALID)
-Rarity.test = lambda self, entity, *args: entity is not None and self == getattr(entity, "rarity", Rarity.INVALID)
-Zone.test = lambda self, entity, *args: entity is not None and self == entity.zone
-CardClass.test = lambda self, entity, *args: entity is not None and self == getattr(entity, "card_class", CardClass.INVALID)
+GameTag.test = lambda self, entity, *args: (
+	entity is not None and bool(entity.tags.get(self))
+)
+CardType.test = lambda self, entity, *args: (
+	entity is not None and self == entity.type
+)
+Race.test = lambda self, entity, *args: (
+	entity is not None and self == getattr(entity, "race", Race.INVALID)
+)
+Rarity.test = lambda self, entity, *args: (
+	entity is not None and self == getattr(entity, "rarity", Rarity.INVALID)
+)
+Zone.test = lambda self, entity, *args: (
+	entity is not None and self == entity.zone
+)
+CardClass.test = lambda self, entity, *args: (
+	entity is not None and self == getattr(entity, "card_class", CardClass.INVALID)
+)
 
 BATTLECRY = EnumSelector(GameTag.BATTLECRY)
 CHARGE = EnumSelector(GameTag.CHARGE)
@@ -392,8 +420,8 @@ WINDFURY = EnumSelector(GameTag.WINDFURY)
 CLASS_CARD = EnumSelector(GameTag.CLASS)
 LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
 
-ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True
-KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True
+ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
+KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
 
 ROGUE = EnumSelector(CardClass.ROGUE)
 

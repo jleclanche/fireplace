@@ -62,7 +62,8 @@ def test_auchenai_soulpriest_power_word_glory():
 	pwglory.play(target=wisp)
 	auchenai = game.player1.give("EX1_591")
 	auchenai.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.hero.health == 30
 	wisp.attack(game.player2.hero)
@@ -75,14 +76,17 @@ def test_auchenai_soulpriest_stoneskin_gargoyle_():
 	gargoyle.play()
 	soulpriest = game.player1.give("EX1_591")
 	soulpriest.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert gargoyle.health == 4
 	game.player1.give(MOONFIRE).play(target=gargoyle)
 	assert gargoyle.health == 3
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert gargoyle.health == 2
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert gargoyle.dead

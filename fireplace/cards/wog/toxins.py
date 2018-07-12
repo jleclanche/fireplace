@@ -6,13 +6,14 @@ from ..utils import *
 
 
 class OG_080b:
-	"Kingsblood Toxin"
+	"""Kingsblood Toxin"""
 	play = Draw(CONTROLLER)
 
 
 class OG_080c:
-	"Bloodthistle Toxin"
+	"""Bloodthistle Toxin"""
 	play = Bounce(TARGET), Buff(TARGET, "EX1_144e")
+
 
 class OG_080ae:
 	tags = {
@@ -24,24 +25,26 @@ class OG_080ae:
 
 
 class OG_080d:
-	"Briarthorn Toxin"
+	"""Briarthorn Toxin"""
 	play = Buff(TARGET, "OG_080ee")
+
 
 OG_080ee = buff(atk=3)
 
 
 class OG_080e:
-	"Fadeleaf Toxin"
+	"""Fadeleaf Toxin"""
 	play = (
 		Buff(TARGET - STEALTH, "OG_080de"),
 		Stealth(TARGET)
 	)
 
+
 class OG_080de:
-	"Fadeleaf"
+	"""Fadeleaf"""
 	events = OWN_TURN_BEGIN.on(Unstealth(OWNER), Destroy(SELF))
 
 
 class OG_080f:
-	"Firebloom Toxin"
+	"""Firebloom Toxin"""
 	play = Hit(TARGET, 2)
