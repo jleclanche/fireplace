@@ -1,5 +1,7 @@
 import copy
+
 from hearthstone.enums import CardType
+
 from ..logging import log
 
 

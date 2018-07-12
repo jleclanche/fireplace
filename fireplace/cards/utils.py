@@ -1,5 +1,7 @@
 import random
+
 from hearthstone.enums import CardClass, CardType, GameTag, Race, Rarity
+
 from ..actions import *
 from ..aura import Refresh
 from ..dsl import *
@@ -62,7 +64,9 @@ RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
 RandomPotion = lambda *args: RandomID(*POTIONS)
 
 # 50% chance to attack the wrong enemy.
-FORGETFUL = Attack(SELF).on(COINFLIP & Retarget(SELF, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(SELF))))
+FORGETFUL = Attack(SELF).on(
+	COINFLIP & Retarget(SELF, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(SELF)))
+)
 
 AT_MAX_MANA = lambda s: MANA(s) == 10
 
@@ -82,6 +86,7 @@ class JoustHelper(Evaluator):
 		)
 
 		return action.trigger(source)
+
 
 JOUST = JoustHelper(
 	RANDOM(FRIENDLY_DECK + MINION),

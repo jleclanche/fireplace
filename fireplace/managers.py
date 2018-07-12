@@ -1,4 +1,5 @@
 from hearthstone.enums import GameTag
+
 from . import enums
 
 
@@ -98,7 +99,7 @@ class BaseObserver:
 	def new_entity(self, entity):
 		pass
 
-	def start_game():
+	def start_game(self):
 		pass
 
 	def turn(self, player):

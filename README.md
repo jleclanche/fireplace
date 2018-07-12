@@ -1,9 +1,10 @@
-## <img src="/logo.png" height="32" width="32"/> Fireplace
+# <img src="/logo.png" height="32" width="32"/> Fireplace
 [![Build Status](https://travis-ci.org/jleclanche/fireplace.svg?branch=master)](https://travis-ci.org/jleclanche/fireplace)
 
 ## Overview
 A Hearthstone simulator and implementation, written in Python.
 
+<<<<<<< HEAD
 <target>
 
 ### State Of Implementation (59.5% of Standard Card Sets)
@@ -23,14 +24,19 @@ A Hearthstone simulator and implementation, written in Python.
 </target>
 
 ## Requirements
+=======
+>>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 
-* Python 3.5+
+## Requirements
 
+<<<<<<< HEAD
 ## Installation
+=======
+* Python 3.6+
+>>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 
-* `pip install -r requirements.txt`
-* (optional) `./setup.py install` to install as a library
 
+<<<<<<< HEAD
 ## Contribute
 
 Help us improve fireplace and extend how many cards we have implemented.
@@ -81,6 +87,11 @@ class CFM_095:
 ```
 
 And don't forget to write tests!
+=======
+## Installation
+
+* `pip install .`
+>>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 
 
 ## Documentation
@@ -88,6 +99,10 @@ And don't forget to write tests!
 The [Fireplace Wiki](https://github.com/jleclanche/fireplace/wiki) is the best
 source of documentation, along with the actual code.
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 ## License
 
 [![AGPLv3](https://www.gnu.org/graphics/agplv3-88x31.png)](http://choosealicense.com/licenses/agpl-3.0/)
@@ -95,7 +110,12 @@ source of documentation, along with the actual code.
 Fireplace is licensed under the terms of the
 [Affero GPLv3](https://www.gnu.org/licenses/agpl-3.0.en.html) or any later version.
 
+<<<<<<< HEAD
+## Community
+=======
+>>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
+
 ## Community
 
-Fireplace is a [HearthSim](http://hearthsim.info) project. All development
-happens on our IRC channel `#hearthsim` on [Freenode](https://freenode.net).
+Fireplace is a [HearthSim](http://hearthsim.info/) project.
+Join the community: <https://hearthsim.info/join/>

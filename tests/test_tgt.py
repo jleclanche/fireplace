@@ -1,3 +1,4 @@
+import pytest
 from utils import *
 
 
@@ -15,7 +16,8 @@ def test_anubarak():
 	assert token.id == "AT_036t"
 	anubarak = game.player1.hand[0]
 	assert anubarak.id == "AT_036"
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	# Test for issue #283: play Anub'arak again
 	anubarak.play()
@@ -61,9 +63,10 @@ def test_aviana():
 	deathwing = game.player1.give("NEW1_030")
 	assert deathwing.cost == 10
 	molten = game.player1.give("EX1_620")
-	assert molten.cost == 25
+	molten_base_cost = 20
+	assert molten.cost == molten_base_cost
 	game.player1.give(MOONFIRE).play(game.player1.hero)
-	assert molten.cost == 25 - 1
+	assert molten.cost == molten_base_cost - 1
 	aviana.play()
 	for minion in (wisp1, deathwing, molten):
 		assert minion.cost == 1
@@ -72,7 +75,7 @@ def test_aviana():
 	aviana.destroy()
 	assert wisp1.cost == 0
 	assert deathwing.cost == 10
-	assert molten.cost == 25 - 1
+	assert molten.cost == molten_base_cost - 1
 
 
 def test_beneath_the_grounds():
@@ -126,7 +129,8 @@ def test_dalaran_aspirant():
 	assert aspirant.spellpower == game.player1.spellpower == 0
 	game.player1.hero.power.use()
 	assert aspirant.spellpower == game.player1.spellpower == 1
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.hero.power.use()
 	assert aspirant.spellpower == game.player1.spellpower == 2
@@ -213,7 +217,8 @@ def test_dragonhawk_rider():
 	game.player1.give(SILENCE).play(target=rider)
 	assert not rider.windfury
 	assert not rider.can_attack()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 	game.player1.hero.power.use()
 	assert not rider.windfury
 
@@ -226,6 +231,36 @@ def test_dreadsteed():
 	game.player1.give(MOONFIRE).play(target=dreadsteed)
 	assert dreadsteed.dead
 	assert len(game.player1.field) == 1
+
+
+def test_effigy():
+	game = prepare_game()
+	secret_effigy = game.player1.give("AT_002")
+	secret_effigy2 = game.player1.give("AT_002")
+	secret_effigy.play()
+	with pytest.raises(InvalidAction):
+		secret_effigy2.play()
+	game.player1.summon("EX1_564")
+	game.end_turn()
+	game.player2.give("EX1_617").play()
+	assert secret_effigy not in game.player1.secrets
+	summoned_minion = game.player1.field[0]
+	# A random minion with the same Cost
+	assert summoned_minion.cost == 5
+	# In case it summon some other minion
+	summoned_minion.bounce()
+	# assert summoned_minion.is_collectible()
+	game.end_turn()
+	game.player1.give("EX1_136").play()
+	secret_effigy2.play()
+	assert secret_effigy not in game.player1.secrets
+	assert secret_effigy2 in game.player1.secrets
+	# fill in the field with cairne bloodhoof
+	for i in range(7):
+		game.player1.summon("EX1_110")
+	game.end_turn()
+	game.player2.give("EX1_617").play()
+	assert secret_effigy2 in game.player1.secrets
 
 
 def test_enter_the_coliseum():
@@ -261,7 +296,8 @@ def test_fencing_coach():
 	assert game.player1.hero.power.cost == 2
 	coach.play()
 	assert game.player1.hero.power.cost == 0
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.hero.power.cost == 0
 	assert game.player1.mana == 10
@@ -282,6 +318,44 @@ def test_fist_of_jaraxxus():
 	assert game.player2.hero.health == 30 - 4 - 4
 
 
+def test_flame_lance():
+	# now the prepare_game includes neutral cards
+	game = prepare_game(CardClass.MAGE)
+
+	# assume that I am controlling player1
+	spell = game.player1.give("AT_001")
+	friendly_minion = game.player1.give(WISP).play()
+
+	# basic information of the card
+	assert spell.card_class == CardClass.MAGE
+	assert spell.cost == 5
+	assert spell.type == CardType.SPELL
+
+	# friendly minion should die
+	spell.play(target=friendly_minion)
+	assert len(game.player1.field) == len(game.player2.field) == 0
+
+	# enemy minion Ysera with 12 health should survive the damage
+	enemy_minion = game.player2.summon("EX1_572")
+	game.player1.give("AT_001").play(target=enemy_minion)
+	assert game.player2.field[0].health == 4
+
+	# targeting at illegal target will cause alerts
+	game.end_turn()
+	dragon = game.player2.summon("NEW1_023")
+	flame_lance = game.player2.give("AT_001")
+	assert dragon not in flame_lance.targets
+	assert game.player1.hero not in flame_lance.targets
+	assert game.player2.hero not in flame_lance.targets
+
+	with pytest.raises(InvalidAction):
+		flame_lance.play(target=dragon)
+	with pytest.raises(InvalidAction):
+		flame_lance.play(target=game.player1.hero)
+	with pytest.raises(InvalidAction):
+		flame_lance.play(target=game.player2.hero)
+
+
 def test_garrison_commander():
 	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
 	heropower = game.player1.hero.power
@@ -293,7 +367,8 @@ def test_garrison_commander():
 	assert heropower.is_usable()
 	heropower.use()
 	assert not heropower.is_usable()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert heropower.is_usable()
 	heropower.use()
@@ -408,7 +483,8 @@ def test_lance_carrier():
 	assert wisp.atk == 1
 	carrier2.play(target=wisp)
 	assert wisp.atk == 3
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert wisp.atk == 3
 
@@ -435,7 +511,8 @@ def test_lowly_squire():
 	assert squire.atk == 1
 	game.player1.hero.power.use()
 	assert squire.atk == 2
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert squire.atk == 2
 	game.player1.hero.power.use()
@@ -501,12 +578,14 @@ def test_power_word_glory():
 	wisp1.play()
 	glory1 = game.player1.give("AT_013")
 	glory1.play(target=wisp1)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.hero.health == 30
 	wisp1.attack(game.player2.hero)
 	assert game.player1.hero.health == 30
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.hero.set_current_health(15)
 	assert game.player1.hero.health == 15
@@ -553,7 +632,8 @@ def test_seal_of_champions():
 	seal1.play(target=wisp)
 	assert wisp.divine_shield
 	assert wisp.atk == 1 + 3
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert wisp.divine_shield
 	assert wisp.atk == 1 + 3
@@ -612,7 +692,8 @@ def test_skycapn_kragg():
 	assert kragg.cost == 7 - 1
 	game.player1.field[-1].destroy()
 	assert kragg.cost == 7
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.summon("CS2_146")
 	assert kragg.cost == 7 - 1
@@ -719,7 +800,8 @@ def test_wilfred_fizzlebang():
 	fireball1 = game.player1.hand[0]
 	assert fireball1.cost == 0
 	fireball1.discard()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	fireball2 = game.player1.hand[0]
 	assert fireball2.cost == 4

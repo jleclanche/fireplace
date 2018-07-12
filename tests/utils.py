@@ -1,12 +1,13 @@
-import sys; sys.path.append("..")
 import random
-import fireplace.cards
+
 from hearthstone.enums import *
-from fireplace.game import BaseGame, CoinRules, Game
+
+import fireplace.cards
 from fireplace.brawls import *
+from fireplace.game import BaseGame, CoinRules, Game
+from fireplace.logging import log
 from fireplace.player import Player
 from fireplace.utils import random_draft
-from fireplace.logging import log
 
 
 # Token minions

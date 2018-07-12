@@ -5,29 +5,32 @@ from ..utils import *
 # Minions
 
 class GVG_046:
-	"King of Beasts"
+	"""King of Beasts"""
 	play = Buff(SELF, "GVG_046e") * Count(FRIENDLY_MINIONS + BEAST)
+
 
 GVG_046e = buff(atk=1)
 
 
 class GVG_048:
-	"Metaltooth Leaper"
+	"""Metaltooth Leaper"""
 	play = Buff(RANDOM(FRIENDLY_MINIONS + MECH - SELF), "GVG_048e")
+
 
 GVG_048e = buff(atk=2)
 
 
 class GVG_049:
-	"Gahz'rilla"
+	"""Gahz'rilla"""
 	events = SELF_DAMAGE.on(Buff(SELF, "GVG_049e"))
+
 
 class GVG_049e:
 	atk = lambda self, i: i * 2
 
 
 class GVG_087:
-	"Steamwheedle Sniper"
+	"""Steamwheedle Sniper"""
 	update = Refresh(CONTROLLER, {GameTag.STEADY_SHOT_CAN_TARGET: True})
 
 
@@ -35,10 +38,11 @@ class GVG_087:
 # Spells
 
 class GVG_017:
-	"Call Pet"
+	"""Call Pet"""
 	play = Draw(CONTROLLER).then(
 		Find(BEAST + Draw.CARD) & Buff(Draw.CARD, "GVG_017e")
 	)
+
 
 @custom_card
 class GVG_017e:
@@ -50,12 +54,12 @@ class GVG_017e:
 
 
 class GVG_026:
-	"Feign Death"
+	"""Feign Death"""
 	play = Deathrattle(FRIENDLY_MINIONS)
 
 
 class GVG_073:
-	"Cobra Shot"
+	"""Cobra Shot"""
 	play = Hit(TARGET | ENEMY_HERO, 3)
 
 
@@ -63,7 +67,8 @@ class GVG_073:
 # Weapons
 
 class GVG_043:
-	"Glaivezooka"
+	"""Glaivezooka"""
 	play = Buff(RANDOM_FRIENDLY_MINION, "GVG_043e")
+
 
 GVG_043e = buff(atk=1)

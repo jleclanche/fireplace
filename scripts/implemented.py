@@ -4,13 +4,14 @@ import re
 import string
 import sys
 
-if __name__ == "__main__":
-	sys.path.append("..")
+from hearthstone.enums import CardSet
 
 from fireplace import cards
 from fireplace.utils import get_script_definition
-from hearthstone.enums import CardSet
-from hearthstone.stringsfile import load_globalstrings
+
+
+sys.path.append("..")
+
 
 GREEN = "\033[92m"
 RED = "\033[91m"

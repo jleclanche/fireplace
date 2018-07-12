@@ -1,10 +1,13 @@
 from collections import OrderedDict
-from inspect import isclass
-from hearthstone.enums import BlockType, CardType, CardClass, Mulligan, PlayState, Step, Zone, PlayReq, Race
-from .dsl import LazyNum, LazyValue, Selector, RandomSelector
+
+from hearthstone.enums import (
+	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone
+)
+
+from .dsl import LazyNum, LazyValue, Selector
 from .entity import Entity
-from .logging import log
 from .exceptions import InvalidAction
+from .logging import log
 from .utils import random_class
 from . import enums
 import random
@@ -300,7 +303,9 @@ class EndTurn(GameAction):
 
 	def do(self, source, player):
 		if player.choice:
-			raise InvalidAction("%r cannot end turn with the open choice %r." % (player, player.choice))
+			raise InvalidAction(
+				"%r cannot end turn with the open choice %r." % (player, player.choice)
+			)
 		self.broadcast(source, EventListener.ON, player)
 		source.game._end_turn()
 
@@ -501,11 +506,11 @@ class Activate(GameAction):
 		source.game.main_power(heropower, actions, target)
 		source.game.action_end(BlockType.PLAY, heropower)
 
-		for minion in player.field.filter(has_inspire=True):
-			actions = minion.get_actions("inspire")
-			if actions is None:
-				raise NotImplementedError("Missing inspire script for %r" % (minion))
-			source.game.trigger(minion, actions, event_args=None)
+		for entity in player.live_entities:
+			if not entity.ignore_scripts:
+				actions = entity.get_actions("inspire")
+				if actions:
+					source.game.trigger(entity, actions, event_args=None)
 
 		heropower.activations_this_turn += 1
 

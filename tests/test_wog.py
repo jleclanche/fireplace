@@ -35,7 +35,8 @@ def test_ancient_harbinger():
 	game.player1.give("EX1_279").shuffle_into_deck()
 	game.player1.give("NEW1_030").shuffle_into_deck()
 	game.player1.give("OG_290").play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.hand[0].cost == 10
 	assert game.player1.hand[0].type == CardType.MINION
@@ -366,7 +367,8 @@ def test_hallazeal_the_ascended():
 	hallazeal = game.player1.give("OG_209")
 	hallazeal.play()
 	game.player1.hero.set_current_health(1)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	moonfire = game.player1.give(MOONFIRE)
 	moonfire.play(target=game.player2.hero)
@@ -416,7 +418,8 @@ def test_mire_keeper():
 	game = prepare_game()
 	game.player1.give("OG_202").play(choose="OG_202a")
 	assert len(game.player1.field) == 2
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.max_mana = 9
 	game.player1.give("OG_202").play(choose="OG_202b")
@@ -427,10 +430,12 @@ def test_nerubian_prophet():
 	game = prepare_game()
 	nerubian_prophet = game.player1.give("OG_138")
 	assert nerubian_prophet.cost == 6
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert nerubian_prophet.cost == 5
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert nerubian_prophet.cost == 4
 	nerubian_prophet.play()
@@ -490,7 +495,8 @@ def test_primal_fusion():
 	summon_totem.use()
 	fusion1.play(target=wisp)
 	assert wisp.atk == wisp.health == 2
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	summon_totem.use()
 	fusion2.play(target=wisp)
@@ -528,7 +534,8 @@ def test_scaled_nightmare():
 
 def test_scaled_nightmare_buff_ordering():
 	# To show that fireplace doesn't have blizzard's truly bizzare bugs.
-	# cf: HearthSim/hs-bugs#462 - "Scaled Nightmare stops doubling Attack if its Attack value is Direct Set"
+	# cf: HearthSim/hs-bugs#462
+	# "Scaled Nightmare stops doubling Attack if its Attack value is Direct Set"
 	game = prepare_game()
 	scaled_nightmare_debuff_second = game.player1.give("OG_271")
 	scaled_nightmare_debuff_first = game.player1.give("OG_271")
@@ -536,22 +543,27 @@ def test_scaled_nightmare_buff_ordering():
 	humility2 = game.player1.give("EX1_360")
 
 	scaled_nightmare_debuff_second.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	humility1.play(target=scaled_nightmare_debuff_second)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert scaled_nightmare_debuff_second.atk == 2
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert scaled_nightmare_debuff_second.atk == 4
 
 	scaled_nightmare_debuff_first.play()
 	humility2.play(target=scaled_nightmare_debuff_first)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert scaled_nightmare_debuff_first.atk == 2
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert scaled_nightmare_debuff_first.atk == 4
 
@@ -596,7 +608,8 @@ def test_silithid_swarmer():
 	silithid = game.player1.give("OG_034")
 	silithid.play()
 	assert not silithid.can_attack()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert silithid.cant_attack
 	assert not silithid.can_attack()
@@ -691,7 +704,8 @@ def test_wisps_of_the_old_gods():
 	game = prepare_game()
 	game.player1.give("OG_195").play(choose="OG_195a")
 	assert len(game.player1.field) == 7
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.give("OG_195").play(choose="OG_195b")
 	for wisp in game.player1.field:
@@ -710,7 +724,8 @@ def test_yshaarj_rage_unbound():
 	game.end_turn()
 	assert game.player1.field == [yshaarj, wisp]
 	assert game.player1.deck == [moonfire]
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.field == [yshaarj, wisp]
 	assert len(game.player1.deck) == 0

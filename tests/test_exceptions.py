@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import pytest
 from utils import *
+
 from fireplace.exceptions import GameOver, InvalidAction
 
 
@@ -90,7 +91,8 @@ def test_attack_with_dead_minion():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
 	wisp.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	game.player1.give(MOONFIRE).play(target=wisp)
 	with pytest.raises(InvalidAction):
@@ -100,7 +102,8 @@ def test_attack_with_dead_minion():
 def test_attack_invalid_target():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 
 	assert game.player1.hero not in wisp.targets
 	with pytest.raises(InvalidAction):
@@ -127,7 +130,8 @@ def test_attack_game_over():
 	game = prepare_game()
 	wisp = game.player1.give(WISP)
 	wisp.play()
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 	game.player2.hero.set_current_health(1)
 	with pytest.raises(GameOver):
 		wisp.attack(target=game.player2.hero)

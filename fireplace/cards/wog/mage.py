@@ -5,12 +5,12 @@ from ..utils import *
 # Minions
 
 class OG_083:
-	"Twilight Flamecaller"
+	"""Twilight Flamecaller"""
 	play = Hit(ENEMY_MINIONS, 1)
 
 
 class OG_085:
-	"Demented Frostcaller"
+	"""Demented Frostcaller"""
 	events = OWN_SPELL_PLAY.after(Freeze(RANDOM(ENEMY_CHARACTERS - MORTALLY_WOUNDED - FROZEN)))
 
 
@@ -20,12 +20,12 @@ class OG_087:
 
 
 class OG_120:
-	"Anomalus"
+	"""Anomalus"""
 	deathrattle = Hit(ALL_MINIONS, 8)
 
 
 class OG_207:
-	"Faceless Summoner"
+	"""Faceless Summoner"""
 	play = Summon(CONTROLLER, RandomMinion(cost=3))
 
 class OG_303:
@@ -38,7 +38,7 @@ OG_303e = buff(+1, +1)
 # Spells
 
 class OG_081:
-	"Shatter"
+	"""Shatter"""
 	play = Destroy(TARGET)
 
 
@@ -50,5 +50,5 @@ class OG_086:
 	)
 
 class OG_090:
-	"Cabalist's Tome"
+	"""Cabalist's Tome"""
 	play = Give(CONTROLLER, RandomSpell(card_class=CardClass.MAGE)) * 3

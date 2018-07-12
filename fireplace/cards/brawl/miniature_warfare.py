@@ -6,7 +6,7 @@ from ..utils import *
 
 
 class TB_Mini_1e:
-	"Miniature"
+	"""Miniature"""
 	atk = SET(1)
 	health = SET(1)
 	cost = SET(1)

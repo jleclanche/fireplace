@@ -5,14 +5,15 @@ from ..utils import *
 # Minions
 
 class OG_023:
-	"Primal Fusion"
+	"""Primal Fusion"""
 	play = Buff(TARGET, "OG_023t") * Count(FRIENDLY_MINIONS + TOTEM)
+
 
 OG_023t = buff(+1, +1)
 
 
 class OG_026:
-	"Eternal Sentinel"
+	"""Eternal Sentinel"""
 	play = UnlockOverload(CONTROLLER)
 
 
@@ -21,7 +22,7 @@ class OG_028:
 	cost_mod = -Attr(CONTROLLER, 'totems_played_this_game')
 
 class OG_209:
-	"Hallazeal the Ascended"
+	"""Hallazeal the Ascended"""
 	events = Damage(source=SPELL + FRIENDLY).on(Heal(FRIENDLY_HERO, Damage.AMOUNT))
 
 
@@ -42,7 +43,7 @@ class OG_027:
 				yield Morph(i, into)
 
 class OG_206:
-	"Stormcrack"
+	"""Stormcrack"""
 	play = Hit(TARGET, 4)
 
 
@@ -50,5 +51,5 @@ class OG_206:
 # Weapons
 
 class OG_031:
-	"Hammer of Twilight"
+	"""Hammer of Twilight"""
 	deathrattle = Summon(CONTROLLER, "OG_031a")

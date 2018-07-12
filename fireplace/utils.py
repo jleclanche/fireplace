@@ -1,10 +1,11 @@
-import random
 import os.path
+import random
 from bisect import bisect
 from importlib import import_module
 from pkgutil import iter_modules
 from typing import List
 from xml.etree import ElementTree
+
 from hearthstone.enums import CardClass, CardType
 
 
@@ -31,7 +32,9 @@ class CardList(list):
 		return len(self)
 
 	def contains(self, x):
-		"True if list contains any instance of x"
+		"""
+		True if list contains any instance of x
+		"""
 		for item in self:
 			if x == item:
 				return True
@@ -69,7 +72,7 @@ def random_draft(card_class: CardClass, exclude=[]):
 
 	deck = []
 	collection = []
-	hero = card_class.default_hero
+	# hero = card_class.default_hero
 
 	for card in cards.db.keys():
 		if card in exclude:
@@ -80,7 +83,8 @@ def random_draft(card_class: CardClass, exclude=[]):
 		if cls.type == CardType.HERO:
 			# Heroes are collectible...
 			continue
-		if cls.card_class and cls.card_class != card_class:
+		if cls.card_class and cls.card_class not in [card_class, CardClass.NEUTRAL]:
+			# Play with more possibilities
 			continue
 		collection.append(cls)
 

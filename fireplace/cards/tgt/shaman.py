@@ -5,28 +5,31 @@ from ..utils import *
 # Minions
 
 class AT_046:
-	"Tuskarr Totemic"
+	"""Tuskarr Totemic"""
 	play = Summon(CONTROLLER, RandomTotem())
 
 
 class AT_047:
-	"Draenei Totemcarver"
+	"""Draenei Totemcarver"""
 	play = Buff(SELF, "AT_047e") * Count(FRIENDLY_MINIONS + TOTEM)
+
 
 AT_047e = buff(+1, +1)
 
 
 class AT_049:
-	"Thunder Bluff Valiant"
+	"""Thunder Bluff Valiant"""
 	inspire = Buff(FRIENDLY_MINIONS + TOTEM, "AT_049e")
+
 
 AT_049e = buff(+1, +1)
 
 
 class AT_054:
-	"The Mistcaller"
+	"""The Mistcaller"""
 	# The Enchantment ID is correct
 	play = Buff(FRIENDLY_HAND | FRIENDLY_DECK, "AT_045e")
+
 
 AT_045e = buff(+1, +1)
 
@@ -35,17 +38,17 @@ AT_045e = buff(+1, +1)
 # Spells
 
 class AT_048:
-	"Healing Wave"
+	"""Healing Wave"""
 	play = JOUST & Heal(TARGET, 14) | Heal(TARGET, 7)
 
 
 class AT_051:
-	"Elemental Destruction"
+	"""Elemental Destruction"""
 	play = Hit(ALL_MINIONS, RandomNumber(4, 5))
 
 
 class AT_053:
-	"Ancestral Knowledge"
+	"""Ancestral Knowledge"""
 	play = Draw(CONTROLLER) * 2
 
 
@@ -53,8 +56,9 @@ class AT_053:
 # Weapons
 
 class AT_050:
-	"Charged Hammer"
+	"""Charged Hammer"""
 	deathrattle = Summon(CONTROLLER, "AT_050t")
+
 
 class AT_050t:
 	activate = Hit(TARGET, 2)

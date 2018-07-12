@@ -37,7 +37,8 @@ def test_paladin():
 	assert game.player1.field[0].id == "CS2_101t"
 
 	# ensure that hero power cannot be used on full board
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 	assert game.player1.hero.power.is_usable()
 	for i in range(6):
 		game.player1.give(WISP).play()
@@ -52,7 +53,8 @@ def test_priest():
 	game.player1.hero.power.use(target=game.player1.hero)
 	assert game.player1.hero.health == 30
 
-	game.end_turn(); game.end_turn()
+	game.end_turn()
+	game.end_turn()
 	game.player1.give(MOONFIRE).play(target=game.player1.hero)
 	assert game.player1.hero.health == 29
 	game.player1.hero.power.use(target=game.player1.hero)
@@ -71,7 +73,8 @@ def test_shaman():
 		game.player1.hero.power.use()
 		assert len(game.player1.field) == i + 1
 		assert game.player1.field[-1].id in game.player1.hero.power.data.entourage
-		game.end_turn(); game.end_turn()
+		game.end_turn()
+		game.end_turn()
 
 	# ensure hero power can only be used again after a totem was destroyed
 	assert not game.player1.hero.power.is_usable()
