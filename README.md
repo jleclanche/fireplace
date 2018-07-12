@@ -4,39 +4,12 @@
 ## Overview
 A Hearthstone simulator and implementation, written in Python.
 
-<<<<<<< HEAD
-<target>
-
-### State Of Implementation (59.5% of Standard Card Sets)
-
-| Card Set      | Implemented |       |
-| ------------- |    :---:    | :---: |
-| **Basic** | 209/209 | **100.0%**
-| **Classic** | 383/386 | **99.2%**
-| **Whispers of the Old Gods** | 162/218 | **74.3%**
-| **One Night in Karazhan** | 108/220 | **49.1%**
-| **Mean Streets of Gadgetzan** | 233/257 | **90.7%**
-| **Journey to Un'Goro** | 72/225 | **32.0%**
-| **Knights of the Frozen Throne** | 51/297 | **17.2%**
-| **Kobolds & Catacombs** | 181/541 | **33.5%**
-
-
-</target>
-
-## Requirements
-=======
->>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 
 ## Requirements
 
-<<<<<<< HEAD
-## Installation
-=======
 * Python 3.6+
->>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 
 
-<<<<<<< HEAD
 ## Contribute
 
 Help us improve fireplace and extend how many cards we have implemented.
@@ -87,11 +60,6 @@ class CFM_095:
 ```
 
 And don't forget to write tests!
-=======
-## Installation
-
-* `pip install .`
->>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 
 
 ## Documentation
@@ -99,10 +67,6 @@ And don't forget to write tests!
 The [Fireplace Wiki](https://github.com/jleclanche/fireplace/wiki) is the best
 source of documentation, along with the actual code.
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 ## License
 
 [![AGPLv3](https://www.gnu.org/graphics/agplv3-88x31.png)](http://choosealicense.com/licenses/agpl-3.0/)
@@ -110,10 +74,6 @@ source of documentation, along with the actual code.
 Fireplace is licensed under the terms of the
 [Affero GPLv3](https://www.gnu.org/licenses/agpl-3.0.en.html) or any later version.
 
-<<<<<<< HEAD
-## Community
-=======
->>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 
 ## Community
 
