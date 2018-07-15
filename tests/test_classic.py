@@ -2162,7 +2162,7 @@ def test_mirror_image():
 def test_molten_giant():
 	game = prepare_game()
 	molten = game.current_player.give("EX1_620")
-	molten_base_cost = 25
+	molten_base_cost = 20
 	assert molten.cost == molten_base_cost
 	game.current_player.give(MOONFIRE).play(target=game.player1.hero)
 	assert molten.cost == molten_base_cost - 1
@@ -3128,7 +3128,7 @@ def test_summoning_portal():
 	weapon = game.player1.give(LIGHTS_JUSTICE)
 	assert weapon.cost == 1
 	molten = game.player1.give("EX1_620")
-	molten_base_cost = 25
+	molten_base_cost = 20
 	assert molten.cost == molten_base_cost
 	goldshire = game.player1.give(GOLDSHIRE_FOOTMAN)
 	assert goldshire.cost == 1

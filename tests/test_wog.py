@@ -225,7 +225,7 @@ def test_doom():
 
 
 def test_eater_of_secrets():
-	game = prepare_game()
+	game = prepare_empty_game()
 	eater_of_secrets = game.player1.give("OG_254")
 	game.end_turn()
 	game.player2.give("EX1_379").play()

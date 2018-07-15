@@ -1,8 +1,6 @@
 import sys; sys.path.append("..")
 import random
-
 from hearthstone.enums import *
-
 import fireplace.cards
 from fireplace.brawls import *
 from fireplace.game import BaseGame, CoinRules, Game

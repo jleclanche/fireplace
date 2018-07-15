@@ -413,7 +413,7 @@ def test_shade_of_naxxramas():
 
 
 def test_stalagg_feugen():
-	game = prepare_game()
+	game = prepare_empty_game()
 	stalagg1 = game.player1.give("FP1_014")
 	stalagg2 = game.player1.give("FP1_014")
 	feugen = game.player1.give("FP1_015")
