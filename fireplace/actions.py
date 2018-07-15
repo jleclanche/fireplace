@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from hearthstone.enums import (
-	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone
+	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone, Race
 )
 
 from .dsl import LazyNum, LazyValue, Selector

@@ -461,10 +461,6 @@ def test_purify():
 	game.player1.give(MOONFIRE).play(target=acolyte2)
 	assert len(game.player1.hand) == handsize
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 def test_kara_kazham():
 	game = prepare_game()
 	game.player1.give("KAR_025").play()

@@ -326,11 +326,7 @@ def test_discover():
 	assert game.player1.choice is None
 	curator = game.player1.give("LOE_006")
 	curator.play()
-<<<<<<< HEAD
 	assert not game.player1.choice is None
-=======
-	assert game.player1.choice is not None
->>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 	assert len(game.player1.choice.cards) == 3
 
 	for card in game.player1.choice.cards:
@@ -356,13 +352,9 @@ def test_divine_shield():
 	assert not squire.divine_shield
 	game.player1.give(MOONFIRE).play(target=squire)
 	assert len(game.player1.field) == 0
-<<<<<<< HEAD
-	game.end_turn(); game.end_turn()
-=======
 	assert not squire.divine_shield
 	game.end_turn()
 	game.end_turn()
->>>>>>> 52f42338fecc529dcf89c4ab4db55684122eb884
 
 	# test spell damage events with Divine Shield
 	gurubashi = game.player1.summon("EX1_399")
