@@ -63,7 +63,7 @@ def test_aviana():
 	deathwing = game.player1.give("NEW1_030")
 	assert deathwing.cost == 10
 	molten = game.player1.give("EX1_620")
-	molten_base_cost = 20
+	molten_base_cost = 25
 	assert molten.cost == molten_base_cost
 	game.player1.give(MOONFIRE).play(game.player1.hero)
 	assert molten.cost == molten_base_cost - 1

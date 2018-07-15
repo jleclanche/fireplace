@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from hearthstone.enums import (
-	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone, Race
+	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone, Race, PlayReq
 )
 
 from .dsl import LazyNum, LazyValue, Selector
@@ -1214,9 +1214,10 @@ class Shuffle(TargetedAction):
 			cards = [cards]
 
 		for card in cards:
-			card.zone = Zone.DECK
+			card.zone = Zone.SETASIDE
 			if card.controller != target:
 				card.controller = target
+			card.zone = Zone.DECK
 			target.shuffle_deck()
 
 

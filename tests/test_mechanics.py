@@ -352,7 +352,7 @@ def test_divine_shield():
 	assert not squire.divine_shield
 	game.player1.give(MOONFIRE).play(target=squire)
 	assert len(game.player1.field) == 0
-	assert not squire.divine_shield
+	assert squire.divine_shield
 	game.end_turn()
 	game.end_turn()
 
