@@ -18,6 +18,7 @@ CS2_017o = buff(atk=1)
 class EX1_165:
 	"""Druid of the Claw"""
 	choose = ("EX1_165a", "EX1_165b")
+	play = ChooseBoth(CONTROLLER) & Morph(SELF, "OG_044a")
 
 
 class EX1_165a:
@@ -31,6 +32,7 @@ class EX1_165b:
 class EX1_166:
 	"""Keeper of the Grove"""
 	choose = ("EX1_166a", "EX1_166b")
+	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 2), Silence(TARGET))
 
 
 class EX1_166a:
@@ -44,6 +46,7 @@ class EX1_166b:
 class EX1_178:
 	"""Ancient of War"""
 	choose = ("EX1_178b", "EX1_178a")
+	play = ChooseBoth(CONTROLLER) & (Buff(SELF, "EX1_178ae"), Buff(SELF, "EX1_178be"))
 
 
 class EX1_178a:
@@ -63,6 +66,7 @@ EX1_178be = buff(atk=5)
 class EX1_573:
 	"""Cenarius"""
 	choose = ("EX1_573a", "EX1_573b")
+	play = ChooseBoth(CONTROLLER) & (Buff(FRIENDLY_MINIONS, "EX1_573ae"), Summon(CONTROLLER, "EX1_573t") * 2)
 
 
 class EX1_573a:
@@ -79,6 +83,7 @@ class EX1_573b:
 class NEW1_008:
 	"""Ancient of Lore"""
 	choose = ("NEW1_008a", "NEW1_008b")
+	play = ChooseBoth(CONTROLLER) & (Draw(CONTROLLER), Heal(TARGET, 5))
 
 
 class NEW1_008a:
@@ -147,6 +152,7 @@ class CS2_013t:
 class EX1_154:
 	"""Wrath"""
 	choose = ("EX1_154a", "EX1_154b")
+	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 3), Hit(TARGET, 1), Draw(CONTROLLER))
 
 
 class EX1_154a:
@@ -162,6 +168,7 @@ class EX1_154b:
 class EX1_155:
 	"""Mark of Nature"""
 	choose = ("EX1_155a", "EX1_155b")
+	play = ChooseBoth(CONTROLLER) & (Buff(TARGET, "EX1_155ae"), Buff(TARGET, "EX1_155be"))
 
 
 class EX1_155a:
@@ -191,6 +198,7 @@ class EX1_158e:
 class EX1_160:
 	"""Power of the Wild"""
 	choose = ("EX1_160a", "EX1_160b")
+	play = ChooseBoth(CONTROLLER) & (Summon(CONTROLLER, "EX1_160t"), Buff(FRIENDLY_MINIONS, "EX1_160be"))
 
 
 class EX1_160a:
@@ -212,6 +220,7 @@ class EX1_161:
 class EX1_164:
 	"""Nourish"""
 	choose = ("EX1_164a", "EX1_164b")
+	play = ChooseBoth(CONTROLLER) & (GainMana(CONTROLLER, 2), Draw(CONTROLLER) * 3)
 
 
 class EX1_164a:
@@ -253,6 +262,8 @@ class EX1_578:
 class NEW1_007:
 	"""Starfall"""
 	choose = ("NEW1_007a", "NEW1_007b")
+	play = ChooseBoth(CONTROLLER) & (Hit(ENEMY_MINIONS, 2), Hit(TARGET, 5))
+
 
 
 class NEW1_007a:

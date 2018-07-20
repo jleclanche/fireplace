@@ -170,8 +170,8 @@ def test_djinni_of_zephyrs():
 
 	pwshield = game.player1.give("CS2_004")
 	pwshield.play(target=statue)
-	statue.max_health == 10 + 2
-	djinni.max_health == 6 + 2
+	assert statue.max_health == 10 + 2
+	assert djinni.max_health == 6 + 2
 	assert len(game.player1.hand) == 1 + 1
 
 	# Djinni can trigger on minions that are "dead" (eg. killed by the spell)

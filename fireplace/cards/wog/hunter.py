@@ -22,6 +22,12 @@ class OG_216:
 	deathrattle = Summon(CONTROLLER, "OG_216a") * 2
 
 
+class OG_308:
+	"Giant Sand Worm"
+	events = Attack(SELF, ALL_MINIONS).after(
+		Dead(ALL_MINIONS + Attack.DEFENDER) & ExtraAttack(SELF)
+	)
+
 class OG_309:
 	"""Princess Huhuran"""
 	play = Deathrattle(TARGET)

@@ -126,6 +126,8 @@ ATK = AttrValue(GameTag.ATK)
 CONTROLLER = AttrValue(GameTag.CONTROLLER)
 CURRENT_HEALTH = AttrValue("health")
 COST = AttrValue(GameTag.COST)
+COST_ADD = AttrValue("cost_add")
+COST_DEC = AttrValue("cost_dec")
 DAMAGE = AttrValue(GameTag.DAMAGE)
 MANA = AttrValue(GameTag.RESOURCES)
 USED_MANA = AttrValue(GameTag.RESOURCES_USED)
@@ -312,6 +314,27 @@ class RandomSelector(Selector):
 		return RandomSelector(self.child, self.times * other)
 
 
+class SelectorOne(Selector):
+	"""
+	Selects a 1-member of the targets.
+	This selector can be multiplied to select more than 1 target.
+	"""
+	def __init__(self, child: SelectorLike, times=1):
+		if isinstance(child, LazyValue):
+			child = LazyValueSelector(child)
+		self.child = child
+		self.times = times
+
+	def eval(self, entities, source):
+		child_entities = self.child.eval(entities, source)
+		if len(child_entities) == 0:
+			return []
+		return [child_entities[0]]
+
+	def __mul__(self, other):
+		return SelectorOne(self.child, self.times * other)
+
+
 RANDOM = RandomSelector
 
 MORTALLY_WOUNDED = CURRENT_HEALTH <= 0
@@ -323,7 +346,6 @@ HIGHEST_ATK = lambda sel: (
 LOWEST_ATK = lambda sel: (
 	RANDOM(sel + (AttrValue(GameTag.ATK) == OpAttr(sel, GameTag.ATK, min)))
 )
-
 
 class Controller(LazyValue):
 	def __init__(self, child: Optional[SelectorLike]=None):
@@ -396,6 +418,7 @@ STEALTH = EnumSelector(GameTag.STEALTH)
 TAUNT = EnumSelector(GameTag.TAUNT)
 WINDFURY = EnumSelector(GameTag.WINDFURY)
 CLASS_CARD = EnumSelector(GameTag.CLASS)
+LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
@@ -406,7 +429,9 @@ IN_PLAY = EnumSelector(Zone.PLAY)
 IN_DECK = EnumSelector(Zone.DECK)
 IN_HAND = EnumSelector(Zone.HAND)
 HIDDEN = EnumSelector(Zone.SECRET)
-KILLED = EnumSelector(Zone.GRAVEYARD)
+DISCARDED = AttrValue(enums.DISCARDED) == True
+KILLED = EnumSelector(Zone.GRAVEYARD) - DISCARDED
+STARTING_DECK = AttrValue("starting_deck") == True
 
 GAME = EnumSelector(CardType.GAME)
 PLAYER = EnumSelector(CardType.PLAYER)
@@ -425,6 +450,7 @@ MECH = EnumSelector(Race.MECHANICAL)
 MURLOC = EnumSelector(Race.MURLOC)
 PIRATE = EnumSelector(Race.PIRATE)
 TOTEM = EnumSelector(Race.TOTEM)
+ELEMENTAL = EnumSelector(Race.ELEMENTAL)
 
 COMMON = EnumSelector(Rarity.COMMON)
 RARE = EnumSelector(Rarity.RARE)
@@ -474,3 +500,5 @@ RANDOM_ENEMY_MINION = RANDOM(ENEMY_MINIONS - MORTALLY_WOUNDED)
 RANDOM_ENEMY_CHARACTER = RANDOM(ENEMY_CHARACTERS - MORTALLY_WOUNDED)
 
 DAMAGED_CHARACTERS = ALL_CHARACTERS + DAMAGED
+
+CTHUN = FRIENDLY + ID("OG_280")

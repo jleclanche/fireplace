@@ -1,15 +1,36 @@
 import os
 from pkg_resources import resource_filename
 from hearthstone import cardxml
-from hearthstone.enums import CardType
+from hearthstone.enums import CardType, GameTag
 from ..logging import log
-from ..rules import POISONOUS
+from ..rules import POISONOUS, LIFESTEAL
 from ..utils import get_script_definition
 
 
 class CardDB(dict):
 	def __init__(self):
 		self.initialized = False
+
+	@staticmethod
+	def setup_zone_script_defaults(card, zone_name):
+		if not hasattr(card.scripts, zone_name):
+			setattr(card.scripts, zone_name, type(zone_name, (), {}))
+
+		zone = getattr(card.scripts, zone_name)
+
+		if not hasattr(zone, "events"):
+			zone.events = []
+
+		if not hasattr(zone.events, "__iter__"):
+			zone.events = [zone.events]
+
+		if not hasattr(zone, "update"):
+			zone.update = ()
+
+		if not hasattr(zone.update, "__iter__"):
+			zone.update = (zone.update, )
+
+
 
 	@staticmethod
 	def merge(id, card, cardscript=None):
@@ -30,7 +51,7 @@ class CardDB(dict):
 
 		scriptnames = (
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
-			"enrage", "update", "powered_up"
+			"enrage", "update", "powered_up", "reward"
 		)
 
 		for script in scriptnames:
@@ -43,7 +64,7 @@ class CardDB(dict):
 					# Ensure the actions are always iterable
 					setattr(card.scripts, script, (actions, ))
 
-		for script in ("events", "secret"):
+		for script in ("events", "secret", "quest"):
 			events = getattr(card.scripts, script, None)
 			if events is None:
 				setattr(card.scripts, script, [])
@@ -53,20 +74,12 @@ class CardDB(dict):
 		if not hasattr(card.scripts, "cost_mod"):
 			card.scripts.cost_mod = None
 
-		if not hasattr(card.scripts, "Hand"):
-			card.scripts.Hand = type("Hand", (), {})
-
-		if not hasattr(card.scripts.Hand, "events"):
-			card.scripts.Hand.events = []
-
-		if not hasattr(card.scripts.Hand.events, "__iter__"):
-			card.scripts.Hand.events = [card.scripts.Hand.events]
-
-		if not hasattr(card.scripts.Hand, "update"):
-			card.scripts.Hand.update = ()
-
-		if not hasattr(card.scripts.Hand.update, "__iter__"):
-			card.scripts.Hand.update = (card.scripts.Hand.update, )
+		#Setup Hand defaults
+		CardDB.setup_zone_script_defaults(card, "Hand")
+		#Setup Deck defaults
+		CardDB.setup_zone_script_defaults(card, "Deck")
+		#Setup Discard defaults
+		CardDB.setup_zone_script_defaults(card, "Discard")
 
 		# Set choose one cards
 		if hasattr(cardscript, "choose"):
@@ -81,6 +94,9 @@ class CardDB(dict):
 		# Set some additional events based on the base tags...
 		if card.poisonous:
 			card.scripts.events.append(POISONOUS)
+
+		if GameTag.LIFESTEAL in card.tags:  # fix until replaced in python-hearthstone. then: if card.lifesteal
+			card.scripts.events.append(LIFESTEAL)
 
 		return card
 

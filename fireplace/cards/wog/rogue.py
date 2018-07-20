@@ -25,6 +25,22 @@ class OG_267:
 OG_267e = buff(atk=2)
 
 
+class OG_282:
+	"Blade of C'Thun"
+	play = Destroy(TARGET), BuffState(CTHUN, TARGET, "OG_282e")
+
+class OG_282e:
+	max_health = lambda self, i: self.health
+
+class OG_291:
+	"Shadowcaster"
+	play = Give(CONTROLLER, Buff(Copy(TARGET), "OG_291e"))
+
+class OG_291e:
+	atk = SET(1)
+	max_health = SET(1)
+	cost = SET(1)
+
 class OG_330:
 	"""Undercity Huckster"""
 	deathrattle = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))

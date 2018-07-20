@@ -155,15 +155,22 @@ def weighted_card_choice(source, weights: List[int], card_sets: List[str], count
 
 	# for each card
 	for i in range(count):
-		# choose a set according to weighting
-		chosen_set = bisect(cum_weights, random.random() * totalweight)
+		try:
+			# choose a set according to weighting
+			chosen_set = bisect(cum_weights, random.random() * totalweight)
 
-		# choose a random card from that set
-		chosen_card_index = random.randint(0, len(card_sets[chosen_set]) - 1)
+			# choose a random card from that set
+			chosen_card_index = random.randint(0, len(card_sets[chosen_set]) - 1)
 
-		chosen_cards.append(card_sets[chosen_set].pop(chosen_card_index))
-		totalweight -= weights[chosen_set]
-		cum_weights[chosen_set:] = [x - weights[chosen_set] for x in cum_weights[chosen_set:]]
+			chosen_cards.append(card_sets[chosen_set].pop(chosen_card_index))
+			totalweight -= weights[chosen_set]
+			cum_weights[chosen_set:] = [x - weights[chosen_set] for x in cum_weights[chosen_set:]]
+		except IndexError:
+			#Catch the possibility of having less than 3 cards to choose from. 
+			for s in card_sets:
+				if s:
+					raise IndexError
+			break
 
 	return [source.controller.card(card, source=source) for card in chosen_cards]
 

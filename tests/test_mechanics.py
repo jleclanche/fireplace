@@ -84,9 +84,24 @@ def test_bounce():
 	brewmaster2.play(target=brewmaster1)
 	assert brewmaster1.health == 2
 	assert brewmaster2.health == 2
+
+	# test for buff reset on bounce
+	game.player1.give("EX1_014t").play(target=brewmaster2)
+	assert brewmaster2.atk == 4
+	assert brewmaster2.health == 3
+	brewmaster1.play(target=brewmaster2)
+	assert brewmaster1.atk == 3
+	assert brewmaster1.health == 2
+	assert brewmaster2.atk == 3
+	assert brewmaster2.health == 2
+	brewmaster2.play(target=brewmaster1)
+	assert brewmaster1.atk == 3
+	assert brewmaster1.health == 2
+	assert brewmaster2.atk == 3
+	assert brewmaster2.health == 2
+
 	brewmaster1.discard()
 	game.end_turn()
-
 	# fill the hand with some bananas
 	for i in range(10):
 		game.player1.give("EX1_014t")
@@ -98,6 +113,21 @@ def test_bounce():
 	assert brewmaster2 not in game.player1.field
 	assert brewmaster2 in game.player1.graveyard
 	assert brewmaster2 in game.graveyard
+
+
+def test_bounce_silence():
+	game = prepare_game()
+	leper_gnome = game.player1.give("EX1_029").play()
+	assert leper_gnome.has_deathrattle
+	silence = game.player1.give(SILENCE).play(target=leper_gnome)
+	assert not leper_gnome.has_deathrattle
+	brewmaster = game.player1.give("EX1_049")
+	brewmaster.play(target=leper_gnome)
+	leper_gnome.play()
+	assert leper_gnome.has_deathrattle
+	assert game.player2.hero.health == 30
+	leper_gnome.destroy()
+	assert game.player2.hero.health == 30 - 2
 
 
 def test_card_draw():
@@ -296,7 +326,7 @@ def test_discover():
 	assert game.player1.choice is None
 	curator = game.player1.give("LOE_006")
 	curator.play()
-	assert game.player1.choice is not None
+	assert not game.player1.choice is None
 	assert len(game.player1.choice.cards) == 3
 
 	for card in game.player1.choice.cards:
@@ -322,7 +352,7 @@ def test_divine_shield():
 	assert not squire.divine_shield
 	game.player1.give(MOONFIRE).play(target=squire)
 	assert len(game.player1.field) == 0
-	assert not squire.divine_shield
+	assert squire.divine_shield
 	game.end_turn()
 	game.end_turn()
 
@@ -681,6 +711,45 @@ def test_poisonous():
 	assert cobra in game.current_player.opponent.field
 
 
+def test_lifesteal():
+	game = prepare_game()
+	agony = game.player1.give("ICC_212")  # acolyte of agony (just lifesteal)
+	agony.play()
+
+	assert agony.lifesteal
+
+	game.end_turn()
+
+	wisp = game.player2.give(WISP)
+	wisp.play()
+
+	assert not wisp.lifesteal
+
+	game.end_turn()
+
+	assert game.player1.hero.health == 30
+	agony.attack(target=game.player2.hero)
+	assert game.player1.hero.health == 30  # should not be healed since hero already full health
+	assert game.player2.hero.health == 30 - agony.atk
+
+	game.end_turn()
+	wisp.attack(target=game.player1.hero)
+	game.end_turn()
+	assert game.player1.hero.health == 30 - wisp.atk
+
+	agony.attack(target=wisp)
+	assert game.player1.hero.health == 30
+
+	game.end_turn()
+	game.player2.give(PYROBLAST).play(target=game.player1.hero)
+
+	game.end_turn()
+	assert game.player1.hero.health == 30 - 10
+
+	agony.attack(game.player2.hero)
+	assert game.player1.hero.health == 30 - 10 + agony.atk
+
+
 def test_positioning():
 	game = prepare_game()
 	wisp1 = game.current_player.give(WISP)
@@ -937,3 +1006,36 @@ def test_weapon_sheathing():
 	game.end_turn()
 
 	assert not weapon.exhausted
+
+def test_jade_golem():
+	game = prepare_game()
+	jade_spirit1 = game.player1.give("CFM_715").play()
+	assert len(game.player1.field) == 2
+	assert game.player1.field[-1].id == "CFM_712_t01"
+	jade_spirit2 = game.player1.give("CFM_715").play()
+	assert len(game.player1.field) == 4
+	assert game.player1.field[-1].id == "CFM_712_t02"
+
+	game.end_turn()
+	jade_spirit3 = game.player2.give("CFM_715").play()
+	assert len(game.player2.field) == 2
+	assert game.player2.field[-1].id == "CFM_712_t01"
+	jade_spirit4 = game.player2.give("CFM_715").play()
+	assert len(game.player2.field) == 4
+	assert game.player2.field[-1].id == "CFM_712_t02"
+
+def test_jade_golem_increase_size():
+	game = prepare_game()
+	for i in range(1, 10):
+		game.player1.give("CFM_602").play(choose="CFM_602a")
+		assert game.player1.jade_golem == i + 1
+		if i > 7:
+			assert len(game.player1.field) == 7
+	# Ensure Jade Golem max size is 30 and works
+	game.end_turn()
+	game.player2.jade_golem = 29
+	for i in range(5):
+		game.player2.give("CFM_602").play(choose="CFM_602a")
+		assert game.player2.jade_golem == 30
+	assert len(game.player2.field) == 5
+	assert game.player2.field[-1] == "CFM_712_t30"

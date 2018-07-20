@@ -483,7 +483,7 @@ def test_implosion():
 
 	implosion = game.player2.give("GVG_045")
 	implosion.play(target=statue)
-	statue.damage in (2, 3, 4)
+	assert statue.damage in (2, 3, 4)
 	assert len(game.player2.field) == statue.damage
 	assert game.player2.field.contains("GVG_045t")
 

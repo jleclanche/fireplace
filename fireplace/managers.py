@@ -139,11 +139,14 @@ class PlayerManager(Manager):
 		GameTag.TIMEOUT: "timeout",
 		GameTag.TURN_START: "turn_start",
 		enums.CANT_OVERLOAD: "cant_overload",
+		GameTag.JADE_GOLEM: "jade_golem",
+		GameTag.EXTRA_TURNS_TAKEN_THIS_GAME: "extra_turn"
 	}
 
 
 CARD_ATTRIBUTE_MAP = {
 	GameTag.ADJACENT_BUFF: "adjacent_buff",
+	GameTag.ALL_TARGETS_RANDOM: "all_targets_random",
 	GameTag.ARMOR: "armor",
 	GameTag.ATK: "atk",
 	GameTag.ATTACKING: "attacking",
@@ -164,6 +167,8 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.CARDRACE: "race",
 	GameTag.CARDTYPE: "type",
 	GameTag.CHARGE: "charge",
+	GameTag.CHOOSE_BOTH: "choose_both",
+	GameTag.CHOOSE_ONE: "has_choose_one",
 	GameTag.CLASS: "card_class",
 	GameTag.COMBO: "has_combo",
 	GameTag.CONTROLLER: "controller",
@@ -196,6 +201,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.OVERLOAD: "overload",
 	GameTag.PARENT_CARD: "parent_card",
 	GameTag.POISONOUS: "poisonous",
+	GameTag.LIFESTEAL: "lifesteal",
 	GameTag.POWERED_UP: "powered_up",
 	GameTag.RARITY: "rarity",
 	GameTag.RECEIVES_DOUBLE_SPELLDAMAGE_BONUS: "receives_double_spelldamage_bonus",

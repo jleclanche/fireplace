@@ -82,6 +82,19 @@ class Attacking(Evaluator):
 		return False
 
 
+class ChooseBoth(Evaluator):
+	"""
+	Evaluates to True if \a selector choose_both is True
+	"""
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def check(self, source):
+		entities = self.selector.eval(source.game, source)
+		return entities[0].choose_both
+
+
 class CurrentPlayer(Evaluator):
 	"""
 	Evaluates to True if the selector is the current player.
@@ -111,6 +124,22 @@ class Dead(Evaluator):
 			if not target.dead:
 				return False
 		return True
+
+
+class DeadOne(Evaluator):
+	"""
+	Evaluates to True if has one target in \a selector is dead
+	"""
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def check(self, source):
+		for target in self.selector.eval(source.game, source):
+			if target.dead:
+				return True
+		return False
+
 
 
 class Find(Evaluator):

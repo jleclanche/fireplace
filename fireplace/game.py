@@ -280,6 +280,8 @@ class BaseGame(Entity):
 		self.begin_turn(self.player1)
 
 	def end_turn(self):
+		for player in self.players:
+			player.minions_killed_this_turn = 0
 		return self.queue_actions(self, [EndTurn(self.current_player)])
 
 	def _end_turn(self):
@@ -297,7 +299,11 @@ class BaseGame(Entity):
 		for buff in self.entities.filter(one_turn_effect=True):
 			self.log("Ending One-Turn effect: %r", buff)
 			buff.remove()
-		self.begin_turn(self.current_player.opponent)
+		if self.current_player.extra_turn:
+			self.current_player.extra_turn = False
+			self.begin_turn(self.current_player)
+		else:
+			self.begin_turn(self.current_player.opponent)
 
 	def begin_turn(self, player):
 		ret = self.queue_actions(self, [BeginTurn(player)])
@@ -320,6 +326,8 @@ class BaseGame(Entity):
 		player.used_mana = 0
 		player.overload_locked = player.overloaded
 		player.overloaded = 0
+		player.elemental_played_this_turn = player.elemental_played_this_turn
+		player.elemental_played_this_turn = 0
 		for entity in self.live_entities:
 			if entity.type != CardType.PLAYER:
 				entity.turns_in_play += 1

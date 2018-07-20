@@ -57,3 +57,9 @@ def test_brann_youthful_brewmaster():
 	brewmaster = game.player1.give("EX1_049")
 	brewmaster.play(target=brann)
 	assert brann in game.player1.hand
+
+def test_brann_jade_spirit():
+	game, brann = _prepare_game()
+	spirit = game.player1.give("CFM_715").play()
+	assert len(game.player1.field) == 4
+	assert game.player1.field[-1].id == "CFM_712_t02"

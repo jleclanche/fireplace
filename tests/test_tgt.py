@@ -233,6 +233,36 @@ def test_dreadsteed():
 	assert len(game.player1.field) == 1
 
 
+def test_effigy():
+	game = prepare_game()
+	secret_effigy = game.player1.give("AT_002")
+	secret_effigy2 = game.player1.give("AT_002")
+	secret_effigy.play()
+	with pytest.raises(InvalidAction):
+		secret_effigy2.play()
+	game.player1.summon("EX1_564")
+	game.end_turn()
+	game.player2.give("EX1_617").play()
+	assert secret_effigy not in game.player1.secrets
+	summoned_minion = game.player1.field[0]
+	# A random minion with the same Cost
+	assert summoned_minion.cost == 5
+	# In case it summon some other minion
+	summoned_minion.bounce()
+	# assert summoned_minion.is_collectible()
+	game.end_turn()
+	game.player1.give("EX1_136").play()
+	secret_effigy2.play()
+	assert secret_effigy not in game.player1.secrets
+	assert secret_effigy2 in game.player1.secrets
+	# fill in the field with cairne bloodhoof
+	for i in range(7):
+		game.player1.summon("EX1_110")
+	game.end_turn()
+	game.player2.give("EX1_617").play()
+	assert secret_effigy2 in game.player1.secrets
+
+
 def test_enter_the_coliseum():
 	game = prepare_game()
 	game.player1.give("AT_078").play()

@@ -20,10 +20,13 @@ Freeze = lambda target: SetTag(target, (GameTag.FROZEN, ))
 Stealth = lambda target: SetTag(target, (GameTag.STEALTH, ))
 Unstealth = lambda target: UnsetTag(target, (GameTag.STEALTH, ))
 Taunt = lambda target: SetTag(target, (GameTag.TAUNT, ))
+Lifesteal = lambda target: SetTag(target, (GameTag.LIFESTEAL, ))
 GiveCharge = lambda target: SetTag(target, (GameTag.CHARGE, ))
 GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD, ))
 GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
-
+CantAttackHero = lambda target: SetTag(target, (GameTag.CANNOT_ATTACK_HEROES, ))
+UnCantAttackHero = lambda target: UnsetTag(target, (GameTag.CANNOT_ATTACK_HEROES, ))
+Poisonous = lambda target: SetTag(target, (GameTag.POISONOUS, ))
 
 CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))
 COINFLIP = RandomNumber(0, 1) == 1
@@ -32,6 +35,8 @@ EMPTY_HAND = Count(FRIENDLY_HAND) == 0
 FULL_BOARD = Count(FRIENDLY_MINIONS) == 7
 FULL_HAND = Count(FRIENDLY_HAND) == 10
 HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
+CTHUN_CHECK = ATK(HIGHEST_ATK(CTHUN)) >= 10
+PLAYED_ELEMENTAL = AttrValue('elemental_played_last_turn')(CONTROLLER) > 0
 
 DISCOVER = lambda *args: Discover(CONTROLLER, *args)
 
@@ -41,8 +46,22 @@ BASIC_HERO_POWERS = [
 	"CS2_101", "CS2_102", "DS1h_292",
 ]
 
+POTIONS = [
+	"CFM_021", #Freezing Potion
+	"CFM_065", #Volcanic Potion
+	"CFM_620", #Potion of Polymorph
+	"CFM_603", #Potion of Madness
+	"CFM_604", #Greater Healing Potion
+	"CFM_661", #Pint-Size Potion
+	"CFM_662", #Dragonfire Potion
+	"CFM_094", #Felfire Potion
+	"CFM_608", #Blastcrystal Potion
+	"CFM_611"  #Bloodfury Potion
+]
+
 RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
 RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
+RandomPotion = lambda *args: RandomID(*POTIONS)
 
 # 50% chance to attack the wrong enemy.
 FORGETFUL = Attack(SELF).on(
@@ -74,6 +93,10 @@ JOUST = JoustHelper(
 	RANDOM(ENEMY_DECK + MINION)
 )
 
+JOUST_SPELL = JoustHelper(
+	RANDOM(FRIENDLY_DECK + SPELL),
+	RANDOM(ENEMY_DECK + SPELL)
+)
 
 def SET(amt):
 	return lambda self, i: amt

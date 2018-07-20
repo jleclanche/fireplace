@@ -1,7 +1,5 @@
 import uuid
-
 from hearthstone.enums import CardType
-
 from . import logging
 
 
@@ -132,7 +130,11 @@ def boolean_property(attr):
 
 	@func.setter
 	def func(self, value):
-		setattr(self, "_" + attr, value)
+		if value is None:
+			if hasattr(self, "_" + attr):
+				delattr(self, "_" + attr)
+		else:
+			setattr(self, "_" + attr, value)
 
 	return func
 
@@ -145,6 +147,10 @@ def int_property(attr):
 
 	@func.setter
 	def func(self, value):
-		setattr(self, "_" + attr, value)
+		if value is None:
+			if hasattr(self, "_" + attr):
+				delattr(self, "_" + attr)
+		else:
+			setattr(self, "_" + attr, value)
 
 	return func
