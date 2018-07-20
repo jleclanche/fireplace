@@ -4,6 +4,13 @@ from ..utils import *
 ##
 # Minions
 
+class OG_044:
+	"""Fandral Staghelm"""
+	update = Refresh(CONTROLLER, {
+		GameTag.CHOOSE_BOTH: True,
+	})
+
+
 class OG_202:
 	"""Mire Keeper"""
 	choose = ("OG_202a", "OG_202b")
