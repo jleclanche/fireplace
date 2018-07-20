@@ -18,6 +18,7 @@ CS2_017o = buff(atk=1)
 class EX1_165:
 	"""Druid of the Claw"""
 	choose = ("EX1_165a", "EX1_165b")
+	play = ChooseBoth(CONTROLLER) & Morph(SELF, "OG_044a")
 
 
 class EX1_165a:
@@ -31,6 +32,7 @@ class EX1_165b:
 class EX1_166:
 	"""Keeper of the Grove"""
 	choose = ("EX1_166a", "EX1_166b")
+	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 2), Silence(TARGET))
 
 
 class EX1_166a:
@@ -147,6 +149,7 @@ class CS2_013t:
 class EX1_154:
 	"""Wrath"""
 	choose = ("EX1_154a", "EX1_154b")
+	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 3), Hit(TARGET, 1), Draw(CONTROLLER))
 
 
 class EX1_154a:
