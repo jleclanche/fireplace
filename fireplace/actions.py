@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
 from hearthstone.enums import (
-	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone, Race, PlayReq
+	BlockType, CardClass, CardType, Mulligan, PlayReq, PlayState, Race, Rarity, Step, Zone
 )
 
 from .dsl import LazyNum, LazyValue, Selector
@@ -469,14 +469,14 @@ class Play(GameAction):
 				player.spells_played_this_game += 1
 				if played_card.cost >= 5:
 					player.spells_played_this_game_cost_ge_5 += 1
-				if card.target != None:
-					if card.target.type == CardType.MINION and card.target.controller == played_card.controller:
+				if card.target is not None:
+					if card.target.type == CardType.MINION and \
+					card.target.controller == played_card.controller:
 						player.spell_cast_on_your_minions.append(played_card.id)
 				from .card import Secret
 				if isinstance(played_card, Secret):
 					player.secrets_played_this_game += 1
 			self.broadcast(player, EventListener.AFTER, player, played_card, target)
-
 		player.combo = True
 		player.last_card_played = card
 		player.cards_played_this_turn += 1
@@ -484,7 +484,6 @@ class Play(GameAction):
 			player.minions_played_this_turn += 1
 			if card.race == Race.TOTEM:
 				player.totems_played_this_game += 1
-				
 		card.target = None
 		card.choose = None
 
@@ -1380,7 +1379,7 @@ class CastSpell(TargetedAction):
 		if target.type == CardType.MINION:
 			if target.dead:
 				return False
-		
+
 		if requirements is None:
 			requirements = card.requirements
 
@@ -1436,7 +1435,7 @@ class CastSpell(TargetedAction):
 	def do(self, source, cards):
 		player = source.controller
 		if not isinstance(cards, list):
-			cards = [cards]	
+			cards = [cards]
 		if not(source.zone == Zone.PLAY and not(source.dead) and not(source.silenced)):
 			return
 		for card in cards:
@@ -1445,7 +1444,7 @@ class CastSpell(TargetedAction):
 				card = random.choice(card.get_actions("choose"))
 				log.info("Random choosing %r", card)
 
-			if self.is_playable(card) == False:
+			if self.is_playable(card) is False:
 				log.info("%r isn't playable", card)
 				return
 
@@ -1494,6 +1493,7 @@ class SwapState(TargetedAction):
 		buff1.apply(target)
 		buff2.apply(other)
 
+
 class SetState(TargetedAction):
 	"""
 	Copy target attack and health using \a buff.
@@ -1509,6 +1509,7 @@ class SetState(TargetedAction):
 		buff1.health = other.health
 		buff1.apply(target)
 
+
 class BuffState(TargetedAction):
 	"""
 	Buff target with other state
@@ -1523,6 +1524,7 @@ class BuffState(TargetedAction):
 		buff1.atk = other.atk
 		buff1.health = other.health + target.health
 		buff1.apply(target)
+
 
 class Kazakus(TargetedAction):
 	PLAYER = ActionArg()
@@ -1549,6 +1551,7 @@ class Kazakus(TargetedAction):
 		self.player.kazakus.append(card)
 		self.player.choice = None
 		self.player.game.queue_actions(self.source, [Kazakus_step2(self.player)])
+
 
 class Kazakus_step2(TargetedAction):
 	PLAYER = ActionArg()
@@ -1579,6 +1582,7 @@ class Kazakus_step2(TargetedAction):
 		self.player.kazakus.append(card)
 		self.player.choice = None
 		self.player.game.queue_actions(self.source, [Kazakus_step3(self.player)])
+
 
 class Kazakus_step3(TargetedAction):
 	PLAYER = ActionArg()
@@ -1613,10 +1617,14 @@ class Kazakus_step3(TargetedAction):
 			self.player.choice = None
 		else:
 			self.player.choice = self.player.next_choice.pop(0)
-		potion = self.player.card(["CFM_621t", "CFM_621t14", "CFM_621t15"][self.player.kazakus[0].cost//5])
+		potion = self.player.card(["CFM_621t", "CFM_621t14", "CFM_621t15"] \
+		[self.player.kazakus[0]].cost//5)
 		if self.player.kazakus[1].id > self.player.kazakus[2].id:
-			(self.player.kazakus[1], self.player.kazakus[2]) = (self.player.kazakus[2], self.player.kazakus[1])
-		potion.data.scripts.play = self.player.kazakus[1].data.scripts.play + self.player.kazakus[2].data.scripts.play
+			tmp = self.player.kazakus[1]
+			self.player.kazakus[1] = self.player.kazakus[2]
+			self.player.kazakus[2] = tmp
+		potion.data.scripts.play = self.player.kazakus[1].data.scripts.play + \
+		self.player.kazakus[2].data.scripts.play
 		self.player.give(potion)
 		self.player.kazakus = []
 
@@ -1644,9 +1652,9 @@ class Adapt(GameAction):
 			self.target = [target]
 		log.info("TARGET: %r", target)
 		self.player = source.controller
-		cards = ["UNG_999t10","UNG_999t2","UNG_999t3",
-			"UNG_999t4","UNG_999t5","UNG_999t6",
-			"UNG_999t7","UNG_999t8","UNG_999t13","UNG_999t14"]
+		cards = ["UNG_999t10", "UNG_999t2", "UNG_999t3",
+			"UNG_999t4", "UNG_999t5", "UNG_999t6",
+			"UNG_999t7", "UNG_999t8", "UNG_999t13", "UNG_999t14"]
 		cards = random.sample(cards, 3)
 		choose_list = []
 		for card in cards:
@@ -1655,7 +1663,7 @@ class Adapt(GameAction):
 		self.cards = choose_list
 		self.min_count = 1
 		self.max_count = 1
-		
+
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
@@ -1669,6 +1677,7 @@ class Adapt(GameAction):
 		for v in self.target:
 			self.source.target = v
 			self.source.game.main_power(self.source, actions, v)
+
 
 class UpdateSpellStone(TargetedAction):
 	"""

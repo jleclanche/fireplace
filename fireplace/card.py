@@ -1,7 +1,5 @@
 from itertools import chain
-
 from hearthstone.enums import CardType, PlayReq, PlayState, Race, Rarity, Step, Zone
-
 from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
@@ -9,6 +7,7 @@ from .exceptions import InvalidAction
 from .managers import CardManager
 from .targeting import TARGETING_PREREQUISITES, is_valid_target
 from .utils import CardList
+import random
 
 
 THE_COIN = "GAME_005"
@@ -180,11 +179,11 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 	@property
 	def cost_add(self):
-		return self.cost+1
+		return self.cost + 1
 
 	@property
 	def cost_dec(self):
-		return self.cost-1
+		return self.cost - 1
 
 	@cost.setter
 	def cost(self, value):
@@ -330,7 +329,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
 		if self.controller.all_targets_random:
-			target = self.game.cheat_action(self, [actions.Retarget(self, random.choice(self.controller.opponent.characters))])[0][0]
+			target = self.game.cheat_action(
+				self, 
+				[actions.Retarget(self, random.choice(self.controller.opponent.characters))]
+			)[0][0]
 		self.game.play_card(self, target, index, choose)
 		return self
 
