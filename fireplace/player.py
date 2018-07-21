@@ -60,6 +60,7 @@ class Player(Entity, TargetableByAuras):
 		self.minions_killed_this_turn = 0
 		self.weapon = None
 		self.zone = Zone.INVALID
+		self.jade_golem = 1
 
 	def __str__(self):
 		return self.name
