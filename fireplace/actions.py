@@ -1,3 +1,4 @@
+import random
 from collections import OrderedDict
 
 from hearthstone.enums import (
@@ -1242,3 +1243,24 @@ class SummonJadeGolem(TargetedAction):
 		target.jade_golem = target.jade_golem+1 if target.jade_golem <=29 else 30
 		if card.is_summonable():
 			target.summon(card)
+
+
+class CastSpell(TargetedAction):
+	"""
+	Cast a spell target random
+	"""
+	CARD = CardArg()
+
+	def do(self, source, card):
+		target = None
+		if card.must_choose_one:
+			card = random.choice(card.choose_cards)
+		if card.requires_target():
+			if len(card.targets):
+				target = random.choice(card.targets)
+			else:
+				log.info("%s cast spell %s don't have a legal target", source, card)
+				return
+		card.target = target
+		log.info("%s cast spell %s target %s", source, card, target)
+		source.game.queue_actions(source, [Battlecry(card, card.target)])
