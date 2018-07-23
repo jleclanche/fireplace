@@ -342,10 +342,10 @@ class GenericChoice(GameAction):
 		return player, cards
 
 	def do(self, source, player, cards):
-		choice = player.choice
-		while choice is not None:
-			choice = choice.next_choice
-		choice = self
+		node = player
+		while node.choice is not None:
+			node = node.next_choice
+		node.choice = self
 		self.next_choice = None
 		self.source = source
 		self.player = player
@@ -366,7 +366,7 @@ class GenericChoice(GameAction):
 					_card.discard()
 			else:
 				_card.discard()
-		self.player.choice = self.player.choice.next_choice
+		self.player.choice = self.next_choice
 
 
 class MulliganChoice(GameAction):
