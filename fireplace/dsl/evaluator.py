@@ -97,6 +97,7 @@ class ChooseBoth(Evaluator):
 			return True
 		return False
 
+
 class CurrentPlayer(Evaluator):
 	"""
 	Evaluates to True if the selector is the current player.

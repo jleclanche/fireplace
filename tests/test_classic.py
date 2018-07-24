@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import pytest
 from utils import *
 
 
@@ -1721,6 +1722,30 @@ def test_imp_master():
 	assert impmaster.controller.field.contains("EX1_598")
 
 
+def test_keeper_of_the_grove():
+	game = prepare_game()
+	yeti = game.player2.summon("CS2_182")
+	adventurer1 = game.player1.summon("EX1_044")
+	assert yeti.health == 5 and adventurer1.health == 2
+	keeper1 = game.player1.give("EX1_166")
+	keeper1.play(target=yeti, choose="EX1_166a")
+	assert yeti.health == 3
+	assert adventurer1.health == adventurer1.atk == 3
+	adventurer2 = game.player1.summon("EX1_044")
+
+	keeper2 = game.player1.give("EX1_166")
+	keeper2.play(target=adventurer1, choose="EX1_166b")
+
+	assert adventurer1.atk == adventurer1.health == 2
+	game.player1.summon("OG_044")
+	game.end_turn()
+	game.end_turn()
+	keeper3 = game.player1.give("EX1_166")
+	keeper3.play(target=adventurer2)
+	# TODO skip the silence test of being 3/3/1
+	assert adventurer2.health == adventurer2.atk == 2
+
+
 def test_kill_command():
 	game = prepare_game()
 	kc = game.player1.give("EX1_539")
@@ -1941,6 +1966,18 @@ def test_mark_of_nature():
 	assert wisp2.atk == 1
 	assert wisp2.health == 1 + 4
 	assert wisp2.taunt
+
+	game.current_player.summon("OG_044")
+	wisp3 = game.current_player.opponent.summon(WISP)
+	mark3 = game.current_player.give("EX1_155")
+	# player cannot choose with staghelm on field
+	with pytest.raises(InvalidAction):
+		mark3.play(target=wisp3, choose="EX1_155b")
+
+	mark3.play(target=wisp3)
+	assert wisp3.atk == 1 + 4
+	assert wisp3.health == 1 + 4
+	assert wisp3.taunt
 
 
 def test_mana_addict():
@@ -2375,6 +2412,24 @@ def test_power_of_the_wild():
 	apprentice = game.player1.field[2]
 	assert apprentice.id == "NEW1_026t"
 	assert apprentice.atk == 1 + 1 and apprentice.health == 1 + 1
+
+	game.player1.summon("OG_044")
+	game.player1.give("EX1_160").play()
+
+	apprentice2 = game.player1.field[2]
+	token2 = game.player1.field[5]
+	assert apprentice2.id == "NEW1_026t" and token2.id == "EX1_160t"
+	assert teacher.atk == 5 and teacher.health == 7
+	assert apprentice.atk == apprentice.health == 3
+	assert apprentice2.atk == apprentice2.health == 2
+	assert token2.atk == 3 and token2.health == 2
+	game.end_turn()
+	game.end_turn()
+	wisp = game.player1.summon(WISP)
+	game.player1.give("EX1_160").play()
+	assert token2.atk == 4 and token2.health == 3
+	assert token2 == game.player1.field[-2]
+	assert game.player1.field[-1] == wisp
 
 
 def test_power_word_shield():
@@ -3581,6 +3636,38 @@ def test_whirlwind():
 	assert wisp.dead
 	assert wisp2.dead
 	assert statue.health == 10 - 1
+
+
+def test_wrath():
+	game = prepare_game()
+	yeti = game.player2.summon("CS2_182")
+	adventurer = game.player1.summon("EX1_044")
+	yeti.health == 5
+	wrath1 = game.player1.give("EX1_154")
+	wrath2 = game.player1.give("EX1_154")
+	wrath3 = game.player1.give("EX1_154")
+
+	wrath1.play(target=yeti, choose="EX1_154a")
+	assert yeti.health == 2
+	assert len(game.player1.hand) == 6
+
+	wrath2.play(target=yeti, choose="EX1_154b")
+	assert yeti.health == 1
+	assert len(game.player1.hand) == 6
+
+	game.player1.summon("OG_044")
+	giant = game.player1.summon("EX1_105")
+	# a minion with spell damage
+	game.player1.summon("EX1_012")
+	wrath3.play(target=giant)
+	assert giant.health == 2
+	assert len(game.player1.hand) == 6
+
+	# test if extra cards are counted as played
+	assert adventurer.health == adventurer.atk == 5
+
+	# test if extra mana are used
+	assert game.player1.mana == 10 - 2 - 2 - 2
 
 
 def test_young_priestess():
