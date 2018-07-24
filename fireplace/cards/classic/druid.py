@@ -165,6 +165,10 @@ class EX1_154b:
 class EX1_155:
 	"""Mark of Nature"""
 	choose = ("EX1_155a", "EX1_155b")
+	play = (
+		ChooseBoth(CONTROLLER) &
+		(Buff(TARGET, "EX1_155ae"), Buff(TARGET, "EX1_155be"))
+	)
 
 
 class EX1_155a:
@@ -194,6 +198,10 @@ class EX1_158e:
 class EX1_160:
 	"""Power of the Wild"""
 	choose = ("EX1_160a", "EX1_160b")
+	play = (
+		ChooseBoth(CONTROLLER) &
+		(Buff(FRIENDLY_MINIONS, "EX1_160be"), Summon(CONTROLLER, "EX1_160t"))
+	)
 
 
 class EX1_160a:

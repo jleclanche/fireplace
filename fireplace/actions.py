@@ -1244,7 +1244,7 @@ class SummonJadeGolem(TargetedAction):
 
 	def do(self, source, target, card):
 		log.info("%s summons a Jade Golem for %s", source, target)
-		target.jade_golem = target.jade_golem+1 if target.jade_golem <=29 else 30
+		target.jade_golem = target.jade_golem + 1 if target.jade_golem <= 29 else 30
 		if card.is_summonable():
 			source.game.queue_actions(source, [Summon(target, card)])
 
