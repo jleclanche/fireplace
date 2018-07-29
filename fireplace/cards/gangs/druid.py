@@ -15,9 +15,8 @@ class CFM_343:
 class CFM_602:
 	"""Jade Idol"""
 	choose = ("CFM_602a", "CFM_602b")
-	play = (
-		ChooseBoth(CONTROLLER) &
-		(SummonJadeGolem(CONTROLLER), Shuffle(CONTROLLER, "CFM_602") * 3)
+	play = ChooseBoth(CONTROLLER) & (
+		SummonJadeGolem(CONTROLLER), Shuffle(CONTROLLER, "CFM_602") * 3
 	)
 
 
