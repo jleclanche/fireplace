@@ -4,6 +4,17 @@ from ..utils import *
 ##
 # Minions
 
+class OG_051:
+	"""Forbidden Ancient"""
+	play = (
+		Buff(SELF, "OG_051e") * CURRENT_MANA(CONTROLLER),
+		SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER)),
+	)
+
+
+OG_051e = buff(+1, +1)
+
+
 class OG_044:
 	"""Fandral Staghelm"""
 	update = Refresh(CONTROLLER, {
