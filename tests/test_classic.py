@@ -132,6 +132,32 @@ def test_amani_berserker():
 	assert amani1.atk == 2 + 3
 
 
+def test_ancient_of_war():
+	game = prepare_empty_game()
+	ancient_of_war = game.current_player.give("EX1_178")
+	ancient_of_war.play(choose="EX1_178a")
+	assert ancient_of_war.taunt
+	assert ancient_of_war.atk == 5
+	assert ancient_of_war.health == 5 + 5
+	game.end_turn()
+
+	ancient_of_war2 = game.current_player.give("EX1_178")
+	ancient_of_war2.play(choose="EX1_178b")
+	assert not ancient_of_war2.taunt
+	assert ancient_of_war2.atk == 5 + 5
+	assert ancient_of_war2.health == 5
+	game.end_turn()
+
+	game.player1.summon("OG_044")
+	ancient_of_war3 = game.current_player.give("EX1_178")
+	with pytest.raises(InvalidAction):
+		ancient_of_war3.play(choose="EX1_178b")
+	ancient_of_war3.play()
+	assert ancient_of_war3.taunt
+	assert ancient_of_war3.atk == 5 + 5
+	assert ancient_of_war3.health == 5 + 5
+
+
 def test_ancestral_healing():
 	game = prepare_empty_game()
 	statue = game.player1.give(ANIMATED_STATUE)
@@ -623,6 +649,19 @@ def test_captains_parrot():
 	game.player1.give("NEW1_016").play()
 	assert len(game.player1.deck) == 1
 	assert len(game.player1.hand) == 0
+
+
+def test_cenarius():
+	game = prepare_game()
+	# play some wisps for buff test
+	wisp1 = game.current_player.give(WISP).play()
+	wisp2 = game.current_player.give(WISP).play()
+	cenarius = game.current_player.give("EX1_573")
+	cenarius.play(choose="EX1_573a")
+	assert wisp1.health == wisp1.atk == 3
+	assert wisp2.health == wisp2.atk == 3
+	assert cenarius.atk == 5 and cenarius.health == 8
+	game.end_turn()
 
 
 def test_cleave():
