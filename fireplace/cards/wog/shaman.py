@@ -25,6 +25,11 @@ class OG_209:
 ##
 # Spells
 
+class OG_027:
+	"""Evolve"""
+	play = Evolve(FRIENDLY_MINIONS, 1)
+
+
 class OG_206:
 	"""Stormcrack"""
 	play = Hit(TARGET, 4)
