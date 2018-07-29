@@ -402,6 +402,7 @@ ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
 
 ROGUE = EnumSelector(CardClass.ROGUE)
+WARLOCK = EnumSelector(CardClass.WARLOCK)
 
 IN_PLAY = EnumSelector(Zone.PLAY)
 IN_DECK = EnumSelector(Zone.DECK)
