@@ -1273,3 +1273,18 @@ class CastSpell(TargetedAction):
 			choice = random.choice(player.choice.cards)
 			print("Choosing card %r" % (choice))
 			player.choice.choose(choice)
+
+class Evolve(TargetedAction):
+	"""
+	Transform your minions into random minions that cost (\a amount) more
+	"""
+	TARGET = ActionArg()
+	AMOUNT = IntArg()
+
+	def do(self, source, target, amount):
+		from . import cards
+		cost = target.cost + amount
+		card_set = cards.filter(collectible=True, cost=cost, type=CardType.MINION)
+		if card_set:
+			card = random.choice(card_set)
+			return source.game.queue_actions(source, [Morph(target, card)])
