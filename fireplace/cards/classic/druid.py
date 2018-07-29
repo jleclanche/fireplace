@@ -269,7 +269,7 @@ class EX1_578:
 class NEW1_007:
 	"""Starfall"""
 	choose = ("NEW1_007a", "NEW1_007b")
-	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 5),Hit(ENEMY_MINIONS, 2))
+	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 5), Hit(ENEMY_MINIONS, 2))
 
 
 class NEW1_007a:
