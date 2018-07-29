@@ -46,6 +46,7 @@ class EX1_166b:
 class EX1_178:
 	"""Ancient of War"""
 	choose = ("EX1_178b", "EX1_178a")
+	play = ChooseBoth(CONTROLLER) & (Buff(SELF, "EX1_178ae"), Buff(SELF, "EX1_178be"))
 
 
 class EX1_178a:
@@ -65,10 +66,11 @@ EX1_178be = buff(atk=5)
 class EX1_573:
 	"""Cenarius"""
 	choose = ("EX1_573a", "EX1_573b")
+	play = ChooseBoth(CONTROLLER) & (Buff(FRIENDLY_MINIONS - SELF, "EX1_573ae"), Summon(CONTROLLER, "EX1_573t") * 2)
 
 
 class EX1_573a:
-	play = Buff(FRIENDLY_MINIONS, "EX1_573ae")
+	play = Buff(FRIENDLY_MINIONS - SELF, "EX1_573ae")
 
 
 EX1_573ae = buff(+2, +2)
@@ -81,6 +83,7 @@ class EX1_573b:
 class NEW1_008:
 	"""Ancient of Lore"""
 	choose = ("NEW1_008a", "NEW1_008b")
+	play = ChooseBoth(CONTROLLER) & (Draw(CONTROLLER), Heal(TARGET, 5))
 
 
 class NEW1_008a:
@@ -223,6 +226,7 @@ class EX1_161:
 class EX1_164:
 	"""Nourish"""
 	choose = ("EX1_164a", "EX1_164b")
+	play = ChooseBoth(CONTROLLER) & (GainMana(CONTROLLER, 2), Draw(CONTROLLER) * 3)
 
 
 class EX1_164a:
@@ -264,6 +268,7 @@ class EX1_578:
 class NEW1_007:
 	"""Starfall"""
 	choose = ("NEW1_007a", "NEW1_007b")
+	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 5),Hit(ENEMY_MINIONS, 2))
 
 
 class NEW1_007a:
