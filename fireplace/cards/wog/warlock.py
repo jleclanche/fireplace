@@ -59,7 +59,7 @@ class OG_118:
 		yield Summon(CONTROLLER, hero_power)
 		yield Morph(
 			FRIENDLY + WARLOCK + (IN_HAND | IN_DECK),
-			RandomCollectible(card_class = hero_class)
+			RandomCollectible(card_class=hero_class)
 		).then(
 			Buff(Morph.CARD, "OG_118e")
 		)
