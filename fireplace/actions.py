@@ -1274,6 +1274,7 @@ class CastSpell(TargetedAction):
 			print("Choosing card %r" % (choice))
 			player.choice.choose(choice)
 
+
 class Evolve(TargetedAction):
 	"""
 	Transform your minions into random minions that cost (\a amount) more
