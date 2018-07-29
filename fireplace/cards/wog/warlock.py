@@ -58,7 +58,7 @@ class OG_118:
 		hero_class, hero_power = random.choice(classes)
 		yield Summon(CONTROLLER, hero_power)
 		yield Morph(
-			FRIENDLY + (IN_DECK | IN_HAND) + WARLOCK,
+			FRIENDLY + WARLOCK + (IN_HAND | IN_DECK),
 			RandomCollectible(card_class = hero_class)
 		).then(
 			Buff(Morph.CARD, "OG_118e")
@@ -68,7 +68,6 @@ class OG_118:
 class OG_118e:
 	events = REMOVED_IN_PLAY
 	tags = {GameTag.COST: -1}
-
 
 
 class OG_239:
