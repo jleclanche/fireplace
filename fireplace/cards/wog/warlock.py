@@ -76,3 +76,11 @@ class OG_239:
 		minion_count = len(self.controller.field) + len(self.controller.opponent.field)
 		yield Destroy(ALL_MINIONS)
 		yield Draw(CONTROLLER) * minion_count
+
+
+class OG_114:
+	"""Forbidden Ritual"""
+	def play(self):
+		mana = self.controller.mana
+		yield SpendMana(CONTROLLER, mana)
+		yield Summon(CONTROLLER, "OG_114a") * mana

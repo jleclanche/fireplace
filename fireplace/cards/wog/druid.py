@@ -6,10 +6,10 @@ from ..utils import *
 
 class OG_051:
 	"""Forbidden Ancient"""
-	play = (
-		Buff(SELF, "OG_051e") * CURRENT_MANA(CONTROLLER),
-		SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER)),
-	)
+	def play(self):
+		mana = self.controller.mana
+		yield SpendMana(CONTROLLER, mana)
+		yield Buff(SELF, "OG_051e") * mana
 
 
 OG_051e = buff(+1, +1)

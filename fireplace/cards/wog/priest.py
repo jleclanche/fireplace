@@ -28,3 +28,11 @@ OG_094e = buff(+2, +6)
 class OG_100:
 	"""Shadow Word: Horror"""
 	play = Destroy(ALL_MINIONS + (ATK <= 2))
+
+
+class OG_101:
+    """Forbidden Shaping"""
+    def play(self):
+        mana = self.controller.mana
+        yield SpendMana(CONTROLLER, mana)
+        yield Summon(CONTROLLER, RandomMinion(cost=mana))
