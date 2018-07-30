@@ -27,6 +27,13 @@ class OG_309:
 	play = Deathrattle(TARGET)
 
 
+class OG_308:
+	"""Giant Sand Worm"""
+	events = Attack(SELF, ALL_MINIONS).after(
+		Dead(ALL_MINIONS + Attack.DEFENDER) & ExtraAttack(SELF)
+	)
+
+
 ##
 # Spells
 

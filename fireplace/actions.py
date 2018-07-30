@@ -1289,3 +1289,14 @@ class Evolve(TargetedAction):
 		if card_set:
 			card = random.choice(card_set)
 			return source.game.queue_actions(source, [Morph(target, card)])
+
+
+class ExtraAttack(TargetedAction):
+	"""
+	Get target an extra attack change
+	"""
+	TARGET = ActionArg()
+
+	def do(self, source, target):
+		log.info("%s gets an extra attack change.", target)
+		target.num_attacks -= 1
