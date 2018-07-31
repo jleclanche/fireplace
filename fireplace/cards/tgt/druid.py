@@ -37,6 +37,7 @@ AT_041e = buff(cost=-1)
 class AT_042:
 	"""Druid of the Saber"""
 	choose = ("AT_042a", "AT_042b")
+	play = ChooseBoth(CONTROLLER) & Morph(SELF, "OG_044c")
 
 
 class AT_042a:
@@ -58,6 +59,7 @@ class AT_045:
 class AT_037:
 	"""Living Roots"""
 	choose = ("AT_037a", "AT_037b")
+	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 2), Summon(CONTROLLER, "AT_037t") * 2)
 
 
 class AT_037a:

@@ -4,9 +4,31 @@ from ..utils import *
 ##
 # Minions
 
+class OG_051:
+	"""Forbidden Ancient"""
+	play = (
+		Buff(SELF, "OG_051e") * CURRENT_MANA(CONTROLLER),
+		SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER)),
+	)
+
+
+OG_051e = buff(+1, +1)
+
+
+class OG_044:
+	"""Fandral Staghelm"""
+	update = Refresh(CONTROLLER, {
+		GameTag.CHOOSE_BOTH: True,
+	})
+
+
 class OG_202:
 	"""Mire Keeper"""
 	choose = ("OG_202a", "OG_202b")
+	play = ChooseBoth(CONTROLLER) & (
+		Summon(CONTROLLER, "OG_202c"),
+		AT_MAX_MANA(CONTROLLER) | GainEmptyMana(CONTROLLER, 1)
+	)
 
 
 class OG_202a:
@@ -33,6 +55,10 @@ OG_313e = buff(+1, +1)
 class OG_047:
 	"""Feral Rage"""
 	choose = ("OG_047a", "OG_047b")
+	play = ChooseBoth(CONTROLLER) & (
+		Buff(FRIENDLY_HERO, "OG_047e"),
+		GainArmor(FRIENDLY_HERO, 8)
+	)
 
 
 class OG_047a:
@@ -59,6 +85,10 @@ OG_048e = buff(+2, +2)
 class OG_195:
 	"""Wisps of the Old Gods"""
 	choose = ("OG_195a", "OG_195b")
+	play = ChooseBoth(CONTROLLER) & (
+		Summon(CONTROLLER, "OG_195c") * 7,
+		Buff(FRIENDLY_MINIONS, "OG_195e")
+	)
 
 
 class OG_195a:

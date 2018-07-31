@@ -129,6 +129,7 @@ class BaseCard(BaseEntity):
 
 class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	windfury = int_property("windfury")
+	has_choose_one = boolean_property("has_choose_one")
 	playable_zone = Zone.HAND
 
 	def __init__(self, data):
@@ -171,6 +172,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		Returns True if the card has active choices
 		"""
+		if self.controller.choose_both and self.has_choose_one:
+			self.choose_cards = []
 		return bool(self.choose_cards)
 
 	@property

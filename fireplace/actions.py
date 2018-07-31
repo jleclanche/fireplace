@@ -1,3 +1,4 @@
+import random
 from collections import OrderedDict
 
 from hearthstone.enums import (
@@ -341,7 +342,11 @@ class GenericChoice(GameAction):
 		return player, cards
 
 	def do(self, source, player, cards):
-		player.choice = self
+		node = player
+		while node.choice is not None:
+			node = node.next_choice
+		node.choice = self
+		self.next_choice = None
 		self.source = source
 		self.player = player
 		self.cards = cards
@@ -361,7 +366,7 @@ class GenericChoice(GameAction):
 					_card.discard()
 			else:
 				_card.discard()
-		self.player.choice = None
+		self.player.choice = self.next_choice
 
 
 class MulliganChoice(GameAction):
@@ -1224,3 +1229,47 @@ class UnlockOverload(TargetedAction):
 		log.info("%s overload gets cleared", target)
 		target.overloaded = 0
 		target.overload_locked = 0
+
+
+class SummonJadeGolem(TargetedAction):
+	"""
+	Summons a Jade Golem for target player according to his Jade Golem Status
+	"""
+	TARGET = ActionArg()
+	CARD = CardArg()
+
+	def get_target_args(self, source, target):
+		jade_size = "CFM_712_t" + str(target.jade_golem).zfill(2)
+		return _eval_card(source, jade_size)
+
+	def do(self, source, target, card):
+		log.info("%s summons a Jade Golem for %s", source, target)
+		target.jade_golem = target.jade_golem + 1 if target.jade_golem <= 29 else 30
+		if card.is_summonable():
+			source.game.queue_actions(source, [Summon(target, card)])
+
+
+class CastSpell(TargetedAction):
+	"""
+	Cast a spell target random
+	"""
+	CARD = CardArg()
+
+	def do(self, source, card):
+		target = None
+		if card.must_choose_one:
+			card = random.choice(card.choose_cards)
+		if card.requires_target():
+			if len(card.targets):
+				target = random.choice(card.targets)
+			else:
+				log.info("%s cast spell %s don't have a legal target", source, card)
+				return
+		card.target = target
+		log.info("%s cast spell %s target %s", source, card, target)
+		source.game.queue_actions(source, [Battlecry(card, card.target)])
+		player = source.controller
+		while player.choice:
+			choice = random.choice(player.choice.cards)
+			print("Choosing card %r" % (choice))
+			player.choice.choose(choice)

@@ -35,3 +35,11 @@ class OG_081:
 class OG_090:
 	"""Cabalist's Tome"""
 	play = Give(CONTROLLER, RandomSpell(card_class=CardClass.MAGE)) * 3
+
+
+class OG_086:
+	"""Forbidden Flame"""
+	play = (
+		Hit(TARGET, CURRENT_MANA(CONTROLLER)),
+		SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER))
+	)

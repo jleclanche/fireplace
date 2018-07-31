@@ -15,6 +15,7 @@ from .utils import CardList
 class Player(Entity, TargetableByAuras):
 	Manager = PlayerManager
 	cant_overload = slot_property("cant_overload")
+	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
 	extra_deathrattles = slot_property("extra_deathrattles")
 	healing_double = slot_property("healing_double", sum)
@@ -59,6 +60,7 @@ class Player(Entity, TargetableByAuras):
 		self.minions_killed_this_turn = 0
 		self.weapon = None
 		self.zone = Zone.INVALID
+		self.jade_golem = 1
 
 	def __str__(self):
 		return self.name
