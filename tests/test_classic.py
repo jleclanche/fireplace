@@ -1126,6 +1126,45 @@ def test_dread_corsair():
 	assert corsair.cost == 4
 
 
+def test_druid_of_the_claw():
+	game = prepare_game()
+	claw1 = game.current_player.give("EX1_165")
+	with pytest.raises(InvalidAction):
+		claw1.play()
+	claw1.play(choose="EX1_165a")
+	assert len(game.current_player.field) == 1
+	claw_in_field1 = game.current_player.field[0]
+	assert claw_in_field1.id == "EX1_165t1"
+	assert claw_in_field1.atk == claw_in_field1.health == 4
+	assert claw_in_field1.charge
+	assert not claw_in_field1.taunt
+
+	claw2 = game.current_player.give("EX1_165")
+	with pytest.raises(InvalidAction):
+		claw2.play()
+	claw2.play(choose="EX1_165b")
+	assert len(game.current_player.field) == 2
+	claw_in_field2 = game.current_player.field[1]
+	assert claw_in_field2.id == "EX1_165t2"
+	assert claw_in_field2.atk == 4
+	assert claw_in_field2.health == 6
+	assert claw_in_field2.taunt
+	assert not claw_in_field2.charge
+	game.end_turn()
+
+	game.current_player.summon(FANDRAL_STAGHELM)
+	claw3 = game.current_player.give("EX1_165")
+	with pytest.raises(InvalidAction):
+		claw3.play(choose="EX1_165a")
+	claw3.play()
+	assert len(game.current_player.field) == 2
+	claw_in_field3 = game.current_player.field[1]
+	assert claw_in_field3.id == "OG_044a"
+	assert claw_in_field3.atk == 4
+	assert claw_in_field3.health == 6
+	assert claw_in_field3.taunt and claw_in_field3.charge
+
+
 def test_earth_shock():
 	game = prepare_game()
 	crusader = game.player1.give("EX1_020")
