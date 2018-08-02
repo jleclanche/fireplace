@@ -71,4 +71,4 @@ class OG_198:
 	def play(self):
 		mana = self.controller.mana
 		yield SpendMana(CONTROLLER, mana)
-		yield Heal(TARGET, mana*2)
+		yield Heal(TARGET, mana * 2)
