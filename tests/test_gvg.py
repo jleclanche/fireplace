@@ -437,6 +437,17 @@ def test_grove_tender():
 	assert len(game.player1.hand) == 1
 	assert len(game.player2.hand) == 1
 
+	assert game.player1.max_mana == 6
+	assert game.player2.max_mana == 5
+	game.player1.discard_hand()
+	game.player2.discard_hand()
+	game.player1.summon(FANDRAL_STAGHELM)
+	game.player1.give("GVG_032").play()
+	assert game.player1.max_mana == 7
+	assert game.player2.max_mana == 6
+	assert game.player1.mana == 6 - 3 - 3 + 1
+	assert game.player1.used_mana == 3 + 3
+
 
 def test_hobgoblin():
 	game = prepare_game()
