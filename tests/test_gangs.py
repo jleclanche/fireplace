@@ -1,6 +1,7 @@
 import pytest
 from utils import *
 
+
 def test_jade_behemoth():
 	game = prepare_game()
 	jade_behemoth = game.current_player.give("CFM_343").play()
@@ -16,6 +17,7 @@ def test_jade_behemoth():
 	jade2 = game.current_player.field[-1]
 	assert jade2.id == "CFM_712_t02"
 	assert jade2.health == jade2.atk == 2
+
 
 def test_jade_blossom():
 	game = prepare_game(game_class=Game)
