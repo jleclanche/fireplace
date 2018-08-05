@@ -30,4 +30,4 @@ class CFM_602b:
 
 class CFM_713:
 	"""Jade Blossom"""
-	play = SummonJadeGolem(CONTROLLER), GainEmptyMana(CONTROLLER, 1)
+	play = SummonJadeGolem(CONTROLLER), GainMana(CONTROLLER, 1), SpendMana(CONTROLLER, 1)
