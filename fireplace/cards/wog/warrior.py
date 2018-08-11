@@ -35,6 +35,11 @@ class OG_315:
 OG_315e = buff(+1, +1)
 
 
+class OG_301:
+	"""Ancient Shieldbearer"""
+	play = CHECK_CTHUN & GainArmor(CONTROLLER, 10)
+
+
 ##
 # Spells
 

@@ -4,11 +4,38 @@ from ..utils import *
 ##
 # Minions
 
+class OG_162:
+	"""Disciple of C'Thun"""
+	play = Hit(TARGET, 2), Buff(CTHUN, "OG_162e")
+
+
+OG_162e = buff(+2, +2)
+
+
+class OG_255:
+	"""Doomcaller"""
+	play = (
+		Buff(CTHUN, "OG_255e"),
+		Find(FRIENDLY + KILLED + CTHUN) & Shuffle(CONTROLLER, "OG_280")
+	)
+
+
+OG_255e = buff(+2, +2)
+
+
 class OG_034:
 	"""Silithid Swarmer"""
 	update = (NUM_ATTACKS_THIS_TURN(FRIENDLY_HERO) == 0) & (
 		Refresh(SELF, {GameTag.CANT_ATTACK: True})
 	)
+
+
+class OG_339:
+	"""Skeram Cultist"""
+	play = Buff(CTHUN, "OG_339e")
+
+
+OG_339e = buff(+2, +2)
 
 
 class OG_147:

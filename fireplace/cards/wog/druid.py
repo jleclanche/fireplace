@@ -49,6 +49,22 @@ class OG_313:
 OG_313e = buff(+1, +1)
 
 
+class OG_188:
+	"""Klaxxi Amber-Weaver"""
+	play = CHECK_CTHUN & Buff(SELF, "OG_188")
+
+
+OG_188e = buff(health=4)
+
+
+class OG_293:
+	"""Dark Arakkoa"""
+	play = Buff(CTHUN, "OG_293e")
+
+
+OG_293e = buff(+3, +3)
+
+
 ##
 # Spells
 

@@ -42,3 +42,31 @@ class OG_123e:
 		events = OWN_TURN_BEGIN.on(
 			Morph(SELF, RandomMinion()).then(Buff(Morph.CARD, "OG_123e"))
 		)
+
+
+class OG_300:
+	"""The Boogeymonster"""
+	events = Attack(SELF, ALL_MINIONS).after(
+		Dead(ALL_MINIONS + Attack.DEFENDER) & Buff(SELF, "OG_300e")
+	)
+
+
+OG_300e = buff(+2,+2)
+
+
+class OG_134:
+	"""Yogg-Saron, Hope's End"""
+	# TODO: stop when self death\return hand\return deck\silence\morph
+	# XXX: If Yogg-Saron changes ownership during its Battlecry
+	#      while cast spell for enemy
+	play = CastSpell(RandomSpell()) * AttrValue("times_cast_spell_played_this_game")(CONTROLLER)
+
+
+class OG_280:
+	"""C'Thun"""
+	play = Hit(RANDOM_ENEMY_CHARACTER, 1) * ATK(SELF)
+
+
+class OG_131:
+	"""Twin Emperor Vek'lor"""
+	play = CHECK_CTHUN & Summon(CONTROLLER, "OG_319")

@@ -342,6 +342,8 @@ class GenericChoice(GameAction):
 		return player, cards
 
 	def do(self, source, player, cards):
+		if len(cards) == 0:
+			return
 		node = player
 		while node.choice is not None:
 			node = node.next_choice
@@ -1300,3 +1302,59 @@ class ExtraAttack(TargetedAction):
 	def do(self, source, target):
 		log.info("%s gets an extra attack change.", target)
 		target.num_attacks -= 1
+
+
+class SwapState(TargetedAction):
+	"""
+	Swap stats between two minions using \a buff.
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, other, buff):
+		other = other[0]
+		buff1 = source.controller.card(buff)
+		buff1.atk = SET(other.atk)
+		buff1.health = other.health
+		buff2 = source.controller.card(buff)
+		buff2.atk = SET(target.atk)
+		buff2.health = target.health
+		buff1.apply(target)
+		buff2.apply(other)
+
+
+class SwapState(TargetedAction):
+	"""
+	Swap stats between two minions using \a buff.
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, other, buff):
+		other = other[0]
+		buff1 = source.controller.card(buff)
+		buff1.atk = other.atk
+		buff1.health = other.health
+		buff2 = source.controller.card(buff)
+		buff2.atk = target.atk
+		buff2.health = target.health
+		buff1.apply(target)
+		buff2.apply(other)
+
+
+class CopyState(TargetedAction):
+	"""
+	Copy target state, buff on self
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, buff):
+		target = target[0]
+		buff = source.controller.card(buff)
+		buff.atk = target.atk
+		buff.health = target.health
+		buff.apply(source)

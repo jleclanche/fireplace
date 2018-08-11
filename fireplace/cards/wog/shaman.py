@@ -22,6 +22,11 @@ class OG_209:
 	events = Damage(source=SPELL + FRIENDLY).on(Heal(FRIENDLY_HERO, Damage.AMOUNT))
 
 
+class OG_328:
+	"""Master of Evolution"""
+	play = Evolve(TARGET, 1)
+
+
 ##
 # Spells
 

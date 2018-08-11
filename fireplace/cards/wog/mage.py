@@ -4,6 +4,14 @@ from ..utils import *
 ##
 # Minions
 
+class OG_303:
+	"""Cult Sorcerer"""
+	events = OWN_SPELL_PLAY.after(Buff(CTHUN, "OG_303e"))
+
+
+OG_303e = buff(+1, +1)
+
+
 class OG_083:
 	"""Twilight Flamecaller"""
 	play = Hit(ENEMY_MINIONS, 1)
@@ -24,6 +32,11 @@ class OG_207:
 	play = Summon(CONTROLLER, RandomMinion(cost=3))
 
 
+class OG_087:
+    """Servant of Yogg-Saron"""
+    play = CastSpell(RandomSpell(id="DS1_184"))
+
+
 ##
 # Spells
 
@@ -39,7 +52,7 @@ class OG_090:
 
 class OG_086:
 	"""Forbidden Flame"""
-	play = (
-		Hit(TARGET, CURRENT_MANA(CONTROLLER)),
-		SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER))
-	)
+	def play(self):
+		mana = self.controller.mana
+		yield SpendMana(CONTROLLER, mana)
+		yield Hit(TARGET, mana)

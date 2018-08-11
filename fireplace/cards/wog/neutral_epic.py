@@ -51,3 +51,29 @@ class OG_337:
 
 
 OG_337e = buff(health=1)
+
+
+class OG_102:
+	"""Darkspeaker"""
+	play = SwapState(TARGET, SELF)
+
+
+class OG_102e:
+	max_health = lambda self, i: self.health
+
+
+class OG_174:
+	"""Faceless Shambler"""
+	play = CopyState(TARGET, "OG_174e")
+
+
+class OG_174e:
+	max_health = lambda self, i: self.health
+
+
+class OG_321:
+	"""Crazed Worshipper"""
+	events = SELF_DAMAGE.on(Buff(CTHUN, "OG_321e"))
+
+
+OG_321e = buff(+1, +1)

@@ -4,6 +4,19 @@ from ..utils import *
 ##
 # Minions
 
+class OG_096:
+	"""Twilight Darkmender"""
+	play = CHECK_CTHUN & Heal(FRIENDLY_HERO, 10)
+
+
+class OG_334:
+	"""Hooded Acolyte"""
+	play = Heal(ALL_CHARACTERS).on(Buff(CTHUN, "OG_334e"))
+
+
+OG_334e = buff(+1, +1)
+
+
 class OG_234:
 	"""Darkshire Alchemist"""
 	play = Heal(TARGET, 5)
@@ -14,8 +27,35 @@ class OG_335:
 	deathrattle = Give(CONTROLLER, Copy(RANDOM(ENEMY_DECK)))
 
 
+class OG_316:
+	"""Herald Volazj"""
+	def play(self):
+		for entity in self.game:
+			if (entity in self.controller.field) and (entity != self):
+				card = ExactCopy(Selector()).copy(self, entity)
+				self.game.cheat_action(self, [Buff(card, "OG_316k")])
+				action = Summon(self.controller, card)
+				self.game.cheat_action(entity, [action])
+
+
+class OG_316k:
+	atk = SET(1)
+	max_health = SET(1)
+
+
 ##
 # Spells
+
+class OG_104:
+	"""Embrace the Shadow"""
+	play = Buff(CONTROLLER, "OG_104e")
+
+
+class OG_104e:
+	update = Refresh(CONTROLLER, {
+		GameTag.EMBRACE_THE_SHADOW: True,
+	})
+
 
 class OG_094:
 	"""Power Word: Tentacles"""

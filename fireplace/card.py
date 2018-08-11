@@ -734,6 +734,10 @@ class Spell(PlayableCard):
 			amount *= 2
 		return amount
 
+	def play(self, target=None, index=None, choose=None):
+		self.controller.times_cast_spell_played_this_game += 1
+		return super().play(target, index, choose)
+
 
 class Secret(Spell):
 	@property

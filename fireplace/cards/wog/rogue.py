@@ -30,6 +30,24 @@ class OG_330:
 	deathrattle = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))
 
 
+class OG_291:
+	"""Shadowcaster"""
+	play = Give(CONTROLLER, Buff(Copy(TARGET), "OG_291e"))
+
+
+class OG_291e:
+	atk = SET(1)
+	max_health = SET(1)
+
+
+class OG_282:
+	def play(self):
+		atk = self.target.atk
+		health = self.target.health
+		yield Destory(TARGET)
+		yield Buff(CTHUN, "OG_282e", atk=atk, max_health=health)
+
+
 ##
 # Spells
 

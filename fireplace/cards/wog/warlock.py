@@ -33,6 +33,14 @@ class OG_241:
 	deathrattle = Summon(CONTROLLER, "OG_241a")
 
 
+class OG_302:
+	"""Usher of Souls"""
+	events = Death(FRIENDLY + MINION).on(Buff(CTHUN, "OG_302e"))
+
+
+OG_302e = buff(+1, +1)
+
+
 ##
 # Spells
 
