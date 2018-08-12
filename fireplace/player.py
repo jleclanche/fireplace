@@ -156,7 +156,7 @@ class Player(Entity, TargetableByAuras):
 			cthun = self.controller.cthun
 			for k in cthun.silenceable_attributes:
 				v = getattr(cthun, k)
-				setattr(ret, k, v)
+				setattr(card, k, v)
 			card.silenced = cthun.silenced
 			card.damage = cthun.damage
 			for buff in cthun.buffs:

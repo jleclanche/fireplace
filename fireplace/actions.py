@@ -11,7 +11,6 @@ from .exceptions import InvalidAction
 from .logging import log
 from .utils import random_class
 
-
 def _eval_card(source, card):
 	"""
 	Return a Card instance from \a card
@@ -1313,32 +1312,13 @@ class SwapState(TargetedAction):
 	BUFF = ActionArg()
 
 	def do(self, source, target, other, buff):
+		log.info("swap state %s and %s", target, other)
 		other = other[0]
 		buff1 = source.controller.card(buff)
-		buff1.atk = SET(other.atk)
+		buff1.atk = other.atk - target.atk
 		buff1.health = other.health
 		buff2 = source.controller.card(buff)
-		buff2.atk = SET(target.atk)
-		buff2.health = target.health
-		buff1.apply(target)
-		buff2.apply(other)
-
-
-class SwapState(TargetedAction):
-	"""
-	Swap stats between two minions using \a buff.
-	"""
-	TARGET = ActionArg()
-	OTHER = ActionArg()
-	BUFF = ActionArg()
-
-	def do(self, source, target, other, buff):
-		other = other[0]
-		buff1 = source.controller.card(buff)
-		buff1.atk = other.atk
-		buff1.health = other.health
-		buff2 = source.controller.card(buff)
-		buff2.atk = target.atk
+		buff2.atk = target.atk - other.atk
 		buff2.health = target.health
 		buff1.apply(target)
 		buff2.apply(other)
@@ -1353,8 +1333,8 @@ class CopyState(TargetedAction):
 	BUFF = ActionArg()
 
 	def do(self, source, target, buff):
-		target = target[0]
+		target = target
 		buff = source.controller.card(buff)
-		buff.atk = target.atk
+		buff.atk = target.atk - source.atk
 		buff.health = target.health
 		buff.apply(source)

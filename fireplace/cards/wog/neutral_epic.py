@@ -55,7 +55,7 @@ OG_337e = buff(health=1)
 
 class OG_102:
 	"""Darkspeaker"""
-	play = SwapState(TARGET, SELF)
+	play = SwapState(TARGET, SELF, "OG_102e")
 
 
 class OG_102e:

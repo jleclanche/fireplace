@@ -51,7 +51,7 @@ class OG_300:
 	)
 
 
-OG_300e = buff(+2,+2)
+OG_300e = buff(+2, +2)
 
 
 class OG_134:
@@ -59,7 +59,9 @@ class OG_134:
 	# TODO: stop when self death\return hand\return deck\silence\morph
 	# XXX: If Yogg-Saron changes ownership during its Battlecry
 	#      while cast spell for enemy
-	play = CastSpell(RandomSpell()) * AttrValue("times_cast_spell_played_this_game")(CONTROLLER)
+	play = (
+		CastSpell(RandomSpell()) * AttrValue("times_cast_spell_played_this_game")(CONTROLLER)
+	)
 
 
 class OG_280:
