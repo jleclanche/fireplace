@@ -2,6 +2,19 @@ import pytest
 from utils import *
 
 
+def test_aya_blackpaw():
+	game = prepare_game()
+	assert game.current_player.jade_golem == 1
+	aya = game.current_player.give("CFM_902").play()
+	assert game.current_player.field[1].id == "CFM_712_t01"
+	assert game.current_player.jade_golem == 2
+	aya.destroy()
+	assert game.current_player.jade_golem == 3
+	jade2 = game.current_player.field[-1]
+	assert jade2.id == "CFM_712_t02"
+	assert jade2.health == jade2.atk == 2
+
+
 def test_jade_behemoth():
 	game = prepare_game()
 	jade_behemoth = game.current_player.give("CFM_343").play()
@@ -39,6 +52,32 @@ def test_jade_blossom():
 	assert game.current_player.opponent.max_mana == 2
 
 
+def test_jade_chieftain():
+	game = prepare_game()
+	assert game.current_player.jade_golem == 1
+	chieftain = game.current_player.give("CFM_312").play()
+	assert game.current_player.jade_golem == 2
+	assert game.current_player.field[1].id == "CFM_712_t01"
+	assert game.current_player.field[1].taunt
+	assert not chieftain.taunt
+
+
+def test_jade_claws():
+	game = prepare_game()
+	assert game.current_player.jade_golem == 1
+	game.current_player.give("CFM_717").play()
+	assert game.current_player.field[0].id == "CFM_712_t01"
+	assert game.current_player.jade_golem == 2
+	game.current_player.hero.attack(game.current_player.opponent.hero)
+	assert game.current_player.opponent.hero.health == 28
+
+	game.current_player.summon("LOE_077")
+	game.current_player.give("CFM_717").play()
+	assert game.current_player.field[2].id == "CFM_712_t02"
+	assert game.current_player.field[3].id == "CFM_712_t03"
+	assert game.current_player.jade_golem == 4
+
+
 def test_jade_idol():
 	game = prepare_game()
 	assert game.current_player.jade_golem == 1
@@ -72,3 +111,75 @@ def test_jade_idol():
 		assert jade_i.health == jade_i.atk == 3 + i
 		jade_i.destroy()
 	# assert len(game.current_player.deck) == 60
+
+
+def test_jade_lighting():
+	game = prepare_game()
+	assert game.current_player.jade_golem == 1
+	lighting = game.current_player.give("CFM_707")
+	lighting.play(target=game.current_player.hero)
+	assert game.current_player.field[0].id == "CFM_712_t01"
+	assert game.current_player.jade_golem == 2
+	assert game.current_player.hero.health == 26
+
+
+def test_jade_shuriken():
+	game = prepare_game()
+	assert game.current_player.jade_golem == 1
+	shuriken1 = game.current_player.give("CFM_690")
+	shuriken2 = game.current_player.give("CFM_690")
+	shuriken3 = game.current_player.give("CFM_690")
+	wisp = game.current_player.summon(WISP)
+	hero2 = game.current_player.opponent.hero
+	with pytest.raises(InvalidAction):
+		shuriken1.play()
+	shuriken1.play(target=hero2)
+	assert hero2.health == 28
+	assert game.current_player.jade_golem == 1
+	assert len(game.current_player.field) == 1
+
+	shuriken2.play(target=wisp)
+	assert wisp.dead
+	assert game.current_player.jade_golem == 2
+	assert len(game.current_player.field) == 1
+
+	game.current_player.summon("EX1_012")
+	shuriken3.play(target=hero2)
+	assert hero2.health == 25
+	assert game.current_player.jade_golem == 3
+	assert len(game.current_player.field) == 3
+
+	blade = game.current_player.give("EX1_133")
+	blade.play(target=hero2)
+	assert hero2.health == 23
+	assert game.current_player.jade_golem == 3
+
+
+def test_jade_spirit():
+	game = prepare_game()
+	assert game.current_player.jade_golem == 1
+	game.current_player.give("CFM_715").play()
+	assert game.current_player.field[1].id == "CFM_712_t01"
+	assert game.current_player.jade_golem == 2
+
+	game.current_player.summon("LOE_077")
+	game.current_player.give("CFM_715").play()
+	assert game.current_player.jade_golem == 4
+	jade2 = game.current_player.field[5]
+	assert jade2.id == "CFM_712_t02"
+	assert jade2.health == jade2.atk == 2
+	# the extra battlecry comes next to its generator
+	jade3 = game.current_player.field[4]
+	assert jade3.id == "CFM_712_t03"
+	assert jade3.health == jade3.atk == 3
+
+
+def test_jade_swarmer():
+	game = prepare_game()
+	assert game.current_player.jade_golem == 1
+	swarmer = game.current_player.give("CFM_691")
+	swarmer.play()
+	assert game.current_player.jade_golem == 1
+	swarmer.destroy()
+	assert game.current_player.jade_golem == 2
+	assert game.current_player.field[0].id == "CFM_712_t01"
