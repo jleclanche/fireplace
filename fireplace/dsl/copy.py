@@ -35,7 +35,7 @@ class ExactCopy(Copy):
 	"""
 	def copy(self, source, entity):
 		if entity.id == "OG_280":
-			return super().copy()
+			return super().copy(source, entity)
 		ret = super().copy(source, entity)
 		for k in entity.silenceable_attributes:
 			v = getattr(entity, k)
