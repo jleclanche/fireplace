@@ -1274,6 +1274,7 @@ class CastSpell(TargetedAction):
 			choice = random.choice(player.choice.cards)
 			print("Choosing card %r" % (choice))
 			player.choice.choose(choice)
+		source.game.queue_actions(source, [Deaths()])
 
 
 class Evolve(TargetedAction):

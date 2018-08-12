@@ -56,12 +56,11 @@ OG_300e = buff(+2, +2)
 
 class OG_134:
 	"""Yogg-Saron, Hope's End"""
-	# TODO: stop when self death\return hand\return deck\silence\morph
-	# XXX: If Yogg-Saron changes ownership during its Battlecry
-	#      while cast spell for enemy
-	play = (
-		CastSpell(RandomSpell()) * AttrValue("times_cast_spell_played_this_game")(CONTROLLER)
-	)
+	def play(self):
+		amount = min(self.controller.times_cast_spell_played_this_game, 30)
+		for i in range(amount):
+			if (self.zone == Zone.PLAY) and (not self.silenced):
+				yield CastSpell(RandomSpell())
 
 
 class OG_280:
