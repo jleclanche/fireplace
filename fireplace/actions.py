@@ -1315,10 +1315,12 @@ class SwapState(TargetedAction):
 		log.info("swap state %s and %s", target, other)
 		other = other[0]
 		buff1 = source.controller.card(buff)
-		buff1.atk = other.atk - target.atk
+		buff1._atk = other.atk
+		buff1.data.scripts.atk = lambda self, i: self._atk
 		buff1.health = other.health
 		buff2 = source.controller.card(buff)
-		buff2.atk = target.atk - other.atk
+		buff2._atk = target.atk
+		buff2.data.scripts.atk = lambda self, i: self._atk
 		buff2.health = target.health
 		buff1.apply(target)
 		buff2.apply(other)
@@ -1335,6 +1337,7 @@ class CopyState(TargetedAction):
 	def do(self, source, target, buff):
 		target = target
 		buff = source.controller.card(buff)
-		buff.atk = target.atk - source.atk
+		buff._atk = target.atk
+		buff.data.scripts.atk = lambda self, i: self._atk
 		buff.health = target.health
 		buff.apply(source)
