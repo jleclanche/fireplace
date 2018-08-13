@@ -11,6 +11,7 @@ from .exceptions import InvalidAction
 from .logging import log
 from .utils import random_class
 
+
 def _eval_card(source, card):
 	"""
 	Return a Card instance from \a card
