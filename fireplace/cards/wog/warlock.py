@@ -35,10 +35,7 @@ class OG_241:
 
 class OG_302:
 	"""Usher of Souls"""
-	events = Death(FRIENDLY + MINION).on(Buff(CTHUN, "OG_302e"))
-
-
-OG_302e = buff(+1, +1)
+	events = Death(FRIENDLY + MINION).on(Buff(CTHUN, "OG_303e"))
 
 
 ##

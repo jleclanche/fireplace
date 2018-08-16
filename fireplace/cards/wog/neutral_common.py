@@ -17,9 +17,6 @@ class OG_283:
 	play = Buff(CTHUN, "OG_283e")
 
 
-OG_283e = buff(+2, +2)
-
-
 class OG_284:
 	"""Twilight Geomancer"""
 	play = Buff(CTHUN, "OG_284e")
@@ -30,10 +27,7 @@ OG_284e = buff(taunt=True)
 
 class OG_286:
 	"""Twilight Elder"""
-	events = OWN_TURN_END.on(Buff(CTHUN, "OG_286e"))
-
-
-OG_286e = buff(+1, +1)
+	events = OWN_TURN_END.on(Buff(CTHUN, "OG_303e"))
 
 
 class OG_138:
