@@ -6,10 +6,7 @@ from ..utils import *
 
 class OG_303:
 	"""Cult Sorcerer"""
-	events = OWN_SPELL_PLAY.after(Buff(CTHUN, "OG_303e"))
-
-
-OG_303e = buff(+1, +1)
+	events = OWN_SPELL_PLAY.after(Buff(CTHUN, "OG_281e", atk=1, max_health=1))
 
 
 class OG_083:

@@ -6,15 +6,12 @@ from ..utils import *
 
 class OG_281:
 	"""Beckoner of Evil"""
-	play = Buff(CTHUN, "OG_281e")
-
-
-OG_281e = buff(+2, +2)
+	play = Buff(CTHUN, "OG_281e", atk=2, max_health=2)
 
 
 class OG_283:
 	"""C'Thun's Chosen"""
-	play = Buff(CTHUN, "OG_283e")
+	play = Buff(CTHUN, "OG_281e", atk=2, max_health=2)
 
 
 class OG_284:
@@ -27,7 +24,7 @@ OG_284e = buff(taunt=True)
 
 class OG_286:
 	"""Twilight Elder"""
-	events = OWN_TURN_END.on(Buff(CTHUN, "OG_303e"))
+	events = OWN_TURN_END.on(Buff(CTHUN, "OG_281e", atk=1, max_health=1))
 
 
 class OG_138:

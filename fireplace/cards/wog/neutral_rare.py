@@ -6,13 +6,13 @@ from ..utils import *
 
 class OG_162:
 	"""Disciple of C'Thun"""
-	play = Hit(TARGET, 2), Buff(CTHUN, "OG_281e")
+	play = Hit(TARGET, 2), Buff(CTHUN, "OG_281e", atk=2, max_health=2)
 
 
 class OG_255:
 	"""Doomcaller"""
 	play = (
-		Buff(CTHUN, "OG_281e"),
+		Buff(CTHUN, "OG_281e", atk=2, max_health=2),
 		Find(FRIENDLY + KILLED + CTHUN) & Shuffle(CONTROLLER, "OG_280")
 	)
 
@@ -26,7 +26,7 @@ class OG_034:
 
 class OG_339:
 	"""Skeram Cultist"""
-	play = Buff(CTHUN, "OG_281e")
+	play = Buff(CTHUN, "OG_281e", atk=2, max_health=2)
 
 
 class OG_147:

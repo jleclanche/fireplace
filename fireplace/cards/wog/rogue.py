@@ -45,7 +45,7 @@ class OG_282:
 		atk = self.target.atk
 		health = self.target.health
 		yield Destory(TARGET)
-		yield Buff(CTHUN, "OG_282e", atk=atk, max_health=health)
+		yield Buff(CTHUN, "OG_281e", atk=atk, max_health=health)
 
 
 ##
