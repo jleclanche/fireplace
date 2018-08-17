@@ -93,7 +93,10 @@ class BaseCard(BaseEntity):
 		if caches.get(old) is not None:
 			caches[old].remove(self)
 		if caches.get(value) is not None:
-			caches[value].append(self)
+			if hasattr(self, "_summon_index") and self._summon_index is not None:
+				caches[value].insert(self._summon_index, self)
+			else:
+				caches[value].append(self)
 		self._zone = value
 
 		if value == Zone.PLAY:
@@ -148,6 +151,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	def events(self):
 		if self.zone == Zone.HAND:
 			return self.data.scripts.Hand.events
+		if self.zone == Zone.DECK:
+			return self.data.scripts.DECK.events
 		return self.base_events + self._events
 
 	@property
@@ -729,6 +734,10 @@ class Spell(PlayableCard):
 			amount *= 2
 		return amount
 
+	def play(self, target=None, index=None, choose=None):
+		self.controller.times_cast_spell_played_this_game += 1
+		return super().play(target, index, choose)
+
 
 class Secret(Spell):
 	@property
@@ -818,6 +827,8 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "max_health"):
 			self.log("%r removes all damage from %r", self, target)
 			target.damage = 0
+		if hasattr(self.data.scripts.Hand, "events") and hasattr(target.data, "scripts"):
+			target.data.scripts.Hand.events += self.data.scripts.Hand.events
 		self.zone = Zone.PLAY
 
 	def remove(self):

@@ -68,7 +68,7 @@ OG_222e = buff(+1, +1)
 
 class OG_198:
 	"""Forbidden Healing"""
-	play = (
-		Heal(TARGET, CURRENT_MANA(CONTROLLER) * 2),
-		SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER))
-	)
+	def play(self):
+		mana = self.controller.mana
+		yield SpendMana(CONTROLLER, mana)
+		yield Heal(TARGET, mana * 2)

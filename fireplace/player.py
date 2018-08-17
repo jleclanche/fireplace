@@ -61,6 +61,8 @@ class Player(Entity, TargetableByAuras):
 		self.weapon = None
 		self.zone = Zone.INVALID
 		self.jade_golem = 1
+		self.times_cast_spell_played_this_game = 0
+		self.cthun = None
 
 	def __str__(self):
 		return self.name
@@ -150,6 +152,15 @@ class Player(Entity, TargetableByAuras):
 			card.creator = source
 		if parent is not None:
 			card.parent_card = parent
+		if id == "OG_280" and self.controller.cthun is not None:
+			cthun = self.controller.cthun
+			for k in cthun.silenceable_attributes:
+				v = getattr(cthun, k)
+				setattr(card, k, v)
+			card.silenced = cthun.silenced
+			card.damage = cthun.damage
+			for buff in cthun.buffs:
+				cthun.buff(card, buff.id)
 		self.game.manager.new_entity(card)
 		return card
 
@@ -158,6 +169,7 @@ class Player(Entity, TargetableByAuras):
 		for id in self.starting_deck:
 			self.card(id, zone=Zone.DECK)
 		self.shuffle_deck()
+		self.cthun = self.card("OG_280")
 		self.playstate = PlayState.PLAYING
 
 		# Draw initial hand (but not any more than what we have in the deck)

@@ -34,6 +34,8 @@ class ExactCopy(Copy):
 	An exact copy will include buffs and all tags.
 	"""
 	def copy(self, source, entity):
+		if entity.id == "OG_280":
+			return super().copy(source, entity)
 		ret = super().copy(source, entity)
 		for k in entity.silenceable_attributes:
 			v = getattr(entity, k)

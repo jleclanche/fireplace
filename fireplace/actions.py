@@ -342,6 +342,8 @@ class GenericChoice(GameAction):
 		return player, cards
 
 	def do(self, source, player, cards):
+		if len(cards) == 0:
+			return
 		node = player
 		while node.choice is not None:
 			node = node.next_choice
@@ -1273,3 +1275,71 @@ class CastSpell(TargetedAction):
 			choice = random.choice(player.choice.cards)
 			print("Choosing card %r" % (choice))
 			player.choice.choose(choice)
+		source.game.queue_actions(source, [Deaths()])
+
+
+class Evolve(TargetedAction):
+	"""
+	Transform your minions into random minions that cost (\a amount) more
+	"""
+	TARGET = ActionArg()
+	AMOUNT = IntArg()
+
+	def do(self, source, target, amount):
+		from . import cards
+		cost = target.cost + amount
+		card_set = cards.filter(collectible=True, cost=cost, type=CardType.MINION)
+		if card_set:
+			card = random.choice(card_set)
+			return source.game.queue_actions(source, [Morph(target, card)])
+
+
+class ExtraAttack(TargetedAction):
+	"""
+	Get target an extra attack change
+	"""
+	TARGET = ActionArg()
+
+	def do(self, source, target):
+		log.info("%s gets an extra attack change.", target)
+		target.num_attacks -= 1
+
+
+class SwapState(TargetedAction):
+	"""
+	Swap stats between two minions using \a buff.
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, other, buff):
+		log.info("swap state %s and %s", target, other)
+		other = other[0]
+		buff1 = source.controller.card(buff)
+		buff1._atk = other.atk
+		buff1.data.scripts.atk = lambda self, i: self._atk
+		buff1.health = other.health
+		buff2 = source.controller.card(buff)
+		buff2._atk = target.atk
+		buff2.data.scripts.atk = lambda self, i: self._atk
+		buff2.health = target.health
+		buff1.apply(target)
+		buff2.apply(other)
+
+
+class CopyState(TargetedAction):
+	"""
+	Copy target state, buff on self
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, buff):
+		target = target
+		buff = source.controller.card(buff)
+		buff._atk = target.atk
+		buff.data.scripts.atk = lambda self, i: self._atk
+		buff.health = target.health
+		buff.apply(source)

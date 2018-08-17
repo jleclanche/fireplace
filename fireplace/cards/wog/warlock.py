@@ -33,6 +33,11 @@ class OG_241:
 	deathrattle = Summon(CONTROLLER, "OG_241a")
 
 
+class OG_302:
+	"""Usher of Souls"""
+	events = Death(FRIENDLY + MINION).on(Buff(CTHUN, "OG_281e", atk=1, max_health=1))
+
+
 ##
 # Spells
 
@@ -41,9 +46,46 @@ class OG_116:
 	play = Hit(RANDOM_CHARACTER, 1) * 9
 
 
+class OG_118:
+	"""Renounce Darkness"""
+	def play(self):
+		import random
+		classes = [
+			(CardClass.DRUID, "CS2_017"),
+			(CardClass.HUNTER, "DS1h_292"),
+			(CardClass.MAGE, "CS2_034"),
+			(CardClass.PALADIN, "CS2_101"),
+			(CardClass.PRIEST, "CS1h_001"),
+			(CardClass.ROGUE, "CS2_083b"),
+			(CardClass.SHAMAN, "CS2_049"),
+			(CardClass.WARRIOR, "CS2_102")
+		]
+		hero_class, hero_power = random.choice(classes)
+		yield Summon(CONTROLLER, hero_power)
+		yield Morph(
+			FRIENDLY + WARLOCK + (IN_HAND | IN_DECK),
+			RandomCollectible(card_class=hero_class)
+		).then(
+			Buff(Morph.CARD, "OG_118e")
+		)
+
+
+class OG_118e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -1}
+
+
 class OG_239:
 	"""DOOM!"""
 	def play(self):
 		minion_count = len(self.controller.field) + len(self.controller.opponent.field)
 		yield Destroy(ALL_MINIONS)
 		yield Draw(CONTROLLER) * minion_count
+
+
+class OG_114:
+	"""Forbidden Ritual"""
+	def play(self):
+		mana = self.controller.mana
+		yield SpendMana(CONTROLLER, mana)
+		yield Summon(CONTROLLER, "OG_114a") * mana
