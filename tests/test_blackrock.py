@@ -138,19 +138,24 @@ def test_dragonkin_sorcerer():
 
 def test_druid_of_the_flame():
 	game = prepare_game()
-	flame1 = game.player1.give("BRM_010")
-	flame1.play(choose="BRM_010a")
-	assert len(game.player1.field) == 1
-	assert game.player1.field[0].id == "BRM_010t"
-	assert game.player1.field[0].atk == 5
-	assert game.player1.field[0].health == 2
+	game.current_player.give("BRM_010").play(choose="BRM_010a")
+	assert len(game.current_player.field) == 1
+	assert game.current_player.field[0].id == "BRM_010t"
+	assert game.current_player.field[0].atk == 5
+	assert game.current_player.field[0].health == 2
 
-	flame2 = game.player1.give("BRM_010")
-	flame2.play(choose="BRM_010b")
-	assert len(game.player1.field) == 2
-	assert game.player1.field[1].id == "BRM_010t2"
-	assert game.player1.field[1].atk == 2
-	assert game.player1.field[1].health == 5
+	game.current_player.give("BRM_010").play(choose="BRM_010b")
+	assert len(game.current_player.field) == 2
+	assert game.current_player.field[1].id == "BRM_010t2"
+	assert game.current_player.field[1].atk == 2
+	assert game.current_player.field[1].health == 5
+
+	game.current_player.summon(FANDRAL_STAGHELM)
+	game.current_player.give("BRM_010").play()
+	assert len(game.player1.field) == 2 + 1 + 1
+	assert game.player1.field[3].id == "OG_044b"
+	assert game.player1.field[3].atk == 5
+	assert game.player1.field[3].health == 5
 
 
 def test_emperor_thaurissan():
