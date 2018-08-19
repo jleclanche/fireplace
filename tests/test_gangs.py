@@ -226,3 +226,18 @@ def test_doppelgangster():
 	assert game.player1.field[0].atk == 3
 	assert game.player1.field[1].atk == 3
 	assert game.player1.field[2].atk == 3
+
+
+def test_seadevil_stinger():
+	game = prepare_game()
+	sea = game.player1.give("CFM_699")
+	assert game.player1.murlocs_cost_health == False
+	sea.play()
+	assert game.player1.murlocs_cost_health == True
+	assert game.player1.mana == 6
+	assert game.player1.hero.health == 30
+	murloc = game.player1.give("EX1_507")
+	murloc.play()
+	assert game.player1.murlocs_cost_health == False
+	assert game.player1.mana == 6
+	assert game.player1.hero.health == (30 - murloc.cost)

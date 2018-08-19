@@ -220,6 +220,7 @@ CARD_ATTRIBUTE_MAP = {
 	enums.EXTRA_BATTLECRIES: "extra_battlecries",
 	enums.KILLED_THIS_TURN: "killed_this_turn",
 	enums.DISCARDED: "discarded",
+	enums.MURLOCS_COST_HEALTH: "murlocs_cost_health",
 	GameTag.AFFECTED_BY_SPELL_POWER: None,
 	GameTag.ARTISTNAME: None,
 	GameTag.AttackVisualType: None,

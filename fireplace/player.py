@@ -1,7 +1,7 @@
 import random
 from itertools import chain
 
-from hearthstone.enums import CardType, PlayState, Zone
+from hearthstone.enums import CardType, PlayState, Race, Zone
 
 from .actions import Concede, Draw, Fatigue, Give, Hit, Steal, Summon
 from .aura import TargetableByAuras
@@ -25,6 +25,7 @@ class Player(Entity, TargetableByAuras):
 	spellpower_double = slot_property("spellpower_double", sum)
 	spellpower_adjustment = slot_property("spellpower", sum)
 	spells_cost_health = slot_property("spells_cost_health")
+	murlocs_cost_health = slot_property("murlocs_cost_health")
 	type = CardType.PLAYER
 
 	def __init__(self, name, deck, hero):
@@ -203,6 +204,9 @@ class Player(Entity, TargetableByAuras):
 		"""
 		if self.spells_cost_health and card.type == CardType.SPELL:
 			return self.hero.health > card.cost
+		if self.murlocs_cost_health:
+			if card.type == CardType.MINION and card.race == Race.MURLOC:
+				return self.hero.health > card.cost
 		return self.mana >= card.cost
 
 	def pay_cost(self, source, amount: int) -> int:
@@ -214,6 +218,11 @@ class Player(Entity, TargetableByAuras):
 			self.log("%s spells cost %i health", self, amount)
 			self.game.queue_actions(self, [Hit(self.hero, amount)])
 			return amount
+		if self.murlocs_cost_health:
+			if source.type == CardType.MINION and source.race == Race.MURLOC:
+				self.log("%s murlocs cost %i health", self, amount)
+				self.game.queue_actions(self, [Hit(self.hero, amount)])
+				return amount
 		if self.temp_mana:
 			# Coin, Innervate etc
 			used_temp = min(self.temp_mana, amount)
