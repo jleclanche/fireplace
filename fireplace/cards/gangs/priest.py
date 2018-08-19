@@ -16,6 +16,7 @@ class CFM_020e:
 class CFM_605:
 	"""Drakonid Operative"""
 	powered_up = HOLDING_DRAGON
+
 	def play(self):
 		decklist = [i.id for i in self.controller.opponent.deck]
 		if decklist:

@@ -42,7 +42,7 @@ class ExactCopy(Copy):
 			return super().copy(source, entity)
 		ret = super().copy(source, entity)
 		if self.id:
-		  	ret = source.controller.card(self.id, source)
+			ret = source.controller.card(self.id, source)
 		for k in entity.silenceable_attributes:
 			v = getattr(entity, k)
 			setattr(ret, k, v)

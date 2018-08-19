@@ -36,7 +36,6 @@ class CFM_652:
 		update = (Count(ENEMY_MINIONS) >= 3) & Refresh(SELF, {GameTag.COST: -2})
 
 
-
 class CFM_658:
 	"""Backroom Bouncer"""
 	events = Death(FRIENDLY + MINION).on(Buff(SELF, "CFM_658e"))
@@ -60,9 +59,10 @@ class CFM_668:
 				Morph(LEFT_OF(SELF), ExactCopy(LEFT_OF(SELF), "CFM_668t")),
 				Find(RIGHT_OF(SELF) + ID("CFM_668")) &
 				Morph(RIGHT_OF(SELF), ExactCopy(RIGHT_OF(SELF), "CFM_668t2"))
-			) # WTF
+			)  # WTF
 		)
 	)
+
 
 class CFM_688:
 	"""Spiked Hogrider"""

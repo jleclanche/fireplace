@@ -41,6 +41,7 @@ class CFM_900:
 	"""Unlicensed Apothecary"""
 	events = Summon(CONTROLLER).on(Hit(FRIENDLY_HERO, 5))
 
+
 ##
 # Spells
 
@@ -56,7 +57,11 @@ class CFM_608:
 
 class CFM_611:
 	"""Bloodfury Potion"""
-	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "CFM_611e2") | Buff(TARGET, "CFM_611e")
+	play = (
+		Find(TARGET + FRIENDLY + DEMON) &
+		Buff(TARGET, "CFM_611e2") |
+		Buff(TARGET, "CFM_611e")
+	)
 
 
 CFM_611e = buff(+3)

@@ -46,7 +46,7 @@ class CFM_752:
 	play = Buff(RANDOM(FRIENDLY_HAND + MINION + TAUNT), "CFM_752e")
 
 
-CFM_752e =  buff(+3, +3)
+CFM_752e = buff(+3, +3)
 
 
 class CFM_940:

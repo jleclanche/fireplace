@@ -58,7 +58,7 @@ class CFM_806:
 			current_handsize = len(self.controller.hand)
 			yield Draw(self.controller)
 			if len(self.controller.hand) == current_handsize:
-				#Unable to draw card due to fatigue or max hand size
+				# Unable to draw card due to fatigue or max hand size
 				break
 			card = self.controller.hand[-1]
 			if card.type != CardType.MINION or card.race != Race.DRAGON:
