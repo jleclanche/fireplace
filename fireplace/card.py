@@ -1,3 +1,4 @@
+import random
 from itertools import chain
 
 from hearthstone.enums import CardType, PlayReq, PlayState, Race, Rarity, Step, Zone
@@ -314,7 +315,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				raise InvalidAction("%r is not a valid target for %r." % (target, self))
 			if self.controller.all_targets_random:
 				new_target = random.choice(self.play_targets)
-				log.info("Retargeting %r from %r to %r", self, target, new_target)
+				self.logger.info("Retargeting %r from %r to %r", self, target, new_target)
 				target = new_target
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
@@ -923,7 +924,7 @@ class HeroPower(PlayableCard):
 				raise InvalidAction("%r requires a target." % (self))
 			if self.controller.all_targets_random:
 				new_target = random.choice(self.play_targets)
-				log.info("Retargeting %r from %r to %r", self, target, new_target)
+				self.logger.info("Retargeting %r from %r to %r", self, target, new_target)
 				target = new_target
 			self.target = target
 		elif target:

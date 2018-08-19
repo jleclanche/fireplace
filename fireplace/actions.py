@@ -344,11 +344,8 @@ class GenericChoice(GameAction):
 	def do(self, source, player, cards):
 		if len(cards) == 0:
 			return
-		node = player
-		while node.choice is not None:
-			node = node.next_choice
-		node.choice = self
-		self.next_choice = None
+		self.next_choice = player.choice
+		player.choice = self
 		self.source = source
 		self.player = player
 		self.cards = cards
@@ -1359,3 +1356,99 @@ class RefreshHeroPower(TargetedAction):
 		log.info("Refresh Hero Power %s.", heropower)
 		heropower.activations_this_turn = 0
 		return heropower
+
+
+class KazakusHelper(GameAction):
+	"""
+	Kazakus is too difficult !!!
+	"""
+
+	def do(self, source):
+		player = source.controller
+		self.source = source
+		self.player = player
+		self.next_choice = player.choice
+		player.choice = self
+		self.source = source
+		self.cards = [
+			player.card("CFM_621t11"),
+			player.card("CFM_621t12"),
+			player.card("CFM_621t13")
+		]
+		self.min_count = 1
+		self.max_count = 1
+		self.choosed_cards = []
+		self.cost_1_potions = [
+			"CFM_621t2", "CFM_621t3", "CFM_621t4",
+			"CFM_621t5", "CFM_621t6", "CFM_621t8",
+			"CFM_621t9", "CFM_621t10", "CFM_621t37"]
+		self.cost_5_potions = [ "CFM_621t16",
+			"CFM_621t17", "CFM_621t18", "CFM_621t19",
+			"CFM_621t20", "CFM_621t21", "CFM_621t22",
+			"CFM_621t23", "CFM_621t24", "CFM_621t38"]
+		self.cost_10_potions = ["CFM_621t25",
+			"CFM_621t26", "CFM_621t27", "CFM_621t28",
+			"CFM_621t29", "CFM_621t30", "CFM_621t31",
+			"CFM_621t32", "CFM_621t33", "CFM_621t39"]
+
+	def do_step2(self):
+		card = self.choosed_cards[0]
+		if card.id == "CFM_621t11":
+			cards = self.cost_1_potions
+		elif card.id == "CFM_621t12":
+			cards = self.cost_5_potions
+		elif card.id == "CFM_621t13":
+			cards = self.cost_10_potions
+		else:
+			raise InvalidAction("Kazakus choose a missed card %s" % card)
+		cards = random.sample(cards, 3)
+		self.cards = []
+		for card in cards:
+			self.cards.append(self.player.card(card))
+
+	def do_step3(self):
+		card = self.choosed_cards[0]
+		if card.id == "CFM_621t11":
+			cards = self.cost_1_potions
+		elif card.id == "CFM_621t12":
+			cards = self.cost_5_potions
+		elif card.id == "CFM_621t13":
+			cards = self.cost_10_potions
+		else:
+			raise InvalidAction("Kazakus choose a missed card %s" % card)
+		cards.remove(self.choosed_cards[1])
+		cards = random.sample(cards, 3)
+		self.cards = []
+		for card in cards:
+			self.cards.append(self.player.card(card))
+
+	def done(self):
+		card = self.choosed_cards[0]
+		new_card = None
+		if card.id == "CFM_621t11":
+			new_card = self.player.card("CFM_621t1")
+		elif card.id == "CFM_621t12":
+			new_card = self.player.card("CFM_621t14")
+		elif card.id == "CFM_621t13":
+			new_card = self.player.card("CFM_621t15")
+		else:
+			raise InvalidAction("Kazakus choose a missed card %s" % card)
+		card1 = self.choosed_cards[1]
+		card2 = self.choosed_cards[2]
+		new_card.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+		new_card.requirements.update(card1.requirements)
+		new_card.requirements.update(card2.requirements)
+		self.player.give(new_card)
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		else:
+			self.choosed_cards.append(card)
+			if len(self.choosed_cards) == 1:
+				self.do_step2()
+			if len(self.choosed_cards) == 2:
+				self.do_step3()
+			if len(self.choosed_cards) == 3:
+				self.done()
+				self.player.choice = self.next_choice
