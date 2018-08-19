@@ -1356,6 +1356,6 @@ class RefreshHeroPower(TargetedAction):
 	HEROPOWER = ActionArg()
 
 	def do(self, source, heropower):
-		log.info("Refresh Hero Power %s.", target)
+		log.info("Refresh Hero Power %s.", heropower)
 		heropower.activations_this_turn = 0
 		return heropower

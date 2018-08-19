@@ -7,7 +7,9 @@ from ..utils import *
 class CFM_308:
 	"""Kun the Forgotten King"""
 	choose = ("CFM_308a", "CFM_308b")
-	play = ChooseBoth(CONTROLLER) & (GainArmor(FRIENDLY_HERO, 10), FillMana(CONTROLLER, USED_MANA(CONTROLLER)))
+	play = ChooseBoth(CONTROLLER) & (
+		GainArmor(FRIENDLY_HERO, 10), FillMana(CONTROLLER, USED_MANA(CONTROLLER))
+	)
 
 
 class CFM_308a:
