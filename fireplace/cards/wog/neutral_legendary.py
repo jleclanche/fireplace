@@ -57,7 +57,7 @@ OG_300e = buff(+2, +2)
 class OG_134:
 	"""Yogg-Saron, Hope's End"""
 	def play(self):
-		amount = min(self.controller.times_cast_spell_played_this_game, 30)
+		amount = min(self.controller.times_spell_played_this_game, 30)
 		for i in range(amount):
 			if (self.zone == Zone.PLAY) and (not self.silenced):
 				yield CastSpell(RandomSpell())

@@ -6,7 +6,18 @@ from ..utils import *
 
 class CFM_308:
 	"""Kun the Forgotten King"""
-	pass
+	choose = ("CFM_308a", "CFM_308b")
+	play = ChooseBoth(CONTROLLER) & (
+		GainArmor(FRIENDLY_HERO, 10), FillMana(CONTROLLER, USED_MANA(CONTROLLER))
+	)
+
+
+class CFM_308a:
+	play = GainArmor(FRIENDLY_HERO, 10)
+
+
+class CFM_308b:
+	play = FillMana(CONTROLLER, USED_MANA(CONTROLLER))
 
 
 class CFM_343:
@@ -16,12 +27,19 @@ class CFM_343:
 
 class CFM_617:
 	"""Celestial Dreamer"""
-	pass
+	powered_up = Find(FRIENDLY_MINIONS + (ATK >= 1))
+	play = powered_up & Buff(SELF, "CFM_617e")
+
+
+CFM_617e = buff(+2, +2)
 
 
 class CFM_816:
 	"""Virmen Sensei"""
-	pass
+	play = Buff(TARGET, "CFM_816e")
+
+
+CFM_816e = buff(+2, +2)
 
 
 ##
@@ -45,12 +63,20 @@ class CFM_602b:
 
 class CFM_614:
 	"""Mark of the Lotus"""
-	pass
+	play = Buff(FRIENDLY_MINIONS, "CFM_614e")
+
+
+CFM_614e = buff(+1, +1)
 
 
 class CFM_616:
 	"""Pilfered Power"""
-	pass
+	def play(self):
+		amount = len(self.controller.field)
+		yield GainMana(CONTROLLER, amount)
+		if self.controller.mana == 10:
+			yield Give(CONTROLLER, "CS2_013t")
+		yield SpendMana(CONTROLLER, amount)
 
 
 class CFM_713:
@@ -60,4 +86,11 @@ class CFM_713:
 
 class CFM_811:
 	"""Lunar Visions"""
-	pass
+	play = Draw(CONTROLLER).then(
+		Find(Draw.CARD + MINION) & Buff(Draw.CARD, "CFM_811e")
+	) * 2
+
+
+class CFM_811e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -2}

@@ -6,17 +6,18 @@ from ..utils import *
 
 class CFM_342:
 	"""Luckydo Buccaneer"""
-	pass
+	powered_up = Find(FRIENDLY_WEAPON + (ATK >= 3))
+	play = powered_up & Buff(SELF, "CFM_342e")
+
+
+CFM_342e = buff(+4, +4)
 
 
 class CFM_634:
 	"""Lotus Assassin"""
-	pass
-
-
-class CFM_636:
-	"""Shadow Rager"""
-	pass
+	events = Attack(SELF, ALL_MINIONS).after(
+		Dead(ALL_MINIONS + Attack.DEFENDER) & Stealth(SELF)
+	)
 
 
 class CFM_691:
@@ -26,17 +27,20 @@ class CFM_691:
 
 class CFM_693:
 	"""Gadgetzan Ferryman"""
-	pass
+	play = Bounce(TARGET)
 
 
 class CFM_694:
 	"""Shadow Sensei"""
-	pass
+	play = Buff(TARGET, "CFM_694e")
+
+
+CFM_694e = buff(+2, +2)
 
 
 class CFM_781:
 	"""Shaku, the Collector"""
-	pass
+	events = Attack(SELF).on(Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS)))
 
 
 ##
@@ -44,7 +48,7 @@ class CFM_781:
 
 class CFM_630:
 	"""Counterfeit Coin"""
-	pass
+	play = ManaThisTurn(CONTROLLER, 1)
 
 
 class CFM_690:

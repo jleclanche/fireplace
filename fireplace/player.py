@@ -1,7 +1,7 @@
 import random
 from itertools import chain
 
-from hearthstone.enums import CardType, PlayState, Zone
+from hearthstone.enums import CardType, PlayState, Race, Zone
 
 from .actions import Concede, Draw, Fatigue, Give, Hit, Steal, Summon
 from .aura import TargetableByAuras
@@ -14,6 +14,7 @@ from .utils import CardList
 
 class Player(Entity, TargetableByAuras):
 	Manager = PlayerManager
+	all_targets_random = slot_property("all_targets_random")
 	cant_overload = slot_property("cant_overload")
 	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
@@ -25,6 +26,7 @@ class Player(Entity, TargetableByAuras):
 	spellpower_double = slot_property("spellpower_double", sum)
 	spellpower_adjustment = slot_property("spellpower", sum)
 	spells_cost_health = slot_property("spells_cost_health")
+	murlocs_cost_health = slot_property("murlocs_cost_health")
 	type = CardType.PLAYER
 
 	def __init__(self, name, deck, hero):
@@ -43,6 +45,7 @@ class Player(Entity, TargetableByAuras):
 		self.choice = None
 		self.max_hand_size = 10
 		self.max_resources = 10
+		self.max_deck_size = 60
 		self.cant_draw = False
 		self.cant_fatigue = False
 		self.fatigue_counter = 0
@@ -61,7 +64,8 @@ class Player(Entity, TargetableByAuras):
 		self.weapon = None
 		self.zone = Zone.INVALID
 		self.jade_golem = 1
-		self.times_cast_spell_played_this_game = 0
+		self.times_spell_played_this_game = 0
+		self.times_secret_played_this_game = 0
 		self.cthun = None
 
 	def __str__(self):
@@ -201,6 +205,9 @@ class Player(Entity, TargetableByAuras):
 		"""
 		if self.spells_cost_health and card.type == CardType.SPELL:
 			return self.hero.health > card.cost
+		if self.murlocs_cost_health:
+			if card.type == CardType.MINION and card.race == Race.MURLOC:
+				return self.hero.health > card.cost
 		return self.mana >= card.cost
 
 	def pay_cost(self, source, amount: int) -> int:
@@ -212,6 +219,11 @@ class Player(Entity, TargetableByAuras):
 			self.log("%s spells cost %i health", self, amount)
 			self.game.queue_actions(self, [Hit(self.hero, amount)])
 			return amount
+		if self.murlocs_cost_health:
+			if source.type == CardType.MINION and source.race == Race.MURLOC:
+				self.log("%s murlocs cost %i health", self, amount)
+				self.game.queue_actions(self, [Hit(self.hero, amount)])
+				return amount
 		if self.temp_mana:
 			# Coin, Innervate etc
 			used_temp = min(self.temp_mana, amount)

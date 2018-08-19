@@ -144,6 +144,7 @@ class PlayerManager(Manager):
 
 CARD_ATTRIBUTE_MAP = {
 	GameTag.ADJACENT_BUFF: "adjacent_buff",
+	GameTag.ALL_TARGETS_RANDOM: "all_targets_random",
 	GameTag.ARMOR: "armor",
 	GameTag.ATK: "atk",
 	GameTag.ATTACKING: "attacking",
@@ -193,6 +194,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.ImmuneToSpellpower: "immune_to_spellpower",
 	GameTag.IMMUNE_WHILE_ATTACKING: "immune_while_attacking",
 	GameTag.INSPIRE: "has_inspire",
+	GameTag.MULTI_CLASS_GROUP: "multi_class_group",
 	GameTag.NUM_ATTACKS_THIS_TURN: "num_attacks",
 	GameTag.NUM_TURNS_IN_PLAY: "turns_in_play",
 	GameTag.TAG_ONE_TURN_EFFECT: "one_turn_effect",
@@ -220,6 +222,7 @@ CARD_ATTRIBUTE_MAP = {
 	enums.EXTRA_BATTLECRIES: "extra_battlecries",
 	enums.KILLED_THIS_TURN: "killed_this_turn",
 	enums.DISCARDED: "discarded",
+	enums.MURLOCS_COST_HEALTH: "murlocs_cost_health",
 	GameTag.AFFECTED_BY_SPELL_POWER: None,
 	GameTag.ARTISTNAME: None,
 	GameTag.AttackVisualType: None,

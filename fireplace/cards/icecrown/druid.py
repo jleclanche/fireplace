@@ -6,7 +6,6 @@ from ..utils import *
 
 class ICC_047:
 	"""Fatespinner"""
-	pass
 
 
 class ICC_051:

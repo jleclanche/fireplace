@@ -33,10 +33,16 @@ class ExactCopy(Copy):
 	Lazily create an exact copy of the target.
 	An exact copy will include buffs and all tags.
 	"""
+	def __init__(self, selector, id=None):
+		self.id = id
+		self.selector = selector
+
 	def copy(self, source, entity):
 		if entity.id == "OG_280":
 			return super().copy(source, entity)
 		ret = super().copy(source, entity)
+		if self.id:
+			ret = source.controller.card(self.id, source)
 		for k in entity.silenceable_attributes:
 			v = getattr(entity, k)
 			setattr(ret, k, v)

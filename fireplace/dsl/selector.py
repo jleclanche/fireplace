@@ -124,6 +124,7 @@ class AttrValue(SelectorEntityValue):
 ARMOR = AttrValue(GameTag.ARMOR)
 ATK = AttrValue(GameTag.ATK)
 CONTROLLER = AttrValue(GameTag.CONTROLLER)
+MAX_HEALTH = AttrValue(GameTag.HEALTH)
 CURRENT_HEALTH = AttrValue("health")
 COST = AttrValue(GameTag.COST)
 DAMAGE = AttrValue(GameTag.DAMAGE)

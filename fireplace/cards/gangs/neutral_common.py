@@ -4,89 +4,78 @@ from ..utils import *
 ##
 # Minions
 
-class CFM_039:
-	"""Street Trickster"""
-	pass
-
-
 class CFM_060:
 	"""Red Mana Wyrm"""
-	pass
+	events = OWN_SPELL_PLAY.on(Buff(SELF, "CFM_060e"))
+
+
+CFM_060e = buff(atk=2)
 
 
 class CFM_063:
 	"""Kooky Chemist"""
-	pass
+	play = Buff(TARGET, "CFM_063e")
+
+
+CFM_063e = AttackHealthSwapBuff()
 
 
 class CFM_067:
 	"""Hozen Healer"""
-	pass
+	play = Heal(TARGET, MAX_HEALTH(TARGET))
 
 
 class CFM_120:
 	"""Mistress of Mixtures"""
-	pass
+	deathrattle = Heal(ALL_HEROES, 4)
 
 
 class CFM_619:
 	"""Kabal Chemist"""
-	pass
+	play = Give(CONTROLLER, RandomPotion())
 
 
 class CFM_646:
 	"""Backstreet Leper"""
-	pass
+	deathrattle = Hit(ENEMY_HERO, 2)
 
 
 class CFM_647:
 	"""Blowgill Sniper"""
-	pass
+	play = Hit(TARGET, 1)
 
 
 class CFM_648:
 	"""Big-Time Racketeer"""
-	pass
+	play = Summon(CONTROLLER, "CFM_648t")
 
 
 class CFM_651:
 	"""Naga Corsair"""
-	pass
+	play = Buff(FRIENDLY_WEAPON, "CFM_651e")
 
 
-class CFM_653:
-	"""Hired Gun"""
-	pass
+CFM_651e = buff(atk=1)
 
 
 class CFM_654:
 	"""Friendly Bartender"""
-	pass
+	events = OWN_TURN_END.on(Heal(FRIENDLY_HERO, 1))
 
 
 class CFM_655:
 	"""Toxic Sewer Ooze"""
-	pass
+	play = Hit(ENEMY_WEAPON, 1)
 
 
 class CFM_656:
 	"""Streetwise Investigator"""
-	pass
+	play = Unstealth(ENEMY_MINIONS)
 
 
 class CFM_659:
 	"""Gadgetzan Socialite"""
-	pass
-
-
-class CFM_665:
-	"""Worgen Greaser"""
-	pass
-
-
-class CFM_666:
-	"""Grook Fu Master"""
-	pass
+	play = Heal(TARGET, 2)
 
 
 class CFM_715:
@@ -96,19 +85,20 @@ class CFM_715:
 
 class CFM_809:
 	"""Tanaris Hogchopper"""
-	pass
+	play = Find(ENEMY_HAND) | GiveCharge(SELF)
 
 
 class CFM_851:
 	"""Daring Reporter"""
-	pass
+	events = Draw(OPPONENT).on(Buff(SELF, "CFM_851e"))
+
+
+CFM_851e = buff(+1, +1)
 
 
 class CFM_853:
 	"""Grimestreet Smuggler"""
-	pass
+	play = Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_853e")
 
 
-class CFM_854:
-	"""Ancient of Blossoms"""
-	pass
+CFM_853e = buff(+1, +1)

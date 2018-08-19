@@ -6,32 +6,38 @@ from ..utils import *
 
 class CFM_315:
 	"""Alleycat"""
-	pass
+	play = Summon(CONTROLLER, "CFM_315t")
 
 
 class CFM_316:
 	"""Rat Pack"""
-	pass
+	deathrattle = Summon(CONTROLLER, "CFM_316") * ATK(SELF)
 
 
 class CFM_333:
 	"""Knuckles"""
-	pass
+	events = Attack(SELF, ALL_MINIONS).after(Hit(ENEMY_HERO, ATK(SELF)))
 
 
 class CFM_335:
 	"""Dispatch Kodo"""
-	pass
+	play = Hit(TARGET, ATK(SELF))
 
 
 class CFM_336:
 	"""Shaky Zipgunner"""
-	pass
+	play = Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_336e")
+
+
+CFM_336e = buff(+2, +2)
 
 
 class CFM_338:
 	"""Trogg Beastrager"""
-	pass
+	play = Buff(RANDOM(FRIENDLY_HAND + BEAST), "CFM_338e")
+
+
+CFM_338e = buff(+1, +1)
 
 
 ##
@@ -39,12 +45,20 @@ class CFM_338:
 
 class CFM_026:
 	"""Hidden Cache"""
-	pass
+	secret = Play(OPPONENT, MINION).after(
+		Reveal(SELF), Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_026e")
+	)
+
+
+CFM_026e = buff(+2, +2)
 
 
 class CFM_334:
 	"""Smuggler's Crate"""
-	pass
+	play = Buff(RANDOM(FRIENDLY_HAND + BEAST), "CFM_334e")
+
+
+CFM_334e = buff(+2, +2)
 
 
 ##
@@ -52,4 +66,4 @@ class CFM_334:
 
 class CFM_337:
 	"""Piranha Launcher"""
-	pass
+	events = Attack(FRIENDLY_HERO, MINION).after(Summon(CONTROLLER, "CFM_337t"))

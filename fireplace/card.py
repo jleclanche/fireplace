@@ -1,3 +1,4 @@
+import random
 from itertools import chain
 
 from hearthstone.enums import CardType, PlayReq, PlayState, Race, Rarity, Step, Zone
@@ -75,6 +76,9 @@ class BaseCard(BaseEntity):
 		self._set_zone(value)
 
 	def _set_zone(self, value):
+		# TODO
+		# Keep Buff: Deck -> Hand, Hand -> Play, Deck -> Play
+		# Remove Buff: Other case
 		old = self.zone
 
 		if old == value:
@@ -152,7 +156,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if self.zone == Zone.HAND:
 			return self.data.scripts.Hand.events
 		if self.zone == Zone.DECK:
-			return self.data.scripts.DECK.events
+			return self.data.scripts.Deck.events
 		return self.base_events + self._events
 
 	@property
@@ -309,6 +313,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				raise InvalidAction("%r requires a target to play." % (self))
 			elif target not in self.play_targets:
 				raise InvalidAction("%r is not a valid target for %r." % (target, self))
+			if self.controller.all_targets_random:
+				new_target = random.choice(self.play_targets)
+				self.logger.info("Retargeting %r from %r to %r", self, target, new_target)
+				target = new_target
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
 		self.game.play_card(self, target, index, choose)
@@ -735,7 +743,7 @@ class Spell(PlayableCard):
 		return amount
 
 	def play(self, target=None, index=None, choose=None):
-		self.controller.times_cast_spell_played_this_game += 1
+		self.controller.times_spell_played_this_game += 1
 		return super().play(target, index, choose)
 
 
@@ -772,6 +780,10 @@ class Secret(Spell):
 		if self.controller.secrets.contains(self):
 			return False
 		return super().is_summonable()
+
+	def play(self, target=None, index=None, choose=None):
+		self.controller.times_secret_played_this_game += 1
+		return super().play(target, index, choose)
 
 
 class Enchantment(BaseCard):
@@ -910,6 +922,10 @@ class HeroPower(PlayableCard):
 		if self.requires_target():
 			if not target:
 				raise InvalidAction("%r requires a target." % (self))
+			if self.controller.all_targets_random:
+				new_target = random.choice(self.play_targets)
+				self.logger.info("Retargeting %r from %r to %r", self, target, new_target)
+				target = new_target
 			self.target = target
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
