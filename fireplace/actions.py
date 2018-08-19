@@ -1121,7 +1121,6 @@ class Summon(TargetedAction):
 			cards = [cards]
 
 		for card in cards:
-			log.debug("DEBUG trigger_index is %s", self.trigger_index)
 			if not card.is_summonable():
 				continue
 			if card.controller != target:
