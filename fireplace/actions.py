@@ -1382,14 +1382,12 @@ class KazakusHelper(GameAction):
 			"CFM_621t2", "CFM_621t3", "CFM_621t4",
 			"CFM_621t5", "CFM_621t6", "CFM_621t8",
 			"CFM_621t9", "CFM_621t10", "CFM_621t37"]
-		self.cost_5_potions = [ "CFM_621t16",
-			"CFM_621t17", "CFM_621t18", "CFM_621t19",
-			"CFM_621t20", "CFM_621t21", "CFM_621t22",
-			"CFM_621t23", "CFM_621t24", "CFM_621t38"]
-		self.cost_10_potions = ["CFM_621t25",
-			"CFM_621t26", "CFM_621t27", "CFM_621t28",
-			"CFM_621t29", "CFM_621t30", "CFM_621t31",
-			"CFM_621t32", "CFM_621t33", "CFM_621t39"]
+		self.cost_5_potions = [
+			"CFM_621t16", "CFM_621t17", "CFM_621t18", "CFM_621t19", "CFM_621t20",
+			"CFM_621t21", "CFM_621t22", "CFM_621t23", "CFM_621t24", "CFM_621t38"]
+		self.cost_10_potions = [
+			"CFM_621t25", "CFM_621t26", "CFM_621t27", "CFM_621t28", "CFM_621t29",
+			"CFM_621t30", "CFM_621t31", "CFM_621t32", "CFM_621t33", "CFM_621t39"]
 
 	def do_step2(self):
 		card = self.choosed_cards[0]

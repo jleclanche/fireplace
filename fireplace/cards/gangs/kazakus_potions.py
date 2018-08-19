@@ -1,5 +1,6 @@
 from ..utils import *
 
+
 ##
 # Potions
 
@@ -113,7 +114,7 @@ CFM_621e2 = buff(health=4)
 
 class CFM_621t25:
 	"""Heart of Fire"""
-	#10 Cost: Deal 10
+	# 10 Cost: Deal 10
 	play = Hit(TARGET, 10)
 
 
@@ -157,6 +158,7 @@ class CFM_621t32:
 	"""Goldthorn"""
 	# 10 Cost: +6 Health
 	play = Buff(FRIENDLY_MINIONS, "CFM_621e3")
+
 
 CFM_621e3 = buff(health=6)
 
