@@ -183,3 +183,46 @@ def test_jade_swarmer():
 	swarmer.destroy()
 	assert game.current_player.jade_golem == 2
 	assert game.current_player.field[0].id == "CFM_712_t01"
+
+
+def test_weasel_tunneler():
+	game = prepare_game()
+	weasel = game.player1.give("CFM_095").play()
+	assert weasel.zone == Zone.PLAY
+	assert weasel.controller == game.player1
+	game.player1.give("CS2_008").play(target=weasel)
+	assert weasel.zone == Zone.DECK
+	assert weasel.controller == game.player2
+
+
+def test_finja():
+	game = prepare_empty_game()
+	finja = game.player1.give("CFM_344").play()
+	game.end_turn()
+	wisp = game.player2.give(WISP).play()
+	game.end_turn()
+	murloc1 = game.player1.give(MURLOC)
+	murloc1.shuffle_into_deck()
+	murloc2 = game.player1.give(MURLOC)
+	murloc2.shuffle_into_deck()
+	murloc3 = game.player1.give(MURLOC)
+	murloc3.shuffle_into_deck()
+	finja.attack(target=wisp)
+	assert game.player1.field[0] == finja
+	assert len(game.player1.field) == 3
+
+
+def test_doppelgangster():
+	game = prepare_game()
+	doppel = game.player1.give("CFM_668")
+	assert doppel.atk == 2
+	game.player1.give("CFM_305").play()
+	assert doppel.atk == 3
+	doppel.play()
+	assert len(game.player1.field) == 3
+	assert game.player1.field[0].id == "CFM_668t"
+	assert game.player1.field[1].id == "CFM_668"
+	assert game.player1.field[2].id == "CFM_668t2"
+	assert game.player1.field[0].atk == 3
+	assert game.player1.field[1].atk == 3
+	assert game.player1.field[2].atk == 3

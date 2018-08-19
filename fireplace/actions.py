@@ -1121,6 +1121,7 @@ class Summon(TargetedAction):
 			cards = [cards]
 
 		for card in cards:
+			log.debug("DEBUG trigger_index is %s", self.trigger_index)
 			if not card.is_summonable():
 				continue
 			if card.controller != target:
@@ -1150,7 +1151,11 @@ class Shuffle(TargetedAction):
 
 		for card in cards:
 			if card.controller != target:
+				card.zone = Zone.SETASIDE
 				card.controller = target
+			if len(target.deck) >= target.max_deck_size:
+				log.info("Shuffle(%r) fails because %r's deck is full", card, target)
+				continue
 			card.zone = Zone.DECK
 			target.shuffle_deck()
 
@@ -1343,3 +1348,15 @@ class CopyState(TargetedAction):
 		buff.data.scripts.atk = lambda self, i: self._atk
 		buff.health = target.health
 		buff.apply(source)
+
+
+class RefreshHeroPower(TargetedAction):
+	"""
+	Helper to Refresh Hero Power
+	"""
+	HEROPOWER = ActionArg()
+
+	def do(self, source, heropower):
+		log.info("Refresh Hero Power %s.", target)
+		heropower.activations_this_turn = 0
+		return heropower

@@ -6,32 +6,36 @@ from ..utils import *
 
 class CFM_062:
 	"""Grimestreet Protector"""
-	pass
+	play = GiveDivineShield(SELF_ADJACENT)
 
 
 class CFM_639:
 	"""Grimestreet Enforcer"""
-	pass
+	events = OWN_TURN_END.on(Buff(FRIENDLY_HAND + MINION, "CFM_639e"))
+
+
+CFM_639e = buff(+1, +1)
 
 
 class CFM_650:
 	"""Grimscale Chum"""
-	pass
+	play = Buff(FRIENDLY_HAND + MURLOC, "CFM_650e")
+
+
+CFM_650e = buff(+1, +1)
 
 
 class CFM_753:
 	"""Grimestreet Outfitter"""
-	pass
+	play = Buff(FRIENDLY_HAND + MINION, "CFM_753e")
+
+
+CFM_753e = buff(+1, +1)
 
 
 class CFM_759:
 	"""Meanstreet Marshal"""
-	pass
-
-
-class CFM_815:
-	"""Wickerflame Burnbristle"""
-	pass
+	deathrattle = (ATK(SELF) >= 2) & Draw(CONTROLLER)
 
 
 ##
@@ -39,14 +43,17 @@ class CFM_815:
 
 class CFM_305:
 	"""Smuggler's Run"""
-	pass
+	play = Buff(FRIENDLY_HAND + MINION, "CFM_305e")
+
+
+CFM_305e = buff(+1, +1)
 
 
 class CFM_800:
 	"""Getaway Kodo"""
-	pass
+	secret = Death(FRIENDLY + MINION).on(Reveal(SELF), Bounce(Death.ENTITY))
 
 
 class CFM_905:
 	"""Small-Time Recruits"""
-	pass
+	play = ForceDraw(RANDOM(FRIENDLY_DECK + MINION + (COST == 1))) * 3

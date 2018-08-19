@@ -6,7 +6,7 @@ from ..utils import *
 
 class CFM_061:
 	"""Jinyu Waterspeaker"""
-	pass
+	play = Heal(TARGET, 6)
 
 
 class CFM_312:
@@ -16,12 +16,12 @@ class CFM_312:
 
 class CFM_324:
 	"""White Eyes"""
-	pass
+	deathrattle = Shuffle(CONTROLLER, "CFM_324t")
 
 
 class CFM_697:
 	"""Lotus Illusionist"""
-	pass
+	events = Attack(SELF, ENEMY_HERO).after(Morph(SELF, RandomMinion(cost=6)))
 
 
 ##
@@ -29,17 +29,17 @@ class CFM_697:
 
 class CFM_310:
 	"""Call in the Finishers"""
-	pass
+	play = Summon(CONTROLLER, "CFM_310t") * 4
 
 
 class CFM_313:
 	"""Finders Keepers"""
-	pass
+	play = DISCOVER(RandomCollectible(card_class=CardClass.SHAMAN, overload=True))
 
 
 class CFM_696:
 	"""Devolve"""
-	pass
+	play = Evolve(ENEMY_MINIONS, -1)
 
 
 class CFM_707:

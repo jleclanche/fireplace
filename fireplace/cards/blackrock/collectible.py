@@ -6,7 +6,7 @@ from ..utils import *
 
 class BRM_002:
 	"""Flamewaker"""
-	events = OWN_SPELL_PLAY.after(Hit(RANDOM_ENEMY_MINION, 1) * 2)
+	events = OWN_SPELL_PLAY.after(Hit(ENEMY_CHARACTERS, 1) * 2)
 
 
 class BRM_004:

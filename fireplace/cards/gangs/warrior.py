@@ -4,29 +4,33 @@ from ..utils import *
 ##
 # Minions
 
-class CFM_300:
-	"""Public Defender"""
-	pass
-
-
 class CFM_643:
 	"""Hobart Grapplehammer"""
-	pass
+	play = Buff(FRIENDLY + WEAPON + (IN_HAND | IN_DECK), "CFM_643e")
+
+
+CFM_643e = buff(atk=1)
 
 
 class CFM_754:
 	"""Grimy Gadgeteer"""
-	pass
+	events = OWN_TURN_END.on(Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_754e"))
+
+
+CFM_754e = buff(+2, +2)
 
 
 class CFM_755:
 	"""Grimestreet Pawnbroker"""
-	pass
+	play = Buff(RANDOM(FRIENDLY_HAND + WEAPON), "CFM_755e")
+
+
+CFM_755e = buff(+1, +1)
 
 
 class CFM_756:
 	"""Alley Armorsmith"""
-	pass
+	events = Damage(CHARACTER, None, SELF).on(GainArmor(FRIENDLY_HERO, Damage.AMOUNT))
 
 
 ##
@@ -34,17 +38,20 @@ class CFM_756:
 
 class CFM_716:
 	"""Sleep with the Fishes"""
-	pass
+	play = Hit(ALL_MINIONS + DAMAGED, 3)
 
 
 class CFM_752:
 	"""Stolen Goods"""
-	pass
+	play = Buff(RANDOM(FRIENDLY_HAND + MINION + TAUNT), "CFM_752e")
+
+
+CFM_752e =  buff(+3, +3)
 
 
 class CFM_940:
 	"""I Know a Guy"""
-	pass
+	play = DISCOVER(RandomMinion(taunt=True))
 
 
 ##
@@ -52,4 +59,7 @@ class CFM_940:
 
 class CFM_631:
 	"""Brass Knuckles"""
-	pass
+	events = Attack(FRIENDLY_HERO).after(Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_631e"))
+
+
+CFM_631e = buff(+1, +1)

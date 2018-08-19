@@ -75,6 +75,9 @@ class BaseCard(BaseEntity):
 		self._set_zone(value)
 
 	def _set_zone(self, value):
+		# TODO
+		# Keep Buff: Deck -> Hand, Hand -> Play, Deck -> Play
+		# Remove Buff: Other case
 		old = self.zone
 
 		if old == value:
@@ -152,7 +155,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if self.zone == Zone.HAND:
 			return self.data.scripts.Hand.events
 		if self.zone == Zone.DECK:
-			return self.data.scripts.DECK.events
+			return self.data.scripts.Deck.events
 		return self.base_events + self._events
 
 	@property
@@ -735,7 +738,7 @@ class Spell(PlayableCard):
 		return amount
 
 	def play(self, target=None, index=None, choose=None):
-		self.controller.times_cast_spell_played_this_game += 1
+		self.controller.times_spell_played_this_game += 1
 		return super().play(target, index, choose)
 
 
@@ -772,6 +775,10 @@ class Secret(Spell):
 		if self.controller.secrets.contains(self):
 			return False
 		return super().is_summonable()
+
+	def play(self, target=None, index=None, choose=None):
+		self.controller.times_secret_played_this_game += 1
+		return super().play(target, index, choose)
 
 
 class Enchantment(BaseCard):

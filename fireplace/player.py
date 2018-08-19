@@ -43,6 +43,7 @@ class Player(Entity, TargetableByAuras):
 		self.choice = None
 		self.max_hand_size = 10
 		self.max_resources = 10
+		self.max_deck_size = 60
 		self.cant_draw = False
 		self.cant_fatigue = False
 		self.fatigue_counter = 0
@@ -61,7 +62,8 @@ class Player(Entity, TargetableByAuras):
 		self.weapon = None
 		self.zone = Zone.INVALID
 		self.jade_golem = 1
-		self.times_cast_spell_played_this_game = 0
+		self.times_spell_played_this_game = 0
+		self.times_secret_played_this_game = 0
 		self.cthun = None
 
 	def __str__(self):

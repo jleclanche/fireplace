@@ -6,12 +6,14 @@ from ..utils import *
 
 class CFM_341:
 	"""Sergeant Sally"""
-	pass
+	deathrattle = Hit(ALL_MINIONS, ATK(SELF))
 
 
 class CFM_344:
 	"""Finja, the Flying Star"""
-	pass
+	events = Attack(SELF, ALL_MINIONS).after(
+		Dead(ALL_MINIONS + Attack.DEFENDER) & (RECRUIT(MURLOC), RECRUIT(MURLOC))
+	)
 
 
 class CFM_621:
@@ -21,7 +23,8 @@ class CFM_621:
 
 class CFM_637:
 	"""Patches the Pirate"""
-	pass
+	class Deck:
+		events = Play(CONTROLLER, PIRATE).after(Summon(CONTROLLER, SELF))
 
 
 class CFM_670:
@@ -31,27 +34,45 @@ class CFM_670:
 
 class CFM_672:
 	"""Madam Goya"""
-	pass
+	def play(self):
+		targets = self.controller.deck.filter(type=CardType.MINION)
+		if targets:
+			target = random.sample(targets, 1)
+			target.zone = Zone.SETASIDE
+			yield Shuffle(CONTROLLER, TARGET)
+			yield Summon(CONTROLLER, target)
 
 
 class CFM_685:
 	"""Don Han'Cho"""
-	pass
+	play = Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_685e")
+
+
+CFM_685e = buff(+5, +5)
 
 
 class CFM_806:
 	"""Wrathion"""
-	pass
+	def play(self):
+		while True:
+			current_handsize = len(self.controller.hand)
+			yield Draw(self.controller)
+			if len(self.controller.hand) == current_handsize:
+				#Unable to draw card due to fatigue or max hand size
+				break
+			card = self.controller.hand[-1]
+			if card.type != CardType.MINION or card.race != Race.DRAGON:
+				break
 
 
 class CFM_807:
 	"""Auctionmaster Beardo"""
-	pass
+	events = OWN_SPELL_PLAY.after(RefreshHeroPower(FRIENDLY_HERO_POWER))
 
 
 class CFM_808:
 	"""Genzo, the Shark"""
-	pass
+	events = Attack(SELF).on(DrawUntil(EndTurn.PLAYER, 3))
 
 
 class CFM_902:

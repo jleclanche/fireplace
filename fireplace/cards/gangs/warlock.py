@@ -6,47 +6,58 @@ from ..utils import *
 
 class CFM_610:
 	"""Crystalweaver"""
-	pass
+	play = Buff(FRIENDLY_MINIONS + DEMON, "CFM_610e")
+
+
+CFM_610e = buff(+1, +1)
 
 
 class CFM_663:
 	"""Kabal Trafficker"""
-	pass
+	events = OWN_TURN_END.on(Give(CONTROLLER, RandomDemon()))
 
 
 class CFM_699:
 	"""Seadevil Stinger"""
+	play = Buff(CONTROLLER, "CFM_699e")
+
+
+class CFM_699e:
 	pass
 
 
 class CFM_750:
 	"""Krul the Unshackled"""
-	pass
+	powered_up = -FindDuplicates(FRIENDLY_DECK)
+	play = powered_up & Summon(CONTROLLER, FRIENDLY_HAND + DEMON)
 
 
 class CFM_751:
 	"""Abyssal Enforcer"""
-	pass
+	play = Hit(ALL_CHARACTERS - SELF, 3)
 
 
 class CFM_900:
 	"""Unlicensed Apothecary"""
-	pass
-
+	events = Summon(CONTROLLER).on(Hit(FRIENDLY_HERO, 5))
 
 ##
 # Spells
 
 class CFM_094:
 	"""Felfire Potion"""
-	pass
+	play = Hit(ALL_CHARACTERS, 5)
 
 
 class CFM_608:
 	"""Blastcrystal Potion"""
-	pass
+	play = Destroy(TARGET), GainMana(CONTROLLER, -1), SpendMana(CONTROLLER, -1)
 
 
 class CFM_611:
 	"""Bloodfury Potion"""
-	pass
+	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "CFM_611e2") | Buff(TARGET, "CFM_611e")
+
+
+CFM_611e = buff(+3)
+CFM_611e2 = buff(+3, +3)
