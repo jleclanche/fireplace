@@ -29,7 +29,13 @@ class CFM_637:
 
 class CFM_670:
 	"""Mayor Noggenfogger"""
-	pass
+	update = Refresh(PLAYER, {GameTag.ALL_TARGETS_RANDOM: True}),
+	events = Attack(MINION).on(
+		COINFLIP & Retarget(
+			Attack.ATTACKER,
+			RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(Attack.ATTACKER))
+		)
+	)
 
 
 class CFM_672:
