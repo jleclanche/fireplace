@@ -16,6 +16,9 @@ class Copy(LazyValue):
 		"""
 		Return a copy of \a entity
 		"""
+		if entity is None:
+			log.info("Ignore creating a copy of %r", entity)
+			return None
 		log.info("Creating a copy of %r", entity)
 		return source.controller.card(entity.id, source)
 

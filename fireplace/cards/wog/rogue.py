@@ -44,7 +44,7 @@ class OG_282:
 	def play(self):
 		atk = self.target.atk
 		health = self.target.health
-		yield Destory(TARGET)
+		yield Destroy(TARGET)
 		yield Buff(CTHUN, "OG_281e", atk=atk, max_health=health)
 
 
@@ -58,7 +58,9 @@ class OG_072:
 
 class OG_073:
 	"""Thistle Tea"""
-	play = Draw(CONTROLLER).then(Give(CONTROLLER, Copy(Draw.CARD)) * 2)
+	play = Draw(CONTROLLER).then(
+		Give(CONTROLLER, Copy(Draw.CARD)) * 2
+	)
 
 
 class OG_176:

@@ -2,7 +2,7 @@ import random
 from collections import OrderedDict
 
 from hearthstone.enums import (
-	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone
+	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone, Race
 )
 
 from .dsl import LazyNum, LazyValue, Selector
@@ -462,6 +462,8 @@ class Play(GameAction):
 		player.cards_played_this_turn += 1
 		if card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
+			if card.race == Race.ELEMENTAL:
+				player.elemental_played_this_turn += 1
 
 		card.target = None
 		card.choose = None
@@ -714,6 +716,11 @@ class Battlecry(TargetedAction):
 			arg = arg.eval(source.game, source)
 			assert len(arg) == 1
 			arg = arg[0]
+		if isinstance(arg, CardArg):
+			arg = arg.evaluate(source)
+			assert len(arg) == 1
+			arg = arg[0]
+		log.debug("arg: %r", type(arg))
 		return [arg]
 
 	def do(self, source, card, target):
@@ -758,19 +765,29 @@ class Discard(TargetedAction):
 	"""
 	Discard card targets in a player's hand
 	"""
+	TARGET = ActionArg()
 	def do(self, source, target):
 		self.broadcast(source, EventListener.ON, target)
 		target.discard()
+		self.broadcast(source, EventListener.AFTER, target)
 
 
-class Discover(TargetedAction):
+class Discover(GameAction):
 	"""
 	Opens a generic choice for three random cards matching a filter.
 	"""
 	TARGET = ActionArg()
 	CARDS = CardArg()
+	CARD = CardArg()
 
-	def get_target_args(self, source, target):
+	def get_args(self, source):
+		player = self._args[0]
+		if isinstance(player, Selector):
+			player = player.eval(source.game.players, source)
+			assert len(player) == 1
+			player = player[0]
+
+		target = player
 		if target.hero.data.card_class != CardClass.NEUTRAL:
 			# use hero class for Discover if not neutral (eg. Ragnaros)
 			discover_class = target.hero.data.card_class
@@ -784,11 +801,44 @@ class Discover(TargetedAction):
 		picker = self._args[1] * 3
 		picker = picker.copy_with_weighting(1, card_class=CardClass.NEUTRAL)
 		picker = picker.copy_with_weighting(4, card_class=discover_class)
-		return [picker.evaluate(source)]
+
+		cards = picker.evaluate(source)
+		log.error("WAHAHA %r", cards)
+		if isinstance(cards, Selector):
+			cards = cards.eval(source.game, source)
+		elif isinstance(cards, LazyValue):
+			cards = cards.evaluate(source)
+
+		for card in cards:
+			card.zone = Zone.SETASIDE
+
+		log.error("WAHAHA %r", cards)
+		return player, cards
 
 	def do(self, source, target, cards):
 		log.info("%r discovers %r for %s", source, cards, target)
-		source.game.queue_actions(source, [GenericChoice(target, cards)])
+		if len(cards) == 0:
+			log.error("%r discovers card for %s is empty.", source, target)
+			return
+		if source.game.current_player.opponent is target:
+			log.warning("%r discovers %r for %s, but current player is %r", source, cards, target, self.source.game.current_player)
+		elif source.game.current_player is target:
+			self.player = target
+			self.next_choice = self.player.choice
+			self.player.choice = self
+			self.source = source
+			self.cards = cards
+			self.min_count = 1
+			self.max_count = 1
+		else:
+			log.error("Discover target %r not a player", target)
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		log.info("%r discover %r from %r.", self.source, card, self.cards)
+		self.source.game.trigger(self.source, self.callback, [self.player, self.cards, card])
+		self.player.choice = self.next_choice
 
 
 class Draw(TargetedAction):
@@ -905,6 +955,8 @@ class Give(TargetedAction):
 			# Support Give on multiple cards at once (eg. Echo of Medivh)
 			cards = [cards]
 		for card in cards:
+			if card == None:
+				continue
 			if len(target.hand) >= target.max_hand_size:
 				log.info("Give(%r) fails because %r's hand is full", card, target)
 				continue
@@ -1113,6 +1165,7 @@ class Summon(TargetedAction):
 		return super()._broadcast(entity, source, at, *args)
 
 	def do(self, source, target, cards):
+		target = target.controller
 		log.info("%s summons %r", target, cards)
 		if not isinstance(cards, list):
 			cards = [cards]
@@ -1450,3 +1503,112 @@ class KazakusHelper(GameAction):
 			if len(self.choosed_cards) == 3:
 				self.done()
 				self.player.choice = self.next_choice
+
+
+class Adapt(GameAction):
+	TARGET = CardArg()
+	CARDS = ActionArg()
+
+	def get_args(self, source):
+		player = self._args[0]
+		if isinstance(player, Selector):
+			player = player.eval(source.game.players, source)
+			assert len(player) == 1
+			player = player[0]
+		target = self._args[1]
+		if isinstance(target, Selector):
+			target = target.eval(source.game, source)
+		elif isinstance(target, LazyValue):
+			target = target.evaluate(source)
+
+		adapt_choices = [
+			"UNG_999t10", "UNG_999t2", "UNG_999t3", "UNG_999t4", "UNG_999t5",
+			"UNG_999t6", "UNG_999t7", "UNG_999t8", "UNG_999t13", "UNG_999t14"]
+		adapt_choices = random.sample(adapt_choices, 3)
+		cards = []
+		for card in adapt_choices:
+			cards.append(self.player.card(card))
+		return player, target, cards
+
+	def do(self, source, player, target, cards):
+		if len(cards) == 0:
+			return
+		self.next_choice = player.choice
+		player.choice = self
+		self.source = source
+		self.player = player
+		self.target = target
+		self.cards = cards
+		self.min_count = 1
+		self.max_count = 1
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		for target in self.target:
+			card.target = target
+			self.source.game.queue_actions(card, [Battlecry(card, card.target)])
+		self.player.choice = self.next_choice
+
+
+class CompleteQuest(TargetedAction):
+	CARD = CardArg()
+
+	def do(self, source, card):
+		card.quest_progress += 1
+		log.info("%r quest process: %s/%s", card, card.quest_progress, card.quest_progress_total)
+		if card.quest_progress == card.quest_progress_total:
+			log.info("%r quest complete.", card)
+			actions = card.get_actions("reward")
+			source.game.trigger(source, actions, None)
+
+
+class CompleteRogueQuest(TargetedAction):
+	CARD = CardArg()
+	TARGET = CardArg()
+
+	def do(self, source, card, target):
+		if target.data.name in card.quest_map:
+			card.quest_map[target.data.name] += 1
+			log.info("%r quest process: %s/%s, quest card is: %r", card, \
+					card.quest_map[target.data.name], card.quest_progress_total, target)
+		else:
+			card.quest_map[target.data.name] = 1
+			log.info("%r quest process: %s/%s, quest card is: %r", card, \
+					card.quest_map[target.data.name], card.quest_progress_total, target)
+		card.quest_progress = max(card.quest_map[target.data.name], card.quest_progress)
+		if card.quest_progress == card.quest_progress_total:
+			log.info("%r quest complete.", card)
+			actions = card.get_actions("reward")
+			source.game.trigger(source, actions, None)
+
+
+class Glimmerroot(GameAction):
+
+	def do(self, source):
+		self.source = source
+		self.player = source.controller
+		self.next_choice = self.player.choice
+		right_card = random.choice(self.player.opponent.starting_deck)
+		from . import cards
+		card_set = cards.filter(collectible=True)
+		for id in self.player.opponent.starting_deck:
+			if id in card_set:
+				card_set.remove(id)
+		self.right_card = self.player.card(right_card)
+		self.cards = [self.right_card]
+		for id in random.sample(card_set, 2):
+			self.cards.append(self.player.card(id))
+		random.shuffle(self.cards)
+		log.info("glimmerroot choice cards is %r", self.cards)
+		self.player.choice = self
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		if card == self.right_card:
+			log.info("%r is right", self.right_card)
+			self.player.give(card)
+		else:
+			log.info("%r is wrong, %r is right", card, self.right_card)
+		self.player.choice = self.next_choice

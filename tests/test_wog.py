@@ -8,11 +8,12 @@ def test_a_light_in_the_darkness():
 	assert len(game.player1.choice.cards) == 3
 	for card in game.player1.choice.cards:
 		assert card.type == CardType.MINION
-		buffhp = card.health
-		card.clear_buffs()
-		basehp = card.health
-		assert buffhp == basehp + 1
 		assert card.card_class in (CardClass.NEUTRAL, CardClass.PALADIN)
+	choose_card = game.player1.choice.cards[0]
+	pre_health = choose_card.health
+	game.player1.choice.choose(choose_card)
+	assert (pre_health + 1) == choose_card.health
+
 
 
 def test_addled_grizzly():
@@ -610,3 +611,16 @@ def test_yshaarj_rage_unbound():
 
 	assert game.player1.field == [yshaarj, wisp]
 	assert len(game.player1.deck) == 0
+
+def test_thistle_tea():
+	game = prepare_empty_game()
+	tea = game.player1.give("OG_073")
+	tea.play()
+	assert len(game.player1.hand) == 0
+	game = prepare_game()
+	tea = game.player1.give("OG_073")
+	handsize = len(game.player1.hand)
+	tea.play()
+	assert len(game.player1.hand) == handsize + 2
+	assert game.player1.hand[-3].id == game.player1.hand[-2].id
+	assert game.player1.hand[-2].id == game.player1.hand[-2].id

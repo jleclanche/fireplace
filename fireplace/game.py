@@ -270,6 +270,7 @@ class BaseGame(Entity):
 		self.player1.first_player = True
 		self.player2 = second
 		self.player2.first_player = False
+		self.extra_turn_stack = []
 
 		for player in self.players:
 			player.prepare_for_game()
@@ -299,7 +300,11 @@ class BaseGame(Entity):
 		for buff in self.entities.filter(one_turn_effect=True):
 			self.log("Ending One-Turn effect: %r", buff)
 			buff.remove()
-		self.begin_turn(self.current_player.opponent)
+		if not(self.extra_turn_stack):
+			self.begin_turn(self.current_player.opponent)
+		else:
+			next_player = self.extra_turn_stack.pop()
+			self.begin_turn(next_player)
 
 	def begin_turn(self, player):
 		ret = self.queue_actions(self, [BeginTurn(player)])
@@ -317,6 +322,8 @@ class BaseGame(Entity):
 		player.cards_played_this_turn = 0
 		player.minions_played_this_turn = 0
 		player.minions_killed_this_turn = 0
+		player.elemental_played_last_turn = player.elemental_played_this_turn
+		player.elemental_played_this_turn = 0
 		player.combo = False
 		player.max_mana += 1
 		player.used_mana = 0

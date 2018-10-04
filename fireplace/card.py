@@ -27,6 +27,8 @@ def Card(id):
 	}[data.type]
 	if subclass is Spell and data.secret:
 		subclass = Secret
+	if subclass is Spell and data.quest:
+		subclass = Quest
 	return subclass(data)
 
 
@@ -43,6 +45,7 @@ class BaseCard(BaseEntity):
 		self.choose = None
 		self.parent_card = None
 		self.aura = False
+		self.starting_deck = False
 		self.heropower_damage = 0
 		self._zone = Zone.INVALID
 		self.tags.update(data.tags)
@@ -487,7 +490,7 @@ class Character(LiveEntity):
 
 	@property
 	def attackable(self):
-		return not self.immune
+		return (not self.immune) or (not self.untouchable)
 
 	@property
 	def attacking(self):
@@ -584,6 +587,12 @@ class Hero(Character):
 			return self.controller.weapon.windfury or ret
 		return ret
 
+	@property
+	def poisonous(self):
+		if self.controller.weapon:
+			return self.controller.weapon.poisonous
+		return False
+
 	def _getattr(self, attr, i):
 		ret = super()._getattr(attr, i)
 		if attr == "atk":
@@ -629,6 +638,7 @@ class Minion(Character):
 	def __init__(self, data):
 		self.always_wins_brawls = False
 		self.divine_shield = False
+		self.untouchable = False
 		self.enrage = False
 		self.poisonous = False
 		self.silenced = False
@@ -786,6 +796,44 @@ class Secret(Spell):
 		return super().play(target, index, choose)
 
 
+class Quest(Spell):
+	def __init__(self, data):
+		self.quest_progress = 0
+		self.quest_progress_total = data.quest_progress_total
+		self.quest_map = {}
+		super().__init__(data)
+
+	@property
+	def events(self):
+		ret = super().events
+		if self.zone == Zone.SECRET:
+			ret += self.data.scripts.secret
+		return ret
+
+	@property
+	def zone_position(self):
+		if self.zone == Zone.SECRET:
+			return self.controller.secrets.index(self) + 1
+		return super().zone_position
+
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			# Move secrets to the SECRET Zone when played
+			value = Zone.SECRET
+		if self.zone == Zone.SECRET:
+			self.controller.secrets.remove(self)
+		if value == Zone.SECRET:
+			self.controller.secrets.insert(0, self)
+		super()._set_zone(value)
+
+	def is_summonable(self):
+		# secrets are all unique
+		for card in self.controller.secrets:
+			if card.quest:
+				return False
+		return super().is_summonable()
+
+
 class Enchantment(BaseCard):
 	atk = int_property("atk")
 	cost = int_property("cost")
@@ -853,6 +901,7 @@ class Weapon(rules.WeaponRules, LiveEntity):
 	def __init__(self, *args):
 		super().__init__(*args)
 		self.damage = 0
+		self.poisonous = False
 
 	@property
 	def durability(self):

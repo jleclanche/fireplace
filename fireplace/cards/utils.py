@@ -33,7 +33,7 @@ FULL_BOARD = Count(FRIENDLY_MINIONS) == 7
 FULL_HAND = Count(FRIENDLY_HAND) == 10
 HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
 
-DISCOVER = lambda *args: Discover(CONTROLLER, *args)
+DISCOVER = lambda *args: Discover(CONTROLLER, *args).then(Give(CONTROLLER, Discover.CARD))
 
 BASIC_HERO_POWERS = [
 	"CS1h_001", "CS2_017", "CS1h_001",
@@ -65,7 +65,7 @@ FORGETFUL = Attack(SELF).on(
 
 AT_MAX_MANA = lambda s: MANA(s) == 10
 CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
-
+PLAYED_ELEMENTAL_LAST_TURN = lambda s: NUM_EMELMENTAL_PALYED_LAST_TURN(s) > 0
 
 class JoustHelper(Evaluator):
 	"""

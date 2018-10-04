@@ -65,11 +65,12 @@ class Selector:
 class EnumSelector(Selector):
 	def __init__(self, tag_enum=None):
 		self.tag_enum = tag_enum
+		self.untouchable = GameTag.UNTOUCHABLE
 
 	def eval(self, entities, source):
 		if not self.tag_enum or not hasattr(self.tag_enum, "test"):
 			raise RuntimeError("Unsupported enum type {}".format(str(self.tag_enum)))
-		return [e for e in entities if self.tag_enum.test(e, source)]
+		return [e for e in entities if self.tag_enum.test(e, source) and not(self.untouchable.test(e, source))]
 
 	def __repr__(self):
 		return "<%s>" % (self.tag_enum.name)
@@ -132,6 +133,7 @@ MANA = AttrValue(GameTag.RESOURCES)
 USED_MANA = AttrValue(GameTag.RESOURCES_USED)
 CURRENT_MANA = AttrValue("mana")
 NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
+NUM_EMELMENTAL_PALYED_LAST_TURN = AttrValue("elemental_played_last_turn")
 
 
 class ComparisonSelector(Selector):
@@ -283,7 +285,8 @@ class BoardPositionSelector(Selector):
 
 				left = field[:position]
 				if left:
-					result.append(left[-1])
+					if not(left[-1].untouchable):
+						result.append(left[-1])
 
 		return result
 
@@ -401,6 +404,8 @@ CLASS_CARD = EnumSelector(GameTag.CLASS)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
+IN_START_DECK = AttrValue(enums.STARGING_DECK) == True
+DISCARDED = AttrValue(enums.DISCARDED) == True
 
 ROGUE = EnumSelector(CardClass.ROGUE)
 WARLOCK = EnumSelector(CardClass.WARLOCK)
@@ -428,6 +433,7 @@ MECH = EnumSelector(Race.MECHANICAL)
 MURLOC = EnumSelector(Race.MURLOC)
 PIRATE = EnumSelector(Race.PIRATE)
 TOTEM = EnumSelector(Race.TOTEM)
+ELEMENTAL = EnumSelector(Race.ELEMENTAL)
 
 COMMON = EnumSelector(Rarity.COMMON)
 RARE = EnumSelector(Rarity.RARE)

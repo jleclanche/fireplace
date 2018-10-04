@@ -6,44 +6,42 @@ from ..utils import *
 
 class UNG_002:
 	"""Volcanosaur"""
-	pass
+	play = Adapt(SELF), Adapt(SELF)
 
 
 class UNG_070:
 	"""Tol'vir Stoneshaper"""
-	pass
+	play = PLAYED_ELEMENTAL_LAST_TURN(CONTROLLER) & (Taunt(SELF), GiveDivineShield(SELF))
 
 
 class UNG_072:
 	"""Stonehill Defender"""
-	pass
+	play = DISCOVER(RandomMinion(taunt=True))
 
 
 class UNG_075:
 	"""Vicious Fledgling"""
-	pass
+	events = Attack(SELF, ALL_HEROES).after(Adapt(SELF))
 
 
 class UNG_079:
 	"""Frozen Crusher"""
-	pass
+	events = Attack(SELF).after(Freeze(SELF))
 
 
 class UNG_083:
 	"""Devilsaur Egg"""
-	pass
+	deathrattle = Summon(CONTROLLER, "UNG_083t1")
 
 
 class UNG_807:
 	"""Golakka Crawler"""
-	pass
+	play = Destroy(TARGET), Buff(SELF, "UNG_807e")
+
+
+UNG_807e = buff(+1, +1)
 
 
 class UNG_816:
 	"""Servant of Kalimos"""
-	pass
-
-
-class UNG_844:
-	"""Humongous Razorleaf"""
-	pass
+	play = DISCOVER(RandomElemental())

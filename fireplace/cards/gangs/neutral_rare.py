@@ -32,8 +32,7 @@ class CFM_649:
 
 class CFM_652:
 	"""Second-Rate Bruiser"""
-	class Hand:
-		update = (Count(ENEMY_MINIONS) >= 3) & Refresh(SELF, {GameTag.COST: -2})
+	cost_mod = (Count(ENEMY_MINIONS) >= 3) & -2
 
 
 class CFM_658:

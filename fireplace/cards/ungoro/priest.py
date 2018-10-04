@@ -6,32 +6,40 @@ from ..utils import *
 
 class UNG_022:
 	"""Mirage Caller"""
-	pass
+	play = Summon(CONTROLLER, Buff(ExactCopy(TARGET), "UNG_022e"))
+
+
+class UNG_022e:
+	atk = SET(1)
+	max_health = SET(1)
 
 
 class UNG_032:
 	"""Crystalline Oracle"""
-	pass
+	deathrattle = Give(CONTROLLER, Copy(RANDOM(ENEMY_DECK)))
 
 
 class UNG_034:
 	"""Radiant Elemental"""
-	pass
+	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -1})
 
 
 class UNG_035:
 	"""Curious Glimmerroot"""
-	pass
+	play = Glimmerroot()
 
 
 class UNG_037:
 	"""Tortollan Shellraiser"""
-	pass
+	deathrattle = Buff(FRIENDLY_MINIONS, "UNG_037e")
+
+
+UNG_037e = buff(+1, +1)
 
 
 class UNG_963:
 	"""Lyra the Sunshard"""
-	pass
+	events = OWN_SPELL_PLAY.on(Give(CONTROLLER, RandomSpell(card_class=CardClass.PRIEST)))
 
 
 ##
@@ -39,19 +47,24 @@ class UNG_963:
 
 class UNG_029:
 	"""Shadow Visions"""
-	pass
+	play = DISCOVER(Copy(RANDOM(FRIENDLY_DECK + SPELL)))
 
 
 class UNG_030:
 	"""Binding Heal"""
-	pass
+	play = Heal(TARGET | FRIENDLY_HERO, 5)
 
 
 class UNG_854:
 	"""Free From Amber"""
-	pass
+	play = DISCOVER(CONTROLLER, RandomMinion(cost=[8, 9, 10, 11, 12, 20, 25]))
 
 
 class UNG_940:
 	"""Awaken the Makers"""
-	pass
+	events = Summon(CONTROLLER, DEATHRATTLE).after(CompleteQuest(SELF))
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_940t8")
+
+
+class UNG_940t8:
+	play = SetCurrentHealth(FRIENDLY_HERO, 15)

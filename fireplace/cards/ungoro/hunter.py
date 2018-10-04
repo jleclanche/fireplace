@@ -6,32 +6,32 @@ from ..utils import *
 
 class UNG_800:
 	"""Terrorscale Stalker"""
-	pass
+	play = Deathrattle(TARGET)
 
 
 class UNG_912:
 	"""Jeweled Macaw"""
-	pass
+	play = Give(CONTROLLER, RandomBeast())
 
 
 class UNG_913:
 	"""Tol'vir Warden"""
-	pass
+	play = ForceDraw(MINION + (ATK == 1)) * 2
 
 
 class UNG_914:
 	"""Raptor Hatchling"""
-	pass
+	deathrattle = Shuffle(CONTROLLER, "UNG_914t1")
 
 
 class UNG_915:
 	"""Crackling Razormaw"""
-	pass
+	play = Adapt(CONTROLLER, TARGET)
 
 
 class UNG_919:
 	"""Swamp King Dred"""
-	pass
+	events = Play(OPPONENT, MINION).after(Attack(SELF, Play.CARD))
 
 
 ##
@@ -39,19 +39,41 @@ class UNG_919:
 
 class UNG_910:
 	"""Grievous Bite"""
-	pass
+	play = Hit(TARGET, 2), Hit(TARGET_ADJACENT, 1)
 
 
 class UNG_916:
 	"""Stampede"""
-	pass
+	play = Buff(CONTROLLER, "UNG_916e")
+
+
+class UNG_916e:
+	events = Play(CONTROLLER, FRIENDLY_MINIONS + BEAST).after(
+		Give(CONTROLLER, RandomBeast())
+	)
 
 
 class UNG_917:
 	"""Dinomancy"""
-	pass
+	play = Summon(CONTROLLER, "UNG_917t1")
+
+
+class UNG_917t1:
+	activate = Buff(TARGET, "UNG_917e")
+
+
+UNG_917e = buff(+2, +2)
 
 
 class UNG_920:
 	"""The Marsh Queen"""
-	pass
+	events = Play(CONTROLLER, MINION + (COST == 1)).after(CompleteQuest(SELF))
+	reward = Destroy(SELF), Give(CONTROLLER, "UNG_920t1")
+
+
+class UNG_920t1:
+	play = Shuffle(CONTROLLER, "UNG_920t2") * 15
+
+
+class UNG_920t2:
+	play = Draw(CONTROLLER)

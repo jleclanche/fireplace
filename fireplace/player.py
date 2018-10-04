@@ -171,10 +171,12 @@ class Player(Entity, TargetableByAuras):
 	def prepare_for_game(self):
 		self.summon(self.starting_hero)
 		for id in self.starting_deck:
-			self.card(id, zone=Zone.DECK)
+			card = self.card(id, zone=Zone.DECK)
+			card.starting_deck = True
 		self.shuffle_deck()
 		self.cthun = self.card("OG_280")
 		self.playstate = PlayState.PLAYING
+		self.elemental_played_this_turn = 0
 
 		# Draw initial hand (but not any more than what we have in the deck)
 		hand_size = min(len(self.deck), self.start_hand_size)
