@@ -39,7 +39,7 @@ class EX1_304:
 
 
 class EX1_306:
-	"""Succubus"""
+	"""Felstalker"""
 	play = Discard(RANDOM(FRIENDLY_HAND))
 
 

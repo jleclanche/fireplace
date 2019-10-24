@@ -639,7 +639,7 @@ def test_cleave():
 	game.end_turn()
 
 	cleave2 = game.player1.give("CS2_114")
-	assert not cleave2.is_playable()
+	assert cleave2.is_playable()
 
 
 def test_cold_blood():
@@ -3514,12 +3514,14 @@ def test_wild_growth():
 	game = prepare_game(game_class=Game)
 	game.end_turn()
 	game.end_turn()
-	assert game.player1.max_mana == 2
+	game.end_turn()
+	game.end_turn()
+	assert game.player1.max_mana == 3
 	wildgrowth1 = game.player1.give("CS2_013")
 	wildgrowth1.play()
 	assert game.player1.mana == 0
-	assert game.player1.used_mana == 2 + 1
-	assert game.player1.max_mana == 2 + 1
+	assert game.player1.used_mana == 3 + 1
+	assert game.player1.max_mana == 3 + 1
 	for i in range(8):
 		game.end_turn()
 		game.end_turn()
