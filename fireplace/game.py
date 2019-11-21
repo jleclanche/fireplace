@@ -2,6 +2,7 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
+import itertools
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
@@ -88,6 +89,36 @@ class BaseGame(Entity):
 		self.manager.action_start(type, source, index, target)
 		if type != BlockType.PLAY:
 			self._action_stack += 1
+
+	def player1_turn(self):
+		if self.current_player.name == "Player1":
+			return True
+		return False
+
+	def find_children(self):
+		if !self.player1_turn():
+		"All possible successors of this board state"
+		return set()
+
+	def find_random_child(self):
+		"Random successor of this board state (for more efficient simulation)"
+		return None
+
+	def is_terminal(self):
+		"Returns True if the node has no children"
+		return True
+
+	def reward(self):
+		"Assumes `self` is terminal node. 1=win, 0=loss, .5=tie, etc"
+		return 0
+
+	def __hash__(self):
+		"Nodes must be hashable"
+		return 123456789
+
+	def __eq__(node1, node2):
+		"Nodes must be comparable"
+		return True
 
 	def action_end(self, type, source):
 		self.manager.action_end(type, source)
