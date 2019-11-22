@@ -3,6 +3,8 @@ import time
 from calendar import timegm
 from itertools import chain
 import itertools
+from .utils import game_state_to_xml
+import copy
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
@@ -95,30 +97,99 @@ class BaseGame(Entity):
 			return True
 		return False
 
+	def play_set_turn(passed_game, hand_play_order = []):
+		player = passed_game.current_player
+		hand = player.hand
+		valid_cards = []
+		cards_passed = False
+		for target_card in hand_play_order:
+			valid_cards.append(target_card.data.name)
+			cards_passed = True
+
+		if not cards_passed:
+			random.shuffle(hand)
+
+		while True:
+			# iterate over our hand and play whatever is playable
+			for card in hand:
+				if card.is_playable() and (card.data.name in valid_cards or not cards_passed):
+					target = None
+					if card.must_choose_one:
+						card = random.choice(card.choose_cards)
+					if card.requires_target():
+						target = random.choice(card.targets)
+					print("Playing %r on %r" % (card, target))
+					card.play(target=target)
+
+					if player.choice:
+						choice = random.choice(player.choice.cards)
+						print("Choosing card %r" % (choice))
+						player.choice.choose(choice)
+
+					continue
+
+			heropower = player.hero.power
+			if heropower.is_usable():
+				if heropower.requires_target():
+					heropower.use(target=random.choice(heropower.targets))
+				else:
+					heropower.use()
+				continue
+			# Randomly attack with whatever can attack
+			for character in player.characters:
+				if character.can_attack():
+					character.attack(random.choice(character.targets))
+			break
+
+		passed_game.end_turn()
+		return passed_game
+
 	def find_children(self):
-		if !self.player1_turn():
-		"All possible successors of this board state"
-		return set()
+		if self.is_terminal(): return
+		#All possible successors of this board state
+		card_orders = copy.deepcopy(self.current_player.hand)
+		max_mana = self.current_player.mana
+		card_orders_filtered = CardList()
+		for card in card_orders:
+			if card.cost <= max_mana + 1:
+				card_orders_filtered.append(card)
+		all_permutations = itertools.permutations(card_orders_filtered)
+		children_set = []
+
+		for permutation in all_permutations:
+			deep_self = copy.deepcopy(self)
+			child = deep_self.play_set_turn(permutation)
+			children_set.append(copy.deepcopy(child))
+		return children_set
 
 	def find_random_child(self):
-		"Random successor of this board state (for more efficient simulation)"
-		return None
+		if self.is_terminal(): return
+		#"Random successor of this board state (for more efficient simulation)"
+		deep_self = copy.deepcopy(self)
+		child = deep_self.play_set_turn()
+		return child
 
 	def is_terminal(self):
-		"Returns True if the node has no children"
-		return True
+		#"Returns True if the node has no children"
+		if self.ended:
+			return True
+		return False
 
 	def reward(self):
-		"Assumes `self` is terminal node. 1=win, 0=loss, .5=tie, etc"
-		return 0
+		#"Assumes `self` is terminal node. 1=win, 0=loss, .5=tie, etc"
+		for player in self.playstate:
+			if player.name == "Player1":
+				if player.playstate == PlayState.TIED: return 0.5
+				if player.playstate == PlayState.LOST: return 0
+				if player.playstate == PlayState.WON: return 1
 
 	def __hash__(self):
-		"Nodes must be hashable"
-		return 123456789
+		return str(game_state_to_xml(self))
 
 	def __eq__(node1, node2):
-		"Nodes must be comparable"
-		return True
+		if node1.__hash__() == node2.__hash__():
+			return True
+		return False
 
 	def action_end(self, type, source):
 		self.manager.action_end(type, source)

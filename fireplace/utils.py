@@ -185,6 +185,11 @@ def setup_game() -> ".game.Game":
 
 def play_turn(game: ".game.Game") -> ".game.Game":
 	player = game.current_player
+	if(player.name == "Player1"):
+		#children = game.find_random_child()
+		children1 = game.find_children()
+		print(children1)
+		print("Passed find children call")
 
 	while True:
 		heropower = player.hero.power
@@ -219,7 +224,6 @@ def play_turn(game: ".game.Game") -> ".game.Game":
 				character.attack(random.choice(character.targets))
 
 		break
-
 	game.end_turn()
 	return game
 
