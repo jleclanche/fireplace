@@ -3,7 +3,6 @@ import time
 from calendar import timegm
 from itertools import chain
 import itertools
-from .utils import game_state_to_xml
 import copy
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
@@ -13,7 +12,7 @@ from .card import THE_COIN
 from .entity import Entity
 from .exceptions import GameOver
 from .managers import GameManager
-from .utils import CardList
+from .utils import CardList, game_state_to_xml
 
 
 class BaseGame(Entity):
@@ -114,16 +113,16 @@ class BaseGame(Entity):
 			for card in hand:
 				if card.is_playable() and (card.data.name in valid_cards or not cards_passed):
 					target = None
-					if card.must_choose_one:
+					if card.must_choose_one: # not pre set just random
 						card = random.choice(card.choose_cards)
-					if card.requires_target():
+					if card.requires_target(): # not pre set just random
 						target = random.choice(card.targets)
-					print("Playing %r on %r" % (card, target))
+					#print("Playing %r on %r" % (card, target))
 					card.play(target=target)
 
-					if player.choice:
+					if player.choice: # not pre set just random
 						choice = random.choice(player.choice.cards)
-						print("Choosing card %r" % (choice))
+						#print("Choosing card %r" % (choice))
 						player.choice.choose(choice)
 
 					continue
@@ -137,7 +136,7 @@ class BaseGame(Entity):
 				continue
 			# Randomly attack with whatever can attack
 			for character in player.characters:
-				if character.can_attack():
+				if character.can_attack(): # not pre set just random
 					character.attack(random.choice(character.targets))
 			break
 
@@ -146,7 +145,11 @@ class BaseGame(Entity):
 
 	def find_children(self):
 		if self.is_terminal(): return
-		#All possible successors of this board state
+		#All possible successors of this board state (not really, see below)
+		#problems: to make it faster only consider cards you have mana for (innervate would break this)
+		#problems: does not shuffle the actual order of attacking characters and card target abilities or battlecries,
+		# these two are always just random, but random eachtime, not shuffled, but that would lead to too many posibilities
+
 		card_orders = copy.deepcopy(self.current_player.hand)
 		max_mana = self.current_player.mana
 		card_orders_filtered = CardList()
@@ -154,12 +157,12 @@ class BaseGame(Entity):
 			if card.cost <= max_mana + 1:
 				card_orders_filtered.append(card)
 		all_permutations = itertools.permutations(card_orders_filtered)
-		children_set = []
+		children_set = set()
 
 		for permutation in all_permutations:
 			deep_self = copy.deepcopy(self)
 			child = deep_self.play_set_turn(permutation)
-			children_set.append(copy.deepcopy(child))
+			children_set.add(copy.deepcopy(child))
 		return children_set
 
 	def find_random_child(self):
@@ -177,14 +180,12 @@ class BaseGame(Entity):
 
 	def reward(self):
 		#"Assumes `self` is terminal node. 1=win, 0=loss, .5=tie, etc"
-		for player in self.playstate:
-			if player.name == "Player1":
-				if player.playstate == PlayState.TIED: return 0.5
-				if player.playstate == PlayState.LOST: return 0
-				if player.playstate == PlayState.WON: return 1
+		if self.player1.playstate == PlayState.TIED: return 0.5
+		if self.player1.playstate == PlayState.LOST: return 0
+		if self.player1.playstate == PlayState.WON: return 1
 
 	def __hash__(self):
-		return str(game_state_to_xml(self))
+		return hash(game_state_to_xml(self))
 
 	def __eq__(node1, node2):
 		if node1.__hash__() == node2.__hash__():
@@ -195,7 +196,8 @@ class BaseGame(Entity):
 		self.manager.action_end(type, source)
 
 		if self.ended:
-			raise GameOver("The game has ended.")
+			return
+			#raise GameOver("The game has ended.")
 
 		if type != BlockType.PLAY:
 			self._action_stack -= 1

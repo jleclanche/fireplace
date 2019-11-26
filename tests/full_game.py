@@ -3,17 +3,21 @@ import sys
 
 from fireplace import cards
 from fireplace.exceptions import GameOver
-from fireplace.utils import play_full_game
+from fireplace.utils import play_full_game, play_full_mcts_game
 
 
 sys.path.append("..")
 
 
 def test_full_game():
-	try:
-		play_full_game()
-	except GameOver:
-		print("Game completed normally.")
+	do_mcts = True
+	if not do_mcts:
+		try:
+			play_full_game()
+		except GameOver:
+			print("Game completed normally.")
+	else:
+		play_full_mcts_game()
 
 
 def main():

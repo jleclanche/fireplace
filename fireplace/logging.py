@@ -16,6 +16,7 @@ def get_logger(name, level=logging.DEBUG):
 		ch.setFormatter(formatter)
 
 		logger.addHandler(ch)
+		logger.disabled = True
 
 	return logger
 

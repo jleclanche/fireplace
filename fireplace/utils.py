@@ -5,6 +5,8 @@ from importlib import import_module
 from pkgutil import iter_modules
 from typing import List
 from xml.etree import ElementTree
+from fireplace.monte_carlo_tree import *
+from fireplace.exceptions import GameOver
 
 from hearthstone.enums import CardClass, CardType
 
@@ -185,11 +187,6 @@ def setup_game() -> ".game.Game":
 
 def play_turn(game: ".game.Game") -> ".game.Game":
 	player = game.current_player
-	if(player.name == "Player1"):
-		#children = game.find_random_child()
-		children1 = game.find_children()
-		print(children1)
-		print("Passed find children call")
 
 	while True:
 		heropower = player.hero.power
@@ -239,5 +236,33 @@ def play_full_game() -> ".game.Game":
 
 	while True:
 		play_turn(game)
+
+	return game
+
+def play_full_mcts_game() -> ".game.Game":
+	game = setup_game()
+	tree = MCTS()
+	for player in game.players:
+		print("Can mulligan %r" % (player.choice.cards))
+		mull_count = random.randint(0, len(player.choice.cards))
+		cards_to_mulligan = random.sample(player.choice.cards, mull_count)
+		player.choice.choose(*cards_to_mulligan)
+
+	while True:
+		player = game.current_player
+		if(player.name == "Player1"):
+			print("Rolling out MCTS simulations")
+			for _ in range(10):
+				try:
+					tree.do_rollout(game)
+				except GameOver:
+					pass
+
+			game = tree.choose(game)
+			print("Passed rollouts")
+		else:
+			print("Playing computer turn")
+			play_turn(game)
+			print("Passed computer turn")
 
 	return game
