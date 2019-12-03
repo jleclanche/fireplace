@@ -174,10 +174,12 @@ def setup_game() -> ".game.Game":
 	from .game import Game
 	from .player import Player
 
-	deck1 = random_draft(CardClass.MAGE)
-	deck2 = random_draft(CardClass.WARRIOR)
-	player1 = Player("Player1", deck1, CardClass.MAGE.default_hero)
-	player2 = Player("Player2", deck2, CardClass.WARRIOR.default_hero)
+	class1 = random_class()
+	class2 = random_class()
+	deck1 = random_draft(class1)
+	deck2 = random_draft(class2)
+	player1 = Player("Player1", deck1, class1.default_hero)
+	player2 = Player("Player2", deck2, class2.default_hero)
 
 	game = Game(players=(player1, player2))
 	game.start()
@@ -251,18 +253,37 @@ def play_full_mcts_game() -> ".game.Game":
 	while True:
 		player = game.current_player
 		if(player.name == "Player1"):
-			print("Rolling out MCTS simulations")
+			print("Rolling out MCTS simulations for "+ str(game.current_player))
 			for _ in range(10):
 				try:
 					tree.do_rollout(game)
 				except GameOver:
 					pass
-
-			game = tree.choose(game)
-			print("Passed rollouts")
-		else:
-			print("Playing computer turn")
+			try:
+				game = tree.choose(game)
+			except RuntimeError:
+				break
+			print("Played MCTS turn")
+		#else:
 			play_turn(game)
 			print("Passed computer turn")
 
+		if(player.name == "Player2"):
+			play_turn(game)
+			print("Passed computer turn")
+			print("Rolling out MCTS simulations for " + str(game.current_player))
+			for _ in range(10):
+				try:
+					tree.do_rollout(game)
+				except GameOver:
+					pass
+			try:
+				game = tree.choose(game)
+			except RuntimeError:
+				break
+			print("Played MCTS turn")
+			# else:
+
+	print(game.player1.name)
+	print(game.player1.playstate)
 	return game

@@ -96,48 +96,41 @@ class BaseGame(Entity):
 			return True
 		return False
 
-	def play_set_turn(passed_game, hand_play_order = []):
+	def play_set_turn(passed_game):
 		player = passed_game.current_player
-		hand = player.hand
-		valid_cards = []
-		cards_passed = False
-		for target_card in hand_play_order:
-			valid_cards.append(target_card.data.name)
-			cards_passed = True
-
-		if not cards_passed:
-			random.shuffle(hand)
 
 		while True:
+			heropower = player.hero.power
+			if heropower.is_usable() and random.random() < 0.1:
+				if heropower.requires_target():
+					heropower.use(target=random.choice(heropower.targets))
+				else:
+					heropower.use()
+				continue
+
 			# iterate over our hand and play whatever is playable
-			for card in hand:
-				if card.is_playable() and (card.data.name in valid_cards or not cards_passed):
+			for card in player.hand:
+				if card.is_playable() and random.random() < 0.5:
 					target = None
-					if card.must_choose_one: # not pre set just random
+					if card.must_choose_one:
 						card = random.choice(card.choose_cards)
-					if card.requires_target(): # not pre set just random
+					if card.requires_target():
 						target = random.choice(card.targets)
 					#print("Playing %r on %r" % (card, target))
 					card.play(target=target)
 
-					if player.choice: # not pre set just random
+					if player.choice:
 						choice = random.choice(player.choice.cards)
 						#print("Choosing card %r" % (choice))
 						player.choice.choose(choice)
 
 					continue
 
-			heropower = player.hero.power
-			if heropower.is_usable():
-				if heropower.requires_target():
-					heropower.use(target=random.choice(heropower.targets))
-				else:
-					heropower.use()
-				continue
 			# Randomly attack with whatever can attack
 			for character in player.characters:
-				if character.can_attack(): # not pre set just random
+				if character.can_attack():
 					character.attack(random.choice(character.targets))
+
 			break
 
 		passed_game.end_turn()
@@ -146,23 +139,21 @@ class BaseGame(Entity):
 	def find_children(self):
 		if self.is_terminal(): return
 		#All possible successors of this board state (not really, see below)
-		#problems: to make it faster only consider cards you have mana for (innervate would break this)
-		#problems: does not shuffle the actual order of attacking characters and card target abilities or battlecries,
-		# these two are always just random, but random eachtime, not shuffled, but that would lead to too many posibilities
 
-		card_orders = copy.deepcopy(self.current_player.hand)
-		max_mana = self.current_player.mana
-		card_orders_filtered = CardList()
-		for card in card_orders:
-			if card.cost <= max_mana + 1:
-				card_orders_filtered.append(card)
-		all_permutations = itertools.permutations(card_orders_filtered)
+		#card_orders = copy.deepcopy(self.current_player.hand)
+		#max_mana = self.current_player.mana
+		#card_orders_filtered = CardList()
+		#for card in card_orders:
+		#	if card.cost <= max_mana + 1:
+		#		card_orders_filtered.append(card)
+		#all_permutations = itertools.permutations(card_orders_filtered)
 		children_set = set()
 
-		for permutation in all_permutations:
+		for i in range(20):
 			deep_self = copy.deepcopy(self)
-			child = deep_self.play_set_turn(permutation)
-			children_set.add(copy.deepcopy(child))
+			# attempt to implement undo function here to not need deepcopy or use json serialize and deserialize
+			child = deep_self.play_set_turn()
+			children_set.add(child)
 		return children_set
 
 	def find_random_child(self):
