@@ -21,7 +21,7 @@ class MCTS:
 	def choose(self, node): # works?
 		"Choose the best successor of node. (Choose a move in the game)"
 		if node.is_terminal():
-			raise RuntimeError(f"choose called on terminal node {node}")
+			raise RuntimeError("choose called on terminal node {node}")
 
 		if node not in self.children:
 			return node.find_random_child()

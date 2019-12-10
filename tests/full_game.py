@@ -21,7 +21,7 @@ def test_full_game():
 	else:
 		won = 0
 		lost = 0
-		for i in range(10):
+		for i in range(100):
 			game = play_full_mcts_game()
 			print(game.player1.name)
 			print(game.player1.playstate)

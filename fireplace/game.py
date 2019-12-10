@@ -1,9 +1,11 @@
+import json
 import random
 import time
 from calendar import timegm
 from itertools import chain
 import itertools
 import copy
+import pickle
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
@@ -117,7 +119,7 @@ class BaseGame(Entity):
 					if card.requires_target():
 						target = random.choice(card.targets)
 					#print("Playing %r on %r" % (card, target))
-					card.play(target=target)
+					if card.is_playable: card.play(target=target)
 
 					if player.choice:
 						choice = random.choice(player.choice.cards)
@@ -148,9 +150,11 @@ class BaseGame(Entity):
 		#		card_orders_filtered.append(card)
 		#all_permutations = itertools.permutations(card_orders_filtered)
 		children_set = set()
-
-		for i in range(20):
-			deep_self = copy.deepcopy(self)
+		memo = {}
+		for i in range(10):
+			deep_self = copy.deepcopy(self, memo)
+			#deep_self = pickle.load(pickle.dump(self))
+			#deep_self = copy.copy(self)
 			# attempt to implement undo function here to not need deepcopy or use json serialize and deserialize
 			child = deep_self.play_set_turn()
 			children_set.add(child)

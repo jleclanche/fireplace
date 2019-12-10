@@ -254,7 +254,7 @@ def play_full_mcts_game() -> ".game.Game":
 		player = game.current_player
 		if(player.name == "Player1"):
 			print("Rolling out MCTS simulations for "+ str(game.current_player))
-			for _ in range(10):
+			for _ in range(50):
 				try:
 					tree.do_rollout(game)
 				except GameOver:
@@ -270,9 +270,8 @@ def play_full_mcts_game() -> ".game.Game":
 
 		if(player.name == "Player2"):
 			play_turn(game)
-			print("Passed computer turn")
 			print("Rolling out MCTS simulations for " + str(game.current_player))
-			for _ in range(10):
+			for _ in range(50):
 				try:
 					tree.do_rollout(game)
 				except GameOver:
