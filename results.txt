@@ -6,4 +6,12 @@ w/l
 
 Playing <Minion ('Bloodfen Raptor')> on None
 Playing <Minion ('Scaleworm')> on None
-lost game, currently:41/55
+lost game, currently:41/55 @ 50 rollouts
+
+expl-weight: 1.5 @ 50 rollouts
+won game, currently:77/100
+
+expl weight: 10 @ 50 rollouts
+won game, currently:28/34
+
+ODSTRANU ENEMY RANDOM > 0.5 DA PLAYA KARTE, dodav shuffled hand shuffled attacks na mcts

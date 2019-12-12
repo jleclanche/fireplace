@@ -13,7 +13,7 @@ import math
 class MCTS:
 	"Monte Carlo tree searcher. First rollout the tree then choose a move."
 
-	def __init__(self, exploration_weight=2.8):
+	def __init__(self, exploration_weight=10):
 		self.Q = defaultdict(int)  # total reward of each node
 		self.N = defaultdict(int)  # total visit count for each node
 		self.children = dict()  # children of each node

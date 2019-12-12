@@ -5,7 +5,6 @@ from calendar import timegm
 from itertools import chain
 import itertools
 import copy
-import pickle
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
@@ -115,7 +114,9 @@ class BaseGame(Entity):
 				continue
 
 			# iterate over our hand and play whatever is playable
-			for card in player.hand:
+			shuffled_hand = player.hand
+			random.shuffle(shuffled_hand)
+			for card in shuffled_hand:
 				if card.is_playable():
 					target = None
 					if card.must_choose_one:
@@ -133,7 +134,9 @@ class BaseGame(Entity):
 					continue
 
 			# Randomly attack with whatever can attack
-			for character in player.characters:
+			shuffled_characters = player.characters
+			random.shuffle(shuffled_characters)
+			for character in shuffled_characters:
 				if character.can_attack():
 					character.attack(random.choice(character.targets))
 
@@ -157,8 +160,7 @@ class BaseGame(Entity):
 		memo = {}
 		for i in range(8):
 			deep_self = copy.deepcopy(self, memo)
-			#deep_self = pickle.load(pickle.dump(self))
-			#deep_self = copy.copy(self)
+			#deep_self = cPickle.loads(cPickle.dumps(self, -1))
 			# attempt to implement undo function here to not need deepcopy or use json serialize and deserialize
 			child = deep_self.play_set_turn()
 			child.reset_identifier()
@@ -169,6 +171,7 @@ class BaseGame(Entity):
 		if self.is_terminal(): return
 		#"Random successor of this board state (for more efficient simulation)"
 		deep_self = copy.deepcopy(self)
+		#deep_self = cPickle.loads(cPickle.dumps(self, -1))
 		child = deep_self.play_set_turn()
 		child.reset_identifier()
 		return child
@@ -186,7 +189,7 @@ class BaseGame(Entity):
 		if self.players[0].playstate == PlayState.WON: return 1
 
 	def __hash__(self):
-		return self.identifier
+		return hash(self.identifier)
 		#return hash(game_state_to_xml(self)) + self.turn * self.tick + self._action_stack + self.identifier
 
 	def __eq__(node1, node2):

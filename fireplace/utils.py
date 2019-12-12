@@ -136,14 +136,14 @@ def game_state_to_xml(game):
 		e.attrib["CardID"] = entity.id
 		tree.append(e)
 
-	for player in game.players:
-		for hand in player.hand:
-			hand = entity_to_xml(hand)
-			tree.append(hand)
+	#for player in game.players:
+	#	for hand in player.hand:
+	#		hand = entity_to_xml(hand)
+	#		tree.append(hand)
 
-	for element in game.board:
-		tree.append(entity_to_xml(element))
-	tree.append(entity_to_xml(game.current_player))
+	#for element in game.board:
+	#	tree.append(entity_to_xml(element))
+	#tree.append(entity_to_xml(game.current_player))
 	return ElementTree.tostring(tree)
 
 
@@ -211,14 +211,14 @@ def play_turn(game: ".game.Game") -> ".game.Game":
 
 		# iterate over our hand and play whatever is playable
 		for card in player.hand:
-			if card.is_playable() and random.random() < 0.5:
+			if card.is_playable():
 				target = None
 				if card.must_choose_one:
 					card = random.choice(card.choose_cards)
 				if card.requires_target():
 					target = random.choice(card.targets)
 				print("Playing %r on %r" % (card, target))
-				card.play(target=target)
+				if (card.is_playable and not card.requires_target) or (card.is_playable and card.requires_target() and target is not None): card.play(target=target)
 
 				if player.choice:
 					choice = random.choice(player.choice.cards)
@@ -260,7 +260,7 @@ def play_full_mcts_game() -> ".game.Game":
 		player.choice.choose(*cards_to_mulligan)
 
 	while True:
-		for _ in range(50):
+		for _ in range(100):
 			try:
 				tree.do_rollout(game)
 			except GameOver:
@@ -269,6 +269,7 @@ def play_full_mcts_game() -> ".game.Game":
 			game = tree.choose(game)
 		except RuntimeError:
 			return game
+		print("# children of tree: " + str(len(tree.children)))
 		play_turn(game)
 
 
