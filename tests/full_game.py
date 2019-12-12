@@ -23,17 +23,14 @@ def test_full_game():
 		lost = 0
 		for i in range(100):
 			game = play_full_mcts_game()
-			print(game.player1.name)
-			print(game.player1.playstate)
-			mcts_player = ""
-			if (game.player1.name == "Player1"):
-				mcts_player = game.player1
-			else:
-				mcts_player = game.player2
+			mcts_player = game.players[0]
+
 			if mcts_player.playstate == PlayState.WON:
 				won += 1
+				print("won game, currently:" + str(won) + "/" + str(i+1))
 			else:
 				lost += 1
+				print("lost game, currently:" + str(won) + "/" + str(i+1))
 		print("w/l")
 		print(won)
 		print(lost)

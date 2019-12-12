@@ -37,6 +37,7 @@ class BaseGame(Entity):
 		self.active_aura_buffs = CardList()
 		self.setaside = CardList()
 		self._action_stack = 0
+		self.identifier = random.getrandbits(128)
 
 	def __repr__(self):
 		return "%s(players=%r)" % (self.__class__.__name__, self.players)
@@ -98,6 +99,9 @@ class BaseGame(Entity):
 			return True
 		return False
 
+	def reset_identifier(self):
+		self.identifier = random.getrandbits(128)
+
 	def play_set_turn(passed_game):
 		player = passed_game.current_player
 
@@ -112,14 +116,14 @@ class BaseGame(Entity):
 
 			# iterate over our hand and play whatever is playable
 			for card in player.hand:
-				if card.is_playable() and random.random() < 0.5:
+				if card.is_playable():
 					target = None
 					if card.must_choose_one:
 						card = random.choice(card.choose_cards)
 					if card.requires_target():
 						target = random.choice(card.targets)
 					#print("Playing %r on %r" % (card, target))
-					if card.is_playable: card.play(target=target)
+					if (card.is_playable and not card.requires_target) or (card.is_playable and card.requires_target() and target is not None): card.play(target=target)
 
 					if player.choice:
 						choice = random.choice(player.choice.cards)
@@ -151,12 +155,13 @@ class BaseGame(Entity):
 		#all_permutations = itertools.permutations(card_orders_filtered)
 		children_set = set()
 		memo = {}
-		for i in range(10):
+		for i in range(8):
 			deep_self = copy.deepcopy(self, memo)
 			#deep_self = pickle.load(pickle.dump(self))
 			#deep_self = copy.copy(self)
 			# attempt to implement undo function here to not need deepcopy or use json serialize and deserialize
 			child = deep_self.play_set_turn()
+			child.reset_identifier()
 			children_set.add(child)
 		return children_set
 
@@ -165,6 +170,7 @@ class BaseGame(Entity):
 		#"Random successor of this board state (for more efficient simulation)"
 		deep_self = copy.deepcopy(self)
 		child = deep_self.play_set_turn()
+		child.reset_identifier()
 		return child
 
 	def is_terminal(self):
@@ -175,12 +181,13 @@ class BaseGame(Entity):
 
 	def reward(self):
 		#"Assumes `self` is terminal node. 1=win, 0=loss, .5=tie, etc"
-		if self.player1.playstate == PlayState.TIED: return 0.5
-		if self.player1.playstate == PlayState.LOST: return 0
-		if self.player1.playstate == PlayState.WON: return 1
+		if self.players[0].playstate == PlayState.TIED: return 0
+		if self.players[0].playstate == PlayState.LOST: return -1
+		if self.players[0].playstate == PlayState.WON: return 1
 
 	def __hash__(self):
-		return hash(game_state_to_xml(self))
+		return self.identifier
+		#return hash(game_state_to_xml(self)) + self.turn * self.tick + self._action_stack + self.identifier
 
 	def __eq__(node1, node2):
 		if node1.__hash__() == node2.__hash__():
@@ -439,7 +446,7 @@ class CoinRules:
 	The second player gets "The Coin" (GAME_005).
 	"""
 	def pick_first_player(self):
-		winner = random.choice(self.players)
+		winner = self.players[0] #random.choice(self.players) pick first player for now
 		self.log("Tossing the coin... %s wins!", winner)
 		return winner, winner.opponent
 

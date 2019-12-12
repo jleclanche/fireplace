@@ -99,7 +99,7 @@ def random_draft(card_class: CardClass, exclude=[]):
 
 
 def random_class():
-	return CardClass(random.randint(2, 10))
+	return CardClass(random.randint(3, 10))
 
 
 def get_script_definition(id):
@@ -136,6 +136,14 @@ def game_state_to_xml(game):
 		e.attrib["CardID"] = entity.id
 		tree.append(e)
 
+	for player in game.players:
+		for hand in player.hand:
+			hand = entity_to_xml(hand)
+			tree.append(hand)
+
+	for element in game.board:
+		tree.append(entity_to_xml(element))
+	tree.append(entity_to_xml(game.current_player))
 	return ElementTree.tostring(tree)
 
 
@@ -174,8 +182,10 @@ def setup_game() -> ".game.Game":
 	from .game import Game
 	from .player import Player
 
-	class1 = random_class()
-	class2 = random_class()
+	#class1 = random_class()
+	#class2 = random_class()
+	class1 = CardClass.MAGE
+	class2 = CardClass.MAGE
 	deck1 = random_draft(class1)
 	deck2 = random_draft(class2)
 	player1 = Player("Player1", deck1, class1.default_hero)
@@ -245,44 +255,21 @@ def play_full_mcts_game() -> ".game.Game":
 	game = setup_game()
 	tree = MCTS()
 	for player in game.players:
-		print("Can mulligan %r" % (player.choice.cards))
 		mull_count = random.randint(0, len(player.choice.cards))
 		cards_to_mulligan = random.sample(player.choice.cards, mull_count)
 		player.choice.choose(*cards_to_mulligan)
 
 	while True:
-		player = game.current_player
-		if(player.name == "Player1"):
-			print("Rolling out MCTS simulations for "+ str(game.current_player))
-			for _ in range(50):
-				try:
-					tree.do_rollout(game)
-				except GameOver:
-					pass
+		for _ in range(50):
 			try:
-				game = tree.choose(game)
-			except RuntimeError:
-				break
-			print("Played MCTS turn")
-		#else:
-			play_turn(game)
-			print("Passed computer turn")
+				tree.do_rollout(game)
+			except GameOver:
+				pass
+		try:
+			game = tree.choose(game)
+		except RuntimeError:
+			return game
+		play_turn(game)
 
-		if(player.name == "Player2"):
-			play_turn(game)
-			print("Rolling out MCTS simulations for " + str(game.current_player))
-			for _ in range(50):
-				try:
-					tree.do_rollout(game)
-				except GameOver:
-					pass
-			try:
-				game = tree.choose(game)
-			except RuntimeError:
-				break
-			print("Played MCTS turn")
-			# else:
 
-	print(game.player1.name)
-	print(game.player1.playstate)
 	return game

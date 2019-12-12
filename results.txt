@@ -1,0 +1,9 @@
+100 games, cointoss players (kdaj mcts kdaj pa ne):
+w/l
+54
+46
+1.173913043478261
+
+Playing <Minion ('Bloodfen Raptor')> on None
+Playing <Minion ('Scaleworm')> on None
+lost game, currently:41/55

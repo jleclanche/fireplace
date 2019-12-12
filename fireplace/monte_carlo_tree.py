@@ -4,6 +4,7 @@ Luke Harold Miles, July 2019, Public Domain Dedication
 See also https://en.wikipedia.org/wiki/Monte_Carlo_tree_search
 https://gist.github.com/qpwo/c538c6f73727e254fdc7fab81024f6e1
 """
+import copy
 from abc import ABC, abstractmethod
 from collections import defaultdict
 import math
@@ -12,7 +13,7 @@ import math
 class MCTS:
 	"Monte Carlo tree searcher. First rollout the tree then choose a move."
 
-	def __init__(self, exploration_weight=1):
+	def __init__(self, exploration_weight=2.8):
 		self.Q = defaultdict(int)  # total reward of each node
 		self.N = defaultdict(int)  # total visit count for each node
 		self.children = dict()  # children of each node
@@ -35,6 +36,7 @@ class MCTS:
 
 	def do_rollout(self, node): # has func calls that dont work
 		"Make the tree one layer better. (Train for one iteration.)"
+		#node = copy.deepcopy(node) # remove this maybe, unnecessary
 		path = self._select(node)
 		leaf = path[-1]
 		self._expand(leaf)
@@ -58,7 +60,7 @@ class MCTS:
 
 	def _expand(self, node):
 		"Update the `children` dict with the children of `node`"
-		if node in self.children:
+		if node in self.children: #mogoc je problem tu
 			return  # already expanded
 		self.children[node] = node.find_children()
 
@@ -77,6 +79,7 @@ class MCTS:
 
 	def _backpropagate(self, path, reward):
 		"Send the reward back up to the ancestors of the leaf"
+		#path = copy.deepcopy(path)
 		for node in reversed(path):
 			self.N[node] += 1
 			self.Q[node] += reward
