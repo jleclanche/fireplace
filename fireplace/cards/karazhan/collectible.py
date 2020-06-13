@@ -119,7 +119,7 @@ class KAR_069:
 
 class KAR_070:
 	"""Ethereal Peddler"""
-	play = Buff(FRIENDLY_HAND - ROGUE, "KAR_070e")
+	play = Buff(FRIENDLY_HAND + OTHER_CLASS_CHARACTER, "KAR_070e")
 
 
 @custom_card
