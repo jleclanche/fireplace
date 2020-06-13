@@ -124,7 +124,7 @@ class EX1_097:
 
 class EX1_103:
 	"""Coldlight Seer"""
-	play = Buff(ALL_MINIONS + MURLOC - SELF, "EX1_103e")
+	play = Buff(FRIENDLY_MINIONS + MURLOC - SELF, "EX1_103e")
 
 
 EX1_103e = buff(health=2)

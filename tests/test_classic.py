@@ -1476,7 +1476,7 @@ def test_grimscale_oracle():
 	assert murloc2.atk == 1
 	grimscale.play()
 	assert murloc1.atk == 1 + 1
-	assert murloc2.atk == 1 + 1
+	assert murloc2.atk == 1
 	assert grimscale.atk == 1
 
 	game.player1.give(TIME_REWINDER).play(target=grimscale)
