@@ -2,11 +2,11 @@
 sudo: false
 language: python
 
-python: "3.6"
+python: "3.8"
 cache: pip
 
 env:
-  - TOXENV=py36
+  - TOXENV=py38
   - TOXENV=flake8
   - TOXENV=benchmark
 
