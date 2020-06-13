@@ -16,7 +16,7 @@ class BOT_283:
 
 class BOT_288:
 	"""Lab Recruiter"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	pass
 
 
@@ -27,7 +27,7 @@ class BOT_565:
 
 class BOT_576:
 	"""Crazed Chemist"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_FOR_COMBO : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_FOR_COMBO: 0}
 	pass
 
 
@@ -41,7 +41,7 @@ class BOT_084:
 
 class BOT_087:
 	"""Academic Espionage"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0}
 	pass
 
 
@@ -52,7 +52,7 @@ class BOT_242:
 
 class BOT_508:
 	"""Necrium Vial"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
 	pass
 
 

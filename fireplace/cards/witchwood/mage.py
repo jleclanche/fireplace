@@ -54,5 +54,5 @@ class GIL_548:
 
 class GIL_801:
 	"""Snap Freeze"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass

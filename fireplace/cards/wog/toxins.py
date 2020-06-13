@@ -12,7 +12,7 @@ class OG_080b:
 
 class OG_080c:
 	"""Bloodthistle Toxin"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Bounce(TARGET), Buff(TARGET, "EX1_144e")
 
 
@@ -27,7 +27,7 @@ class OG_080ae:
 
 class OG_080d:
 	"""Briarthorn Toxin"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "OG_080ee")
 
 
@@ -36,7 +36,7 @@ OG_080ee = buff(atk=3)
 
 class OG_080e:
 	"""Fadeleaf Toxin"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = (
 		Buff(TARGET - STEALTH, "OG_080de"),
 		Stealth(TARGET)
@@ -50,5 +50,5 @@ class OG_080de:
 
 class OG_080f:
 	"""Firebloom Toxin"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 2)

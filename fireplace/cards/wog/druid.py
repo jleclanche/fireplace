@@ -87,7 +87,7 @@ class OG_047b:
 
 class OG_048:
 	"""Mark of Y'Shaarj"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "OG_048e").then(
 		Find(Buff.TARGET + BEAST) & Draw(CONTROLLER)
 	)

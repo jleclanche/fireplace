@@ -14,7 +14,7 @@ CFM_060e = buff(atk=2)
 
 class CFM_063:
 	"""Kooky Chemist"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "CFM_063e")
 
 
@@ -23,7 +23,7 @@ CFM_063e = AttackHealthSwapBuff()
 
 class CFM_067:
 	"""Hozen Healer"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Heal(TARGET, MAX_HEALTH(TARGET))
 
 
@@ -44,7 +44,7 @@ class CFM_646:
 
 class CFM_647:
 	"""Blowgill Sniper"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 1)
 
 
@@ -78,7 +78,7 @@ class CFM_656:
 
 class CFM_659:
 	"""Gadgetzan Socialite"""
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Heal(TARGET, 2)
 
 

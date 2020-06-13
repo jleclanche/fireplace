@@ -53,13 +53,13 @@ class CFM_094:
 
 class CFM_608:
 	"""Blastcrystal Potion"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Destroy(TARGET), GainMana(CONTROLLER, -1), SpendMana(CONTROLLER, -1)
 
 
 class CFM_611:
 	"""Bloodfury Potion"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = (
 		Find(TARGET + FRIENDLY + DEMON) &
 		Buff(TARGET, "CFM_611e2") |

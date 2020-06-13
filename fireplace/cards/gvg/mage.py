@@ -25,7 +25,7 @@ class GVG_007:
 
 class GVG_001:
 	"""Flamecannon"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	play = Hit(RANDOM_ENEMY_MINION, 4)
 
 

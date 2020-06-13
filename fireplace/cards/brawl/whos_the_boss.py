@@ -7,7 +7,7 @@ from ..utils import *
 
 class BRMA01_2H_2_TB:
 	"""Pile On!!!"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	activate = (
 		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION)),
 		Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION))
@@ -16,7 +16,7 @@ class BRMA01_2H_2_TB:
 
 class BRMA02_2_2_TB:
 	"""Jeering Crowd"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	activate = Summon(CONTROLLER, "BRMA02_2t")
 
 
@@ -27,13 +27,13 @@ class BRMA02_2_2c_TB:
 
 class BRMA06_2H_TB:
 	"""The Majordomo"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	activate = Summon(CONTROLLER, "BRMA06_4H")
 
 
 class BRMA07_2_2_TB:
 	"""ME SMASH"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	activate = Destroy(RANDOM_ENEMY_MINION)
 
 
@@ -44,13 +44,13 @@ class BRMA07_2_2c_TB:
 
 class BRMA09_2_TB:
 	"""Open the Gates"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	activate = Summon(CONTROLLER, "BRMA09_2t") * 3
 
 
 class BRMA14_10H_TB:
 	"""Activate!"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	entourage = ["BRMA14_3", "BRMA14_5", "BRMA14_7", "BRMA14_9"]
 	Summon(CONTROLLER, RandomEntourage())
 
@@ -62,13 +62,13 @@ class BRMA13_4_2_TB:
 
 class BRMA17_5_TB:
 	"""Bone Minions"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	activate = Summon(CONTROLLER, "BRMA17_6") * 2
 
 
 class NAX3_02_TB:
 	"""Web Wrap"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	activate = Bounce(RANDOM_ENEMY_MINION)
 
 
@@ -86,7 +86,7 @@ class NAX11_02H_2_TB:
 
 class NAX12_02H_2_TB:
 	"""Decimate"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	activate = Buff(ENEMY_MINIONS, "NAX12_02e")
 
 

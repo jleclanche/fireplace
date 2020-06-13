@@ -21,7 +21,7 @@ class CFM_333:
 
 class CFM_335:
 	"""Dispatch Kodo"""
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Hit(TARGET, ATK(SELF))
 
 

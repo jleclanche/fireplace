@@ -6,7 +6,7 @@ from ..utils import *
 
 class NAX1_04:
 	"""Skitter"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	activate = Summon(CONTROLLER, "NAX1_03")
 
 
@@ -37,7 +37,7 @@ class NAX2_05H:
 
 class NAX3_02:
 	"""Web Wrap"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	activate = Bounce(RANDOM_ENEMY_MINION)
 
 
@@ -58,13 +58,13 @@ class NAX4_04H:
 
 class NAX5_02:
 	"""Eruption"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	activate = Hit(ENEMY_MINIONS[0], 2)
 
 
 class NAX5_02H:
 	"""Eruption (Heroic)"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 0}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 0}
 	activate = Hit(ENEMY_MINIONS[0], 3)
 
 
@@ -80,13 +80,13 @@ class NAX6_02H:
 
 class NAX7_03:
 	"""Unbalancing Strike"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = Hit(TARGET, 3)
 
 
 class NAX7_03H:
 	"""Unbalancing Strike (Heroic)"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = Hit(TARGET, 4)
 
 
@@ -107,13 +107,13 @@ class NAX9_06:
 
 class NAX10_03:
 	"""Hateful Strike"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = Destroy(TARGET)
 
 
 class NAX10_03H:
 	"""Hateful Strike (Heroic)"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = Destroy(TARGET)
 
 
@@ -133,13 +133,13 @@ class NAX11_02H:
 
 class NAX12_02:
 	"""Decimate"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	activate = Buff(ENEMY_MINIONS, "NAX12_02e")
 
 
 class NAX12_02H:
 	"""Decimate (Heroic)"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	activate = Buff(ENEMY_MINIONS, "NAX12_02e")
 
 
@@ -280,7 +280,7 @@ class NAX1_05:
 
 class NAX3_03:
 	"""Necrotic Poison"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Destroy(TARGET)
 
 
@@ -296,7 +296,7 @@ class NAX5_03:
 
 class NAX6_03:
 	"""Deathbloom"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 5), Summon(CONTROLLER, "NAX6_03t")
 
 
@@ -327,7 +327,7 @@ NAX9_07e = buff(+1, +1)
 
 class NAX11_04:
 	"""Mutating Injection"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "NAX11_04e")
 
 

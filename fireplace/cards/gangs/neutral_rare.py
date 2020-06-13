@@ -46,7 +46,7 @@ CFM_658e = buff(atk=1)
 
 class CFM_667:
 	"""Bomb Squad"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Hit(TARGET, 5)
 	deathrattle = Hit(FRIENDLY_HERO, 5)
 

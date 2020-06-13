@@ -6,7 +6,7 @@ from ..utils import *
 
 class UNG_800:
 	"""Terrorscale Stalker"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
 	pass
 
 
@@ -27,7 +27,7 @@ class UNG_914:
 
 class UNG_915:
 	"""Crackling Razormaw"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_RACE : 20}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 20}
 	pass
 
 
@@ -41,7 +41,7 @@ class UNG_919:
 
 class UNG_910:
 	"""Grievous Bite"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass
 
 

@@ -6,7 +6,7 @@ from ..utils import *
 
 class OG_023:
 	"""Primal Fusion"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "OG_023t") * Count(FRIENDLY_MINIONS + TOTEM)
 
 
@@ -25,7 +25,7 @@ class OG_209:
 
 class OG_328:
 	"""Master of Evolution"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Evolve(TARGET, 1)
 
 
@@ -39,7 +39,7 @@ class OG_027:
 
 class OG_206:
 	"""Stormcrack"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 4)
 
 

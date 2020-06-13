@@ -29,7 +29,7 @@ class UNG_846:
 
 class UNG_018:
 	"""Flame Geyser"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass
 
 
@@ -50,11 +50,11 @@ class UNG_941:
 
 class UNG_948:
 	"""Molten Reflection"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass
 
 
 class UNG_955:
 	"""Meteor"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass

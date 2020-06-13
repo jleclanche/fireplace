@@ -36,7 +36,7 @@ class UNG_113:
 
 class UNG_847:
 	"""Blazecaller"""
-	requirements = {PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABE_AND_ELEMENTAL_PLAYED_LAST_TURN : 0}
+	requirements = {PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABE_AND_ELEMENTAL_PLAYED_LAST_TURN: 0}
 	pass
 
 
@@ -47,5 +47,5 @@ class UNG_848:
 
 class UNG_946:
 	"""Gluttonous Ooze"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
 	pass

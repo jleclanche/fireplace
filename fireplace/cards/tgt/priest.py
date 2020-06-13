@@ -44,7 +44,7 @@ AT_116e = buff(atk=1, taunt=True)
 
 class AT_013:
 	"""Power Word: Glory"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "AT_013e")
 
 
@@ -54,7 +54,7 @@ class AT_013e:
 
 class AT_015:
 	"""Convert"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Give(CONTROLLER, Copy(TARGET))
 
 
@@ -68,5 +68,5 @@ AT_016e = AttackHealthSwapBuff()
 
 class AT_055:
 	"""Flash Heal"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Heal(TARGET, 5)

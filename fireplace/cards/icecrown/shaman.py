@@ -6,7 +6,7 @@ from ..utils import *
 
 class ICC_058:
 	"""Brrrloc"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	pass
 
 
@@ -35,13 +35,13 @@ class ICC_289:
 
 class ICC_056:
 	"""Cryostasis"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass
 
 
 class ICC_078:
 	"""Avalanche"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass
 
 

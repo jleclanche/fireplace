@@ -63,7 +63,7 @@ class GVG_080:
 
 class GVG_031:
 	"""Recycle"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Shuffle(OPPONENT, TARGET)
 
 
@@ -74,7 +74,7 @@ class GVG_033:
 
 class GVG_041:
 	"""Dark Wispers"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	choose = ("GVG_041a", "GVG_041b")
 	play = ChooseBoth(CONTROLLER) & (
 		Buff(TARGET, "GVG_041c"), Summon(CONTROLLER, "CS2_231") * 5
@@ -83,7 +83,7 @@ class GVG_041:
 
 class GVG_041a:
 	play = Buff(TARGET, "GVG_041c")
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 
 
 GVG_041c = buff(+5, +5, taunt=True)
@@ -91,4 +91,4 @@ GVG_041c = buff(+5, +5, taunt=True)
 
 class GVG_041b:
 	play = Summon(CONTROLLER, "CS2_231") * 5
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NUM_MINION_SLOTS: 1}

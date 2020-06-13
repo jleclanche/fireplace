@@ -49,7 +49,7 @@ class GIL_537:
 
 class GIL_654:
 	"""Warpath"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0}
 	pass
 
 

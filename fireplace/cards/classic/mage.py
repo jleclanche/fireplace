@@ -6,19 +6,19 @@ from ..utils import *
 
 class HERO_08bp:
 	"""Fireblast (Jaina Proudmoore)"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = Hit(TARGET, 1)
 
 
 class CS2_034_H1:
 	"""Fireblast (Medivh)"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = HERO_08bp.activate
 
 
 class CS2_034_H2:
 	"""Fireblast (Khadgar)"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = HERO_08bp.activate
 
 
@@ -71,7 +71,7 @@ NEW1_012o = buff(atk=1)
 
 class CS2_022:
 	"""Polymorph"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Morph(TARGET, "CS2_tk1")
 
 
@@ -82,7 +82,7 @@ class CS2_023:
 
 class CS2_024:
 	"""Frostbolt"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 3), Freeze(TARGET)
 
 
@@ -98,7 +98,7 @@ class CS2_026:
 
 class CS2_027:
 	"""Mirror Image"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = Summon(CONTROLLER, "CS2_mirror") * 2
 
 
@@ -109,13 +109,13 @@ class CS2_028:
 
 class CS2_029:
 	"""Fireball"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 6)
 
 
 class CS2_031:
 	"""Ice Lance"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Find(TARGET + FROZEN) & Hit(TARGET, 4) | Freeze(TARGET)
 
 
@@ -126,7 +126,7 @@ class CS2_032:
 
 class EX1_275:
 	"""Cone of Cold"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET | TARGET_ADJACENT, 1), Freeze(TARGET | TARGET_ADJACENT)
 
 
@@ -139,7 +139,7 @@ class EX1_277:
 
 class EX1_279:
 	"""Pyroblast"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 10)
 
 

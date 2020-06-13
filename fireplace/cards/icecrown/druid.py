@@ -33,25 +33,25 @@ class ICC_835:
 
 class ICC_050:
 	"""Webweave"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	pass
 
 
 class ICC_054:
 	"""Spreading Plague"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	pass
 
 
 class ICC_079:
 	"""Gnash"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0}
 	pass
 
 
 class ICC_085:
 	"""Ultimate Infestation"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass
 
 

@@ -12,7 +12,7 @@ class AT_010:
 
 class AT_057:
 	"""Stablemaster"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_RACE : 20}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 20}
 	play = Buff(TARGET, "AT_057o")
 
 
@@ -44,7 +44,7 @@ class AT_063t:
 
 class AT_056:
 	"""Powershot"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET | TARGET_ADJACENT, 2)
 
 
@@ -61,7 +61,7 @@ class AT_061e:
 
 class AT_062:
 	"""Ball of Spiders"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = Summon(CONTROLLER, "FP1_011") * 3
 
 

@@ -6,7 +6,7 @@ from ..utils import *
 
 class CFM_621t2:
 	"""Heart of Fire"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	# 1 Cost: Deal 3
 	play = Hit(TARGET, 3)
 
@@ -58,7 +58,7 @@ class CFM_621t10:
 
 class CFM_621t16:
 	"""Heart of Fire"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	# 5 Cost: Deal 5 Dmg
 	play = Hit(TARGET, 5)
 
@@ -89,7 +89,7 @@ class CFM_621t20:
 
 class CFM_621t21:
 	"""Mystic Wool"""
-	requirements = {PlayReq.REQ_MINIMUM_TOTAL_MINIONS : 1}
+	requirements = {PlayReq.REQ_MINIMUM_TOTAL_MINIONS: 1}
 	# 5 Cost: Polymorph 1
 	play = Morph(RANDOM_ENEMY_MINION, "CFM_621_m5")
 
@@ -117,7 +117,7 @@ CFM_621e2 = buff(health=4)
 
 class CFM_621t25:
 	"""Heart of Fire"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	# 10 Cost: Deal 10
 	play = Hit(TARGET, 10)
 

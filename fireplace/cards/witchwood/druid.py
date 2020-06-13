@@ -21,7 +21,7 @@ class GIL_507:
 
 class GIL_658:
 	"""Splintergraft"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	pass
 
 
@@ -45,13 +45,13 @@ class GIL_553:
 
 class GIL_571:
 	"""Witching Hour"""
-	requirements = {PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME : 20, PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME: 20, PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	pass
 
 
 class GIL_637:
 	"""Ferocious Howl"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0}
 	pass
 
 

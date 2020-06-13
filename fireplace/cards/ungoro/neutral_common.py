@@ -26,7 +26,7 @@ class UNG_071:
 
 class UNG_073:
 	"""Rockpool Hunter"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_RACE : 14}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 14}
 	pass
 
 
@@ -42,13 +42,13 @@ class UNG_082:
 
 class UNG_084:
 	"""Fire Plume Phoenix"""
-	requirements = {PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	pass
 
 
 class UNG_205:
 	"""Glacial Shard"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	pass
 
 

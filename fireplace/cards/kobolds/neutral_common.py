@@ -6,7 +6,7 @@ from ..utils import *
 
 class LOOT_069:
 	"""Sewer Crawler"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0}
 	pass
 
 
@@ -32,7 +32,7 @@ class LOOT_131:
 
 class LOOT_132:
 	"""Dragonslayer"""
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_RACE : 24}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 24}
 	pass
 
 
@@ -88,7 +88,7 @@ class LOOT_258:
 
 class LOOT_291:
 	"""Shroom Brewer"""
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	pass
 
 

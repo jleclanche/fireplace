@@ -6,7 +6,7 @@ from ..utils import *
 
 class GIL_125:
 	"""Mad Hatter"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_WITH_RACE : 11}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_WITH_RACE: 11}
 	pass
 
 

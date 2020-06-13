@@ -60,7 +60,7 @@ class GVG_026:
 
 class GVG_073:
 	"""Cobra Shot"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET | ENEMY_HERO, 3)
 
 

@@ -6,7 +6,7 @@ from ..utils import *
 
 class CFM_061:
 	"""Jinyu Waterspeaker"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Heal(TARGET, 6)
 
 
@@ -30,7 +30,7 @@ class CFM_697:
 
 class CFM_310:
 	"""Call in the Finishers"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = Summon(CONTROLLER, "CFM_310t") * 4
 
 
@@ -41,13 +41,13 @@ class CFM_313:
 
 class CFM_696:
 	"""Devolve"""
-	requirements = {PlayReq.REQ_HERO_TARGET : 0}
+	requirements = {PlayReq.REQ_HERO_TARGET: 0}
 	play = Evolve(ENEMY_MINIONS, -1)
 
 
 class CFM_707:
 	"""Jade Lightning"""
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Hit(TARGET, 4), SummonJadeGolem(CONTROLLER)
 
 

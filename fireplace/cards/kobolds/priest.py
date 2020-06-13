@@ -6,13 +6,13 @@ from ..utils import *
 
 class LOOT_410:
 	"""Duskbreaker"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0}
+	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0}
 	pass
 
 
 class LOOT_528:
 	"""Twilight Acolyte"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0}
 	pass
 
 
@@ -31,19 +31,19 @@ class LOOT_538:
 
 class LOOT_008:
 	"""Psychic Scream"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0}
+	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0}
 	pass
 
 
 class LOOT_187:
 	"""Twilight's Call"""
-	requirements = {PlayReq.REQ_FRIENDLY_MINION_DIED_THIS_GAME : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_MINION_DIED_THIS_GAME: 0}
 	pass
 
 
 class LOOT_278:
 	"""Unidentified Elixir"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass
 
 

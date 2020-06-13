@@ -4,16 +4,16 @@ from ..utils import *
 ##
 # Hero Powers
 
-class HERO_04bp:
+class HERO_08bp:
 	"""Reinforce (Uther Lightbringer)"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	activate = Summon(CONTROLLER, "CS2_101t")
 
 
 class CS2_101_H1:
 	"""Reinforce (Lady Liadrin)"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
-	activate = HERO_04bp.activate
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
+	activate = HERO_08bp.activate
 
 
 ##
@@ -26,13 +26,13 @@ class CS2_088:
 
 class EX1_362:
 	"""Argent Protector"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = GiveDivineShield(TARGET)
 
 
 class EX1_382:
 	"""Aldor Peacekeeper"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "EX1_382e")
 
 
@@ -50,7 +50,7 @@ class EX1_383:
 
 class CS2_087:
 	"""Blessing of Might"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "CS2_087e")
 
 
@@ -59,13 +59,13 @@ CS2_087e = buff(atk=3)
 
 class CS2_089:
 	"""Holy Light"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Heal(TARGET, 6)
 
 
 class CS2_092:
 	"""Blessing of Kings"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "CS2_092e")
 
 
@@ -79,7 +79,7 @@ class CS2_093:
 
 class CS2_094:
 	"""Hammer of Wrath"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 3), Draw(CONTROLLER)
 
 
@@ -90,13 +90,13 @@ class EX1_349:
 
 class EX1_354:
 	"""Lay on Hands"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Heal(TARGET, 8), Draw(CONTROLLER) * 3
 
 
 class EX1_355:
 	"""Blessed Champion"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "EX1_355e")
 
 
@@ -106,7 +106,7 @@ class EX1_355e:
 
 class EX1_360:
 	"""Humility"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "EX1_360e")
 
 
@@ -116,7 +116,7 @@ class EX1_360e:
 
 class EX1_363:
 	"""Blessing of Wisdom"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "EX1_363e")
 
 
@@ -131,13 +131,13 @@ class EX1_363e2:
 
 class EX1_365:
 	"""Holy Wrath"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Draw(CONTROLLER).then(Hit(TARGET, COST(Draw.CARD)))
 
 
 class EX1_371:
 	"""Hand of Protection"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = GiveDivineShield(TARGET)
 
 

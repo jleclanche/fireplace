@@ -39,7 +39,7 @@ class BOT_234:
 
 class BOT_436:
 	"""Prismatic Lens"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0}
 	pass
 
 
@@ -55,5 +55,5 @@ class BOT_909:
 
 class BOT_912:
 	"""Kangor's Endless Army"""
-	requirements = {PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME : 17, PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	requirements = {PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME: 17, PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	pass

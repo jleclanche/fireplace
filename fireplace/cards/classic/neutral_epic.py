@@ -3,7 +3,7 @@ from ..utils import *
 
 class EX1_005:
 	"""Big Game Hunter"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_MIN_ATTACK : 7}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_MIN_ATTACK: 7}
 	play = Destroy(TARGET)
 
 
@@ -22,7 +22,7 @@ EX1_507e = buff(+2, +1)
 
 class EX1_564:
 	"""Faceless Manipulator"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Morph(SELF, ExactCopy(TARGET))
 
 
@@ -54,7 +54,7 @@ class NEW1_016:
 
 class NEW1_017:
 	"""Hungry Crab"""
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_RACE : 14}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 14}
 	play = Destroy(TARGET), Buff(SELF, "NEW1_017e")
 
 

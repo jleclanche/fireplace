@@ -43,13 +43,13 @@ GVG_100e = buff(+2, +2)
 
 class GVG_015:
 	"""Darkbomb"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 3)
 
 
 class GVG_019:
 	"""Demonheart"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Find(TARGET + FRIENDLY + DEMON) & Buff(TARGET, "GVG_019e") | Hit(TARGET, 5)
 
 
@@ -58,5 +58,5 @@ GVG_019e = buff(+5, +5)
 
 class GVG_045:
 	"""Imp-losion"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Summon(CONTROLLER, "GVG_045t") * Hit(TARGET, RandomNumber(2, 3, 4))

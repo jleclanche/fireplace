@@ -30,7 +30,7 @@ CS2_226e = buff(+1, +1)
 
 class EX1_011:
 	"""Voodoo Doctor"""
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Heal(TARGET, 2)
 
 
@@ -88,13 +88,13 @@ class EX1_595:
 
 class CS2_117:
 	"""Earthen Ring Farseer"""
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Heal(TARGET, 3)
 
 
 class CS2_141:
 	"""Ironforge Rifleman"""
-	requirements = {PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Hit(TARGET, 1)
 
 
@@ -110,7 +110,7 @@ class CS2_147:
 
 class CS2_150:
 	"""Stormpike Commando"""
-	requirements = {PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Hit(TARGET, 2)
 
 
@@ -121,13 +121,13 @@ class CS2_151:
 
 class CS2_189:
 	"""Elven Archer"""
-	requirements = {PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Hit(TARGET, 1)
 
 
 class CS2_188:
 	"""Abusive Sergeant"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "CS2_188o")
 
 
@@ -141,7 +141,7 @@ class CS2_196:
 
 class CS2_203:
 	"""Ironbeak Owl"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Silence(TARGET)
 
 
@@ -170,7 +170,7 @@ class EX1_007:
 
 class EX1_019:
 	"""Shattered Sun Cleric"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "EX1_019e")
 
 
@@ -189,7 +189,7 @@ class EX1_029:
 
 class EX1_046:
 	"""Dark Iron Dwarf"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "EX1_046e")
 
 
@@ -198,19 +198,19 @@ EX1_046e = buff(atk=2)
 
 class EX1_048:
 	"""Spellbreaker"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Silence(TARGET)
 
 
 class EX1_049:
 	"""Youthful Brewmaster"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Bounce(TARGET)
 
 
 class EX1_057:
 	"""Ancient Brewmaster"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Bounce(TARGET)
 
 
@@ -226,7 +226,7 @@ class EX1_096:
 
 class EX1_283:
 	"""Frost Elemental"""
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Freeze(TARGET)
 
 

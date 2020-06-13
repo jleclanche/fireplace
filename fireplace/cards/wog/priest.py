@@ -16,7 +16,7 @@ class OG_334:
 
 class OG_234:
 	"""Darkshire Alchemist"""
-	requirements = {PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
+	requirements = {PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Heal(TARGET, 5)
 
 
@@ -57,7 +57,7 @@ class OG_104e:
 
 class OG_094:
 	"""Power Word: Tentacles"""
-	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "OG_094e")
 
 

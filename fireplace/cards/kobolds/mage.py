@@ -39,7 +39,7 @@ class LOOT_103:
 
 class LOOT_104:
 	"""Shifting Scroll"""
-	requirements = {PlayReq.REQ_CANNOT_PLAY_THIS : 0}
+	requirements = {PlayReq.REQ_CANNOT_PLAY_THIS: 0}
 	pass
 
 
