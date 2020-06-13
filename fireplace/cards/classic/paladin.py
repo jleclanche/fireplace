@@ -4,7 +4,7 @@ from ..utils import *
 ##
 # Hero Powers
 
-class HERO_08bp:
+class HERO_04bp:
 	"""Reinforce (Uther Lightbringer)"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	activate = Summon(CONTROLLER, "CS2_101t")
@@ -13,7 +13,7 @@ class HERO_08bp:
 class CS2_101_H1:
 	"""Reinforce (Lady Liadrin)"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	activate = HERO_08bp.activate
+	activate = HERO_04bp.activate
 
 
 ##
@@ -26,13 +26,20 @@ class CS2_088:
 
 class EX1_362:
 	"""Argent Protector"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NONSELF_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = GiveDivineShield(TARGET)
 
 
 class EX1_382:
 	"""Aldor Peacekeeper"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "EX1_382e")
 
 

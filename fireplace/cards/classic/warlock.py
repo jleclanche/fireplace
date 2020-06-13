@@ -95,7 +95,10 @@ class CS2_062:
 
 class CS2_063:
 	"""Corruption"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "CS2_063e")
 
 
@@ -117,7 +120,10 @@ class EX1_302:
 
 class EX1_303:
 	"""Shadowflame"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(ENEMY_MINIONS, ATK(TARGET)), Destroy(TARGET)
 
 
@@ -140,7 +146,10 @@ class EX1_312:
 
 class EX1_316:
 	"""Power Overwhelming"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "EX1_316e")
 
 

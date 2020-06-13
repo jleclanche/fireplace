@@ -23,7 +23,10 @@ class AT_083e:
 
 class AT_084:
 	"""Lance Carrier"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "AT_084e")
 
 
@@ -63,7 +66,11 @@ class AT_094:
 
 class AT_096:
 	"""Clockwork Knight"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 17}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 17}
 	play = Buff(TARGET, "AT_096e")
 
 

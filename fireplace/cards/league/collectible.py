@@ -56,7 +56,10 @@ LOE_018e = buff(atk=1)
 
 class LOE_019:
 	"""Unearthed Raptor"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
 	play = Buff(SELF, "LOE_019e").then(CopyDeathrattles(Buff.BUFF, TARGET))
 
 
@@ -267,7 +270,10 @@ class LOE_026:
 
 class LOE_104:
 	"""Entomb"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Steal(TARGET), Shuffle(CONTROLLER, TARGET)
 
 

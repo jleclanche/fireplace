@@ -57,5 +57,9 @@ class GIL_661:
 
 class GIL_813:
 	"""Vivid Nightmare"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NUM_MINION_SLOTS: 1, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	pass

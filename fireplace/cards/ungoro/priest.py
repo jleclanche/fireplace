@@ -6,7 +6,10 @@ from ..utils import *
 
 class UNG_022:
 	"""Mirage Caller"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	pass
 
 
@@ -52,7 +55,10 @@ class UNG_030:
 
 class UNG_854:
 	"""Free From Amber"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_NUM_MINION_SLOTS: 1, PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
 	pass
 
 

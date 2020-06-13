@@ -26,7 +26,10 @@ class CS2_237:
 
 class DS1_070:
 	"""Houndmaster"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 20}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 20}
 	powered_up = Find(FRIENDLY_MINIONS + BEAST)
 	play = Buff(TARGET, "DS1_070o")
 
@@ -131,7 +134,10 @@ class EX1_544:
 
 class EX1_549:
 	"""Bestial Wrath"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_TARGET_WITH_RACE: 20}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 20}
 	play = Buff(TARGET, "EX1_549o")
 
 

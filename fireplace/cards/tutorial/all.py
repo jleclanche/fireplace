@@ -33,8 +33,11 @@ class TU4f_007:
 
 
 class TU4c_006:
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "TU4c_006e")
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 
 
 # Bananas
@@ -46,7 +49,10 @@ TU4c_006e = buff(+1, +1)
 
 class TU4a_004:
 	"""Hogger SMASH!"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_HERO_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_HERO_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 4)
 
 

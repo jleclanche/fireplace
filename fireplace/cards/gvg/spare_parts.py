@@ -17,7 +17,10 @@ PART_001e = buff(health=1)
 
 class PART_002:
 	"""Time Rewinder"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Bounce(TARGET)
 	tags = {GameTag.SPARE_PART: True}
 
@@ -31,7 +34,10 @@ class PART_003:
 
 class PART_004:
 	"""Finicky Cloakfield"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET - STEALTH, "PART_004e")
 	tags = {GameTag.SPARE_PART: True}
 

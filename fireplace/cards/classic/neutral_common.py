@@ -170,7 +170,10 @@ class EX1_007:
 
 class EX1_019:
 	"""Shattered Sun Cleric"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "EX1_019e")
 
 
@@ -198,19 +201,30 @@ EX1_046e = buff(atk=2)
 
 class EX1_048:
 	"""Spellbreaker"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NONSELF_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Silence(TARGET)
 
 
 class EX1_049:
 	"""Youthful Brewmaster"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NONSELF_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Bounce(TARGET)
 
 
 class EX1_057:
 	"""Ancient Brewmaster"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NONSELF_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Bounce(TARGET)
 
 

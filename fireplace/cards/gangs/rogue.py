@@ -27,13 +27,19 @@ class CFM_691:
 
 class CFM_693:
 	"""Gadgetzan Ferryman"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_FOR_COMBO: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_FOR_COMBO: 0}
 	play = Bounce(TARGET)
 
 
 class CFM_694:
 	"""Shadow Sensei"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_STEALTHED_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_STEALTHED_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "CFM_694e")
 
 

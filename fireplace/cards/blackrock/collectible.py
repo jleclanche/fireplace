@@ -143,7 +143,10 @@ class BRM_028e:
 
 class BRM_029:
 	"""Rend Blackhand"""
-	requirements = {PlayReq.REQ_LEGENDARY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0}
+	requirements = {
+		PlayReq.REQ_LEGENDARY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0}
 	powered_up = HOLDING_DRAGON, Find(ENEMY_MINIONS + LEGENDARY)
 	play = HOLDING_DRAGON & Destroy(TARGET)
 
@@ -246,5 +249,7 @@ class BRM_015:
 
 class BRM_017:
 	"""Resurrect"""
-	requirements = {PlayReq.REQ_FRIENDLY_MINION_DIED_THIS_GAME: 0, PlayReq.REQ_NUM_MINION_SLOTS: 1}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_MINION_DIED_THIS_GAME: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))

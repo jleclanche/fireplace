@@ -71,7 +71,7 @@ class Attacking(Evaluator):
 		self.selector2 = selector2
 
 	def __repr__(self):
-		return "%s(%r)" % (self.__class__.__name__, self.selector1, self.selector2)
+		return "%s(%r %r)" % (self.__class__.__name__, self.selector1, self.selector2)
 
 	def check(self, source):
 		t1 = self.selector1.eval(source.game, source)

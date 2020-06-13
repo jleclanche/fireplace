@@ -42,7 +42,12 @@ class KAR_030a:
 
 class KAR_033:
 	"""Book Wyrm"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0, PlayReq.REQ_TARGET_MAX_ATTACK: 3}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NONSELF_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0,
+		PlayReq.REQ_TARGET_MAX_ATTACK: 3}
 	powered_up = HOLDING_DRAGON, Find(ENEMY_MINIONS + (ATK <= 3))
 	play = HOLDING_DRAGON & Destroy(TARGET)
 
@@ -70,7 +75,7 @@ KAR_037t = buff(+1, +1, taunt=True)
 
 # class KAR_041:
 # 	"""Moat Lurker"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+#  	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 
 
 class KAR_044:
@@ -98,7 +103,11 @@ class KAR_062:
 
 class KAR_065:
 	"""Menagerie Warden"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 20}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 20}
 	powered_up = Find(FRIENDLY_MINIONS + BEAST)
 	play = Summon(CONTROLLER, ExactCopy(TARGET))
 
@@ -232,7 +241,10 @@ class KAR_004:
 
 class KAR_013:
 	"""Purify"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Silence(TARGET), Draw(CONTROLLER)
 
 

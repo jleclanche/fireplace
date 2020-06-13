@@ -72,6 +72,7 @@ OG_222e = buff(+1, +1)
 class OG_198:
 	"""Forbidden Healing"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
+
 	def play(self):
 		mana = self.controller.mana
 		yield SpendMana(CONTROLLER, mana)

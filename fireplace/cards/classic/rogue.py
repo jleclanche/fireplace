@@ -4,7 +4,7 @@ from ..utils import *
 ##
 # Rogue
 
-class HERO_08bp:
+class HERO_03bp:
 	"""Dagger Mastery"""
 	activate = Find(FRIENDLY_WEAPON + ID("AT_034")) | Summon(CONTROLLER, "CS2_082")
 
@@ -43,7 +43,11 @@ class NEW1_005:
 
 class NEW1_014:
 	"""Master of Disguise"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NONSELF_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET - STEALTH, "NEW1_014e")
 
 
@@ -58,7 +62,10 @@ class NEW1_014e:
 
 class CS2_072:
 	"""Backstab"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_UNDAMAGED_TARGET: 0}
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_UNDAMAGED_TARGET: 0}
 	play = Hit(TARGET, 2)
 
 
@@ -89,7 +96,10 @@ class CS2_075:
 
 class CS2_076:
 	"""Assassinate"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Destroy(TARGET)
 
 
@@ -113,7 +123,10 @@ class EX1_124:
 
 class EX1_126:
 	"""Betrayal"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(SELF_ADJACENT, ATK(SELF), source=TARGET)
 
 
@@ -142,7 +155,10 @@ class EX1_137:
 
 class EX1_144:
 	"""Shadowstep"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Bounce(TARGET), Buff(TARGET, "EX1_144e")
 
 
@@ -174,7 +190,10 @@ class EX1_278:
 
 class EX1_581:
 	"""Sap"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Bounce(TARGET)
 
 

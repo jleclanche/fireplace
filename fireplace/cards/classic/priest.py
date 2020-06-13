@@ -20,7 +20,11 @@ class CS2_235:
 
 class EX1_091:
 	"""Cabal Shadow Priest"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_MAX_ATTACK: 2}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_MAX_ATTACK: 2}
 	play = Steal(TARGET)
 
 
@@ -52,7 +56,10 @@ class EX1_591:
 
 class EX1_623:
 	"""Temple Enforcer"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "EX1_623e")
 
 
@@ -78,7 +85,11 @@ class CS1_112:
 
 class CS1_113:
 	"""Mind Control"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NUM_MINION_SLOTS: 1, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Steal(TARGET)
 
 
@@ -108,7 +119,10 @@ class CS2_003:
 
 class CS2_234:
 	"""Shadow Word: Pain"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_MAX_ATTACK: 3, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_MAX_ATTACK: 3,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Destroy(TARGET)
 
 
@@ -131,7 +145,12 @@ class EX1_332:
 
 class EX1_334:
 	"""Shadow Madness"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_NUM_MINION_SLOTS: 1, PlayReq.REQ_TARGET_MAX_ATTACK: 3, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+		PlayReq.REQ_TARGET_MAX_ATTACK: 3,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Steal(TARGET), Buff(TARGET, "EX1_334e")
 
 
@@ -165,7 +184,10 @@ class EX1_621:
 
 class EX1_622:
 	"""Shadow Word: Death"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_MIN_ATTACK: 5, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_MIN_ATTACK: 5,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Destroy(TARGET)
 
 

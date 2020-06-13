@@ -19,7 +19,10 @@ class GVG_053:
 
 class GVG_055:
 	"""Screwjank Clunker"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 17}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 17}
 	powered_up = Find(FRIENDLY_MINIONS + MECH)
 	play = Buff(TARGET, "GVG_055e")
 
@@ -51,6 +54,7 @@ GVG_086e = buff(atk=1)
 class GVG_050:
 	"""Bouncing Blade"""
 	requirements = {PlayReq.REQ_MINIMUM_TOTAL_MINIONS: 1}
+
 	def play(self):
 		targets = self.game.board.filter(dead=False)
 		while True:

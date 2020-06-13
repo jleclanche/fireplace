@@ -269,8 +269,8 @@ class LOEA06_04:
 
 
 class LOEA06_04h:
-	play = (
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
+	play = (
 		Hit(TARGET, Count(ALL_MINIONS + ID("LOEA06_02th")) * 3),
 		Destroy(ALL_MINIONS + ID("LOEA06_02th"))
 	)
@@ -469,15 +469,17 @@ class LOEA16_2H:
 
 class LOEA16_16:
 	"""Rummage"""
-	entourage = ["LOEA16_10", "LOEA16_11", "LOEA16_14", "LOEA16_15", "LOEA16_6",
-			"LOEA16_7", "LOEA16_9", "LOEA16_12", "LOEA16_13", "LOEA16_8"]
+	entourage = [
+		"LOEA16_10", "LOEA16_11", "LOEA16_14", "LOEA16_15", "LOEA16_6",
+		"LOEA16_7", "LOEA16_9", "LOEA16_12", "LOEA16_13", "LOEA16_8"]
 	activate = Give(CONTROLLER, RandomEntourage())
 
 
 class LOEA16_16H:
 	"""Rummage (Heroic)"""
-	entourage = ["LOEA16_10", "LOEA16_11", "LOEA16_14", "LOEA16_15", "LOEA16_6",
-			"LOEA16_7", "LOEA16_9", "LOEA16_12", "LOEA16_13", "LOEA16_8"]
+	entourage = [
+		"LOEA16_10", "LOEA16_11", "LOEA16_14", "LOEA16_15", "LOEA16_6",
+		"LOEA16_7", "LOEA16_9", "LOEA16_12", "LOEA16_13", "LOEA16_8"]
 	activate = Give(CONTROLLER, RandomEntourage())
 
 
@@ -632,7 +634,10 @@ class LOEA16_27H:
 
 class LOEA16_20:
 	"""Blessing of the Sun"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "LOEA16_20e")
 
 

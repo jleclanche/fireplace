@@ -39,7 +39,10 @@ class OG_087:
 
 class OG_081:
 	"""Shatter"""
-	requirements = {PlayReq.REQ_FROZEN_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_FROZEN_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Destroy(TARGET)
 
 
@@ -51,6 +54,7 @@ class OG_090:
 class OG_086:
 	"""Forbidden Flame"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+
 	def play(self):
 		mana = self.controller.mana
 		yield SpendMana(CONTROLLER, mana)

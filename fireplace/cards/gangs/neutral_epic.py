@@ -54,5 +54,8 @@ class CFM_810:
 
 class CFM_855:
 	"""Defias Cleaner"""
-	requirements = {PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
+	requirements = {
+		PlayReq.REQ_NONSELF_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
 	play = Silence(TARGET)

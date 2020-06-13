@@ -397,7 +397,8 @@ class BRMA01_4:
 
 class BRMA05_3:
 	"""Living Bomb"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "BRMA05_3e")
 
 
@@ -407,7 +408,8 @@ class BRMA05_3e:
 
 class BRMA05_3H:
 	"""Living Bomb (Heroic)"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "BRMA05_3He")
 
 
@@ -428,7 +430,10 @@ class BRMA08_3:
 
 class BRMA09_6:
 	"""The True Warchief"""
-	requirements = {PlayReq.REQ_LEGENDARY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {
+		PlayReq.REQ_LEGENDARY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Destroy(TARGET)
 
 
@@ -506,7 +511,10 @@ class BRMA14_9H:
 
 class BRMA16_3:
 	"""Sonic Breath"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_WEAPON_EQUIPPED: 0}
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_WEAPON_EQUIPPED: 0}
 	play = Hit(TARGET, 3), Buff(FRIENDLY_WEAPON, "BRMA16_3e")
 
 

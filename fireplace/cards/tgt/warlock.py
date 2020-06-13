@@ -49,7 +49,10 @@ class AT_022:
 
 class AT_024:
 	"""Demonfuse"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_TARGET_WITH_RACE: 15}
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 15}
 	play = Buff(TARGET, "AT_024e"), GainMana(OPPONENT, 1)
 
 

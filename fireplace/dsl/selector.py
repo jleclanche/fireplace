@@ -328,7 +328,7 @@ LOWEST_ATK = lambda sel: (
 
 
 class Controller(LazyValue):
-	def __init__(self, child: Optional[SelectorLike]=None):
+	def __init__(self, child: Optional[SelectorLike] = None):
 		if isinstance(child, LazyValue):
 			child = LazyValueSelector(child)
 		self.child = child

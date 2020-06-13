@@ -3,7 +3,11 @@ from ..utils import *
 
 class EX1_002:
 	"""The Black Knight"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_MUST_TARGET_TAUNTER: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_MUST_TARGET_TAUNTER: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Destroy(TARGET)
 
 

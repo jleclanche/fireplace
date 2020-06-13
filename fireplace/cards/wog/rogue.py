@@ -33,7 +33,10 @@ class OG_330:
 
 class OG_291:
 	"""Shadowcaster"""
-	requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Give(CONTROLLER, Buff(Copy(TARGET), "OG_291e"))
 
 
@@ -43,8 +46,9 @@ class OG_291e:
 
 
 class OG_282:
-	def play(self):
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+
+	def play(self):
 		atk = self.target.atk
 		health = self.target.health
 		yield Destory(TARGET)
