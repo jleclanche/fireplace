@@ -39,6 +39,7 @@ AT_045e = buff(+1, +1)
 
 class AT_048:
 	"""Healing Wave"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = JOUST & Heal(TARGET, 14) | Heal(TARGET, 7)
 
 
@@ -62,3 +63,4 @@ class AT_050:
 
 class AT_050t:
 	activate = Hit(TARGET, 2)
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}

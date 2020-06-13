@@ -21,6 +21,7 @@ class LOOT_165:
 
 class LOOT_211:
 	"""Elven Minstrel"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0}
 	pass
 
 
@@ -49,6 +50,7 @@ class LOOT_214:
 
 class LOOT_503:
 	"""Lesser Onyx Spellstone"""
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
 	pass
 
 

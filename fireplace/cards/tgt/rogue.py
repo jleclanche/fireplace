@@ -22,6 +22,7 @@ AT_029e = buff(atk=1)
 
 class AT_030:
 	"""Undercity Valiant"""
+	requirements = {PlayReq.REQ_TARGET_FOR_COMBO : 0}
 	combo = Hit(TARGET, 1)
 
 

@@ -34,11 +34,13 @@ class BOT_543:
 
 class BOT_093:
 	"""Elementary Reaction"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE : 0}
 	pass
 
 
 class BOT_099:
 	"""Eureka!"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	pass
 
 
@@ -54,4 +56,5 @@ class BOT_246:
 
 class BOT_451:
 	"""Voltaic Burst"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	pass

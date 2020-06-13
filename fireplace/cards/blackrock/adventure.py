@@ -6,6 +6,7 @@ from ..utils import *
 
 class BRMA01_2:
 	"""Pile On!"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = (
 		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION)),
 		Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION))
@@ -14,6 +15,7 @@ class BRMA01_2:
 
 class BRMA01_2H:
 	"""Pile On! (Heroic)"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = (
 		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION) * 2),
 		Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION))
@@ -29,16 +31,19 @@ class BRMA01_3:
 
 class BRMA02_2:
 	"""Jeering Crowd"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA02_2t")
 
 
 class BRMA02_2H:
 	"""Jeering Crowd (Heroic)"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA02_2t")
 
 
 class BRMA03_2:
 	"""Power of the Firelord"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	activate = Hit(TARGET, 2)
 
 
@@ -65,16 +70,19 @@ class BRMA05_2H:
 
 class BRMA06_2:
 	"""The Majordomo"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA06_4")
 
 
 class BRMA06_2H:
 	"""The Majordomo (Heroic)"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA06_4H")
 
 
 class BRMA07_2:
 	"""ME SMASH"""
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS : 1}
 	activate = Destroy(RANDOM(ENEMY_MINIONS + DAMAGED))
 
 
@@ -102,6 +110,7 @@ class BRMA08_2H:
 
 class BRMA09_2:
 	"""Open the Gates"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA09_2t") * 3, Summon(CONTROLLER, RandomEntourage())
 
 
@@ -112,6 +121,7 @@ class BRMA09_2H:
 
 class BRMA09_3:
 	"""Old Horde"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA09_3t") * 2, Summon(CONTROLLER, RandomEntourage())
 
 
@@ -122,6 +132,7 @@ class BRMA09_3H:
 
 class BRMA09_4:
 	"""Blackwing"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA09_4t"), Summon(CONTROLLER, RandomEntourage())
 
 
@@ -132,6 +143,7 @@ class BRMA09_4H:
 
 class BRMA09_5:
 	"""Dismount"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA09_5t"), Summon(CONTROLLER, RandomEntourage())
 
 
@@ -291,11 +303,13 @@ class BRMA16_2H:
 
 class BRMA17_5:
 	"""Bone Minions"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA17_6") * 2
 
 
 class BRMA17_5H:
 	"""Bone Minions (Heroic)"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	activate = Summon(CONTROLLER, "BRMA17_6H") * 2
 
 
@@ -352,6 +366,7 @@ BRMA12_8te = buff(+2, +2)
 
 class BRMA13_5:
 	"""Son of the Flame"""
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	play = Hit(TARGET, 6)
 
 
@@ -370,6 +385,7 @@ class BRMA01_4:
 
 class BRMA05_3:
 	"""Living Bomb"""
+	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Buff(TARGET, "BRMA05_3e")
 
 
@@ -379,6 +395,7 @@ class BRMA05_3e:
 
 class BRMA05_3H:
 	"""Living Bomb (Heroic)"""
+	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Buff(TARGET, "BRMA05_3He")
 
 
@@ -393,11 +410,13 @@ class BRMA07_3:
 
 class BRMA08_3:
 	"""Drakkisath's Command"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Destroy(TARGET), GainArmor(FRIENDLY_HERO, 10)
 
 
 class BRMA09_6:
 	"""The True Warchief"""
+	requirements = {PlayReq.REQ_LEGENDARY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Destroy(TARGET)
 
 
@@ -418,6 +437,7 @@ class BRMA11_3:
 
 class BRMA12_8:
 	"""Chromatic Mutation (Unused)"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Morph(TARGET, "BRMA12_8t")
 
 
@@ -433,6 +453,7 @@ class BRMA13_8:
 
 class BRMA15_3:
 	"""Release the Aberrations!"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	play = Summon(CONTROLLER, "BRMA15_4") * 3
 
 
@@ -473,6 +494,7 @@ class BRMA14_9H:
 
 class BRMA16_3:
 	"""Sonic Breath"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0, PlayReq.REQ_WEAPON_EQUIPPED : 0}
 	play = Hit(TARGET, 3), Buff(FRIENDLY_WEAPON, "BRMA16_3e")
 
 
@@ -481,6 +503,7 @@ BRMA16_3e = buff(atk=3)
 
 class BRMA16_4:
 	"""Reverberating Gong"""
+	requirements = {PlayReq.REQ_ENEMY_WEAPON_EQUIPPED : 0}
 	play = Destroy(ENEMY_WEAPON)
 
 

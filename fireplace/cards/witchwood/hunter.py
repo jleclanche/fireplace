@@ -44,6 +44,7 @@ class GIL_905:
 
 class GIL_518:
 	"""Wing Blast"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
@@ -54,4 +55,5 @@ class GIL_577:
 
 class GIL_828:
 	"""Dire Frenzy"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0, PlayReq.REQ_TARGET_WITH_RACE : 20}
 	pass

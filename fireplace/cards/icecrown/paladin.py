@@ -39,11 +39,13 @@ class ICC_858:
 
 class ICC_039:
 	"""Dark Conviction"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
 class ICC_244:
 	"""Desperate Stand"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 

@@ -6,6 +6,7 @@ from ..utils import *
 
 class LOOT_111:
 	"""Scorp-o-matic"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_MAX_ATTACK : 1}
 	pass
 
 
@@ -21,6 +22,7 @@ class LOOT_124:
 
 class LOOT_150:
 	"""Furbolg Mossbinder"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	pass
 
 

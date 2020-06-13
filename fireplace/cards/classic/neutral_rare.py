@@ -71,6 +71,7 @@ class EX1_058:
 
 class EX1_059:
 	"""Crazed Alchemist"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	play = Buff(TARGET, "EX1_059e")
 
 

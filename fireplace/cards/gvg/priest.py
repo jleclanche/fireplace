@@ -11,6 +11,7 @@ class GVG_009:
 
 class GVG_011:
 	"""Shrinkmeister"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	play = Buff(TARGET, "GVG_011a")
 
 
@@ -19,6 +20,7 @@ GVG_011a = buff(atk=-2)
 
 class GVG_014:
 	"""Vol'jin"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	play = SwapHealth(SELF, TARGET, "GVG_014a")
 
 
@@ -33,6 +35,7 @@ class GVG_072:
 
 class GVG_083:
 	"""Upgraded Repair Bot"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_RACE : 17}
 	# The Enchantment ID is correct
 	play = Buff(TARGET, "GVG_069a")
 
@@ -52,6 +55,7 @@ class GVG_008:
 
 class GVG_010:
 	"""Velen's Chosen"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Buff(TARGET, "GVG_010b")
 
 
@@ -60,4 +64,5 @@ GVG_010b = buff(+2, +4, spellpower=1)
 
 class GVG_012:
 	"""Light of the Naaru"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Heal(TARGET, 3), (DAMAGE(TARGET) >= 1) & Summon(CONTROLLER, "EX1_001")

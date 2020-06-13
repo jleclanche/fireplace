@@ -39,11 +39,13 @@ class ICC_825:
 
 class ICC_049:
 	"""Toxic Arrow"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
 class ICC_052:
 	"""Play Dead"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE : 0}
 	pass
 
 

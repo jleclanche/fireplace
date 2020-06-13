@@ -32,6 +32,7 @@ class OG_330:
 
 class OG_291:
 	"""Shadowcaster"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	play = Give(CONTROLLER, Buff(Copy(TARGET), "OG_291e"))
 
 
@@ -41,6 +42,8 @@ class OG_291e:
 
 
 class OG_282:
+	"""Blade of C'Thun"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	def play(self):
 		atk = self.target.atk
 		health = self.target.health
@@ -58,9 +61,11 @@ class OG_072:
 
 class OG_073:
 	"""Thistle Tea"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0}
 	play = Draw(CONTROLLER).then(Give(CONTROLLER, Copy(Draw.CARD)) * 2)
 
 
 class OG_176:
 	"""Shadow Strike"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0, PlayReq.REQ_UNDAMAGED_TARGET : 0}
 	play = Hit(TARGET, 5)

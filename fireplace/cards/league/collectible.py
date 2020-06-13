@@ -37,6 +37,7 @@ class LOE_016:
 
 class LOE_017:
 	"""Keeper of Uldaman"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	play = Buff(TARGET, "LOE_017e")
 
 
@@ -55,6 +56,7 @@ LOE_018e = buff(atk=1)
 
 class LOE_019:
 	"""Unearthed Raptor"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE : 0}
 	play = Buff(SELF, "LOE_019e").then(CopyDeathrattles(Buff.BUFF, TARGET))
 
 
@@ -147,6 +149,7 @@ class LOE_077:
 
 class LOE_079:
 	"""Elise Starseeker"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0}
 	play = Shuffle(CONTROLLER, "LOE_019t")
 
 
@@ -183,6 +186,7 @@ class LOE_092:
 
 class LOEA16_3:
 	"""Lantern of Power"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Buff(TARGET, "LOEA16_3e")
 
 
@@ -198,6 +202,7 @@ class LOEA16_4:
 
 class LOEA16_5:
 	"""Mirror of Doom"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	play = Summon(CONTROLLER, "LOEA16_5t")
 
 
@@ -235,11 +240,13 @@ class LOE_119:
 
 class LOE_002:
 	"""Forgotten Torch"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Hit(TARGET, 3), Shuffle(CONTROLLER, "LOE_002t")
 
 
 class LOE_002t:
 	play = Hit(TARGET, 6)
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 
 
 class LOE_007:
@@ -260,11 +267,13 @@ class LOE_026:
 
 class LOE_104:
 	"""Entomb"""
+	requirements = {PlayReq.REQ_ENEMY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Steal(TARGET), Shuffle(CONTROLLER, TARGET)
 
 
 class LOE_105:
 	"""Explorer's Hat"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Buff(TARGET, "LOE_105e")
 
 

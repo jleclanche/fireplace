@@ -43,6 +43,7 @@ class LOEA02_10:
 
 class LOEA02_10a:
 	"""Leokk (Unused)"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	update = Refresh(FRIENDLY_MINIONS - SELF, buff="NEW1_033o")
 
 
@@ -210,6 +211,7 @@ class LOEA07_29:
 
 class LOEA07_18:
 	"""Dynamite"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Hit(TARGET, 10)
 
 
@@ -225,6 +227,7 @@ class LOEA07_26:
 
 class LOEA07_28:
 	"""Repairs"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Heal(TARGET, 10)
 
 
@@ -242,6 +245,7 @@ class LOEA06_02h:
 
 class LOEA06_03:
 	"""Animate Earthen"""
+	requirements = {PlayReq.REQ_MINIMUM_TOTAL_MINIONS : 1}
 	play = Buff(FRIENDLY_MINIONS, "LOEA06_03e")
 
 
@@ -257,6 +261,7 @@ LOEA06_03eh = buff(+3, +3, taunt=True)
 
 class LOEA06_04:
 	"""Shattering Spree"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = (
 		Hit(TARGET, Count(ALL_MINIONS + ID("LOEA06_02t"))),
 		Destroy(ALL_MINIONS + ID("LOEA06_02t"))
@@ -264,6 +269,7 @@ class LOEA06_04:
 
 
 class LOEA06_04h:
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = (
 		Hit(TARGET, Count(ALL_MINIONS + ID("LOEA06_02th")) * 3),
 		Destroy(ALL_MINIONS + ID("LOEA06_02th"))
@@ -338,6 +344,7 @@ class LOEA09_3d:
 
 class LOEA09_6:
 	"""Slithering Archer"""
+	requirements = {PlayReq.REQ_NONSELF_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	play = Hit(TARGET, 1)
 
 
@@ -496,6 +503,7 @@ class LOEA16_9:
 
 class LOEA16_10:
 	"""Hakkari Blood Goblet"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Morph(TARGET, "LOE_010")
 
 
@@ -620,6 +628,7 @@ class LOEA16_27H:
 
 class LOEA16_20:
 	"""Blessing of the Sun"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Buff(TARGET, "LOEA16_20e")
 
 
@@ -631,6 +640,7 @@ LOEA16_20e = buff(immune=True)
 
 class LOE_008:
 	"""Eye of Hakkar (Unused)"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0}
 	play = Summon(CONTROLLER, RANDOM(ENEMY_DECK + SECRET))
 
 

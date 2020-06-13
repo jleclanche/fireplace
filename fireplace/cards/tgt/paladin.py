@@ -41,6 +41,7 @@ class AT_104:
 
 class AT_074:
 	"""Seal of Champions"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Buff(TARGET, "AT_074e2"), GiveDivineShield(TARGET)
 
 

@@ -16,6 +16,7 @@ class UNG_063:
 
 class UNG_064:
 	"""Vilespine Slayer"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_FOR_COMBO : 0}
 	pass
 
 
@@ -34,6 +35,7 @@ class UNG_057:
 
 class UNG_060:
 	"""Mimic Pod"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0}
 	pass
 
 
@@ -44,6 +46,7 @@ class UNG_067:
 
 class UNG_823:
 	"""Envenom Weapon"""
+	requirements = {PlayReq.REQ_WEAPON_EQUIPPED : 0}
 	pass
 
 

@@ -39,6 +39,7 @@ class GIL_817:
 
 class GIL_145:
 	"""Sound the Bells!"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 

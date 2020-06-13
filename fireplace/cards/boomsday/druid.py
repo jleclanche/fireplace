@@ -26,6 +26,7 @@ class BOT_434:
 
 class BOT_507:
 	"""Gloop Sprayer"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0}
 	pass
 
 
@@ -39,6 +40,7 @@ class BOT_523:
 
 class BOT_054:
 	"""Biology Project"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0}
 	pass
 
 
@@ -49,6 +51,7 @@ class BOT_404:
 
 class BOT_420:
 	"""Landscaping"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	pass
 
 

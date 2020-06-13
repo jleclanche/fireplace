@@ -26,6 +26,7 @@ class GIL_805:
 
 class GIL_835:
 	"""Squashling"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
@@ -44,14 +45,17 @@ class GIL_840:
 
 class GIL_134:
 	"""Holy Water"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
 class GIL_661:
 	"""Divine Hymn"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0}
 	pass
 
 
 class GIL_813:
 	"""Vivid Nightmare"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_NUM_MINION_SLOTS : 1, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass

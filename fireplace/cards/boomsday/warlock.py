@@ -34,6 +34,7 @@ class BOT_536:
 
 class BOT_222:
 	"""Spirit Bomb"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
@@ -44,6 +45,7 @@ class BOT_263:
 
 class BOT_521:
 	"""Ectomancy"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	pass
 
 

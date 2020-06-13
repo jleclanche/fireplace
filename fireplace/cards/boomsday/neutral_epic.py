@@ -31,6 +31,7 @@ class BOT_511:
 
 class BOT_540:
 	"""E.M.P. Operative"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_RACE : 17}
 	pass
 
 

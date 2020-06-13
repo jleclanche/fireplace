@@ -29,11 +29,13 @@ class LOOT_398:
 
 class LOOT_088:
 	"""Potion of Heroism"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
 class LOOT_091:
 	"""Lesser Pearl Spellstone"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0}
 	pass
 
 

@@ -29,16 +29,19 @@ class LOOT_518:
 
 class LOOT_060:
 	"""Crushing Hand"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
 class LOOT_064:
 	"""Lesser Sapphire Spellstone"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
 class LOOT_344:
 	"""Primal Talismans"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0}
 	pass
 
 
@@ -49,6 +52,7 @@ class LOOT_373:
 
 class LOOT_504:
 	"""Unstable Evolution"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 

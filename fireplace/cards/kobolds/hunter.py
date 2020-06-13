@@ -24,6 +24,7 @@ class LOOT_520:
 
 class LOOT_077:
 	"""Flanking Strike"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
@@ -34,11 +35,13 @@ class LOOT_079:
 
 class LOOT_080:
 	"""Lesser Emerald Spellstone"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0}
 	pass
 
 
 class LOOT_217:
 	"""To My Side!"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_NUM_MINION_SLOTS : 1}
 	pass
 
 

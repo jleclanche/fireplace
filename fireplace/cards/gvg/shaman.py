@@ -37,6 +37,7 @@ class GVG_029:
 
 class GVG_038:
 	"""Crackle"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Hit(TARGET, RandomNumber(3, 4, 5, 6))
 
 

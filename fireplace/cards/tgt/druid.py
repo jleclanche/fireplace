@@ -20,6 +20,7 @@ AT_039e = buff(atk=2)
 
 class AT_040:
 	"""Wildwalker"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_RACE : 20}
 	play = Buff(TARGET, "AT_040e")
 
 
@@ -58,12 +59,14 @@ class AT_045:
 
 class AT_037:
 	"""Living Roots"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 	choose = ("AT_037a", "AT_037b")
 	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 2), Summon(CONTROLLER, "AT_037t") * 2)
 
 
 class AT_037a:
 	play = Hit(TARGET, 2)
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY : 0}
 
 
 class AT_037b:
@@ -81,4 +84,5 @@ class AT_043:
 
 class AT_044:
 	"""Mulch"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	play = Destroy(TARGET), Give(OPPONENT, RandomMinion())

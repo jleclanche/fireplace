@@ -16,6 +16,7 @@ class ICC_851:
 
 class ICC_852:
 	"""Prince Taldaram"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE_AND_NO_3_COST_CARD_IN_DECK : 0}
 	pass
 
 

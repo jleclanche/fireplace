@@ -75,4 +75,5 @@ class GVG_119:
 
 class GVG_120:
 	"""Hemet Nesingwary"""
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE : 0, PlayReq.REQ_TARGET_WITH_RACE : 20}
 	play = Destroy(TARGET)

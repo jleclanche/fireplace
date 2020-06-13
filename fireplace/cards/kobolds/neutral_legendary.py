@@ -11,6 +11,7 @@ class LOOT_357:
 
 class LOOT_516:
 	"""Zola the Gorgon"""
+	requirements = {PlayReq.REQ_FRIENDLY_TARGET : 0, PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_IF_AVAILABLE : 0}
 	pass
 
 

@@ -39,11 +39,13 @@ class GIL_902:
 
 class GIL_506:
 	"""Cheap Shot"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
 class GIL_687:
 	"""WANTED!"""
+	requirements = {PlayReq.REQ_MINION_TARGET : 0, PlayReq.REQ_TARGET_TO_PLAY : 0}
 	pass
 
 
