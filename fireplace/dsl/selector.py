@@ -216,7 +216,7 @@ class SetOpSelector(Selector):
 
 	@staticmethod
 	def _entity_id_set(entities: Iterable[BaseEntity]) -> Set[BaseEntity]:
-		return set(e.entity_id for e in entities if e)
+		return set(e.entity_id for e in entities if hasattr(e, "entity_id"))
 
 	def eval(self, entities, source):
 		left_children = self.left.eval(entities, source)
@@ -478,3 +478,19 @@ RANDOM_ENEMY_CHARACTER = RANDOM(ENEMY_CHARACTERS - MORTALLY_WOUNDED)
 
 DAMAGED_CHARACTERS = ALL_CHARACTERS + DAMAGED
 CTHUN = FRIENDLY + ID("OG_280")
+
+FRIENDLY_CLASS_CHARACTER = FuncSelector(
+	lambda entities, src: [
+		e for e in entities
+		if hasattr(e, "card_class") and hasattr(e, "controller") and
+		e.card_class == e.controller.hero.card_class
+	]
+)
+OTHER_CLASS_CHARACTER = FuncSelector(
+	lambda entities, src: [
+		e for e in entities
+		if hasattr(e, "card_class") and hasattr(e, "controller") and
+		e.card_class != CardClass.NEUTRAL and e.card_class != CardClass.DREAM and
+		e.card_class != e.controller.hero.card_class
+	]
+)

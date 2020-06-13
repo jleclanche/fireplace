@@ -10,7 +10,7 @@ class CFM_020:
 
 
 class CFM_020e:
-	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: SET(1)})
+	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: SET(0)})
 
 
 class CFM_605:

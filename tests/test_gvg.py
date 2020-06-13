@@ -366,11 +366,11 @@ def test_gazlowe():
 def test_gazlowe_preparation():
 	game = prepare_empty_game()
 	game.player1.give("GVG_117").play()
-	fireball = game.player1.give("CS2_029")
-	assert fireball.cost == 4
+	drainlife = game.player1.give("CS2_061")
+	assert drainlife.cost == 3
 	game.player1.give("EX1_145").play()
-	assert fireball.cost == 1
-	fireball.play(target=game.player2.hero)
+	assert drainlife.cost == 1
+	drainlife.play(target=game.player2.hero)
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].race == Race.MECHANICAL
 

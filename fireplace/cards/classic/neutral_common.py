@@ -67,7 +67,7 @@ EX1_399e = buff(atk=3)
 
 class EX1_508:
 	"""Grimscale Oracle"""
-	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_508o")
+	update = Refresh(FRIENDLY_MINIONS + MURLOC - SELF, buff="EX1_508o")
 
 
 EX1_508o = buff(atk=1)

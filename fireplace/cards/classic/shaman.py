@@ -163,7 +163,7 @@ class EX1_248:
 
 class EX1_251:
 	"""Forked Lightning"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 2}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	play = Hit(RANDOM_ENEMY_MINION * 2, 2)
 
 

@@ -675,11 +675,19 @@ def test_cleave():
 	assert cleave.is_playable()
 	cleave.play()
 	assert len(game.current_player.opponent.field) == 0
-	game.current_player.give(WISP).play()
+	bearer = game.current_player.give("EX1_405").play()
 	game.end_turn()
 
-	cleave2 = game.player1.give("CS2_114")
-	assert not cleave2.is_playable()
+	cleave2 = game.current_player.give("CS2_114")
+	# Patch 14.6 multi-target cards to function even if
+	# there is only one viable target on the board
+	assert cleave2.is_playable()
+	cleave2.play()
+	assert bearer.health == 2
+	game.end_turn()
+
+	cleave3 = game.current_player.give("CS2_114")
+	assert not cleave3.is_playable()
 
 
 def test_cold_blood():
@@ -1320,6 +1328,7 @@ def test_felguard():
 def test_felguard_negative_mana():
 	game = prepare_game(game_class=Game)
 	game.player1.give(INNERVATE).play()
+	game.player1.give(INNERVATE).play()
 	assert game.player1.max_mana == 1
 	assert game.player1.mana == 3
 	game.player1.give("EX1_301").play()
@@ -1467,7 +1476,7 @@ def test_grimscale_oracle():
 	assert murloc2.atk == 1
 	grimscale.play()
 	assert murloc1.atk == 1 + 1
-	assert murloc2.atk == 1 + 1
+	assert murloc2.atk == 1
 	assert grimscale.atk == 1
 
 	game.player1.give(TIME_REWINDER).play(target=grimscale)
@@ -2518,7 +2527,6 @@ def test_power_word_shield():
 	pwshield = game.player1.give("CS2_004")
 	pwshield.play(target=wisp)
 	assert wisp.health == 3
-	assert len(game.player1.hand) == 1
 	game.player1.give(SILENCE).play(target=wisp)
 	assert wisp.health == 1
 
@@ -2546,18 +2554,18 @@ def test_preparation():
 	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
 	assert smite.cost == 0
-	assert fireball.cost == 4 - 3
+	assert fireball.cost == 4 - 2
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	prep2.play()
 	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
 	assert smite.cost == 0
-	assert fireball.cost == 4 - 3
+	assert fireball.cost == 4 - 2
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	fireball.play(target=game.player2.hero)
-	assert game.player1.used_mana == 1
+	assert game.player1.used_mana == 2
 	assert smite.cost == 1
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1

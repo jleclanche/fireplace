@@ -219,16 +219,29 @@ def test_swashburglar():
 
 
 def test_ethereal_peddler():
-	game = prepare_empty_game()
-	game.player1.discard_hand()
-	mc = game.player1.give(MIND_CONTROL)
-	evis = game.player1.give("EX1_124")  # Eviscerate
+	game = prepare_empty_game(CardClass.ROGUE, CardClass.PRIEST)
+	if game.current_player.hero.card_class == CardClass.ROGUE:
+		game.end_turn()
+
+	game.current_player.discard_hand()
+	mc = game.current_player.give(MIND_CONTROL)
+	evis = game.current_player.give("EX1_124")  # Eviscerate
 	assert mc.cost == 10
 	assert evis.cost == 2
-	game.player1.give("KAR_070").play()
+	game.current_player.give("KAR_070").play()
+	assert mc.cost == 10
+	assert evis.cost == 0
+	game.end_turn()
 
-	assert mc.cost == 8
-	assert evis.cost == 2
+	game.current_player.discard_hand()
+	mc2 = game.current_player.give(MIND_CONTROL)
+	evis2 = game.current_player.give("EX1_124")  # Eviscerate
+	assert mc2.cost == 10
+	assert evis2.cost == 2
+	game.current_player.give("KAR_070").play()
+	assert game.current_player.hero.card_class
+	assert mc2.cost == 8
+	assert evis2.cost == 2
 
 
 def test_malchezaars_imp():

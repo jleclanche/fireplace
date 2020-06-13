@@ -30,7 +30,7 @@ class GVG_014a:
 
 class GVG_072:
 	"""Shadowboxer"""
-	events = Heal().on(Hit(RANDOM_ENEMY_CHARACTER, 1))
+	events = Heal(ALL_MINIONS).on(Hit(RANDOM_ENEMY_CHARACTER, 1))
 
 
 class GVG_083:
