@@ -1328,6 +1328,7 @@ def test_felguard():
 def test_felguard_negative_mana():
 	game = prepare_game(game_class=Game)
 	game.player1.give(INNERVATE).play()
+	game.player1.give(INNERVATE).play()
 	assert game.player1.max_mana == 1
 	assert game.player1.mana == 3
 	game.player1.give("EX1_301").play()

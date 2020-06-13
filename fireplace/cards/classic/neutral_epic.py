@@ -20,7 +20,7 @@ class EX1_507:
 	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_507e")
 
 
-EX1_507e = buff(+2, +1)
+EX1_507e = buff(atk=2)
 
 
 class EX1_564:
