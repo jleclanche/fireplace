@@ -102,7 +102,7 @@ class CS2_108:
 
 class CS2_114:
 	"""Cleave"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 2}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	play = Hit(RANDOM_ENEMY_MINION * 2, 2)
 
 

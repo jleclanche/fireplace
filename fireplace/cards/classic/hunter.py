@@ -89,7 +89,7 @@ class CS2_084e:
 
 class DS1_183:
 	"""Multi-Shot"""
-	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 2}
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	play = Hit(RANDOM_ENEMY_MINION * 2, 3)
 
 

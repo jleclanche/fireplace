@@ -675,11 +675,19 @@ def test_cleave():
 	assert cleave.is_playable()
 	cleave.play()
 	assert len(game.current_player.opponent.field) == 0
-	game.current_player.give(WISP).play()
+	bearer = game.current_player.give("EX1_405").play()
 	game.end_turn()
 
-	cleave2 = game.player1.give("CS2_114")
-	assert not cleave2.is_playable()
+	cleave2 = game.current_player.give("CS2_114")
+	# Patch 14.6 multi-target cards to function even if
+	# there is only one viable target on the board
+	assert cleave2.is_playable()
+	cleave2.play()
+	assert bearer.health == 2
+	game.end_turn()
+
+	cleave3 = game.current_player.give("CS2_114")
+	assert not cleave3.is_playable()
 
 
 def test_cold_blood():
