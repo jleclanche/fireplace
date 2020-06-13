@@ -5,7 +5,7 @@ from ..utils import *
 # Minions
 
 class GVG_018:
-	"""Mistress of Pain"""
+	"""Queen of Pain"""
 	events = Damage(CHARACTER, None, SELF).on(Heal(FRIENDLY_HERO, Damage.AMOUNT))
 
 

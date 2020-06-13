@@ -164,7 +164,7 @@ class EX1_577:
 
 
 class EX1_614:
-	"""Illidan Stormrage"""
+	"""Xavius"""
 	events = OWN_CARD_PLAY.on(Summon(CONTROLLER, "EX1_614t"))
 
 
