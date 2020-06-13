@@ -2553,18 +2553,18 @@ def test_preparation():
 	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
 	assert smite.cost == 0
-	assert fireball.cost == 4 - 3
+	assert fireball.cost == 4 - 2
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	prep2.play()
 	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
 	assert smite.cost == 0
-	assert fireball.cost == 4 - 3
+	assert fireball.cost == 4 - 2
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	fireball.play(target=game.player2.hero)
-	assert game.player1.used_mana == 1
+	assert game.player1.used_mana == 2
 	assert smite.cost == 1
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
