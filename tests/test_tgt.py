@@ -232,6 +232,8 @@ def test_dreadsteed():
 	assert len(game.player1.field) == 1
 	game.player1.give(MOONFIRE).play(target=dreadsteed)
 	assert dreadsteed.dead
+	assert len(game.player1.field) == 0
+	game.end_turn()
 	assert len(game.player1.field) == 1
 
 

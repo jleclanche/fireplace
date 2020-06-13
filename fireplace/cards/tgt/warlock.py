@@ -6,7 +6,11 @@ from ..utils import *
 
 class AT_019:
 	"""Dreadsteed"""
-	deathrattle = Summon(CONTROLLER, "AT_019")
+	deathrattle = Buff(CONTROLLER, "AT_019e")
+
+
+class AT_019e:
+	events = OWN_TURN_END.on(Summon(CONTROLLER, "AT_019"), Destroy(SELF))
 
 
 class AT_021:
