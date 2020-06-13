@@ -59,8 +59,7 @@ class OG_134:
 	def play(self):
 		amount = min(self.controller.times_spell_played_this_game, 30)
 		for i in range(amount):
-			if (self.zone == Zone.PLAY) and (not self.silenced):
-				yield CastSpell(RandomSpell())
+			yield CastSpell(RandomSpell())
 
 
 class OG_280:
