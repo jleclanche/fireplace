@@ -51,6 +51,7 @@ class BRMA09_2_TB:
 class BRMA14_10H_TB:
 	"""Activate!"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	entourage = ["BRMA14_3", "BRMA14_5", "BRMA14_7", "BRMA14_9"]
 	Summon(CONTROLLER, RandomEntourage())
 
 

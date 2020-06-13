@@ -110,6 +110,7 @@ class BRMC_83:
 
 class BRMC_93:
 	"""Omnotron Defense System"""
+	entourage = ["BRMA14_3", "BRMA14_5", "BRMA14_7", "BRMA14_9"]
 	play = Summon(CONTROLLER, RandomEntourage())
 
 

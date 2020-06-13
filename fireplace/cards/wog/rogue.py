@@ -14,6 +14,7 @@ OG_070e = buff(+1, +1)
 
 class OG_080:
 	"""Xaril, Poisoned Mind"""
+	entourage = ["OG_080d", "OG_080e", "OG_080f", "OG_080c", "OG_080b"]
 	play = deathrattle = Give(CONTROLLER, RandomEntourage())
 
 

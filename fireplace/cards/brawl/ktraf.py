@@ -26,6 +26,7 @@ class TB_KTRAF_2s:
 
 class TB_KTRAF_3:
 	"""Gluth"""
+	entourage = ["FP1_001", "AT_030", "LOE_019", "EX1_012", "EX1_059", "FP1_004", "EX1_616", "FP1_024", "tt_004"]
 	events = OWN_TURN_END.on(Summon(CONTROLLER, RandomEntourage()))
 
 
@@ -85,6 +86,8 @@ class TB_KTRAF_12:
 
 class TB_KTRAF_101:
 	"""Darkness Calls"""
+	entourage = ["TB_KTRAF_1", "TB_KTRAF_3", "TB_KTRAF_4", "TB_KTRAF_5", "TB_KTRAF_6",
+		"TB_KTRAF_7", "TB_KTRAF_8", "TB_KTRAF_2", "TB_KTRAF_10", "TB_KTRAF_12", "TB_KTRAF_11"]
 	play = Summon(CONTROLLER, RandomEntourage()).then(Battlecry(Summon.CARD)) * 2
 
 

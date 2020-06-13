@@ -111,44 +111,52 @@ class BRMA08_2H:
 class BRMA09_2:
 	"""Open the Gates"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	entourage = ["BRMA09_3", "BRMA09_4"]
 	activate = Summon(CONTROLLER, "BRMA09_2t") * 3, Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_2H:
 	"""Open the Gates (Heroic)"""
+	entourage = ["BRMA09_3H", "BRMA09_4H"]
 	activate = Summon(CONTROLLER, "BRMA09_2Ht") * 3, Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_3:
 	"""Old Horde"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	entourage = ["BRMA09_2", "BRMA09_4", "BRMA09_5"]
 	activate = Summon(CONTROLLER, "BRMA09_3t") * 2, Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_3H:
 	"""Old Horde (Heroic)"""
+	entourage = ["BRMA09_2H", "BRMA09_4H", "BRMA09_5H"]
 	activate = Summon(CONTROLLER, "BRMA09_3Ht") * 2, Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_4:
 	"""Blackwing"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	entourage = ["BRMA09_2", "BRMA09_3", "BRMA09_5"]
 	activate = Summon(CONTROLLER, "BRMA09_4t"), Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_4H:
 	"""Blackwing (Heroic)"""
+	entourage = ["BRMA09_2H", "BRMA09_3H", "BRMA09_5H"]
 	activate = Summon(CONTROLLER, "BRMA09_4Ht"), Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_5:
 	"""Dismount"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	entourage = ["BRMA09_2", "BRMA09_3", "BRMA09_4"]
 	activate = Summon(CONTROLLER, "BRMA09_5t"), Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA09_5H:
 	"""Dismount (Heroic)"""
+	entourage = ["BRMA09_2H", "BRMA09_3H", "BRMA09_4H"]
 	activate = Summon(CONTROLLER, "BRMA09_5Ht"), Summon(CONTROLLER, RandomEntourage())
 
 
@@ -177,11 +185,13 @@ class BRMA11_2H:
 
 class BRMA12_2:
 	"""Brood Affliction"""
+	entourage = ["BRMA12_6", "BRMA12_5", "BRMA12_7", "BRMA12_4", "BRMA12_3"]
 	activate = Give(OPPONENT, RandomEntourage())
 
 
 class BRMA12_2H:
 	"""Brood Affliction (Heroic)"""
+	entourage = ["BRMA12_3H", "BRMA12_4H", "BRMA12_5H", "BRMA12_6H", "BRMA12_7H"]
 	activate = Give(OPPONENT, RandomEntourage())
 
 
@@ -260,11 +270,13 @@ class BRMA14_8H:
 
 class BRMA14_10:
 	"""Activate!"""
+	entourage = ["BRMA14_3", "BRMA14_5", "BRMA14_7", "BRMA14_9"]
 	activate = Summon(CONTROLLER, RandomEntourage())
 
 
 class BRMA14_10H:
 	"""Activate! (Heroic)"""
+	entourage = ["BRMA14_3", "BRMA14_5H", "BRMA14_7H", "BRMA14_9H"]
 	activate = Summon(CONTROLLER, RandomEntourage())
 
 

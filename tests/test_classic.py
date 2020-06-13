@@ -2529,13 +2529,13 @@ def test_preparation():
 	prep1 = game.player1.give("EX1_145")
 	prep2 = game.player1.give("EX1_145")
 	prep3 = game.player1.give("EX1_145")
-	pwshield = game.player1.give("CS2_004")
+	smite = game.player1.give("CS1_130")
 	fireball = game.player1.give("CS2_029")
 	fireball2 = game.player2.give("CS2_029")
 	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
 	footman2 = game.player2.give(GOLDSHIRE_FOOTMAN)
 	assert prep1.cost == prep2.cost == prep3.cost == 0
-	assert pwshield.cost == 1
+	assert smite.cost == 1
 	assert fireball.cost == fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	game.end_turn()
@@ -2545,27 +2545,27 @@ def test_preparation():
 	prep1.play()
 	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
-	assert pwshield.cost == 0
+	assert smite.cost == 0
 	assert fireball.cost == 4 - 3
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	prep2.play()
 	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
-	assert pwshield.cost == 0
+	assert smite.cost == 0
 	assert fireball.cost == 4 - 3
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	fireball.play(target=game.player2.hero)
 	assert game.player1.used_mana == 1
-	assert pwshield.cost == 1
+	assert smite.cost == 1
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	prep3.play()
-	assert pwshield.cost == 0
+	assert smite.cost == 0
 	assert footman.cost == footman2.cost == 1
 	game.end_turn()
-	assert pwshield.cost == 1
+	assert smite.cost == 1
 	assert footman.cost == footman2.cost == 1
 
 
@@ -2982,7 +2982,7 @@ def test_shadowform():
 	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	# Hero Power should reset
 	shadowform1 = game.player1.give("EX1_625")
-	assert game.player1.hero.power.id == "CS1h_001"
+	assert game.player1.hero.power.id == "HERO_09bp"
 	assert game.player1.hero.power.is_usable()
 	game.player1.hero.power.use(target=game.player1.hero)
 	assert not game.player1.hero.power.is_usable()
@@ -3647,13 +3647,15 @@ def test_wild_growth():
 	game = prepare_game(game_class=Game)
 	game.end_turn()
 	game.end_turn()
-	assert game.player1.max_mana == 2
+	game.end_turn()
+	game.end_turn()
+	assert game.player1.max_mana == 3
 	wildgrowth1 = game.player1.give("CS2_013")
 	wildgrowth1.play()
 	assert game.player1.mana == 0
-	assert game.player1.used_mana == 2 + 1
-	assert game.player1.max_mana == 2 + 1
-	for i in range(8):
+	assert game.player1.used_mana == 3 + 1
+	assert game.player1.max_mana == 3 + 1
+	for i in range(7):
 		game.end_turn()
 		game.end_turn()
 

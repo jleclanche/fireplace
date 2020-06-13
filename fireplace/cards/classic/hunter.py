@@ -147,6 +147,7 @@ class EX1_617:
 class NEW1_031:
 	"""Animal Companion"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	entourage = ["NEW1_032", "NEW1_033", "NEW1_034"]
 	play = Summon(CONTROLLER, RandomEntourage())
 
 

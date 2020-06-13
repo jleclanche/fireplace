@@ -36,9 +36,9 @@ HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
 DISCOVER = lambda *args: Discover(CONTROLLER, *args)
 
 BASIC_HERO_POWERS = [
-	"CS1h_001", "CS2_017", "CS1h_001",
-	"CS2_049", "CS2_056", "CS2_083b",
-	"CS2_101", "CS2_102", "DS1h_292",
+	"HERO_01bp", "HERO_02bp", "HERO_03bp",
+	"HERO_04bp", "HERO_05bp", "HERO_06bp",
+	"HERO_07bp", "HERO_08bp", "HERO_09bp",
 ]
 
 POTIONS = [

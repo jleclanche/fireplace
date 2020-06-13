@@ -58,9 +58,10 @@ def test_wicked_witchdoctor():
 	witchdoc = game.player1.give("KAR_021")
 	witchdoc.play()
 	game.player1.give(THE_COIN).play()
+	basic_totem = ["CS2_050", "CS2_051", "CS2_052", "NEW1_009"]
 
 	assert len(game.player1.field) == 2
-	assert game.player1.field[-1].id in game.player1.hero.power.data.entourage
+	assert game.player1.field[-1].id in basic_totem
 
 
 def test_book_wyrm():

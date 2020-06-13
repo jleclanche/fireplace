@@ -53,6 +53,7 @@ class EX1_110:
 
 class EX1_112:
 	"""Gelbin Mekkatorque"""
+	entourage = ["Mekka1", "Mekka2", "Mekka3", "Mekka4"]
 	play = Summon(CONTROLLER, RandomEntourage())
 
 
@@ -206,6 +207,7 @@ class NEW1_040:
 
 class PRO_001:
 	"""Elite Tauren Chieftain"""
+	entourage = ["PRO_001a", "PRO_001b", "PRO_001c"]
 	play = Give(ALL_PLAYERS, RandomEntourage())
 
 
@@ -224,4 +226,5 @@ class PRO_001b:
 class PRO_001c:
 	"""Power of the Horde"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	entourage = ["CS2_121", "EX1_021", "EX1_023", "EX1_110", "EX1_390", "CS2_179"]
 	play = Summon(CONTROLLER, RandomEntourage())

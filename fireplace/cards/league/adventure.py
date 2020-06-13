@@ -469,11 +469,15 @@ class LOEA16_2H:
 
 class LOEA16_16:
 	"""Rummage"""
+	entourage = ["LOEA16_10", "LOEA16_11", "LOEA16_14", "LOEA16_15", "LOEA16_6",
+			"LOEA16_7", "LOEA16_9", "LOEA16_12", "LOEA16_13", "LOEA16_8"]
 	activate = Give(CONTROLLER, RandomEntourage())
 
 
 class LOEA16_16H:
 	"""Rummage (Heroic)"""
+	entourage = ["LOEA16_10", "LOEA16_11", "LOEA16_14", "LOEA16_15", "LOEA16_6",
+			"LOEA16_7", "LOEA16_9", "LOEA16_12", "LOEA16_13", "LOEA16_8"]
 	activate = Give(CONTROLLER, RandomEntourage())
 
 

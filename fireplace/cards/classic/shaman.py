@@ -7,6 +7,7 @@ from ..utils import *
 class HERO_02bp:
 	"""Totemic Call"""
 	requirements = {PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY : 0, PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	entourage = ["CS2_050", "CS2_051", "CS2_052", "NEW1_009"]
 	def activate(self):
 		totems = [t for t in self.entourage if not self.controller.field.contains(t)]
 		yield Summon(CONTROLLER, random.choice(totems))
@@ -15,6 +16,7 @@ class HERO_02bp:
 class CS2_049_H1:
 	"""Totemic Call (Morgl the Oracle)"""
 	requirements = {PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY : 0, PlayReq.REQ_NUM_MINION_SLOTS : 1}
+	entourage = ["CS2_050", "CS2_051", "CS2_052", "NEW1_009"]
 	activate = HERO_02bp.activate
 
 
