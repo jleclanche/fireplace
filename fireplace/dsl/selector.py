@@ -226,7 +226,9 @@ class SetOpSelector(Selector):
 			self._entity_id_set(right_children)
 		)
 		# Preserve input ordering and multiplicity
-		return [e for e in entities if e.entity_id in result_entity_ids]
+		return [
+			e for e in entities if hasattr(e, "entity_id") and
+			e.entity_id in result_entity_ids]
 
 	def __repr__(self):
 		name = self.op.__name__
