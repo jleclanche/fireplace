@@ -78,6 +78,9 @@ class CardDB(dict):
 			for tag, value in cardscript.tags.items():
 				card.tags[tag] = value
 
+		if hasattr(cardscript, "requirements"):
+			card.powers.append({"requirements": cardscript.requirements})
+
 		# Set some additional events based on the base tags...
 		if card.poisonous:
 			card.scripts.events.append(POISONOUS)
