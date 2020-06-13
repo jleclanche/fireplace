@@ -2518,7 +2518,6 @@ def test_power_word_shield():
 	pwshield = game.player1.give("CS2_004")
 	pwshield.play(target=wisp)
 	assert wisp.health == 3
-	assert len(game.player1.hand) == 1
 	game.player1.give(SILENCE).play(target=wisp)
 	assert wisp.health == 1
 

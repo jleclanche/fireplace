@@ -72,7 +72,7 @@ EX1_623e = buff(health=3)
 class CS2_004:
 	"""Power Word: Shield"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-	play = Buff(TARGET, "CS2_004e"), Draw(CONTROLLER)
+	play = Buff(TARGET, "CS2_004e")
 
 
 CS2_004e = buff(health=2)
@@ -80,7 +80,7 @@ CS2_004e = buff(health=2)
 
 class CS1_112:
 	"""Holy Nova"""
-	play = Hit(ENEMY_CHARACTERS, 2), Heal(FRIENDLY_CHARACTERS, 2)
+	play = Hit(ENEMY_MINIONS, 2), Heal(FRIENDLY_CHARACTERS, 2)
 
 
 class CS1_113:
@@ -109,7 +109,7 @@ class CS1_129e:
 class CS1_130:
 	"""Holy Smite"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-	play = Hit(TARGET, 2)
+	play = Hit(TARGET, 3)
 
 
 class CS2_003:
