@@ -216,7 +216,7 @@ class SetOpSelector(Selector):
 
 	@staticmethod
 	def _entity_id_set(entities: Iterable[BaseEntity]) -> Set[BaseEntity]:
-		return set(e.entity_id for e in entities if e)
+		return set(e.entity_id for e in entities if hasattr(e, "entity_id"))
 
 	def eval(self, entities, source):
 		left_children = self.left.eval(entities, source)
