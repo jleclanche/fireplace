@@ -334,7 +334,8 @@ def test_medivh():
 	game.end_turn()
 	game.end_turn()
 
-	game.player1.give(UNSTABLE_PORTAL).play()
+	# avoid 2-cost minions that may be Sorcerer's Apprentice
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
 	assert len(game.player1.field) == 3
 	assert game.player1.field[-1].cost == 2
 	assert game.player1.weapon.durability == 1
