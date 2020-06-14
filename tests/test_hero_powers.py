@@ -110,9 +110,10 @@ def test_shaman():
 		game.player1.give(WISP).play()
 	assert len(game.player1.field) == 7
 	assert not game.player1.hero.power.is_usable()
-	
+
 	game.current_player.field[0].destroy()
 	assert game.current_player.hero.power.is_usable()
+
 
 def test_healing_totem():
 	game = prepare_game()

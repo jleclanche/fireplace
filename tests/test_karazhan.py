@@ -337,7 +337,7 @@ def test_medivh():
 	# avoid 2-cost minions that may be Sorcerer's Apprentice
 	game.player1.give(MOONFIRE).play(target=game.player1.hero)
 	assert len(game.player1.field) == 3
-	assert game.player1.field[-1].cost == 2
+	assert game.player1.field[-1].cost == 0
 	assert game.player1.weapon.durability == 1
 
 	game.player1.give("EX1_295").play()
