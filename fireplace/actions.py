@@ -320,9 +320,10 @@ class Joust(GameAction):
 		source.game.joust(source, challenger, defender, self.callback)
 
 
-class GenericChoice(GameAction):
+class Choice(GameAction):
 	PLAYER = ActionArg()
 	CARDS = ActionArg()
+	CARD = ActionArg()
 
 	def get_args(self, source):
 		player = self._args[0]
@@ -336,14 +337,12 @@ class GenericChoice(GameAction):
 		elif isinstance(cards, LazyValue):
 			cards = cards.evaluate(source)
 
-		for card in cards:
-			card.zone = Zone.SETASIDE
-
 		return player, cards
 
 	def do(self, source, player, cards):
 		if len(cards) == 0:
 			return
+		log.info("%r choice from %r", player, cards)
 		self.next_choice = player.choice
 		player.choice = self
 		self.source = source
@@ -355,6 +354,15 @@ class GenericChoice(GameAction):
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		for action in self.callback:
+			self.source.game.trigger(
+				self.source, [action], [self.player, self.cards, card])
+		self.player.choice = self.next_choice
+
+
+class GenericChoice(Choice):
+	def choose(self, card):
+		super().choose(card)
 		for _card in self.cards:
 			if _card is card:
 				if card.type == CardType.HERO_POWER:
@@ -365,7 +373,6 @@ class GenericChoice(GameAction):
 					_card.discard()
 			else:
 				_card.discard()
-		self.player.choice = self.next_choice
 
 
 class MulliganChoice(GameAction):
@@ -661,6 +668,29 @@ class Predamage(TargetedAction):
 			self.broadcast(source, EventListener.ON, target, amount)
 			return source.game.trigger_actions(source, [Damage(target)])[0][0]
 		return 0
+
+
+class PutOnTop(TargetedAction):
+	"""
+	Put card on deck top
+	"""
+	TARGET = ActionArg()
+	CARD = CardArg()
+
+	def do(self, source, target, cards):
+		log.info("%r put on %s's deck top", cards, target)
+		if not isinstance(cards, list):
+			cards = [cards]
+
+		for card in cards:
+			if card.controller != target:
+				card.zone = Zone.SETASIDE
+				card.controller = target
+			if len(target.deck) >= target.max_deck_size:
+				log.info("Put(%r) fails because %r's deck is full", card, target)
+				continue
+			card.zone = Zone.DECK
+			card, card.controller.deck[-1] = card.controller.deck[-1], card
 
 
 class Damage(TargetedAction):
