@@ -1,3 +1,4 @@
+import random
 from collections import OrderedDict
 
 from hearthstone.enums import (
@@ -319,9 +320,10 @@ class Joust(GameAction):
 		source.game.joust(source, challenger, defender, self.callback)
 
 
-class GenericChoice(GameAction):
+class Choice(GameAction):
 	PLAYER = ActionArg()
 	CARDS = ActionArg()
+	CARD = ActionArg()
 
 	def get_args(self, source):
 		player = self._args[0]
@@ -335,12 +337,13 @@ class GenericChoice(GameAction):
 		elif isinstance(cards, LazyValue):
 			cards = cards.evaluate(source)
 
-		for card in cards:
-			card.zone = Zone.SETASIDE
-
 		return player, cards
 
 	def do(self, source, player, cards):
+		if len(cards) == 0:
+			return
+		log.info("%r choice from %r", player, cards)
+		self.next_choice = player.choice
 		player.choice = self
 		self.source = source
 		self.player = player
@@ -351,6 +354,15 @@ class GenericChoice(GameAction):
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		for action in self.callback:
+			self.source.game.trigger(
+				self.source, [action], [self.player, self.cards, card])
+		self.player.choice = self.next_choice
+
+
+class GenericChoice(Choice):
+	def choose(self, card):
+		super().choose(card)
 		for _card in self.cards:
 			if _card is card:
 				if card.type == CardType.HERO_POWER:
@@ -361,7 +373,6 @@ class GenericChoice(GameAction):
 					_card.discard()
 			else:
 				_card.discard()
-		self.player.choice = None
 
 
 class MulliganChoice(GameAction):
@@ -657,6 +668,29 @@ class Predamage(TargetedAction):
 			self.broadcast(source, EventListener.ON, target, amount)
 			return source.game.trigger_actions(source, [Damage(target)])[0][0]
 		return 0
+
+
+class PutOnTop(TargetedAction):
+	"""
+	Put card on deck top
+	"""
+	TARGET = ActionArg()
+	CARD = CardArg()
+
+	def do(self, source, target, cards):
+		log.info("%r put on %s's deck top", cards, target)
+		if not isinstance(cards, list):
+			cards = [cards]
+
+		for card in cards:
+			if card.controller != target:
+				card.zone = Zone.SETASIDE
+				card.controller = target
+			if len(target.deck) >= target.max_deck_size:
+				log.info("Put(%r) fails because %r's deck is full", card, target)
+				continue
+			card.zone = Zone.DECK
+			card, card.controller.deck[-1] = card.controller.deck[-1], card
 
 
 class Damage(TargetedAction):
@@ -1143,7 +1177,11 @@ class Shuffle(TargetedAction):
 
 		for card in cards:
 			if card.controller != target:
+				card.zone = Zone.SETASIDE
 				card.controller = target
+			if len(target.deck) >= target.max_deck_size:
+				log.info("Shuffle(%r) fails because %r's deck is full", card, target)
+				continue
 			card.zone = Zone.DECK
 			target.shuffle_deck()
 
@@ -1224,3 +1262,221 @@ class UnlockOverload(TargetedAction):
 		log.info("%s overload gets cleared", target)
 		target.overloaded = 0
 		target.overload_locked = 0
+
+
+class SummonJadeGolem(TargetedAction):
+	"""
+	Summons a Jade Golem for target player according to his Jade Golem Status
+	"""
+	TARGET = ActionArg()
+	CARD = CardArg()
+
+	def get_target_args(self, source, target):
+		jade_size = "CFM_712_t" + str(target.jade_golem).zfill(2)
+		return _eval_card(source, jade_size)
+
+	def do(self, source, target, card):
+		log.info("%s summons a Jade Golem for %s", source, target)
+		target.jade_golem = target.jade_golem + 1 if target.jade_golem <= 29 else 30
+		if card.is_summonable():
+			source.game.queue_actions(source, [Summon(target, card)])
+
+
+class CastSpell(TargetedAction):
+	"""
+	Cast a spell target random
+	"""
+	CARD = CardArg()
+
+	def do(self, source, card):
+		target = None
+		if card.must_choose_one:
+			card = random.choice(card.choose_cards)
+		if card.requires_target():
+			if len(card.targets):
+				target = random.choice(card.targets)
+			else:
+				log.info("%s cast spell %s don't have a legal target", source, card)
+				return
+		card.target = target
+		log.info("%s cast spell %s target %s", source, card, target)
+		source.game.queue_actions(source, [Battlecry(card, card.target)])
+		player = source.controller
+		while player.choice:
+			choice = random.choice(player.choice.cards)
+			print("Choosing card %r" % (choice))
+			player.choice.choose(choice)
+		source.game.queue_actions(source, [Deaths()])
+
+
+class Evolve(TargetedAction):
+	"""
+	Transform your minions into random minions that cost (\a amount) more
+	"""
+	TARGET = ActionArg()
+	AMOUNT = IntArg()
+
+	def do(self, source, target, amount):
+		from . import cards
+		cost = target.cost + amount
+		card_set = cards.filter(collectible=True, cost=cost, type=CardType.MINION)
+		if card_set:
+			card = random.choice(card_set)
+			return source.game.queue_actions(source, [Morph(target, card)])
+
+
+class ExtraAttack(TargetedAction):
+	"""
+	Get target an extra attack change
+	"""
+	TARGET = ActionArg()
+
+	def do(self, source, target):
+		log.info("%s gets an extra attack change.", target)
+		target.num_attacks -= 1
+
+
+class SwapState(TargetedAction):
+	"""
+	Swap stats between two minions using \a buff.
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, other, buff):
+		log.info("swap state %s and %s", target, other)
+		other = other[0]
+		buff1 = source.controller.card(buff)
+		buff1._atk = other.atk
+		buff1.data.scripts.atk = lambda self, i: self._atk
+		buff1.health = other.health
+		buff2 = source.controller.card(buff)
+		buff2._atk = target.atk
+		buff2.data.scripts.atk = lambda self, i: self._atk
+		buff2.health = target.health
+		buff1.apply(target)
+		buff2.apply(other)
+
+
+class CopyState(TargetedAction):
+	"""
+	Copy target state, buff on self
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, buff):
+		target = target
+		buff = source.controller.card(buff)
+		buff._atk = target.atk
+		buff.data.scripts.atk = lambda self, i: self._atk
+		buff.health = target.health
+		buff.apply(source)
+
+
+class RefreshHeroPower(TargetedAction):
+	"""
+	Helper to Refresh Hero Power
+	"""
+	HEROPOWER = ActionArg()
+
+	def do(self, source, heropower):
+		log.info("Refresh Hero Power %s.", heropower)
+		heropower.activations_this_turn = 0
+		return heropower
+
+
+class KazakusHelper(GameAction):
+	"""
+	Kazakus is too difficult !!!
+	"""
+
+	def do(self, source):
+		player = source.controller
+		self.source = source
+		self.player = player
+		self.next_choice = player.choice
+		player.choice = self
+		self.source = source
+		self.cards = [
+			player.card("CFM_621t11"),
+			player.card("CFM_621t12"),
+			player.card("CFM_621t13")
+		]
+		self.min_count = 1
+		self.max_count = 1
+		self.choosed_cards = []
+		self.cost_1_potions = [
+			"CFM_621t2", "CFM_621t3", "CFM_621t4",
+			"CFM_621t5", "CFM_621t6", "CFM_621t8",
+			"CFM_621t9", "CFM_621t10", "CFM_621t37"]
+		self.cost_5_potions = [
+			"CFM_621t16", "CFM_621t17", "CFM_621t18", "CFM_621t19", "CFM_621t20",
+			"CFM_621t21", "CFM_621t22", "CFM_621t23", "CFM_621t24", "CFM_621t38"]
+		self.cost_10_potions = [
+			"CFM_621t25", "CFM_621t26", "CFM_621t27", "CFM_621t28", "CFM_621t29",
+			"CFM_621t30", "CFM_621t31", "CFM_621t32", "CFM_621t33", "CFM_621t39"]
+
+	def do_step2(self):
+		card = self.choosed_cards[0]
+		if card.id == "CFM_621t11":
+			cards = self.cost_1_potions
+		elif card.id == "CFM_621t12":
+			cards = self.cost_5_potions
+		elif card.id == "CFM_621t13":
+			cards = self.cost_10_potions
+		else:
+			raise InvalidAction("Kazakus choose a missed card %s" % card)
+		cards = random.sample(cards, 3)
+		self.cards = []
+		for card in cards:
+			self.cards.append(self.player.card(card))
+
+	def do_step3(self):
+		card = self.choosed_cards[0]
+		if card.id == "CFM_621t11":
+			cards = self.cost_1_potions
+		elif card.id == "CFM_621t12":
+			cards = self.cost_5_potions
+		elif card.id == "CFM_621t13":
+			cards = self.cost_10_potions
+		else:
+			raise InvalidAction("Kazakus choose a missed card %s" % card)
+		cards.remove(self.choosed_cards[1])
+		cards = random.sample(cards, 3)
+		self.cards = []
+		for card in cards:
+			self.cards.append(self.player.card(card))
+
+	def done(self):
+		card = self.choosed_cards[0]
+		new_card = None
+		if card.id == "CFM_621t11":
+			new_card = self.player.card("CFM_621t1")
+		elif card.id == "CFM_621t12":
+			new_card = self.player.card("CFM_621t14")
+		elif card.id == "CFM_621t13":
+			new_card = self.player.card("CFM_621t15")
+		else:
+			raise InvalidAction("Kazakus choose a missed card %s" % card)
+		card1 = self.choosed_cards[1]
+		card2 = self.choosed_cards[2]
+		new_card.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+		new_card.requirements.update(card1.requirements)
+		new_card.requirements.update(card2.requirements)
+		self.player.give(new_card)
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		else:
+			self.choosed_cards.append(card)
+			if len(self.choosed_cards) == 1:
+				self.do_step2()
+			if len(self.choosed_cards) == 2:
+				self.do_step3()
+			if len(self.choosed_cards) == 3:
+				self.done()
+				self.player.choice = self.next_choice

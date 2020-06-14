@@ -64,7 +64,7 @@ def test_priest():
 
 def test_shaman():
 	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
-	assert len(game.player1.hero.power.data.entourage) == 4
+	basic_totem = ["CS2_050", "CS2_051", "CS2_052", "NEW1_009"]
 
 	# use hero power four times
 	for i in range(4):
@@ -72,7 +72,7 @@ def test_shaman():
 		assert game.player1.hero.power.is_usable()
 		game.player1.hero.power.use()
 		assert len(game.player1.field) == i + 1
-		assert game.player1.field[-1].id in game.player1.hero.power.data.entourage
+		assert game.player1.field[-1].id in basic_totem
 		game.end_turn()
 		game.end_turn()
 

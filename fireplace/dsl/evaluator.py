@@ -71,7 +71,7 @@ class Attacking(Evaluator):
 		self.selector2 = selector2
 
 	def __repr__(self):
-		return "%s(%r)" % (self.__class__.__name__, self.selector1, self.selector2)
+		return "%s(%r %r)" % (self.__class__.__name__, self.selector1, self.selector2)
 
 	def check(self, source):
 		t1 = self.selector1.eval(source.game, source)
@@ -79,6 +79,22 @@ class Attacking(Evaluator):
 		for entity in t1:
 			if entity.attacking:
 				return entity.attack_target in t2
+		return False
+
+
+class ChooseBoth(Evaluator):
+	"""
+	Evaluates to True if the selector `choose_both` is true
+	Selector must evalutae to only one player.
+	"""
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def check(self, source):
+		player = self.selector.eval(source.game, source)[0]
+		if player.choose_both:
+			return True
 		return False
 
 

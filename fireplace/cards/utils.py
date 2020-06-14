@@ -1,6 +1,6 @@
 import random
 
-from hearthstone.enums import CardClass, CardType, GameTag, Race, Rarity
+from hearthstone.enums import CardClass, CardType, GameTag, Race, Rarity, PlayReq
 
 from ..actions import *
 from ..aura import Refresh
@@ -36,13 +36,27 @@ HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
 DISCOVER = lambda *args: Discover(CONTROLLER, *args)
 
 BASIC_HERO_POWERS = [
-	"CS1h_001", "CS2_017", "CS1h_001",
-	"CS2_049", "CS2_056", "CS2_083b",
-	"CS2_101", "CS2_102", "DS1h_292",
+	"HERO_01bp", "HERO_02bp", "HERO_03bp",
+	"HERO_04bp", "HERO_05bp", "HERO_06bp",
+	"HERO_07bp", "HERO_08bp", "HERO_09bp",
+]
+
+POTIONS = [
+	"CFM_021",  # Freezing Potion
+	"CFM_065",  # Volcanic Potion
+	"CFM_620",  # Potion of Polymorph
+	"CFM_603",  # Potion of Madness
+	"CFM_604",  # Greater Healing Potion
+	"CFM_661",  # Pint-Size Potion
+	"CFM_662",  # Dragonfire Potion
+	"CFM_094",  # Felfire Potion
+	"CFM_608",  # Blastcrystal Potion
+	"CFM_611",  # Bloodfury Potion
 ]
 
 RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
 RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
+RandomPotion = lambda *args: RandomID(*POTIONS)
 
 # 50% chance to attack the wrong enemy.
 FORGETFUL = Attack(SELF).on(
@@ -50,6 +64,7 @@ FORGETFUL = Attack(SELF).on(
 )
 
 AT_MAX_MANA = lambda s: MANA(s) == 10
+CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
 
 
 class JoustHelper(Evaluator):
@@ -73,6 +88,7 @@ JOUST = JoustHelper(
 	RANDOM(FRIENDLY_DECK + MINION),
 	RANDOM(ENEMY_DECK + MINION)
 )
+RECRUIT = lambda selector: Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + selector))
 
 
 def SET(amt):

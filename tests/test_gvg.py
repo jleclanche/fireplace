@@ -354,11 +354,12 @@ def test_gallywix():
 def test_gazlowe():
 	game = prepare_empty_game()
 	game.player1.discard_hand()
-	game.player1.give("GVG_117").play()
+	gazlowe = game.player1.give("GVG_117")
+	gazlowe.play()
 	assert len(game.player1.hand) == 0
 	smite = game.player1.give("CS1_130")
 	assert smite.cost == 1
-	smite.play(target=game.player2.hero)
+	smite.play(target=gazlowe)
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].race == Race.MECHANICAL
 
@@ -366,11 +367,11 @@ def test_gazlowe():
 def test_gazlowe_preparation():
 	game = prepare_empty_game()
 	game.player1.give("GVG_117").play()
-	fireball = game.player1.give("CS2_029")
-	assert fireball.cost == 4
+	drainlife = game.player1.give("CS2_061")
+	assert drainlife.cost == 3
 	game.player1.give("EX1_145").play()
-	assert fireball.cost == 1
-	fireball.play(target=game.player2.hero)
+	assert drainlife.cost == 1
+	drainlife.play(target=game.player2.hero)
 	assert len(game.player1.hand) == 1
 	assert game.player1.hand[0].race == Race.MECHANICAL
 
@@ -436,6 +437,17 @@ def test_grove_tender():
 	grovetender2.play(choose="GVG_032b")
 	assert len(game.player1.hand) == 1
 	assert len(game.player2.hand) == 1
+
+	assert game.player1.max_mana == 6
+	assert game.player2.max_mana == 5
+	game.player1.discard_hand()
+	game.player2.discard_hand()
+	game.player1.summon(FANDRAL_STAGHELM)
+	game.player1.give("GVG_032").play()
+	assert game.player1.max_mana == 7
+	assert game.player2.max_mana == 6
+	assert game.player1.mana == 6 - 3 - 3 + 1
+	assert game.player1.used_mana == 3 + 3
 
 
 def test_hobgoblin():

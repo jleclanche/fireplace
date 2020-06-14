@@ -124,10 +124,10 @@ def boolean_property(attr):
 	@property
 	def func(self):
 		return (
-			getattr(self, "_" + attr, False) or
-			any(getattr(buff, attr, False) for buff in self.buffs) or
-			any(getattr(slot, attr, False) for slot in self.slots) or
-			getattr(self.data.scripts, attr, lambda s, x: x)(self, False)
+			getattr(self, "_" + attr, False) or (
+				any(getattr(buff, attr, False) for buff in self.buffs)) or (
+				any(getattr(slot, attr, False) for slot in self.slots)) or (
+				getattr(self.data.scripts, attr, lambda s, x: x)(self, False))
 		)
 
 	@func.setter

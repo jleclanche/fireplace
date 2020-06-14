@@ -149,6 +149,7 @@ class FP1_019:
 
 class FP1_025:
 	"""Reincarnate"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Destroy(TARGET), Deaths(), Summon(CONTROLLER, Copy(TARGET))
 
 

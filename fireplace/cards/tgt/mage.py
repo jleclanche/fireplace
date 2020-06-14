@@ -32,16 +32,19 @@ class AT_009:
 
 class AT_001:
 	"""Flame Lance"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 8)
 
 
 class AT_004:
 	"""Arcane Blast"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 2)
 
 
 class AT_005:
 	"""Polymorph: Boar"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Morph(TARGET, "AT_005t")
 
 

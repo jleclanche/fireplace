@@ -1,3 +1,4 @@
+import random
 from itertools import chain
 
 from hearthstone.enums import CardType, PlayReq, PlayState, Race, Rarity, Step, Zone
@@ -75,6 +76,9 @@ class BaseCard(BaseEntity):
 		self._set_zone(value)
 
 	def _set_zone(self, value):
+		# TODO
+		# Keep Buff: Deck -> Hand, Hand -> Play, Deck -> Play
+		# Remove Buff: Other case
 		old = self.zone
 
 		if old == value:
@@ -93,7 +97,10 @@ class BaseCard(BaseEntity):
 		if caches.get(old) is not None:
 			caches[old].remove(self)
 		if caches.get(value) is not None:
-			caches[value].append(self)
+			if hasattr(self, "_summon_index") and self._summon_index is not None:
+				caches[value].insert(self._summon_index, self)
+			else:
+				caches[value].append(self)
 		self._zone = value
 
 		if value == Zone.PLAY:
@@ -129,6 +136,7 @@ class BaseCard(BaseEntity):
 
 class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	windfury = int_property("windfury")
+	has_choose_one = boolean_property("has_choose_one")
 	playable_zone = Zone.HAND
 
 	def __init__(self, data):
@@ -147,6 +155,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	def events(self):
 		if self.zone == Zone.HAND:
 			return self.data.scripts.Hand.events
+		if self.zone == Zone.DECK:
+			return self.data.scripts.Deck.events
 		return self.base_events + self._events
 
 	@property
@@ -171,6 +181,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		Returns True if the card has active choices
 		"""
+		if self.controller.choose_both and self.has_choose_one:
+			self.choose_cards = []
 		return bool(self.choose_cards)
 
 	@property
@@ -301,6 +313,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				raise InvalidAction("%r requires a target to play." % (self))
 			elif target not in self.play_targets:
 				raise InvalidAction("%r is not a valid target for %r." % (target, self))
+			if self.controller.all_targets_random:
+				new_target = random.choice(self.play_targets)
+				self.logger.info("Retargeting %r from %r to %r", self, target, new_target)
+				target = new_target
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
 		self.game.play_card(self, target, index, choose)
@@ -357,6 +373,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_SECRETS)
 		if req is not None:
 			if len(self.controller.secrets) >= req:
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_HERO_ATTACKED_THIS_TURN)
+		if req is not None:
+			if self.controller.hero.num_attacks > 0:
 				return bool(self.play_targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
@@ -726,6 +746,10 @@ class Spell(PlayableCard):
 			amount *= 2
 		return amount
 
+	def play(self, target=None, index=None, choose=None):
+		self.controller.times_spell_played_this_game += 1
+		return super().play(target, index, choose)
+
 
 class Secret(Spell):
 	@property
@@ -760,6 +784,10 @@ class Secret(Spell):
 		if self.controller.secrets.contains(self):
 			return False
 		return super().is_summonable()
+
+	def play(self, target=None, index=None, choose=None):
+		self.controller.times_secret_played_this_game += 1
+		return super().play(target, index, choose)
 
 
 class Enchantment(BaseCard):
@@ -815,6 +843,8 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "max_health"):
 			self.log("%r removes all damage from %r", self, target)
 			target.damage = 0
+		if hasattr(self.data.scripts.Hand, "events") and hasattr(target.data, "scripts"):
+			target.data.scripts.Hand.events += self.data.scripts.Hand.events
 		self.zone = Zone.PLAY
 
 	def remove(self):
@@ -896,6 +926,10 @@ class HeroPower(PlayableCard):
 		if self.requires_target():
 			if not target:
 				raise InvalidAction("%r requires a target." % (self))
+			if self.controller.all_targets_random:
+				new_target = random.choice(self.play_targets)
+				self.logger.info("Retargeting %r from %r to %r", self, target, new_target)
+				target = new_target
 			self.target = target
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)

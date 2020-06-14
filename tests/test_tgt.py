@@ -33,6 +33,8 @@ def test_astral_communion():
 	astral = game.player1.give("AT_043")
 	game.player1.give(INNERVATE).play()
 	game.player1.give(INNERVATE).play()
+	game.player1.give(INNERVATE).play()
+	game.player1.give(INNERVATE).play()
 	for i in range(5):
 		game.player1.give(WISP)
 	assert game.player1.max_mana == 1
@@ -230,6 +232,8 @@ def test_dreadsteed():
 	assert len(game.player1.field) == 1
 	game.player1.give(MOONFIRE).play(target=dreadsteed)
 	assert dreadsteed.dead
+	assert len(game.player1.field) == 0
+	game.end_turn()
 	assert len(game.player1.field) == 1
 
 

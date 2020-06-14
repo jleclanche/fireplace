@@ -11,6 +11,7 @@ class AT_070:
 
 class AT_122:
 	"""Gormok the Impaler"""
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_MINIONS: 4}
 	play = (Count(FRIENDLY_MINIONS) >= 4) & Hit(TARGET, 4)
 
 

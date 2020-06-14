@@ -6,7 +6,7 @@ from ..utils import *
 
 class BRM_002:
 	"""Flamewaker"""
-	events = OWN_SPELL_PLAY.after(Hit(RANDOM_ENEMY_MINION, 1) * 2)
+	events = OWN_SPELL_PLAY.after(Hit(ENEMY_CHARACTERS, 1) * 2)
 
 
 class BRM_004:
@@ -36,6 +36,7 @@ class BRM_009:
 class BRM_010:
 	"""Druid of the Flame"""
 	choose = ("BRM_010a", "BRM_010b")
+	play = ChooseBoth(CONTROLLER) & Morph(SELF, "OG_044b")
 
 
 class BRM_010a:
@@ -142,6 +143,10 @@ class BRM_028e:
 
 class BRM_029:
 	"""Rend Blackhand"""
+	requirements = {
+		PlayReq.REQ_LEGENDARY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0}
 	powered_up = HOLDING_DRAGON, Find(ENEMY_MINIONS + LEGENDARY)
 	play = HOLDING_DRAGON & Destroy(TARGET)
 
@@ -157,6 +162,7 @@ class BRM_030:
 
 class BRM_030t:
 	"""Tail Swipe"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 4)
 
 
@@ -176,6 +182,7 @@ BRM_033e = buff(+1, +1)
 
 class BRM_034:
 	"""Blackwing Corruptor"""
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0}
 	powered_up = HOLDING_DRAGON
 	play = powered_up & Hit(TARGET, 3)
 
@@ -196,6 +203,7 @@ class BRM_001e:
 
 class BRM_003:
 	"""Dragon's Breath"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 4)
 	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
@@ -211,11 +219,13 @@ class BRM_005:
 
 class BRM_007:
 	"""Gang Up"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Shuffle(CONTROLLER, Copy(TARGET)) * 3
 
 
 class BRM_011:
 	"""Lava Shock"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 2), UnlockOverload(CONTROLLER)
 
 
@@ -226,6 +236,7 @@ class BRM_011t:
 
 class BRM_013:
 	"""Quick Shot"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	powered_up = Count(FRIENDLY_HAND - SELF) == 0
 	play = Hit(TARGET, 3), EMPTY_HAND & Draw(CONTROLLER)
 
@@ -238,4 +249,7 @@ class BRM_015:
 
 class BRM_017:
 	"""Resurrect"""
+	requirements = {
+		PlayReq.REQ_FRIENDLY_MINION_DIED_THIS_GAME: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))

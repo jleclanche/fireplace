@@ -11,6 +11,7 @@ class OG_006:
 
 class OG_006b:
 	"""The Tidal Hand"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	activate = Summon(CONTROLLER, "OG_006a")
 
 
@@ -36,6 +37,7 @@ class OG_310:
 
 class OG_223:
 	"""Divine Strength"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "OG_223e")
 
 
@@ -44,6 +46,7 @@ OG_223e = buff(+1, +2)
 
 class OG_273:
 	"""Stand Against Darkness"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = Summon(CONTROLLER, "CS2_101t") * 5
 
 
@@ -64,3 +67,13 @@ class OG_222:
 
 
 OG_222e = buff(+1, +1)
+
+
+class OG_198:
+	"""Forbidden Healing"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
+
+	def play(self):
+		mana = self.controller.mana
+		yield SpendMana(CONTROLLER, mana)
+		yield Heal(TARGET, mana * 2)
