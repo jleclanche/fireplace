@@ -117,25 +117,42 @@ def test_shaman():
 
 def test_healing_totem():
 	game = prepare_game()
-	footman = game.player1.give(GOLDSHIRE_FOOTMAN)
+	footman = game.current_player.give(GOLDSHIRE_FOOTMAN)
 	footman.play()
-	game.player1.give(MOONFIRE).play(target=footman)
-	healtotem = game.player1.give("NEW1_009")
+	game.current_player.give(MOONFIRE).play(target=footman)
+	healtotem = game.current_player.give("NEW1_009")
 	healtotem.play()
+	game.current_player.give(MOONFIRE).play(target=game.current_player.hero)
 	assert footman.health == 1
+	assert game.current_player.hero.health == 29
 	game.end_turn()
 
 	assert footman.health == 2
-	game.end_turn()
+	assert game.current_player.opponent.hero.health == 29
 
-	assert footman.health == 2
+	# will not heal when it is not the owner's turn
+	game.current_player.give(MOONFIRE).play(target=footman)
+	game.end_turn()
+	assert footman.health == 1
 
 
 def test_warlock():
 	game = prepare_game(CardClass.WARLOCK, CardClass.WARLOCK)
-	game.player1.discard_hand()
-	assert not game.player1.hero.power.targets
-	assert game.player1.hero.power.is_usable()
-	game.player1.hero.power.use()
-	assert len(game.player1.hand) == 1
-	assert game.player1.hero.health == 28
+	game.current_player.discard_hand()
+	assert not game.current_player.hero.power.targets
+	assert game.current_player.hero.power.is_usable()
+	game.current_player.hero.power.use()
+	assert len(game.current_player.hand) == 1
+	assert game.current_player.hero.health == 28
+	game.skip_turn()
+
+	# player draws a card at the beginning of the turn
+	assert len(game.current_player.hand) == 2
+	# draw till the hand is full
+	for i in range(8):
+		game.current_player.give(MOONFIRE)
+	assert len(game.current_player.hand) == 10
+	assert game.current_player.hero.power.is_usable()
+	game.current_player.hero.power.use()
+	# TODO discard the card without deathrattles
+	assert len(game.current_player.hand) == 10
