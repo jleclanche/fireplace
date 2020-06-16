@@ -137,10 +137,13 @@ def test_healing_totem():
 
 
 def test_warlock():
-	game = prepare_game(CardClass.WARLOCK, CardClass.WARLOCK)
+	game = prepare_empty_game(CardClass.WARLOCK, CardClass.WARLOCK)
 	game.current_player.discard_hand()
 	assert not game.current_player.hero.power.targets
 	assert game.current_player.hero.power.is_usable()
+	game.current_player.give(WISP).shuffle_into_deck()
+	game.current_player.give(WISP).shuffle_into_deck()
+	assert len(game.current_player.deck) == 2
 	game.current_player.hero.power.use()
 	assert len(game.current_player.hand) == 1
 	assert game.current_player.hero.health == 28
@@ -148,11 +151,15 @@ def test_warlock():
 
 	# player draws a card at the beginning of the turn
 	assert len(game.current_player.hand) == 2
+	game.current_player.give("EX1_096").shuffle_into_deck()
+	game.current_player.give("EX1_096").shuffle_into_deck()
 	# draw till the hand is full
 	for i in range(8):
 		game.current_player.give(MOONFIRE)
 	assert len(game.current_player.hand) == 10
+	assert len(game.current_player.deck) == 2
 	assert game.current_player.hero.power.is_usable()
 	game.current_player.hero.power.use()
-	# TODO discard the card without deathrattles
+	# discard the card without deathrattles
+	assert len(game.current_player.deck) == 1
 	assert len(game.current_player.hand) == 10
