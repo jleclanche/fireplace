@@ -1022,7 +1022,7 @@ def test_dire_wolf_alpha():
 
 
 def test_divine_favor():
-	game = prepare_game()
+	game = prepare_empty_game()
 	game.player1.discard_hand()
 	for i in range(5):
 		game.player1.give(WISP)
@@ -1032,9 +1032,17 @@ def test_divine_favor():
 	game.player2.discard_hand()
 	game.player2.give(WISP)
 	assert len(game.player2.hand) == 1
+	for i in range(7):
+		game.player2.give(WISP).shuffle_into_deck()
 	favor = game.player2.give("EX1_349")
 	favor.play()
 	assert len(game.player2.hand) == len(game.player1.hand)
+	assert len(game.player2.deck) == 3
+	game.player2.discard_hand()
+	game.player2.give("EX1_349").play()
+	# TODO BUG report “can't fatigue and does not take damage”
+	# TODO drawuntil stops after first fatigue
+	# assert game.player2.hero.health == 29
 
 
 def test_divine_spirit():
@@ -3761,9 +3769,6 @@ def test_wrath():
 def test_young_priestess():
 	game = prepare_game()
 	priestess = game.player1.give("EX1_004")
-	game.end_turn()
-	game.end_turn()
-
 	priestess.play()
 	assert priestess.health == 1
 	game.end_turn()
