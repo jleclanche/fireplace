@@ -22,30 +22,34 @@ def test_acolyte_of_pain():
 	assert len(game.player1.hand) == 0
 	game.player1.give(MOONFIRE).play(target=acolyte)
 	assert len(game.player1.hand) == 1
+	game.player1.give("EX1_012").play()
+	# extra damages can trigger only once
 	game.player1.give(MOONFIRE).play(target=acolyte)
 	assert len(game.player1.hand) == 2
-	game.player1.give(MOONFIRE).play(target=acolyte)
-	assert len(game.player1.hand) == 3
 	assert acolyte.dead
 
 
 def test_alarmobot():
 	game = prepare_game()
-	game.player1.discard_hand()
-	bot = game.player1.give("EX1_006")
+	game.current_player.discard_hand()
+	bot = game.current_player.give("EX1_006")
 	bot.play()
-	wisp = game.player1.give(WISP)
+	assert bot.health == 3
+	wisp = game.current_player.give(WISP)
+	game.current_player.give("EX1_014t").play(target=bot)
+	assert bot.health == 4
 	for i in range(9):
-		game.player1.give(MOONFIRE)
-	assert len(game.player1.hand) == 10
+		game.current_player.give(MOONFIRE)
+	assert len(game.current_player.hand) == 10
 	assert bot.zone == Zone.PLAY
 	assert wisp.zone == Zone.HAND
-	game.end_turn()
-	game.end_turn()
-	assert bot in game.player1.hand
-	assert wisp in game.player1.field
-	assert len(game.player1.field) == 1
-	assert len(game.player1.hand) == 10
+	game.skip_turn()
+	assert bot in game.current_player.hand
+	assert wisp in game.current_player.field
+	# TODO check minions' healths after they're buffed
+	assert bot.health == 3
+	assert len(game.current_player.field) == 1
+	assert len(game.current_player.hand) == 10
 
 	# bot should not trigger if hand has no minions
 	bot.play()
