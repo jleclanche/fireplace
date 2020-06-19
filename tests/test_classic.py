@@ -37,7 +37,11 @@ def test_alarmobot():
 	assert bot.health == 3
 	wisp = game.current_player.give(WISP)
 	game.current_player.give("EX1_014t").play(target=bot)
+	mistcaller = game.current_player.give("AT_054")
+	mistcaller.play()
+	mistcaller.destroy()
 	assert bot.health == 4
+	assert wisp.health == 2
 	for i in range(9):
 		game.current_player.give(MOONFIRE)
 	assert len(game.current_player.hand) == 10
@@ -46,20 +50,22 @@ def test_alarmobot():
 	game.skip_turn()
 	assert bot in game.current_player.hand
 	assert wisp in game.current_player.field
-	# TODO check minions' healths after they're buffed
+	# check minions' healths after they're buffed
 	assert bot.health == 3
+	# TODO: HAS NOT BEEN TESTED IN REAL GAME
+	# check if the minion's buff remains.
+	# assert wisp.health == 2
 	assert len(game.current_player.field) == 1
 	assert len(game.current_player.hand) == 10
 
 	# bot should not trigger if hand has no minions
 	bot.play()
-	game.player1.give(MOONFIRE)
-	assert len(game.player1.hand) == 10
-	game.end_turn()
-	game.end_turn()
-	assert len(game.player1.hand) == 10
+	game.current_player.give(MOONFIRE)
+	assert len(game.current_player.hand) == 10
+	game.skip_turn()
+	assert len(game.current_player.hand) == 10
 	assert bot.zone == Zone.PLAY
-	assert len(game.player1.field) == 2
+	assert len(game.current_player.field) == 2
 
 
 def test_alexstrasza():

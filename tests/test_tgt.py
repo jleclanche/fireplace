@@ -19,6 +19,7 @@ def test_anubarak():
 	game.end_turn()
 	game.end_turn()
 
+	# TODO sometimes isn't playable.
 	# Test for issue #283: play Anub'arak again
 	anubarak.play()
 	assert len(game.player1.field) == 2

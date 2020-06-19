@@ -437,6 +437,7 @@ def test_scaled_nightmare_buff_ordering():
 
 	assert scaled_nightmare_debuff_second.atk == 4
 
+	# TODO potential failure, not able to be played
 	scaled_nightmare_debuff_first.play()
 	humility2.play(target=scaled_nightmare_debuff_first)
 	game.end_turn()
