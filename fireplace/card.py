@@ -472,6 +472,7 @@ class Character(LiveEntity):
 	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
 	heavily_armored = boolean_property("heavily_armored")
 	min_health = boolean_property("min_health")
+	rush = boolean_property("rush")
 	taunt = boolean_property("taunt")
 
 	def __init__(self, data):
@@ -499,10 +500,11 @@ class Character(LiveEntity):
 
 	@property
 	def attack_targets(self):
+		targets = self.controller.opponent.characters
 		if self.cannot_attack_heroes:
 			targets = self.controller.opponent.field
-		else:
-			targets = self.controller.opponent.characters
+		if self.rush and not self.turns_in_play:
+			targets = self.controller.opponent.field
 
 		taunts = targets.filter(taunt=True).filter(attackable=True)
 		return (taunts or targets).filter(attackable=True)
@@ -627,7 +629,7 @@ class Minion(Character):
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
 		"forgetful", "frozen", "has_deathrattle", "has_inspire", "poisonous",
-		"stealthed", "taunt", "windfury", "cannot_attack_heroes",
+		"stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush"
 	)
 
 	def __init__(self, data):
@@ -664,7 +666,8 @@ class Minion(Character):
 
 	@property
 	def asleep(self):
-		return self.zone == Zone.PLAY and not self.turns_in_play and not self.charge
+		return self.zone == Zone.PLAY and not self.turns_in_play and (
+			not self.charge and not self.rush)
 
 	@property
 	def exhausted(self):
