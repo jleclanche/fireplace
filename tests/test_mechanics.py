@@ -937,3 +937,16 @@ def test_weapon_sheathing():
 	game.end_turn()
 
 	assert not weapon.exhausted
+
+
+def test_rush():
+	game = prepare_game()
+	worgen1 = game.player1.give("GIL_113")
+	worgen1.play()
+	assert not worgen1.can_attack()
+	game.end_turn()
+	worgen2 = game.player2.give("GIL_113")
+	worgen2.play()
+	assert worgen2.can_attack()
+	assert worgen1 in worgen2.targets
+	assert len(worgen2.targets) == 1
