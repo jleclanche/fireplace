@@ -4,11 +4,6 @@ from ..utils import *
 ##
 # Minions
 
-class GVG_018:
-	"""Queen of Pain"""
-	events = Damage(CHARACTER, None, SELF).on(Heal(FRIENDLY_HERO, Damage.AMOUNT))
-
-
 class GVG_020:
 	"""Fel Cannon"""
 	events = OWN_TURN_END.on(Hit(RANDOM(ALL_MINIONS - MECH), 2))

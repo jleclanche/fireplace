@@ -496,3 +496,9 @@ OTHER_CLASS_CHARACTER = FuncSelector(
 		e.card_class != e.controller.hero.card_class
 	]
 )
+
+LEFTMOST_HAND = FuncSelector(lambda entities, source: [
+	source.game.player1.hand[0], source.game.player2.hand[0]])
+RIGTHMOST_HAND = FuncSelector(lambda entities, source: [
+	source.game.player1.hand[-1], source.game.player2.hand[-1]])
+OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND

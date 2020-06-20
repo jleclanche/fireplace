@@ -138,6 +138,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	windfury = int_property("windfury")
 	has_choose_one = boolean_property("has_choose_one")
 	playable_zone = Zone.HAND
+	lifesteal = boolean_property("lifesteal")
 
 	def __init__(self, data):
 		self.cant_play = False
@@ -588,6 +589,13 @@ class Hero(Character):
 		if self.controller.weapon:
 			# NOTE: As of 9786, Windfury is retained even when the weapon is exhausted.
 			return self.controller.weapon.windfury or ret
+		return ret
+
+	@property
+	def lifesteal(self):
+		ret = super().lifesteal
+		if self.controller.weapon and not self.controller.weapon.exhausted:
+			return self.controller.weapon.lifesteal or ret
 		return ret
 
 	def _getattr(self, attr, i):
