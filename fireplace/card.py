@@ -475,6 +475,7 @@ class Character(LiveEntity):
 	min_health = boolean_property("min_health")
 	rush = boolean_property("rush")
 	taunt = boolean_property("taunt")
+	poisonous = boolean_property("poisonous")
 
 	def __init__(self, data):
 		self.frozen = False
@@ -598,6 +599,13 @@ class Hero(Character):
 			return self.controller.weapon.lifesteal or ret
 		return ret
 
+	@property
+	def poisonous(self):
+		ret = super().poisonous
+		if self.controller.weapon and not self.controller.weapon.exhausted:
+			return self.controller.weapon.poisonous or ret
+		return ret
+
 	def _getattr(self, attr, i):
 		ret = super()._getattr(attr, i)
 		if attr == "atk":
@@ -644,7 +652,6 @@ class Minion(Character):
 		self.always_wins_brawls = False
 		self.divine_shield = False
 		self.enrage = False
-		self.poisonous = False
 		self.silenced = False
 		self._summon_index = None
 		super().__init__(data)

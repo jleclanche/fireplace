@@ -710,11 +710,15 @@ class Damage(TargetedAction):
 			# TODO this should be an event listener of sorts
 			source.stealthed = False
 		if amount:
-			# some sources of damage are game or player (like fatigue)
+			# check hasattr: some sources of damage are game or player (like fatigue)
 			# weapon damage itself after hero attack, but does not trigger lifesteal
 			if hasattr(source, "lifesteal") and source.lifesteal and source.type != CardType.WEAPON:
 				source.heal(source.controller.hero, amount)
 			self.broadcast(source, EventListener.ON, target, amount, source)
+			# poisonous can not destory hero
+			if hasattr(source, "poisonous") and source.poisonous and (
+				target.type != CardType.HERO and source.type != CardType.WEAPON):
+				target.destroy()
 		return amount
 
 
