@@ -29,19 +29,19 @@ class OG_338:
 	events = BeginTurn(OPPONENT).on(COINFLIP & Draw(OPPONENT))
 
 
-class OG_123:
-	"""Shifter Zerus"""
-	class Hand:
-		events = OWN_TURN_BEGIN.on(
-			Morph(SELF, RandomMinion()).then(Buff(Morph.CARD, "OG_123e"))
-		)
+# class OG_123:
+# 	"""Shifter Zerus"""
+# 	class Hand:
+# 		events = OWN_TURN_BEGIN.on(
+# 			Morph(SELF, RandomMinion()).then(Buff(Morph.CARD, "OG_123e"))
+# 		)
 
 
-class OG_123e:
-	class Hand:
-		events = OWN_TURN_BEGIN.on(
-			Morph(SELF, RandomMinion()).then(Buff(Morph.CARD, "OG_123e"))
-		)
+# class OG_123e:
+# 	class Hand:
+# 		events = OWN_TURN_BEGIN.on(
+# 			Morph(SELF, RandomMinion()).then(Buff(Morph.CARD, "OG_123e"))
+# 		)
 
 
 class OG_300:
