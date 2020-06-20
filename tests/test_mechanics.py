@@ -950,3 +950,34 @@ def test_rush():
 	assert worgen2.can_attack()
 	assert worgen1 in worgen2.targets
 	assert len(worgen2.targets) == 1
+
+
+def test_lifesteal():
+	game = prepare_game(CardClass.DRUID, CardClass.DRUID)
+	queen = game.player1.give("GVG_018")
+	queen.play()
+	weapon = game.player1.give("BT_921")
+	weapon.play()
+	game.end_turn()
+	pyroblast = game.player2.give(PYROBLAST)
+	pyroblast.play(target=game.player1.hero)
+	game.end_turn()
+	assert game.player1.hero.health == 20
+	# minion attack lifesteal
+	queen.attack(game.player2.hero)
+	assert game.player1.hero.health == 21
+	# spell damage lifesteal
+	eye_beam = game.player1.give("BT_801")
+	eye_beam.play(target=queen)
+	assert game.player1.hero.health == 24
+	# weapon attack lifesteal
+	game.player1.hero.power.use()
+	game.player1.hero.attack(game.player2.hero)
+	assert game.player1.hero.atk == 3
+	assert game.player1.hero.health == 27
+	# minion defend lifesteal
+	game.end_turn()
+	stonetusk = game.player2.give("CS2_171")
+	stonetusk.play()
+	stonetusk.attack(queen)
+	assert game.player1.hero.health == 28
