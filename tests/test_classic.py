@@ -50,10 +50,10 @@ def test_alarmobot():
 	game.skip_turn()
 	assert bot in game.current_player.hand
 	assert wisp in game.current_player.field
-	# check minions' healths after they're buffed
+	# bot is always 3/0/3 after rebounding
 	assert bot.health == 3
-	# TODO: HAS NOT BEEN TESTED IN REAL GAME
-	# check if the minion's buff remains.
+	# TODO: BUG TESTED IN REAL GAME
+	# the minion's buff in hand should remain
 	# assert wisp.health == 2
 	assert len(game.current_player.field) == 1
 	assert len(game.current_player.hand) == 10
