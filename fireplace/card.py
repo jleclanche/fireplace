@@ -138,6 +138,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	windfury = int_property("windfury")
 	has_choose_one = boolean_property("has_choose_one")
 	playable_zone = Zone.HAND
+	lifesteal = boolean_property("lifesteal")
 
 	def __init__(self, data):
 		self.cant_play = False
@@ -472,7 +473,9 @@ class Character(LiveEntity):
 	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
 	heavily_armored = boolean_property("heavily_armored")
 	min_health = boolean_property("min_health")
+	rush = boolean_property("rush")
 	taunt = boolean_property("taunt")
+	poisonous = boolean_property("poisonous")
 
 	def __init__(self, data):
 		self.frozen = False
@@ -499,10 +502,11 @@ class Character(LiveEntity):
 
 	@property
 	def attack_targets(self):
+		targets = self.controller.opponent.characters
 		if self.cannot_attack_heroes:
 			targets = self.controller.opponent.field
-		else:
-			targets = self.controller.opponent.characters
+		if self.rush and not self.turns_in_play:
+			targets = self.controller.opponent.field
 
 		taunts = targets.filter(taunt=True).filter(attackable=True)
 		return (taunts or targets).filter(attackable=True)
@@ -588,6 +592,20 @@ class Hero(Character):
 			return self.controller.weapon.windfury or ret
 		return ret
 
+	@property
+	def lifesteal(self):
+		ret = super().lifesteal
+		if self.controller.weapon and not self.controller.weapon.exhausted:
+			return self.controller.weapon.lifesteal or ret
+		return ret
+
+	@property
+	def poisonous(self):
+		ret = super().poisonous
+		if self.controller.weapon and not self.controller.weapon.exhausted:
+			return self.controller.weapon.poisonous or ret
+		return ret
+
 	def _getattr(self, attr, i):
 		ret = super()._getattr(attr, i)
 		if attr == "atk":
@@ -627,14 +645,13 @@ class Minion(Character):
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
 		"forgetful", "frozen", "has_deathrattle", "has_inspire", "poisonous",
-		"stealthed", "taunt", "windfury", "cannot_attack_heroes",
+		"stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush"
 	)
 
 	def __init__(self, data):
 		self.always_wins_brawls = False
 		self.divine_shield = False
 		self.enrage = False
-		self.poisonous = False
 		self.silenced = False
 		self._summon_index = None
 		super().__init__(data)
@@ -664,7 +681,8 @@ class Minion(Character):
 
 	@property
 	def asleep(self):
-		return self.zone == Zone.PLAY and not self.turns_in_play and not self.charge
+		return self.zone == Zone.PLAY and not self.turns_in_play and (
+			not self.charge and not self.rush)
 
 	@property
 	def exhausted(self):
