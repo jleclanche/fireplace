@@ -77,13 +77,25 @@ def test_alexstrasza():
 	assert game.player1.hero.health == 15
 	assert game.player1.hero.max_health == 30
 	assert game.player2.hero.health == 30
-	game.end_turn()
-	game.end_turn()
+	game.skip_turn()
 
 	alex2 = game.player1.give("EX1_561")
 	assert game.player2.hero.health == 30
 	alex2.play(target=game.player2.hero)
 	assert game.player2.hero.health == 15
+	game.end_turn()
+
+	# change hero max health
+	executus = game.current_player.give("BRM_027").play()
+	executus.destroy()
+	alex3 = game.current_player.give("EX1_561")
+	game.skip_turn()
+	assert game.current_player.hero.health == 8
+	assert game.current_player.hero.max_health == 8
+	alex3 = game.current_player.give("EX1_561")
+	alex3.play(target=game.current_player.hero)
+	assert game.current_player.hero.health == 15
+	assert game.current_player.hero.max_health == 15
 
 
 def test_alexstrasza_armor():
