@@ -6,3 +6,4 @@ fireplace.egg-info
 .tox
 .vscode
 .env
+.coverage
