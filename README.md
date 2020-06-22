@@ -1,5 +1,8 @@
 # <img src="/logo.png" height="32" width="32"/> Fireplace
+[![](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/download/releases/3.8.0/)
+[![](https://img.shields.io/github/license/shinoi2/fireplace.svg)](https://github.com/shinoi2/fireplace/blob/master/LICENSE.md)
 [![Build Status](https://travis-ci.org/shinoi2/fireplace.svg?branch=master)](https://travis-ci.org/shinoi2/fireplace)
+[![codecov.io](https://codecov.io/github/shinoi2/fireplace/coverage.svg?branch=master)](https://codecov.io/github/shinoi2/fireplace)
 
 A Hearthstone simulator and implementation, written in Python.
 
