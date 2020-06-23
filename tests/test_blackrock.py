@@ -138,19 +138,24 @@ def test_dragonkin_sorcerer():
 
 def test_druid_of_the_flame():
 	game = prepare_game()
-	flame1 = game.player1.give("BRM_010")
-	flame1.play(choose="BRM_010a")
-	assert len(game.player1.field) == 1
-	assert game.player1.field[0].id == "BRM_010t"
-	assert game.player1.field[0].atk == 5
-	assert game.player1.field[0].health == 2
+	game.current_player.give("BRM_010").play(choose="BRM_010a")
+	assert len(game.current_player.field) == 1
+	assert game.current_player.field[0].id == "BRM_010t"
+	assert game.current_player.field[0].atk == 5
+	assert game.current_player.field[0].health == 2
 
-	flame2 = game.player1.give("BRM_010")
-	flame2.play(choose="BRM_010b")
-	assert len(game.player1.field) == 2
-	assert game.player1.field[1].id == "BRM_010t2"
-	assert game.player1.field[1].atk == 2
-	assert game.player1.field[1].health == 5
+	game.current_player.give("BRM_010").play(choose="BRM_010b")
+	assert len(game.current_player.field) == 2
+	assert game.current_player.field[1].id == "BRM_010t2"
+	assert game.current_player.field[1].atk == 2
+	assert game.current_player.field[1].health == 5
+
+	game.current_player.summon(FANDRAL_STAGHELM)
+	game.current_player.give("BRM_010").play()
+	assert len(game.player1.field) == 2 + 1 + 1
+	assert game.player1.field[3].id == "OG_044b"
+	assert game.player1.field[3].atk == 5
+	assert game.player1.field[3].health == 5
 
 
 def test_emperor_thaurissan():
@@ -449,8 +454,11 @@ def test_solemn_vigil():
 	assert vigil.cost == 5
 	game.player1.summon(WISP).destroy()
 	assert vigil.cost == 4
+	vigil2 = game.player2.give("BRM_001")
 	game.player2.summon(WISP).destroy()
 	assert vigil.cost == 3
+	# no matter when it is acquired
+	assert vigil2.cost == 3
 	wisp1 = game.player1.summon(WISP)
 	game.player1.give(MOONFIRE).play(target=wisp1)
 	assert vigil.cost == 2
@@ -464,6 +472,39 @@ def test_solemn_vigil():
 	vigil.play()
 	assert len(game.player1.hand) == 2
 	assert game.player1.used_mana == 0
+	game.end_turn()
+
+	vigil3 = game.player1.give("BRM_001")
+	vigil4 = game.player2.give("BRM_001")
+	assert vigil3.cost == vigil4.cost == 5
+	game.player1.summon(WISP)
+	game.player1.summon(WISP)
+	game.player2.summon(WISP)
+	game.player2.summon(WISP)
+	# spell Revenge will kill all minions
+	game.current_player.give("BRM_015").play()
+	assert vigil3.cost == vigil4.cost == 1
+	assert len(game.current_player.field) == 0
+
+	# to be no less than 0, but with a Loatheb?
+	game.current_player.give("FP1_030").play()
+	attack1 = game.player1.summon(WISP)
+	attack2 = game.player1.summon(WISP)
+	attack3 = game.player1.summon(WISP)
+	defend1 = game.player2.summon(WISP)
+	defend2 = game.player2.summon(WISP)
+	defend3 = game.player2.summon(WISP)
+	assert vigil3.cost == vigil4.cost == 1
+	game.end_turn()
+
+	# trade and spells trigger deaths also work
+	assert vigil3.cost == 10
+	assert vigil4.cost == 5
+	attack1.attack(defend1)
+	attack2.attack(defend2)
+	attack3.attack(defend3)
+	assert vigil3.cost == 4
+	assert vigil4.cost == 0
 
 
 ##

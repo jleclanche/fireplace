@@ -124,11 +124,13 @@ class AttrValue(SelectorEntityValue):
 ARMOR = AttrValue(GameTag.ARMOR)
 ATK = AttrValue(GameTag.ATK)
 CONTROLLER = AttrValue(GameTag.CONTROLLER)
+MAX_HEALTH = AttrValue(GameTag.HEALTH)
 CURRENT_HEALTH = AttrValue("health")
 COST = AttrValue(GameTag.COST)
 DAMAGE = AttrValue(GameTag.DAMAGE)
 MANA = AttrValue(GameTag.RESOURCES)
 USED_MANA = AttrValue(GameTag.RESOURCES_USED)
+CURRENT_MANA = AttrValue("mana")
 NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
 
 
@@ -214,7 +216,7 @@ class SetOpSelector(Selector):
 
 	@staticmethod
 	def _entity_id_set(entities: Iterable[BaseEntity]) -> Set[BaseEntity]:
-		return set(e.entity_id for e in entities if e)
+		return set(e.entity_id for e in entities if hasattr(e, "entity_id"))
 
 	def eval(self, entities, source):
 		left_children = self.left.eval(entities, source)
@@ -224,7 +226,9 @@ class SetOpSelector(Selector):
 			self._entity_id_set(right_children)
 		)
 		# Preserve input ordering and multiplicity
-		return [e for e in entities if e.entity_id in result_entity_ids]
+		return [
+			e for e in entities if hasattr(e, "entity_id") and
+			e.entity_id in result_entity_ids]
 
 	def __repr__(self):
 		name = self.op.__name__
@@ -326,7 +330,7 @@ LOWEST_ATK = lambda sel: (
 
 
 class Controller(LazyValue):
-	def __init__(self, child: Optional[SelectorLike]=None):
+	def __init__(self, child: Optional[SelectorLike] = None):
 		if isinstance(child, LazyValue):
 			child = LazyValueSelector(child)
 		self.child = child
@@ -401,6 +405,7 @@ ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
 
 ROGUE = EnumSelector(CardClass.ROGUE)
+WARLOCK = EnumSelector(CardClass.WARLOCK)
 
 IN_PLAY = EnumSelector(Zone.PLAY)
 IN_DECK = EnumSelector(Zone.DECK)
@@ -474,3 +479,26 @@ RANDOM_ENEMY_MINION = RANDOM(ENEMY_MINIONS - MORTALLY_WOUNDED)
 RANDOM_ENEMY_CHARACTER = RANDOM(ENEMY_CHARACTERS - MORTALLY_WOUNDED)
 
 DAMAGED_CHARACTERS = ALL_CHARACTERS + DAMAGED
+CTHUN = FRIENDLY + ID("OG_280")
+
+FRIENDLY_CLASS_CHARACTER = FuncSelector(
+	lambda entities, src: [
+		e for e in entities
+		if hasattr(e, "card_class") and hasattr(e, "controller") and
+		e.card_class == e.controller.hero.card_class
+	]
+)
+OTHER_CLASS_CHARACTER = FuncSelector(
+	lambda entities, src: [
+		e for e in entities
+		if hasattr(e, "card_class") and hasattr(e, "controller") and
+		e.card_class != CardClass.NEUTRAL and e.card_class != CardClass.DREAM and
+		e.card_class != e.controller.hero.card_class
+	]
+)
+
+LEFTMOST_HAND = FuncSelector(lambda entities, source: [
+	source.game.player1.hand[0], source.game.player2.hand[0]])
+RIGTHMOST_HAND = FuncSelector(lambda entities, source: [
+	source.game.player1.hand[-1], source.game.player2.hand[-1]])
+OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND

@@ -19,6 +19,7 @@ def test_anubarak():
 	game.end_turn()
 	game.end_turn()
 
+	# TODO sometimes isn't playable.
 	# Test for issue #283: play Anub'arak again
 	anubarak.play()
 	assert len(game.player1.field) == 2
@@ -31,6 +32,8 @@ def test_astral_communion():
 	game = prepare_game(game_class=Game)
 	game.player1.discard_hand()
 	astral = game.player1.give("AT_043")
+	game.player1.give(INNERVATE).play()
+	game.player1.give(INNERVATE).play()
 	game.player1.give(INNERVATE).play()
 	game.player1.give(INNERVATE).play()
 	for i in range(5):
@@ -230,7 +233,39 @@ def test_dreadsteed():
 	assert len(game.player1.field) == 1
 	game.player1.give(MOONFIRE).play(target=dreadsteed)
 	assert dreadsteed.dead
+	assert len(game.player1.field) == 0
+	game.end_turn()
 	assert len(game.player1.field) == 1
+
+
+def test_effigy():
+	game = prepare_game()
+	secret_effigy = game.player1.give("AT_002")
+	secret_effigy2 = game.player1.give("AT_002")
+	secret_effigy.play()
+	with pytest.raises(InvalidAction):
+		secret_effigy2.play()
+	game.player1.summon("EX1_564")
+	game.end_turn()
+	game.player2.give("EX1_617").play()
+	assert secret_effigy not in game.player1.secrets
+	summoned_minion = game.player1.field[0]
+	# A random minion with the same Cost
+	assert summoned_minion.cost == 5
+	# In case it summon some other minion
+	summoned_minion.bounce()
+	# assert summoned_minion.is_collectible()
+	game.end_turn()
+	game.player1.give("EX1_136").play()
+	secret_effigy2.play()
+	assert secret_effigy not in game.player1.secrets
+	assert secret_effigy2 in game.player1.secrets
+	# fill in the field with cairne bloodhoof
+	for i in range(7):
+		game.player1.summon("EX1_110")
+	game.end_turn()
+	game.player2.give("EX1_617").play()
+	assert secret_effigy2 in game.player1.secrets
 
 
 def test_enter_the_coliseum():

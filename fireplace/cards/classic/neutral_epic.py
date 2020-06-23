@@ -3,6 +3,10 @@ from ..utils import *
 
 class EX1_005:
 	"""Big Game Hunter"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_MIN_ATTACK: 7}
 	play = Destroy(TARGET)
 
 
@@ -13,14 +17,18 @@ class EX1_105:
 
 class EX1_507:
 	"""Murloc Warleader"""
-	update = Refresh(ALL_MINIONS + MURLOC - SELF, buff="EX1_507e")
+	update = Refresh(FRIENDLY_MINIONS + MURLOC - SELF, buff="EX1_507e")
 
 
-EX1_507e = buff(+2, +1)
+EX1_507e = buff(atk=2)
 
 
 class EX1_564:
 	"""Faceless Manipulator"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NONSELF_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Morph(SELF, ExactCopy(TARGET))
 
 
@@ -52,6 +60,7 @@ class NEW1_016:
 
 class NEW1_017:
 	"""Hungry Crab"""
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_TARGET_WITH_RACE: 14}
 	play = Destroy(TARGET), Buff(SELF, "NEW1_017e")
 
 

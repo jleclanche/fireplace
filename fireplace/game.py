@@ -280,6 +280,8 @@ class BaseGame(Entity):
 		self.begin_turn(self.player1)
 
 	def end_turn(self):
+		for player in self.players:
+			player.minions_killed_this_turn = 0
 		return self.queue_actions(self, [EndTurn(self.current_player)])
 
 	def _end_turn(self):
@@ -298,6 +300,15 @@ class BaseGame(Entity):
 			self.log("Ending One-Turn effect: %r", buff)
 			buff.remove()
 		self.begin_turn(self.current_player.opponent)
+
+	def skip_turn(self):
+		self.end_turn()
+		self.end_turn()
+		return self
+
+	# TODO  Take an extra turn, for cards like Time Warp
+	def take_an_extra_turn(self):
+		return self
 
 	def begin_turn(self, player):
 		ret = self.queue_actions(self, [BeginTurn(player)])

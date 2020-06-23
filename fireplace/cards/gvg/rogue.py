@@ -47,6 +47,7 @@ class GVG_088:
 
 class GVG_022:
 	"""Tinker's Sharpsword Oil"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0}
 	play = Buff(FRIENDLY_WEAPON, "GVG_022a")
 	combo = Buff(FRIENDLY_WEAPON, "GVG_022a"), Buff(RANDOM_FRIENDLY_CHARACTER, "GVG_022b")
 
@@ -57,6 +58,7 @@ GVG_022b = buff(atk=3)  # Minion
 
 class GVG_047:
 	"""Sabotage"""
+	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0}
 	play = Destroy(RANDOM_ENEMY_MINION)
 	combo = Destroy(ENEMY_WEAPON | RANDOM_ENEMY_MINION)
 

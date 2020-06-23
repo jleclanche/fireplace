@@ -6,7 +6,11 @@ from ..utils import *
 
 class AT_019:
 	"""Dreadsteed"""
-	deathrattle = Summon(CONTROLLER, "AT_019")
+	deathrattle = Buff(CONTROLLER, "AT_019e")
+
+
+class AT_019e:
+	events = OWN_TURN_END.on(Summon(CONTROLLER, "AT_019"), Destroy(SELF))
 
 
 class AT_021:
@@ -49,6 +53,10 @@ class AT_022:
 
 class AT_024:
 	"""Demonfuse"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 15}
 	play = Buff(TARGET, "AT_024e"), GainMana(OPPONENT, 1)
 
 
@@ -57,4 +65,5 @@ AT_024e = buff(+3, +3)
 
 class AT_025:
 	"""Dark Bargain"""
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
 	play = Destroy(RANDOM(ENEMY_MINIONS) * 2), Discard(RANDOM(FRIENDLY_HAND) * 2)

@@ -26,6 +26,10 @@ class AT_105:
 
 class AT_106:
 	"""Light's Champion"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 15}
 	play = Silence(TARGET)
 
 
@@ -54,6 +58,7 @@ class AT_112:
 
 class AT_115:
 	"""Fencing Coach"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0}
 	play = Buff(CONTROLLER, "AT_115e")
 
 

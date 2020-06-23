@@ -23,6 +23,10 @@ class AT_083e:
 
 class AT_084:
 	"""Lance Carrier"""
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(TARGET, "AT_084e")
 
 
@@ -62,6 +66,11 @@ class AT_094:
 
 class AT_096:
 	"""Clockwork Knight"""
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 17}
 	play = Buff(TARGET, "AT_096e")
 
 
@@ -75,6 +84,7 @@ class AT_100:
 
 class AT_103:
 	"""North Sea Kraken"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 4)
 
 

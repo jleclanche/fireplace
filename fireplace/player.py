@@ -1,7 +1,7 @@
 import random
 from itertools import chain
 
-from hearthstone.enums import CardType, PlayState, Zone
+from hearthstone.enums import CardType, PlayState, Race, Zone
 
 from .actions import Concede, Draw, Fatigue, Give, Hit, Steal, Summon
 from .aura import TargetableByAuras
@@ -14,7 +14,9 @@ from .utils import CardList
 
 class Player(Entity, TargetableByAuras):
 	Manager = PlayerManager
+	all_targets_random = slot_property("all_targets_random")
 	cant_overload = slot_property("cant_overload")
+	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
 	extra_deathrattles = slot_property("extra_deathrattles")
 	healing_double = slot_property("healing_double", sum)
@@ -24,6 +26,7 @@ class Player(Entity, TargetableByAuras):
 	spellpower_double = slot_property("spellpower_double", sum)
 	spellpower_adjustment = slot_property("spellpower", sum)
 	spells_cost_health = slot_property("spells_cost_health")
+	murlocs_cost_health = slot_property("murlocs_cost_health")
 	type = CardType.PLAYER
 
 	def __init__(self, name, deck, hero):
@@ -42,6 +45,7 @@ class Player(Entity, TargetableByAuras):
 		self.choice = None
 		self.max_hand_size = 10
 		self.max_resources = 10
+		self.max_deck_size = 60
 		self.cant_draw = False
 		self.cant_fatigue = False
 		self.fatigue_counter = 0
@@ -59,6 +63,10 @@ class Player(Entity, TargetableByAuras):
 		self.minions_killed_this_turn = 0
 		self.weapon = None
 		self.zone = Zone.INVALID
+		self.jade_golem = 1
+		self.times_spell_played_this_game = 0
+		self.times_secret_played_this_game = 0
+		self.cthun = None
 
 	def __str__(self):
 		return self.name
@@ -148,6 +156,15 @@ class Player(Entity, TargetableByAuras):
 			card.creator = source
 		if parent is not None:
 			card.parent_card = parent
+		if id == "OG_280" and self.controller.cthun is not None:
+			cthun = self.controller.cthun
+			for k in cthun.silenceable_attributes:
+				v = getattr(cthun, k)
+				setattr(card, k, v)
+			card.silenced = cthun.silenced
+			card.damage = cthun.damage
+			for buff in cthun.buffs:
+				cthun.buff(card, buff.id)
 		self.game.manager.new_entity(card)
 		return card
 
@@ -156,6 +173,7 @@ class Player(Entity, TargetableByAuras):
 		for id in self.starting_deck:
 			self.card(id, zone=Zone.DECK)
 		self.shuffle_deck()
+		self.cthun = self.card("OG_280")
 		self.playstate = PlayState.PLAYING
 
 		# Draw initial hand (but not any more than what we have in the deck)
@@ -187,6 +205,9 @@ class Player(Entity, TargetableByAuras):
 		"""
 		if self.spells_cost_health and card.type == CardType.SPELL:
 			return self.hero.health > card.cost
+		if self.murlocs_cost_health:
+			if card.type == CardType.MINION and card.race == Race.MURLOC:
+				return self.hero.health > card.cost
 		return self.mana >= card.cost
 
 	def pay_cost(self, source, amount: int) -> int:
@@ -198,6 +219,11 @@ class Player(Entity, TargetableByAuras):
 			self.log("%s spells cost %i health", self, amount)
 			self.game.queue_actions(self, [Hit(self.hero, amount)])
 			return amount
+		if self.murlocs_cost_health:
+			if source.type == CardType.MINION and source.race == Race.MURLOC:
+				self.log("%s murlocs cost %i health", self, amount)
+				self.game.queue_actions(self, [Hit(self.hero, amount)])
+				return amount
 		if self.temp_mana:
 			# Coin, Innervate etc
 			used_temp = min(self.temp_mana, amount)

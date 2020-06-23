@@ -3,6 +3,11 @@ from ..utils import *
 
 class EX1_002:
 	"""The Black Knight"""
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_MUST_TARGET_TAUNTER: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Destroy(TARGET)
 
 
@@ -18,6 +23,7 @@ class EX1_014:
 
 class EX1_014t:
 	"""Bananas"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "EX1_014te")
 
 
@@ -51,6 +57,7 @@ class EX1_110:
 
 class EX1_112:
 	"""Gelbin Mekkatorque"""
+	entourage = ["Mekka1", "Mekka2", "Mekka3", "Mekka4"]
 	play = Summon(CONTROLLER, RandomEntourage())
 
 
@@ -112,6 +119,7 @@ class EX1_560:
 
 class EX1_561:
 	"""Alexstrasza"""
+	requirements = {PlayReq.REQ_HERO_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = (
 		(Attr(TARGET, GameTag.HEALTH) <= 15) & Buff(TARGET, "EX1_561e"),
 		SetCurrentHealth(TARGET, 15)
@@ -141,11 +149,13 @@ class DREAM_02:
 
 class DREAM_04:
 	"""Dream"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Bounce(TARGET)
 
 
 class DREAM_05:
 	"""Nightmare"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "DREAM_05e")
 
 
@@ -159,7 +169,7 @@ class EX1_577:
 
 
 class EX1_614:
-	"""Illidan Stormrage"""
+	"""Xavius"""
 	events = OWN_CARD_PLAY.on(Summon(CONTROLLER, "EX1_614t"))
 
 
@@ -201,19 +211,24 @@ class NEW1_040:
 
 class PRO_001:
 	"""Elite Tauren Chieftain"""
+	entourage = ["PRO_001a", "PRO_001b", "PRO_001c"]
 	play = Give(ALL_PLAYERS, RandomEntourage())
 
 
 class PRO_001a:
 	"""I Am Murloc"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = Summon(CONTROLLER, "PRO_001at") * RandomNumber(3, 4, 5)
 
 
 class PRO_001b:
 	"""Rogues Do It..."""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 4), Draw(CONTROLLER)
 
 
 class PRO_001c:
 	"""Power of the Horde"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
+	entourage = ["CS2_121", "EX1_021", "EX1_023", "EX1_110", "EX1_390", "CS2_179"]
 	play = Summon(CONTROLLER, RandomEntourage())

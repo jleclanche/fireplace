@@ -35,6 +35,11 @@ class OG_315:
 OG_315e = buff(+1, +1)
 
 
+class OG_301:
+	"""Ancient Shieldbearer"""
+	play = CHECK_CTHUN & GainArmor(CONTROLLER, 10)
+
+
 ##
 # Spells
 
@@ -45,6 +50,7 @@ class OG_276:
 
 class OG_314:
 	"""Blood To Ichor"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 1), Dead(TARGET) | Summon(CONTROLLER, "OG_314b")
 
 

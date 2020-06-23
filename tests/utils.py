@@ -40,6 +40,9 @@ HOLY_LIGHT = "CS2_089"
 # Token weapon
 LIGHTS_JUSTICE = "CS2_091"
 
+# Fandral Staghelm
+FANDRAL_STAGHELM = "OG_044"
+
 # Collectible cards excluded from random drafts
 BLACKLIST = (
 	"GVG_007",  # Flame Leviathan

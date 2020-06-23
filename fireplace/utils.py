@@ -168,7 +168,7 @@ def weighted_card_choice(source, weights: List[int], card_sets: List[str], count
 	return [source.controller.card(card, source=source) for card in chosen_cards]
 
 
-def setup_game() -> ".game.Game":
+def setup_game():
 	from .game import Game
 	from .player import Player
 
@@ -183,7 +183,7 @@ def setup_game() -> ".game.Game":
 	return game
 
 
-def play_turn(game: ".game.Game") -> ".game.Game":
+def play_turn(game):
 	player = game.current_player
 
 	while True:
@@ -224,7 +224,7 @@ def play_turn(game: ".game.Game") -> ".game.Game":
 	return game
 
 
-def play_full_game() -> ".game.Game":
+def play_full_game():
 	game = setup_game()
 
 	for player in game.players:

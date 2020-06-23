@@ -3,7 +3,6 @@ from pkg_resources import resource_filename
 from hearthstone import cardxml
 from hearthstone.enums import CardType
 from ..logging import log
-from ..rules import POISONOUS
 from ..utils import get_script_definition
 
 
@@ -78,9 +77,13 @@ class CardDB(dict):
 			for tag, value in cardscript.tags.items():
 				card.tags[tag] = value
 
-		# Set some additional events based on the base tags...
-		if card.poisonous:
-			card.scripts.events.append(POISONOUS)
+		if hasattr(cardscript, "requirements"):
+			card.powers.append({"requirements": cardscript.requirements})
+		else:
+			card.powers.append({"requirements": {}})
+
+		if hasattr(cardscript, "entourage"):
+			card.entourage = cardscript.entourage
 
 		return card
 

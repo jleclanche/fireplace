@@ -42,6 +42,12 @@ class KAR_030a:
 
 class KAR_033:
 	"""Book Wyrm"""
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NONSELF_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0,
+		PlayReq.REQ_TARGET_MAX_ATTACK: 3}
 	powered_up = HOLDING_DRAGON, Find(ENEMY_MINIONS + (ATK <= 3))
 	play = HOLDING_DRAGON & Destroy(TARGET)
 
@@ -69,6 +75,7 @@ KAR_037t = buff(+1, +1, taunt=True)
 
 # class KAR_041:
 # 	"""Moat Lurker"""
+#  	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 
 
 class KAR_044:
@@ -96,6 +103,11 @@ class KAR_062:
 
 class KAR_065:
 	"""Menagerie Warden"""
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 20}
 	powered_up = Find(FRIENDLY_MINIONS + BEAST)
 	play = Summon(CONTROLLER, ExactCopy(TARGET))
 
@@ -107,7 +119,7 @@ class KAR_069:
 
 class KAR_070:
 	"""Ethereal Peddler"""
-	play = Buff(FRIENDLY_HAND - ROGUE, "KAR_070e")
+	play = Buff(FRIENDLY_HAND + OTHER_CLASS_CHARACTER, "KAR_070e")
 
 
 @custom_card
@@ -127,6 +139,7 @@ class KAR_089:
 
 class KAR_092:
 	"""Medivh's Valet"""
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_SECRETS: 1}
 	powered_up = Find(FRIENDLY_SECRETS)
 	play = powered_up & Hit(TARGET, 3)
 
@@ -228,11 +241,16 @@ class KAR_004:
 
 class KAR_013:
 	"""Purify"""
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Silence(TARGET), Draw(CONTROLLER)
 
 
 class KAR_025:
 	"""Kara Kazham!"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = (
 		Summon(CONTROLLER, "KAR_025a"),
 		Summon(CONTROLLER, "KAR_025b"),
@@ -242,6 +260,7 @@ class KAR_025:
 
 class KAR_026:
 	"""Protect the King!"""
+	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1, PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = Summon(CONTROLLER, "KAR_026t") * Count(ENEMY_MINIONS)
 
 
@@ -252,16 +271,19 @@ class KAR_073:
 
 class KAR_075:
 	"""Moonglade Portal"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Heal(TARGET, 6), Summon(CONTROLLER, RandomMinion(cost=6))
 
 
 class KAR_076:
 	"""Firelands Portal"""
+	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 5), Summon(CONTROLLER, RandomMinion(cost=5))
 
 
 class KAR_077:
 	"""Silvermoon Portal"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "KAR_077e"), Summon(CONTROLLER, RandomMinion(cost=2))
 
 

@@ -6,7 +6,7 @@ A Hearthstone simulator and implementation, written in Python.
 
 ## Requirements
 
-* Python 3.6+
+* Python 3.8+
 
 
 ## Installation
