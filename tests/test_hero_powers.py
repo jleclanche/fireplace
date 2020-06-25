@@ -178,4 +178,3 @@ def test_demon_hunter():
 	assert game.current_player.hero.can_attack()
 	game.current_player.hero.attack(target=game.current_player.opponent.hero)
 	assert not game.current_player.hero.can_attack()
-
