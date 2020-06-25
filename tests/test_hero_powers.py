@@ -163,3 +163,19 @@ def test_warlock():
 	# discard the card without deathrattles
 	assert len(game.current_player.deck) == 1
 	assert len(game.current_player.hand) == 10
+
+
+def test_demon_hunter():
+	game = prepare_game(CardClass.DEMONHUNTER, CardClass.DEMONHUNTER)
+	assert game.current_player.hero.health == 30
+	assert game.current_player.hero.armor == 0
+	assert game.current_player.hero.atk == 0
+	assert not game.current_player.hero.can_attack()
+	game.current_player.hero.power.use()
+	assert not game.current_player.hero.power.is_usable()
+	assert game.current_player.hero.armor == 0
+	assert game.current_player.hero.atk == 1
+	assert game.current_player.hero.can_attack()
+	game.current_player.hero.attack(target=game.current_player.opponent.hero)
+	assert not game.current_player.hero.can_attack()
+
