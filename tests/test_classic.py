@@ -85,18 +85,6 @@ def test_alexstrasza():
 	assert game.player2.hero.health == 15
 	game.end_turn()
 
-	# change hero max health
-	executus = game.current_player.give("BRM_027").play()
-	executus.destroy()
-	alex3 = game.current_player.give("EX1_561")
-	game.skip_turn()
-	assert game.current_player.hero.health == 8
-	assert game.current_player.hero.max_health == 8
-	alex3 = game.current_player.give("EX1_561")
-	alex3.play(target=game.current_player.hero)
-	assert game.current_player.hero.health == 15
-	assert game.current_player.hero.max_health == 15
-
 
 def test_alexstrasza_armor():
 	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
@@ -3052,6 +3040,15 @@ def test_shadowform():
 	assert game.player1.shadowform
 	assert game.player1.hero.power.id == "EX1_625t2"
 	assert not game.player1.hero.power.is_usable()
+
+
+def test_shadowhoof_slayer():
+	game = prepare_game()
+	assert not game.current_player.hero.can_attack()
+	game.current_player.give("BT_142").play()
+	assert game.current_player.hero.power.is_usable()
+	assert game.current_player.hero.atk == 1
+	assert game.current_player.hero.can_attack()
 
 
 def test_shadowstep():

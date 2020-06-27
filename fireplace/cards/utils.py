@@ -39,6 +39,7 @@ BASIC_HERO_POWERS = [
 	"HERO_01bp", "HERO_02bp", "HERO_03bp",
 	"HERO_04bp", "HERO_05bp", "HERO_06bp",
 	"HERO_07bp", "HERO_08bp", "HERO_09bp",
+	"HERO_10bp",
 ]
 
 POTIONS = [
