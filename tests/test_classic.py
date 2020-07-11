@@ -52,8 +52,7 @@ def test_alarmobot():
 	assert wisp in game.current_player.field
 	# bot is always 3/0/3 after rebounding
 	assert bot.health == 3
-	# TODO: BUG TESTED IN REAL GAME
-	# the minion's buff in hand should remain
+	# TODO: BUG  the minion's buff in hand should remain
 	# assert wisp.health == 2
 	assert len(game.current_player.field) == 1
 	assert len(game.current_player.hand) == 10
@@ -715,6 +714,13 @@ def test_cold_blood():
 	cb2.play(target=wisp)
 	assert wisp.atk == 1 + 2 + 4
 
+def test_coordinated_strike():
+	game = prepare_game()
+	game.current_player.give("BT_036").play()
+	assert len(game.current_player.field) == 3
+	for i in range(3):
+		assert game.current_player.field[i].id == "BT_036t"
+		# TODO test if it has tag 'rush'
 
 def test_corruption():
 	game = prepare_game()
@@ -3117,6 +3123,16 @@ def test_si7_agent():
 	assert agent2.requires_target()
 	agent2.play(target=agent)
 	assert agent.health == 3 - 2
+
+
+def test_sightless_watcher():
+	game = prepare_empty_game()
+	assert len(game.current_player.deck) == 0
+	imp = game.current_player.give(IMP).shuffle_into_deck()
+	wisp = game.current_player.give(WISP).shuffle_into_deck()
+	dummy = game.current_player.give(TARGET_DUMMY).shuffle_into_deck()
+	# TODO how to play Choice card
+	# game.player1.give("BT_323").play(choose=wisp)
 
 
 def test_slam():
