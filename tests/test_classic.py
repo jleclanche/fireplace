@@ -1456,6 +1456,21 @@ def test_gladiators_longbow():
 	assert game.player2.hero.health == 30 - 1 - 10
 
 
+def test_glaivebound_adept():
+	game = prepare_game(CardClass.DEMONHUNTER,CardClass.DEMONHUNTER)
+	glaivebound_adept1 = game.current_player.give("BT_495")
+	glaivebound_adept1.play()
+	# BUG here the battlecry should not be triggered
+	#glaivebound_adept.play(target=game.current_player.opponent.hero)
+	assert game.current_player.opponent.hero.health == 30
+	game.end_turn()
+	game.current_player.hero.power.use()
+	game.current_player.hero.attack(game.current_player.opponent.hero)
+	glaivebound_adept2 = game.current_player.give("BT_495")
+	glaivebound_adept2.play(target=glaivebound_adept1)
+	assert glaivebound_adept1.dead
+
+
 def test_gorehowl():
 	game = prepare_game()
 	gorehowl = game.player1.give("EX1_411")
@@ -2601,6 +2616,13 @@ def test_preparation():
 	assert footman.cost == footman2.cost == 1
 
 
+def test_prologue_chaosstrike():
+	game = prepare_game()
+	game.current_player.give("Prologue_ChaosStrike").play()
+	assert len(game.current_player.hand) == 5
+	assert game.current_player.hero.atk == 2
+
+
 def test_prophet_velen():
 	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 
@@ -2813,6 +2835,16 @@ def test_savagery():
 	savagery4 = game.player1.give("EX1_578")
 	savagery4.play(statue)
 	assert statue.damage == 1 + 1
+
+
+def test_satyr_overseer():
+	game = prepare_game(CardClass.DEMONHUNTER, CardClass.DEMONHUNTER)
+	game.current_player.give("BT_352").play()
+	assert len(game.current_player.field) == 1
+	game.current_player.hero.power.use()
+	game.current_player.hero.attack(game.current_player.opponent.hero)
+	assert len(game.current_player.field) == 2
+	assert game.current_player.field[-1].id == "BT_352t"
 
 
 def test_sea_giant():
