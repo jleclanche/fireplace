@@ -714,6 +714,7 @@ def test_cold_blood():
 	cb2.play(target=wisp)
 	assert wisp.atk == 1 + 2 + 4
 
+
 def test_coordinated_strike():
 	game = prepare_game()
 	game.current_player.give("BT_036").play()
@@ -721,6 +722,7 @@ def test_coordinated_strike():
 	for i in range(3):
 		assert game.current_player.field[i].id == "BT_036t"
 		# TODO test if it has tag 'rush'
+
 
 def test_corruption():
 	game = prepare_game()
@@ -1457,11 +1459,11 @@ def test_gladiators_longbow():
 
 
 def test_glaivebound_adept():
-	game = prepare_game(CardClass.DEMONHUNTER,CardClass.DEMONHUNTER)
+	game = prepare_game(CardClass.DEMONHUNTER, CardClass.DEMONHUNTER)
 	glaivebound_adept1 = game.current_player.give("BT_495")
 	glaivebound_adept1.play()
 	# BUG here the battlecry should not be triggered
-	#glaivebound_adept.play(target=game.current_player.opponent.hero)
+	# glaivebound_adept.play(target=game.current_player.opponent.hero)
 	assert game.current_player.opponent.hero.health == 30
 	game.end_turn()
 	game.current_player.hero.power.use()
@@ -3160,9 +3162,9 @@ def test_si7_agent():
 def test_sightless_watcher():
 	game = prepare_empty_game()
 	assert len(game.current_player.deck) == 0
-	imp = game.current_player.give(IMP).shuffle_into_deck()
-	wisp = game.current_player.give(WISP).shuffle_into_deck()
-	dummy = game.current_player.give(TARGET_DUMMY).shuffle_into_deck()
+	game.current_player.give(IMP).shuffle_into_deck()
+	game.current_player.give(WISP).shuffle_into_deck()
+	game.current_player.give(TARGET_DUMMY).shuffle_into_deck()
 	# TODO how to play Choice card
 	# game.player1.give("BT_323").play(choose=wisp)
 
