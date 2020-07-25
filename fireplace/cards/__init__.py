@@ -29,7 +29,7 @@ class CardDB(dict):
 
 		scriptnames = (
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
-			"enrage", "update", "powered_up"
+			"enrage", "update", "powered_up", "outcast"
 		)
 
 		for script in scriptnames:
@@ -87,10 +87,10 @@ class CardDB(dict):
 
 		return card
 
-	def initialize(self):
+	def initialize(self, locale="enUS"):
 		log.info("Initializing card database")
 		self.initialized = True
-		db, xml = cardxml.load()
+		db, xml = cardxml.load(locale=locale)
 		for id, card in db.items():
 			self[id] = self.merge(id, card)
 

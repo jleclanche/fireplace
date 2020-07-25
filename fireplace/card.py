@@ -320,6 +320,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				target = new_target
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
+			target = None
 		self.game.play_card(self, target, index, choose)
 		return self
 

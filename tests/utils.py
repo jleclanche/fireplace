@@ -115,3 +115,7 @@ def prepare_empty_game(class1=None, class2=None, game_class=BaseTestGame):
 	_empty_mulligan(game)
 
 	return game
+
+
+def show_game(game):
+	pass
