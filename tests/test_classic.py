@@ -3862,14 +3862,3 @@ def test_glaivebound_adept():
 	assert game.player2.hero.health == 29
 	adept2.play(target=game.player2.hero)
 	assert game.player2.hero.health == 25
-
-
-def main():
-	for name, f in globals().items():
-		if name.startswith("test_") and callable(f):
-			f()
-	print("All tests ran OK")
-
-
-if __name__ == "__main__":
-	main()

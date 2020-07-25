@@ -1,7 +1,7 @@
 # https://travis-ci.org/jleclanche/fireplace
 language: python
 
-python: "3.8"
+python: "3.8.2"
 cache: pip
 
 env:
