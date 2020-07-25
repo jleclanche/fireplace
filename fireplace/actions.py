@@ -441,6 +441,11 @@ class Play(GameAction):
 		else:
 			trigger_battlecry = True
 
+		if card is card.controller.hand[0] or card is card.controller.hand[-1]:
+			trigger_outcast = True
+		else:
+			trigger_outcast = False
+
 		card.zone = Zone.PLAY
 
 		# NOTE: A Play is not a summon! But it sure looks like one.
@@ -456,6 +461,10 @@ class Play(GameAction):
 		if not card.cant_play:
 			if trigger_battlecry:
 				source.game.queue_actions(card, [Battlecry(battlecry_card, card.target)])
+			if trigger_outcast:
+				actions = card.get_actions("outcast")
+				if actions:
+					source.game.trigger(card, actions, event_args=None)
 
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.
@@ -1488,3 +1497,11 @@ class KazakusHelper(GameAction):
 			if len(self.choosed_cards) == 3:
 				self.done()
 				self.player.choice = self.next_choice
+
+
+class Upgrade(TargetedAction):
+	"""
+	Upgrade cards
+	"""
+	def do(self, source, target):
+		target.upgrade_counter += 1

@@ -3881,6 +3881,39 @@ def test_ysera_awakens():
 	assert ysera.health == 12
 
 
+def test_sightless_watcher():
+	game = prepare_game()
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	old_deck_size = len(game.player1.deck)
+	watcher = game.player1.give("BT_323")
+	watcher.play()
+	assert game.player1.choice
+	assert len(game.player1.choice.cards) == 3
+	pick = game.player1.choice.cards[0]
+	game.player1.choice.choose(pick)
+	assert len(game.player1.hand) == 0
+	assert game.player1.deck[-1] == pick
+	assert old_deck_size == len(game.player1.deck)
+
+
+def test_glaivebound_adept():
+	game = prepare_game()
+	adept1 = game.player1.give("BT_495")
+	assert not adept1.requires_target()
+	adept1.play()
+	game.player1.give(LIGHTS_JUSTICE).play()
+
+	game.player1.hero.attack(target=game.player2.hero)
+	game.player1.give(INNERVATE).play()
+
+	adept2 = game.player1.give("BT_495")
+	assert adept2.requires_target()
+	assert game.player2.hero.health == 29
+	adept2.play(target=game.player2.hero)
+	assert game.player2.hero.health == 25
+
+
 def main():
 	for name, f in globals().items():
 		if name.startswith("test_") and callable(f):

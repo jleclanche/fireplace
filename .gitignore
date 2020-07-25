@@ -5,3 +5,6 @@ fireplace.egg-info
 *.pyc
 .tox
 .vscode
+.env
+.coverage
+.idea

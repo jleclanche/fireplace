@@ -132,6 +132,7 @@ MANA = AttrValue(GameTag.RESOURCES)
 USED_MANA = AttrValue(GameTag.RESOURCES_USED)
 CURRENT_MANA = AttrValue("mana")
 NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
+UPGRADE_COUNTER = AttrValue("upgrade_counter")
 
 
 class ComparisonSelector(Selector):
@@ -259,6 +260,7 @@ def ID(id):
 
 
 TARGET = FuncSelector(lambda entities, source: [source.target])
+ATTACK_TARGET = FuncSelector(lambda entities, source: [source.attack_target])
 
 
 class BoardPositionSelector(Selector):
