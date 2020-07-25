@@ -36,7 +36,7 @@ class BT_036:
 
 class BT_352:
 	"""Satyr Overseer"""
-	event = Attack(FRIENDLY_HERO).after(
+	events = Attack(FRIENDLY_HERO).after(
 		Summon(CONTROLLER, "BT_352t")
 	)
 
