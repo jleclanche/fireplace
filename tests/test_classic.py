@@ -22,40 +22,50 @@ def test_acolyte_of_pain():
 	assert len(game.player1.hand) == 0
 	game.player1.give(MOONFIRE).play(target=acolyte)
 	assert len(game.player1.hand) == 1
+	game.player1.give("EX1_012").play()
+	# extra damages can trigger only once
 	game.player1.give(MOONFIRE).play(target=acolyte)
 	assert len(game.player1.hand) == 2
-	game.player1.give(MOONFIRE).play(target=acolyte)
-	assert len(game.player1.hand) == 3
 	assert acolyte.dead
 
 
 def test_alarmobot():
 	game = prepare_game()
-	game.player1.discard_hand()
-	bot = game.player1.give("EX1_006")
+	game.current_player.discard_hand()
+	bot = game.current_player.give("EX1_006")
 	bot.play()
-	wisp = game.player1.give(WISP)
+	assert bot.health == 3
+	wisp = game.current_player.give(WISP)
+	game.current_player.give("EX1_014t").play(target=bot)
+	mistcaller = game.current_player.give("AT_054")
+	mistcaller.play()
+	mistcaller.destroy()
+	assert bot.health == 4
+	assert wisp.health == 2
 	for i in range(9):
-		game.player1.give(MOONFIRE)
-	assert len(game.player1.hand) == 10
+		game.current_player.give(MOONFIRE)
+	assert len(game.current_player.hand) == 10
 	assert bot.zone == Zone.PLAY
 	assert wisp.zone == Zone.HAND
-	game.end_turn()
-	game.end_turn()
-	assert bot in game.player1.hand
-	assert wisp in game.player1.field
-	assert len(game.player1.field) == 1
-	assert len(game.player1.hand) == 10
+	game.skip_turn()
+	assert bot in game.current_player.hand
+	assert wisp in game.current_player.field
+	# bot is always 3/0/3 after rebounding
+	assert bot.health == 3
+	# TODO: BUG TESTED IN REAL GAME
+	# the minion's buff in hand should remain
+	# assert wisp.health == 2
+	assert len(game.current_player.field) == 1
+	assert len(game.current_player.hand) == 10
 
 	# bot should not trigger if hand has no minions
 	bot.play()
-	game.player1.give(MOONFIRE)
-	assert len(game.player1.hand) == 10
-	game.end_turn()
-	game.end_turn()
-	assert len(game.player1.hand) == 10
+	game.current_player.give(MOONFIRE)
+	assert len(game.current_player.hand) == 10
+	game.skip_turn()
+	assert len(game.current_player.hand) == 10
 	assert bot.zone == Zone.PLAY
-	assert len(game.player1.field) == 2
+	assert len(game.current_player.field) == 2
 
 
 def test_alexstrasza():
@@ -67,13 +77,13 @@ def test_alexstrasza():
 	assert game.player1.hero.health == 15
 	assert game.player1.hero.max_health == 30
 	assert game.player2.hero.health == 30
-	game.end_turn()
-	game.end_turn()
+	game.skip_turn()
 
 	alex2 = game.player1.give("EX1_561")
 	assert game.player2.hero.health == 30
 	alex2.play(target=game.player2.hero)
 	assert game.player2.hero.health == 15
+	game.end_turn()
 
 
 def test_alexstrasza_armor():
@@ -1022,7 +1032,7 @@ def test_dire_wolf_alpha():
 
 
 def test_divine_favor():
-	game = prepare_game()
+	game = prepare_empty_game()
 	game.player1.discard_hand()
 	for i in range(5):
 		game.player1.give(WISP)
@@ -1032,9 +1042,17 @@ def test_divine_favor():
 	game.player2.discard_hand()
 	game.player2.give(WISP)
 	assert len(game.player2.hand) == 1
+	for i in range(7):
+		game.player2.give(WISP).shuffle_into_deck()
 	favor = game.player2.give("EX1_349")
 	favor.play()
 	assert len(game.player2.hand) == len(game.player1.hand)
+	assert len(game.player2.deck) == 3
+	game.player2.discard_hand()
+	game.player2.give("EX1_349").play()
+	# TODO BUG report “can't fatigue and does not take damage”
+	# TODO drawuntil stops after first fatigue
+	# assert game.player2.hero.health == 29
 
 
 def test_divine_spirit():
@@ -3024,6 +3042,15 @@ def test_shadowform():
 	assert not game.player1.hero.power.is_usable()
 
 
+def test_shadowhoof_slayer():
+	game = prepare_game()
+	assert not game.current_player.hero.can_attack()
+	game.current_player.give("BT_142").play()
+	assert game.current_player.hero.power.is_usable()
+	assert game.current_player.hero.atk == 1
+	assert game.current_player.hero.can_attack()
+
+
 def test_shadowstep():
 	game = prepare_game()
 	shadowstep = game.player1.give("EX1_144")
@@ -3761,9 +3788,6 @@ def test_wrath():
 def test_young_priestess():
 	game = prepare_game()
 	priestess = game.player1.give("EX1_004")
-	game.end_turn()
-	game.end_turn()
-
 	priestess.play()
 	assert priestess.health == 1
 	game.end_turn()

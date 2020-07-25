@@ -59,7 +59,7 @@ class BT_487:
 
 class BT_481:
 	"""Nethrandamus"""
-	events = 
+	events =
 	play = Summon(CONTROLLER, RandomMinion(cost=min(10, ATK(SELF))))
 
 
