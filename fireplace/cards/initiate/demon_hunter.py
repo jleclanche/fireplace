@@ -57,10 +57,10 @@ class BT_487:
 	)
 
 
-class BT_481:
-	"""Nethrandamus"""
-	events =
-	play = Summon(CONTROLLER, RandomMinion(cost=min(10, ATK(SELF))))
+# class BT_481:
+# 	"""Nethrandamus"""
+# 	events =
+# 	play = Summon(CONTROLLER, RandomMinion(cost=min(10, ATK(SELF))))
 
 
 ##
@@ -95,6 +95,7 @@ class BT_490:
 
 class BT_801:
 	"""Eye Beam"""
+	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 3)
 	update = Refresh(OUTERMOST_HAND + SELF, {GameTag.COST: SET(1)})
 
