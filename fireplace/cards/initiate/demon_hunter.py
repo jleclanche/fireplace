@@ -57,10 +57,11 @@ class BT_487:
 	)
 
 
-# class BT_481:
-# 	"""Nethrandamus"""
-# 	events =
-# 	play = Summon(CONTROLLER, RandomMinion(cost=min(10, ATK(SELF))))
+class BT_481:
+	"""Nethrandamus"""
+	class Hand:
+		events = Death(FRIENDLY + MINION).on(Upgrade(SELF))
+	play = Summon(CONTROLLER, RandomMinion(cost=min(10, UPGRADE_COUNTER(SELF)))) * 2
 
 
 ##
@@ -106,7 +107,7 @@ class BT_753:
 
 
 class BT_753e:
-	events = OWN_TURN_BEGIN.on(ManaThisTurn(OWNER, -2), Destroy(SELF))
+	events = TURN_BEGIN.on(ManaThisTurn(OWNER, -2), Destroy(SELF))
 
 
 class BT_354:
@@ -146,4 +147,4 @@ class BT_922:
 
 class BT_271:
 	"""Flamereaper"""
-	events = Attack(FRIENDLY_HERO).on(Hit(TARGET_ADJACENT, ATK(FRIENDLY_HERO)))
+	events = Attack(FRIENDLY_HERO).on(Hit(ADJACENT(ATTACK_TARGET), ATK(SELF), source=FRIENDLY_HERO))

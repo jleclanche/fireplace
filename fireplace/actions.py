@@ -1497,3 +1497,11 @@ class KazakusHelper(GameAction):
 			if len(self.choosed_cards) == 3:
 				self.done()
 				self.player.choice = self.next_choice
+
+
+class Upgrade(TargetedAction):
+	"""
+	Upgrade cards
+	"""
+	def do(self, source, target):
+		target.upgrade_counter += 1

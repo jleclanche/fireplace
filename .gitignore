@@ -7,3 +7,5 @@ fireplace.egg-info
 .vscode
 .env
 .coverage
+.idea
+venv

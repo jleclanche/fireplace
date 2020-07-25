@@ -150,6 +150,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.rarity = Rarity.INVALID
 		self.choose_cards = CardList()
 		self.morphed = None
+		self.upgrade_counter = 0
 		super().__init__(data)
 
 	@property
