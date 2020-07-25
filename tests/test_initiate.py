@@ -33,3 +33,14 @@ def test_flamereaper():
 	assert len(game.player2.field) == 3
 	game.player1.hero.attack(game.player2.field[1])
 	assert len(game.player2.field) == 0
+
+
+def test_outcast():
+	game = prepare_empty_game()
+	game.player1.give(WISP)
+	illidari_felblade1 = game.player1.give("BT_814")
+	illidari_felblade2 = game.player1.give("BT_814")
+	illidari_felblade1.play()
+	illidari_felblade2.play()
+	assert not illidari_felblade1.immune
+	assert illidari_felblade2.immune
