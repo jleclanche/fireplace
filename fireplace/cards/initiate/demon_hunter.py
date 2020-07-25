@@ -147,4 +147,5 @@ class BT_922:
 
 class BT_271:
 	"""Flamereaper"""
-	events = Attack(FRIENDLY_HERO).on(Hit(ADJACENT(ATTACK_TARGET), ATK(SELF), source=FRIENDLY_HERO))
+	events = Attack(FRIENDLY_HERO).on(
+		Hit(ADJACENT(ATTACK_TARGET), ATK(SELF), source=FRIENDLY_HERO))
