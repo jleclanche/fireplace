@@ -29,11 +29,6 @@ class BT_323:
 		PutOnTop(CONTROLLER, Choice.CARD))
 
 
-class BT_036:
-	"""Coordinated Strike"""
-	play = Summon(CONTROLLER, "BT_036t") * 3
-
-
 class BT_352:
 	"""Satyr Overseer"""
 	events = Attack(FRIENDLY_HERO).after(
@@ -49,6 +44,11 @@ class BT_495:
 
 ##
 # Spells
+
+
+class BT_036:
+	"""Coordinated Strike"""
+	play = Summon(CONTROLLER, "BT_036t") * 3
 
 
 class Prologue_ChaosStrike:
