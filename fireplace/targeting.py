@@ -22,6 +22,8 @@ def is_valid_target(self, target, requirements=None):
 		return False
 
 	if target.type == CardType.MINION:
+		if target.dormant:
+			return False
 		if target.dead:
 			return False
 		if target.stealthed and self.controller != target.controller:

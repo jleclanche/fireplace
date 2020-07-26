@@ -29,7 +29,7 @@ class CardDB(dict):
 
 		scriptnames = (
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
-			"enrage", "update", "powered_up", "outcast"
+			"enrage", "update", "powered_up", "outcast", "awaken"
 		)
 
 		for script in scriptnames:
@@ -84,6 +84,11 @@ class CardDB(dict):
 
 		if hasattr(cardscript, "entourage"):
 			card.entourage = cardscript.entourage
+
+		if hasattr(cardscript, "dormant"):
+			card.dormant = cardscript.dormant
+		else:
+			card.dormant = 0
 
 		return card
 

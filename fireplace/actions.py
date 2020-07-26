@@ -459,12 +459,10 @@ class Play(GameAction):
 
 		# "Can't Play" (aka Counter) means triggers don't happen either
 		if not card.cant_play:
-			if trigger_battlecry:
+			if trigger_outcast and card.get_actions("outcast"):
+				source.game.trigger(card, card.get_actions("outcast"), event_args=None)
+			elif trigger_battlecry:
 				source.game.queue_actions(card, [Battlecry(battlecry_card, card.target)])
-			if trigger_outcast:
-				actions = card.get_actions("outcast")
-				if actions:
-					source.game.trigger(card, actions, event_args=None)
 
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.
@@ -1503,5 +1501,22 @@ class Upgrade(TargetedAction):
 	"""
 	Upgrade cards
 	"""
+	TARGET = ActionArg
+	AMOUNT = IntArg()
+
 	def do(self, source, target):
+		log.info("Upgrade %s counter to %s", target, target.upgrade_counter + 1)
 		target.upgrade_counter += 1
+		self.broadcast(source, EventListener.AFTER, target, target.upgrade_counter)
+
+
+class Awaken(TargetedAction):
+	"""
+	Awaken a dormant minion
+	"""
+	TARGET = ActionArg()
+
+	def do(self, source, target):
+		log.info("%s is awaken", target)
+		if target.get_actions("awaken"):
+			source.game.trigger(target, target.get_actions("awaken"), event_args=None)

@@ -91,7 +91,7 @@ class BT_490:
 	"""Consume Magic"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_ENEMY_TARGET: 0}
 	play = Silence(TARGET)
-	outcast = Draw(CONTROLLER)
+	outcast = Silence(TARGET), Draw(CONTROLLER)
 
 
 class BT_801:
