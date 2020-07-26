@@ -478,6 +478,7 @@ class Character(LiveEntity):
 	rush = boolean_property("rush")
 	taunt = boolean_property("taunt")
 	poisonous = boolean_property("poisonous")
+	ignore_taunt = boolean_property("ignore_taunt")
 
 	def __init__(self, data):
 		self.frozen = False
@@ -510,7 +511,10 @@ class Character(LiveEntity):
 		if self.rush and not self.turns_in_play:
 			targets = self.controller.opponent.field
 
-		taunts = targets.filter(taunt=True).filter(attackable=True)
+		taunts = []
+		if not self.ignore_taunt:
+			taunts = targets.filter(taunt=True).filter(attackable=True)
+
 		return (taunts or targets).filter(attackable=True)
 
 	def can_attack(self, target=None):
@@ -656,6 +660,7 @@ class Minion(Character):
 		self.enrage = False
 		self.silenced = False
 		self._summon_index = None
+		self.dormant = data.dormant
 		super().__init__(data)
 
 	@property
@@ -678,6 +683,8 @@ class Minion(Character):
 	@property
 	def attackable(self):
 		if self.stealthed:
+			return False
+		if self.dormant:
 			return False
 		return super().attackable
 
@@ -750,6 +757,12 @@ class Minion(Character):
 
 	def silence(self):
 		return self.game.cheat_action(self, [actions.Silence(self)])
+
+	def can_attack(self, target=None):
+		if self.dormant:
+			return False
+
+		return super().can_attack(target)
 
 
 class Spell(PlayableCard):
@@ -914,6 +927,7 @@ class HeroPower(PlayableCard):
 	def __init__(self, data):
 		super().__init__(data)
 		self.activations_this_turn = 0
+		self.old_power = None
 
 	@property
 	def exhausted(self):
