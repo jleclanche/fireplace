@@ -19,12 +19,16 @@ def _eval_card(source, card):
 	- A Card instance (nothing is done)
 	- The string ID of the card (the card is created)
 	- A LazyValue (the card is dynamically created)
+	- A Selector (take entity lists and returns a sub-list)
 	"""
 	if isinstance(card, LazyValue):
 		card = card.evaluate(source)
 
 	if isinstance(card, Action):
 		card = card.trigger(source)[0]
+
+	if isinstance(card, Selector):
+		card = card.eval(source.game, source)
 
 	if not isinstance(card, list):
 		cards = [card]
@@ -189,8 +193,9 @@ class Attack(GameAction):
 	DEFENDER = ActionArg()
 
 	def get_args(self, source):
-		ret = super().get_args(source)
-		return ret
+		attacker = _eval_card(source, self._args[0])[0]
+		defender = _eval_card(source, self._args[1])[0]
+		return attacker, defender
 
 	def do(self, source, attacker, defender):
 		log.info("%r attacks %r", attacker, defender)

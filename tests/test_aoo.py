@@ -82,3 +82,20 @@ def test_imprisoned_antaen():
 	deathwing2 = game.player1.give("NEW1_030")
 	deathwing2.play()
 	assert game.player1.field == [deathwing2]
+
+
+def test_imprisoned_felmaw():
+	game = prepare_game()
+	felmaw = game.player1.give("BT_211")
+	felmaw.play()
+	game.skip_turn()
+	game.skip_turn()
+	assert felmaw.num_attacks == 1
+	assert game.player2.hero.health == 25
+
+
+def test_nagrand_slam():
+	game = prepare_game()
+	game.player1.give("BT_163").play()
+	assert game.player2.hero.health == 18
+	assert len(game.player1.field) == 4
