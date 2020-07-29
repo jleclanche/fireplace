@@ -1,5 +1,4 @@
 from fireplace.exceptions import GameOver
-
 from utils import *
 
 
