@@ -134,6 +134,7 @@ CURRENT_MANA = AttrValue("mana")
 NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
 UPGRADE_COUNTER = AttrValue("upgrade_counter")
 NUM_ATTACKS = AttrValue("num_attacks")
+MAX_HAND_SIZE = AttrValue("max_hand_size")
 
 
 class ComparisonSelector(Selector):

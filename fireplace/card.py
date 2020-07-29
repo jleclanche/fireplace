@@ -876,8 +876,6 @@ class Enchantment(BaseCard):
 		if hasattr(self.data.scripts, "max_health"):
 			self.log("%r removes all damage from %r", self, target)
 			target.damage = 0
-		if hasattr(self.data.scripts.Hand, "events") and hasattr(target.data, "scripts"):
-			target.data.scripts.Hand.events += self.data.scripts.Hand.events
 		self.zone = Zone.PLAY
 
 	def remove(self):

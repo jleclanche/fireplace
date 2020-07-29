@@ -1,3 +1,5 @@
+from fireplace.exceptions import GameOver
+
 from utils import *
 
 
@@ -99,3 +101,22 @@ def test_nagrand_slam():
 	game.player1.give("BT_163").play()
 	assert game.player2.hero.health == 18
 	assert len(game.player1.field) == 4
+
+
+def test_evocation():
+	game = prepare_empty_game()
+	assert len(game.player1.hand) == 0
+	evocation = game.player1.give("BT_006")
+	evocation.play()
+	assert len(game.player1.hand) == game.player1.max_hand_size
+	game.end_turn()
+	assert len(game.player1.hand) == 0
+
+
+def test_solarian_prime():
+	for i in range(3):
+		game = prepare_game()
+		try:
+			game.player1.give("BT_028t").play()
+		except GameOver:
+			print("Game completed normally.")
