@@ -66,6 +66,9 @@ class BT_025e:
 
 class BT_292:
 	"""Hand of A'dal"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Buff(TARGET, "BT_292e"), Draw(CONTROLLER)
 
 
