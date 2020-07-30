@@ -454,6 +454,10 @@ class Play(GameAction):
 
 		card.zone = Zone.PLAY
 
+		# Remember cast on friendly characters
+		if target and target.controller == source:
+			card.cast_on_friendly_characters = True
+
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(player, card)

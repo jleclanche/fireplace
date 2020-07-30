@@ -151,6 +151,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.choose_cards = CardList()
 		self.morphed = None
 		self.upgrade_counter = 0
+		self.cast_on_friendly_characters = False
 		super().__init__(data)
 
 	@property

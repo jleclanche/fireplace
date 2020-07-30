@@ -222,6 +222,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.ZONE: "zone",
 	GameTag.ZONE_POSITION: "zone_position",
 	enums.ALWAYS_WINS_BRAWLS: "always_wins_brawls",
+	enums.CAST_ON_FRIENDLY_CHARACTERS: "cast_on_friendly_characters",
 	enums.EXTRA_BATTLECRIES: "extra_battlecries",
 	enums.KILLED_THIS_TURN: "killed_this_turn",
 	enums.DISCARDED: "discarded",
