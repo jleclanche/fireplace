@@ -454,6 +454,10 @@ class Play(GameAction):
 
 		card.zone = Zone.PLAY
 
+		# Remember cast on friendly characters
+		if target and target.controller == source:
+			card.cast_on_friendly_characters = True
+
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(player, card)
@@ -1557,5 +1561,6 @@ class Awaken(TargetedAction):
 
 	def do(self, source, target):
 		log.info("%s is awaken", target)
+		target.turns_in_play = 0
 		if target.get_actions("awaken"):
 			source.game.trigger(target, target.get_actions("awaken"), event_args=None)

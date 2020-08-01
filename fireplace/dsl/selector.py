@@ -261,6 +261,10 @@ def ID(id):
 	return FilterSelector(lambda entity, source: getattr(entity, "id", None) == id)
 
 
+def IDS(ids):
+	return FilterSelector(lambda entity, source: getattr(entity, "id", None) in ids)
+
+
 TARGET = FuncSelector(lambda entities, source: [source.target])
 ATTACK_TARGET = FuncSelector(lambda entities, source: [source.attack_target])
 
@@ -408,6 +412,7 @@ DORMANT = EnumSelector(GameTag.DORMANT)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
+CAST_ON_FRIENDLY_CHARACTERS = AttrValue(enums.CAST_ON_FRIENDLY_CHARACTERS) == True  # noqa
 
 ROGUE = EnumSelector(CardClass.ROGUE)
 WARLOCK = EnumSelector(CardClass.WARLOCK)

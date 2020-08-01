@@ -73,6 +73,10 @@ class BT_128:
 
 class BT_129:
 	"""Germination"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Summon(ExactCopy(TARGET)).then(Buff(Summon.CARD, "BT_129e"))
 
 

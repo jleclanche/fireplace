@@ -55,6 +55,12 @@ POTIONS = [
 	"CFM_611",  # Bloodfury Potion
 ]
 
+LIBRAMS = IDS([
+	"BT_011",  # Libram of Justice
+	"BT_024",  # Libram of Hope
+	"BT_025",  # Libram of Wisdom
+])
+
 RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
 RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
 RandomPotion = lambda *args: RandomID(*POTIONS)
