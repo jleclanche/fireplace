@@ -1561,5 +1561,6 @@ class Awaken(TargetedAction):
 
 	def do(self, source, target):
 		log.info("%s is awaken", target)
+		target.turns_in_play = 0
 		if target.get_actions("awaken"):
 			source.game.trigger(target, target.get_actions("awaken"), event_args=None)

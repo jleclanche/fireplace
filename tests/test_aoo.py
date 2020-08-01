@@ -78,7 +78,7 @@ def test_imprisoned_antaen():
 	game.end_turn()
 
 	assert not antaen.dormant
-	assert antaen.can_attack()
+	assert antaen.asleep
 	assert deathwing.health + game.player2.hero.health == 30 + 12 - 10
 	deathwing2 = game.player1.give("NEW1_030")
 	deathwing2.play()
@@ -119,3 +119,17 @@ def test_solarian_prime():
 			game.player1.give("BT_028t").play()
 		except GameOver:
 			print("Game completed normally.")
+
+
+def test_librams():
+	game = prepare_game()
+	libram = game.player1.give("BT_024")
+	assert libram.cost == 9
+	game.player1.give("BT_020").play()
+	assert libram.cost == 8
+	game.player1.give("BT_026").play()
+	assert libram.cost == 6
+	game.skip_turn()
+	libram2 = game.player1.give("BT_024")
+	assert libram.cost == 6
+	assert libram2.cost == 6
