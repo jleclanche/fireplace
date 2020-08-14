@@ -51,7 +51,7 @@ class OG_282:
 	def play(self):
 		atk = self.target.atk
 		health = self.target.health
-		yield Destory(TARGET)
+		yield Destroy(TARGET)
 		yield Buff(CTHUN, "OG_281e", atk=atk, max_health=health)
 
 
