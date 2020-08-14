@@ -5,7 +5,7 @@ from itertools import chain
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
-from .actions import Attack, BeginTurn, Death, EndTurn, EventListener, Play, Awaken
+from .actions import Attack, Awaken, BeginTurn, Death, EndTurn, EventListener, Play
 from .card import THE_COIN
 from .entity import Entity
 from .exceptions import GameOver
