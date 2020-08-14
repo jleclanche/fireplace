@@ -899,6 +899,8 @@ class DrawUntil(TargetedAction):
 	AMOUNT = IntArg()
 
 	def do(self, source, target, amount):
+		if target not in target.game.players:
+			raise InvalidAction("%r is not a player" % target)
 		difference = max(0, amount - len(target.hand))
 		if difference > 0:
 			return source.game.queue_actions(source, [Draw(target) * difference])

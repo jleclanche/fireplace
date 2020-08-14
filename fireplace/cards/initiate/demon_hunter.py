@@ -89,7 +89,10 @@ BT_175e = buff(atk=2)
 
 class BT_490:
 	"""Consume Magic"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_ENEMY_TARGET: 0}
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Silence(TARGET)
 	outcast = Silence(TARGET), Draw(CONTROLLER)
 
