@@ -125,10 +125,15 @@ class CardDB(dict):
 			if value is not None:
 				# What? this doesn't work?
 				# cards = __builtins__["filter"](lambda c: getattr(c, attr) == value, cards)
-				cards = [
-					card for card in cards if (isinstance(value, list) and getattr(card, attr) in value) or
-					getattr(card, attr) == value
-				]
+
+				if attr == "card_class":
+					cards = [card for card in cards if value in card.classes]
+				else:
+					cards = [
+						card for card in cards if (
+							isinstance(value, list) and getattr(card, attr) in value) or
+						getattr(card, attr) == value
+					]
 
 		return [card.id for card in cards]
 

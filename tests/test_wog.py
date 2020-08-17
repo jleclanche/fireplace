@@ -120,7 +120,7 @@ def test_cabalists_tome():
 	game.player1.give("OG_090").play()
 	for card in game.player1.hand:
 		assert card.type == CardType.SPELL
-		assert card.card_class == CardClass.MAGE
+		assert CardClass.MAGE in card.classes
 	assert len(game.player1.hand) == 6
 
 

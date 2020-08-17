@@ -77,7 +77,7 @@ class BT_129:
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_TARGET_TO_PLAY: 0}
-	play = Summon(ExactCopy(TARGET)).then(Buff(Summon.CARD, "BT_129e"))
+	play = Summon(CONTROLLER, ExactCopy(TARGET)).then(Buff(Summon.CARD, "BT_129e"))
 
 
 BT_129e = buff(taunt=True)
