@@ -301,8 +301,8 @@ def test_discover():
 
 	for card in game.player1.choice.cards:
 		assert (
-			fireplace.cards.db[card].card_class == CardClass.NEUTRAL or
-			fireplace.cards.db[card].card_class == CardClass.PRIEST
+			CardClass.NEUTRAL in fireplace.cards.db[card].classes or
+			CardClass.PRIEST in fireplace.cards.db[card].classes
 		)
 		assert fireplace.cards.db[card].deathrattle
 

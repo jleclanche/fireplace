@@ -332,7 +332,7 @@ def test_flame_lance():
 	friendly_minion = game.player1.give(WISP).play()
 
 	# basic information of the card
-	assert spell.card_class == CardClass.MAGE
+	assert CardClass.MAGE in spell.classes
 	assert spell.cost == 5
 	assert spell.type == CardType.SPELL
 
@@ -429,7 +429,7 @@ def test_grand_crusader():
 	crusader.play()
 	assert len(game.player1.hand) == 1
 	card = game.player1.hand[0]
-	assert card.card_class == CardClass.PALADIN
+	assert CardClass.PALADIN in card.classes
 	assert card.data.collectible
 	assert card.type != CardType.HERO
 
@@ -504,7 +504,7 @@ def test_lock_and_load():
 	game.player1.give(THE_COIN).play()
 	assert len(game.player1.hand) == 1
 	card = game.player1.hand[0]
-	assert card.card_class == CardClass.HUNTER
+	assert CardClass.HUNTER in card.classes
 	assert card.data.collectible
 	assert card.type != CardType.HERO
 

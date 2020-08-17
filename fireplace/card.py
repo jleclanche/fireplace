@@ -1,7 +1,8 @@
 import random
 from itertools import chain
 
-from hearthstone.enums import CardType, PlayReq, PlayState, Race, Rarity, Step, Zone
+from hearthstone.enums import CardType, MultiClassGroup, PlayReq, PlayState, \
+	Race, Rarity, Step, Zone
 
 from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
@@ -70,6 +71,13 @@ class BaseCard(BaseEntity):
 	@property
 	def zone(self):
 		return self._zone
+
+	@property
+	def classes(self):
+		if hasattr(self, "multi_class_group"):
+			return MultiClassGroup(self.multi_class_group).card_classes
+		else:
+			return [self.card_class]
 
 	@zone.setter
 	def zone(self, value):

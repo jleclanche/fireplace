@@ -220,7 +220,7 @@ def test_swashburglar():
 
 def test_ethereal_peddler():
 	game = prepare_empty_game(CardClass.ROGUE, CardClass.PRIEST)
-	if game.current_player.hero.card_class == CardClass.ROGUE:
+	if CardClass.ROGUE in game.current_player.hero.classes:
 		game.end_turn()
 
 	game.current_player.discard_hand()

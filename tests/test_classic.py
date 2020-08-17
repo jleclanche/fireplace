@@ -3864,7 +3864,7 @@ def test_ysera():
 	assert len(game.player1.hand) == 0
 	game.end_turn()
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].card_class == CardClass.DREAM
+	assert CardClass.DREAM in game.player1.hand[0].classes
 
 
 def test_ysera_awakens():
