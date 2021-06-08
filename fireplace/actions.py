@@ -740,7 +740,7 @@ class Damage(TargetedAction):
 			if hasattr(source, "lifesteal") and source.lifesteal and source.type != CardType.WEAPON:
 				source.heal(source.controller.hero, amount)
 			self.broadcast(source, EventListener.ON, target, amount, source)
-			# poisonous can not destory hero
+			# poisonous can not destroy hero
 			if hasattr(source, "poisonous") and source.poisonous and (
 				target.type != CardType.HERO and source.type != CardType.WEAPON):
 				target.destroy()

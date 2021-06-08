@@ -414,7 +414,7 @@ def test_scaled_nightmare():
 
 
 def test_scaled_nightmare_buff_ordering():
-	# To show that fireplace doesn't have blizzard's truly bizzare bugs.
+	# To show that fireplace doesn't have blizzard's truly bizarre bugs.
 	# cf: HearthSim/hs-bugs#462
 	# "Scaled Nightmare stops doubling Attack if its Attack value is Direct Set"
 	game = prepare_game()
