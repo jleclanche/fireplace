@@ -85,7 +85,7 @@ class Attacking(Evaluator):
 class ChooseBoth(Evaluator):
 	"""
 	Evaluates to True if the selector `choose_both` is true
-	Selector must evalutae to only one player.
+	Selector must evaluate to only one player.
 	"""
 	def __init__(self, selector):
 		super().__init__()
