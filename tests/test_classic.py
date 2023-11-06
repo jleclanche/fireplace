@@ -3690,17 +3690,14 @@ def test_whirlwind():
 def test_wrath():
 	game = prepare_game()
 	yeti = game.player2.summon("CS2_182")
-	adventurer = game.player1.summon("EX1_044")
 	yeti.health == 5
-	wrath1 = game.player1.give("EX1_154")
-	wrath2 = game.player1.give("EX1_154")
-	wrath3 = game.player1.give("EX1_154")
+	wraths = [game.player1.give("EX1_154") for _ in range(3)]
 
-	wrath1.play(target=yeti, choose="EX1_154a")
+	wraths[0].play(target=yeti, choose="EX1_154a")
 	assert yeti.health == 2
 	assert len(game.player1.hand) == 6
 
-	wrath2.play(target=yeti, choose="EX1_154b")
+	wraths[1].play(target=yeti, choose="EX1_154b")
 	assert yeti.health == 1
 	assert len(game.player1.hand) == 6
 

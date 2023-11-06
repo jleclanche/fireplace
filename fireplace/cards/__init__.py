@@ -96,7 +96,7 @@ class CardDB(dict):
 		log.info("Initializing card database")
 		self.initialized = True
 		dirname = os.path.dirname(__file__)
-		filename = os.path.join(dirname, 'CardDefs.xml')
+		filename = os.path.join(dirname, "CardDefs.xml")
 		db, xml = cardxml.load(path=filename, locale=locale)
 		for id, card in db.items():
 			self[id] = self.merge(id, card)
