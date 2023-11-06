@@ -834,10 +834,10 @@ class Discover(TargetedAction):
 	CARDS = CardArg()
 
 	def get_target_args(self, source, target):
-		if target.hero.data.card_class != CardClass.NEUTRAL:
+		if target.hero.data.card_class != CardClass.INVALID:
 			# use hero class for Discover if not neutral (eg. Ragnaros)
 			discover_class = target.hero.data.card_class
-		elif source.data.card_class != CardClass.NEUTRAL:
+		elif source.data.card_class != CardClass.INVALID:
 			# use card class for neutral hero classes
 			discover_class = source.data.card_class
 		else:
@@ -845,7 +845,7 @@ class Discover(TargetedAction):
 			discover_class = random_class()
 
 		picker = self._args[1] * 3
-		picker = picker.copy_with_weighting(1, card_class=CardClass.NEUTRAL)
+		picker = picker.copy_with_weighting(1, card_class=CardClass.INVALID)
 		picker = picker.copy_with_weighting(4, card_class=discover_class)
 		return [picker.evaluate(source)]
 

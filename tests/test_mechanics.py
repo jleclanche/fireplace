@@ -301,7 +301,7 @@ def test_discover():
 
 	for card in game.player1.choice.cards:
 		assert (
-			CardClass.NEUTRAL in fireplace.cards.db[card].classes or
+			CardClass.INVALID in fireplace.cards.db[card].classes or
 			CardClass.PRIEST in fireplace.cards.db[card].classes
 		)
 		assert fireplace.cards.db[card].deathrattle
@@ -937,47 +937,3 @@ def test_weapon_sheathing():
 	game.end_turn()
 
 	assert not weapon.exhausted
-
-
-def test_rush():
-	game = prepare_game()
-	worgen1 = game.player1.give("GIL_113")
-	worgen1.play()
-	assert not worgen1.can_attack()
-	game.end_turn()
-	worgen2 = game.player2.give("GIL_113")
-	worgen2.play()
-	assert worgen2.can_attack()
-	assert worgen1 in worgen2.targets
-	assert len(worgen2.targets) == 1
-
-
-def test_lifesteal():
-	game = prepare_game(CardClass.DRUID, CardClass.DRUID)
-	queen = game.player1.give("GVG_018")
-	queen.play()
-	weapon = game.player1.give("BT_921")
-	weapon.play()
-	game.end_turn()
-	pyroblast = game.player2.give(PYROBLAST)
-	pyroblast.play(target=game.player1.hero)
-	game.end_turn()
-	assert game.player1.hero.health == 20
-	# minion attack lifesteal
-	queen.attack(game.player2.hero)
-	assert game.player1.hero.health == 21
-	# spell damage lifesteal
-	eye_beam = game.player1.give("BT_801")
-	eye_beam.play(target=queen)
-	assert game.player1.hero.health == 24
-	# weapon attack lifesteal
-	game.player1.hero.power.use()
-	game.player1.hero.attack(game.player2.hero)
-	assert game.player1.hero.atk == 3
-	assert game.player1.hero.health == 27
-	# minion defend lifesteal
-	game.end_turn()
-	stonetusk = game.player2.give("CS2_171")
-	stonetusk.play()
-	stonetusk.attack(queen)
-	assert game.player1.hero.health == 28

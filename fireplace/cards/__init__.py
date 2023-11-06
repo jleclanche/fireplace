@@ -1,7 +1,7 @@
 import os
 from pkg_resources import resource_filename
 from hearthstone import cardxml
-from hearthstone.enums import CardType
+from hearthstone.enums import CardClass, CardType
 from ..logging import log
 from ..utils import get_script_definition
 
@@ -95,7 +95,9 @@ class CardDB(dict):
 	def initialize(self, locale="enUS"):
 		log.info("Initializing card database")
 		self.initialized = True
-		db, xml = cardxml.load(locale=locale)
+		dirname = os.path.dirname(__file__)
+		filename = os.path.join(dirname, 'CardDefs.xml')
+		db, xml = cardxml.load(path=filename, locale=locale)
 		for id, card in db.items():
 			self[id] = self.merge(id, card)
 

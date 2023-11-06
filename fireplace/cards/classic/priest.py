@@ -4,7 +4,7 @@ from ..utils import *
 ##
 # Hero Powers
 
-class HERO_09bp:
+class CS1h_001:
 	"""Lesser Heal (Anduin Wrynn)"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = Heal(TARGET, 2)

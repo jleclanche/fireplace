@@ -157,15 +157,6 @@ def test_ancient_of_war():
 	assert ancient_of_war2.health == 5
 	game.end_turn()
 
-	game.player1.summon("OG_044")
-	ancient_of_war3 = game.current_player.give("EX1_178")
-	with pytest.raises(InvalidAction):
-		ancient_of_war3.play(choose="EX1_178b")
-	ancient_of_war3.play()
-	assert ancient_of_war3.taunt
-	assert ancient_of_war3.atk == 5 + 5
-	assert ancient_of_war3.health == 5 + 5
-
 
 def test_ancestral_healing():
 	game = prepare_empty_game()
@@ -715,15 +706,6 @@ def test_cold_blood():
 	assert wisp.atk == 1 + 2 + 4
 
 
-def test_coordinated_strike():
-	game = prepare_game()
-	game.current_player.give("BT_036").play()
-	assert len(game.current_player.field) == 3
-	for i in range(3):
-		assert game.current_player.field[i].id == "BT_036t"
-		# TODO test if it has tag 'rush'
-
-
 def test_corruption():
 	game = prepare_game()
 	game.end_turn()
@@ -1186,18 +1168,6 @@ def test_druid_of_the_claw():
 	assert not claw_in_field2.charge
 	game.end_turn()
 
-	game.current_player.summon(FANDRAL_STAGHELM)
-	claw3 = game.current_player.give("EX1_165")
-	with pytest.raises(InvalidAction):
-		claw3.play(choose="EX1_165a")
-	claw3.play()
-	assert len(game.current_player.field) == 2
-	claw_in_field3 = game.current_player.field[1]
-	assert claw_in_field3.id == "OG_044a"
-	assert claw_in_field3.atk == 4
-	assert claw_in_field3.health == 6
-	assert claw_in_field3.taunt and claw_in_field3.charge
-
 
 def test_earth_shock():
 	game = prepare_game()
@@ -1456,21 +1426,6 @@ def test_gladiators_longbow():
 
 	statue.attack(game.player2.hero)
 	assert game.player2.hero.health == 30 - 1 - 10
-
-
-def test_glaivebound_adept():
-	game = prepare_game(CardClass.DEMONHUNTER, CardClass.DEMONHUNTER)
-	glaivebound_adept1 = game.current_player.give("BT_495")
-	glaivebound_adept1.play()
-	# BUG here the battlecry should not be triggered
-	# glaivebound_adept.play(target=game.current_player.opponent.hero)
-	assert game.current_player.opponent.hero.health == 30
-	game.end_turn()
-	game.current_player.hero.power.use()
-	game.current_player.hero.attack(game.current_player.opponent.hero)
-	glaivebound_adept2 = game.current_player.give("BT_495")
-	glaivebound_adept2.play(target=glaivebound_adept1)
-	assert glaivebound_adept1.dead
 
 
 def test_gorehowl():
@@ -1859,19 +1814,6 @@ def test_keeper_of_the_grove():
 	keeper1.play(target=yeti, choose="EX1_166a")
 	assert yeti.health == 3
 	assert adventurer1.health == adventurer1.atk == 3
-	adventurer2 = game.player1.summon("EX1_044")
-
-	keeper2 = game.player1.give("EX1_166")
-	keeper2.play(target=adventurer1, choose="EX1_166b")
-
-	assert adventurer1.atk == adventurer1.health == 2
-	game.player1.summon("OG_044")
-	game.end_turn()
-	game.end_turn()
-	keeper3 = game.player1.give("EX1_166")
-	keeper3.play(target=adventurer2)
-	# TODO skip the silence test of being 3/3/1
-	assert adventurer2.health == adventurer2.atk == 2
 
 
 def test_kill_command():
@@ -2094,18 +2036,6 @@ def test_mark_of_nature():
 	assert wisp2.atk == 1
 	assert wisp2.health == 1 + 4
 	assert wisp2.taunt
-
-	game.current_player.summon("OG_044")
-	wisp3 = game.current_player.opponent.summon(WISP)
-	mark3 = game.current_player.give("EX1_155")
-	# player cannot choose with staghelm on field
-	with pytest.raises(InvalidAction):
-		mark3.play(target=wisp3, choose="EX1_155b")
-
-	mark3.play(target=wisp3)
-	assert wisp3.atk == 1 + 4
-	assert wisp3.health == 1 + 4
-	assert wisp3.taunt
 
 
 def test_mana_addict():
@@ -2541,24 +2471,6 @@ def test_power_of_the_wild():
 	assert apprentice.id == "NEW1_026t"
 	assert apprentice.atk == 1 + 1 and apprentice.health == 1 + 1
 
-	game.player1.summon("OG_044")
-	game.player1.give("EX1_160").play()
-
-	apprentice2 = game.player1.field[2]
-	token2 = game.player1.field[5]
-	assert apprentice2.id == "NEW1_026t" and token2.id == "EX1_160t"
-	assert teacher.atk == 5 and teacher.health == 7
-	assert apprentice.atk == apprentice.health == 3
-	assert apprentice2.atk == apprentice2.health == 2
-	assert token2.atk == 3 and token2.health == 2
-	game.end_turn()
-	game.end_turn()
-	wisp = game.player1.summon(WISP)
-	game.player1.give("EX1_160").play()
-	assert token2.atk == 4 and token2.health == 3
-	assert token2 == game.player1.field[-2]
-	assert game.player1.field[-1] == wisp
-
 
 def test_power_word_shield():
 	game = prepare_game()
@@ -2616,13 +2528,6 @@ def test_preparation():
 	game.end_turn()
 	assert smite.cost == 1
 	assert footman.cost == footman2.cost == 1
-
-
-def test_prologue_chaosstrike():
-	game = prepare_game()
-	game.current_player.give("Prologue_ChaosStrike").play()
-	assert len(game.current_player.hand) == 5
-	assert game.current_player.hero.atk == 2
 
 
 def test_prophet_velen():
@@ -2839,16 +2744,6 @@ def test_savagery():
 	assert statue.damage == 1 + 1
 
 
-def test_satyr_overseer():
-	game = prepare_game(CardClass.DEMONHUNTER, CardClass.DEMONHUNTER)
-	game.current_player.give("BT_352").play()
-	assert len(game.current_player.field) == 1
-	game.current_player.hero.power.use()
-	game.current_player.hero.attack(game.current_player.opponent.hero)
-	assert len(game.current_player.field) == 2
-	assert game.current_player.field[-1].id == "BT_352t"
-
-
 def test_sea_giant():
 	game = prepare_game()
 	seagiant = game.current_player.give("EX1_586")
@@ -3048,7 +2943,7 @@ def test_shadowform():
 	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	# Hero Power should reset
 	shadowform1 = game.player1.give("EX1_625")
-	assert game.player1.hero.power.id == "HERO_09bp"
+	assert game.player1.hero.power.id == "CS1h_001"
 	assert game.player1.hero.power.is_usable()
 	game.player1.hero.power.use(target=game.player1.hero)
 	assert not game.player1.hero.power.is_usable()
@@ -3080,15 +2975,6 @@ def test_shadowform():
 	assert game.player1.shadowform
 	assert game.player1.hero.power.id == "EX1_625t2"
 	assert not game.player1.hero.power.is_usable()
-
-
-def test_shadowhoof_slayer():
-	game = prepare_game()
-	assert not game.current_player.hero.can_attack()
-	game.current_player.give("BT_142").play()
-	assert game.current_player.hero.power.is_usable()
-	assert game.current_player.hero.atk == 1
-	assert game.current_player.hero.can_attack()
 
 
 def test_shadowstep():
@@ -3732,14 +3618,12 @@ def test_wild_growth():
 	game = prepare_game(game_class=Game)
 	game.end_turn()
 	game.end_turn()
-	game.end_turn()
-	game.end_turn()
-	assert game.player1.max_mana == 3
+	assert game.player1.max_mana == 2
 	wildgrowth1 = game.player1.give("CS2_013")
 	wildgrowth1.play()
 	assert game.player1.mana == 0
-	assert game.player1.used_mana == 3 + 1
-	assert game.player1.max_mana == 3 + 1
+	assert game.player1.used_mana == 2 + 1
+	assert game.player1.max_mana == 2 + 1
 	for i in range(7):
 		game.end_turn()
 		game.end_turn()
@@ -3819,20 +3703,6 @@ def test_wrath():
 	wrath2.play(target=yeti, choose="EX1_154b")
 	assert yeti.health == 1
 	assert len(game.player1.hand) == 6
-
-	game.player1.summon("OG_044")
-	giant = game.player1.summon("EX1_105")
-	# a minion with spell damage
-	game.player1.summon("EX1_012")
-	wrath3.play(target=giant)
-	assert giant.health == 2
-	assert len(game.player1.hand) == 6
-
-	# test if extra cards are counted as played
-	assert adventurer.health == adventurer.atk == 5
-
-	# test if extra mana are used
-	assert game.player1.mana == 10 - 2 - 2 - 2
 
 
 def test_young_priestess():

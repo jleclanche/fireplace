@@ -233,9 +233,10 @@ def test_dreadsteed():
 	assert len(game.player1.field) == 1
 	game.player1.give(MOONFIRE).play(target=dreadsteed)
 	assert dreadsteed.dead
-	assert len(game.player1.field) == 0
-	game.end_turn()
 	assert len(game.player1.field) == 1
+	new_dreadsteed = game.player1.field[0]
+	assert new_dreadsteed.id == "AT_019"
+	assert new_dreadsteed is not dreadsteed
 
 
 def test_effigy():

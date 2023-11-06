@@ -4,7 +4,7 @@ from ..utils import *
 ##
 # Hero Powers
 
-class HERO_08bp:
+class CS2_034:
 	"""Fireblast (Jaina Proudmoore)"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = Hit(TARGET, 1)
@@ -13,13 +13,13 @@ class HERO_08bp:
 class CS2_034_H1:
 	"""Fireblast (Medivh)"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-	activate = HERO_08bp.activate
+	activate = CS2_034.activate
 
 
 class CS2_034_H2:
 	"""Fireblast (Khadgar)"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-	activate = HERO_08bp.activate
+	activate = CS2_034.activate
 
 
 ##

@@ -1,1 +1,0 @@
-from .collectible import *

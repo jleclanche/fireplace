@@ -36,10 +36,9 @@ HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
 DISCOVER = lambda *args: Discover(CONTROLLER, *args)
 
 BASIC_HERO_POWERS = [
-	"HERO_01bp", "HERO_02bp", "HERO_03bp",
-	"HERO_04bp", "HERO_05bp", "HERO_06bp",
-	"HERO_07bp", "HERO_08bp", "HERO_09bp",
-	"HERO_10bp",
+	"CS2_017", "DS1h_292", "CS2_034",
+	"CS2_101", "CS1h_001", "CS2_083b",
+	"CS2_083b", "CS2_056", "CS2_102",
 ]
 
 POTIONS = [
@@ -71,7 +70,6 @@ FORGETFUL = Attack(SELF).on(
 )
 
 AT_MAX_MANA = lambda s: MANA(s) == 10
-CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
 
 
 class JoustHelper(Evaluator):

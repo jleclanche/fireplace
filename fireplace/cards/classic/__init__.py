@@ -1,3 +1,5 @@
+# 经典
+
 from .druid import *
 from .hunter import *
 from .mage import *
@@ -7,7 +9,6 @@ from .rogue import *
 from .shaman import *
 from .warlock import *
 from .warrior import *
-from .demon_hunter import *
 from .neutral_common import *
 from .neutral_rare import *
 from .neutral_epic import *

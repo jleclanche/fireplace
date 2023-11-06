@@ -4,7 +4,7 @@ from ..utils import *
 ##
 # Rogue
 
-class HERO_03bp:
+class CS2_083b:
 	"""Dagger Mastery"""
 	activate = Find(FRIENDLY_WEAPON + ID("AT_034")) | Summon(CONTROLLER, "CS2_082")
 
