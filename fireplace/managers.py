@@ -85,6 +85,14 @@ class GameManager(Manager):
 		for observer in self.observers:
 			observer.turn(player)
 
+	def game_action(self, action, source, *args):
+		for observer in self.observers:
+			observer.game_action(action, source, *args)
+
+	def targeted_action(self, action, source, target, *args):
+		for observer in self.observers:
+			observer.targeted_action(action, source, target, *args)
+
 
 class BaseObserver:
 	def action_start(self, type, source, index, target):
@@ -105,6 +113,11 @@ class BaseObserver:
 	def turn(self, player):
 		pass
 
+	def game_action(self, action, source, *args):
+		pass
+
+	def targeted_action(self, action, source, target, *args):
+		pass
 
 class PlayerManager(Manager):
 	map = {
