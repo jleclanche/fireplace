@@ -9,6 +9,7 @@ from ..utils import get_script_definition
 class CardDB(dict):
 	def __init__(self):
 		self.initialized = False
+		self.dbf = {}
 
 	@staticmethod
 	def merge(id, card, cardscript=None):
@@ -100,6 +101,7 @@ class CardDB(dict):
 		db, xml = cardxml.load(path=filename, locale=locale)
 		for id, card in db.items():
 			self[id] = self.merge(id, card)
+			self.dbf[card.dbf_id] = id
 
 		log.info("Merged %i cards", len(self))
 
