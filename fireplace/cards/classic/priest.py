@@ -10,6 +10,11 @@ class CS1h_001:
 	activate = Heal(TARGET, 2)
 
 
+class CS1h_001_H1_AT_132(CS1h_001):
+	"""Heal (Tyrande Whisperwind)"""
+	pass
+
+
 ##
 # Minions
 

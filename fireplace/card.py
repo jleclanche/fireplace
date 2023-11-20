@@ -490,11 +490,12 @@ class Character(LiveEntity):
 	taunt = boolean_property("taunt")
 	poisonous = boolean_property("poisonous")
 	ignore_taunt = boolean_property("ignore_taunt")
+	cannot_attack_heroes = boolean_property("cannot_attack_heroes")
+	unlimited_attacks = boolean_property("unlimited_attacks")
 
 	def __init__(self, data):
 		self.frozen = False
 		self.attack_target = None
-		self.cannot_attack_heroes = False
 		self.num_attacks = 0
 		self.race = Race.INVALID
 		super().__init__(data)
@@ -556,6 +557,8 @@ class Character(LiveEntity):
 
 	@property
 	def exhausted(self):
+		if self.unlimited_attacks:
+			return False
 		if self.num_attacks >= self.max_attacks:
 			return True
 		return False

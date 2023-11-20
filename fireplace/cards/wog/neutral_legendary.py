@@ -57,10 +57,7 @@ OG_300e = buff(+2, +2)
 
 class OG_134:
 	"""Yogg-Saron, Hope's End"""
-	def play(self):
-		amount = min(self.controller.times_spell_played_this_game, 30)
-		for i in range(amount):
-			yield CastSpell(RandomSpell())
+	play = CastSpell(RandomSpell()) * TIMES_SPELL_PLAYED_THIS_GAME(CONTROLLER)
 
 
 class OG_280:
