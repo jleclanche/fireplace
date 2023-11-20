@@ -83,7 +83,7 @@ def random_draft(card_class: CardClass, exclude=[]):
 		if cls.type == CardType.HERO:
 			# Heroes are collectible...
 			continue
-		if cls.card_class and cls.card_class not in [card_class, CardClass.INVALID]:
+		if cls.card_class and cls.card_class not in [card_class, CardClass.NEUTRAL]:
 			# Play with more possibilities
 			continue
 		collection.append(cls)

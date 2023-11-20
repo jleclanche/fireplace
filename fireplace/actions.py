@@ -836,10 +836,10 @@ class Discover(TargetedAction):
 	CARDS = CardArg()
 
 	def get_target_args(self, source, target):
-		if target.hero.data.card_class != CardClass.INVALID:
+		if target.hero.data.card_class != CardClass.NEUTRAL:
 			# use hero class for Discover if not neutral (eg. Ragnaros)
 			discover_class = target.hero.data.card_class
-		elif source.data.card_class != CardClass.INVALID:
+		elif source.data.card_class != CardClass.NEUTRAL:
 			# use card class for neutral hero classes
 			discover_class = source.data.card_class
 		else:
@@ -847,7 +847,7 @@ class Discover(TargetedAction):
 			discover_class = random_class()
 
 		picker = self._args[1] * 3
-		picker = picker.copy_with_weighting(1, card_class=CardClass.INVALID)
+		picker = picker.copy_with_weighting(1, card_class=CardClass.NEUTRAL)
 		picker = picker.copy_with_weighting(4, card_class=discover_class)
 		return [picker.evaluate(source)]
 
@@ -1418,13 +1418,11 @@ class SwapState(TargetedAction):
 		log.info("swap state %s and %s", target, other)
 		other = other[0]
 		buff1 = source.controller.card(buff)
-		buff1._atk = other.atk
-		buff1.data.scripts.atk = lambda self, i: self._atk
-		buff1.health = other.health
+		buff1._xatk = other.atk
+		buff1._xhealth = other.health
 		buff2 = source.controller.card(buff)
-		buff2._atk = target.atk
-		buff2.data.scripts.atk = lambda self, i: self._atk
-		buff2.health = target.health
+		buff2._xatk = target.atk
+		buff2._xhealth = target.health
 		buff1.apply(target)
 		buff2.apply(other)
 
@@ -1440,9 +1438,8 @@ class CopyState(TargetedAction):
 	def do(self, source, target, buff):
 		target = target
 		buff = source.controller.card(buff)
-		buff._atk = target.atk
-		buff.data.scripts.atk = lambda self, i: self._atk
-		buff.health = target.health
+		buff._xatk = target.atk
+		buff._xhealth = target.health
 		buff.apply(source)
 
 

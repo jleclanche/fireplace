@@ -143,7 +143,7 @@ class CrossroadsEncounterBrawl(Game):
 			player_class = getattr(cards, hero).card_class
 			pool = cards.filter(card_class=player_class, collectible=True)
 			deck = [random.choice(pool) for i in range(15)]
-			pool = cards.filter(card_class=CardClass.INVALID, collectible=True)
+			pool = cards.filter(card_class=CardClass.NEUTRAL, collectible=True)
 			deck += [random.choice(pool) for i in range(15)]
 			player.starting_deck, player.starting_hero = deck, hero
 

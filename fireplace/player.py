@@ -66,6 +66,7 @@ class Player(Entity, TargetableByAuras):
 		self.jade_golem = 1
 		self.times_spell_played_this_game = 0
 		self.times_secret_played_this_game = 0
+		self.cthun = None
 
 	def __str__(self):
 		return self.name
@@ -145,6 +146,13 @@ class Player(Entity, TargetableByAuras):
 	def minion_slots(self):
 		return max(0, self.game.MAX_MINIONS_ON_FIELD - len(self.field))
 
+	def copy_cthun_buff(self, card):
+		for buff in self.cthun.buffs:
+			buff.source.buff(card, buff.id,
+				atk=buff.atk,
+				max_health=buff.max_health,
+				taunt=getattr(buff, "taunt", False))
+
 	def card(self, id, source=None, parent=None, zone=Zone.SETASIDE):
 		card = Card(id)
 		card.controller = self
@@ -155,6 +163,9 @@ class Player(Entity, TargetableByAuras):
 			card.creator = source
 		if parent is not None:
 			card.parent_card = parent
+		# C'THUN
+		if self.cthun and id == self.cthun.id:
+			self.copy_cthun_buff(card)
 		self.game.manager.new_entity(card)
 		return card
 
@@ -163,6 +174,7 @@ class Player(Entity, TargetableByAuras):
 		for id in self.starting_deck:
 			self.card(id, zone=Zone.DECK)
 		self.shuffle_deck()
+		self.cthun = self.card("OG_280")
 		self.playstate = PlayState.PLAYING
 
 		# Draw initial hand (but not any more than what we have in the deck)

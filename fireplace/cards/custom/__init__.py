@@ -1,6 +1,5 @@
-# 自定义
-
 from ..utils import *
+from .patch_wog import *
 
 
 # Pre-nerf Warsong Commander for tests

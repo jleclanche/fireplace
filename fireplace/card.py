@@ -1,7 +1,7 @@
 import random
 from itertools import chain
 
-from hearthstone.enums import CardType, MultiClassGroup, PlayReq, PlayState, \
+from hearthstone.enums import CardClass, CardType, MultiClassGroup, PlayReq, PlayState, \
 	Race, Rarity, Step, Zone
 
 from . import actions, cards, enums, rules
@@ -226,6 +226,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		super()._set_zone(zone)
 		if old_zone == Zone.PLAY and zone not in (Zone.GRAVEYARD, Zone.SETASIDE):
 			self.clear_buffs()
+			if self.id == self.controller.cthun.id:
+				self.controller.copy_cthun_buff(self)
 
 		if self.zone == Zone.HAND:
 			# Create the "Choose One" subcards
@@ -847,6 +849,15 @@ class Enchantment(BaseCard):
 		self.one_turn_effect = False
 		self.additional_deathrattles = []
 		super().__init__(data)
+
+	@property
+	def events(self):
+		events = super().events
+		if self.owner.zone == Zone.HAND:
+			events += self.data.scripts.Hand.events
+		if self.owner.zone == Zone.DECK:
+			events += self.data.scripts.Deck.events
+		return events
 
 	@property
 	def deathrattles(self):
