@@ -55,18 +55,30 @@ class AT_131:
 class AT_132:
 	"""Justicar Trueheart"""
 	HERO_POWER_MAP = {
-		"CS2_017": "AT_132_DRUID",
-		"DS1h_292": "AT_132_HUNTER",
-		"DS1h_292_H1": "DS1h_292_H1_AT_132",
-		"CS2_034": "AT_132_MAGE",
-		"CS2_101": "AT_132_PALADIN",
-		"CS2_101_H": "CS2_101_H1_AT_132",
-		"CS1h_001": "AT_132_PRIEST",
-		"CS2_083b": "AT_132_ROGUE",
-		"CS2_049": "AT_132_SHAMAN",
-		"CS2_056": "AT_132_WARLOCK",
-		"CS2_102": "AT_132_WARRIOR",
-		"CS2_102_H1": "CS2_102_H1_AT_132",
+		# 德鲁伊
+		"CS2_017": "AT_132_DRUID", # 玛法里奥·怒风
+		# 猎人
+		"DS1h_292": "AT_132_HUNTER", # 雷克萨
+		"DS1h_292_H1": "DS1h_292_H1_AT_132", # 奥蕾莉亚·风行者
+		# 法师
+		"CS2_034": "AT_132_MAGE", # 吉安娜·普罗德摩尔
+		"CS2_034_H1": "CS2_034_H1_AT_132", # 麦迪文
+		"CS2_034_H2": "CS2_034_H2_AT_132", # 卡德加
+		# 圣骑士
+		"CS2_101": "AT_132_PALADIN", # 乌瑟尔·光明使者
+		"CS2_101_H": "CS2_101_H1_AT_132", # 女伯爵莉亚德琳
+		# 牧师
+		"CS1h_001": "AT_132_PRIEST", # 安度因·乌瑞恩
+		# 盗贼
+		"CS2_083b": "AT_132_ROGUE", # 瓦莉拉·萨古纳尔
+		# 萨满
+		"CS2_049": "AT_132_SHAMAN", # 萨尔
+		"CS2_049_H1": "CS2_049_H1_AT_132", # 神谕者摩戈尔
+		# 术士
+		"CS2_056": "AT_132_WARLOCK", # 古尔丹
+		# 战士
+		"CS2_102": "AT_132_WARRIOR", # 加尔鲁什·地狱咆哮
+		"CS2_102_H1": "CS2_102_H1_AT_132", # 麦格尼·铜须
 	}
 
 	play = Switch(FRIENDLY_HERO_POWER, {
