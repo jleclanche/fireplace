@@ -8,11 +8,13 @@ def test_a_light_in_the_darkness():
 	assert len(game.player1.choice.cards) == 3
 	for card in game.player1.choice.cards:
 		assert card.type == CardType.MINION
-		buffhp = card.health
-		card.clear_buffs()
-		basehp = card.health
-		assert buffhp == basehp + 1
 		assert card.card_class in (CardClass.NEUTRAL, CardClass.PALADIN)
+	choice = random.choice(game.player1.choice.cards)
+	game.player1.choice.choose(choice)
+	buffhp = choice.health
+	choice.clear_buffs()
+	basehp = choice.health
+	assert buffhp == basehp + 1
 
 
 def test_addled_grizzly():

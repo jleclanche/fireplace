@@ -585,3 +585,52 @@ def test_spirit_claws():
 	assert game.player1.hero.atk == 3
 	game.player1.give(MOONFIRE).play(target=kobold)
 	assert game.player1.hero.atk == 1
+
+
+def test_moat_lurker():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	lurker =game.player1.give("KAR_041").play(target=wisp)
+	game.player1.give(FIREBALL).play(target=lurker)
+	wisp = game.player1.field[0]
+	assert wisp.id == WISP
+	game.end_turn()
+	lurker2 =game.player2.give("KAR_041").play(target=wisp)
+	assert len(game.player1.field) == 0
+	game.player2.give(FIREBALL).play(target=lurker2)
+	wisp = game.player1.field[0]
+	assert wisp.id == WISP
+
+
+def test_ivory_knight():
+	game = prepare_empty_game(CardClass.PALADIN, CardClass.PALADIN)
+	game.player1.hero.set_current_health(1)
+	game.player1.give("KAR_057").play()
+	for card in game.player1.choice.cards:
+		assert (
+			CardClass.NEUTRAL in fireplace.cards.db[card].classes or
+			CardClass.PALADIN in fireplace.cards.db[card].classes
+		)
+		assert fireplace.cards.db[card].type == CardType.SPELL
+
+	choice = random.choice(game.player1.choice.cards)
+	game.player1.choice.choose(choice)
+	assert game.player1.choice is None
+	assert len(game.player1.hand) == 1
+	assert game.player1.hero.health == min(30, 1 + choice.cost)
+
+
+def test_prince_malchezaar():
+	game = init_game()
+	game.players[0].starting_deck[0] = "KAR_096"
+	game.players[1].starting_deck[0] = "KAR_096"
+	game.start()
+	assert len(game.player1.deck) + len(game.player1.hand) == 35
+	assert len(game.player2.deck) + len(game.player2.hand) == 36  # The Coin
+
+
+def test_silverware_golem():
+	game = prepare_empty_game()
+	game.player1.give("KAR_205")
+	game.player1.give(SOULFIRE).play(target=game.player2.hero)
+	assert game.player1.field[0].id == "KAR_205"

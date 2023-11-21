@@ -55,6 +55,11 @@ class OG_300:
 OG_300e = buff(+2, +2)
 
 
+class OG_133:
+	"""N'Zoth, the Corruptor"""
+	play = Summon(CONTROLLER, Copy(FRIENDLY + KILLED + MINION))
+
+
 class OG_134:
 	"""Yogg-Saron, Hope's End"""
 	play = CastSpell(RandomSpell()) * TIMES_SPELL_PLAYED_THIS_GAME(CONTROLLER)

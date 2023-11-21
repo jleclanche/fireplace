@@ -25,6 +25,7 @@ WHELP = "ds1_whelptoken"
 # Token spells
 INNERVATE = "EX1_169"
 MOONFIRE = "CS2_008"
+FIREBALL = "CS2_029"
 PYROBLAST = "EX1_279"
 CIRCLE_OF_HEALING = "EX1_621"
 DREAM = "DREAM_04"
@@ -48,6 +49,7 @@ BLACKLIST = (
 	"GVG_007",  # Flame Leviathan
 	"AT_022",  # Fist of Jaraxxus
 	"AT_130",  # Sea Reaver
+	"KAR_096", # Prince Malchezaar
 )
 
 _draftcache = {}

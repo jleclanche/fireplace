@@ -5,7 +5,7 @@ from itertools import chain
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
-from .actions import Attack, Awaken, BeginTurn, Death, EndTurn, EventListener, Play
+from .actions import Attack, Awaken, BeginTurn, Death, EndTurn, EventListener, GameStart, Play
 from .card import THE_COIN
 from .entity import Entity
 from .exceptions import GameOver
@@ -277,6 +277,7 @@ class BaseGame(Entity):
 
 	def start(self):
 		self.setup()
+		self.queue_actions(self, [GameStart()])
 		self.begin_turn(self.player1)
 
 	def end_turn(self):

@@ -149,6 +149,10 @@ class Action(metaclass=ActionMeta):
 			for entity in hand.entities:
 				self._broadcast(entity, source, at, *args)
 
+		for deck in source.game.decks:
+			for entity in deck.entities:
+				self._broadcast(entity, source, at, *args)
+
 	def queue_broadcast(self, obj, args):
 		self.event_queue.append((obj, args))
 
@@ -496,7 +500,6 @@ class Play(GameAction):
 		if card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
 
-		card.target = None
 		card.choose = None
 
 
@@ -834,6 +837,7 @@ class Discover(TargetedAction):
 	"""
 	TARGET = ActionArg()
 	CARDS = CardArg()
+	CARD = CardArg()
 
 	def get_target_args(self, source, target):
 		if target.hero.data.card_class != CardClass.NEUTRAL:
@@ -853,7 +857,36 @@ class Discover(TargetedAction):
 
 	def do(self, source, target, cards):
 		log.info("%r discovers %r for %s", source, cards, target)
-		source.game.queue_actions(source, [GenericChoice(target, cards)])
+		self._callback = self.callback
+		self.callback = ()
+		self.cards = cards
+		player = source.controller
+		self.next_choice = player.choice
+		player.choice = self
+		self.player = player
+		self.source = source
+		self.target = target
+		self.cards = cards
+		self.min_count = 1
+		self.max_count = 1
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		for _card in self.cards:
+			if _card is card:
+				if card.type == CardType.HERO_POWER:
+					_card.zone = Zone.PLAY
+				elif len(self.player.hand) < self.player.max_hand_size:
+					_card.zone = Zone.HAND
+				else:
+					_card.discard()
+			else:
+				_card.discard()
+		for action in self._callback:
+			self.source.game.trigger(
+				self.source, [action], [self.target, self.cards, card])
+		self.player.choice = self.next_choice
 
 
 class Draw(TargetedAction):
@@ -1573,3 +1606,13 @@ class Awaken(TargetedAction):
 		target.turns_in_play = 0
 		if target.get_actions("awaken"):
 			source.game.trigger(target, target.get_actions("awaken"), event_args=None)
+
+
+class GameStart(GameAction):
+	"""
+	Setup game
+	"""
+
+	def do(self, source):
+		log.info("Game start")
+		self.broadcast(source, EventListener.ON)

@@ -52,7 +52,7 @@ class OG_273:
 
 class OG_311:
 	"""A Light in the Darkness"""
-	play = DISCOVER(RandomMinion()).then(Buff(Discover.CARDS, "OG_311e"))
+	play = DISCOVER(RandomMinion()).then(Buff(Discover.CARD, "OG_311e"))
 
 
 OG_311e = buff(+1, +1)

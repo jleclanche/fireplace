@@ -73,17 +73,20 @@ class KAR_037:
 
 KAR_037t = buff(+1, +1, taunt=True)
 
-# class KAR_041:
-# 	"""Moat Lurker"""
-#  	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+class KAR_041:
+	"""Moat Lurker"""
+	play = Destroy(TARGET)
+	deathrattle = Summon(TARGET_PLAYER, Copy(TARGET))
 
 
 class KAR_044:
 	"""Moroes"""
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "KAR_044a"))
 
-# class KAR_057:
-# 	"""Ivory Knight"""
+
+class KAR_057:
+	"""Ivory Knight"""
+	play = DISCOVER(RandomSpell()).then(Heal(FRIENDLY_HERO, COST(Discover.CARD)))
 
 
 class KAR_061:
@@ -165,8 +168,13 @@ class KAR_095:
 
 KAR_095e = buff(+1, +1)
 
-# class KAR_096:
-# 	"""Prince Malchezaar"""
+class KAR_096:
+	"""Prince Malchezaar"""
+	class Deck:
+		events = GameStart().on(Shuffle(CONTROLLER, RandomLegendaryMinion()) * 5)
+
+	class Hand:
+		events = GameStart().on(Shuffle(CONTROLLER, RandomLegendaryMinion()) * 5)
 
 
 class KAR_097:
@@ -197,8 +205,11 @@ class KAR_204:
 	"""Onyx Bishop"""
 	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))
 
-# class KAR_205:
-# 	"""Silverware Golem"""
+
+class KAR_205:
+	"""Silverware Golem"""
+	class Hand:
+		events = Discard(SELF).on(Summon(CONTROLLER, "KAR_205"))
 
 
 class KAR_702:
