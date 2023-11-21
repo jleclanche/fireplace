@@ -200,3 +200,20 @@ def test_hijack():
 	with hijacked(RANDOM_ENEMY_MINION, FRIENDLY_HERO):
 		with pytest.raises(GameOver):
 			vial.play()
+
+
+def test_lazynum():
+	game = prepare_game()
+	wisp1 = [game.player1.give(WISP).play() for _ in range(4)]
+	game.end_turn()
+	wisp2 = [game.player2.give(WISP).play() for _ in range(5)]
+	game.end_turn()
+	assert Count(FRIENDLY_MINIONS).evaluate(game.player1) == 4
+	assert Count(ENEMY_MINIONS).evaluate(game.player1) == 5
+	maxnum = Max(Count(FRIENDLY_MINIONS), Count(ENEMY_MINIONS)).evaluate(game.player1)
+	assert maxnum == 5
+
+	total = (Count(FRIENDLY_MINIONS) + Count(ENEMY_MINIONS)).evaluate(game.player1)
+	assert total == 9
+	diff = (Count(FRIENDLY_MINIONS) - Count(ENEMY_MINIONS)).evaluate(game.player1)
+	assert diff == -1

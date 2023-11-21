@@ -145,7 +145,7 @@ def GainEmptyMana(selector, amount):
 	"""
 	Helper to gain an empty mana crystal (gains mana, then spends it)
 	"""
-	return GainMana(selector, amount), SpendMana(selector, amount)
+	return GainMana(selector, amount).then(SpendMana(selector, GainMana.AMOUNT))
 
 
 def custom_card(cls):

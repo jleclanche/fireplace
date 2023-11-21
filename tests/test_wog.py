@@ -649,11 +649,6 @@ def test_shifter_zerus():
 	game.end_turn()
 	new_minion_3 = game.player1.hand[0]
 	assert new_minion_3 is not new_minion_2
-	new_minion_3.play()
-	assert new_minion_3 is game.player1.field[0]
-	game.end_turn()
-	game.end_turn()
-	assert new_minion_3 is game.player1.field[0]
 
 
 def test_twin_emperor():

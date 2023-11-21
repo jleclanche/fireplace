@@ -1342,12 +1342,12 @@ class SummonJadeGolem(TargetedAction):
 	CARD = CardArg()
 
 	def get_target_args(self, source, target):
-		jade_size = "CFM_712_t" + str(target.jade_golem).zfill(2)
-		return _eval_card(source, jade_size)
+		jade_id = f"CFM_712_t{target.jade_golem:02d}"
+		return _eval_card(source, jade_id)
 
 	def do(self, source, target, card):
 		log.info("%s summons a Jade Golem for %s", source, target)
-		target.jade_golem = target.jade_golem + 1 if target.jade_golem <= 29 else 30
+		target.jade_golem = min(30, target.jade_golem + 1)  # Jade golem maximum of 30/30.
 		if card.is_summonable():
 			source.game.queue_actions(source, [Summon(target, card)])
 
