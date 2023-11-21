@@ -1,11 +1,12 @@
 import random
 from itertools import chain
 
-from hearthstone.enums import CardClass, CardType, MultiClassGroup, PlayReq, PlayState, \
+from hearthstone.enums import CardType, GameTag, MultiClassGroup, PlayReq, PlayState, \
 	Race, Rarity, Step, Zone
 
 from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
+from .dsl.lazynum import LazyNum
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
 from .exceptions import InvalidAction
 from .managers import CardManager
@@ -63,6 +64,39 @@ class BaseCard(BaseEntity):
 		elif isinstance(other, str):
 			return self.id.__eq__(other)
 		return super().__eq__(other)
+
+	@property
+	def description(self):
+		description = self.data.description
+		if "@" in description:
+			hand_description, description = description.split("@")
+			if self.zone is Zone.HAND:
+				description = hand_description
+		formats = []
+		format_tags = [
+			GameTag.CARDTEXT_ENTITY_0,
+			GameTag.CARDTEXT_ENTITY_1,
+			GameTag.CARDTEXT_ENTITY_2,
+			GameTag.CARDTEXT_ENTITY_3,
+			GameTag.CARDTEXT_ENTITY_4,
+			GameTag.CARDTEXT_ENTITY_5,
+			GameTag.CARDTEXT_ENTITY_6,
+			GameTag.CARDTEXT_ENTITY_7,
+			GameTag.CARDTEXT_ENTITY_8,
+			GameTag.CARDTEXT_ENTITY_9,
+		]
+		formats = []
+		for format_tag in format_tags:
+			entity = self.tags[format_tag]
+			if isinstance(entity, LazyNum):
+				formats.append(entity.evaluate(self))
+			elif isinstance(entity, dict):
+				formats.append(entity[self.data.locale])
+			else:
+				break
+
+		description = description.format(*formats)
+		return description.replace("[x]", "")  # https://github.com/HearthSim/hs-bugs/issues/459
 
 	@property
 	def game(self):

@@ -19,7 +19,7 @@ class Copy(LazyValue):
 		log.info("Creating a copy of %r", entity)
 		return source.controller.card(entity.id, source)
 
-	def evaluate(self, source) -> [str]:
+	def evaluate(self, source) -> list[str]:
 		if isinstance(self.selector, LazyValue):
 			entities = [self.selector.evaluate(source)]
 		else:

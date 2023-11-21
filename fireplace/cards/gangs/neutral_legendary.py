@@ -19,7 +19,7 @@ class CFM_344:
 class CFM_621:
 	"""Kazakus"""
 	powered_up = -FindDuplicates(FRIENDLY_DECK)
-	play = powered_up & KazakusHelper()
+	play = powered_up & KazakusAction(CONTROLLER)
 
 
 class CFM_637:

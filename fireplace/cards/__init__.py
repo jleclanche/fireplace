@@ -106,6 +106,12 @@ class CardDB(dict):
 		else:
 			card.dormant = 0
 
+		if hasattr(cardscript, "cardtext_entity_0"):
+			card.cardtext_entity_0 = cardscript.cardtext_entity_0
+
+		if hasattr(cardscript, "cardtext_entity_1"):
+			card.cardtext_entity_1 = cardscript.cardtext_entity_1
+
 		return card
 
 	def initialize(self, locale="enUS"):

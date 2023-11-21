@@ -20,7 +20,7 @@ class CFM_308b:
 	play = FillMana(CONTROLLER, USED_MANA(CONTROLLER))
 
 
-class CFM_343:
+class CFM_343(JadeGolemUtils):
 	"""Jade Behemoth"""
 	play = SummonJadeGolem(CONTROLLER)
 

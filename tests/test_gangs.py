@@ -16,20 +16,54 @@ def test_aya_blackpaw():
 
 
 def test_jade_behemoth():
-	game = prepare_game()
-	jade_behemoth = game.current_player.give("CFM_343").play()
+	game = prepare_empty_game()
+	jade_behemoth = game.current_player.give("CFM_343")
+	assert jade_behemoth.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n1/1 <b>Jade Golem</b>."
+	jade_behemoth.play()
 	assert jade_behemoth.taunt
-	jade1 = game.current_player.field[-1]
-	assert "CFM_712_t01" == jade1.id
-	assert jade1.health == jade1.atk == 1
-	jade1.destroy()
+	assert jade_behemoth.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n<b>Jade Golem</b>."
+	jade = game.current_player.field[-1]
+	assert "CFM_712_t01" == jade.id
+	assert jade.health == jade.atk == 1
+	jade.destroy()
+	jade_behemoth.destroy()
 
 	game.end_turn()
 	game.end_turn()
-	game.current_player.give("CFM_343").play()
+	jade_behemoth2 = game.current_player.give("CFM_343")
+	assert jade_behemoth2.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n2/2 <b>Jade Golem</b>."
+	jade_behemoth2.play()
+	assert jade_behemoth2.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n<b>Jade Golem</b>."
 	jade2 = game.current_player.field[-1]
 	assert jade2.id == "CFM_712_t02"
 	assert jade2.health == jade2.atk == 2
+	jade2.destroy()
+	jade_behemoth2.destroy()
+
+	for i in range(3, 8):
+		game.end_turn()
+		game.end_turn()
+		jade_behemoth = game.current_player.give("CFM_343")
+		assert jade_behemoth.description == f"<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n{i}/{i} <b>Jade Golem</b>."
+		jade_behemoth.play()
+		assert jade_behemoth.taunt
+		assert jade_behemoth.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n<b>Jade Golem</b>."
+		jade = game.current_player.field[-1]
+		assert f"CFM_712_t0{i}" == jade.id
+		assert jade.health == jade.atk == i
+		jade.destroy()
+		jade_behemoth.destroy()
+
+	game.end_turn()
+	game.end_turn()
+	jade_behemoth = game.current_player.give("CFM_343")
+	assert jade_behemoth.description == f"<b>Taunt</b>\n<b>Battlecry:</b> Summon an\n8/8 <b>Jade Golem</b>."  # an
+	jade_behemoth.play()
+	assert jade_behemoth.taunt
+	assert jade_behemoth.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n<b>Jade Golem</b>."
+	jade = game.current_player.field[-1]
+	assert f"CFM_712_t08" == jade.id
+	assert jade.health == jade.atk == 8
 
 
 def test_pilfered_power():
@@ -280,3 +314,19 @@ def test_seadevil_stinger():
 	assert game.player1.murlocs_cost_health is False
 	assert game.player1.mana == 6
 	assert game.player1.hero.health == (30 - murloc.cost)
+
+
+def test_kazakus():
+	game = prepare_empty_game()
+	assert len(game.player1.hand) == 0
+	kazakus = game.player1.give("CFM_621")
+	kazakus.play()
+	choose_card = []
+	for _ in range(3):
+		cards = game.player1.choice.cards
+		choose_card.append(cards[0])
+		game.player1.choice.choose(cards[0])
+	card = game.player1.hand[0]
+	assert card.cost == 1
+	assert (card.description == f"{choose_card[1].description}\n{choose_card[2].description}" or
+		card.description == f"{choose_card[2].description}\n{choose_card[1].description}")

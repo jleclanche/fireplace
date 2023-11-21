@@ -160,3 +160,34 @@ def custom_card(cls):
 		GameTag.CARDTEXT_INHAND: {"enUS": ""}
 	}
 	return cls
+
+
+class JadeGolemCardtextEntity0(LazyNum):
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def evaluate(self, source):
+		card = self.get_entities(source)[0]
+		jade_golem = card.controller.jade_golem
+		return f"{jade_golem}/{jade_golem}"
+
+
+class JadeGolemCardtextEntity1(LazyNum):
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def evaluate(self, source):
+		card = self.get_entities(source)[0]
+		if card.data.locale == "enUS":
+			jade_golem = card.controller.jade_golem
+			if jade_golem == 8 or jade_golem == 18:
+				return "n"
+		return ""
+
+class JadeGolemUtils:
+	tags = {
+		GameTag.CARDTEXT_ENTITY_0: JadeGolemCardtextEntity0(SELF),
+		GameTag.CARDTEXT_ENTITY_1: JadeGolemCardtextEntity1(SELF),
+	}

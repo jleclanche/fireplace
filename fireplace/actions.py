@@ -2,7 +2,7 @@ import random
 from collections import OrderedDict
 
 from hearthstone.enums import (
-	BlockType, CardClass, CardType, Mulligan, PlayState, Step, Zone
+	BlockType, CardClass, CardType, GameTag, Mulligan, PlayState, Step, Zone
 )
 
 from .dsl import LazyNum, LazyValue, Selector
@@ -1488,84 +1488,75 @@ class RefreshHeroPower(TargetedAction):
 		return heropower
 
 
-class KazakusHelper(GameAction):
+class KazakusAction(TargetedAction):
 	"""
 	Kazakus is too difficult !!!
 	"""
+	PLAYER = ActionArg()
 
-	def do(self, source):
-		player = source.controller
-		self.source = source
-		self.player = player
-		self.next_choice = player.choice
-		player.choice = self
-		self.source = source
-		self.cards = [
-			player.card("CFM_621t11"),
-			player.card("CFM_621t12"),
-			player.card("CFM_621t13")
+	def init(self):
+		self.potions = [
+			"CFM_621t11", "CFM_621t12", "CFM_621t13"
 		]
+		self.cost_1_potions = [
+			"CFM_621t4", "CFM_621t10", "CFM_621t37", "CFM_621t2", "CFM_621t3",
+			"CFM_621t6", "CFM_621t8", "CFM_621t9", "CFM_621t5"]
+		self.cost_5_potions = [
+			"CFM_621t21", "CFM_621t18", "CFM_621t20", "CFM_621t38", "CFM_621t16",
+			"CFM_621t17", "CFM_621t24", "CFM_621t22", "CFM_621t23", "CFM_621t19"]
+		self.cost_10_potions = [
+			"CFM_621t29", "CFM_621t33", "CFM_621t28", "CFM_621t39", "CFM_621t25",
+			"CFM_621t26", "CFM_621t32", "CFM_621t30", "CFM_621t31", "CFM_621t27"]
+		# The order is Polymorph > AOE > Summon > Revive > Damage > Armor > Health > Draw > Deamon > Freeze
+		self.potions_choice_map = {
+			"CFM_621t11": self.cost_1_potions,
+			"CFM_621t12": self.cost_5_potions,
+			"CFM_621t13": self.cost_10_potions,
+		}
+		self.potions_card = {
+			"CFM_621t11": "CFM_621t",
+			"CFM_621t12": "CFM_621t14",
+			"CFM_621t13": "CFM_621t15",
+		}
+
+	def do(self, source, player):
+		self.init()
+		self.player = player
+		self.next_choice = self.player.choice
+		self.source = source
 		self.min_count = 1
 		self.max_count = 1
 		self.choosed_cards = []
-		self.cost_1_potions = [
-			"CFM_621t2", "CFM_621t3", "CFM_621t4",
-			"CFM_621t5", "CFM_621t6", "CFM_621t8",
-			"CFM_621t9", "CFM_621t10", "CFM_621t37"]
-		self.cost_5_potions = [
-			"CFM_621t16", "CFM_621t17", "CFM_621t18", "CFM_621t19", "CFM_621t20",
-			"CFM_621t21", "CFM_621t22", "CFM_621t23", "CFM_621t24", "CFM_621t38"]
-		self.cost_10_potions = [
-			"CFM_621t25", "CFM_621t26", "CFM_621t27", "CFM_621t28", "CFM_621t29",
-			"CFM_621t30", "CFM_621t31", "CFM_621t32", "CFM_621t33", "CFM_621t39"]
+		self.player.choice = self
+		self.do_step1()
+
+	def do_step1(self):
+		self.cards = [self.player.card(card) for card in self.potions]
 
 	def do_step2(self):
 		card = self.choosed_cards[0]
-		if card.id == "CFM_621t11":
-			cards = self.cost_1_potions
-		elif card.id == "CFM_621t12":
-			cards = self.cost_5_potions
-		elif card.id == "CFM_621t13":
-			cards = self.cost_10_potions
-		else:
-			raise InvalidAction("Kazakus choose a missed card %s" % card)
-		cards = random.sample(cards, 3)
-		self.cards = []
-		for card in cards:
-			self.cards.append(self.player.card(card))
+		self.potions = self.potions_choice_map[card.id][:]
+		cards = random.sample(self.potions, 3)
+		self.cards = [self.player.card(card) for card in cards]
 
 	def do_step3(self):
-		card = self.choosed_cards[0]
-		if card.id == "CFM_621t11":
-			cards = self.cost_1_potions
-		elif card.id == "CFM_621t12":
-			cards = self.cost_5_potions
-		elif card.id == "CFM_621t13":
-			cards = self.cost_10_potions
-		else:
-			raise InvalidAction("Kazakus choose a missed card %s" % card)
-		cards.remove(self.choosed_cards[1])
-		cards = random.sample(cards, 3)
-		self.cards = []
-		for card in cards:
-			self.cards.append(self.player.card(card))
+		self.potions.remove(self.choosed_cards[1].id)
+		cards = random.sample(self.potions, 3)
+		self.cards = [self.player.card(card) for card in cards]
 
 	def done(self):
 		card = self.choosed_cards[0]
-		new_card = None
-		if card.id == "CFM_621t11":
-			new_card = self.player.card("CFM_621t1")
-		elif card.id == "CFM_621t12":
-			new_card = self.player.card("CFM_621t14")
-		elif card.id == "CFM_621t13":
-			new_card = self.player.card("CFM_621t15")
-		else:
-			raise InvalidAction("Kazakus choose a missed card %s" % card)
+		new_card = self.player.card(self.potions_card[card.id])
+		self.potions = self.potions_choice_map[card.id][:]
 		card1 = self.choosed_cards[1]
 		card2 = self.choosed_cards[2]
-		new_card.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+		if self.potions.index(card1.id) > self.potions.index(card2.id):
+			card1, card2 = card2, card1
 		new_card.requirements.update(card1.requirements)
 		new_card.requirements.update(card2.requirements)
+		new_card.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+		new_card.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
+		new_card.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
 		self.player.give(new_card)
 
 	def choose(self, card):
@@ -1575,9 +1566,9 @@ class KazakusHelper(GameAction):
 			self.choosed_cards.append(card)
 			if len(self.choosed_cards) == 1:
 				self.do_step2()
-			if len(self.choosed_cards) == 2:
+			elif len(self.choosed_cards) == 2:
 				self.do_step3()
-			if len(self.choosed_cards) == 3:
+			elif len(self.choosed_cards) == 3:
 				self.done()
 				self.player.choice = self.next_choice
 
