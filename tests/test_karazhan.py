@@ -590,12 +590,12 @@ def test_spirit_claws():
 def test_moat_lurker():
 	game = prepare_game()
 	wisp = game.player1.give(WISP).play()
-	lurker =game.player1.give("KAR_041").play(target=wisp)
+	lurker = game.player1.give("KAR_041").play(target=wisp)
 	game.player1.give(FIREBALL).play(target=lurker)
 	wisp = game.player1.field[0]
 	assert wisp.id == WISP
 	game.end_turn()
-	lurker2 =game.player2.give("KAR_041").play(target=wisp)
+	lurker2 = game.player2.give("KAR_041").play(target=wisp)
 	assert len(game.player1.field) == 0
 	game.player2.give(FIREBALL).play(target=lurker2)
 	wisp = game.player1.field[0]

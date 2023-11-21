@@ -119,6 +119,7 @@ class BaseObserver:
 	def targeted_action(self, action, source, target, *args):
 		pass
 
+
 class PlayerManager(Manager):
 	map = {
 		GameTag.CANT_DRAW: "cant_draw",

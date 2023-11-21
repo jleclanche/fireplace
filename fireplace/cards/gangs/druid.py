@@ -73,7 +73,10 @@ class CFM_616:
 	"""Pilfered Power"""
 	play = (Count(FRIENDLY_MINIONS) > 0) & (
 		AT_MAX_MANA(CONTROLLER) & Give(CONTROLLER, "CS2_013t") |
-		GainEmptyMana(CONTROLLER, Min(MAX_MANA(CONTROLLER) - MANA(CONTROLLER), Count(FRIENDLY_MINIONS)))
+		GainEmptyMana(
+			CONTROLLER,
+			Min(MAX_MANA(CONTROLLER) - MANA(CONTROLLER), Count(FRIENDLY_MINIONS))
+		)
 	)
 
 

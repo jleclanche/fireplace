@@ -71,7 +71,7 @@ class VAN_EX1_166:
 
 
 @custom_card
-class VAN_EX1_166:
+class VAN_CS2_203:
 	tags = {
 		GameTag.CARDNAME: "Ironbeak Owl (Old)",
 		GameTag.CARDTYPE: CardType.MINION,

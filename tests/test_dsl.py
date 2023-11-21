@@ -204,9 +204,9 @@ def test_hijack():
 
 def test_lazynum():
 	game = prepare_game()
-	wisp1 = [game.player1.give(WISP).play() for _ in range(4)]
+	[game.player1.give(WISP).play() for _ in range(4)]
 	game.end_turn()
-	wisp2 = [game.player2.give(WISP).play() for _ in range(5)]
+	[game.player2.give(WISP).play() for _ in range(5)]
 	game.end_turn()
 	assert Count(FRIENDLY_MINIONS).evaluate(game.player1) == 4
 	assert Count(ENEMY_MINIONS).evaluate(game.player1) == 5

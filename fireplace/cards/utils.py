@@ -186,6 +186,7 @@ class JadeGolemCardtextEntity1(LazyNum):
 				return "n"
 		return ""
 
+
 class JadeGolemUtils:
 	tags = {
 		GameTag.CARDTEXT_ENTITY_0: JadeGolemCardtextEntity0(SELF),

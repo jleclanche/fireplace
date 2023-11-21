@@ -16,53 +16,55 @@ def test_aya_blackpaw():
 
 
 def test_jade_behemoth():
+	prefix = "<b>Taunt</b>\n<b>Battlecry:</b> Summon a"
+	suffix = "<b>Jade Golem</b>."
 	game = prepare_empty_game()
-	jade_behemoth = game.current_player.give("CFM_343")
-	assert jade_behemoth.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n1/1 <b>Jade Golem</b>."
-	jade_behemoth.play()
-	assert jade_behemoth.taunt
-	assert jade_behemoth.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n<b>Jade Golem</b>."
+	card = game.current_player.give("CFM_343")
+	assert card.description == f"{prefix}\n1/1 {suffix}"
+	card.play()
+	assert card.taunt
+	assert card.description == f"{prefix}\n{suffix}"
 	jade = game.current_player.field[-1]
 	assert "CFM_712_t01" == jade.id
 	assert jade.health == jade.atk == 1
 	jade.destroy()
-	jade_behemoth.destroy()
+	card.destroy()
 
 	game.end_turn()
 	game.end_turn()
-	jade_behemoth2 = game.current_player.give("CFM_343")
-	assert jade_behemoth2.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n2/2 <b>Jade Golem</b>."
-	jade_behemoth2.play()
-	assert jade_behemoth2.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n<b>Jade Golem</b>."
+	card2 = game.current_player.give("CFM_343")
+	assert card2.description == f"{prefix}\n2/2 {suffix}"
+	card2.play()
+	assert card2.description == f"{prefix}\n{suffix}"
 	jade2 = game.current_player.field[-1]
 	assert jade2.id == "CFM_712_t02"
 	assert jade2.health == jade2.atk == 2
 	jade2.destroy()
-	jade_behemoth2.destroy()
+	card2.destroy()
 
 	for i in range(3, 8):
 		game.end_turn()
 		game.end_turn()
-		jade_behemoth = game.current_player.give("CFM_343")
-		assert jade_behemoth.description == f"<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n{i}/{i} <b>Jade Golem</b>."
-		jade_behemoth.play()
-		assert jade_behemoth.taunt
-		assert jade_behemoth.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n<b>Jade Golem</b>."
+		card = game.current_player.give("CFM_343")
+		assert card.description == f"{prefix}\n{i}/{i} {suffix}"
+		card.play()
+		assert card.taunt
+		assert card.description == f"{prefix}\n{suffix}"
 		jade = game.current_player.field[-1]
 		assert f"CFM_712_t0{i}" == jade.id
 		assert jade.health == jade.atk == i
 		jade.destroy()
-		jade_behemoth.destroy()
+		card.destroy()
 
 	game.end_turn()
 	game.end_turn()
-	jade_behemoth = game.current_player.give("CFM_343")
-	assert jade_behemoth.description == f"<b>Taunt</b>\n<b>Battlecry:</b> Summon an\n8/8 <b>Jade Golem</b>."  # an
-	jade_behemoth.play()
-	assert jade_behemoth.taunt
-	assert jade_behemoth.description == "<b>Taunt</b>\n<b>Battlecry:</b> Summon a\n<b>Jade Golem</b>."
+	card = game.current_player.give("CFM_343")
+	assert card.description == f"{prefix}n\n8/8 {suffix}"
+	card.play()
+	assert card.taunt
+	assert card.description == f"{prefix}\n{suffix}"
 	jade = game.current_player.field[-1]
-	assert f"CFM_712_t08" == jade.id
+	assert "CFM_712_t08" == jade.id
 	assert jade.health == jade.atk == 8
 
 
@@ -104,6 +106,7 @@ def test_pilfered_power():
 	assert excess_mana.id == "CS2_013t"
 	excess_mana.play()
 	assert len(game.player1.hand) == 1
+
 
 def test_jade_blossom():
 	game = prepare_game(game_class=Game)
@@ -321,12 +324,14 @@ def test_kazakus():
 	assert len(game.player1.hand) == 0
 	kazakus = game.player1.give("CFM_621")
 	kazakus.play()
-	choose_card = []
+	chooses = []
 	for _ in range(3):
 		cards = game.player1.choice.cards
-		choose_card.append(cards[0])
+		chooses.append(cards[0])
 		game.player1.choice.choose(cards[0])
 	card = game.player1.hand[0]
 	assert card.cost == 1
-	assert (card.description == f"{choose_card[1].description}\n{choose_card[2].description}" or
-		card.description == f"{choose_card[2].description}\n{choose_card[1].description}")
+	assert (
+		card.description == f"{chooses[1].description}\n{chooses[2].description}" or
+		card.description == f"{chooses[2].description}\n{chooses[1].description}"
+	)

@@ -51,6 +51,7 @@ class OG_282:
 		Destroy(TARGET)
 	)
 
+
 ##
 # Spells
 

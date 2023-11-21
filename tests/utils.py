@@ -49,7 +49,7 @@ BLACKLIST = (
 	"GVG_007",  # Flame Leviathan
 	"AT_022",  # Fist of Jaraxxus
 	"AT_130",  # Sea Reaver
-	"KAR_096", # Prince Malchezaar
+	"KAR_096",  # Prince Malchezaar
 )
 
 _draftcache = {}

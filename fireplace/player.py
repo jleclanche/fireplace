@@ -148,7 +148,8 @@ class Player(Entity, TargetableByAuras):
 
 	def copy_cthun_buff(self, card):
 		for buff in self.cthun.buffs:
-			buff.source.buff(card, buff.id,
+			buff.source.buff(
+				card, buff.id,
 				atk=buff.atk,
 				max_health=buff.max_health,
 				taunt=getattr(buff, "taunt", False))

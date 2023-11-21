@@ -1507,7 +1507,8 @@ class KazakusAction(TargetedAction):
 		self.cost_10_potions = [
 			"CFM_621t29", "CFM_621t33", "CFM_621t28", "CFM_621t39", "CFM_621t25",
 			"CFM_621t26", "CFM_621t32", "CFM_621t30", "CFM_621t31", "CFM_621t27"]
-		# The order is Polymorph > AOE > Summon > Revive > Damage > Armor > Health > Draw > Deamon > Freeze
+		# The order is Polymorph > AOE > Summon > Revive > Damage
+		# > Armor > Health > Draw > Deamon > Freeze
 		self.potions_choice_map = {
 			"CFM_621t11": self.cost_1_potions,
 			"CFM_621t12": self.cost_5_potions,

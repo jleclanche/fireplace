@@ -73,6 +73,7 @@ class KAR_037:
 
 KAR_037t = buff(+1, +1, taunt=True)
 
+
 class KAR_041:
 	"""Moat Lurker"""
 	play = Destroy(TARGET)
@@ -167,6 +168,7 @@ class KAR_095:
 
 
 KAR_095e = buff(+1, +1)
+
 
 class KAR_096:
 	"""Prince Malchezaar"""

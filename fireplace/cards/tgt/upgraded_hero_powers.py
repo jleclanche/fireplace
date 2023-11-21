@@ -52,6 +52,7 @@ class CS2_101_H1_AT_132(AT_132_PALADIN):
 	"""The Silver Hand (Lady Liadrin)"""
 	pass
 
+
 class AT_132_PRIEST:
 	"""Heal"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
