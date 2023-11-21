@@ -45,7 +45,7 @@ CFM_816e = buff(+2, +2)
 ##
 # Spells
 
-class CFM_602:
+class CFM_602(JadeGolemUtils):
 	"""Jade Idol"""
 	choose = ("CFM_602a", "CFM_602b")
 	play = ChooseBoth(CONTROLLER) & (
@@ -53,7 +53,7 @@ class CFM_602:
 	)
 
 
-class CFM_602a:
+class CFM_602a(JadeGolemUtils):
 	play = SummonJadeGolem(CONTROLLER)
 
 
@@ -80,7 +80,7 @@ class CFM_616:
 	)
 
 
-class CFM_713:
+class CFM_713(JadeGolemUtils):
 	"""Jade Blossom"""
 	play = SummonJadeGolem(CONTROLLER), GainEmptyMana(CONTROLLER, 1)
 

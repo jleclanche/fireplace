@@ -256,7 +256,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.ARTISTNAME: None,
 	GameTag.AttackVisualType: None,
 	GameTag.CARD_SET: None,
-	GameTag.CARDTEXT_INHAND: None,
+	GameTag.CARDTEXT_INHAND: "description",
 	GameTag.CardTextInPlay: None,
 	GameTag.COLLECTIBLE: None,
 	GameTag.DevState: None,

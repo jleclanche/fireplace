@@ -82,7 +82,7 @@ class CFM_659:
 	play = Heal(TARGET, 2)
 
 
-class CFM_715:
+class CFM_715(JadeGolemUtils):
 	"""Jade Spirit"""
 	play = SummonJadeGolem(CONTROLLER)
 

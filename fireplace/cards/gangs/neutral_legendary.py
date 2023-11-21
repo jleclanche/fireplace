@@ -87,7 +87,7 @@ class CFM_808:
 	events = Attack(SELF).on(DrawUntil(EndTurn.PLAYER, 3))
 
 
-class CFM_902:
+class CFM_902(JadeGolemUtils):
 	"""Aya Blackpaw"""
 	play = SummonJadeGolem(CONTROLLER)
 	deathrattle = SummonJadeGolem(CONTROLLER)

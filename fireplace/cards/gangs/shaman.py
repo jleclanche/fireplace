@@ -10,7 +10,7 @@ class CFM_061:
 	play = Heal(TARGET, 6)
 
 
-class CFM_312:
+class CFM_312(JadeGolemUtils):
 	"""Jade Chieftain"""
 	play = SummonJadeGolem(CONTROLLER).then(Taunt(SummonJadeGolem.CARD))
 
@@ -45,7 +45,7 @@ class CFM_696:
 	play = Evolve(ENEMY_MINIONS, -1)
 
 
-class CFM_707:
+class CFM_707(JadeGolemUtils):
 	"""Jade Lightning"""
 	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Hit(TARGET, 4), SummonJadeGolem(CONTROLLER)
@@ -54,6 +54,6 @@ class CFM_707:
 ##
 # Weapons
 
-class CFM_717:
+class CFM_717(JadeGolemUtils):
 	"""Jade Claws"""
 	play = SummonJadeGolem(CONTROLLER)
