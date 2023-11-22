@@ -93,6 +93,12 @@ def main():
 		dest="unimplemented",
 		help="Show only unimplemented cards"
 	)
+	p.add_argument(
+		"--collectible",
+		action="store_true",
+		dest="collectible",
+		help="Show only collectible cards"
+	)
 	args = p.parse_args(sys.argv[1:])
 
 	if not args.implemented and not args.unimplemented:
@@ -102,6 +108,8 @@ def main():
 	cards.db.initialize()
 	for id in sorted(cards.db):
 		card = cards.db[id]
+		if args.collectible and not card.collectible:
+			continue
 		description = cleanup_description(card.description)
 		implemented = False
 
