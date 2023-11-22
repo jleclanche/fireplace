@@ -66,11 +66,11 @@ class OG_118:
 			FRIENDLY + WARLOCK + (IN_HAND | IN_DECK),
 			RandomCollectible(card_class=hero_class)
 		).then(
-			Buff(Morph.CARD, "OG_118e")
+			Buff(Morph.CARD, "OG_118f")
 		)
 
 
-class OG_118e:
+class OG_118f:
 	events = REMOVED_IN_PLAY
 	tags = {GameTag.COST: -1}
 
