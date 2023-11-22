@@ -29,12 +29,13 @@ class Player(Entity, TargetableByAuras):
 	murlocs_cost_health = slot_property("murlocs_cost_health")
 	type = CardType.PLAYER
 
-	def __init__(self, name, deck, hero):
+	def __init__(self, name, deck, hero, is_standard=True):
 		self.starting_deck = deck
 		self.starting_hero = hero
 		self.data = None
 		self.name = name
 		self.hero = None
+		self.is_standard = is_standard
 		super().__init__()
 		self.deck = Deck()
 		self.hand = CardList()
@@ -174,7 +175,9 @@ class Player(Entity, TargetableByAuras):
 	def prepare_for_game(self):
 		self.summon(self.starting_hero)
 		for id in self.starting_deck:
-			self.card(id, zone=Zone.DECK)
+			card = self.card(id, zone=Zone.DECK)
+			if self.is_standard and not card.is_standard:
+				self.is_standard = False
 		self.shuffle_deck()
 		self.cthun = self.card("OG_280")
 		self.playstate = PlayState.PLAYING

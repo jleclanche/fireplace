@@ -67,6 +67,10 @@ class BaseCard(BaseEntity):
 		return super().__eq__(other)
 
 	@property
+	def is_standard(self):
+		return self.data.is_standard
+
+	@property
 	def description(self):
 		description = self.data.description
 		if "@" in description:

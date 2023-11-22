@@ -31,13 +31,27 @@ def test_empty_selector():
 
 
 def test_random_card_picker():
+	game = prepare_empty_game()
 	picker = RandomCardPicker()
-	ids = picker.find_cards()
+	ids = picker.find_cards(game)
 	for id in ids:
 		card = Card(id)
+		assert card.is_standard
 		assert card.type is not CardType.HERO
 		assert card.type is not CardType.ENCHANTMENT
 		assert card.type is not CardType.HERO_POWER
+
+	game.player1.is_standard = False
+	ids = picker.find_cards(game)
+	has_wild = False
+	for id in ids:
+		card = Card(id)
+		if not card.is_standard:
+			has_wild = True
+		assert card.type is not CardType.HERO
+		assert card.type is not CardType.ENCHANTMENT
+		assert card.type is not CardType.HERO_POWER
+	assert has_wild
 
 
 def test_controller():

@@ -1,9 +1,12 @@
 import os
 from pkg_resources import resource_filename
 from hearthstone import cardxml
-from hearthstone.enums import CardClass, CardType
+from hearthstone.enums import CardType, ZodiacYear
 from ..logging import log
 from ..utils import get_script_definition
+
+
+year = ZodiacYear.KRAKEN
 
 
 class CardDB(dict):
@@ -111,6 +114,8 @@ class CardDB(dict):
 
 		if hasattr(cardscript, "cardtext_entity_1"):
 			card.cardtext_entity_1 = cardscript.cardtext_entity_1
+
+		card.is_standard = card.card_set in year.standard_card_sets
 
 		return card
 

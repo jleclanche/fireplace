@@ -6,6 +6,7 @@ from hearthstone.enums import (
 )
 
 from .dsl import LazyNum, LazyValue, Selector
+from .dsl.random_picker import RandomMinion
 from .entity import Entity
 from .exceptions import InvalidAction
 from .logging import log
@@ -1436,9 +1437,8 @@ class Evolve(TargetedAction):
 	AMOUNT = IntArg()
 
 	def do(self, source, target, amount):
-		from . import cards
 		cost = target.cost + amount
-		card_set = cards.filter(collectible=True, cost=cost, type=CardType.MINION)
+		card_set = RandomMinion(cost=cost).find_cards(source)
 		if card_set:
 			card = random.choice(card_set)
 			return source.game.queue_actions(source, [Morph(target, card)])

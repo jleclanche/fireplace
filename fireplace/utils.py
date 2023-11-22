@@ -6,7 +6,7 @@ from pkgutil import iter_modules
 from typing import List
 from xml.etree import ElementTree
 
-from hearthstone.enums import CardClass, CardType
+from hearthstone.enums import CardClass, CardType, CardSet
 
 
 # Autogenerate the list of cardset modules

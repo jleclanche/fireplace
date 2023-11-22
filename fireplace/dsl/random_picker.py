@@ -49,7 +49,7 @@ class RandomCardPicker(LazyValue):
 		ret.weightedfilters.append(filters)
 		return ret
 
-	def find_cards(self, source=None, **filters):
+	def find_cards(self, source, **filters):
 		"""
 		Generate a card pool with all cards matching specified filters
 		"""
@@ -57,6 +57,9 @@ class RandomCardPicker(LazyValue):
 			new_filters = self.filters.copy()
 		else:
 			new_filters = filters.copy()
+
+		if source.game.is_standard and "is_standard" not in new_filters:
+			new_filters["is_standard"] = True
 
 		for k, v in new_filters.items():
 			if isinstance(v, LazyValue):

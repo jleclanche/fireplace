@@ -3,7 +3,7 @@ import time
 from calendar import timegm
 from itertools import chain
 
-from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
+from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone, ZodiacYear
 
 from .actions import (
 	Attack, Awaken, BeginTurn, Death, EndTurn, EventListener, GameStart, Play
@@ -45,6 +45,10 @@ class BaseGame(Entity):
 	@property
 	def game(self):
 		return self
+
+	@property
+	def is_standard(self):
+		return self.player1.is_standard and self.player2.is_standard
 
 	@property
 	def board(self):
@@ -359,6 +363,7 @@ class CoinRules:
 	Randomly determines the starting player when the Game starts.
 	The second player gets "The Coin" (GAME_005).
 	"""
+
 	def pick_first_player(self):
 		winner = random.choice(self.players)
 		self.log("Tossing the coin... %s wins!", winner)
