@@ -1,4 +1,6 @@
 from utils import *
+from utils import _random_class
+from utils import _draft
 
 
 def test_kindly_grandmother():
@@ -214,8 +216,7 @@ def test_swashburglar():
 	burglar = game.player1.give("KAR_069")
 	burglar.play()
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].card_class == game.player2.hero.card_class
-	assert game.player1.hand[0].type != CardType.HERO
+	assert game.player2.hero.card_class in game.player1.hand[0].classes
 
 
 def test_ethereal_peddler():
@@ -531,7 +532,7 @@ def test_silvermoon_portal():
 	assert game.player1.field[-1].cost == 2
 	game.player1.field[-1].bounce()
 	assert whelp.atk == 3
-	assert whelp.health == 3
+	assert whelp.max_health == 3  # random summon Wild Pyromancer will hit 1
 	assert whelp.buff
 
 
@@ -621,7 +622,7 @@ def test_ivory_knight():
 
 
 def test_prince_malchezaar():
-	game = init_game()
+	game = init_game(exclude=("KAR_096", ))
 	game.players[0].starting_deck[0] = "KAR_096"
 	game.players[1].starting_deck[0] = "KAR_096"
 	game.start()

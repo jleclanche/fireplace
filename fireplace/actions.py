@@ -1624,3 +1624,4 @@ class GameStart(GameAction):
 	def do(self, source):
 		log.info("Game start")
 		self.broadcast(source, EventListener.ON)
+		self.broadcast(source, EventListener.AFTER)

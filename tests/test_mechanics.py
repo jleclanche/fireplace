@@ -157,7 +157,7 @@ def test_charge():
 	assert not wisp.charge
 	assert not wisp.can_attack()
 	# Play Charge on Wisp
-	game.current_player.give("CS2_103").play(target=wisp)
+	game.current_player.give("VAN_CS2_103").play(target=wisp)
 	assert wisp.buffs[0].tags[GameTag.CHARGE]
 	assert wisp.charge
 	assert wisp.can_attack()

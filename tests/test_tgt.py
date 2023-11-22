@@ -119,10 +119,8 @@ def test_burgle():
 	burgle = game.player1.give("AT_033")
 	burgle.play()
 	assert len(game.player1.hand) == 2
-	assert game.player1.hand[0].card_class == game.player2.hero.card_class
-	assert game.player1.hand[0].type != CardType.HERO
-	assert game.player1.hand[1].card_class == game.player2.hero.card_class
-	assert game.player1.hand[1].type != CardType.HERO
+	assert game.player2.hero.card_class in game.player1.hand[0].classes
+	assert game.player2.hero.card_class in game.player1.hand[1].classes
 
 
 def test_dalaran_aspirant():

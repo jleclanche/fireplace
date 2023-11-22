@@ -56,6 +56,7 @@ class CFM_667:
 
 class CFM_668:
 	"""Doppelgangster"""
+	# TODO
 	# The 'copies' summoned by this minion's Battlecry are in fact distinct
 	# uncollectible minions. However, they will copy the stats and enchantments of
 	# the Doppelgangster, and have the same base stats.

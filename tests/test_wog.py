@@ -555,7 +555,7 @@ def test_undercity_huckster():
 	undercity_huckster.play()
 	arcane_shot = game.player1.give("DS1_185")
 	arcane_shot.play(target=undercity_huckster)
-	assert game.player1.hand[0].card_class == game.player2.hero.card_class
+	assert game.player2.hero.card_class in game.player1.hand[0].classes
 
 
 def test_validated_doomsayer():
