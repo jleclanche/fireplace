@@ -1,5 +1,3 @@
-# 乱斗
-
 from .banana_brawl import *
 from .blingbrawl import *
 from .clash_of_the_minions import *

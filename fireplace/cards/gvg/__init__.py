@@ -1,5 +1,3 @@
-# 地精大战侏儒
-
 from .druid import *
 from .hunter import *
 from .mage import *

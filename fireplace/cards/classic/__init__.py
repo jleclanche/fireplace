@@ -1,5 +1,3 @@
-# 经典
-
 from .druid import *
 from .hunter import *
 from .mage import *

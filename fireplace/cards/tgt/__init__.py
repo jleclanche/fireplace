@@ -1,5 +1,3 @@
-# 冠军的试炼
-
 from .druid import *
 from .hunter import *
 from .mage import *
