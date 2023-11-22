@@ -1,4 +1,5 @@
 import random
+import re
 from itertools import chain
 
 from hearthstone.enums import CardType, GameTag, MultiClassGroup, PlayReq, PlayState, \
@@ -96,7 +97,23 @@ class BaseCard(BaseEntity):
 				break
 
 		description = description.format(*formats)
-		return description.replace("[x]", "")  # https://github.com/HearthSim/hs-bugs/issues/459
+		# https://github.com/HearthSim/hs-bugs/issues/459
+		description = description.replace("[x]", "")
+		if self.type == CardType.SPELL:
+			description = re.sub(
+				"\\$(?P<damage>\\d+)",
+				lambda match: str(
+					self.controller.get_spell_damage(int(match.group("damage")))
+				),
+				description)
+		elif self.type == CardType.HERO_POWER:
+			description = re.sub(
+				"\\$(?P<damage>\\d+)",
+				lambda match: str(
+					self.controller.get_heropower_damage(int(match.group("damage")))
+				),
+				description)
+		return description
 
 	@property
 	def game(self):
@@ -1002,9 +1019,7 @@ class HeroPower(PlayableCard):
 
 	def get_damage(self, amount, target):
 		amount = super().get_damage(amount, target)
-		amount += self.controller.heropower_damage
-		amount <<= self.controller.hero_power_double
-		return amount
+		return self.controller.get_heropower_damage(amount)
 
 	def use(self, target=None):
 		if not self.is_usable():

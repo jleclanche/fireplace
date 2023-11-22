@@ -831,3 +831,11 @@ def test_wrathguard():
 	wrathguard.attack(target=wargolem)
 	assert wrathguard.dead
 	assert game.player1.hero.health == 29 - 7
+
+
+def test_hero_power_damage():
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
+	power1 = game.player1.hero.power
+	assert power1.description == power1.data.description.replace("$1", "1")
+	game.player1.give("AT_003").play()
+	assert power1.description == power1.data.description.replace("$1", "2")

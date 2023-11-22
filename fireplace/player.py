@@ -195,6 +195,11 @@ class Player(Entity, TargetableByAuras):
 		amount <<= self.controller.spellpower_double
 		return amount
 
+	def get_heropower_damage(self, amount: int) -> int:
+		amount += self.heropower_damage
+		amount <<= self.controller.hero_power_double
+		return amount
+
 	def discard_hand(self):
 		self.log("%r discards their entire hand!", self)
 		# iterate the list in reverse so we don't skip over cards in the process

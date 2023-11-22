@@ -2560,7 +2560,9 @@ def test_prophet_velen():
 
 	kobold = game.current_player.give(KOBOLD_GEOMANCER)
 	kobold.play()
-	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	moonfire = game.player1.give(MOONFIRE)
+	assert moonfire.description == moonfire.description.replace("$1", "4")
+	moonfire.play(target=game.player2.hero)
 	expected_health -= 2 * (1 + 1)
 	assert game.player2.hero.health == expected_health
 
