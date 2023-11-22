@@ -2,7 +2,7 @@ import random
 from collections import OrderedDict
 
 from hearthstone.enums import (
-	BlockType, CardClass, CardType, GameTag, Mulligan, PlayState, Step, Zone
+	BlockType, CardClass, CardType, GameTag, Mulligan, Race, PlayState, Step, Zone
 )
 
 from .dsl import LazyNum, LazyValue, Selector
@@ -280,6 +280,7 @@ class Deaths(GameAction):
 	"""
 	Process all deaths in the PLAY Zone.
 	"""
+
 	def do(self, source, *args):
 		source.game.process_deaths()
 
@@ -474,6 +475,8 @@ class Play(GameAction):
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(player, card)
+		if card.type == CardType.MINION and card.race == Race.TOTEM:
+			card.controller.times_totem_summoned_this_game += 1
 
 		if card.type in (CardType.MINION, CardType.WEAPON):
 			self.queue_broadcast(summon_action, (player, EventListener.ON, player, card))
@@ -653,6 +656,7 @@ class Bounce(TargetedAction):
 	"""
 	Bounce minion targets on the field back into the hand.
 	"""
+
 	def do(self, source, target):
 		if len(target.controller.hand) >= target.controller.max_hand_size:
 			log.info("%r is bounced to a full hand and gets destroyed", target)
@@ -679,6 +683,7 @@ class Counter(TargetedAction):
 	"""
 	Counter a card, making it unplayable.
 	"""
+
 	def do(self, source, target):
 		target.cant_play = True
 
@@ -756,6 +761,7 @@ class Deathrattle(TargetedAction):
 	"""
 	Trigger deathrattles on card targets.
 	"""
+
 	def do(self, source, target):
 		for deathrattle in target.deathrattles:
 			if callable(deathrattle):
@@ -808,6 +814,7 @@ class Destroy(TargetedAction):
 	"""
 	Destroy character targets.
 	"""
+
 	def do(self, source, target):
 		if target.delayed_destruction:
 			#  If the card is in PLAY, it is instead scheduled to be destroyed
@@ -826,6 +833,7 @@ class Discard(TargetedAction):
 	"""
 	Discard card targets in a player's hand
 	"""
+
 	def do(self, source, target):
 		self.broadcast(source, EventListener.ON, target)
 		target.discard()
@@ -917,6 +925,7 @@ class Fatigue(TargetedAction):
 	"""
 	Hit a player with a tick of fatigue
 	"""
+
 	def do(self, source, target):
 		if target.cant_fatigue:
 			log.info("%s can't fatigue and does not take damage", target)
@@ -930,6 +939,7 @@ class ForceDraw(TargetedAction):
 	"""
 	Draw card targets into their owners hand
 	"""
+
 	def do(self, source, target):
 		target.draw()
 
@@ -953,6 +963,7 @@ class FullHeal(TargetedAction):
 	"""
 	Fully heal character targets.
 	"""
+
 	def do(self, source, target):
 		source.heal(target, target.max_health)
 
@@ -1133,6 +1144,7 @@ class Reveal(TargetedAction):
 	"""
 	Reveal secret targets.
 	"""
+
 	def do(self, source, target):
 		log.info("Revealing secret %r", target)
 		self.broadcast(source, EventListener.ON, target)
@@ -1184,6 +1196,7 @@ class Silence(TargetedAction):
 	"""
 	Silence minion targets.
 	"""
+
 	def do(self, source, target):
 		log.info("Silencing %r", self)
 		self.broadcast(source, EventListener.ON, target)
@@ -1227,6 +1240,8 @@ class Summon(TargetedAction):
 					source_index = source.controller.field.index(source)
 					card._summon_index = source_index + ((self.trigger_index + 1) % 2)
 				card.zone = Zone.PLAY
+			if card.type == CardType.MINION and card.race == Race.TOTEM:
+				card.controller.times_totem_summoned_this_game += 1
 			self.queue_broadcast(self, (source, EventListener.ON, target, card))
 			self.broadcast(source, EventListener.AFTER, target, card)
 
@@ -1328,6 +1343,7 @@ class UnlockOverload(TargetedAction):
 	"""
 	Unlock the target player's overload, both current and owed.
 	"""
+
 	def do(self, source, target):
 		log.info("%s overload gets cleared", target)
 		target.overloaded = 0

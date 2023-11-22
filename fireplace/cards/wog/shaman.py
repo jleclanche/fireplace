@@ -32,6 +32,11 @@ class OG_328:
 	play = Evolve(TARGET, 1)
 
 
+class OG_028:
+	"""Thing from Below"""
+	cost_mod = -Attr(CONTROLLER, "times_totem_summoned_this_game")
+
+
 ##
 # Spells
 

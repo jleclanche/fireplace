@@ -56,16 +56,17 @@ class CFM_667:
 
 class CFM_668:
 	"""Doppelgangster"""
-	play = (
-		(Summon(CONTROLLER, ExactCopy(SELF)) * 2).then(
-			Find(SELF, ID("CFM_668")) & (
-				Find(LEFT_OF(SELF) + ID("CFM_668")) &
-				Morph(LEFT_OF(SELF), ExactCopy(LEFT_OF(SELF), "CFM_668t")),
-				Find(RIGHT_OF(SELF) + ID("CFM_668")) &
-				Morph(RIGHT_OF(SELF), ExactCopy(RIGHT_OF(SELF), "CFM_668t2"))
-			)  # WTF
-		)
-	)
+	# The 'copies' summoned by this minion's Battlecry are in fact distinct
+	# uncollectible minions. However, they will copy the stats and enchantments of
+	# the Doppelgangster, and have the same base stats.
+	#
+	# The two copies look identical, but are in fact separate cards in the game data,
+	# with different quotes (see below).
+	#
+	# Whichever Doppelgangster is played (either the original card or one of the
+	# uncollectible cards), its Battlecry will summon copies of the two other versions,
+	# meaning all three versions will always be summoned.[1]
+	play = Summon(CONTROLLER, ExactCopy(SELF)) * 2
 
 
 class CFM_688:

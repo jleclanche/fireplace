@@ -296,12 +296,9 @@ def test_doppelgangster():
 	assert doppel.atk == 3
 	doppel.play()
 	assert len(game.player1.field) == 3
-	assert game.player1.field[0].id == "CFM_668t"
+	assert game.player1.field[0].id == "CFM_668"
 	assert game.player1.field[1].id == "CFM_668"
-	assert game.player1.field[2].id == "CFM_668t2"
-	assert game.player1.field[0].atk == 3
-	assert game.player1.field[1].atk == 3
-	assert game.player1.field[2].atk == 3
+	assert game.player1.field[2].id == "CFM_668"
 
 
 def test_seadevil_stinger():

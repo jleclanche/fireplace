@@ -673,3 +673,16 @@ def test_blood():
 	assert blood1.zone == Zone.GRAVEYARD
 	assert blood2.zone == Zone.GRAVEYARD
 	assert game.player1.field[0].id == "OG_173a"
+
+
+def test_thing_from_below():
+	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
+	below = game.player1.give("OG_028")
+	below_cost = below.cost
+	assert below_cost == 6
+	game.player1.hero.power.use()
+	assert below.cost == below_cost - 1
+	game.player1.give("EX1_565").play()
+	assert below.cost == below_cost - 2
+	below.play()
+	assert below.cost == below_cost
