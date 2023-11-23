@@ -503,6 +503,8 @@ class Play(GameAction):
 		player.cards_played_this_turn += 1
 		if card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
+			if card.race == Race.ELEMENTAL:
+				player.elemental_played_this_turn += 1
 
 		card.choose = None
 
@@ -1625,3 +1627,53 @@ class GameStart(GameAction):
 		log.info("Game start")
 		self.broadcast(source, EventListener.ON)
 		self.broadcast(source, EventListener.AFTER)
+
+
+class Adapt(TargetedAction):
+	"""
+	Adapt target
+	"""
+	TARGET = ActionArg()
+	CARDS = CardArg()
+	CARD = CardArg()
+
+	def get_target_args(self, source, target):
+		choices = [
+			"UNG_999t10", "UNG_999t2", "UNG_999t3", "UNG_999t4", "UNG_999t5",
+			"UNG_999t6", "UNG_999t7", "UNG_999t8", "UNG_999t13", "UNG_999t14",
+		]
+		self.buffs = {
+			"UNG_999t10": "UNG_999t10e",
+			"UNG_999t2": "UNG_999t2e",
+			"UNG_999t3": "UNG_999t3e",
+			"UNG_999t4": "UNG_999t4e",
+			"UNG_999t5": "UNG_999t5e",
+			"UNG_999t6": "UNG_999t6e",
+			"UNG_999t7": "UNG_999t7e",
+			"UNG_999t8": "UNG_999t8e",
+			"UNG_999t13": "UNG_999t13e",
+			"UNG_999t14": "UNG_999t14e",
+		}
+		cards = random.sample(choices, 3)
+		cards = [source.controller.card(card) for card in cards]
+		return [cards]
+
+	def do(self, source, target, cards):
+		log.info("%r adapts %r for %s", source, cards, target)
+		self.cards = cards
+		player = source.controller
+		self.next_choice = player.choice
+		player.choice = self
+		self.player = player
+		self.source = source
+		self.target = target
+		self.cards = cards
+		self.min_count = 1
+		self.max_count = 1
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		buff = self.buffs[card.id]
+		self.source.game.trigger(self.source, (Buff(self.target, buff), ), None)
+		self.player.choice = self.next_choice

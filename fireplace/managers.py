@@ -242,6 +242,7 @@ CARD_ATTRIBUTE_MAP = {
 	enums.DISCARDED: "discarded",
 	enums.MURLOCS_COST_HEALTH: "murlocs_cost_health",
 	enums.UNLIMITED_ATTACKS: "unlimited_attacks",
+	enums.ELEMENTAL_PLAYED_LAST_TURN: "elemental_played_last_turn",
 	GameTag.CARDTEXT_ENTITY_0: "cardtext_entity_0",
 	GameTag.CARDTEXT_ENTITY_1: "cardtext_entity_1",
 	GameTag.CARDTEXT_ENTITY_2: "cardtext_entity_2",

@@ -1,6 +1,6 @@
 import random
 
-from hearthstone.enums import CardClass, CardType, GameTag, PlayReq, Race, Rarity
+from hearthstone.enums import CardClass, CardType, GameTag, PlayReq, Race, Rarity, CardSet
 
 from ..actions import *
 from ..aura import Refresh
@@ -32,6 +32,7 @@ EMPTY_HAND = Count(FRIENDLY_HAND) == 0
 FULL_BOARD = Count(FRIENDLY_MINIONS) == 7
 FULL_HAND = Count(FRIENDLY_HAND) == 10
 HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
+ELEMENTAL_PLAYED_LAST_TURN = Attr(CONTROLLER, enums.ELEMENTAL_PLAYED_LAST_TURN) > 0
 
 DISCOVER = lambda *args: Discover(CONTROLLER, *args)
 

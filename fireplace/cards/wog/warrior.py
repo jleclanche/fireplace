@@ -6,7 +6,7 @@ from ..utils import *
 
 class OG_149:
 	"""Ravaging Ghoul"""
-	play = Hit(ALL_MINIONS - SELF, 1)
+	play = Hit(ALL_MINIONS, 1)
 
 
 class OG_218:

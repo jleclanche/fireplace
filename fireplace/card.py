@@ -447,6 +447,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self.controller.hero.num_attacks > 0:
 				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABE_AND_ELEMENTAL_PLAYED_LAST_TURN)
+		if req is not None:
+			if self.controller.elemental_played_last_turn:
+				return bool(self.play_targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
 	@property

@@ -68,6 +68,8 @@ class Player(Entity, TargetableByAuras):
 		self.times_spell_played_this_game = 0
 		self.times_secret_played_this_game = 0
 		self.times_totem_summoned_this_game = 0
+		self.elemental_played_this_turn = 0
+		self.elemental_played_last_turn = 0
 		self.cthun = None
 
 	def __str__(self):

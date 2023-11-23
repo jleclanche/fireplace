@@ -6,7 +6,8 @@ from ..logging import log
 from ..utils import get_script_definition
 
 
-year = ZodiacYear.KRAKEN
+year = ZodiacYear.MAMMOTH
+default_language = "enUS"
 
 
 class CardDB(dict):
@@ -119,7 +120,7 @@ class CardDB(dict):
 
 		return card
 
-	def initialize(self, locale="enUS"):
+	def initialize(self, locale=default_language):
 		log.info("Initializing card database")
 		self.initialized = True
 		dirname = os.path.dirname(__file__)

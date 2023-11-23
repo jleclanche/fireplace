@@ -47,7 +47,7 @@ class OG_291e:
 
 class OG_282:
 	play = (
-		Buff(CTHUN, "OG_281e", atk=ATK(TARGET), max_health=CURRENT_HEALTH(TARGET)),
+		Buff(CTHUN, "OG_281e", atk=ATK(TARGET), health=CURRENT_HEALTH(TARGET)),
 		Destroy(TARGET)
 	)
 

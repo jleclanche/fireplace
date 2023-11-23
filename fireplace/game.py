@@ -338,6 +338,9 @@ class BaseGame(Entity):
 		player.used_mana = 0
 		player.overload_locked = player.overloaded
 		player.overloaded = 0
+		player.elemental_played_last_turn = player.elemental_played_this_turn
+		player.elemental_played_this_turn = 0
+
 		for entity in self.live_entities:
 			if entity.type != CardType.PLAYER:
 				entity.turns_in_play += 1

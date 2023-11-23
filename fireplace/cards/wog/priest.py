@@ -11,7 +11,7 @@ class OG_096:
 
 class OG_334:
 	"""Hooded Acolyte"""
-	play = Heal(ALL_CHARACTERS).on(Buff(CTHUN, "OG_281e", atk=1, max_health=1))
+	play = Heal(ALL_CHARACTERS).on(Buff(CTHUN, "OG_281e", atk=1, health=1))
 
 
 class OG_234:
