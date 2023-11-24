@@ -33,3 +33,15 @@ def test_event_queue_summon():
 	assert reaver in game.player2.hand
 	assert buzzard.health == 1
 	assert len(game.player2.field) == 1
+
+
+def test_silence():
+	game = prepare_game()
+	minion = game.player1.summon("CS2_182")
+	assert minion.health == 5
+	game.player1.give("CS2_004").play(target=minion)
+	assert minion.health == 7
+	game.player1.give("GVG_015").play(target=minion)
+	assert minion.health == 4
+	game.player1.give("CS2_203").play(target=minion)
+	assert minion.health == 4
