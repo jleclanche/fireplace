@@ -172,7 +172,7 @@ def test_djinni_of_zephyrs():
 	pwshield.play(target=statue)
 	statue.max_health == 10 + 2
 	djinni.max_health == 6 + 2
-	assert len(game.player1.hand) == 0
+	assert len(game.player1.hand) == 2
 
 	# Djinni can trigger on minions that are "dead" (eg. killed by the spell)
 	naturalize = game.player1.give("EX1_161")

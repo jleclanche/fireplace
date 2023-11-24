@@ -257,7 +257,7 @@ class EX1_164b:
 
 class EX1_169:
 	"""Innervate"""
-	play = ManaThisTurn(CONTROLLER, 1)
+	play = ManaThisTurn(CONTROLLER, 2)
 
 
 class EX1_173:

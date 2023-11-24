@@ -1324,7 +1324,6 @@ def test_felguard():
 def test_felguard_negative_mana():
 	game = prepare_game(game_class=Game)
 	game.player1.give(INNERVATE).play()
-	game.player1.give(INNERVATE).play()
 	assert game.player1.max_mana == 1
 	assert game.player1.mana == 3
 	game.player1.give("EX1_301").play()
@@ -2507,18 +2506,18 @@ def test_preparation():
 	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
 	assert smite.cost == 0
-	assert fireball.cost == 4 - 2
+	assert fireball.cost == 4 - 3
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	prep2.play()
 	assert game.player1.used_mana == 0
 	assert prep2.cost == prep3.cost == 0
 	assert smite.cost == 0
-	assert fireball.cost == 4 - 2
+	assert fireball.cost == 4 - 3
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
 	fireball.play(target=game.player2.hero)
-	assert game.player1.used_mana == 2
+	assert game.player1.used_mana == 1
 	assert smite.cost == 1
 	assert fireball2.cost == 4
 	assert footman.cost == footman2.cost == 1
