@@ -622,10 +622,7 @@ def test_ivory_knight():
 
 
 def test_prince_malchezaar():
-	game = init_game(exclude=("KAR_096", ))
-	game.players[0].starting_deck[0] = "KAR_096"
-	game.players[1].starting_deck[0] = "KAR_096"
-	game.start()
+	game = prepare_game(include=("KAR_096", ))
 	assert len(game.player1.deck) + len(game.player1.hand) == 35
 	assert len(game.player2.deck) + len(game.player2.hand) == 36  # The Coin
 

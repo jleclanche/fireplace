@@ -43,7 +43,7 @@ class UNG_836:
 
 class UNG_829:
 	"""Lakkari Sacrifice"""
-	pass
+	total_progress = 6
 
 
 class UNG_831:

@@ -27,6 +27,7 @@ class Player(Entity, TargetableByAuras):
 	spellpower_adjustment = slot_property("spellpower", sum)
 	spells_cost_health = slot_property("spells_cost_health")
 	murlocs_cost_health = slot_property("murlocs_cost_health")
+	extra_turns = slot_property("extra_turns", sum)
 	type = CardType.PLAYER
 
 	def __init__(self, name, deck, hero, is_standard=True):
@@ -180,13 +181,16 @@ class Player(Entity, TargetableByAuras):
 			card = self.card(id, zone=Zone.DECK)
 			if self.is_standard and not card.is_standard:
 				self.is_standard = False
+		self.starting_deck = self.deck[:]
 		self.shuffle_deck()
 		self.cthun = self.card("OG_280")
 		self.playstate = PlayState.PLAYING
 
 		# Draw initial hand (but not any more than what we have in the deck)
 		hand_size = min(len(self.deck), self.start_hand_size)
-		starting_hand = random.sample(self.deck, hand_size)
+		# Quest cards are automatically included in the player's mulligan as the left-most card
+		quests = [card for card in self.deck if card.data.quest]
+		starting_hand = quests + random.sample(self.deck, hand_size - len(quests))
 		# It's faster to move cards directly to the hand instead of drawing
 		for card in starting_hand:
 			card.zone = Zone.HAND

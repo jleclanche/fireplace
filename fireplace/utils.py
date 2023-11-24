@@ -63,14 +63,14 @@ class CardList(list):
 		return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k, 0) == v)
 
 
-def random_draft(card_class: CardClass, exclude=[]):
+def random_draft(card_class: CardClass, exclude=[], include=[]):
 	"""
 	Return a deck of 30 random cards for the \a card_class
 	"""
 	from . import cards
 	from .deck import Deck
 
-	deck = []
+	deck = list(include)
 	collection = []
 	# hero = card_class.default_hero
 

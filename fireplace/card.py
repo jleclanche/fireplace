@@ -30,6 +30,8 @@ def Card(id):
 	}[data.type]
 	if subclass is Spell and data.secret:
 		subclass = Secret
+	if subclass is Spell and data.quest:
+		subclass = Quest
 	return subclass(data)
 
 
@@ -896,6 +898,25 @@ class Secret(Spell):
 		return super().play(target, index, choose)
 
 
+class Quest(Spell):
+	def __init__(self, data):
+		super().__init__(data)
+		self.progress = 0
+		self.total_progress = data.scripts.total_progress
+
+	@property
+	def events(self):
+		ret = super().events
+		if self.zone == Zone.SECRET and not self.exhausted:
+			ret += self.data.scripts.quest
+		return ret
+
+	def add_progress(self, card):
+		if self.data.scripts.add_progress:
+			return self.data.scripts.add_progress(card)
+		self.progress += 1
+
+
 class Enchantment(BaseCard):
 	atk = int_property("atk")
 	cost = int_property("cost")
@@ -1038,6 +1059,8 @@ class HeroPower(PlayableCard):
 		if self.requires_target():
 			if not target:
 				raise InvalidAction("%r requires a target." % (self))
+			elif target not in self.play_targets:
+				raise InvalidAction("%r is not a valid target for %r." % (target, self))
 			if self.controller.all_targets_random:
 				new_target = random.choice(self.play_targets)
 				self.logger.info("Retargeting %r from %r to %r", self, target, new_target)

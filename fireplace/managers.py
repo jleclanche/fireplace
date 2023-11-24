@@ -196,6 +196,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.ENRAGED: "enrage",
 	GameTag.EXHAUSTED: "exhausted",
 	GameTag.EXTRA_DEATHRATTLES: "extra_deathrattles",
+	GameTag.EXTRA_TURNS_TAKEN_THIS_GAME: "extra_turns",
 	GameTag.FORGETFUL: "forgetful",
 	GameTag.FROZEN: "frozen",
 	GameTag.HEALING_DOUBLE: "healing_double",

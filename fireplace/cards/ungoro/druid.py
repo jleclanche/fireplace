@@ -6,32 +6,36 @@ from ..utils import *
 
 class UNG_078:
 	"""Tortollan Forager"""
-	pass
+	play = Give(CONTROLLER, RandomMinion(atk=list(range(5, 30))))
 
 
 class UNG_086:
 	"""Giant Anaconda"""
-	pass
+	deathrattle = Summon(CONTROLLER, RANDOM(FRIENDLY_HAND + (ATK >= 5)))
 
 
 class UNG_100:
 	"""Verdant Longneck"""
-	pass
+	play = Adapt(SELF)
 
 
 class UNG_101:
 	"""Shellshifter"""
-	pass
+	choose = ("UNG_101a", "UNG_101b")
+	play = ChooseBoth(CONTROLLER) & Morph(SELF, "UNG_101t3")
+
+
+class UNG101a:
+	play = Morph(SELF, "UNG_101t")
+
+
+class UNG101b:
+	play = Morph(SELF, "UNG_101t2")
 
 
 class UNG_109:
 	"""Elder Longneck"""
-	pass
-
-
-class UNG_852:
-	"""Tyrantus"""
-	pass
+	play = Find(FRIENDLY_MINIONS + (ATK >= 5)) & Adapt(SELF)
 
 
 ##
@@ -39,7 +43,7 @@ class UNG_852:
 
 class UNG_103:
 	"""Evolving Spores"""
-	pass
+	play = Adapt(FRIENDLY_MINIONS)
 
 
 class UNG_108:
@@ -48,14 +52,38 @@ class UNG_108:
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_TARGET_TO_PLAY: 0}
-	pass
+	play = Buff(TARGET, "UNG_108e").then(GainArmor(CONTROLLER, ATK(Buff.TARGET)))
+
+
+UNG_108e = buff(+1, +1)
 
 
 class UNG_111:
 	"""Living Mana"""
-	pass
+	# TODO: need test
+	def play(self):
+		count = min(
+			self.controller.max_mana,
+			self.game.MAX_MINIONS_ON_FIELD - len(self.controller.field)
+		)
+		yield GainMana(CONTROLLER, -count), Summon(CONTROLLER, "UNG_111t1") * count
+
+
+class UNG_111t1:
+	deathrattle = GainMana(CONTROLLER, -1)
 
 
 class UNG_116:
 	"""Jungle Giants"""
-	pass
+	total_progress = 5
+	quest = Summon(CONTROLLER, MINION + (ATK >= 5)).after(AddQuestProgress(SELF))
+	reward = Give(CONTROLLER, "UNG_116t")
+
+
+class UNG_116t:
+	play = Buff(FRIENDLY_DECK + MINION, "UNG_116te")
+
+
+class UNG_116te:
+	cost = SET(0)
+	events = REMOVED_IN_PLAY

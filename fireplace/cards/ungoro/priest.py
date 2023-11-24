@@ -64,4 +64,4 @@ class UNG_854:
 
 class UNG_940:
 	"""Awaken the Makers"""
-	pass
+	total_progress = 7

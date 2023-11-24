@@ -49,7 +49,7 @@ class UNG_927:
 
 class UNG_934:
 	"""Fire Plume's Heart"""
-	pass
+	total_progress = 7
 
 
 ##

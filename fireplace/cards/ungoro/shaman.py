@@ -52,7 +52,7 @@ class UNG_817:
 
 class UNG_942:
 	"""Unite the Murlocs"""
-	pass
+	total_progress = 10
 
 
 class UNG_956:

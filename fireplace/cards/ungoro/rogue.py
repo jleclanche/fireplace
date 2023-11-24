@@ -41,7 +41,7 @@ class UNG_060:
 
 class UNG_067:
 	"""The Caverns Below"""
-	pass
+	total_progress = 5
 
 
 class UNG_823:

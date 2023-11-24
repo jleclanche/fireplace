@@ -41,7 +41,9 @@ class UNG_952:
 
 class UNG_954:
 	"""The Last Kaleidosaur"""
-	pass
+	total_progress = 6
+	quest = Play(CONTROLLER, SPELL, FRIENDLY_MINIONS).after(AddQuestProgress(SELF))
+	reward = Give(CONTROLLER, "UNG_954t1")
 
 
 class UNG_960:

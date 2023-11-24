@@ -1677,3 +1677,12 @@ class Adapt(TargetedAction):
 		buff = self.buffs[card.id]
 		self.source.game.trigger(self.source, (Buff(self.target, buff), ), None)
 		self.player.choice = self.next_choice
+
+
+class AddQuestProgress(TargetedAction):
+	def do(self, source, target, card):
+		log.info("%r add quest progress %r from %r", source, target)
+		target.add_progress(card)
+		if target.progress >= target.total_progress:
+			source.game.trigger(target, target.get_actions("reward"), event_args=None)
+			target.zone = Zone.GRAVEYARD

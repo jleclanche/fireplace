@@ -34,7 +34,8 @@ class CardDB(dict):
 
 		scriptnames = (
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
-			"enrage", "update", "powered_up", "outcast", "awaken"
+			"enrage", "update", "powered_up", "outcast", "awaken", "reward",
+			"add_progress"
 		)
 
 		for script in scriptnames:
@@ -148,6 +149,9 @@ class CardDB(dict):
 			self.initialize()
 
 		cards = self.values()
+
+		# Quests cannot be randomly generated
+		cards = [card for card in cards if not card.quest]
 
 		if "type" not in kwargs:
 			kwargs["type"] = [CardType.SPELL, CardType.WEAPON, CardType.MINION]
