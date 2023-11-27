@@ -25,5 +25,5 @@ jobs:
     - name: Test with tox
       run: tox
     - uses: codecov/codecov-action@v3
-      with:
+      env:
         token: ${{ secrets.CODECOV_TOKEN }}

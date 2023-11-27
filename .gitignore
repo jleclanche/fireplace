@@ -1,6 +1,7 @@
 __pycache__
 build
 fireplace.egg-info
+coverage.xml
 
 *.pyc
 .tox
