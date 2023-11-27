@@ -600,7 +600,7 @@ class TargetedAction(Action):
 	def trigger(self, source):
 		ret = []
 
-		if self.source is not None:
+		if self.source is not None and isinstance(self.source, Selector):
 			source = self.source.eval(source.game, source)
 			assert len(source) == 1
 			source = source[0]

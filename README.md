@@ -1,7 +1,7 @@
 # <img src="/logo.png" height="32" width="32"/> Fireplace
 [![](https://img.shields.io/badge/python-3.10+-blue.svg)](https://peps.python.org/pep-0619/)
 [![](https://img.shields.io/github/license/play-boardgames-together/fireplace.svg)](https://github.com/play-boardgames-together/fireplace/blob/master/LICENSE.md)
-[![](https://github.com/play-boardgames-together/backend/actions/workflows/build.yml/badge.svg)](https://github.com/play-boardgames-together/backend/actions/workflows/build.yml)
+[![](https://github.com/play-boardgames-together/fireplace/actions/workflows/build.yml/badge.svg?branch=8.4.0.20022)](https://github.com/play-boardgames-together/fireplace/actions/workflows/build.yml)
 [![codecov.io](https://codecov.io/github/play-boardgames-together/fireplace/coverage.svg?branch=8.4.0.20022)](https://codecov.io/github/play-boardgames-together/fireplace)
 
 A Hearthstone simulator and implementation, written in Python.

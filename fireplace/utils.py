@@ -206,7 +206,7 @@ def play_turn(game):
 				print("Playing %r on %r" % (card, target))
 				card.play(target=target)
 
-				if player.choice:
+				while player.choice:
 					choice = random.choice(player.choice.cards)
 					print("Choosing card %r" % (choice))
 					player.choice.choose(choice)

@@ -331,3 +331,12 @@ def test_kazakus():
 		card.description == f"{chooses[1].description}\n{chooses[2].description}" or
 		card.description == f"{chooses[2].description}\n{chooses[1].description}"
 	)
+
+
+def test_i_know_a_guy():
+	game = prepare_game()
+	guy = game.player1.give("CFM_940")
+	guy.play()
+	for card in game.player1.choice.cards:
+		assert card.type == CardType.MINION
+		assert card.taunt

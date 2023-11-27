@@ -41,8 +41,17 @@ class UNG_024:
 	"""Mana Bind"""
 	secret = Play(OPPONENT, SPELL).after(
 		Reveal(SELF),
-		Give(CONTROLLER, Copy(Play.CARD)).then(Buff(Give.CARD, {GameTag.COST: SET(0)}))
+		Give(CONTROLLER, Copy(Play.CARD)).then(Buff(Give.CARD, "UNG_024e"))
 	)
+
+
+@custom_card
+class UNG_024e:
+	tags = {
+		GameTag.CARDNAME: "Mana Bind Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+	}
+	cost = SET(0)
 
 
 class UNG_028:

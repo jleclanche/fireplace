@@ -56,10 +56,7 @@ class UNG_205:
 
 class UNG_801:
 	"""Nesting Roc"""
-	play = (Count(FRIENDLY_MINIONS - SELF) >= 2) & Buff(SELF, "UNG_801e")
-
-
-UNG_801e = buff(taunt=True)
+	play = (Count(FRIENDLY_MINIONS - SELF) >= 2) & Taunt(SELF)
 
 
 class UNG_803:
