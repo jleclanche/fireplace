@@ -59,7 +59,8 @@ _draftcache = {}
 def _draft(card_class, exclude, include):
 	# random_draft() is fairly slow, this caches the drafts
 	if (card_class, exclude, include) not in _draftcache:
-		_draftcache[(card_class, exclude, include)] = random_draft(card_class, exclude + BLACKLIST, include)
+		_draftcache[(card_class, exclude, include)] = random_draft(
+			card_class, exclude + BLACKLIST, include)
 	return _draftcache[(card_class, exclude, include)], card_class.default_hero
 
 
