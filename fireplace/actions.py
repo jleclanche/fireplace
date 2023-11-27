@@ -990,6 +990,13 @@ class GainMana(TargetedAction):
 	TARGET = ActionArg()
 	AMOUNT = IntArg()
 
+	def get_target_args(self, source, target):
+		ret = super().get_target_args(source, target)
+		amount = ret[0]
+		if target.max_mana + amount > target.max_resources:
+			amount = target.max_resources - target.max_mana
+		return [amount]
+
 	def do(self, source, target, amount):
 		target.max_mana = max(target.max_mana + amount, 0)
 

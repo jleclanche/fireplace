@@ -837,3 +837,19 @@ def test_hero_power_damage():
 	assert power1.description == power1.data.description.replace("$1", "1")
 	game.player1.give("AT_003").play()
 	assert power1.description == power1.data.description.replace("$1", "2")
+
+
+def test_darnassus_aspirant():
+        game = prepare_game()
+        assert game.current_player.mana == 10
+        assert game.current_player.max_mana == 10
+        aspirant = game.current_player.give("AT_038")
+        aspirant.play()
+        assert game.current_player.mana == 8
+        assert game.current_player.max_mana == 10
+        assert game.current_player.used_mana == 2
+
+        aspirant.destroy()
+        assert game.current_player.mana == 7
+        assert game.current_player.max_mana == 9
+        assert game.current_player.used_mana == 2
