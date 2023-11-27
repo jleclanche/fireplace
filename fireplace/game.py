@@ -3,7 +3,7 @@ import time
 from calendar import timegm
 from itertools import chain
 
-from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone, ZodiacYear
+from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
 from .actions import (
 	Attack, Awaken, BeginTurn, Death, EndTurn, EventListener, GameStart, Play

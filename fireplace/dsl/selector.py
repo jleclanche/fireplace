@@ -505,7 +505,7 @@ OTHER_CLASS_CHARACTER = FuncSelector(
 	lambda entities, src: [
 		e for e in entities
 		if hasattr(e, "card_class") and hasattr(e, "controller") and
-		e.card_class != CardClass.INVALID and e.card_class != CardClass.DREAM and
+		e.card_class != CardClass.NEUTRAL and e.card_class != CardClass.DREAM and
 		e.card_class != e.controller.hero.card_class
 	]
 )
