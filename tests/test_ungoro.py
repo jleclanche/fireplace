@@ -126,3 +126,54 @@ def test_corrupting_mist():
     game.end_turn()
     assert len(game.player1.field) == 0
     assert len(game.player2.field) == 0
+
+
+def test_living_mana():
+    game = prepare_empty_game()
+    assert game.player1.max_mana == 10
+    assert game.player1.mana == 10
+    game.player1.give("UNG_111").play()
+    assert len(game.player1.field) == 7
+    assert game.player1.max_mana == 3
+    assert game.player1.mana == 3
+    for _ in range(7):
+        game.player1.field[0].bounce()
+    for _ in range(4):
+        game.end_turn()
+    assert game.player1.max_mana == 5
+    assert game.player1.mana == 5
+    game.player1.give("UNG_111").play()
+    assert len(game.player1.field) == 5
+    assert game.player1.max_mana == 0
+    assert game.player1.mana == 0
+    game.player1.give(MOONFIRE).play(target=game.player1.field[0])
+    game.player1.give(MOONFIRE).play(target=game.player1.field[0])
+    assert game.player1.max_mana == 1
+    assert game.player1.mana == 0
+
+
+def test_swamp_king_dred():
+    game = prepare_game()
+    dred = game.player1.give("UNG_919").play()
+    game.end_turn()
+    game.player2.give(WISP).play()
+    assert len(game.player2.field) == 0
+    assert dred.health == 9 - 1
+    game.player2.give("CS2_033").play()
+    assert len(game.player2.field) == 0
+    assert dred.health == 9 - 1 - 3
+    assert dred.frozen
+    game.player2.give(WISP).play()
+    assert len(game.player2.field) == 1
+    assert dred.health == 9 - 1 - 3
+
+
+def test_the_voraxx():
+    game = prepare_game()
+    voraxx = game.player1.give("UNG_843").play()
+    game.player1.give("CS2_092").play(target=voraxx)
+    assert voraxx.atk == 7
+    assert voraxx.health == 7
+    assert len(game.player1.field) == 2
+    assert game.player1.field[1].atk == 5
+    assert game.player1.field[1].health == 5

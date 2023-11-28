@@ -11,10 +11,11 @@ class UNG_840:
 
 class UNG_843:
 	"""The Voraxx"""
-	# TODO: need test
-	events = Play(CONTROLLER, SPELL).after(
-		Summon(CONTROLLER, "UNG_999t2t1").then(
-			Battlecry(Play.CARD, Summon.CARD)
+	events = Play(CONTROLLER, SPELL, SELF).after(
+		lambda source, player, spell, target: (
+			Summon(CONTROLLER, "UNG_999t2t1").then(
+				Battlecry(spell, Summon.CARD)
+			),
 		)
 	)
 

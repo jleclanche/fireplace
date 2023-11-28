@@ -56,17 +56,17 @@ UNG_108e = buff(+1, +1)
 
 class UNG_111:
 	"""Living Mana"""
-	# TODO: need test
 	def play(self):
 		count = min(
 			self.controller.max_mana,
 			self.game.MAX_MINIONS_ON_FIELD - len(self.controller.field)
 		)
-		yield GainMana(CONTROLLER, -count), Summon(CONTROLLER, "UNG_111t1") * count
+		yield GainEmptyMana(CONTROLLER, -count)
+		yield Summon(CONTROLLER, "UNG_111t1") * count
 
 
 class UNG_111t1:
-	deathrattle = GainMana(CONTROLLER, -1)
+	deathrattle = GainEmptyMana(CONTROLLER, 1)
 
 
 class UNG_116:
