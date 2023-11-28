@@ -6,22 +6,36 @@ from ..utils import *
 
 class UNG_011:
 	"""Hydrologist"""
-	pass
+	play = DISCOVER(RandomSpell(secret=True))
 
 
 class UNG_015:
 	"""Sunkeeper Tarim"""
-	pass
+	play = Buff(ALL_MINIONS - SELF, "UNG_015e")
+
+
+class UNG_015e:
+	atk = SET(3)
+	max_health = SET(3)
 
 
 class UNG_953:
 	"""Primalfin Champion"""
-	pass
+	events = Play(CONTROLLER, SPELL, SELF).on(
+		StoringSpellBuff(SELF, "UNG_953e", Play.CARD)
+	)
+
+
+class UNG_953e:
+	tags = {GameTag.DEATHRATTLE: True}
+
+	def deathrattle(self):
+		yield Give(CONTROLLER, self.store_spell.id)
 
 
 class UNG_962:
 	"""Lightfused Stegodon"""
-	pass
+	play = Adapt(FRIENDLY_MINIONS + ID("CS2_101t"))
 
 
 ##
@@ -30,24 +44,46 @@ class UNG_962:
 class UNG_004:
 	"""Dinosize"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-	pass
+	play = Buff(TARGET, "UNG_004e")
+
+
+class UNG_004e:
+	atk = SET(10)
+	max_health = SET(10)
 
 
 class UNG_952:
 	"""Spikeridged Steed"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-	pass
+	play = Buff(TARGET, "UNG_952e")
+
+
+class UNG_952e:
+	tags = {
+		GameTag.ATK: 2,
+		GameTag.HEALTH: 6,
+		GameTag.TAUNT: True,
+		GameTag.DEATHRATTLE: True,
+	}
+
+	deathrattle = Summon(CONTROLLER, "UNG_810")
 
 
 class UNG_954:
 	"""The Last Kaleidosaur"""
-	pass
+	progress_total = 6
+	quest = Play(CONTROLLER, SPELL, FRIENDLY_MINIONS).after(AddProgress(SELF, Play.CARD))
+	reward = Give(CONTROLLER, "UNG_954t1")
+
+
+class UNG_954t1:
+	play = Adapt(SELF) * 5
 
 
 class UNG_960:
 	"""Lost in the Jungle"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	pass
+	play = Summon(CONTROLLER, "CS2_101t") * 2
 
 
 class UNG_961:
@@ -56,7 +92,7 @@ class UNG_961:
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_TARGET_TO_PLAY: 0}
-	pass
+	play = Adapt(TARGET)
 
 
 ##
@@ -64,4 +100,6 @@ class UNG_961:
 
 class UNG_950:
 	"""Vinecleaver"""
-	pass
+	events = Attack(FRIENDLY_HERO).after(
+		Summon(CONTROLLER, "CS2_101t") * 2
+	)

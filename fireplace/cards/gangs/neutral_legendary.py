@@ -19,7 +19,7 @@ class CFM_344:
 class CFM_621:
 	"""Kazakus"""
 	powered_up = -FindDuplicates(FRIENDLY_DECK)
-	play = powered_up & KazakusHelper()
+	play = powered_up & KazakusAction(CONTROLLER)
 
 
 class CFM_637:
@@ -87,7 +87,7 @@ class CFM_808:
 	events = Attack(SELF).on(DrawUntil(EndTurn.PLAYER, 3))
 
 
-class CFM_902:
+class CFM_902(JadeGolemUtils):
 	"""Aya Blackpaw"""
 	play = SummonJadeGolem(CONTROLLER)
 	deathrattle = SummonJadeGolem(CONTROLLER)

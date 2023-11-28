@@ -4,6 +4,12 @@ from ..utils import *
 ##
 # Minions
 
+class GVG_018:
+	tags = {
+		GameTag.LIFESTEAL: True
+	}
+
+
 class CFM_610:
 	"""Crystalweaver"""
 	play = Buff(FRIENDLY_MINIONS + DEMON, "CFM_610e")
@@ -61,7 +67,7 @@ class CFM_611:
 	"""Bloodfury Potion"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = (
-		Find(TARGET + FRIENDLY + DEMON) &
+		Find(TARGET + DEMON) &
 		Buff(TARGET, "CFM_611e2") |
 		Buff(TARGET, "CFM_611e")
 	)

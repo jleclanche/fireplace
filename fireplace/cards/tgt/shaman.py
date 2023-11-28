@@ -6,7 +6,7 @@ from ..utils import *
 
 class AT_046:
 	"""Tuskarr Totemic"""
-	play = Summon(CONTROLLER, RandomTotem())
+	play = Summon(CONTROLLER, RandomBasicTotem())
 
 
 class AT_047:

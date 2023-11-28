@@ -5,7 +5,9 @@ from itertools import chain
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
-from .actions import Attack, Awaken, BeginTurn, Death, EndTurn, EventListener, Play
+from .actions import (
+	Attack, Awaken, BeginTurn, Death, EndTurn, EventListener, GameStart, Play
+)
 from .card import THE_COIN
 from .entity import Entity
 from .exceptions import GameOver
@@ -43,6 +45,10 @@ class BaseGame(Entity):
 	@property
 	def game(self):
 		return self
+
+	@property
+	def is_standard(self):
+		return self.player1.is_standard and self.player2.is_standard
 
 	@property
 	def board(self):
@@ -277,6 +283,7 @@ class BaseGame(Entity):
 
 	def start(self):
 		self.setup()
+		self.queue_actions(self, [GameStart()])
 		self.begin_turn(self.player1)
 
 	def end_turn(self):
@@ -299,7 +306,12 @@ class BaseGame(Entity):
 		for buff in self.entities.filter(one_turn_effect=True):
 			self.log("Ending One-Turn effect: %r", buff)
 			buff.remove()
-		self.begin_turn(self.current_player.opponent)
+		# Extra turn
+		if self.current_player.extra_turns:
+			self.current_player.extra_turns -= 1
+			self.begin_turn(self.current_player)
+		else:
+			self.begin_turn(self.current_player.opponent)
 
 	def skip_turn(self):
 		self.end_turn()
@@ -331,6 +343,9 @@ class BaseGame(Entity):
 		player.used_mana = 0
 		player.overload_locked = player.overloaded
 		player.overloaded = 0
+		player.elemental_played_last_turn = player.elemental_played_this_turn
+		player.elemental_played_this_turn = 0
+
 		for entity in self.live_entities:
 			if entity.type != CardType.PLAYER:
 				entity.turns_in_play += 1
@@ -356,6 +371,7 @@ class CoinRules:
 	Randomly determines the starting player when the Game starts.
 	The second player gets "The Coin" (GAME_005).
 	"""
+
 	def pick_first_player(self):
 		winner = random.choice(self.players)
 		self.log("Tossing the coin... %s wins!", winner)

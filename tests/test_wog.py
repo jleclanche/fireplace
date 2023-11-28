@@ -8,11 +8,13 @@ def test_a_light_in_the_darkness():
 	assert len(game.player1.choice.cards) == 3
 	for card in game.player1.choice.cards:
 		assert card.type == CardType.MINION
-		buffhp = card.health
-		card.clear_buffs()
-		basehp = card.health
-		assert buffhp == basehp + 1
 		assert card.card_class in (CardClass.NEUTRAL, CardClass.PALADIN)
+	choice = random.choice(game.player1.choice.cards)
+	game.player1.choice.choose(choice)
+	buffhp = choice.health
+	choice.clear_buffs()
+	basehp = choice.health
+	assert buffhp == basehp + 1
 
 
 def test_addled_grizzly():
@@ -553,7 +555,7 @@ def test_undercity_huckster():
 	undercity_huckster.play()
 	arcane_shot = game.player1.give("DS1_185")
 	arcane_shot.play(target=undercity_huckster)
-	assert game.player1.hand[0].card_class == game.player2.hero.card_class
+	assert game.player2.hero.card_class in game.player1.hand[0].classes
 
 
 def test_validated_doomsayer():
@@ -611,3 +613,76 @@ def test_yshaarj_rage_unbound():
 
 	assert game.player1.field == [yshaarj, wisp]
 	assert len(game.player1.deck) == 0
+
+
+def test_buff_cthun():
+	game = prepare_game()
+	cthun_atk = game.player1.cthun.atk
+	assert cthun_atk == 6
+	game.player1.give("OG_284").play()
+	assert game.player1.cthun.taunt
+	game.player1.give("OG_281").play()
+	cthun_atk = game.player1.cthun.atk
+	assert cthun_atk == 8
+	cthun = game.player1.give("OG_280")
+	assert cthun_atk == cthun.atk
+	game.end_turn()
+	game.end_turn()
+	cthun.play()
+	game.end_turn()
+	game.player2.give("EX1_581").play(target=cthun)
+	assert cthun_atk == cthun.atk
+
+
+def test_shifter_zerus():
+	game = prepare_empty_game()
+	zerus = game.player1.give("OG_123")
+	game.end_turn()
+	game.end_turn()
+	new_minion_1 = game.player1.hand[0]
+	assert new_minion_1 is not zerus
+	game.end_turn()
+	game.end_turn()
+	new_minion_2 = game.player1.hand[0]
+	assert new_minion_2 is not new_minion_1
+	game.end_turn()
+	game.end_turn()
+	new_minion_3 = game.player1.hand[0]
+	assert new_minion_3 is not new_minion_2
+
+
+def test_twin_emperor():
+	game = prepare_game()
+	game.player1.give("OG_281").play()
+	game.player1.give("OG_281").play()
+	game.end_turn()
+	game.end_turn()
+	twin_emperor = game.player1.give("OG_131")
+	twin_emperor.play()
+	assert game.player1.field[2] is twin_emperor
+	assert game.player1.field[3].id == "OG_319"
+
+
+def test_blood():
+	game = prepare_game()
+	blood1 = game.player1.give("OG_173").play()
+	game.end_turn()
+	game.end_turn()
+	blood2 = game.player1.give("OG_173").play()
+	game.end_turn()
+	assert blood1.zone == Zone.GRAVEYARD
+	assert blood2.zone == Zone.GRAVEYARD
+	assert game.player1.field[0].id == "OG_173a"
+
+
+def test_thing_from_below():
+	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
+	below = game.player1.give("OG_028")
+	below_cost = below.cost
+	assert below_cost == 6
+	game.player1.hero.power.use()
+	assert below.cost == below_cost - 1
+	game.player1.give("EX1_565").play()
+	assert below.cost == below_cost - 2
+	below.play()
+	assert below.cost == below_cost

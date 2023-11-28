@@ -6,7 +6,7 @@ from pkgutil import iter_modules
 from typing import List
 from xml.etree import ElementTree
 
-from hearthstone.enums import CardClass, CardType
+from hearthstone.enums import CardClass, CardType, CardSet
 
 
 # Autogenerate the list of cardset modules
@@ -63,14 +63,14 @@ class CardList(list):
 		return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k, 0) == v)
 
 
-def random_draft(card_class: CardClass, exclude=[]):
+def random_draft(card_class: CardClass, exclude=[], include=[]):
 	"""
 	Return a deck of 30 random cards for the \a card_class
 	"""
 	from . import cards
 	from .deck import Deck
 
-	deck = []
+	deck = list(include)
 	collection = []
 	# hero = card_class.default_hero
 
@@ -206,7 +206,7 @@ def play_turn(game):
 				print("Playing %r on %r" % (card, target))
 				card.play(target=target)
 
-				if player.choice:
+				while player.choice:
 					choice = random.choice(player.choice.cards)
 					print("Choosing card %r" % (choice))
 					player.choice.choose(choice)

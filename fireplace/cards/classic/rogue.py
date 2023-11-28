@@ -4,7 +4,7 @@ from ..utils import *
 ##
 # Rogue
 
-class HERO_03bp:
+class CS2_083b:
 	"""Dagger Mastery"""
 	activate = Find(FRIENDLY_WEAPON + ID("AT_034")) | Summon(CONTROLLER, "CS2_082")
 
@@ -178,7 +178,7 @@ class EX1_145:
 
 
 class EX1_145o:
-	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -2})
+	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -3})
 	events = OWN_SPELL_PLAY.on(Destroy(SELF))
 
 

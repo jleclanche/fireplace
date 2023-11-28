@@ -1,6 +1,6 @@
 import random
 
-from hearthstone.enums import CardClass, CardType, GameTag, PlayReq, Race, Rarity
+from hearthstone.enums import CardClass, CardType, GameTag, PlayReq, Race, Rarity, CardSet
 
 from ..actions import *
 from ..aura import Refresh
@@ -32,14 +32,17 @@ EMPTY_HAND = Count(FRIENDLY_HAND) == 0
 FULL_BOARD = Count(FRIENDLY_MINIONS) == 7
 FULL_HAND = Count(FRIENDLY_HAND) == 10
 HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
+ELEMENTAL_PLAYED_LAST_TURN = Attr(CONTROLLER, enums.ELEMENTAL_PLAYED_LAST_TURN) > 0
+TIMES_SPELL_PLAYED_THIS_GAME = Count(CARDS_PLAYED_THIS_GAME + SPELL)
+TIMES_SECRETS_PLAYED_THIS_GAME = Count(CARDS_PLAYED_THIS_GAME + SECRET)
 
-DISCOVER = lambda *args: Discover(CONTROLLER, *args)
+DISCOVER = lambda *args: Discover(CONTROLLER, *args).then(Give(CONTROLLER, Discover.CARD))
+STARTING_DECK = Attr(CONTROLLER, "starting_deck")
 
 BASIC_HERO_POWERS = [
-	"HERO_01bp", "HERO_02bp", "HERO_03bp",
-	"HERO_04bp", "HERO_05bp", "HERO_06bp",
-	"HERO_07bp", "HERO_08bp", "HERO_09bp",
-	"HERO_10bp",
+	"CS2_017", "DS1h_292", "CS2_034",
+	"CS2_101", "CS1h_001", "CS2_083b",
+	"CS2_083b", "CS2_056", "CS2_102",
 ]
 
 POTIONS = [
@@ -146,7 +149,7 @@ def GainEmptyMana(selector, amount):
 	"""
 	Helper to gain an empty mana crystal (gains mana, then spends it)
 	"""
-	return GainMana(selector, amount), SpendMana(selector, amount)
+	return GainMana(selector, amount).then(SpendMana(selector, GainMana.AMOUNT))
 
 
 def custom_card(cls):
@@ -161,3 +164,35 @@ def custom_card(cls):
 		GameTag.CARDTEXT_INHAND: {"enUS": ""}
 	}
 	return cls
+
+
+class JadeGolemCardtextEntity0(LazyNum):
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def evaluate(self, source):
+		card = self.get_entities(source)[0]
+		jade_golem = card.controller.jade_golem
+		return f"{jade_golem}/{jade_golem}"
+
+
+class JadeGolemCardtextEntity1(LazyNum):
+	def __init__(self, selector):
+		super().__init__()
+		self.selector = selector
+
+	def evaluate(self, source):
+		card = self.get_entities(source)[0]
+		if card.data.locale == "enUS":
+			jade_golem = card.controller.jade_golem
+			if jade_golem == 8 or jade_golem == 18:
+				return "n"
+		return ""
+
+
+class JadeGolemUtils:
+	tags = {
+		GameTag.CARDTEXT_ENTITY_0: JadeGolemCardtextEntity0(SELF),
+		GameTag.CARDTEXT_ENTITY_1: JadeGolemCardtextEntity1(SELF),
+	}

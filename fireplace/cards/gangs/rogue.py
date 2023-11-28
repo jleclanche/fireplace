@@ -20,7 +20,7 @@ class CFM_634:
 	)
 
 
-class CFM_691:
+class CFM_691(JadeGolemUtils):
 	"""Jade Swarmer"""
 	deathrattle = SummonJadeGolem(CONTROLLER)
 
@@ -59,7 +59,7 @@ class CFM_630:
 	play = ManaThisTurn(CONTROLLER, 1)
 
 
-class CFM_690:
+class CFM_690(JadeGolemUtils):
 	"""Jade Shuriken"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 2)

@@ -6,7 +6,7 @@ from ..utils import *
 
 class OG_149:
 	"""Ravaging Ghoul"""
-	play = Hit(ALL_MINIONS - SELF, 1)
+	play = Hit(ALL_MINIONS, 1)
 
 
 class OG_218:
@@ -37,7 +37,7 @@ OG_315e = buff(+1, +1)
 
 class OG_301:
 	"""Ancient Shieldbearer"""
-	play = CHECK_CTHUN & GainArmor(CONTROLLER, 10)
+	play = CHECK_CTHUN & GainArmor(FRIENDLY_HERO, 10)
 
 
 ##

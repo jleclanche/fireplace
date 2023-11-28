@@ -16,20 +16,95 @@ def test_aya_blackpaw():
 
 
 def test_jade_behemoth():
-	game = prepare_game()
-	jade_behemoth = game.current_player.give("CFM_343").play()
-	assert jade_behemoth.taunt
-	jade1 = game.current_player.field[-1]
-	assert "CFM_712_t01" == jade1.id
-	assert jade1.health == jade1.atk == 1
-	jade1.destroy()
+	game = prepare_empty_game()
+	card = game.current_player.give("CFM_343")
+	hand_description, description = card.data.description.replace("[x]", "").split("@")
+	assert card.description == hand_description.format("1/1", "")
+	card.play()
+	assert card.taunt
+	assert card.description == description
+	jade = game.current_player.field[-1]
+	assert "CFM_712_t01" == jade.id
+	assert jade.health == jade.atk == 1
+	jade.destroy()
+	card.destroy()
 
 	game.end_turn()
 	game.end_turn()
-	game.current_player.give("CFM_343").play()
+	card2 = game.current_player.give("CFM_343")
+	assert card2.description == hand_description.format("2/2", "")
+	card2.play()
+	assert card2.description == description
 	jade2 = game.current_player.field[-1]
 	assert jade2.id == "CFM_712_t02"
 	assert jade2.health == jade2.atk == 2
+	jade2.destroy()
+	card2.destroy()
+
+	for i in range(3, 8):
+		game.end_turn()
+		game.end_turn()
+		card = game.current_player.give("CFM_343")
+		assert card.description == hand_description.format(f"{i}/{i}", "")
+		card.play()
+		assert card.taunt
+		assert card.description == description
+		jade = game.current_player.field[-1]
+		assert f"CFM_712_t0{i}" == jade.id
+		assert jade.health == jade.atk == i
+		jade.destroy()
+		card.destroy()
+
+	game.end_turn()
+	game.end_turn()
+	card = game.current_player.give("CFM_343")
+	assert card.description == hand_description.format("8/8", "n")
+	card.play()
+	assert card.taunt
+	assert card.description == description
+	jade = game.current_player.field[-1]
+	assert "CFM_712_t08" == jade.id
+	assert jade.health == jade.atk == 8
+
+
+def test_pilfered_power():
+	game = prepare_game(game_class=Game)
+	for _ in range(2):
+		game.end_turn()
+		game.end_turn()
+	assert game.player1.max_mana == 3
+	for _ in range(3):
+		game.player1.give(WISP).play()
+	pilfered_power_1 = game.player1.give("CFM_616")
+	pilfered_power_1.play()
+	assert game.player1.mana == 0
+	assert game.player1.used_mana == 3 + 3
+	assert game.player1.max_mana == 3 + 3
+
+	for _ in range(3):
+		game.end_turn()
+		game.end_turn()
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	assert game.player1.max_mana == 9
+	pilfered_power_2 = game.player1.give("CFM_616")
+	pilfered_power_2.play()
+	assert len(game.player1.hand) == 0
+	assert game.player1.mana == 6
+	assert game.player1.max_mana == 10
+	assert game.player1.used_mana == 4
+
+	game.end_turn()
+	game.end_turn()
+	game.player1.discard_hand()
+	assert len(game.player1.hand) == 0
+	assert game.player1.max_mana == 10
+	pilfered_power_3 = game.player1.give("CFM_616")
+	pilfered_power_3.play()
+	excess_mana = game.player1.hand[0]
+	assert excess_mana.id == "CS2_013t"
+	excess_mana.play()
+	assert len(game.player1.hand) == 1
 
 
 def test_jade_blossom():
@@ -220,12 +295,9 @@ def test_doppelgangster():
 	assert doppel.atk == 3
 	doppel.play()
 	assert len(game.player1.field) == 3
-	assert game.player1.field[0].id == "CFM_668t"
+	assert game.player1.field[0].id == "CFM_668"
 	assert game.player1.field[1].id == "CFM_668"
-	assert game.player1.field[2].id == "CFM_668t2"
-	assert game.player1.field[0].atk == 3
-	assert game.player1.field[1].atk == 3
-	assert game.player1.field[2].atk == 3
+	assert game.player1.field[2].id == "CFM_668"
 
 
 def test_seadevil_stinger():
@@ -241,3 +313,40 @@ def test_seadevil_stinger():
 	assert game.player1.murlocs_cost_health is False
 	assert game.player1.mana == 6
 	assert game.player1.hero.health == (30 - murloc.cost)
+
+
+def test_kazakus():
+	game = prepare_empty_game()
+	assert len(game.player1.hand) == 0
+	kazakus = game.player1.give("CFM_621")
+	kazakus.play()
+	chooses = []
+	for _ in range(3):
+		cards = game.player1.choice.cards
+		chooses.append(cards[0])
+		game.player1.choice.choose(cards[0])
+	card = game.player1.hand[0]
+	assert card.cost == 1
+	assert (
+		card.description == f"{chooses[1].description}\n{chooses[2].description}" or
+		card.description == f"{chooses[2].description}\n{chooses[1].description}"
+	)
+
+
+def test_i_know_a_guy():
+	game = prepare_game()
+	guy = game.player1.give("CFM_940")
+	guy.play()
+	for card in game.player1.choice.cards:
+		assert card.type == CardType.MINION
+		assert card.taunt
+
+
+def test_kabal_crystal_runner():
+	game = prepare_game()
+	runner = game.player1.give("CFM_760")
+	runner_cost = runner.cost
+	game.player1.give("EX1_295").play()
+	assert runner.cost == runner_cost - 2
+	runner2 = game.player1.give("CFM_760")
+	assert runner2.cost == runner_cost - 2

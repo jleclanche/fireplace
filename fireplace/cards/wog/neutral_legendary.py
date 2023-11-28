@@ -29,19 +29,20 @@ class OG_338:
 	events = BeginTurn(OPPONENT).on(COINFLIP & Draw(OPPONENT))
 
 
-# class OG_123:
-# 	"""Shifter Zerus"""
-# 	class Hand:
-# 		events = OWN_TURN_BEGIN.on(
-# 			Morph(SELF, RandomMinion()).then(Buff(Morph.CARD, "OG_123e"))
-# 		)
+class OG_123:
+	"""Shifter Zerus"""
+	class Hand:
+		events = OWN_TURN_BEGIN.on(
+			Morph(SELF, RandomMinion()).then(Buff(Morph.CARD, "OG_123e"))
+		)
 
 
-# class OG_123e:
-# 	class Hand:
-# 		events = OWN_TURN_BEGIN.on(
-# 			Morph(SELF, RandomMinion()).then(Buff(Morph.CARD, "OG_123e"))
-# 		)
+class OG_123e:
+	class Hand:
+		events = OWN_TURN_BEGIN.on(
+			Morph(OWNER, RandomMinion()).then(Buff(Morph.CARD, "OG_123e"))
+		)
+	events = REMOVED_IN_PLAY
 
 
 class OG_300:
@@ -54,12 +55,19 @@ class OG_300:
 OG_300e = buff(+2, +2)
 
 
+class OG_133:
+	"""N'Zoth, the Corruptor"""
+	play = Summon(CONTROLLER, Copy(FRIENDLY + KILLED + MINION))
+
+
 class OG_134:
 	"""Yogg-Saron, Hope's End"""
 	def play(self):
-		amount = min(self.controller.times_spell_played_this_game, 30)
-		for i in range(amount):
-			yield CastSpell(RandomSpell())
+		times = TIMES_SPELL_PLAYED_THIS_GAME.evaluate(self)
+		for _ in range(times):
+			if self.dead or self.silenced or self.zone != Zone.PLAY:
+				break
+			self.game.main_power(self, (CastSpell(RandomSpell()), ), None)
 
 
 class OG_280:

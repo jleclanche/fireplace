@@ -11,7 +11,7 @@ class OG_096:
 
 class OG_334:
 	"""Hooded Acolyte"""
-	play = Heal(ALL_CHARACTERS).on(Buff(CTHUN, "OG_281e", atk=1, max_health=1))
+	play = Heal(ALL_CHARACTERS).on(Buff(CTHUN, "OG_281e", atk=1, health=1))
 
 
 class OG_234:
@@ -27,13 +27,7 @@ class OG_335:
 
 class OG_316:
 	"""Herald Volazj"""
-	def play(self):
-		for entity in self.game:
-			if (entity in self.controller.field) and (entity != self):
-				card = ExactCopy(Selector()).copy(self, entity)
-				self.game.cheat_action(self, [Buff(card, "OG_316k")])
-				action = Summon(self.controller, card)
-				self.game.cheat_action(entity, [action])
+	play = Summon(ExactCopy(FRIENDLY_MINIONS - SELF)).then(Buff(Summon.CARD, "OG_316k"))
 
 
 class OG_316k:

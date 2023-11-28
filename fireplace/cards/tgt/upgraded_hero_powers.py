@@ -21,10 +21,9 @@ class AT_132_HUNTER:
 	activate = Hit(ENEMY_HERO, 3)
 
 
-class DS1h_292_H1_AT_132:
+class DS1h_292_H1_AT_132(AT_132_HUNTER):
 	"""Ballista Shot (Alleria Windrunner)"""
-	requirements = {PlayReq.REQ_MINION_OR_ENEMY_HERO: 0, PlayReq.REQ_STEADY_SHOT: 0}
-	activate = AT_132_HUNTER.activate
+	pass
 
 
 class AT_132_MAGE:
@@ -33,16 +32,14 @@ class AT_132_MAGE:
 	activate = Hit(TARGET, 2)
 
 
-class CS2_034_H1_AT_132:
+class CS2_034_H1_AT_132(AT_132_MAGE):
 	"""Fireblast Rank 2 (Medivh)"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-	activate = AT_132_MAGE.activate
+	pass
 
 
-class CS2_034_H2_AT_132:
+class CS2_034_H2_AT_132(AT_132_MAGE):
 	"""Fireblast Rank 2 (Khadgar)"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-	activate = AT_132_MAGE.activate
+	pass
 
 
 class AT_132_PALADIN:
@@ -51,16 +48,20 @@ class AT_132_PALADIN:
 	activate = Summon(CONTROLLER, "CS2_101t") * 2
 
 
-class CS2_101_H1_AT_132:
+class CS2_101_H1_AT_132(AT_132_PALADIN):
 	"""The Silver Hand (Lady Liadrin)"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	activate = AT_132_PALADIN.activate
+	pass
 
 
 class AT_132_PRIEST:
 	"""Heal"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	activate = Heal(TARGET, 4)
+
+
+class CS1h_001_H1_AT_132(AT_132_PRIEST):
+	"""Heal (Tyrande Whisperwind)"""
+	pass
 
 
 class AT_132_ROGUE:
@@ -73,9 +74,9 @@ class AT_132_WARRIOR:
 	activate = GainArmor(FRIENDLY_HERO, 4)
 
 
-class CS2_102_H1_AT_132:
+class CS2_102_H1_AT_132(AT_132_WARRIOR):
 	"""Tank Up! (Magni Bronzebeard)"""
-	activate = AT_132_WARRIOR.activate
+	pass
 
 
 class AT_132_WARLOCK:
@@ -89,10 +90,9 @@ class AT_132_SHAMAN:
 	choose = ("AT_132_SHAMANa", "AT_132_SHAMANb", "AT_132_SHAMANc", "AT_132_SHAMANd")
 
 
-class CS2_049_H1_AT_132:
+class CS2_049_H1_AT_132(AT_132_SHAMAN):
 	"""Totemic Slam (Morgl the Oracle)"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	choose = AT_132_SHAMAN.choose
+	pass
 
 
 class AT_132_SHAMANa:

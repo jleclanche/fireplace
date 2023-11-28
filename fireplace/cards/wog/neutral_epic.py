@@ -9,7 +9,7 @@ class OG_173:
 	events = OWN_TURN_END.on(
 		Dead(SELF) | (Find(FRIENDLY_MINIONS - SELF + ID("OG_173")) & (
 			Destroy(SELF),
-			Destroy(RANDOM(FRIENDLY_MINIONS - SELF + ID("OG_173"))),
+			Destroy((FRIENDLY_MINIONS - SELF + ID("OG_173"))[:1]),
 			Deaths(),
 			Summon(CONTROLLER, "OG_173a")
 		))
@@ -63,7 +63,11 @@ class OG_102:
 
 
 class OG_102e:
-	max_health = lambda self, i: self.health
+	atk = lambda self, i: self._xatk
+	max_health = lambda self, i: self._xhealth
+
+	def apply(self, target):
+		target.damage = 0
 
 
 class OG_174:
@@ -76,12 +80,13 @@ class OG_174:
 
 
 class OG_174e:
-	max_health = lambda self, i: self.health
+	atk = lambda self, _: self._xatk
+	max_health = lambda self, _: self._xhealth
+
+	def apply(self, target):
+		target.damage = 0
 
 
 class OG_321:
 	"""Crazed Worshipper"""
-	events = SELF_DAMAGE.on(Buff(CTHUN, "OG_281e", atk=2, max_health=2))
-
-
-OG_321e = buff(+1, +1)
+	events = SELF_DAMAGE.on(Buff(CTHUN, "OG_281e", atk=1, health=1))

@@ -27,14 +27,16 @@ class Player(Entity, TargetableByAuras):
 	spellpower_adjustment = slot_property("spellpower", sum)
 	spells_cost_health = slot_property("spells_cost_health")
 	murlocs_cost_health = slot_property("murlocs_cost_health")
+	extra_turns = slot_property("extra_turns", sum)
 	type = CardType.PLAYER
 
-	def __init__(self, name, deck, hero):
+	def __init__(self, name, deck, hero, is_standard=True):
 		self.starting_deck = deck
 		self.starting_hero = hero
 		self.data = None
 		self.name = name
 		self.hero = None
+		self.is_standard = is_standard
 		super().__init__()
 		self.deck = Deck()
 		self.hand = CardList()
@@ -64,8 +66,10 @@ class Player(Entity, TargetableByAuras):
 		self.weapon = None
 		self.zone = Zone.INVALID
 		self.jade_golem = 1
-		self.times_spell_played_this_game = 0
-		self.times_secret_played_this_game = 0
+		self.times_totem_summoned_this_game = 0
+		self.elemental_played_this_turn = 0
+		self.elemental_played_last_turn = 0
+		self.cards_played_this_game = CardList()
 		self.cthun = None
 
 	def __str__(self):
@@ -146,6 +150,14 @@ class Player(Entity, TargetableByAuras):
 	def minion_slots(self):
 		return max(0, self.game.MAX_MINIONS_ON_FIELD - len(self.field))
 
+	def copy_cthun_buff(self, card):
+		for buff in self.cthun.buffs:
+			buff.source.buff(
+				card, buff.id,
+				atk=buff.atk,
+				max_health=buff.max_health,
+				taunt=getattr(buff, "taunt", False))
+
 	def card(self, id, source=None, parent=None, zone=Zone.SETASIDE):
 		card = Card(id)
 		card.controller = self
@@ -156,29 +168,29 @@ class Player(Entity, TargetableByAuras):
 			card.creator = source
 		if parent is not None:
 			card.parent_card = parent
-		if id == "OG_280" and self.controller.cthun is not None:
-			cthun = self.controller.cthun
-			for k in cthun.silenceable_attributes:
-				v = getattr(cthun, k)
-				setattr(card, k, v)
-			card.silenced = cthun.silenced
-			card.damage = cthun.damage
-			for buff in cthun.buffs:
-				cthun.buff(card, buff.id)
+		# C'THUN
+		if self.cthun and id == self.cthun.id:
+			self.copy_cthun_buff(card)
 		self.game.manager.new_entity(card)
 		return card
 
 	def prepare_for_game(self):
 		self.summon(self.starting_hero)
+		self.starting_hero = self.hero
 		for id in self.starting_deck:
-			self.card(id, zone=Zone.DECK)
+			card = self.card(id, zone=Zone.DECK)
+			if self.is_standard and not card.is_standard:
+				self.is_standard = False
+		self.starting_deck = self.deck[:]
 		self.shuffle_deck()
 		self.cthun = self.card("OG_280")
 		self.playstate = PlayState.PLAYING
 
 		# Draw initial hand (but not any more than what we have in the deck)
 		hand_size = min(len(self.deck), self.start_hand_size)
-		starting_hand = random.sample(self.deck, hand_size)
+		# Quest cards are automatically included in the player's mulligan as the left-most card
+		quests = [card for card in self.deck if card.data.quest]
+		starting_hand = quests + random.sample(self.deck, hand_size - len(quests))
 		# It's faster to move cards directly to the hand instead of drawing
 		for card in starting_hand:
 			card.zone = Zone.HAND
@@ -190,6 +202,11 @@ class Player(Entity, TargetableByAuras):
 		"""
 		amount += self.spellpower
 		amount <<= self.controller.spellpower_double
+		return amount
+
+	def get_heropower_damage(self, amount: int) -> int:
+		amount += self.heropower_damage
+		amount <<= self.controller.hero_power_double
 		return amount
 
 	def discard_hand(self):

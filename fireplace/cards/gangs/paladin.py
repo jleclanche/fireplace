@@ -38,6 +38,13 @@ class CFM_759:
 	deathrattle = (ATK(SELF) >= 2) & Draw(CONTROLLER)
 
 
+class CFM_815:
+	"""Wickerflame Burnbristle"""
+	tags = {
+		GameTag.LIFESTEAL: True
+	}
+
+
 ##
 # Spells
 

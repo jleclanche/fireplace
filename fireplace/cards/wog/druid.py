@@ -59,7 +59,7 @@ OG_188e = buff(health=4)
 
 class OG_293:
 	"""Dark Arakkoa"""
-	play = Buff(CTHUN, "OG_281e", atk=3, max_health=3)
+	play = Buff(CTHUN, "OG_281e", atk=3, health=3)
 
 
 ##

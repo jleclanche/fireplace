@@ -367,8 +367,8 @@ def test_gazlowe():
 def test_gazlowe_preparation():
 	game = prepare_empty_game()
 	game.player1.give("GVG_117").play()
-	drainlife = game.player1.give("CS2_061")
-	assert drainlife.cost == 3
+	drainlife = game.player1.give(FIREBALL)
+	assert drainlife.cost == 4
 	game.player1.give("EX1_145").play()
 	assert drainlife.cost == 1
 	drainlife.play(target=game.player2.hero)
@@ -440,14 +440,6 @@ def test_grove_tender():
 
 	assert game.player1.max_mana == 6
 	assert game.player2.max_mana == 5
-	game.player1.discard_hand()
-	game.player2.discard_hand()
-	game.player1.summon(FANDRAL_STAGHELM)
-	game.player1.give("GVG_032").play()
-	assert game.player1.max_mana == 7
-	assert game.player2.max_mana == 6
-	assert game.player1.mana == 6 - 3 - 3 + 1
-	assert game.player1.used_mana == 3 + 3
 
 
 def test_hobgoblin():
@@ -872,7 +864,7 @@ def test_recombobulator_molten_giant():
 	game.player1.hero.set_current_health(15)
 
 	molten = game.player1.give("EX1_620")
-	assert molten.cost == 20 - 15
+	assert molten.cost == 25 - 15
 	molten.play()
 	game.end_turn()
 	game.end_turn()

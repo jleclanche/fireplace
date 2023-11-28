@@ -6,22 +6,17 @@ from ..utils import *
 
 class UNG_001:
 	"""Pterrordax Hatchling"""
-	pass
+	play = Adapt(SELF)
 
 
 class UNG_009:
 	"""Ravasaur Runt"""
-	pass
+	play = (Count(FRIENDLY_MINIONS - SELF) >= 2) & Adapt(SELF)
 
 
 class UNG_010:
 	"""Sated Threshadon"""
-	pass
-
-
-class UNG_071:
-	"""Giant Mastodon"""
-	pass
+	deathrattle = Summon(CONTROLLER, "UNG_201t") * 3
 
 
 class UNG_073:
@@ -31,91 +26,64 @@ class UNG_073:
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
 		PlayReq.REQ_TARGET_WITH_RACE: 14}
-	pass
+	play = Buff(TARGET, "UNG_073e")
+
+
+UNG_073e = buff(+1, +1)
 
 
 class UNG_076:
 	"""Eggnapper"""
-	pass
+	deathrattle = Summon(CONTROLLER, "UNG_076t1") * 2
 
 
 class UNG_082:
 	"""Thunder Lizard"""
-	pass
+	play = ELEMENTAL_PLAYED_LAST_TURN & Adapt(SELF)
 
 
 class UNG_084:
 	"""Fire Plume Phoenix"""
 	requirements = {PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	pass
+	play = Hit(TARGET, 2)
 
 
 class UNG_205:
 	"""Glacial Shard"""
 	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	pass
+	play = Freeze(TARGET)
 
 
 class UNG_801:
 	"""Nesting Roc"""
-	pass
+	play = (Count(FRIENDLY_MINIONS - SELF) >= 2) & Taunt(SELF)
 
 
 class UNG_803:
 	"""Emerald Reaver"""
-	pass
-
-
-class UNG_806:
-	"""Ultrasaur"""
-	pass
-
-
-class UNG_808:
-	"""Stubborn Gastropod"""
-	pass
+	play = Hit(ALL_HEROES, 1)
 
 
 class UNG_809:
 	"""Fire Fly"""
-	pass
-
-
-class UNG_810:
-	"""Stegodon"""
-	pass
-
-
-class UNG_812:
-	"""Sabretooth Stalker"""
-	pass
-
-
-class UNG_813:
-	"""Stormwatcher"""
-	pass
-
-
-class UNG_814:
-	"""Giant Wasp"""
-	pass
+	play = Give(CONTROLLER, "UNG_809t1")
 
 
 class UNG_818:
 	"""Volatile Elemental"""
-	pass
+	deathrattle = Hit(RANDOM_ENEMY_MINION, 3)
 
 
 class UNG_845:
 	"""Igneous Elemental"""
-	pass
+	deathrattle = Give(CONTROLLER, "UNG_809t1") * 2
 
 
 class UNG_928:
 	"""Tar Creeper"""
-	pass
+	update = CurrentPlayer(OPPONENT) & Refresh(SELF, {GameTag.ATK: +2})
 
 
 class UNG_937:
 	"""Primalfin Lookout"""
-	pass
+	play = Find(FRIENDLY_MINIONS + MURLOC - SELF) & DISCOVER(RandomMurloc())

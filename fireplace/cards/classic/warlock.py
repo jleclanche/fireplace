@@ -4,7 +4,7 @@ from ..utils import *
 ##
 # Hero Powers
 
-class HERO_07bp:
+class CS2_056:
 	"""Life Tap"""
 	activate = Hit(FRIENDLY_HERO, 2), Draw(CONTROLLER)
 
@@ -39,7 +39,7 @@ class EX1_304:
 
 
 class EX1_306:
-	"""Felstalker"""
+	"""Succubus"""
 	play = Discard(RANDOM(FRIENDLY_HAND))
 
 
@@ -187,8 +187,4 @@ EX1_596e = buff(+2, +2)
 
 class NEW1_003:
 	"""Sacrificial Pact"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
-		PlayReq.REQ_TARGET_WITH_RACE: 15}
 	play = Destroy(TARGET), Heal(FRIENDLY_HERO, 5)

@@ -35,7 +35,7 @@ class OG_241:
 
 class OG_302:
 	"""Usher of Souls"""
-	events = Death(FRIENDLY + MINION).on(Buff(CTHUN, "OG_281e", atk=1, max_health=1))
+	events = Death(FRIENDLY_MINIONS).on(Buff(CTHUN, "OG_281e", atk=1, max_health=1))
 
 
 ##
@@ -51,14 +51,14 @@ class OG_118:
 	def play(self):
 		import random
 		classes = [
-			(CardClass.DRUID, "HERO_06bp"),
-			(CardClass.HUNTER, "HERO_05bp"),
-			(CardClass.MAGE, "HERO_08bp"),
-			(CardClass.PALADIN, "HERO_04bp"),
-			(CardClass.PRIEST, "HERO_09bp"),
-			(CardClass.ROGUE, "HERO_03bp"),
-			(CardClass.SHAMAN, "HERO_02bp"),
-			(CardClass.WARRIOR, "HERO_07bp")
+			(CardClass.DRUID, "CS2_017"),
+			(CardClass.HUNTER, "DS1h_292"),
+			(CardClass.MAGE, "CS2_034"),
+			(CardClass.PALADIN, "CS2_101"),
+			(CardClass.PRIEST, "CS1h_001"),
+			(CardClass.ROGUE, "CS2_083b"),
+			(CardClass.SHAMAN, "CS2_049"),
+			(CardClass.WARRIOR, "CS2_102")
 		]
 		hero_class, hero_power = random.choice(classes)
 		yield Summon(CONTROLLER, hero_power)
@@ -66,11 +66,11 @@ class OG_118:
 			FRIENDLY + WARLOCK + (IN_HAND | IN_DECK),
 			RandomCollectible(card_class=hero_class)
 		).then(
-			Buff(Morph.CARD, "OG_118e")
+			Buff(Morph.CARD, "OG_118f")
 		)
 
 
-class OG_118e:
+class OG_118f:
 	events = REMOVED_IN_PLAY
 	tags = {GameTag.COST: -1}
 

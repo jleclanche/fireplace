@@ -1,4 +1,6 @@
 from utils import *
+from utils import _random_class
+from utils import _draft
 
 
 def test_kindly_grandmother():
@@ -214,8 +216,7 @@ def test_swashburglar():
 	burglar = game.player1.give("KAR_069")
 	burglar.play()
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].card_class == game.player2.hero.card_class
-	assert game.player1.hand[0].type != CardType.HERO
+	assert game.player2.hero.card_class in game.player1.hand[0].classes
 
 
 def test_ethereal_peddler():
@@ -531,7 +532,7 @@ def test_silvermoon_portal():
 	assert game.player1.field[-1].cost == 2
 	game.player1.field[-1].bounce()
 	assert whelp.atk == 3
-	assert whelp.health == 3
+	assert whelp.max_health == 3  # random summon Wild Pyromancer will hit 1
 	assert whelp.buff
 
 
@@ -545,3 +546,89 @@ def test_ironforge_portal():
 	assert game.player1.hero.armor == 4
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].cost == 4
+
+
+def test_arcane_giant():
+	game = prepare_game()
+	giant = game.player1.give("KAR_711")
+	giant_cost = giant.cost
+	assert giant_cost == 12
+	game.player1.give(THE_COIN).play()
+	assert giant.cost == giant_cost - 1
+	game.player1.give(THE_COIN).play()
+	assert giant.cost == giant_cost - 2
+
+
+def test_fools_bane():
+	game = prepare_game()
+	game.player1.give("KAR_028").play()
+	assert game.player1.hero.atk == 3
+	assert not game.player1.hero.can_attack()
+	game.end_turn()
+	for _ in range(7):
+		game.player2.give(WISP).play()
+	game.end_turn()
+	assert game.player1.hero.atk == 3
+	assert game.player1.hero.can_attack()
+	assert game.player2.hero not in game.player1.hero.attack_targets
+	for _ in range(4):
+		assert game.player1.hero.can_attack()
+		game.player1.hero.attack(game.player2.field[0])
+	assert game.player1.weapon is None
+	assert not game.player1.hero.can_attack()
+
+
+def test_spirit_claws():
+	game = prepare_game()
+	game.player1.give("KAR_063").play()
+	assert game.player1.hero.atk == 1
+	kobold = game.player1.give(KOBOLD_GEOMANCER).play()
+	assert game.player1.hero.atk == 3
+	game.player1.give(MOONFIRE).play(target=kobold)
+	assert game.player1.hero.atk == 1
+
+
+def test_moat_lurker():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	lurker = game.player1.give("KAR_041").play(target=wisp)
+	game.player1.give(FIREBALL).play(target=lurker)
+	wisp = game.player1.field[0]
+	assert wisp.id == WISP
+	game.end_turn()
+	lurker2 = game.player2.give("KAR_041").play(target=wisp)
+	assert len(game.player1.field) == 0
+	game.player2.give(FIREBALL).play(target=lurker2)
+	wisp = game.player1.field[0]
+	assert wisp.id == WISP
+
+
+def test_ivory_knight():
+	game = prepare_empty_game(CardClass.PALADIN, CardClass.PALADIN)
+	game.player1.hero.set_current_health(1)
+	game.player1.give("KAR_057").play()
+	for card in game.player1.choice.cards:
+		assert (
+			CardClass.NEUTRAL in fireplace.cards.db[card].classes or
+			CardClass.PALADIN in fireplace.cards.db[card].classes
+		)
+		assert fireplace.cards.db[card].type == CardType.SPELL
+
+	choice = random.choice(game.player1.choice.cards)
+	game.player1.choice.choose(choice)
+	assert game.player1.choice is None
+	assert len(game.player1.hand) == 1
+	assert game.player1.hero.health == min(30, 1 + choice.cost)
+
+
+def test_prince_malchezaar():
+	game = prepare_game(include=("KAR_096", ))
+	assert len(game.player1.deck) + len(game.player1.hand) == 35
+	assert len(game.player2.deck) + len(game.player2.hand) == 36  # The Coin
+
+
+def test_silverware_golem():
+	game = prepare_empty_game()
+	game.player1.give("KAR_205")
+	game.player1.give(SOULFIRE).play(target=game.player2.hero)
+	assert game.player1.field[0].id == "KAR_205"

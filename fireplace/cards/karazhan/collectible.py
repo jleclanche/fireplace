@@ -73,17 +73,24 @@ class KAR_037:
 
 KAR_037t = buff(+1, +1, taunt=True)
 
-# class KAR_041:
-# 	"""Moat Lurker"""
-#  	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+
+class KAR_041:
+	"""Moat Lurker"""
+	play = Destroy(TARGET)
+	deathrattle = Summon(TARGET_PLAYER, Copy(TARGET))
 
 
 class KAR_044:
 	"""Moroes"""
 	events = OWN_TURN_END.on(Summon(CONTROLLER, "KAR_044a"))
 
-# class KAR_057:
-# 	"""Ivory Knight"""
+
+class KAR_057:
+	"""Ivory Knight"""
+	play = Discover(CONTROLLER, RandomSpell()).then(
+		Give(CONTROLLER, Discover.CARD),
+		Heal(FRIENDLY_HERO, COST(Discover.CARD))
+	)
 
 
 class KAR_061:
@@ -165,8 +172,22 @@ class KAR_095:
 
 KAR_095e = buff(+1, +1)
 
-# class KAR_096:
-# 	"""Prince Malchezaar"""
+
+class KAR_096:
+	"""Prince Malchezaar"""
+	# TODO
+	# At the start of the game, if the player has Prince Malchezaar in their deck,
+	# he will add 5 random collectible legendary cards to the player's deck.
+	#
+	# While the selection is random, only cards suitable for the player's class will be chosen,
+	# and he will not cause there to be more than 1 copy of any given legendary in the deck,
+	# thus abiding by the game's regular deck-building rules.[1]
+
+	class Deck:
+		events = GameStart().after(Shuffle(CONTROLLER, RandomLegendaryMinion()) * 5)
+
+	class Hand:
+		events = GameStart().after(Shuffle(CONTROLLER, RandomLegendaryMinion()) * 5)
 
 
 class KAR_097:
@@ -197,8 +218,11 @@ class KAR_204:
 	"""Onyx Bishop"""
 	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION)))
 
-# class KAR_205:
-# 	"""Silverware Golem"""
+
+class KAR_205:
+	"""Silverware Golem"""
+	class Hand:
+		events = Discard(SELF).on(Summon(CONTROLLER, "KAR_205"))
 
 
 class KAR_702:
@@ -222,8 +246,10 @@ class KAR_710:
 	"""Arcanosmith"""
 	play = Summon(CONTROLLER, "KAR_710m")
 
-# class KAR_711:
-# 	"""Arcane Giant"""
+
+class KAR_711:
+	"""Arcane Giant"""
+	cost_mod = -TIMES_SPELL_PLAYED_THIS_GAME
 
 
 class KAR_712:
@@ -294,12 +320,18 @@ class KAR_091:
 	"""Ironforge Portal"""
 	play = GainArmor(FRIENDLY_HERO, 4), Summon(CONTROLLER, RandomMinion(cost=4))
 
+
 ##
 # Weapons
 
-# class KAR_028:
-# 	"""Fool's Bane"""
+class KAR_028:
+	"""Fool's Bane"""
+	update = Refresh(FRIENDLY_HERO, {
+		GameTag.CANNOT_ATTACK_HEROES: True,
+		enums.UNLIMITED_ATTACKS: True,
+	})
 
-# class KAR_063:
-# 	"""Spirit Claws"""
-# 	update = Find( FRIENDLY_MINIONS + SPELLPOWER ) & Refresh(SELF, {GameTag.ATK: +2})
+
+class KAR_063:
+	"""Spirit Claws"""
+	update = Find(FRIENDLY_MINIONS + SPELLPOWER) & Refresh(SELF, {GameTag.ATK: +2})

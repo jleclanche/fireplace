@@ -4,14 +4,14 @@ from ..utils import *
 ##
 # Hero Powers
 
-class HERO_01bp:
+class CS2_102:
 	"""Armor Up! (Garrosh Hellscream)"""
 	activate = GainArmor(FRIENDLY_HERO, 2)
 
 
 class CS2_102_H1:
 	"""Armor Up! (Magni Bronzebeard)"""
-	activate = HERO_01bp.activate
+	activate = CS2_102.activate
 
 
 ##
@@ -63,11 +63,22 @@ class CS2_103:
 	requirements = {
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_TO_PLAY: 0}
-	play = Buff(TARGET, "CS2_103e2")
+		PlayReq.REQ_TARGET_TO_PLAY: 0
+	}
+	play = Buff(TARGET, "CS2_103e"), Buff(TARGET, "CS2_103e2")
 
 
-CS2_103e2 = buff(atk=2, charge=True)
+@custom_card
+class CS2_103e:
+	tags = {
+		GameTag.CARDNAME: "Charge",
+		GameTag.TAG_ONE_TURN_EFFECT: True,
+		GameTag.CANNOT_ATTACK_HEROES: True,
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+	}
+
+
+CS2_103e2 = buff(charge=True)
 
 
 class CS2_104:

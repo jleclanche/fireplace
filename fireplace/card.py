@@ -1,11 +1,13 @@
 import random
+import re
 from itertools import chain
 
-from hearthstone.enums import CardType, MultiClassGroup, PlayReq, PlayState, \
+from hearthstone.enums import CardType, GameTag, MultiClassGroup, PlayReq, PlayState, \
 	Race, Rarity, Step, Zone
 
 from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
+from .dsl.lazynum import LazyNum
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
 from .exceptions import InvalidAction
 from .managers import CardManager
@@ -28,6 +30,8 @@ def Card(id):
 	}[data.type]
 	if subclass is Spell and data.secret:
 		subclass = Secret
+	if subclass is Spell and data.quest:
+		subclass = Quest
 	return subclass(data)
 
 
@@ -42,10 +46,13 @@ class BaseCard(BaseEntity):
 		self.id = data.id
 		self.controller = None
 		self.choose = None
+		self.target = None
 		self.parent_card = None
 		self.aura = False
 		self.heropower_damage = 0
 		self._zone = Zone.INVALID
+		self._progress = 0
+		self.progress_total = data.scripts.progress_total
 		self.tags.update(data.tags)
 
 	def __str__(self):
@@ -63,6 +70,59 @@ class BaseCard(BaseEntity):
 		elif isinstance(other, str):
 			return self.id.__eq__(other)
 		return super().__eq__(other)
+
+	@property
+	def is_standard(self):
+		return self.data.is_standard
+
+	@property
+	def description(self):
+		description = self.data.description
+		if "@" in description:
+			hand_description, description = description.split("@")
+			if self.zone is Zone.HAND:
+				description = hand_description
+		formats = []
+		format_tags = [
+			GameTag.CARDTEXT_ENTITY_0,
+			GameTag.CARDTEXT_ENTITY_1,
+			GameTag.CARDTEXT_ENTITY_2,
+			GameTag.CARDTEXT_ENTITY_3,
+			GameTag.CARDTEXT_ENTITY_4,
+			GameTag.CARDTEXT_ENTITY_5,
+			GameTag.CARDTEXT_ENTITY_6,
+			GameTag.CARDTEXT_ENTITY_7,
+			GameTag.CARDTEXT_ENTITY_8,
+			GameTag.CARDTEXT_ENTITY_9,
+		]
+		formats = []
+		for format_tag in format_tags:
+			entity = self.tags[format_tag]
+			if isinstance(entity, LazyNum):
+				formats.append(entity.evaluate(self))
+			elif isinstance(entity, dict):
+				formats.append(entity[self.data.locale])
+			else:
+				break
+
+		description = description.format(*formats)
+		# https://github.com/HearthSim/hs-bugs/issues/459
+		description = description.replace("[x]", "")
+		if self.type == CardType.SPELL:
+			description = re.sub(
+				"\\$(?P<damage>\\d+)",
+				lambda match: str(
+					self.controller.get_spell_damage(int(match.group("damage")))
+				),
+				description)
+		elif self.type == CardType.HERO_POWER:
+			description = re.sub(
+				"\\$(?P<damage>\\d+)",
+				lambda match: str(
+					self.controller.get_heropower_damage(int(match.group("damage")))
+				),
+				description)
+		return description
 
 	@property
 	def game(self):
@@ -141,6 +201,24 @@ class BaseCard(BaseEntity):
 	def play(self, *args):
 		raise NotImplementedError
 
+	def add_progress(self, card):
+		if self.data.scripts.add_progress:
+			return self.data.scripts.add_progress(card)
+		self.progress += 1
+
+	@property
+	def progress(self):
+		if hasattr(self, "card_name_counter"):
+			return max(self.card_name_counter.values())
+		return self._progress
+
+	@progress.setter
+	def progress(self, value):
+		self._progress = value
+
+	def clear_progress(self):
+		self.progress = 0
+
 
 class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	windfury = int_property("windfury")
@@ -154,7 +232,6 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.has_battlecry = False
 		self.has_combo = False
 		self.overload = 0
-		self.target = None
 		self.rarity = Rarity.INVALID
 		self.choose_cards = CardList()
 		self.morphed = None
@@ -226,6 +303,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		super()._set_zone(zone)
 		if old_zone == Zone.PLAY and zone not in (Zone.GRAVEYARD, Zone.SETASIDE):
 			self.clear_buffs()
+			if self.id == self.controller.cthun.id:
+				self.controller.copy_cthun_buff(self)
 
 		if self.zone == Zone.HAND:
 			# Create the "Choose One" subcards
@@ -390,6 +469,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self.controller.hero.num_attacks > 0:
 				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABE_AND_ELEMENTAL_PLAYED_LAST_TURN)
+		if req is not None:
+			if self.controller.elemental_played_last_turn:
+				return bool(self.play_targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
 	@property
@@ -488,11 +571,12 @@ class Character(LiveEntity):
 	taunt = boolean_property("taunt")
 	poisonous = boolean_property("poisonous")
 	ignore_taunt = boolean_property("ignore_taunt")
+	cannot_attack_heroes = boolean_property("cannot_attack_heroes")
+	unlimited_attacks = boolean_property("unlimited_attacks")
 
 	def __init__(self, data):
 		self.frozen = False
 		self.attack_target = None
-		self.cannot_attack_heroes = False
 		self.num_attacks = 0
 		self.race = Race.INVALID
 		super().__init__(data)
@@ -554,6 +638,8 @@ class Character(LiveEntity):
 
 	@property
 	def exhausted(self):
+		if self.unlimited_attacks:
+			return False
 		if self.num_attacks >= self.max_attacks:
 			return True
 		return False
@@ -789,8 +875,12 @@ class Spell(PlayableCard):
 		return amount
 
 	def play(self, target=None, index=None, choose=None):
-		self.controller.times_spell_played_this_game += 1
 		return super().play(target, index, choose)
+
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			value = Zone.GRAVEYARD
+		super()._set_zone(value)
 
 
 class Secret(Spell):
@@ -827,9 +917,27 @@ class Secret(Spell):
 			return False
 		return super().is_summonable()
 
-	def play(self, target=None, index=None, choose=None):
-		self.controller.times_secret_played_this_game += 1
-		return super().play(target, index, choose)
+
+class Quest(Spell):
+	def is_summonable(self):
+		if len(self.controller.secrets) > 0 and self.controller.secrets[0].data.quest:
+			return False
+		return super().is_summonable()
+
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			# Move secrets to the SECRET Zone when played
+			value = Zone.SECRET
+		if value == Zone.SECRET:
+			self.controller.secrets.insert(0, self)
+		super()._set_zone(value)
+
+	@property
+	def events(self):
+		ret = super().events
+		if self.zone == Zone.SECRET and not self.exhausted:
+			ret += self.data.scripts.quest
+		return ret
 
 
 class Enchantment(BaseCard):
@@ -847,6 +955,15 @@ class Enchantment(BaseCard):
 		self.one_turn_effect = False
 		self.additional_deathrattles = []
 		super().__init__(data)
+
+	@property
+	def events(self):
+		events = super().events
+		if self.owner.zone == Zone.HAND:
+			events += self.data.scripts.Hand.events
+		if self.owner.zone == Zone.DECK:
+			events += self.data.scripts.Deck.events
+		return events
 
 	@property
 	def deathrattles(self):
@@ -954,9 +1071,7 @@ class HeroPower(PlayableCard):
 
 	def get_damage(self, amount, target):
 		amount = super().get_damage(amount, target)
-		amount += self.controller.heropower_damage
-		amount <<= self.controller.hero_power_double
-		return amount
+		return self.controller.get_heropower_damage(amount)
 
 	def use(self, target=None):
 		if not self.is_usable():
@@ -967,6 +1082,8 @@ class HeroPower(PlayableCard):
 		if self.requires_target():
 			if not target:
 				raise InvalidAction("%r requires a target." % (self))
+			elif target not in self.play_targets:
+				raise InvalidAction("%r is not a valid target for %r." % (target, self))
 			if self.controller.all_targets_random:
 				new_target = random.choice(self.play_targets)
 				self.logger.info("Retargeting %r from %r to %r", self, target, new_target)

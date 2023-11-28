@@ -31,13 +31,27 @@ def test_empty_selector():
 
 
 def test_random_card_picker():
+	game = prepare_empty_game()
 	picker = RandomCardPicker()
-	ids = picker.find_cards()
+	ids = picker.find_cards(game)
 	for id in ids:
 		card = Card(id)
+		assert card.is_standard
 		assert card.type is not CardType.HERO
 		assert card.type is not CardType.ENCHANTMENT
 		assert card.type is not CardType.HERO_POWER
+
+	game.player1.is_standard = False
+	ids = picker.find_cards(game)
+	has_wild = False
+	for id in ids:
+		card = Card(id)
+		if not card.is_standard:
+			has_wild = True
+		assert card.type is not CardType.HERO
+		assert card.type is not CardType.ENCHANTMENT
+		assert card.type is not CardType.HERO_POWER
+	assert has_wild
 
 
 def test_controller():
@@ -200,3 +214,20 @@ def test_hijack():
 	with hijacked(RANDOM_ENEMY_MINION, FRIENDLY_HERO):
 		with pytest.raises(GameOver):
 			vial.play()
+
+
+def test_lazynum():
+	game = prepare_game()
+	[game.player1.give(WISP).play() for _ in range(4)]
+	game.end_turn()
+	[game.player2.give(WISP).play() for _ in range(5)]
+	game.end_turn()
+	assert Count(FRIENDLY_MINIONS).evaluate(game.player1) == 4
+	assert Count(ENEMY_MINIONS).evaluate(game.player1) == 5
+	maxnum = Max(Count(FRIENDLY_MINIONS), Count(ENEMY_MINIONS)).evaluate(game.player1)
+	assert maxnum == 5
+
+	total = (Count(FRIENDLY_MINIONS) + Count(ENEMY_MINIONS)).evaluate(game.player1)
+	assert total == 9
+	diff = (Count(FRIENDLY_MINIONS) - Count(ENEMY_MINIONS)).evaluate(game.player1)
+	assert diff == -1

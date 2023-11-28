@@ -6,32 +6,35 @@ from ..utils import *
 
 class UNG_002:
 	"""Volcanosaur"""
-	pass
+	play = Adapt(SELF) * 2
 
 
 class UNG_070:
 	"""Tol'vir Stoneshaper"""
-	pass
+	play = ELEMENTAL_PLAYED_LAST_TURN & (Buff(SELF, "UNG_070e"), GiveDivineShield(SELF))
+
+
+UNG_070e = buff(taunt=True)
 
 
 class UNG_072:
 	"""Stonehill Defender"""
-	pass
+	play = DISCOVER(RandomMinion(taunt=True))
 
 
 class UNG_075:
 	"""Vicious Fledgling"""
-	pass
+	events = Attack(SELF).after(Adapt(SELF))
 
 
 class UNG_079:
 	"""Frozen Crusher"""
-	pass
+	events = Attack(SELF).after(Freeze(SELF))
 
 
 class UNG_083:
 	"""Devilsaur Egg"""
-	pass
+	deathrattle = Summon(CONTROLLER, "UNG_083t1")
 
 
 class UNG_807:
@@ -40,7 +43,10 @@ class UNG_807:
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
 		PlayReq.REQ_TARGET_WITH_RACE: 23}
-	pass
+	play = Destroy(TARGET), Buff(SELF, "UNG_807e")
+
+
+UNG_807e = buff(+2, +2)
 
 
 class UNG_816:
@@ -53,4 +59,4 @@ class UNG_816:
 
 class UNG_844:
 	"""Humongous Razorleaf"""
-	pass
+	play = ELEMENTAL_PLAYED_LAST_TURN & DISCOVER(RandomElemental())

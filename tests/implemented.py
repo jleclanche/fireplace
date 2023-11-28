@@ -48,6 +48,20 @@ DUMMY_CARDS = (
 	"EX1_304e",  # Consume (Void Terror)
 	"LOE_030e",  # Hollow (Unused)
 	"NEW1_018e",  # Treasure Crazed (Bloodsail Raider)
+
+	# Kazakus Potion
+	"CFM_621t",  # Kazakus Potion
+	"CFM_621t11",  # Lesser Potion
+	"CFM_621t12",  # Greater Potion
+	"CFM_621t13",  # Superior Potion
+	"CFM_621t14",  # Kazakus Potion
+	"CFM_621t15",  # Kazakus Potion
+
+	"CFM_643e2",  # Smuggling
+	"CFM_668t",  # Doppelgangster
+	"CFM_668t2",  # Doppelgangster
+
+	"OG_118e",  # Renounce Darkness
 )
 
 
@@ -79,6 +93,12 @@ def main():
 		dest="unimplemented",
 		help="Show only unimplemented cards"
 	)
+	p.add_argument(
+		"--collectible",
+		action="store_true",
+		dest="collectible",
+		help="Show only collectible cards"
+	)
 	args = p.parse_args(sys.argv[1:])
 
 	if not args.implemented and not args.unimplemented:
@@ -88,6 +108,8 @@ def main():
 	cards.db.initialize()
 	for id in sorted(cards.db):
 		card = cards.db[id]
+		if args.collectible and not card.collectible:
+			continue
 		description = cleanup_description(card.description)
 		implemented = False
 

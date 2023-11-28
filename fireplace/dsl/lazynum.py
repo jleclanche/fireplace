@@ -40,9 +40,10 @@ class LazyNum(LazyValue):
 		return ret
 
 	def __add__(self, other):
-		ret = copy.copy(self)
-		ret.base += other
-		return ret
+		return BinOpAttr(self, other, operator.add)
+
+	def __sub__(self, other):
+		return BinOpAttr(self, other, operator.sub)
 
 	def __mul__(self, other):
 		ret = copy.copy(self)
@@ -97,6 +98,36 @@ class Count(LazyNum):
 		return self.num(len(self.get_entities(source)))
 
 
+class Max(LazyNum):
+	"""
+	Lazily max selectors
+	"""
+	def __init__(self, *selectors):
+		super().__init__()
+		self.selectors = selectors
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.selectors)
+
+	def evaluate(self, source) -> int:
+		return max([selector.evaluate(source) for selector in self.selectors])
+
+
+class Min(LazyNum):
+	"""
+	Lazily max selectors
+	"""
+	def __init__(self, *selectors):
+		super().__init__()
+		self.selectors = selectors
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.selectors)
+
+	def evaluate(self, source) -> int:
+		return min([selector.evaluate(source) for selector in self.selectors])
+
+
 class OpAttr(LazyNum):
 	"""
 	Lazily evaluate Op over all tags in a selector.
@@ -133,6 +164,26 @@ class Attr(OpAttr):
 
 	def evaluate(self, source):
 		return super().evaluate(source) or 0
+
+
+class BinOpAttr(LazyNum):
+	def __init__(self, left: LazyNum, right: LazyNum, op):
+		super().__init__()
+		self.left = left
+		self.right = right
+		self.op = op
+
+	def __repr__(self) -> str:
+		if self.op.__name__ == "add":
+			infix = "+"
+		elif self.op.__name__ == "sub":
+			infix = "-"
+		else:
+			infix = "UNKNOWN_OP"
+		return "<%r %s %r>" % (self.left, infix, self.right)
+
+	def evaluate(self, source):
+		return self.op(self.left.evaluate(source), self.right.evaluate(source))
 
 
 class RandomNumber(LazyNum):

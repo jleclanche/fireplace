@@ -11,12 +11,12 @@ class TB_GiftExchange_Snowball:
 
 
 class TB_GiftExchange_Treasure:
-	"""Winter Veil Gift"""
+	"""Winter\'s Veil Gift"""
 	deathrattle = Give(CURRENT_PLAYER, "TB_GiftExchange_Treasure_Spell")
 
 
 class TB_GiftExchange_Treasure_Spell:
-	"""Stolen Winter Veil Gift"""
+	"""Stolen Winter\'s Veil Gift"""
 	# Surely none of this even sort of works.
 	RandomGift = RandomCollectible(
 		# COST >= 5,

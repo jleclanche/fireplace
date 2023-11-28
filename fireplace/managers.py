@@ -85,6 +85,14 @@ class GameManager(Manager):
 		for observer in self.observers:
 			observer.turn(player)
 
+	def game_action(self, action, source, *args):
+		for observer in self.observers:
+			observer.game_action(action, source, *args)
+
+	def targeted_action(self, action, source, target, *args):
+		for observer in self.observers:
+			observer.targeted_action(action, source, target, *args)
+
 
 class BaseObserver:
 	def action_start(self, type, source, index, target):
@@ -103,6 +111,12 @@ class BaseObserver:
 		pass
 
 	def turn(self, player):
+		pass
+
+	def game_action(self, action, source, *args):
+		pass
+
+	def targeted_action(self, action, source, target, *args):
 		pass
 
 
@@ -139,6 +153,7 @@ class PlayerManager(Manager):
 		GameTag.TIMEOUT: "timeout",
 		GameTag.TURN_START: "turn_start",
 		enums.CANT_OVERLOAD: "cant_overload",
+		enums.ELEMENTAL_PLAYED_LAST_TURN: "elemental_played_last_turn",
 	}
 
 
@@ -182,6 +197,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.ENRAGED: "enrage",
 	GameTag.EXHAUSTED: "exhausted",
 	GameTag.EXTRA_DEATHRATTLES: "extra_deathrattles",
+	GameTag.EXTRA_TURNS_TAKEN_THIS_GAME: "extra_turns",
 	GameTag.FORGETFUL: "forgetful",
 	GameTag.FROZEN: "frozen",
 	GameTag.HEALING_DOUBLE: "healing_double",
@@ -205,6 +221,8 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.PARENT_CARD: "parent_card",
 	GameTag.POISONOUS: "poisonous",
 	GameTag.POWERED_UP: "powered_up",
+	GameTag.QUEST_PROGRESS: "progress",
+	GameTag.QUEST_PROGRESS_TOTAL: "progress_total",
 	GameTag.RARITY: "rarity",
 	GameTag.RECEIVES_DOUBLE_SPELLDAMAGE_BONUS: "receives_double_spelldamage_bonus",
 	GameTag.RUSH: "rush",
@@ -227,11 +245,22 @@ CARD_ATTRIBUTE_MAP = {
 	enums.KILLED_THIS_TURN: "killed_this_turn",
 	enums.DISCARDED: "discarded",
 	enums.MURLOCS_COST_HEALTH: "murlocs_cost_health",
+	enums.UNLIMITED_ATTACKS: "unlimited_attacks",
+	GameTag.CARDTEXT_ENTITY_0: "cardtext_entity_0",
+	GameTag.CARDTEXT_ENTITY_1: "cardtext_entity_1",
+	GameTag.CARDTEXT_ENTITY_2: "cardtext_entity_2",
+	GameTag.CARDTEXT_ENTITY_3: "cardtext_entity_3",
+	GameTag.CARDTEXT_ENTITY_4: "cardtext_entity_4",
+	GameTag.CARDTEXT_ENTITY_5: "cardtext_entity_5",
+	GameTag.CARDTEXT_ENTITY_6: "cardtext_entity_6",
+	GameTag.CARDTEXT_ENTITY_7: "cardtext_entity_7",
+	GameTag.CARDTEXT_ENTITY_8: "cardtext_entity_8",
+	GameTag.CARDTEXT_ENTITY_9: "cardtext_entity_9",
 	GameTag.AFFECTED_BY_SPELL_POWER: None,
 	GameTag.ARTISTNAME: None,
 	GameTag.AttackVisualType: None,
 	GameTag.CARD_SET: None,
-	GameTag.CARDTEXT_INHAND: None,
+	GameTag.CARDTEXT_INHAND: "description",
 	GameTag.CardTextInPlay: None,
 	GameTag.COLLECTIBLE: None,
 	GameTag.DevState: None,

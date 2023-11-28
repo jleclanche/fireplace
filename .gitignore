@@ -1,6 +1,7 @@
 __pycache__
-CardDefs.xml
+build
 fireplace.egg-info
+coverage.xml
 
 *.pyc
 .tox

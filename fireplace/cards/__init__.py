@@ -1,14 +1,19 @@
 import os
 from pkg_resources import resource_filename
 from hearthstone import cardxml
-from hearthstone.enums import CardType
+from hearthstone.enums import CardType, ZodiacYear
 from ..logging import log
 from ..utils import get_script_definition
+
+
+year = ZodiacYear.MAMMOTH
+default_language = "enUS"
 
 
 class CardDB(dict):
 	def __init__(self):
 		self.initialized = False
+		self.dbf = {}
 
 	@staticmethod
 	def merge(id, card, cardscript=None):
@@ -29,7 +34,8 @@ class CardDB(dict):
 
 		scriptnames = (
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
-			"enrage", "update", "powered_up", "outcast", "awaken"
+			"enrage", "update", "powered_up", "outcast", "awaken", "reward",
+			"add_progress"
 		)
 
 		for script in scriptnames:
@@ -67,6 +73,21 @@ class CardDB(dict):
 		if not hasattr(card.scripts.Hand.update, "__iter__"):
 			card.scripts.Hand.update = (card.scripts.Hand.update, )
 
+		if not hasattr(card.scripts, "Deck"):
+			card.scripts.Deck = type("Deck", (), {})
+
+		if not hasattr(card.scripts.Deck, "events"):
+			card.scripts.Deck.events = []
+
+		if not hasattr(card.scripts.Deck.events, "__iter__"):
+			card.scripts.Deck.events = [card.scripts.Deck.events]
+
+		if not hasattr(card.scripts.Deck, "update"):
+			card.scripts.Deck.update = ()
+
+		if not hasattr(card.scripts.Deck.update, "__iter__"):
+			card.scripts.Deck.update = (card.scripts.Deck.update, )
+
 		# Set choose one cards
 		if hasattr(cardscript, "choose"):
 			card.choose_cards = cardscript.choose[:]
@@ -90,14 +111,30 @@ class CardDB(dict):
 		else:
 			card.dormant = 0
 
+		if hasattr(cardscript, "progress_total"):
+			card.scripts.progress_total = cardscript.progress_total
+		else:
+			card.scripts.progress_total = 0
+
+		if hasattr(cardscript, "cardtext_entity_0"):
+			card.cardtext_entity_0 = cardscript.cardtext_entity_0
+
+		if hasattr(cardscript, "cardtext_entity_1"):
+			card.cardtext_entity_1 = cardscript.cardtext_entity_1
+
+		card.is_standard = card.card_set in year.standard_card_sets
+
 		return card
 
-	def initialize(self, locale="enUS"):
+	def initialize(self, locale=default_language):
 		log.info("Initializing card database")
 		self.initialized = True
-		db, xml = cardxml.load(locale=locale)
+		dirname = os.path.dirname(__file__)
+		filename = os.path.join(dirname, "CardDefs.xml")
+		db, xml = cardxml.load(path=filename, locale=locale)
 		for id, card in db.items():
 			self[id] = self.merge(id, card)
+			self.dbf[card.dbf_id] = id
 
 		log.info("Merged %i cards", len(self))
 
@@ -117,6 +154,9 @@ class CardDB(dict):
 			self.initialize()
 
 		cards = self.values()
+
+		# Quests cannot be randomly generated
+		cards = [card for card in cards if not card.quest]
 
 		if "type" not in kwargs:
 			kwargs["type"] = [CardType.SPELL, CardType.WEAPON, CardType.MINION]

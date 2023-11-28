@@ -172,7 +172,7 @@ def test_djinni_of_zephyrs():
 	pwshield.play(target=statue)
 	statue.max_health == 10 + 2
 	djinni.max_health == 6 + 2
-	assert len(game.player1.hand) == 0
+	assert len(game.player1.hand) == 2
 
 	# Djinni can trigger on minions that are "dead" (eg. killed by the spell)
 	naturalize = game.player1.give("EX1_161")
@@ -480,7 +480,7 @@ def test_rumbling_elemental():
 def test_sir_finley_mrrgglton():
 	game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
 	finley = game.player1.give("LOE_076")
-	assert game.player1.hero.power.id == "HERO_09bp"
+	assert game.player1.hero.power.id == "CS1h_001"
 	finley.play()
 	assert game.player1.choice
 	assert len(game.player1.choice.cards) == 3

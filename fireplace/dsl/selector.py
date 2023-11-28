@@ -129,6 +129,7 @@ CURRENT_HEALTH = AttrValue("health")
 COST = AttrValue(GameTag.COST)
 DAMAGE = AttrValue(GameTag.DAMAGE)
 MANA = AttrValue(GameTag.RESOURCES)
+MAX_MANA = AttrValue(GameTag.MAXRESOURCES)
 USED_MANA = AttrValue(GameTag.RESOURCES_USED)
 CURRENT_MANA = AttrValue("mana")
 NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
@@ -245,6 +246,19 @@ class SetOpSelector(Selector):
 			infix = "UNKNOWN_OP"
 
 		return "<%r %s %r>" % (self.left, infix, self.right)
+
+
+class DeDuplicate(Selector):
+	def __init__(self, child: SelectorLike):
+		if isinstance(child, LazyValue):
+			child = LazyValueSelector(child)
+		self.child = child
+
+	def eval(self, entities, source):
+		return list(set(self.child.eval(entities, source)))
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.child)
 
 
 SELF = FuncSelector(lambda _, source: [source])
@@ -421,7 +435,8 @@ IN_PLAY = EnumSelector(Zone.PLAY)
 IN_DECK = EnumSelector(Zone.DECK)
 IN_HAND = EnumSelector(Zone.HAND)
 HIDDEN = EnumSelector(Zone.SECRET)
-KILLED = EnumSelector(Zone.GRAVEYARD)
+DISCARDED = AttrValue(enums.DISCARDED) == True  # noqa
+KILLED = EnumSelector(Zone.GRAVEYARD) - DISCARDED
 
 GAME = EnumSelector(CardType.GAME)
 PLAYER = EnumSelector(CardType.PLAYER)
@@ -440,6 +455,7 @@ MECH = EnumSelector(Race.MECHANICAL)
 MURLOC = EnumSelector(Race.MURLOC)
 PIRATE = EnumSelector(Race.PIRATE)
 TOTEM = EnumSelector(Race.TOTEM)
+ELEMENTAL = EnumSelector(Race.ELEMENTAL)
 
 COMMON = EnumSelector(Rarity.COMMON)
 RARE = EnumSelector(Rarity.RARE)
@@ -507,8 +523,13 @@ OTHER_CLASS_CHARACTER = FuncSelector(
 	]
 )
 
+NEUTRAL = AttrValue(GameTag.CLASS) == CardClass.NEUTRAL
+
 LEFTMOST_HAND = FuncSelector(lambda entities, source: [
 	source.game.player1.hand[0], source.game.player2.hand[0]])
 RIGTHMOST_HAND = FuncSelector(lambda entities, source: [
 	source.game.player1.hand[-1], source.game.player2.hand[-1]])
 OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND
+
+CARDS_PLAYED_THIS_GAME = FuncSelector(
+	lambda entities, source: source.controller.cards_played_this_game)

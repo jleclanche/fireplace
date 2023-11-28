@@ -34,8 +34,6 @@ def test_astral_communion():
 	astral = game.player1.give("AT_043")
 	game.player1.give(INNERVATE).play()
 	game.player1.give(INNERVATE).play()
-	game.player1.give(INNERVATE).play()
-	game.player1.give(INNERVATE).play()
 	for i in range(5):
 		game.player1.give(WISP)
 	assert game.player1.max_mana == 1
@@ -66,7 +64,7 @@ def test_aviana():
 	deathwing = game.player1.give("NEW1_030")
 	assert deathwing.cost == 10
 	molten = game.player1.give("EX1_620")
-	molten_base_cost = 20
+	molten_base_cost = 25
 	assert molten.cost == molten_base_cost
 	game.player1.give(MOONFIRE).play(game.player1.hero)
 	assert molten.cost == molten_base_cost - 1
@@ -119,10 +117,8 @@ def test_burgle():
 	burgle = game.player1.give("AT_033")
 	burgle.play()
 	assert len(game.player1.hand) == 2
-	assert game.player1.hand[0].card_class == game.player2.hero.card_class
-	assert game.player1.hand[0].type != CardType.HERO
-	assert game.player1.hand[1].card_class == game.player2.hero.card_class
-	assert game.player1.hand[1].type != CardType.HERO
+	assert game.player2.hero.card_class in game.player1.hand[0].classes
+	assert game.player2.hero.card_class in game.player1.hand[1].classes
 
 
 def test_dalaran_aspirant():
@@ -233,9 +229,10 @@ def test_dreadsteed():
 	assert len(game.player1.field) == 1
 	game.player1.give(MOONFIRE).play(target=dreadsteed)
 	assert dreadsteed.dead
-	assert len(game.player1.field) == 0
-	game.end_turn()
 	assert len(game.player1.field) == 1
+	new_dreadsteed = game.player1.field[0]
+	assert new_dreadsteed.id == "AT_019"
+	assert new_dreadsteed is not dreadsteed
 
 
 def test_effigy():
@@ -832,3 +829,27 @@ def test_wrathguard():
 	wrathguard.attack(target=wargolem)
 	assert wrathguard.dead
 	assert game.player1.hero.health == 29 - 7
+
+
+def test_hero_power_damage():
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
+	power1 = game.player1.hero.power
+	assert power1.description == power1.data.description.replace("$1", "1")
+	game.player1.give("AT_003").play()
+	assert power1.description == power1.data.description.replace("$1", "2")
+
+
+def test_darnassus_aspirant():
+	game = prepare_game()
+	assert game.current_player.mana == 10
+	assert game.current_player.max_mana == 10
+	aspirant = game.current_player.give("AT_038")
+	aspirant.play()
+	assert game.current_player.mana == 8
+	assert game.current_player.max_mana == 10
+	assert game.current_player.used_mana == 2
+
+	aspirant.destroy()
+	assert game.current_player.mana == 7
+	assert game.current_player.max_mana == 9
+	assert game.current_player.used_mana == 2

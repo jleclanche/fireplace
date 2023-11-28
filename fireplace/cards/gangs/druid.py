@@ -20,14 +20,14 @@ class CFM_308b:
 	play = FillMana(CONTROLLER, USED_MANA(CONTROLLER))
 
 
-class CFM_343:
+class CFM_343(JadeGolemUtils):
 	"""Jade Behemoth"""
 	play = SummonJadeGolem(CONTROLLER)
 
 
 class CFM_617:
 	"""Celestial Dreamer"""
-	powered_up = Find(FRIENDLY_MINIONS + (ATK >= 1))
+	powered_up = Find(FRIENDLY_MINIONS - SELF + (ATK >= 5))
 	play = powered_up & Buff(SELF, "CFM_617e")
 
 
@@ -36,11 +36,6 @@ CFM_617e = buff(+2, +2)
 
 class CFM_816:
 	"""Virmen Sensei"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
-		PlayReq.REQ_TARGET_WITH_RACE: 20}
 	play = Buff(TARGET, "CFM_816e")
 
 
@@ -50,7 +45,7 @@ CFM_816e = buff(+2, +2)
 ##
 # Spells
 
-class CFM_602:
+class CFM_602(JadeGolemUtils):
 	"""Jade Idol"""
 	choose = ("CFM_602a", "CFM_602b")
 	play = ChooseBoth(CONTROLLER) & (
@@ -58,7 +53,7 @@ class CFM_602:
 	)
 
 
-class CFM_602a:
+class CFM_602a(JadeGolemUtils):
 	play = SummonJadeGolem(CONTROLLER)
 
 
@@ -76,18 +71,18 @@ CFM_614e = buff(+1, +1)
 
 class CFM_616:
 	"""Pilfered Power"""
-	def play(self):
-		amount = len(self.controller.field)
-		yield GainMana(CONTROLLER, amount)
-		if self.controller.mana == 10:
-			yield Give(CONTROLLER, "CS2_013t")
-		yield SpendMana(CONTROLLER, amount)
+	play = (Count(FRIENDLY_MINIONS) > 0) & (
+		AT_MAX_MANA(CONTROLLER) & Give(CONTROLLER, "CS2_013t") |
+		GainEmptyMana(
+			CONTROLLER,
+			Min(MAX_MANA(CONTROLLER) - MANA(CONTROLLER), Count(FRIENDLY_MINIONS))
+		)
+	)
 
 
-class CFM_713:
+class CFM_713(JadeGolemUtils):
 	"""Jade Blossom"""
-	requirements = {PlayReq.REQ_MINION_SLOT_OR_MANA_CRYSTAL_SLOT: 0}
-	play = SummonJadeGolem(CONTROLLER), GainMana(CONTROLLER, 1), SpendMana(CONTROLLER, 1)
+	play = SummonJadeGolem(CONTROLLER), GainEmptyMana(CONTROLLER, 1)
 
 
 class CFM_811:

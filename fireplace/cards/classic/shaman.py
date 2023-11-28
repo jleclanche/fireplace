@@ -4,7 +4,7 @@ from ..utils import *
 ##
 # Hero Powers
 
-class HERO_02bp:
+class CS2_049:
 	"""Totemic Call"""
 	requirements = {
 		PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY: 0,
@@ -22,7 +22,7 @@ class CS2_049_H1:
 		PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY: 0,
 		PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	entourage = ["CS2_050", "CS2_051", "CS2_052", "NEW1_009"]
-	activate = HERO_02bp.activate
+	activate = CS2_049.activate
 
 
 class NEW1_009:

@@ -25,6 +25,7 @@ WHELP = "ds1_whelptoken"
 # Token spells
 INNERVATE = "EX1_169"
 MOONFIRE = "CS2_008"
+FIREBALL = "CS2_029"
 PYROBLAST = "EX1_279"
 CIRCLE_OF_HEALING = "EX1_621"
 DREAM = "DREAM_04"
@@ -48,16 +49,19 @@ BLACKLIST = (
 	"GVG_007",  # Flame Leviathan
 	"AT_022",  # Fist of Jaraxxus
 	"AT_130",  # Sea Reaver
+	"KAR_096",  # Prince Malchezaar
+	"CFM_637",  # Patches the Pirate
 )
 
 _draftcache = {}
 
 
-def _draft(card_class, exclude):
+def _draft(card_class, exclude, include):
 	# random_draft() is fairly slow, this caches the drafts
-	if (card_class, exclude) not in _draftcache:
-		_draftcache[(card_class, exclude)] = random_draft(card_class, exclude + BLACKLIST)
-	return _draftcache[(card_class, exclude)], card_class.default_hero
+	if (card_class, exclude, include) not in _draftcache:
+		_draftcache[(card_class, exclude, include)] = random_draft(
+			card_class, exclude + BLACKLIST, include)
+	return _draftcache[(card_class, exclude, include)], card_class.default_hero
 
 
 _heroes = fireplace.cards.filter(collectible=True, type=CardType.HERO)
@@ -80,14 +84,14 @@ def _empty_mulligan(game):
 			player.choice.choose()
 
 
-def init_game(class1=None, class2=None, exclude=(), game_class=BaseTestGame):
+def init_game(class1=None, class2=None, exclude=(), include=(), game_class=BaseTestGame):
 	log.info("Initializing a new game")
 	if class1 is None:
 		class1 = _random_class()
 	if class2 is None:
 		class2 = _random_class()
-	player1 = Player("Player1", *_draft(class1, exclude))
-	player2 = Player("Player2", *_draft(class2, exclude))
+	player1 = Player("Player1", *_draft(class1, exclude, include))
+	player2 = Player("Player2", *_draft(class2, exclude, include))
 	game = game_class(players=(player1, player2))
 	return game
 
