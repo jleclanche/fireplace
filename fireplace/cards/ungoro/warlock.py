@@ -34,12 +34,7 @@ class UNG_835:
 
 class UNG_836:
 	"""Clutchmother Zavas"""
-	# TODO: need test
-	class Hand:
-		events = Discard(SELF).on(
-			Give(CONTROLLER, SELF),
-			Buff(SELF, "UNG_836e")
-		)
+	discard = Give(CONTROLLER, SELF), Buff(SELF, "UNG_836e")
 
 
 UNG_836e = buff(+2, +2)

@@ -221,8 +221,7 @@ class KAR_204:
 
 class KAR_205:
 	"""Silverware Golem"""
-	class Hand:
-		events = Discard(SELF).on(Summon(CONTROLLER, "KAR_205"))
+	discard = Summon(CONTROLLER, Copy(SELF))
 
 
 class KAR_702:

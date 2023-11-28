@@ -27,7 +27,6 @@ class Player(Entity, TargetableByAuras):
 	spellpower_adjustment = slot_property("spellpower", sum)
 	spells_cost_health = slot_property("spells_cost_health")
 	murlocs_cost_health = slot_property("murlocs_cost_health")
-	extra_turns = slot_property("extra_turns", sum)
 	type = CardType.PLAYER
 
 	def __init__(self, name, deck, hero, is_standard=True):
@@ -71,6 +70,7 @@ class Player(Entity, TargetableByAuras):
 		self.elemental_played_last_turn = 0
 		self.cards_played_this_game = CardList()
 		self.cthun = None
+		self.extra_turns = 0
 
 	def __str__(self):
 		return self.name

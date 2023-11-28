@@ -177,3 +177,31 @@ def test_the_voraxx():
     assert len(game.player1.field) == 2
     assert game.player1.field[1].atk == 5
     assert game.player1.field[1].health == 5
+
+
+def test_time_warp():
+    game = prepare_game()
+    game.player1.give("UNG_028t").play()
+    game.end_turn()
+    assert game.current_player == game.player1
+    game.end_turn()
+    assert game.current_player == game.player2
+    game.end_turn()
+    assert game.current_player == game.player1
+    game.player1.give("UNG_028t").play()
+    game.player1.give("UNG_028t").play()
+    game.end_turn()
+    assert game.current_player == game.player1
+    game.end_turn()
+    assert game.current_player == game.player1
+    game.end_turn()
+    assert game.current_player == game.player2
+
+
+def test_clutchmother_zavas():
+    game = prepare_empty_game()
+    zavas = game.player1.give("UNG_836")
+    atk = zavas.atk
+    game.player1.give(SOULFIRE).play(target=game.player2.hero)
+    assert zavas.atk == atk + 2
+    assert zavas.zone == Zone.HAND

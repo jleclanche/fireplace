@@ -319,7 +319,11 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	def discard(self):
 		self.log("Discarding %r" % self)
 		self.tags[enums.DISCARDED] = True
+		old_zone = self.zone
 		self.zone = Zone.GRAVEYARD
+		if old_zone == Zone.HAND:
+			actions = self.get_actions("discard")
+			self.game.trigger(self, actions, event_args=None)
 
 	def draw(self):
 		if len(self.controller.hand) >= self.controller.max_hand_size:
