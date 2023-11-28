@@ -57,8 +57,8 @@ class UNG_024e:
 class UNG_028:
 	"""Open the Waygate"""
 	# TODO: need test
-	total_progress = 6
-	quest = Play(CONTROLLER, SPELL - STARTING_DECK).after(AddQuestProgress(SELF))
+	progress_total = 6
+	quest = Play(CONTROLLER, SPELL - STARTING_DECK).after(AddProgress(SELF, Play.CARD))
 	reward = Give(CONTROLLER, "UNG_028t")
 
 
@@ -74,7 +74,10 @@ class UNG_028e:
 
 class UNG_941:
 	"""Primordial Glyph"""
-	play = DISCOVER(RandomSpell()).then(Buff(Discover.CARD, "UNG_941e"))
+	play = Discover(CONTROLLER, RandomSpell()).then(
+		Give(CONTROLLER, Discover.CARD),
+		Buff(Discover.CARD, "UNG_941e")
+	)
 
 
 UNG_941e = buff(cost=-2)

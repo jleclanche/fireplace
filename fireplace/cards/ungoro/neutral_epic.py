@@ -16,7 +16,7 @@ class UNG_087:
 
 class UNG_088:
 	"""Tortollan Primalist"""
-	play = DISCOVER(RandomSpell()).then(CastSpell(Discover.CARD))
+	play = Discover(CONTROLLER, RandomSpell()).then(CastSpell(Discover.CARD))
 
 
 class UNG_089:
@@ -67,4 +67,4 @@ class UNG_946:
 	requirements = {
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
-	play = Destroy(ENEMY_WEAPON).then(GainArmor(CONTROLLER, ATK(Destroy.TARGET)))
+	play = Destroy(ENEMY_WEAPON).then(GainArmor(FRIENDLY_HERO, ATK(Destroy.TARGET)))

@@ -81,8 +81,8 @@ UNG_917e = buff(+2, +2)
 
 class UNG_920:
 	"""The Marsh Queen"""
-	total_progress = 7
-	quest = Play(CONTROLLER, MINION + (COST == 1)).after(AddQuestProgress(SELF))
+	progress_total = 7
+	quest = Play(CONTROLLER, MINION + (COST == 1)).after(AddProgress(SELF, Play.CARD))
 	reward = Give(CONTROLLER, "UNG_920t1")
 
 

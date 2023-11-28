@@ -6,7 +6,7 @@ from hearthstone.enums import (
 )
 
 from .dsl import LazyNum, LazyValue, Selector
-from .dsl.random_picker import RandomMinion
+from .dsl.random_picker import RandomCollectible, RandomMinion
 from .entity import Entity
 from .exceptions import InvalidAction
 from .logging import log
@@ -354,6 +354,8 @@ class Choice(GameAction):
 			for card in cards:
 				if isinstance(card, LazyValue):
 					eval_cards.append(card.evaluate(source)[0])
+				if isinstance(card, str):
+					eval_cards.append(source.controller.card(card, source))
 				else:
 					eval_cards.append(card)
 			cards = eval_cards
@@ -364,6 +366,8 @@ class Choice(GameAction):
 		if len(cards) == 0:
 			return
 		log.info("%r choice from %r", player, cards)
+		self._callback = self.callback
+		self.callback = ()
 		self.next_choice = player.choice
 		player.choice = self
 		self.source = source
@@ -375,7 +379,7 @@ class Choice(GameAction):
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		for action in self.callback:
+		for action in self._callback:
 			self.source.game.trigger(
 				self.source, [action], [self.player, self.cards, card])
 		self.player.choice = self.next_choice
@@ -505,7 +509,7 @@ class Play(GameAction):
 			player.minions_played_this_turn += 1
 			if card.race == Race.ELEMENTAL:
 				player.elemental_played_this_turn += 1
-
+		player.cards_played_this_game.append(card)
 		card.choose = None
 
 
@@ -652,6 +656,24 @@ class Buff(TargetedAction):
 			if isinstance(v, LazyValue):
 				v = v.evaluate(source)
 			setattr(buff, k, v)
+		return buff.apply(target)
+
+
+class StoringSpellBuff(TargetedAction):
+	TARGET = ActionArg()
+	BUFF = ActionArg()
+	SPELL = ActionArg()
+
+	def get_target_args(self, source, target):
+		buff = self._args[1]
+		spell = _eval_card(source, self._args[2])[0]
+		buff = source.controller.card(buff)
+		buff.source = source
+		return [buff, spell]
+
+	def do(self, source, target, buff, spell):
+		log.info("%r store spell %r", buff, spell)
+		buff.store_spell = spell
 		return buff.apply(target)
 
 
@@ -884,16 +906,6 @@ class Discover(TargetedAction):
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		for _card in self.cards:
-			if _card is card:
-				if card.type == CardType.HERO_POWER:
-					_card.zone = Zone.PLAY
-				elif len(self.player.hand) < self.player.max_hand_size:
-					_card.zone = Zone.HAND
-				else:
-					_card.discard()
-			else:
-				_card.discard()
 		for action in self._callback:
 			self.source.game.trigger(
 				self.source, [action], [self.target, self.cards, card])
@@ -1137,8 +1149,9 @@ class Retarget(TargetedAction):
 	def do(self, source, target, new_target):
 		if not new_target:
 			return
-		assert len(new_target) == 1
-		new_target = new_target[0]
+		if isinstance(new_target, list):
+			assert len(new_target) == 1
+			new_target = new_target[0]
 		if target.type in (CardType.HERO, CardType.MINION) and target.attacking:
 			log.info("Retargeting %r's attack to %r", target, new_target)
 			source.game.proposed_defender.defending = False
@@ -1651,18 +1664,6 @@ class Adapt(TargetedAction):
 			"UNG_999t10", "UNG_999t2", "UNG_999t3", "UNG_999t4", "UNG_999t5",
 			"UNG_999t6", "UNG_999t7", "UNG_999t8", "UNG_999t13", "UNG_999t14",
 		]
-		self.buffs = {
-			"UNG_999t10": "UNG_999t10e",
-			"UNG_999t2": "UNG_999t2e",
-			"UNG_999t3": "UNG_999t3e",
-			"UNG_999t4": "UNG_999t4e",
-			"UNG_999t5": "UNG_999t5e",
-			"UNG_999t6": "UNG_999t6e",
-			"UNG_999t7": "UNG_999t7e",
-			"UNG_999t8": "UNG_999t8e",
-			"UNG_999t13": "UNG_999t13e",
-			"UNG_999t14": "UNG_999t14e",
-		}
 		cards = random.sample(choices, 3)
 		cards = [source.controller.card(card) for card in cards]
 		return [cards]
@@ -1683,15 +1684,68 @@ class Adapt(TargetedAction):
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		buff = self.buffs[card.id]
-		self.source.game.trigger(self.source, (Buff(self.target, buff), ), None)
+		self.source.game.trigger(self.source, (Battlecry(card, self.target), ), None)
 		self.player.choice = self.next_choice
 
 
-class AddQuestProgress(TargetedAction):
+class AddProgress(TargetedAction):
+	TARGET = ActionArg()
+	CARD = CardArg()
+
 	def do(self, source, target, card):
-		log.info("%r add quest progress %r from %r", source, target)
+		log.info("%r add progress from %r", target, card)
 		target.add_progress(card)
-		if target.progress >= target.total_progress:
+		if target.progress >= target.progress_total:
 			source.game.trigger(target, target.get_actions("reward"), event_args=None)
 			target.zone = Zone.GRAVEYARD
+
+
+class ClearProgress(TargetedAction):
+	def do(self, source, target):
+		log.info("%r clear progress", target)
+		target.clear_progress()
+
+
+class GlimmerrootAction(TargetedAction):
+	def do(self, source, player):
+		self.player = player
+		self.next_choice = self.player.choice
+		self.source = source
+		self.min_count = 1
+		self.max_count = 1
+		self.player.choice = self
+		# all class cards involved in this effect belong to the opponent's class
+		#
+		# If the opponent's deck started with no class cards in the deck,
+		# a neutral card is shown from the deck together with two other neutral
+		# cards from outside the deck.
+		enemy_class = player.opponent.starting_hero.card_class
+		starting_cards = [
+			card for card in player.opponent.starting_deck if enemy_class in card.classes
+		]
+		if len(starting_cards) == 0:
+			enemy_class = CardClass.NEUTRAL
+			starting_cards = player.opponent.starting_deck[:]
+		starting_card_ids = [card.id for card in starting_cards]
+		starting_card_id = random.choice(starting_card_ids)
+		other_card_ids = [
+			card for card in RandomCollectible(card_class=enemy_class).find_cards(source)
+			if card not in starting_card_ids
+		]
+		other_card_id_1, other_card_id_2 = random.sample(other_card_ids, 2)
+		self.starting_card = player.card(starting_card_id)
+		self.other_card_1 = player.card(other_card_id_1)
+		self.other_card_2 = player.card(other_card_id_2)
+		self.cards = [self.starting_card, self.other_card_1, self.other_card_2]
+		random.shuffle(self.cards)
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		else:
+			if card is self.starting_card:
+				if len(self.player.hand) < self.player.max_hand_size:
+					card.zone = Zone.HAND
+			else:
+				log.info("Choose incorrectly, corrent choice is %r", self.starting_card)
+		self.player.choice = self.next_choice

@@ -153,6 +153,7 @@ class PlayerManager(Manager):
 		GameTag.TIMEOUT: "timeout",
 		GameTag.TURN_START: "turn_start",
 		enums.CANT_OVERLOAD: "cant_overload",
+		enums.ELEMENTAL_PLAYED_LAST_TURN: "elemental_played_last_turn",
 	}
 
 
@@ -220,6 +221,8 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.PARENT_CARD: "parent_card",
 	GameTag.POISONOUS: "poisonous",
 	GameTag.POWERED_UP: "powered_up",
+	GameTag.QUEST_PROGRESS: "progress",
+	GameTag.QUEST_PROGRESS_TOTAL: "progress_total",
 	GameTag.RARITY: "rarity",
 	GameTag.RECEIVES_DOUBLE_SPELLDAMAGE_BONUS: "receives_double_spelldamage_bonus",
 	GameTag.RUSH: "rush",
@@ -243,7 +246,6 @@ CARD_ATTRIBUTE_MAP = {
 	enums.DISCARDED: "discarded",
 	enums.MURLOCS_COST_HEALTH: "murlocs_cost_health",
 	enums.UNLIMITED_ATTACKS: "unlimited_attacks",
-	enums.ELEMENTAL_PLAYED_LAST_TURN: "elemental_played_last_turn",
 	GameTag.CARDTEXT_ENTITY_0: "cardtext_entity_0",
 	GameTag.CARDTEXT_ENTITY_1: "cardtext_entity_1",
 	GameTag.CARDTEXT_ENTITY_2: "cardtext_entity_2",

@@ -1,3 +1,6 @@
+from . import LazyValue, Selector
+
+
 class Switch:
 	"""
 	Switch statement on the ID of an entity

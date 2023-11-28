@@ -66,11 +66,10 @@ class Player(Entity, TargetableByAuras):
 		self.weapon = None
 		self.zone = Zone.INVALID
 		self.jade_golem = 1
-		self.times_spell_played_this_game = 0
-		self.times_secret_played_this_game = 0
 		self.times_totem_summoned_this_game = 0
 		self.elemental_played_this_turn = 0
 		self.elemental_played_last_turn = 0
+		self.cards_played_this_game = CardList()
 		self.cthun = None
 
 	def __str__(self):
@@ -177,6 +176,7 @@ class Player(Entity, TargetableByAuras):
 
 	def prepare_for_game(self):
 		self.summon(self.starting_hero)
+		self.starting_hero = self.hero
 		for id in self.starting_deck:
 			card = self.card(id, zone=Zone.DECK)
 			if self.is_standard and not card.is_standard:

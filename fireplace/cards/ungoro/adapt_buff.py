@@ -47,3 +47,43 @@ class UNG_999t8e:
 	"""Crackling Shield"""
 	def apply(self, target):
 		self.game.trigger(self, (GiveDivineShield(target), ), None)
+
+
+class UNG_999t10:
+	play = Buff(TARGET, "UNG_999t10e")
+
+
+class UNG_999t2:
+	play = Buff(TARGET, "UNG_999t2e")
+
+
+class UNG_999t3:
+	play = Buff(TARGET, "UNG_999t3e")
+
+
+class UNG_999t4:
+	play = Buff(TARGET, "UNG_999t4e")
+
+
+class UNG_999t5:
+	play = Buff(TARGET, "UNG_999t5e")
+
+
+class UNG_999t6:
+	play = Buff(TARGET, "UNG_999t6e")
+
+
+class UNG_999t7:
+	play = Buff(TARGET, "UNG_999t7e")
+
+
+class UNG_999t8:
+	play = Buff(TARGET, "UNG_999t8e")
+
+
+class UNG_999t13:
+	play = Buff(TARGET, "UNG_999t13e")
+
+
+class UNG_999t14:
+	play = Buff(TARGET, "UNG_999t14e")

@@ -6,23 +6,38 @@ from ..utils import *
 
 class UNG_058:
 	"""Razorpetal Lasher"""
-	pass
+	play = Give(CONTROLLER, "UNG_057t1")
 
 
 class UNG_063:
 	"""Biteweed"""
-	pass
+	combo = Buff(SELF, "UNG_063e") * Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
+
+
+UNG_063e = buff(+1, +1)
 
 
 class UNG_064:
 	"""Vilespine Slayer"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_FOR_COMBO: 0}
-	pass
+	combo = Destroy(TARGET)
 
 
 class UNG_065:
 	"""Sherazin, Corpse Flower"""
-	pass
+	deathrattle = Find(FRIENDLY_MINIONS + SELF) & (
+		Morph(SELF, "UNG_065t")
+	) | (
+		Summon(CONTROLLER, "UNG_065t")
+	)
+
+
+class UNG_065t:
+	progress_total = 4
+	events = [
+		Play(CONTROLLER).after(AddProgress(SELF, Play.CARD)),
+		TURN_BEGIN.on(ClearProgress(SELF))
+	]
+	reward = Morph(SELF, "UNG_065")
 
 
 ##
@@ -30,29 +45,57 @@ class UNG_065:
 
 class UNG_057:
 	"""Razorpetal Volley"""
-	pass
+	play = Give(CONTROLLER, "UNG_057t1") * 2
+
+
+class UNG_057t1:
+	play = Hit(TARGET, 1)
 
 
 class UNG_060:
 	"""Mimic Pod"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0}
-	pass
+	play = Draw(CONTROLLER).then(Give(CONTROLLER, Copy(Draw.CARD)))
 
 
 class UNG_067:
 	"""The Caverns Below"""
-	total_progress = 5
+	progress_total = 5
+	reward = Give(CONTROLLER, "UNG_067t1")
+
+	def add_progress(self, card):
+		if not hasattr(self, "card_name_counter"):
+			self.card_name_counter = dict()
+		self.card_name_counter[card.data.name] += 1
+
+
+class UNG_067t1:
+	play = Buff(CONTROLLER, "UNG_067t1e")
+
+
+class UNG_067t1e:
+	update = Refresh(
+		(IN_DECK | IN_HAND | IN_PLAY) + FRIENDLY + MINION,
+		buff="UNG_067t1e2"
+	)
+
+
+class UNG_067t1e2:
+	atk = SET(5)
+	max_health = SET(5)
 
 
 class UNG_823:
 	"""Envenom Weapon"""
-	requirements = {PlayReq.REQ_WEAPON_EQUIPPED: 0}
-	pass
+	play = SetTag(FRIENDLY_WEAPON, (GameTag.POISONOUS, ))
 
 
 class UNG_856:
 	"""Hallucination"""
-	pass
+	play = Find(ENEMY_HERO - NEUTRAL) & (
+		GenericChoice(CONTROLLER, RandomSpell(card_class=ENEMY_CLASS) * 3)
+	) | (
+		GenericChoice(CONTROLLER, RandomSpell(card_class=CardClass.ROGUE) * 3)
+	)
 
 
 ##
@@ -60,4 +103,4 @@ class UNG_856:
 
 class UNG_061:
 	"""Obsidian Shard"""
-	pass
+	cost_mod = -Count(CARDS_PLAYED_THIS_GAME + OTHER_CLASS_CHARACTER)

@@ -25,11 +25,11 @@ class UNG_101:
 	play = ChooseBoth(CONTROLLER) & Morph(SELF, "UNG_101t3")
 
 
-class UNG101a:
+class UNG_101a:
 	play = Morph(SELF, "UNG_101t")
 
 
-class UNG101b:
+class UNG_101b:
 	play = Morph(SELF, "UNG_101t2")
 
 
@@ -48,11 +48,7 @@ class UNG_103:
 
 class UNG_108:
 	"""Earthen Scales"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_TO_PLAY: 0}
-	play = Buff(TARGET, "UNG_108e").then(GainArmor(CONTROLLER, ATK(Buff.TARGET)))
+	play = Buff(TARGET, "UNG_108e").then(GainArmor(FRIENDLY_HERO, ATK(Buff.TARGET)))
 
 
 UNG_108e = buff(+1, +1)
@@ -75,8 +71,8 @@ class UNG_111t1:
 
 class UNG_116:
 	"""Jungle Giants"""
-	total_progress = 5
-	quest = Summon(CONTROLLER, MINION + (ATK >= 5)).after(AddQuestProgress(SELF))
+	progress_total = 5
+	quest = Summon(CONTROLLER, MINION + (ATK >= 5)).after(AddProgress(SELF, Summon.CARD))
 	reward = Give(CONTROLLER, "UNG_116t")
 
 

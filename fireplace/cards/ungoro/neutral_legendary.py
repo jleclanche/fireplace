@@ -14,7 +14,7 @@ class UNG_843:
 	# TODO: need test
 	events = Play(CONTROLLER, SPELL).after(
 		Summon(CONTROLLER, "UNG_999t2t1").then(
-			Battlecry(SELF, Play.CARD, Summon.CARD)
+			Battlecry(Play.CARD, Summon.CARD)
 		)
 	)
 

@@ -39,7 +39,7 @@ class CFM_687e:
 
 class CFM_760:
 	"""Kabal Crystal Runner"""
-	cost_mod = -Attr(CONTROLLER, "times_secret_played_this_game") * 2
+	cost_mod = -TIMES_SECRETS_PLAYED_THIS_GAME * 2
 
 
 ##

@@ -87,7 +87,10 @@ class KAR_044:
 
 class KAR_057:
 	"""Ivory Knight"""
-	play = DISCOVER(RandomSpell()).then(Heal(FRIENDLY_HERO, COST(Discover.CARD)))
+	play = Discover(CONTROLLER, RandomSpell()).then(
+		Give(CONTROLLER, Discover.CARD),
+		Heal(FRIENDLY_HERO, COST(Discover.CARD))
+	)
 
 
 class KAR_061:
@@ -246,7 +249,7 @@ class KAR_710:
 
 class KAR_711:
 	"""Arcane Giant"""
-	cost_mod = -TIMES_SPELL_PLAYED_THIS_GAME(CONTROLLER)
+	cost_mod = -TIMES_SPELL_PLAYED_THIS_GAME
 
 
 class KAR_712:

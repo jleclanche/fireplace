@@ -46,10 +46,13 @@ class BaseCard(BaseEntity):
 		self.id = data.id
 		self.controller = None
 		self.choose = None
+		self.target = None
 		self.parent_card = None
 		self.aura = False
 		self.heropower_damage = 0
 		self._zone = Zone.INVALID
+		self._progress = 0
+		self.progress_total = data.scripts.progress_total
 		self.tags.update(data.tags)
 
 	def __str__(self):
@@ -198,6 +201,24 @@ class BaseCard(BaseEntity):
 	def play(self, *args):
 		raise NotImplementedError
 
+	def add_progress(self, card):
+		if self.data.scripts.add_progress:
+			return self.data.scripts.add_progress(card)
+		self.progress += 1
+
+	@property
+	def progress(self):
+		if hasattr(self, "card_name_counter"):
+			return max(self.card_name_counter.values())
+		return self._progress
+
+	@progress.setter
+	def progress(self, value):
+		self._progress = value
+
+	def clear_progress(self):
+		self.progress = 0
+
 
 class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	windfury = int_property("windfury")
@@ -211,7 +232,6 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.has_battlecry = False
 		self.has_combo = False
 		self.overload = 0
-		self.target = None
 		self.rarity = Rarity.INVALID
 		self.choose_cards = CardList()
 		self.morphed = None
@@ -855,8 +875,12 @@ class Spell(PlayableCard):
 		return amount
 
 	def play(self, target=None, index=None, choose=None):
-		self.controller.times_spell_played_this_game += 1
 		return super().play(target, index, choose)
+
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			value = Zone.GRAVEYARD
+		super()._set_zone(value)
 
 
 class Secret(Spell):
@@ -893,16 +917,20 @@ class Secret(Spell):
 			return False
 		return super().is_summonable()
 
-	def play(self, target=None, index=None, choose=None):
-		self.controller.times_secret_played_this_game += 1
-		return super().play(target, index, choose)
-
 
 class Quest(Spell):
-	def __init__(self, data):
-		super().__init__(data)
-		self.progress = 0
-		self.total_progress = data.scripts.total_progress
+	def is_summonable(self):
+		if len(self.controller.secrets) > 0 and self.controller.secrets[0].data.quest:
+			return False
+		return super().is_summonable()
+
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			# Move secrets to the SECRET Zone when played
+			value = Zone.SECRET
+		if value == Zone.SECRET:
+			self.controller.secrets.insert(0, self)
+		super()._set_zone(value)
 
 	@property
 	def events(self):
@@ -910,11 +938,6 @@ class Quest(Spell):
 		if self.zone == Zone.SECRET and not self.exhausted:
 			ret += self.data.scripts.quest
 		return ret
-
-	def add_progress(self, card):
-		if self.data.scripts.add_progress:
-			return self.data.scripts.add_progress(card)
-		self.progress += 1
 
 
 class Enchantment(BaseCard):

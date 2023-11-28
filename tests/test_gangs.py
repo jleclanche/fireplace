@@ -340,3 +340,13 @@ def test_i_know_a_guy():
 	for card in game.player1.choice.cards:
 		assert card.type == CardType.MINION
 		assert card.taunt
+
+
+def test_kabal_crystal_runner():
+	game = prepare_game()
+	runner = game.player1.give("CFM_760")
+	runner_cost = runner.cost
+	game.player1.give("EX1_295").play()
+	assert runner.cost == runner_cost - 2
+	runner2 = game.player1.give("CFM_760")
+	assert runner2.cost == runner_cost - 2

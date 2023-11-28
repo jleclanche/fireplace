@@ -212,4 +212,3 @@ class VAN_NEW1_014e:
 		GameTag.CARDTYPE: CardType.ENCHANTMENT,
 		GameTag.STEALTH: True
 	}
-	events = Damage(CHARACTER, None, OWNER).on(Unstealth(OWNER), Destroy(SELF))

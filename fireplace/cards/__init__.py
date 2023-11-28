@@ -111,6 +111,11 @@ class CardDB(dict):
 		else:
 			card.dormant = 0
 
+		if hasattr(cardscript, "progress_total"):
+			card.scripts.progress_total = cardscript.progress_total
+		else:
+			card.scripts.progress_total = 0
+
 		if hasattr(cardscript, "cardtext_entity_0"):
 			card.cardtext_entity_0 = cardscript.cardtext_entity_0
 
