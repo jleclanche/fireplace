@@ -41,11 +41,11 @@ class UNG_915:
 
 class UNG_919:
 	"""Swamp King Dred"""
-	# TODO: need test
 	events = Play(OPPONENT, MINION).after(
-		Find(Play.CARD + IN_PLAY - MORTALLY_WOUNDED) &
-		Find(SELF - FROZEN) &
-		Attack(SELF, Play.CARD)
+		Find(Play.CARD + IN_PLAY - MORTALLY_WOUNDED) & (
+			Find(SELF - FROZEN) &
+			Attack(SELF, Play.CARD)
+		)
 	)
 
 

@@ -75,7 +75,7 @@ class UNG_817:
 class UNG_942:
 	"""Unite the Murlocs"""
 	progress_total = 10
-	quest = Summon(CONTROLLER, MURLOC).after(AddProgress(SELF))
+	quest = Summon(CONTROLLER, MURLOC).after(AddProgress(SELF, Play.CARD))
 	reward = Give(CONTROLLER, "UNG_942t")
 
 

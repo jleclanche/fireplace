@@ -203,7 +203,7 @@ class BaseCard(BaseEntity):
 
 	def add_progress(self, card):
 		if self.data.scripts.add_progress:
-			return self.data.scripts.add_progress(card)
+			return self.data.scripts.add_progress(self, card)
 		self.progress += 1
 
 	@property
@@ -319,7 +319,11 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	def discard(self):
 		self.log("Discarding %r" % self)
 		self.tags[enums.DISCARDED] = True
+		old_zone = self.zone
 		self.zone = Zone.GRAVEYARD
+		if old_zone == Zone.HAND:
+			actions = self.get_actions("discard")
+			self.game.trigger(self, actions, event_args=None)
 
 	def draw(self):
 		if len(self.controller.hand) >= self.controller.max_hand_size:
@@ -874,9 +878,6 @@ class Spell(PlayableCard):
 			amount *= 2
 		return amount
 
-	def play(self, target=None, index=None, choose=None):
-		return super().play(target, index, choose)
-
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
 			value = Zone.GRAVEYARD
@@ -935,7 +936,7 @@ class Quest(Spell):
 	@property
 	def events(self):
 		ret = super().events
-		if self.zone == Zone.SECRET and not self.exhausted:
+		if self.zone == Zone.SECRET:
 			ret += self.data.scripts.quest
 		return ret
 

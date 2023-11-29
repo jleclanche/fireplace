@@ -126,3 +126,155 @@ def test_corrupting_mist():
     game.end_turn()
     assert len(game.player1.field) == 0
     assert len(game.player2.field) == 0
+
+
+def test_living_mana():
+    game = prepare_empty_game()
+    assert game.player1.max_mana == 10
+    assert game.player1.mana == 10
+    game.player1.give("UNG_111").play()
+    assert len(game.player1.field) == 7
+    assert game.player1.max_mana == 3
+    assert game.player1.mana == 3
+    for _ in range(7):
+        game.player1.field[0].bounce()
+    for _ in range(4):
+        game.end_turn()
+    assert game.player1.max_mana == 5
+    assert game.player1.mana == 5
+    game.player1.give("UNG_111").play()
+    assert len(game.player1.field) == 5
+    assert game.player1.max_mana == 0
+    assert game.player1.mana == 0
+    game.player1.give(MOONFIRE).play(target=game.player1.field[0])
+    game.player1.give(MOONFIRE).play(target=game.player1.field[0])
+    assert game.player1.max_mana == 1
+    assert game.player1.mana == 0
+
+
+def test_swamp_king_dred():
+    game = prepare_game()
+    dred = game.player1.give("UNG_919").play()
+    game.end_turn()
+    game.player2.give(WISP).play()
+    assert len(game.player2.field) == 0
+    assert dred.health == 9 - 1
+    game.player2.give("CS2_033").play()
+    assert len(game.player2.field) == 0
+    assert dred.health == 9 - 1 - 3
+    assert dred.frozen
+    game.player2.give(WISP).play()
+    assert len(game.player2.field) == 1
+    assert dred.health == 9 - 1 - 3
+
+
+def test_the_voraxx():
+    game = prepare_game()
+    voraxx = game.player1.give("UNG_843").play()
+    game.player1.give("CS2_092").play(target=voraxx)
+    assert voraxx.atk == 7
+    assert voraxx.health == 7
+    assert len(game.player1.field) == 2
+    assert game.player1.field[1].atk == 5
+    assert game.player1.field[1].health == 5
+
+
+def test_time_warp():
+    game = prepare_game()
+    game.player1.give("UNG_028t").play()
+    game.end_turn()
+    assert game.current_player == game.player1
+    game.end_turn()
+    assert game.current_player == game.player2
+    game.end_turn()
+    assert game.current_player == game.player1
+    game.player1.give("UNG_028t").play()
+    game.player1.give("UNG_028t").play()
+    game.end_turn()
+    assert game.current_player == game.player1
+    game.end_turn()
+    assert game.current_player == game.player1
+    game.end_turn()
+    assert game.current_player == game.player2
+
+
+def test_clutchmother_zavas():
+    game = prepare_empty_game()
+    zavas = game.player1.give("UNG_836")
+    atk = zavas.atk
+    game.player1.give(SOULFIRE).play(target=game.player2.hero)
+    assert zavas.atk == atk + 2
+    assert zavas.zone == Zone.HAND
+
+
+def test_quest():
+    game = prepare_empty_game()
+    quest = game.player1.give("UNG_116").play()
+    assert quest.progress == 0
+    assert quest.zone == Zone.SECRET
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 1
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 2
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 3
+    game.end_turn()
+    game.end_turn()
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 4
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 5
+    assert quest.zone == Zone.GRAVEYARD
+    assert game.player1.hand[0].id == "UNG_116t"
+
+
+def test_rogue_quest():
+    game = prepare_empty_game()
+    quest = game.player1.give("UNG_067").play()
+    assert quest.progress == 0
+    game.player1.give(WISP).play()
+    assert quest.progress == 1
+    game.player1.give(TARGET_DUMMY).play()
+    assert quest.progress == 1
+    game.player1.give(TARGET_DUMMY).play()
+    assert quest.progress == 2
+    game.player1.give(WISP).play()
+    assert quest.progress == 2
+    game.player1.give(WISP).play()
+    assert quest.progress == 3
+    game.player1.give(WISP).play()
+    assert quest.progress == 4
+    game.player1.give(WISP).play()
+    assert quest.progress == 5
+    assert quest.zone == Zone.GRAVEYARD
+    assert game.player1.hand[0].id == "UNG_067t1"
+
+
+def test_mage_quest():
+    game = prepare_game(include=tuple(["UNG_028"] + [MOONFIRE] * 29))
+    quest = game.player2.hand[0]
+    coin = game.player2.hand[-1]
+    game.end_turn()
+    assert quest.id == "UNG_028"
+    quest.play()
+    assert quest.progress == 0
+    coin.play()
+    assert quest.progress == 1
+    game.player2.hand[0].play(target=game.player1.hero)
+    assert quest.progress == 1
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    assert quest.progress == 2
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    assert quest.progress == 6
+    assert game.player2.hand[-1].id == "UNG_028t"
+
+
+def test_blazecaller():
+    game = prepare_game()
+    blazecaller1 = game.player1.give("UNG_847").play()
+    game.end_turn()
+    game.end_turn()
+    blazecaller1 = game.player1.give("UNG_847").play(target=blazecaller1)

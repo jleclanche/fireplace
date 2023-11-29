@@ -354,7 +354,7 @@ class Choice(GameAction):
 			for card in cards:
 				if isinstance(card, LazyValue):
 					eval_cards.append(card.evaluate(source)[0])
-				if isinstance(card, str):
+				elif isinstance(card, str):
 					eval_cards.append(source.controller.card(card, source))
 				else:
 					eval_cards.append(card)
@@ -813,6 +813,8 @@ class Battlecry(TargetedAction):
 			arg = arg.eval(source.game, source)
 			assert len(arg) == 1
 			arg = arg[0]
+		elif isinstance(arg, LazyValue):
+			arg = arg.evaluate(source)[0]
 		return [arg]
 
 	def do(self, source, card, target):
@@ -906,10 +908,10 @@ class Discover(TargetedAction):
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		self.player.choice = self.next_choice
 		for action in self._callback:
 			self.source.game.trigger(
 				self.source, [action], [self.target, self.cards, card])
-		self.player.choice = self.next_choice
 
 
 class Draw(TargetedAction):
@@ -1401,6 +1403,9 @@ class CastSpell(TargetedAction):
 
 	def do(self, source, card):
 		target = None
+		player = source.controller
+		old_choice = player.choice
+		player.choice = None
 		if card.must_choose_one:
 			card = random.choice(card.choose_cards)
 		if card.requires_target():
@@ -1412,11 +1417,11 @@ class CastSpell(TargetedAction):
 		card.target = target
 		log.info("%s cast spell %s target %s", source, card, target)
 		source.game.queue_actions(source, [Battlecry(card, card.target)])
-		player = source.controller
 		while player.choice:
 			choice = random.choice(player.choice.cards)
-			print("Choosing card %r" % (choice))
+			log.info("Choosing card %r" % (choice))
 			player.choice.choose(choice)
+		player.choice = old_choice
 		source.game.queue_actions(source, [Deaths()])
 
 
@@ -1428,6 +1433,9 @@ class CastSpellTargetsEnemiesIfPossible(TargetedAction):
 
 	def do(self, source, card):
 		target = None
+		player = source.controller
+		old_choice = player.choice
+		player.choice = None
 		if card.must_choose_one:
 			card = random.choice(card.choose_cards)
 		if card.requires_target():
@@ -1448,8 +1456,9 @@ class CastSpellTargetsEnemiesIfPossible(TargetedAction):
 		player = source.controller
 		while player.choice:
 			choice = random.choice(player.choice.cards)
-			print("Choosing card %r" % (choice))
+			log.info("Choosing card %r" % (choice))
 			player.choice.choose(choice)
+		player.choice = old_choice
 		source.game.queue_actions(source, [Deaths()])
 
 

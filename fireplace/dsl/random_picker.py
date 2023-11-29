@@ -4,6 +4,7 @@ from copy import copy, deepcopy
 from hearthstone.enums import CardType, Race, Rarity
 
 from .lazynum import LazyValue
+from .selector import Selector
 
 
 class RandomCardPicker(LazyValue):
@@ -64,6 +65,8 @@ class RandomCardPicker(LazyValue):
 		for k, v in new_filters.items():
 			if isinstance(v, LazyValue):
 				new_filters[k] = v.evaluate(source)
+			elif isinstance(v, Selector):
+				new_filters[k] = v.eval(source.game, source)
 
 		from .. import cards
 		return cards.filter(**new_filters)

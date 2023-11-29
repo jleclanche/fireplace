@@ -46,9 +46,7 @@ class AT_027e:
 class AT_022:
 	"""Fist of Jaraxxus"""
 	play = Hit(RANDOM_ENEMY_CHARACTER, 4)
-
-	class Hand:
-		events = Discard(SELF).on(Hit(RANDOM_ENEMY_CHARACTER, 4))
+	discard = Hit(RANDOM_ENEMY_CHARACTER, 4)
 
 
 class AT_024:

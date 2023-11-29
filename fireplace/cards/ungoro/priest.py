@@ -55,7 +55,6 @@ class UNG_963:
 
 class UNG_029:
 	"""Shadow Visions"""
-	# TODO: need test
 	play = GenericChoice(CONTROLLER, Copy(RANDOM(DeDuplicate(FRIENDLY_DECK)) * 3))
 
 
@@ -78,7 +77,6 @@ class UNG_854:
 
 class UNG_940:
 	"""Awaken the Makers"""
-	# TODO: need test
 	progress_total = 7
 	quest = Summon(CONTROLLER, DEATHRATTLE).after(AddProgress(SELF, Summon.CARD))
 	reward = Give(CONTROLLER, "UNG_940t8")

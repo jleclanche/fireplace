@@ -350,3 +350,15 @@ def test_kabal_crystal_runner():
 	assert runner.cost == runner_cost - 2
 	runner2 = game.player1.give("CFM_760")
 	assert runner2.cost == runner_cost - 2
+
+
+def test_madam_goya():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	murloc = game.player1.give(MURLOC)
+	murloc.shuffle_into_deck()
+	assert wisp.zone == Zone.PLAY
+	assert murloc.zone == Zone.DECK
+	game.player1.give("CFM_672").play(target=wisp)
+	assert wisp.zone == Zone.DECK
+	assert murloc.zone == Zone.PLAY

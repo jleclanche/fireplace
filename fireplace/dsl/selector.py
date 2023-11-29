@@ -533,3 +533,6 @@ OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND
 
 CARDS_PLAYED_THIS_GAME = FuncSelector(
 	lambda entities, source: source.controller.cards_played_this_game)
+
+STARTING_DECK = FuncSelector(
+	lambda entities, source: source.controller.starting_deck)

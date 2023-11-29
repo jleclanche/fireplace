@@ -35,7 +35,7 @@ class CardDB(dict):
 		scriptnames = (
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
 			"enrage", "update", "powered_up", "outcast", "awaken", "reward",
-			"add_progress"
+			"add_progress", "discard"
 		)
 
 		for script in scriptnames:
@@ -48,7 +48,7 @@ class CardDB(dict):
 					# Ensure the actions are always iterable
 					setattr(card.scripts, script, (actions, ))
 
-		for script in ("events", "secret"):
+		for script in ("events", "secret", "quest"):
 			events = getattr(card.scripts, script, None)
 			if events is None:
 				setattr(card.scripts, script, [])
@@ -160,6 +160,10 @@ class CardDB(dict):
 
 		if "type" not in kwargs:
 			kwargs["type"] = [CardType.SPELL, CardType.WEAPON, CardType.MINION]
+
+		if "exclude" in kwargs:
+			exclude = [card.id for card in kwargs.pop("exclude")]
+			cards = [card for card in cards if card.id not in exclude]
 
 		for attr, value in kwargs.items():
 			if value is not None:

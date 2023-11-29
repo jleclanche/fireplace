@@ -54,7 +54,7 @@ class UNG_927:
 class UNG_934:
 	"""Fire Plume's Heart"""
 	progress_total = 7
-	quest = Play(CONTROLLER, TAUNT).after(AddProgress(SELF))
+	quest = Play(CONTROLLER, TAUNT).after(AddProgress(SELF, Play.CARD))
 	reward = Give(CONTROLLER, "UNG_934t1")
 
 

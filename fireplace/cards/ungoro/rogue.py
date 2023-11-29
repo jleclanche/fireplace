@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from ..utils import *
 
 
@@ -60,12 +62,19 @@ class UNG_060:
 class UNG_067:
 	"""The Caverns Below"""
 	progress_total = 5
+	quest = Play(CONTROLLER, MINION).after(AddProgress(SELF, Play.CARD))
 	reward = Give(CONTROLLER, "UNG_067t1")
 
 	def add_progress(self, card):
 		if not hasattr(self, "card_name_counter"):
-			self.card_name_counter = dict()
-		self.card_name_counter[card.data.name] += 1
+			self.card_name_counter = defaultdict(int)
+		# 炉石简中汉化组一点都不用心
+		# 存在部分英文同名但简中不同名的现象
+		# * NEW1_040t: Gnoll 豺狼人
+		# * OG_318t: Gnoll 腐化豺狼人
+		# * TU4a_003: Gnoll 豺狼人
+		name = card.data.strings[GameTag.CARDNAME]["enUS"]
+		self.card_name_counter[name] += 1
 
 
 class UNG_067t1:

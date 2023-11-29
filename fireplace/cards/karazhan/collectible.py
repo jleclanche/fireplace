@@ -175,19 +175,13 @@ KAR_095e = buff(+1, +1)
 
 class KAR_096:
 	"""Prince Malchezaar"""
-	# TODO
-	# At the start of the game, if the player has Prince Malchezaar in their deck,
-	# he will add 5 random collectible legendary cards to the player's deck.
-	#
-	# While the selection is random, only cards suitable for the player's class will be chosen,
-	# and he will not cause there to be more than 1 copy of any given legendary in the deck,
-	# thus abiding by the game's regular deck-building rules.[1]
-
 	class Deck:
-		events = GameStart().after(Shuffle(CONTROLLER, RandomLegendaryMinion()) * 5)
+		events = GameStart().after(
+			Shuffle(CONTROLLER, RandomLegendaryMinion(exclude=DeDuplicate(STARTING_DECK))) * 5)
 
 	class Hand:
-		events = GameStart().after(Shuffle(CONTROLLER, RandomLegendaryMinion()) * 5)
+		events = GameStart().after(
+			Shuffle(CONTROLLER, RandomLegendaryMinion(exclude=DeDuplicate(STARTING_DECK))) * 5)
 
 
 class KAR_097:
@@ -221,8 +215,7 @@ class KAR_204:
 
 class KAR_205:
 	"""Silverware Golem"""
-	class Hand:
-		events = Discard(SELF).on(Summon(CONTROLLER, "KAR_205"))
+	discard = Summon(CONTROLLER, Copy(SELF))
 
 
 class KAR_702:
