@@ -12,6 +12,7 @@ TARGETING_PREREQUISITES = (
 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_MINIONS,
 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_SECRETS,
 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_HERO_ATTACKED_THIS_TURN,
+	PlayReq.REQ_TARGET_IF_AVAILABE_AND_ELEMENTAL_PLAYED_LAST_TURN,
 )
 
 
@@ -66,6 +67,9 @@ def is_valid_target(self, target, requirements=None):
 				return False
 		elif req == PlayReq.REQ_TARGET_MAX_ATTACK:
 			if target.atk > param or 0:
+				return False
+		elif req == PlayReq.REQ_NONSELF_TARGET:
+			if target is self:
 				return False
 		elif req == PlayReq.REQ_TARGET_WITH_RACE:
 			if target.type != CardType.MINION or target.race != param:

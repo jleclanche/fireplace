@@ -270,3 +270,11 @@ def test_mage_quest():
     game.player2.give(MOONFIRE).play(target=game.player1.hero)
     assert quest.progress == 6
     assert game.player2.hand[-1].id == "UNG_028t"
+
+
+def test_blazecaller():
+    game = prepare_game()
+    blazecaller1 = game.player1.give("UNG_847").play()
+    game.end_turn()
+    game.end_turn()
+    blazecaller1 = game.player1.give("UNG_847").play(target=blazecaller1)

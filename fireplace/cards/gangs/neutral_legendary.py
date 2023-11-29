@@ -49,7 +49,7 @@ class CFM_672:
 	def play(self):
 		targets = self.controller.deck.filter(type=CardType.MINION)
 		if targets:
-			target = random.sample(targets, 1)
+			target = random.choice(targets)
 			target.zone = Zone.SETASIDE
 			yield Shuffle(CONTROLLER, TARGET)
 			yield Summon(CONTROLLER, target)
@@ -84,7 +84,7 @@ class CFM_807:
 
 class CFM_808:
 	"""Genzo, the Shark"""
-	events = Attack(SELF).on(DrawUntil(EndTurn.PLAYER, 3))
+	events = Attack(SELF).on(DrawUntil(PLAYER, 3))
 
 
 class CFM_902(JadeGolemUtils):

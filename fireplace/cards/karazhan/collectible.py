@@ -176,10 +176,12 @@ KAR_095e = buff(+1, +1)
 class KAR_096:
 	"""Prince Malchezaar"""
 	class Deck:
-		events = GameStart().after(Shuffle(CONTROLLER, RandomLegendaryMinion(exclude=DeDuplicate(STARTING_DECK))) * 5)
+		events = GameStart().after(
+			Shuffle(CONTROLLER, RandomLegendaryMinion(exclude=DeDuplicate(STARTING_DECK))) * 5)
 
 	class Hand:
-		events = GameStart().after(Shuffle(CONTROLLER, RandomLegendaryMinion(exclude=DeDuplicate(STARTING_DECK))) * 5)
+		events = GameStart().after(
+			Shuffle(CONTROLLER, RandomLegendaryMinion(exclude=DeDuplicate(STARTING_DECK))) * 5)
 
 
 class KAR_097:
