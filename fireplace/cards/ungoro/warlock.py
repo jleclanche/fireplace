@@ -46,7 +46,7 @@ UNG_836e = buff(+2, +2)
 class UNG_829:
 	"""Lakkari Sacrifice"""
 	progress_total = 6
-	quest = Discard(FRIENDLY).after(AddProgress(SELF))
+	quest = Discard(FRIENDLY).after(AddProgress(SELF, Discard.TARGET))
 	reward = Give(CONTROLLER, "UNG_829t1")
 
 

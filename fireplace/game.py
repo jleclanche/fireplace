@@ -318,10 +318,6 @@ class BaseGame(Entity):
 		self.end_turn()
 		return self
 
-	# TODO  Take an extra turn, for cards like Time Warp
-	def take_an_extra_turn(self):
-		return self
-
 	def begin_turn(self, player):
 		ret = self.queue_actions(self, [BeginTurn(player)])
 		self.manager.turn(player)

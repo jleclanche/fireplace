@@ -205,3 +205,68 @@ def test_clutchmother_zavas():
     game.player1.give(SOULFIRE).play(target=game.player2.hero)
     assert zavas.atk == atk + 2
     assert zavas.zone == Zone.HAND
+
+
+def test_quest():
+    game = prepare_empty_game()
+    quest = game.player1.give("UNG_116").play()
+    assert quest.progress == 0
+    assert quest.zone == Zone.SECRET
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 1
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 2
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 3
+    game.end_turn()
+    game.end_turn()
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 4
+    game.player1.give("CS2_118").play()
+    assert quest.progress == 5
+    assert quest.zone == Zone.GRAVEYARD
+    assert game.player1.hand[0].id == "UNG_116t"
+
+
+def test_rogue_quest():
+    game = prepare_empty_game()
+    quest = game.player1.give("UNG_067").play()
+    assert quest.progress == 0
+    game.player1.give(WISP).play()
+    assert quest.progress == 1
+    game.player1.give(TARGET_DUMMY).play()
+    assert quest.progress == 1
+    game.player1.give(TARGET_DUMMY).play()
+    assert quest.progress == 2
+    game.player1.give(WISP).play()
+    assert quest.progress == 2
+    game.player1.give(WISP).play()
+    assert quest.progress == 3
+    game.player1.give(WISP).play()
+    assert quest.progress == 4
+    game.player1.give(WISP).play()
+    assert quest.progress == 5
+    assert quest.zone == Zone.GRAVEYARD
+    assert game.player1.hand[0].id == "UNG_067t1"
+
+
+def test_mage_quest():
+    game = prepare_game(include=tuple(["UNG_028"] + [MOONFIRE] * 29))
+    quest = game.player2.hand[0]
+    coin = game.player2.hand[-1]
+    game.end_turn()
+    assert quest.id == "UNG_028"
+    quest.play()
+    assert quest.progress == 0
+    coin.play()
+    assert quest.progress == 1
+    game.player2.hand[0].play(target=game.player1.hero)
+    assert quest.progress == 1
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    assert quest.progress == 2
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    game.player2.give(MOONFIRE).play(target=game.player1.hero)
+    assert quest.progress == 6
+    assert game.player2.hand[-1].id == "UNG_028t"
