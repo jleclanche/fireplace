@@ -1,15 +1,15 @@
 # <img src="/logo.png" height="32" width="32"/> Fireplace
 [![](https://img.shields.io/badge/python-3.10+-blue.svg)](https://peps.python.org/pep-0619/)
-[![](https://img.shields.io/github/license/play-boardgames-together/fireplace.svg)](https://github.com/play-boardgames-together/fireplace/blob/master/LICENSE.md)
-[![](https://github.com/play-boardgames-together/fireplace/actions/workflows/build.yml/badge.svg?branch=8.4.0.20022)](https://github.com/play-boardgames-together/fireplace/actions/workflows/build.yml)
-[![codecov](https://codecov.io/github/play-boardgames-together/fireplace/branch/8.4.0.20022/graph/badge.svg?token=FXDTJSKZL9)](https://codecov.io/github/play-boardgames-together/fireplace/tree/8.4.0.20022)
+[![](https://img.shields.io/github/license/jleclanche/fireplace.svg)](https://github.com/jleclanche/fireplace/blob/master/LICENSE.md)
+[![](https://github.com/jleclanche/fireplace/actions/workflows/build.yml/badge.svg)](https://github.com/jleclanche/fireplace/actions/workflows/build.yml)
+[![codecov](https://codecov.io/github/jleclanche/fireplace/branch/8.4.0.20022/graph/badge.svg?token=FXDTJSKZL9)](https://codecov.io/github/jleclanche/fireplace)
 
 A Hearthstone simulator and implementation, written in Python.
 
 
 ## Requirements
 
-* Python 3.8+
+* Python 3.10+
 
 
 ## Installation
@@ -19,7 +19,7 @@ A Hearthstone simulator and implementation, written in Python.
 
 ## Documentation
 
-The [Fireplace Wiki](https://github.com/play-boardgames-together/fireplace/wiki) is the best
+The [Fireplace Wiki](https://github.com/jleclanche/fireplace/wiki) is the best
 source of documentation, along with the actual code.
 
 
