@@ -23,6 +23,7 @@ Taunt = lambda target: SetTag(target, (GameTag.TAUNT, ))
 GiveCharge = lambda target: SetTag(target, (GameTag.CHARGE, ))
 GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD, ))
 GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
+GiveLifesteal = lambda target: SetTag(target, (GameTag.LIFESTEAL, ))
 
 
 CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))
@@ -62,6 +63,17 @@ LIBRAMS = IDS([
 	"BT_024",  # Libram of Hope
 	"BT_025",  # Libram of Wisdom
 ])
+
+LICH_KING_CARDS = [
+	"ICC_314t1",
+	"ICC_314t2",
+	"ICC_314t3",
+	"ICC_314t4",
+	"ICC_314t5",
+	"ICC_314t6",
+	"ICC_314t7",
+	"ICC_314t8",
+]
 
 RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
 RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)

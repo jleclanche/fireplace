@@ -72,7 +72,7 @@ class XXX_013:
 
 class XXX_014:
 	"""Mill 10"""
-	play = Mill(CONTROLLER, 10)
+	play = Mill(CONTROLLER) * 10
 
 
 class XXX_015:
@@ -173,7 +173,7 @@ class XXX_042:
 
 class XXX_043:
 	"""Mill 30"""
-	play = Mill(TARGET_PLAYER, 30)
+	play = Mill(TARGET_PLAYER) * 30
 
 
 class XXX_044:

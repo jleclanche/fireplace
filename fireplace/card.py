@@ -477,6 +477,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self.controller.elemental_played_last_turn:
 				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_NO_3_COST_CARD_IN_DECK)
+		if req is not None:
+			if len(self.controller.deck.filter(cost=3)) == 0:
+				return bool(self.play_targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
 	@property
@@ -1047,6 +1051,7 @@ class Weapon(rules.WeaponRules, LiveEntity):
 
 class HeroPower(PlayableCard):
 	additional_activations = int_property("additional_activations")
+	heropower_disabled = int_property("heropower_disabled")
 	playable_zone = Zone.PLAY
 
 	def __init__(self, data):
@@ -1056,6 +1061,8 @@ class HeroPower(PlayableCard):
 
 	@property
 	def exhausted(self):
+		if self.heropower_disabled:
+			return True
 		if self.additional_activations == -1:
 			return False
 		return self.activations_this_turn >= 1 + self.additional_activations

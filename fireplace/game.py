@@ -306,6 +306,10 @@ class BaseGame(Entity):
 		for buff in self.entities.filter(one_turn_effect=True):
 			self.log("Ending One-Turn effect: %r", buff)
 			buff.remove()
+		for entity in self.hands:
+			for buff in CardList(entity.entities).filter(one_turn_effect=True):
+				self.log("Ending One-Turn effect: %r", buff)
+				buff.remove()
 		# Extra turn
 		if self.current_player.extra_turns:
 			self.current_player.extra_turns -= 1

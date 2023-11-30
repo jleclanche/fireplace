@@ -6,48 +6,62 @@ from ..utils import *
 
 class ICC_018:
 	"""Phantom Freebooter"""
-	pass
+	play = Find(FRIENDLY_WEAPON) & Buff(
+		SELF, "ICC_018e", atk=ATK(FRIENDLY_WEAPON), health=CURRENT_HEALTH(FRIENDLY_WEAPON))
 
 
 class ICC_027:
 	"""Bone Drake"""
-	pass
+	deathrattle = Give(CONTROLLER, RandomDragon())
 
 
 class ICC_099:
 	"""Ticking Abomination"""
-	pass
+	deathrattle = Hit(FRIENDLY_MINIONS, 5)
 
 
 class ICC_257:
 	"""Corpse Raiser"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	pass
+	play = Buff(TARGET, "ICC_257e")
+
+
+class ICC_257e:
+	deathrattle = Summon(CONTROLLER, Copy(SELF))
+	tags = {GameTag.DEATHRATTLE: True}
 
 
 class ICC_466:
 	"""Saronite Chain Gang"""
-	pass
+	play = Summon(CONTROLLER, ExactCopy(SELF))
 
 
 class ICC_700:
 	"""Happy Ghoul"""
-	pass
+	class Hand:
+		events = Heal(FRIENDLY_HERO).on(Buff(SELF, "ICC_700e"))
+
+
+@custom_card
+class ICC_700e:
+	tags = {
+		GameTag.CARDNAME: "Happy Ghoul Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+		GameTag.TAG_ONE_TURN_EFFECT: True,
+	}
+	cost = SET(0)
+	events = REMOVED_IN_PLAY
 
 
 class ICC_702:
 	"""Shallow Gravedigger"""
-	pass
+	play = Give(CONTROLLER, RandomMinion(deathrattle=True))
 
 
 class ICC_902:
 	"""Mindbreaker"""
-	pass
+	update = Refresh(ALL_HERO_POWERS, {enums.HEROPOWER_DISABLED: True})
 
 
 class ICC_911:
 	"""Keening Banshee"""
-	pass
+	events = Play(CONTROLLER).on(Mill(CONTROLLER) * 3)

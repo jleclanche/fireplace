@@ -6,129 +6,109 @@ from ..utils import *
 
 class ICC_019:
 	"""Skelemancer"""
-	pass
-
-
-class ICC_023:
-	"""Snowflipper Penguin"""
-	pass
+	deathrattle = CurrentPlayer(OPPONENT) & Summon(CONTROLLER, "ICC_019t")
 
 
 class ICC_026:
 	"""Grim Necromancer"""
-	pass
+	play = Summon(CONTROLLER, "ICC_026t") * 2
+
+
+ICC_028e = buff(health=2)
 
 
 class ICC_028:
 	"""Sunborne Val'kyr"""
-	pass
+	play = Buff(SELF_ADJACENT, "ICC_028e")
 
 
 class ICC_029:
 	"""Cobalt Scalebane"""
-	pass
+	events = OWN_TURN_END.on(Buff(RANDOM_OTHER_FRIENDLY_MINION, "ICC_029e"))
+
+
+ICC_029e = buff(atk=3)
 
 
 class ICC_031:
 	"""Night Howler"""
-	pass
+	events = Damage(SELF).on(Buff(SELF, "ICC_031e"))
 
 
-class ICC_032:
-	"""Venomancer"""
-	pass
+ICC_031e = buff(atk=2)
 
 
 class ICC_067:
 	"""Vryghoul"""
-	pass
+	deathrattle = CurrentPlayer(OPPONENT) & Summon(CONTROLLER, "ICC_900t")
 
 
 class ICC_092:
 	"""Acherus Veteran"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	pass
+	play = Buff(TARGET, "ICC_092e")
+
+
+ICC_092e = buff(atk=1)
 
 
 class ICC_093:
 	"""Tuskarr Fisherman"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	pass
+	play = Buff(TARGET, "ICC_093e")
+
+
+ICC_093e = buff(spellpower=1)
 
 
 class ICC_094:
 	"""Fallen Sun Cleric"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	pass
+	play = Buff(TARGET, "ICC_094e")
+
+
+ICC_094e = buff(+1, +1)
 
 
 class ICC_097:
 	"""Grave Shambler"""
-	pass
+	events = Death(FRIENDLY + WEAPON).on(Buff(SELF, "ICC_097e"))
 
 
-class ICC_220:
-	"""Deadscale Knight"""
-	pass
+ICC_097e = buff(+1, +1)
 
 
 class ICC_467:
 	"""Deathspeaker"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	pass
+	play = Buff(TARGET, "ICC_467e")
+
+
+ICC_467e = buff(immune=True)
 
 
 class ICC_468:
 	"""Wretched Tiller"""
-	pass
+	events = Attack(SELF).on(Hit(ENEMY_HERO, 2))
 
 
 class ICC_705:
 	"""Bonemare"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	pass
+	play = Buff(TARGET, "ICC_705e")
+
+
+ICC_705e = buff(+4, +4, taunt=True)
 
 
 class ICC_855:
 	"""Hyldnir Frostrider"""
-	pass
-
-
-class ICC_856:
-	"""Spellweaver"""
-	pass
+	play = Freeze(FRIENDLY_MINIONS - SELF)
 
 
 class ICC_900:
 	"""Necrotic Geist"""
-	pass
+	events = Death(FRIENDLY_MINIONS - SELF).on(Summon(CONTROLLER, "ICC_900t"))
 
 
 class ICC_904:
 	"""Wicked Skeleton"""
-	pass
+	play = Buff(SELF, "ICC_904e") * Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
-class ICC_905:
-	"""Bloodworm"""
-	pass
-
-
-class ICC_913:
-	"""Tainted Zealot"""
-	pass
+ICC_904e = buff(+1, +1)

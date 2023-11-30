@@ -19,6 +19,7 @@ class Player(Entity, TargetableByAuras):
 	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
 	extra_deathrattles = slot_property("extra_deathrattles")
+	extra_end_turn_effect = slot_property("extra_end_turn_effect")
 	healing_double = slot_property("healing_double", sum)
 	hero_power_double = slot_property("hero_power_double", sum)
 	healing_as_damage = slot_property("healing_as_damage")
@@ -265,22 +266,6 @@ class Player(Entity, TargetableByAuras):
 				return None
 			return ret[0][0]
 		return ret
-
-	def mill(self, count=1):
-		if count == 1:
-			if not self.deck:
-				return
-			else:
-				card = self.deck[-1]
-			self.log("%s mills %r", self, card)
-			card.discard()
-			return card
-		else:
-			ret = []
-			while count:
-				ret.append(self.mill())
-				count -= 1
-			return ret
 
 	def give(self, id):
 		cards = self.game.cheat_action(self, [Give(self, id)])[0]

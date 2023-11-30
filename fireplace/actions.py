@@ -311,6 +311,8 @@ class EndTurn(GameAction):
 				"%r cannot end turn with the open choice %r." % (player, player.choice)
 			)
 		self.broadcast(source, EventListener.ON, player)
+		if player.extra_end_turn_effect:
+			self.broadcast(source, EventListener.ON, player)
 		source.game._end_turn()
 
 
@@ -659,21 +661,21 @@ class Buff(TargetedAction):
 		return buff.apply(target)
 
 
-class StoringSpellBuff(TargetedAction):
+class StoringBuff(TargetedAction):
 	TARGET = ActionArg()
 	BUFF = ActionArg()
-	SPELL = ActionArg()
+	CARD = ActionArg()
 
 	def get_target_args(self, source, target):
 		buff = self._args[1]
-		spell = _eval_card(source, self._args[2])[0]
+		card = _eval_card(source, self._args[2])[0]
 		buff = source.controller.card(buff)
 		buff.source = source
-		return [buff, spell]
+		return [buff, card]
 
-	def do(self, source, target, buff, spell):
-		log.info("%r store spell %r", buff, spell)
-		buff.store_spell = spell
+	def do(self, source, target, buff, card):
+		log.info("%r store card %r", buff, card)
+		buff.store_card = card
 		return buff.apply(target)
 
 
@@ -1099,10 +1101,22 @@ class Mill(TargetedAction):
 	Mill \a count cards from the top of the player targets' deck.
 	"""
 	TARGET = ActionArg()
-	AMOUNT = IntArg()
+	CARD = CardArg()
 
-	def do(self, source, target, count):
-		target.mill(count)
+	def get_target_args(self, source, target):
+		if target.deck:
+			card = target.deck[-1]
+		else:
+			card = None
+		return [card]
+
+	def do(self, source, target, card):
+		if card is None:
+			return []
+		card.discard()
+		self.broadcast(source, EventListener.ON, target, card, source)
+
+		return [card]
 
 
 class Morph(TargetedAction):

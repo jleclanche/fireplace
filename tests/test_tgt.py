@@ -430,7 +430,6 @@ def test_grand_crusader():
 	card = game.player1.hand[0]
 	assert CardClass.PALADIN in card.classes
 	assert card.data.collectible
-	assert card.type != CardType.HERO
 
 
 def test_icehowl():
@@ -505,7 +504,6 @@ def test_lock_and_load():
 	card = game.player1.hand[0]
 	assert CardClass.HUNTER in card.classes
 	assert card.data.collectible
-	assert card.type != CardType.HERO
 
 
 def test_lowly_squire():

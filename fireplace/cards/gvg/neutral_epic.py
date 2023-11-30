@@ -6,7 +6,7 @@ from ..utils import *
 
 class GVG_016:
 	"""Fel Reaver"""
-	events = Play(OPPONENT).on(Mill(CONTROLLER, 3))
+	events = Play(OPPONENT).on(Mill(CONTROLLER) * 3)
 
 
 class GVG_092:
