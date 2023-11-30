@@ -6,7 +6,7 @@ from ..utils import *
 
 class AT_019:
 	"""Dreadsteed"""
-	deathrattle = Summon(CONTROLLER, "AT_019")
+	deathrattle = Buff(CONTROLLER, "AT_019e")
 
 
 class AT_019e:

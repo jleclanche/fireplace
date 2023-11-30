@@ -16,6 +16,12 @@ class CS2_101_H1:
 	activate = CS2_101.activate
 
 
+class CS2_101_H2:
+	"""Reinforce (Prince Arthas)"""
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
+	activate = CS2_101.activate
+
+
 ##
 # Minions
 

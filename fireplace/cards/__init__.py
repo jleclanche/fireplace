@@ -1,7 +1,7 @@
 import os
 from pkg_resources import resource_filename
 from hearthstone import cardxml
-from hearthstone.enums import CardType, ZodiacYear
+from hearthstone.enums import CardClass, CardType, ZodiacYear
 from ..logging import log
 from ..utils import get_script_definition
 
@@ -158,8 +158,11 @@ class CardDB(dict):
 		# Quests cannot be randomly generated
 		cards = [card for card in cards if not card.quest]
 
+		# exclude default hero
+		cards = [card for card in cards if not card.id.startswith("HERO_")]
+
 		if "type" not in kwargs:
-			kwargs["type"] = [CardType.SPELL, CardType.WEAPON, CardType.MINION]
+			kwargs["type"] = [CardType.SPELL, CardType.WEAPON, CardType.HERO, CardType.MINION]
 
 		if "exclude" in kwargs:
 			exclude = [card.id for card in kwargs.pop("exclude")]

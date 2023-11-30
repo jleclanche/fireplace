@@ -106,7 +106,7 @@ class VAN_EX1_005:
 @custom_card
 class VAN_CS2_084:
 	tags = {
-		GameTag.CARDNAME: "Big Game Hunter (Old)",
+		GameTag.CARDNAME: "Hunter's Mark (Old)",
 		GameTag.CARDTYPE: CardType.SPELL,
 		GameTag.CLASS: CardClass.HUNTER,
 		GameTag.COST: 0,

@@ -22,7 +22,7 @@ PREFIXES = {
 }
 
 SOLVED_KEYWORDS = [
-	"Windfury", "Charge", "Divine Shield", "Taunt", "Stealth", "Poisonous",
+	"Windfury", "Charge", "Divine Shield", "Taunt", "Stealth", "Poisonous", "Lifesteal",
 	r"Can't be targeted by spells or Hero Powers\.",
 	r"Can't attack\.",
 	"Destroy any minion damaged by this minion.",
