@@ -29,3 +29,27 @@ def test_drakkari_enchanter():
 	game.player1.give("ICC_901").play()
 	game.end_turn()
 	assert game.player2.hero.health == 30 - 8 - 8
+
+
+def test_fatespinner():
+	game = prepare_game()
+	game.player1.give("ICC_047").play(choose="ICC_047a")
+	game.player1.give("ICC_047").play(choose="ICC_047b")
+	assert game.player1.field[0].deathrattles
+	assert game.player1.field[1].deathrattles
+
+
+def test_spreading_plague():
+	game = prepare_game()
+	for _ in range(4):
+		game.player1.give(WISP).play()
+	game.end_turn()
+	game.player2.give("ICC_054").play()
+	assert len(game.player2.field) == 4
+
+
+def test_malfurion_the_pestilent():
+	game = prepare_game()
+	game.player1.give("ICC_832").play(choose="ICC_832a")
+	game.player1.hero.power.use(choose="ICC_832pa")
+	assert game.player1.hero.armor == 5 + 3

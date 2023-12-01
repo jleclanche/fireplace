@@ -188,7 +188,7 @@ def play_turn(game):
 
 	while True:
 		heropower = player.hero.power
-		if heropower.is_usable() and random.random() < 0.1:
+		if heropower.is_playable() and random.random() < 0.1:
 			if heropower.requires_target():
 				heropower.use(target=random.choice(heropower.targets))
 			else:

@@ -79,7 +79,7 @@ class BaseCard(BaseEntity):
 	def description(self):
 		description = self.data.description
 		if "@" in description:
-			hand_description, description = description.split("@")
+			hand_description, description = description.split("@", 1)
 			if self.zone is Zone.HAND:
 				description = hand_description
 		formats = []
@@ -494,6 +494,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 class LiveEntity(PlayableCard, Entity):
 	has_deathrattle = boolean_property("has_deathrattle")
+	secret_deathrattle = int_property("secret_deathrattle")
 	atk = int_property("atk")
 	cant_be_damaged = boolean_property("cant_be_damaged")
 	immune_while_attacking = slot_property("immune_while_attacking")
@@ -534,6 +535,9 @@ class LiveEntity(PlayableCard, Entity):
 		deathrattle = self.get_actions("deathrattle")
 		if deathrattle:
 			ret.append(deathrattle)
+		if self.secret_deathrattle:
+			secret_deathrattles = self.get_actions("secret_deathrattles")
+			ret.append((secret_deathrattles[self.secret_deathrattle - 1], ))
 		for buff in self.buffs:
 			for deathrattle in buff.deathrattles:
 				ret.append(deathrattle)
@@ -754,7 +758,8 @@ class Minion(Character):
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
 		"forgetful", "frozen", "has_deathrattle", "has_inspire", "poisonous",
-		"stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush"
+		"stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush",
+		"secret_deathrattle",
 	)
 
 	def __init__(self, data):
@@ -1072,22 +1077,39 @@ class HeroPower(PlayableCard):
 			if self.controller.hero.power:
 				self.controller.hero.power.destroy()
 			self.controller.hero.power = self
+			# Create the "Choose One" subcards
+			del self.choose_cards[:]
+			for id in self.data.choose_cards:
+				card = self.controller.card(id, source=self, parent=self)
+				self.choose_cards.append(card)
+
 		super()._set_zone(value)
 
-	def activate(self):
-		return self.game.queue_actions(self.controller, [actions.Activate(self, self.target)])
+	def activate(self, target, choose):
+		return self.game.queue_actions(self.controller, [actions.Activate(self, target, choose)])
 
 	def get_damage(self, amount, target):
 		amount = super().get_damage(amount, target)
 		return self.controller.get_heropower_damage(amount)
 
-	def use(self, target=None):
+	def use(self, target=None, choose=None):
+		if choose:
+			if self.must_choose_one:
+				choose = card = self.choose_cards.filter(id=choose)[0]
+				self.log("%r: choosing %r", self, choose)
+			else:
+				raise InvalidAction("%r cannot be played with choice %r" % (self, choose))
+		else:
+			if self.must_choose_one:
+				raise InvalidAction("%r requires a choice (one of %r)" % (self, self.choose_cards))
+			card = self
+
 		if not self.is_usable():
 			raise InvalidAction("%r can't be used." % (self))
 
-		self.log("%s uses hero power %r on %r", self.controller, self, target)
+		self.log("%s uses hero power %r on %r", self.controller, card, target)
 
-		if self.requires_target():
+		if card.requires_target():
 			if not target:
 				raise InvalidAction("%r requires a target." % (self))
 			elif target not in self.play_targets:
@@ -1100,7 +1122,7 @@ class HeroPower(PlayableCard):
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
 
-		ret = self.activate()
+		ret = self.activate(target, choose)
 
 		self.controller.times_hero_power_used_this_game += 1
 		self.target = None

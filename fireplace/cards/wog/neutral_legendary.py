@@ -57,7 +57,7 @@ OG_300e = buff(+2, +2)
 
 class OG_133:
 	"""N'Zoth, the Corruptor"""
-	play = Summon(CONTROLLER, Copy(FRIENDLY + KILLED + MINION))
+	play = Summon(CONTROLLER, Copy(FRIENDLY + KILLED + MINION + DEATHRATTLE))
 
 
 class OG_134:

@@ -519,15 +519,17 @@ class Activate(GameAction):
 	PLAYER = ActionArg()
 	CARD = CardArg()
 	TARGET = ActionArg()
+	CHOOSE = ActionArg()
 
 	def get_args(self, source):
 		return (source, ) + super().get_args(source)
 
-	def do(self, source, player, heropower, target=None):
+	def do(self, source, player, heropower, target, choose):
 		player.pay_cost(heropower, heropower.cost)
-		self.broadcast(source, EventListener.ON, player, heropower, target)
+		self.broadcast(source, EventListener.ON, player, heropower, target, choose)
 
-		actions = heropower.get_actions("activate")
+		card = choose or heropower
+		actions = card.get_actions("activate")
 		source.game.action_start(BlockType.PLAY, heropower, 0, target)
 		source.game.main_power(heropower, actions, target)
 		source.game.action_end(BlockType.PLAY, heropower)
@@ -594,6 +596,8 @@ class TargetedAction(Action):
 			ret = t
 		elif isinstance(t, LazyValue):
 			ret = t.evaluate(source)
+		elif isinstance(t, str):
+			ret = source.controller.card(t)
 		else:
 			ret = t.eval(source.game, source)
 		if not ret:
