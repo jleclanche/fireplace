@@ -6,32 +6,31 @@ from ..utils import *
 
 class ICC_021:
 	"""Exploding Bloatbat"""
-	pass
+	deathrattle = Hit(ENEMY_MINIONS, 2)
 
 
 class ICC_204:
 	"""Professor Putricide"""
-	pass
+	events = Play(CONTROLLER, SECRET).after(
+		Summon(CONTROLLER, RandomSpell(
+			secret=True,
+			card_class=CardClass.HUNTER,
+			exclude=DeDuplicate(FRIENDLY_SECRETS))))
 
 
 class ICC_243:
 	"""Corpse Widow"""
-	pass
+	update = Refresh(FRIENDLY_HAND + DEATHRATTLE, {GameTag.COST: -2})
 
 
 class ICC_415:
 	"""Stitched Tracker"""
-	pass
-
-
-class ICC_419:
-	"""Bearshark"""
-	pass
+	play = GenericChoice(CONTROLLER, Copy(RANDOM(DeDuplicate(FRIENDLY_DECK + MINION)) * 3))
 
 
 class ICC_825:
 	"""Abominable Bowman"""
-	pass
+	deathrattle = Summon(CONTROLLER, Copy(FRIENDLY + KILLED + BEAST))
 
 
 ##
@@ -39,29 +38,24 @@ class ICC_825:
 
 class ICC_049:
 	"""Toxic Arrow"""
-	requirements = {
-		PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-	pass
+	play = Hit(TARGET, 2), Dead(TARGET) | GivePoisonous(TARGET)
 
 
 class ICC_052:
 	"""Play Dead"""
-	requirements = {
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_TO_PLAY: 0,
-		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
-	pass
+	play = Deathrattle(TARGET)
 
 
 class ICC_200:
 	"""Venomstrike Trap"""
-	pass
+	secret = Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(FULL_BOARD | (
+		Reveal(SELF), Summon(CONTROLLER, "EX1_170")
+	))
 
 
 ##
 # Heros
 
-class ICC_828:
-	"""Deathstalker Rexxar"""
-	pass
+# class ICC_828:
+# 	"""Deathstalker Rexxar"""
+# 	pass

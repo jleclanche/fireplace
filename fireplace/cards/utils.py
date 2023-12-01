@@ -23,6 +23,7 @@ Taunt = lambda target: SetTag(target, (GameTag.TAUNT, ))
 GiveCharge = lambda target: SetTag(target, (GameTag.CHARGE, ))
 GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD, ))
 GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
+GivePoisonous = lambda target: SetTag(target, (GameTag.POISONOUS, ))
 GiveLifesteal = lambda target: SetTag(target, (GameTag.LIFESTEAL, ))
 
 

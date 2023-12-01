@@ -6,23 +6,24 @@ from ..utils import *
 
 class ICC_068:
 	"""Ice Walker"""
-	pass
+	events = Activate(CONTROLLER, FRIENDLY_HERO_POWER).after(
+		Find(Activate.TARGET) & Freeze(Activate.TARGET)
+	)
 
 
 class ICC_069:
 	"""Ghastly Conjurer"""
-	pass
+	play = Give(CONTROLLER, "CS2_027")
 
 
 class ICC_083:
 	"""Doomed Apprentice"""
-	pass
+	update = Refresh(ENEMY_HAND + SPELL, {GameTag.COST: 1})
 
 
 class ICC_252:
 	"""Coldwraith"""
-	requirements = {PlayReq.REQ_FROZEN_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0}
-	pass
+	play = Find(ENEMY + FROZEN) & Draw(CONTROLLER)
 
 
 class ICC_838:
