@@ -28,7 +28,11 @@ class ICC_252:
 
 class ICC_838:
 	"""Sindragosa"""
-	pass
+	play = Summon(CONTROLLER, "ICC_838t")
+
+
+class ICC_838t:
+	deathrattle = Give(CONTROLLER, RandomLegendaryMinion())
 
 
 ##
@@ -36,24 +40,25 @@ class ICC_838:
 
 class ICC_082:
 	"""Frozen Clone"""
-	pass
+	secret = Play(OPPONENT, MINION).after(
+		Reveal(SELF), Give(CONTROLLER, Copy(Play.CARD)) * 2
+	)
 
 
 class ICC_086:
 	"""Glacial Mysteries"""
-	requirements = {PlayReq.REQ_SECRET_ZONE_CAP_FOR_NON_SECRET: 0}
-	pass
+	play = Summon(CONTROLLER, FRIENDLY_DECK + SECRET)
 
 
 class ICC_823:
 	"""Simulacrum"""
-	pass
+	play = Give(CONTROLLER, ExactCopy(RANDOM(LOWEST_COST(FRIENDLY_HAND))))
 
 
 class ICC_836:
 	"""Breath of Sindragosa"""
 	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
-	pass
+	play = Hit(RANDOM_ENEMY_MINION, 2).then(Freeze(Hit.TARGET))
 
 
 ##
@@ -61,4 +66,19 @@ class ICC_836:
 
 class ICC_833:
 	"""Frost Lich Jaina"""
-	pass
+	play = (
+		Summon(CONTROLLER, "ICC_833t"),
+		Buff(CONTROLLER, "ICC_833e")
+	)
+
+
+class ICC_833h:
+	activate = Hit(TARGET, 1).then(Dead(TARGET) & Summon(CONTROLLER, "ICC_833t"))
+
+
+class ICC_833t:
+	events = Damage(CHARACTER, None, SELF).on(Freeze(Damage.TARGET))
+
+
+class ICC_833e:
+	update = Refresh(FRIENDLY_MINIONS + ELEMENTAL, {GameTag.LIFESTEAL: True})

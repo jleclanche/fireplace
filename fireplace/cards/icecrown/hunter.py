@@ -15,7 +15,7 @@ class ICC_204:
 		Summon(CONTROLLER, RandomSpell(
 			secret=True,
 			card_class=CardClass.HUNTER,
-			exclude=DeDuplicate(FRIENDLY_SECRETS))))
+			exclude=FRIENDLY_SECRETS)))
 
 
 class ICC_243:
@@ -56,6 +56,10 @@ class ICC_200:
 ##
 # Heros
 
-# class ICC_828:
-# 	"""Deathstalker Rexxar"""
-# 	pass
+class ICC_828:
+	"""Deathstalker Rexxar"""
+	play = Hit(ENEMY_MINIONS, 2)
+
+
+class ICC_828p:
+	activate = CreateZombeast(CONTROLLER)

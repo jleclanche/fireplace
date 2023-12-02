@@ -1,3 +1,6 @@
+import pytest
+from fireplace.exceptions import GameOver
+
 from utils import *
 
 
@@ -53,3 +56,51 @@ def test_malfurion_the_pestilent():
 	game.player1.give("ICC_832").play(choose="ICC_832a")
 	game.player1.hero.power.use(choose="ICC_832pa")
 	assert game.player1.hero.armor == 5 + 3
+
+
+def test_deathstalker_rexxar():
+	game = prepare_empty_game()
+	game.player1.give("ICC_828").play()
+	game.player1.hero.power.use()
+	assert game.player1.choice
+	assert game.player1.choice
+
+
+def test_bolvar_fireblood():
+	game = prepare_game()
+	fireblood = game.player1.give("ICC_858").play()
+	atk = fireblood.atk
+	game.player1.give(MOONFIRE).play(target=fireblood)
+	assert fireblood.atk == atk + 2
+
+
+def test_uther_of_the_ebon_blade():
+	game = prepare_game()
+	game.player1.give("ICC_829").play()
+	game.end_turn()
+	game.end_turn()
+	for _ in range(3):
+		game.player1.hero.power.use()
+		game.end_turn()
+		game.end_turn()
+	with pytest.raises(GameOver):
+		game.player1.hero.power.use()
+
+
+def test_embrace_darkness():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	game.end_turn()
+	game.player2.give("ICC_849").play(target=wisp)
+	game.end_turn()
+	game.end_turn()
+	assert len(game.player1.field) == 0
+	assert len(game.player2.field) == 1
+
+
+def test_moorabi():
+	game = prepare_empty_game()
+	game.player1.give("ICC_289").play()
+	wisp = game.player1.give(WISP).play()
+	game.player1.give("CS2_031").play(target=wisp)
+	assert game.player1.hand[0].id == WISP

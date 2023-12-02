@@ -18,6 +18,7 @@ from .utils import CardList
 class BaseGame(Entity):
 	type = CardType.GAME
 	MAX_MINIONS_ON_FIELD = 7
+	MAX_SECRETS_ON_PLAY = 5
 	Manager = GameManager
 
 	def __init__(self, players):
@@ -352,6 +353,7 @@ class BaseGame(Entity):
 
 		if player.hero.power:
 			player.hero.power.activations_this_turn = 0
+			player.hero.power.additional_activations_this_turn = 0
 
 		for character in self.characters:
 			character.num_attacks = 0

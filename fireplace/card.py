@@ -384,6 +384,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			if not self.controller.graveyard.filter(type=CardType.MINION):
 				return False
 
+		if PlayReq.REQ_SECRET_ZONE_CAP_FOR_NON_SECRET in self.requirements:
+			if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
+				return False
+
 		return self.is_summonable()
 
 	def play(self, target=None, index=None, choose=None):
@@ -842,8 +846,8 @@ class Minion(Character):
 
 	def _hit(self, amount):
 		if self.divine_shield:
-			self.divine_shield = False
 			self.log("%r's divine shield prevents %i damage.", self, amount)
+			self.game.cheat_action(self, [actions.LosesDivineShield(self)])
 			return 0
 
 		amount = super()._hit(amount)
@@ -925,12 +929,16 @@ class Secret(Spell):
 		# secrets are all unique
 		if self.controller.secrets.contains(self):
 			return False
+		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
+			return False
 		return super().is_summonable()
 
 
 class Quest(Spell):
 	def is_summonable(self):
 		if len(self.controller.secrets) > 0 and self.controller.secrets[0].data.quest:
+			return False
+		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
 			return False
 		return super().is_summonable()
 
@@ -1062,6 +1070,7 @@ class HeroPower(PlayableCard):
 	def __init__(self, data):
 		super().__init__(data)
 		self.activations_this_turn = 0
+		self.additional_activations_this_turn = 0
 		self.old_power = None
 
 	@property
@@ -1070,7 +1079,8 @@ class HeroPower(PlayableCard):
 			return True
 		if self.additional_activations == -1:
 			return False
-		return self.activations_this_turn >= 1 + self.additional_activations
+		return self.activations_this_turn >= (
+			1 + self.additional_activations + self.additional_activations_this_turn)
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:

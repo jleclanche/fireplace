@@ -13,7 +13,7 @@ class ICC_314:
 class ICC_314t1:
 	"""Frostmourne"""
 	events = Attack(FRIENDLY_HERO, ALL_MINIONS).after(
-		Dead(ALL_MINIONS + Attack.DEFENDER) & StoringBuff(SELF, "ICC_314t1e", Attack.DEFENDER)
+		Dead(Attack.DEFENDER) & StoringBuff(SELF, "ICC_314t1e", Attack.DEFENDER)
 	)
 
 

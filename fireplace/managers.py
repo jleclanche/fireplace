@@ -144,6 +144,7 @@ class PlayerManager(Manager):
 		GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME: "times_hero_power_used_this_game",
 		GameTag.OVERLOAD_LOCKED: "overload_locked",
 		GameTag.OVERLOAD_OWED: "overloaded",
+		GameTag.OVERLOAD_THIS_GAME: "overloaded_this_game",
 		GameTag.PLAYSTATE: "playstate",
 		GameTag.RESOURCES: "max_mana",
 		GameTag.RESOURCES_USED: "used_mana",

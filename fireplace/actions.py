@@ -6,11 +6,11 @@ from hearthstone.enums import (
 )
 
 from .dsl import LazyNum, LazyValue, Selector
-from .dsl.random_picker import RandomCollectible, RandomMinion
+from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion
 from .entity import Entity
 from .exceptions import InvalidAction
 from .logging import log
-from .utils import random_class
+from .utils import get_script_definition, random_class
 
 
 def _eval_card(source, card):
@@ -554,6 +554,7 @@ class Overload(GameAction):
 		log.info("%r overloads %s for %i", source, player, amount)
 		self.broadcast(source, EventListener.ON, player, amount)
 		player.overloaded += amount
+		player.overloaded_this_game += amount
 
 
 class TargetedAction(Action):
@@ -1221,6 +1222,7 @@ class SetTag(TargetedAction):
 		else:
 			for tag in tags:
 				target.tags[tag] = True
+		self.broadcast(source, EventListener.AFTER, target)
 
 
 class UnsetTag(TargetedAction):
@@ -1551,7 +1553,7 @@ class RefreshHeroPower(TargetedAction):
 
 	def do(self, source, heropower):
 		log.info("Refresh Hero Power %s.", heropower)
-		heropower.activations_this_turn = 0
+		heropower.additional_activations_this_turn += 1
 		return heropower
 
 
@@ -1776,3 +1778,79 @@ class GlimmerrootAction(TargetedAction):
 			else:
 				log.info("Choose incorrectly, corrent choice is %r", self.starting_card)
 		self.player.choice = self.next_choice
+
+
+class CreateZombeast(TargetedAction):
+	def init(self, source):
+		hunter_beast_ids = RandomBeast(
+			card_class=CardClass.HUNTER,
+			cost=list(range(0, 6))).find_cards(source)
+		neutral_beast_ids = RandomBeast(
+			card_class=CardClass.NEUTRAL,
+			cost=list(range(0, 6))).find_cards(source)
+		beast_ids = hunter_beast_ids + neutral_beast_ids
+		self.first_ids = []
+		self.second_ids = []
+		for id in beast_ids:
+			if get_script_definition(id):
+				self.first_ids.append(id)
+			else:
+				self.second_ids.append(id)
+
+	def do(self, source, player):
+		self.init(source)
+		self.player = player
+		self.next_choice = self.player.choice
+		self.source = source
+		self.min_count = 1
+		self.max_count = 1
+		self.choosed_cards = []
+		self.player.choice = self
+		self.do_step1()
+
+	def do_step1(self):
+		self.cards = [self.player.card(id) for id in random.sample(self.first_ids, 3)]
+
+	def do_step2(self):
+		self.cards = [self.player.card(id) for id in random.sample(self.second_ids, 3)]
+
+	def done(self):
+		zombeast = self.player.card("ICC_828t")
+		card1 = self.choosed_cards[0]
+		card2 = self.choosed_cards[1]
+		zombeast.tags[GameTag.CARDTEXT_ENTITY_0] = card2.data.strings[GameTag.CARDTEXT]
+		zombeast.tags[GameTag.CARDTEXT_ENTITY_1] = card1.data.strings[GameTag.CARDTEXT]
+		zombeast.data.scripts = card1.data.scripts
+		int_mergeable_attributes = (
+			"atk", "cost", "max_health", "incoming_damage_multiplier", "spellpower",
+			"windfury",
+		)
+		bool_mergeable_attributes = (
+			"has_deathrattle", "charge", "has_inspire", "stealthed", "cant_attack",
+			"cant_be_targeted_by_opponents", "cant_be_targeted_by_abilities",
+			"cant_be_targeted_by_hero_powers", "heavily_armored", "min_health",
+			"rush", "taunt", "poisonous", "ignore_taunt", "cannot_attack_heroes",
+			"unlimited_attacks", "cant_be_damaged", "lifesteal",
+		)
+		for attribute in int_mergeable_attributes:
+			setattr(zombeast, attribute, getattr(card1, attribute) + getattr(card2, attribute))
+		for attribute in bool_mergeable_attributes:
+			setattr(zombeast, attribute, getattr(card1, attribute) or getattr(card2, attribute))
+		self.player.give(zombeast)
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		else:
+			self.choosed_cards.append(card)
+			if len(self.choosed_cards) == 1:
+				self.do_step2()
+			elif len(self.choosed_cards) == 2:
+				self.done()
+				self.player.choice = self.next_choice
+
+
+class LosesDivineShield(TargetedAction):
+	def do(self, source, target):
+		target.divine_shield = False
+		self.broadcast(source, EventListener.AFTER, target)

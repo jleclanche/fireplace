@@ -6,27 +6,30 @@ from ..utils import *
 
 class ICC_062:
 	"""Mountainfire Armor"""
-	pass
+	deathrattle = CurrentPlayer(OPPONENT) & GainArmor(CONTROLLER, 6)
 
 
 class ICC_238:
 	"""Animated Berserker"""
-	pass
+	play = Play(CONTROLLER, MINION).after(Hit(Play.CARD, 1))
 
 
 class ICC_405:
 	"""Rotface"""
-	pass
+	events = SELF_DAMAGE.on(Summon(CONTROLLER, RandomLegendaryMinion()))
 
 
 class ICC_408:
 	"""Val'kyr Soulclaimer"""
-	pass
+	events = SELF_DAMAGE.on(Summon(CONTROLLER, "ICC_900t"))
 
 
 class ICC_450:
 	"""Death Revenant"""
-	pass
+	play = Buff(SELF, "ICC_450e") * Count(ALL_MINIONS + DAMAGED)
+
+
+ICC_450e = buff(+1, +1)
 
 
 ##
@@ -34,17 +37,22 @@ class ICC_450:
 
 class ICC_091:
 	"""Dead Man's Hand"""
-	pass
+	play = Shuffle(CONTROLLER, ExactCopy(FRIENDLY_HAND))
 
 
 class ICC_281:
 	"""Forge of Souls"""
-	pass
+	play = ForceDraw(RANDOM(FRIENDLY_DECK + WEAPON)) * 2
 
 
 class ICC_837:
 	"""Bring It On!"""
-	pass
+	play = GainArmor(CONTROLLER, 10), Buff(ENEMY_HAND + MINION, "ICC_837e")
+
+
+class ICC_837e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -2}
 
 
 ##
@@ -52,7 +60,8 @@ class ICC_837:
 
 class ICC_064:
 	"""Blood Razor"""
-	pass
+	play = Hit(ALL_MINIONS, 1)
+	deathrattle = Hit(ALL_MINIONS, 1)
 
 
 ##
@@ -60,4 +69,12 @@ class ICC_064:
 
 class ICC_834:
 	"""Scourgelord Garrosh"""
-	pass
+	play = Summon(CONTROLLER, "ICC_834w")
+
+
+class ICC_834h:
+	activate = Hit(ALL_MINIONS, 1)
+
+
+class ICC_834w:
+	events = Attack(FRIENDLY_HERO).on(Hit(ADJACENT(Attack.DEFENDER), ATK(FRIENDLY_HERO)))

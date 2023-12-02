@@ -55,6 +55,7 @@ class Player(Entity, TargetableByAuras):
 		self.cards_drawn_this_turn = 0
 		self.overloaded = 0
 		self.overload_locked = 0
+		self.overloaded_this_game = 0
 		self._max_mana = 0
 		self._start_hand_size = 3
 		self.playstate = PlayState.INVALID

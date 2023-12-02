@@ -6,28 +6,23 @@ from ..utils import *
 
 class ICC_058:
 	"""Brrrloc"""
-	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	pass
-
-
-class ICC_081:
-	"""Drakkari Defender"""
-	pass
+	play = Freeze(TARGET)
 
 
 class ICC_088:
 	"""Voodoo Hexxer"""
-	pass
+	events = Damage(CHARACTER, None, SELF).on(Freeze(Damage.TARGET))
 
 
 class ICC_090:
 	"""Snowfury Giant"""
-	pass
+	cost_mod = -Attr(CONTROLLER, GameTag.OVERLOAD_THIS_GAME)
 
 
 class ICC_289:
 	"""Moorabi"""
-	pass
+	events = SetTag(ALL_MINIONS - SELF, (GameTag.FROZEN, )).after(
+		Give(CONTROLLER, Copy(SetTag.TARGET)))
 
 
 ##
@@ -35,19 +30,20 @@ class ICC_289:
 
 class ICC_056:
 	"""Cryostasis"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-	pass
+	play = Buff(TARGET, "ICC_056e"), Freeze(TARGET)
+
+
+ICC_056e = buff(+3, +3)
 
 
 class ICC_078:
 	"""Avalanche"""
-	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-	pass
+	play = Hit(TARGET, 3), Freeze(TARGET_ADJACENT)
 
 
 class ICC_089:
 	"""Ice Fishing"""
-	pass
+	play = ForceDraw(RANDOM(FRIENDLY_DECK + MURLOC)) * 2
 
 
 ##
@@ -55,7 +51,9 @@ class ICC_089:
 
 class ICC_236:
 	"""Ice Breaker"""
-	pass
+	events = Attack(FRIENDLY_HERO, ALL_MINIONS).after(
+		Find(FROZEN + Attack.DEFENDER) & Destroy(Attack.DEFENDER)
+	)
 
 
 ##
@@ -63,4 +61,8 @@ class ICC_236:
 
 class ICC_481:
 	"""Thrall, Deathseer"""
-	pass
+	play = Evolve(FRIENDLY_MINIONS, 2)
+
+
+class ICC_481p:
+	activate = Evolve(TARGET, 1)

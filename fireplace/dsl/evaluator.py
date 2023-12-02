@@ -124,9 +124,9 @@ class Dead(Evaluator):
 
 	def check(self, source):
 		for target in self.selector.eval(source.game, source):
-			if not target.dead:
-				return False
-		return True
+			if target.dead:
+				return True
+		return False
 
 
 class Find(Evaluator):
