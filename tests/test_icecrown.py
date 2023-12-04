@@ -1,7 +1,7 @@
 import pytest
-from fireplace.exceptions import GameOver
-
 from utils import *
+
+from fireplace.exceptions import GameOver
 
 
 def test_happy_ghoul():
@@ -168,3 +168,29 @@ def test_defile():
 	game.player1.give("ICC_041").play()
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].health == 1
+
+
+def test_frostmourne():
+	game = prepare_game()
+	game.player1.give("ICC_314t1").play()
+	game.end_turn()
+	for _ in range(3):
+		game.player2.give(WISP).play()
+	game.end_turn()
+	game.player1.hero.attack(game.player2.field[0])
+	game.skip_turn()
+	game.player1.hero.attack(game.player2.field[0])
+	game.skip_turn()
+	game.player1.hero.attack(game.player2.field[0])
+	assert len(game.player1.field) == 3
+	game.player1.field[0].id == WISP
+	game.player1.field[1].id == WISP
+	game.player1.field[2].id == WISP
+
+
+def test_hero_armor():
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
+	game.player1.hero.power.use()
+	assert game.player1.hero.armor == 2
+	game.player1.give("ICC_481").play()
+	assert game.player1.hero.armor == 7

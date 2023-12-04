@@ -737,7 +737,6 @@ class Hero(Character):
 			if self.data.hero_power:
 				self.controller.summon(self.data.hero_power)
 			if old_hero:
-				self.armor += old_hero.armor
 				old_hero.zone = Zone.GRAVEYARD
 		elif value == Zone.GRAVEYARD:
 			if self.power:
@@ -755,6 +754,12 @@ class Hero(Character):
 			self.armor -= reduced_damage
 		return amount
 
+	def play(self, target=None, index=None, choose=None):
+		armor = self.armor
+		self.armor = self.controller.hero.armor
+		super().play(target, index, choose)
+		if armor:
+			self.game.cheat_action(self, [actions.GainArmor(self, armor)])
 
 class Minion(Character):
 	charge = boolean_property("charge")

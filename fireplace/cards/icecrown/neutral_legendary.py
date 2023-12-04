@@ -21,7 +21,7 @@ class ICC_314t1e:
 	tags = {GameTag.DEATHRATTLE: True}
 
 	def deathrattle(self):
-		yield Give(CONTROLLER, self.store_card.id)
+		yield Summon(CONTROLLER, self.store_card.id)
 
 
 class ICC_314t2:
