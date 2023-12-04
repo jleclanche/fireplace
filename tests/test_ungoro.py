@@ -278,3 +278,10 @@ def test_blazecaller():
 	game.end_turn()
 	game.end_turn()
 	blazecaller1 = game.player1.give("UNG_847").play(target=blazecaller1)
+
+
+def test_molten_reflection():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	game.player1.give("UNG_948").play(target=wisp)
+	assert len(game.player1.field) == 2

@@ -761,6 +761,7 @@ class Hero(Character):
 		if armor:
 			self.game.cheat_action(self, [actions.GainArmor(self, armor)])
 
+
 class Minion(Character):
 	charge = boolean_property("charge")
 	has_inspire = boolean_property("has_inspire")

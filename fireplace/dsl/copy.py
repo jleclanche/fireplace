@@ -1,3 +1,5 @@
+from hearthstone.enums import CardType
+
 from ..logging import log
 from .lazynum import LazyValue
 
@@ -41,11 +43,12 @@ class ExactCopy(Copy):
 		ret = super().copy(source, entity)
 		if self.id:
 			ret = source.controller.card(self.id, source)
-		for k in entity.silenceable_attributes:
-			v = getattr(entity, k)
-			setattr(ret, k, v)
-		ret.silenced = entity.silenced
-		ret.damage = entity.damage
+		if entity.type == CardType.MINION:
+			for k in entity.silenceable_attributes:
+				v = getattr(entity, k)
+				setattr(ret, k, v)
+			ret.silenced = entity.silenced
+			ret.damage = entity.damage
 		for buff in entity.buffs:
 			# Recreate the buff stack
 			entity.buff(ret, buff.id)

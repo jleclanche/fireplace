@@ -87,7 +87,7 @@ class UNG_948:
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_TARGET_TO_PLAY: 0}
-	play = Summon(TARGET, ExactCopy(TARGET))
+	play = Summon(CONTROLLER, ExactCopy(TARGET))
 
 
 class UNG_955:

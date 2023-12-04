@@ -6,7 +6,7 @@ from ..utils import *
 
 class ICC_062:
 	"""Mountainfire Armor"""
-	deathrattle = CurrentPlayer(OPPONENT) & GainArmor(CONTROLLER, 6)
+	deathrattle = CurrentPlayer(OPPONENT) & GainArmor(FRIENDLY_HERO, 6)
 
 
 class ICC_238:
@@ -47,7 +47,7 @@ class ICC_281:
 
 class ICC_837:
 	"""Bring It On!"""
-	play = GainArmor(CONTROLLER, 10), Buff(ENEMY_HAND + MINION, "ICC_837e")
+	play = GainArmor(FRIENDLY_HERO, 10), Buff(ENEMY_HAND + MINION, "ICC_837e")
 
 
 class ICC_837e:

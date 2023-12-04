@@ -188,12 +188,21 @@ def play_turn(game):
 
 	while True:
 		heropower = player.hero.power
-		if heropower.is_playable() and random.random() < 0.1:
+		if heropower.is_usable() and random.random() < 0.1:
+			choose = None
+			target = None
+			if heropower.must_choose_one:
+				choose = random.choice(heropower.choose_cards)
 			if heropower.requires_target():
-				heropower.use(target=random.choice(heropower.targets))
-			else:
-				heropower.use()
+				target = random.choice(heropower.targets)
+			heropower.use(target=target, choose=choose)
 			continue
+
+		# eg. Deathstalker Rexxar
+		while player.choice:
+			choice = random.choice(player.choice.cards)
+			print("Choosing card %r" % (choice))
+			player.choice.choose(choice)
 
 		# iterate over our hand and play whatever is playable
 		for card in player.hand:
@@ -217,6 +226,11 @@ def play_turn(game):
 		for character in player.characters:
 			if character.can_attack():
 				character.attack(random.choice(character.targets))
+				# eg. Vicious Fledgling
+				while player.choice:
+					choice = random.choice(player.choice.cards)
+					print("Choosing card %r" % (choice))
+					player.choice.choose(choice)
 
 		break
 
