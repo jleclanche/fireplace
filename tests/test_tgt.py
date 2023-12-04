@@ -229,6 +229,8 @@ def test_dreadsteed():
 	assert len(game.player1.field) == 1
 	game.player1.give(MOONFIRE).play(target=dreadsteed)
 	assert dreadsteed.dead
+	assert len(game.player1.field) == 0
+	game.end_turn()
 	assert len(game.player1.field) == 1
 	new_dreadsteed = game.player1.field[0]
 	assert new_dreadsteed.id == "AT_019"
@@ -428,7 +430,6 @@ def test_grand_crusader():
 	card = game.player1.hand[0]
 	assert CardClass.PALADIN in card.classes
 	assert card.data.collectible
-	assert card.type != CardType.HERO
 
 
 def test_icehowl():
@@ -503,7 +504,6 @@ def test_lock_and_load():
 	card = game.player1.hand[0]
 	assert CardClass.HUNTER in card.classes
 	assert card.data.collectible
-	assert card.type != CardType.HERO
 
 
 def test_lowly_squire():

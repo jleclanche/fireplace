@@ -32,9 +32,9 @@ CARDS = utils.fireplace.cards.db
 def test_play_scripts():
 	for card in CARDS.values():
 		if card.scripts.activate:
-			assert card.type == CardType.HERO_POWER
+			assert card.type in (CardType.HERO_POWER, CardType.SPELL)
 		elif card.scripts.play:
-			assert card.type not in (CardType.HERO, CardType.HERO_POWER, CardType.ENCHANTMENT)
+			assert card.type not in (CardType.HERO_POWER, CardType.ENCHANTMENT)
 
 
 def test_card_docstrings():

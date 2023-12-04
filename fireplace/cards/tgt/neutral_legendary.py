@@ -67,6 +67,7 @@ class AT_132:
 		# Paladin
 		"CS2_101": "AT_132_PALADIN",  # Uther Lightbringer
 		"CS2_101_H1": "CS2_101_H1_AT_132",  # Lady Liadrin
+		"CS2_101_H2": "CS2_101_H2_AT_132",  # Prince Arthas
 		# Priest
 		"CS1h_001": "AT_132_PRIEST",  # Anduin Wrynn
 		"CS1h_001_H1": "CS1h_001_H1_AT_132",  # Tyrande Whisperwind

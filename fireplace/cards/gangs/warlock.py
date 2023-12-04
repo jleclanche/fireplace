@@ -4,12 +4,6 @@ from ..utils import *
 ##
 # Minions
 
-class GVG_018:
-	tags = {
-		GameTag.LIFESTEAL: True
-	}
-
-
 class CFM_610:
 	"""Crystalweaver"""
 	play = Buff(FRIENDLY_MINIONS + DEMON, "CFM_610e")

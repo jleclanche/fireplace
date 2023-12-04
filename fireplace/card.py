@@ -79,7 +79,7 @@ class BaseCard(BaseEntity):
 	def description(self):
 		description = self.data.description
 		if "@" in description:
-			hand_description, description = description.split("@")
+			hand_description, description = description.split("@", 1)
 			if self.zone is Zone.HAND:
 				description = hand_description
 		formats = []
@@ -384,6 +384,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			if not self.controller.graveyard.filter(type=CardType.MINION):
 				return False
 
+		if PlayReq.REQ_SECRET_ZONE_CAP_FOR_NON_SECRET in self.requirements:
+			if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
+				return False
+
 		return self.is_summonable()
 
 	def play(self, target=None, index=None, choose=None):
@@ -477,6 +481,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self.controller.elemental_played_last_turn:
 				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_NO_3_COST_CARD_IN_DECK)
+		if req is not None:
+			if len(self.controller.deck.filter(cost=3)) == 0:
+				return bool(self.play_targets)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
 	@property
@@ -490,6 +498,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 class LiveEntity(PlayableCard, Entity):
 	has_deathrattle = boolean_property("has_deathrattle")
+	secret_deathrattle = int_property("secret_deathrattle")
 	atk = int_property("atk")
 	cant_be_damaged = boolean_property("cant_be_damaged")
 	immune_while_attacking = slot_property("immune_while_attacking")
@@ -530,6 +539,9 @@ class LiveEntity(PlayableCard, Entity):
 		deathrattle = self.get_actions("deathrattle")
 		if deathrattle:
 			ret.append(deathrattle)
+		if self.secret_deathrattle:
+			secret_deathrattles = self.get_actions("secret_deathrattles")
+			ret.append((secret_deathrattles[self.secret_deathrattle - 1], ))
 		for buff in self.buffs:
 			for deathrattle in buff.deathrattles:
 				ret.append(deathrattle)
@@ -720,9 +732,12 @@ class Hero(Character):
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
+			old_hero = self.controller.hero
 			self.controller.hero = self
 			if self.data.hero_power:
 				self.controller.summon(self.data.hero_power)
+			if old_hero:
+				old_hero.zone = Zone.GRAVEYARD
 		elif value == Zone.GRAVEYARD:
 			if self.power:
 				self.power.zone = Zone.GRAVEYARD
@@ -739,6 +754,12 @@ class Hero(Character):
 			self.armor -= reduced_damage
 		return amount
 
+	def play(self, target=None, index=None, choose=None):
+		armor = self.armor
+		self.armor = self.controller.hero.armor
+		super().play(target, index, choose)
+		if armor:
+			self.game.cheat_action(self, [actions.GainArmor(self, armor)])
 
 class Minion(Character):
 	charge = boolean_property("charge")
@@ -750,7 +771,8 @@ class Minion(Character):
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
 		"forgetful", "frozen", "has_deathrattle", "has_inspire", "poisonous",
-		"stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush"
+		"stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush",
+		"secret_deathrattle",
 	)
 
 	def __init__(self, data):
@@ -833,8 +855,8 @@ class Minion(Character):
 
 	def _hit(self, amount):
 		if self.divine_shield:
-			self.divine_shield = False
 			self.log("%r's divine shield prevents %i damage.", self, amount)
+			self.game.cheat_action(self, [actions.LosesDivineShield(self)])
 			return 0
 
 		amount = super()._hit(amount)
@@ -916,12 +938,16 @@ class Secret(Spell):
 		# secrets are all unique
 		if self.controller.secrets.contains(self):
 			return False
+		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
+			return False
 		return super().is_summonable()
 
 
 class Quest(Spell):
 	def is_summonable(self):
 		if len(self.controller.secrets) > 0 and self.controller.secrets[0].data.quest:
+			return False
+		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
 			return False
 		return super().is_summonable()
 
@@ -1047,40 +1073,63 @@ class Weapon(rules.WeaponRules, LiveEntity):
 
 class HeroPower(PlayableCard):
 	additional_activations = int_property("additional_activations")
+	heropower_disabled = int_property("heropower_disabled")
+	passive_hero_power = boolean_property("passive_hero_power")
 	playable_zone = Zone.PLAY
 
 	def __init__(self, data):
 		super().__init__(data)
 		self.activations_this_turn = 0
+		self.additional_activations_this_turn = 0
 		self.old_power = None
 
 	@property
 	def exhausted(self):
+		if self.heropower_disabled:
+			return True
 		if self.additional_activations == -1:
 			return False
-		return self.activations_this_turn >= 1 + self.additional_activations
+		return self.activations_this_turn >= (
+			1 + self.additional_activations + self.additional_activations_this_turn)
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
 			if self.controller.hero.power:
 				self.controller.hero.power.destroy()
 			self.controller.hero.power = self
+			# Create the "Choose One" subcards
+			del self.choose_cards[:]
+			for id in self.data.choose_cards:
+				card = self.controller.card(id, source=self, parent=self)
+				self.choose_cards.append(card)
+
 		super()._set_zone(value)
 
-	def activate(self):
-		return self.game.queue_actions(self.controller, [actions.Activate(self, self.target)])
+	def activate(self, target, choose):
+		return self.game.queue_actions(self.controller, [actions.Activate(self, target, choose)])
 
 	def get_damage(self, amount, target):
 		amount = super().get_damage(amount, target)
 		return self.controller.get_heropower_damage(amount)
 
-	def use(self, target=None):
+	def use(self, target=None, choose=None):
+		if choose:
+			if self.must_choose_one:
+				choose = card = self.choose_cards.filter(id=choose)[0]
+				self.log("%r: choosing %r", self, choose)
+			else:
+				raise InvalidAction("%r cannot be played with choice %r" % (self, choose))
+		else:
+			if self.must_choose_one:
+				raise InvalidAction("%r requires a choice (one of %r)" % (self, self.choose_cards))
+			card = self
+
 		if not self.is_usable():
 			raise InvalidAction("%r can't be used." % (self))
 
-		self.log("%s uses hero power %r on %r", self.controller, self, target)
+		self.log("%s uses hero power %r on %r", self.controller, card, target)
 
-		if self.requires_target():
+		if card.requires_target():
 			if not target:
 				raise InvalidAction("%r requires a target." % (self))
 			elif target not in self.play_targets:
@@ -1093,7 +1142,7 @@ class HeroPower(PlayableCard):
 		elif target:
 			self.logger.warning("%r does not require a target, ignoring target %r", self, target)
 
-		ret = self.activate()
+		ret = self.activate(target, choose)
 
 		self.controller.times_hero_power_used_this_game += 1
 		self.target = None
@@ -1102,5 +1151,7 @@ class HeroPower(PlayableCard):
 
 	def is_usable(self):
 		if self.exhausted:
+			return False
+		if self.passive_hero_power:
 			return False
 		return super().is_playable()

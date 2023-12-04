@@ -53,6 +53,11 @@ class CS2_101_H1_AT_132(AT_132_PALADIN):
 	pass
 
 
+class CS2_101_H2_AT_132(AT_132_PALADIN):
+	"""The Silver Hand (Prince Arthas)"""
+	pass
+
+
 class AT_132_PRIEST:
 	"""Heal"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}

@@ -3,6 +3,7 @@ from ..utils import *
 
 class UNG_999t10e:
 	"""Shrouding Mist"""
+	tags = {GameTag.STEALTH: True}
 	events = OWN_TURN_BEGIN.on(Unstealth(OWNER), Destroy(SELF))
 
 

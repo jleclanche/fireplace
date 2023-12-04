@@ -55,7 +55,7 @@ class UNG_963:
 
 class UNG_029:
 	"""Shadow Visions"""
-	play = GenericChoice(CONTROLLER, Copy(RANDOM(DeDuplicate(FRIENDLY_DECK)) * 3))
+	play = GenericChoice(CONTROLLER, Copy(RANDOM(DeDuplicate(FRIENDLY_DECK + SPELL)) * 3))
 
 
 class UNG_030:

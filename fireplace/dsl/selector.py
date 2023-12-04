@@ -350,6 +350,13 @@ LOWEST_ATK = lambda sel: (
 	RANDOM(sel + (AttrValue(GameTag.ATK) == OpAttr(sel, GameTag.ATK, min)))
 )
 
+HIGHEST_COST = lambda sel: (
+	RANDOM(sel + (AttrValue(GameTag.COST) == OpAttr(sel, GameTag.COST, max)))
+)
+LOWEST_COST = lambda sel: (
+	RANDOM(sel + (AttrValue(GameTag.COST) == OpAttr(sel, GameTag.COST, min)))
+)
+
 
 class Controller(LazyValue):
 	def __init__(self, child: Optional[SelectorLike] = None):
@@ -423,10 +430,12 @@ TAUNT = EnumSelector(GameTag.TAUNT)
 WINDFURY = EnumSelector(GameTag.WINDFURY)
 CLASS_CARD = EnumSelector(GameTag.CLASS)
 DORMANT = EnumSelector(GameTag.DORMANT)
+LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
 CAST_ON_FRIENDLY_CHARACTERS = AttrValue(enums.CAST_ON_FRIENDLY_CHARACTERS) == True  # noqa
+EXHAUSTED = AttrValue(GameTag.EXHAUSTED) == True  # noqa
 
 ROGUE = EnumSelector(CardClass.ROGUE)
 WARLOCK = EnumSelector(CardClass.WARLOCK)

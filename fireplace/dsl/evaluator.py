@@ -123,10 +123,15 @@ class Dead(Evaluator):
 		self.selector = selector
 
 	def check(self, source):
-		for target in self.selector.eval(source.game, source):
-			if not target.dead:
-				return False
-		return True
+		from .selector import Selector
+		if isinstance(self.selector, Selector):
+			entities = self.selector.eval(source.game, source)
+		else:
+			entities = [self.selector.evaluate(source)]
+		for target in entities:
+			if target.dead:
+				return True
+		return False
 
 
 class Find(Evaluator):

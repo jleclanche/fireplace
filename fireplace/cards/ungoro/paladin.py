@@ -22,7 +22,7 @@ class UNG_015e:
 class UNG_953:
 	"""Primalfin Champion"""
 	events = Play(CONTROLLER, SPELL, SELF).on(
-		StoringSpellBuff(SELF, "UNG_953e", Play.CARD)
+		StoringBuff(SELF, "UNG_953e", Play.CARD)
 	)
 
 
@@ -30,7 +30,7 @@ class UNG_953e:
 	tags = {GameTag.DEATHRATTLE: True}
 
 	def deathrattle(self):
-		yield Give(CONTROLLER, self.store_spell.id)
+		yield Give(CONTROLLER, self.store_card.id)
 
 
 class UNG_962:

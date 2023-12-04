@@ -1756,12 +1756,12 @@ def test_innervate():
 	assert game.player1.temp_mana == 0
 	assert game.player1.max_mana == 10
 	assert game.player1.max_resources == 10
-	game.player1.give("EX1_169").play()
+	game.player1.give(INNERVATE).play()
 	assert game.player1.mana == 10
 	assert game.player1.temp_mana == 0
 	game.player1.give(GOLDSHIRE_FOOTMAN).play()
 	assert game.player1.mana == 9
-	game.player1.give("EX1_169").play()
+	game.player1.give(INNERVATE).play()
 	assert game.player1.mana == 10
 	assert game.player1.temp_mana == 1
 	game.player1.give(GOLDSHIRE_FOOTMAN).play()
