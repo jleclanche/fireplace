@@ -250,6 +250,7 @@ CARD_ATTRIBUTE_MAP = {
 	enums.MURLOCS_COST_HEALTH: "murlocs_cost_health",
 	enums.UNLIMITED_ATTACKS: "unlimited_attacks",
 	enums.EXTRA_END_TURN_EFFECT: "extra_end_turn_effect",
+	enums.PASSIVE_HERO_POWER: "passive_hero_power",
 	GameTag.CARDTEXT_ENTITY_0: "cardtext_entity_0",
 	GameTag.CARDTEXT_ENTITY_1: "cardtext_entity_1",
 	GameTag.CARDTEXT_ENTITY_2: "cardtext_entity_2",

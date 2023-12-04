@@ -44,10 +44,6 @@ class ICC_221:
 
 class ICC_233:
 	"""Doomerang"""
-	requirements = {
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_TO_PLAY: 0,
-		PlayReq.REQ_WEAPON_EQUIPPED: 0}
 	play = Hit(TARGET, ATK(FRIENDLY_WEAPON)), Bounce(FRIENDLY_WEAPON)
 
 
@@ -79,8 +75,9 @@ class ICC_827e3:
 
 
 class ICC_827p:
+	tags = {enums.PASSIVE_HERO_POWER: True}
 	events = OWN_TURN_BEGIN.on(
-		Find(EXHAUSTED + SELF) & Give(CONTROLLER, "ICC_827t")
+		Find(SELF - EXHAUSTED) & Give(CONTROLLER, "ICC_827t")
 	)
 
 
@@ -92,7 +89,7 @@ class ICC_827t:
 			),
 			OWN_TURN_END.on(Destroy(SELF))
 		)
-		update = Find(FRIENDLY_HERO_POWER + ID("ICC_827p")) | Destroy(SELF)
+		update = Find(FRIENDLY_HERO_POWER - EXHAUSTED + ID("ICC_827p")) | Destroy(SELF)
 
 
 class ICC_827e:
@@ -103,5 +100,5 @@ class ICC_827e:
 			),
 			OWN_TURN_END.on(Destroy(SELF))
 		)
-		update = Find(FRIENDLY_HERO_POWER + ID("ICC_827p")) | Destroy(SELF)
+		update = Find(FRIENDLY_HERO_POWER - EXHAUSTED + ID("ICC_827p")) | Destroy(SELF)
 	events = REMOVED_IN_PLAY

@@ -732,9 +732,13 @@ class Hero(Character):
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
+			old_hero = self.controller.hero
 			self.controller.hero = self
 			if self.data.hero_power:
 				self.controller.summon(self.data.hero_power)
+			if old_hero:
+				self.armor += old_hero.armor
+				old_hero.zone = Zone.GRAVEYARD
 		elif value == Zone.GRAVEYARD:
 			if self.power:
 				self.power.zone = Zone.GRAVEYARD
@@ -1065,6 +1069,7 @@ class Weapon(rules.WeaponRules, LiveEntity):
 class HeroPower(PlayableCard):
 	additional_activations = int_property("additional_activations")
 	heropower_disabled = int_property("heropower_disabled")
+	passive_hero_power = boolean_property("passive_hero_power")
 	playable_zone = Zone.PLAY
 
 	def __init__(self, data):
@@ -1141,5 +1146,7 @@ class HeroPower(PlayableCard):
 
 	def is_usable(self):
 		if self.exhausted:
+			return False
+		if self.passive_hero_power:
 			return False
 		return super().is_playable()

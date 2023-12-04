@@ -63,7 +63,16 @@ def test_deathstalker_rexxar():
 	game.player1.give("ICC_828").play()
 	game.player1.hero.power.use()
 	assert game.player1.choice
-	assert game.player1.choice
+	choice = game.player1.choice
+	card1 = choice.cards[0]
+	choice.choose(card1)
+	choice = game.player1.choice
+	card2 = choice.cards[0]
+	choice.choose(card2)
+	assert not game.player1.choice
+	game.player1.hand[0].atk = card1.atk + card2.atk
+	game.player1.hand[0].atk = card1.health + card2.health
+	game.player1.hand[0].atk = card1.cost + card2.cost
 
 
 def test_bolvar_fireblood():
@@ -104,3 +113,58 @@ def test_moorabi():
 	wisp = game.player1.give(WISP).play()
 	game.player1.give("CS2_031").play(target=wisp)
 	assert game.player1.hand[0].id == WISP
+
+
+def test_frost_lich_jaina():
+	game = prepare_game()
+	firefly = game.player1.give("UNG_809").play()
+	assert not firefly.lifesteal
+	game.player1.give("ICC_833").play()
+	assert firefly.lifesteal
+	game.end_turn()
+	wisp = game.player2.give(WISP).play()
+	game.end_turn()
+	assert len(game.player1.field) == 2
+	game.player1.hero.power.use(target=wisp)
+	assert len(game.player1.field) == 3
+
+
+def test_shadowreaper_anduin():
+	game = prepare_game()
+	game.player1.give("ICC_830").play()
+	game.end_turn()
+	game.end_turn()
+	for _ in range(5):
+		wisp = game.player1.give(WISP).play()
+		game.player1.hero.power.use(target=wisp)
+		assert game.player1.hero.power.exhausted
+
+
+def test_valeera_the_hollow():
+	game = prepare_empty_game()
+	game.player1.give("ICC_827").play()
+	assert game.player1.hero.stealthed
+	game.end_turn()
+	assert game.player1.hero.stealthed
+	game.end_turn()
+	assert not game.player1.hero.stealthed
+	assert not game.player1.hero.power.is_usable()
+	game.player1.give(WISP).play()
+	assert game.player1.hand[0].id == WISP
+	game.player1.give(CHICKEN).play()
+	assert game.player1.hand[0].id == CHICKEN
+	game.player1.hand[0].play()
+	assert len(game.player1.hand) == 0
+	game.skip_turn()
+	assert len(game.player1.hand) == 1
+
+
+def test_defile():
+	game = prepare_empty_game()
+	game.player1.give(WISP).play()  # 1/1
+	game.player1.give(TARGET_DUMMY).play()  # 0/2
+	game.player1.give("EX1_556").play()  # 2/3 deathrattle summon 2/1
+	game.player1.give("CS2_033").play()  # 3/6
+	game.player1.give("ICC_041").play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].health == 1

@@ -1553,8 +1553,11 @@ class RefreshHeroPower(TargetedAction):
 
 	def do(self, source, heropower):
 		log.info("Refresh Hero Power %s.", heropower)
+		if heropower.heropower_disabled:
+			return
+		if not heropower.exhausted:
+			return
 		heropower.additional_activations_this_turn += 1
-		return heropower
 
 
 class KazakusAction(TargetedAction):
