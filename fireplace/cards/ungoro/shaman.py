@@ -81,7 +81,7 @@ class UNG_942:
 
 class UNG_942t:
 	play = Give(CONTROLLER, RandomMurloc()) * (
-		MAX_HAND_SIZE(CONTROLLER) - Count(IN_HAND + FRIENDLY)
+		MAX_HAND_SIZE(CONTROLLER) - Count(FRIENDLY_HAND)
 	)
 
 
