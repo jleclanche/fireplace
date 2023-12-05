@@ -285,3 +285,16 @@ def test_molten_reflection():
 	wisp = game.player1.give(WISP).play()
 	game.player1.give("UNG_948").play(target=wisp)
 	assert len(game.player1.field) == 2
+
+
+def test_volcanosaur():
+	game = prepare_game()
+	game.player1.give("LOE_077").play()
+	volcanosaur = game.player1.give("UNG_002").play()
+	for _ in range(4):
+		choice = game.player1.choice
+		assert choice
+		choice.choose(choice.cards[0])
+	choice = game.player1.choice
+	assert not choice
+	assert len(volcanosaur.buffs) == 4

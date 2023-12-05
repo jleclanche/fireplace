@@ -270,7 +270,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		Returns True if the card has active choices
 		"""
 		if self.controller.choose_both and self.has_choose_one:
-			self.choose_cards = []
+			return False
 		return bool(self.choose_cards)
 
 	@property
