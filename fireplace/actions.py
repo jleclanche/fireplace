@@ -113,6 +113,7 @@ class Action(metaclass=ActionMeta):
 		self.callback = ()
 		self.times = 1
 		self.event_queue = []
+		self.choice_callback = []
 
 	def __repr__(self):
 		args = ["%s=%r" % (k, v) for k, v in zip(self.ARGS, self._args)]
@@ -183,6 +184,12 @@ class Action(metaclass=ActionMeta):
 				if not res or res[0] is not arg:
 					return False
 		return True
+
+	def trigger_choice_callback(self):
+		callbacks = self.choice_callback
+		self.choice_callback = []
+		for callback in callbacks:
+			callback()
 
 
 class GameAction(Action):
@@ -296,7 +303,7 @@ class Death(GameAction):
 		log.info("Processing Death for %r", target)
 		self.broadcast(source, EventListener.ON, target)
 		if target.deathrattles:
-			source.game.queue_actions(source, [Deathrattle(target)])
+			source.game.queue_actions(target.controller, [Deathrattle(target)])
 
 
 class EndTurn(GameAction):
@@ -335,73 +342,6 @@ class Joust(GameAction):
 		source.game.joust(source, challenger, defender, self.callback)
 
 
-class Choice(GameAction):
-	PLAYER = ActionArg()
-	CARDS = ActionArg()
-	CARD = ActionArg()
-
-	def get_args(self, source):
-		player = self._args[0]
-		if isinstance(player, Selector):
-			player = player.eval(source.game.players, source)
-			assert len(player) == 1
-			player = player[0]
-		cards = self._args[1]
-		if isinstance(cards, Selector):
-			cards = cards.eval(source.game, source)
-		elif isinstance(cards, LazyValue):
-			cards = cards.evaluate(source)
-		elif isinstance(cards, list):
-			eval_cards = []
-			for card in cards:
-				if isinstance(card, LazyValue):
-					eval_cards.append(card.evaluate(source)[0])
-				elif isinstance(card, str):
-					eval_cards.append(source.controller.card(card, source))
-				else:
-					eval_cards.append(card)
-			cards = eval_cards
-
-		return player, cards
-
-	def do(self, source, player, cards):
-		if len(cards) == 0:
-			return
-		log.info("%r choice from %r", player, cards)
-		self._callback = self.callback
-		self.callback = ()
-		self.next_choice = player.choice
-		player.choice = self
-		self.source = source
-		self.player = player
-		self.cards = cards
-		self.min_count = 1
-		self.max_count = 1
-
-	def choose(self, card):
-		if card not in self.cards:
-			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		for action in self._callback:
-			self.source.game.trigger(
-				self.source, [action], [self.player, self.cards, card])
-		self.player.choice = self.next_choice
-
-
-class GenericChoice(Choice):
-	def choose(self, card):
-		super().choose(card)
-		for _card in self.cards:
-			if _card is card:
-				if card.type == CardType.HERO_POWER:
-					_card.zone = Zone.PLAY
-				elif len(self.player.hand) < self.player.max_hand_size:
-					_card.zone = Zone.HAND
-				else:
-					_card.discard()
-			else:
-				_card.discard()
-
-
 class MulliganChoice(GameAction):
 	PLAYER = ActionArg()
 
@@ -422,11 +362,12 @@ class MulliganChoice(GameAction):
 		self.max_count = len(player.hand)
 
 	def choose(self, *cards):
-		self.player.draw(len(cards))
 		for card in cards:
 			assert card in self.cards
-			card.zone = Zone.DECK
 		self.player.choice = None
+		self.player.draw(len(cards))
+		for card in cards:
+			card.zone = Zone.DECK
 		self.player.shuffle_deck()
 		self.player.mulligan_state = Mulligan.DONE
 
@@ -623,22 +564,32 @@ class TargetedAction(Action):
 			times = times.trigger(source)[0]
 
 		for i in range(times):
-			self.trigger_index = i
-			args = self.get_args(source)
-			targets = self.get_targets(source, args[0])
-			args = args[1:]
-			log.info("%r triggering %r targeting %r", source, self, targets)
-			for target in targets:
-				target_args = self.get_target_args(source, target)
-				ret.append(self.do(source, target, *target_args))
-				source.game.manager.targeted_action(self, source, target, *target_args)
-
-				for action in self.callback:
-					log.info("%r queues up callback %r", self, action)
-					ret += source.game.queue_actions(source, [action], event_args=[target] + target_args)
+			ret += self._trigger(i, source)
 
 		self.resolve_broadcasts()
 
+		return ret
+
+	def _trigger(self, i, source):
+		if source.controller.choice:
+			self.choice_callback.append(
+				lambda: self._trigger(i, source)
+			)
+			return []
+		ret = []
+		self.trigger_index = i
+		args = self.get_args(source)
+		targets = self.get_targets(source, args[0])
+		args = args[1:]
+		log.info("%r triggering %r targeting %r", source, self, targets)
+		for target in targets:
+			target_args = self.get_target_args(source, target)
+			ret.append(self.do(source, target, *target_args))
+			source.game.manager.targeted_action(self, source, target, *target_args)
+
+			for action in self.callback:
+				log.info("%r queues up callback %r", self, action)
+				ret += source.game.queue_actions(source, [action], event_args=[target] + target_args)
 		return ret
 
 
@@ -696,6 +647,65 @@ class Bounce(TargetedAction):
 		else:
 			log.info("%r is bounced back to %s's hand", target, target.controller)
 			target.zone = Zone.HAND
+
+
+class Choice(TargetedAction):
+	CARDS = ActionArg()
+	CARD = ActionArg()
+
+	def get_target_args(self, source, target):
+		cards = self._args[1]
+		if isinstance(cards, Selector):
+			cards = cards.eval(source.game, source)
+		elif isinstance(cards, LazyValue):
+			cards = cards.evaluate(source)
+		elif isinstance(cards, list):
+			eval_cards = []
+			for card in cards:
+				if isinstance(card, LazyValue):
+					eval_cards.append(card.evaluate(source)[0])
+				elif isinstance(card, str):
+					eval_cards.append(source.controller.card(card, source))
+				else:
+					eval_cards.append(card)
+			cards = eval_cards
+
+		return [cards]
+
+	def do(self, source, player, cards):
+		if len(cards) == 0:
+			return
+		log.info("%r choice from %r", player, cards)
+		player.choice = self
+		self.source = source
+		self.player = player
+		self.cards = cards
+		self.min_count = 1
+		self.max_count = 1
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		self.player.choice = None
+		for action in self.callback:
+			self.source.game.trigger(
+				self.source, [action], [self.cards, card])
+		self.trigger_choice_callback()
+
+
+class GenericChoice(Choice):
+	def choose(self, card):
+		super().choose(card)
+		for _card in self.cards:
+			if _card is card:
+				if card.type == CardType.HERO_POWER:
+					_card.zone = Zone.PLAY
+				elif len(self.player.hand) < self.player.max_hand_size:
+					_card.zone = Zone.HAND
+				else:
+					_card.discard()
+			else:
+				_card.discard()
 
 
 class CopyDeathrattles(TargetedAction):
@@ -899,11 +909,8 @@ class Discover(TargetedAction):
 
 	def do(self, source, target, cards):
 		log.info("%r discovers %r for %s", source, cards, target)
-		self._callback = self.callback
-		self.callback = ()
 		self.cards = cards
 		player = source.controller
-		self.next_choice = player.choice
 		player.choice = self
 		self.player = player
 		self.source = source
@@ -915,10 +922,11 @@ class Discover(TargetedAction):
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		self.player.choice = self.next_choice
-		for action in self._callback:
+		self.player.choice = None
+		for action in self.callback:
 			self.source.game.trigger(
 				self.source, [action], [self.target, self.cards, card])
+		self.trigger_choice_callback()
 
 
 class Draw(TargetedAction):
@@ -1595,7 +1603,6 @@ class KazakusAction(TargetedAction):
 	def do(self, source, player):
 		self.init()
 		self.player = player
-		self.next_choice = self.player.choice
 		self.source = source
 		self.min_count = 1
 		self.max_count = 1
@@ -1642,8 +1649,9 @@ class KazakusAction(TargetedAction):
 			elif len(self.choosed_cards) == 2:
 				self.do_step3()
 			elif len(self.choosed_cards) == 3:
+				self.player.choice = None
 				self.done()
-				self.player.choice = self.next_choice
+				self.trigger_choice_callback()
 
 
 class Upgrade(TargetedAction):
@@ -1704,7 +1712,6 @@ class Adapt(TargetedAction):
 		log.info("%r adapts %r for %s", source, cards, target)
 		self.cards = cards
 		player = source.controller
-		self.next_choice = player.choice
 		player.choice = self
 		self.player = player
 		self.source = source
@@ -1716,8 +1723,9 @@ class Adapt(TargetedAction):
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		self.player.choice = None
 		self.source.game.trigger(self.source, (Battlecry(card, self.target), ), None)
-		self.player.choice = self.next_choice
+		self.trigger_choice_callback()
 
 
 class AddProgress(TargetedAction):
@@ -1729,7 +1737,8 @@ class AddProgress(TargetedAction):
 		target.add_progress(card)
 		if target.progress >= target.progress_total:
 			source.game.trigger(target, target.get_actions("reward"), event_args=None)
-			target.zone = Zone.GRAVEYARD
+			if target.data.quest:
+				target.zone = Zone.GRAVEYARD
 
 
 class ClearProgress(TargetedAction):
@@ -1741,7 +1750,6 @@ class ClearProgress(TargetedAction):
 class GlimmerrootAction(TargetedAction):
 	def do(self, source, player):
 		self.player = player
-		self.next_choice = self.player.choice
 		self.source = source
 		self.min_count = 1
 		self.max_count = 1
@@ -1780,7 +1788,8 @@ class GlimmerrootAction(TargetedAction):
 					card.zone = Zone.HAND
 			else:
 				log.info("Choose incorrectly, corrent choice is %r", self.starting_card)
-		self.player.choice = self.next_choice
+		self.player.choice = None
+		self.trigger_choice_callback()
 
 
 class CreateZombeast(TargetedAction):
@@ -1803,7 +1812,6 @@ class CreateZombeast(TargetedAction):
 	def do(self, source, player):
 		self.init(source)
 		self.player = player
-		self.next_choice = self.player.choice
 		self.source = source
 		self.min_count = 1
 		self.max_count = 1
@@ -1849,8 +1857,9 @@ class CreateZombeast(TargetedAction):
 			if len(self.choosed_cards) == 1:
 				self.do_step2()
 			elif len(self.choosed_cards) == 2:
+				self.player.choice = None
 				self.done()
-				self.player.choice = self.next_choice
+				self.trigger_choice_callback()
 
 
 class LosesDivineShield(TargetedAction):

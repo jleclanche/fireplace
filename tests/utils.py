@@ -51,6 +51,8 @@ BLACKLIST = (
 	"AT_130",  # Sea Reaver
 	"KAR_096",  # Prince Malchezaar
 	"CFM_637",  # Patches the Pirate
+	"KAR_205",  # Silverware Golem
+	"UNG_836",  # Clutchmother Zavas
 )
 
 _draftcache = {}
