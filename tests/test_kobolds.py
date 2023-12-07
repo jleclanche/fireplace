@@ -96,3 +96,25 @@ def test_windshear_stormcaller():
 		game.player1.give(totem).play()
 	game.player1.give("LOOT_518").play()
 	assert game.player1.field[5].id == "NEW1_010"
+
+
+def test_crushing_walls():
+	game = prepare_game()
+	game.player1.give(WISP).play()
+	game.end_turn()
+	game.player2.give("LOOT_522").play()
+	assert len(game.player1.field) == 0
+	game.end_turn()
+	game.player1.give(WISP).play()
+	game.player1.give(WISP).play()
+	game.end_turn()
+	game.player2.give("LOOT_522").play()
+	assert len(game.player1.field) == 0
+	game.end_turn()
+	game.player1.give(WISP).play()
+	game.player1.give(CHICKEN).play()
+	game.player1.give(WISP).play()
+	game.end_turn()
+	game.player2.give("LOOT_522").play()
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].id == CHICKEN
