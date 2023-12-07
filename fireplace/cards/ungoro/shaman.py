@@ -26,7 +26,7 @@ class UNG_202e:
 
 class UNG_208:
 	"""Stone Sentinel"""
-	play = ELEMENTAL_PLAYED_LAST_TURN & (Summon(CONTROLLER, "UNG_208t") * 2)
+	play = ELEMENTAL_PLAYED_LAST_TURN & (SummonBothSides(CONTROLLER, "UNG_208t") * 2)
 
 
 class UNG_211:

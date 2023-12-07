@@ -80,10 +80,28 @@ def cleanup_description(description):
 	return ret
 
 
+def single_card(card):
+	str = ""
+	str += "\n\n"
+	str += f"class {card.id}:\n"
+	str += f'\t"""{card.name}"""\n'
+	description_lines = []
+	for des in card.description.split("\n"):
+		description_lines.append(des.strip())
+	description = " ".join(description_lines)
+	for des in textwrap.wrap(description, width=85):
+		str += f"\t# {des}\n"
+	str += "\tpass\n"
+	return str
+
+
 def main():
 	p = argparse.ArgumentParser()
 	p.add_argument(
 		"--card_set", dest="card_set", default=1004, help="Generate cards of card set"
+	)
+	p.add_argument(
+		"--card_id", dest="card_id", help="Generate single card"
 	)
 	p.add_argument(
 		"--output_dir",
@@ -92,6 +110,12 @@ def main():
 		help="Generate code output dir",
 	)
 	args = p.parse_args(sys.argv[1:])
+	cards.db.initialize()
+
+	if args.card_id:
+		card = cards.db[args.card_id]
+		print(single_card(card))
+		return
 
 	os.makedirs(args.output_dir, exist_ok=True)
 
@@ -110,7 +134,6 @@ def main():
 		out.write("from .neutral_epic import *\n")
 		out.write("from .neutral_legendary import *\n")
 
-	cards.db.initialize()
 	kws = [
 		{"card_class": CardClass.DRUID},
 		{"card_class": CardClass.HUNTER},
@@ -174,16 +197,7 @@ def main():
 					out.write("##\n")
 					out.write(f"# {card_type.name.capitalize()}s")
 					for card in tmp_cards:
-						out.write("\n\n")
-						out.write(f"class {card.id}:\n")
-						out.write(f'\t"""{card.name}"""\n')
-						description_lines = []
-						for des in card.description.split("\n"):
-							description_lines.append(des.strip())
-						description = " ".join(description_lines)
-						for des in textwrap.wrap(description, width=85):
-							out.write(f"\t# {des}\n")
-						out.write("\tpass\n")
+						out.write(single_card(card))
 
 
 if __name__ == "__main__":

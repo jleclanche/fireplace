@@ -55,7 +55,7 @@ class UNG_829t1:
 
 
 class UNG_829t2:
-	events = Summon(CONTROLLER, "UNG_829t3") * 2
+	events = OWN_TURN_END.on(SummonBothSides(CONTROLLER, "UNG_829t3") * 2)
 
 
 class UNG_831:

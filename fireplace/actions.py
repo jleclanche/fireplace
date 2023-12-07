@@ -832,6 +832,8 @@ class Battlecry(TargetedAction):
 			arg = arg[0]
 		elif isinstance(arg, LazyValue):
 			arg = arg.evaluate(source)[0]
+		else:
+			arg = _eval_card(source, arg)[0]
 		return [arg]
 
 	def do(self, source, card, target):
@@ -1078,6 +1080,27 @@ class Hit(TargetedAction):
 		return 0
 
 
+class HitAndExcessDamageToHero(TargetedAction):
+	"""
+	Hit character targets by \a amount and excess damage to their hero.
+	"""
+	TARGET = ActionArg()
+	AMOUNT = IntArg()
+
+	def do(self, source, target, amount):
+		amount = source.get_damage(amount, target)
+		if amount:
+			if target.health >= amount:
+				return source.game.queue_actions(source, [Predamage(target, amount)])[0][0]
+			else:
+				excess_amount = amount - target.health
+				return source.game.queue_actions(source, [
+					Predamage(target, amount),
+					Predamage(target.controller.hero, excess_amount)
+				])[0]
+		return 0
+
+
 class Heal(TargetedAction):
 	"""
 	Heal character targets by \a amount.
@@ -1280,6 +1303,9 @@ class Summon(TargetedAction):
 			return
 		return super()._broadcast(entity, source, at, *args)
 
+	def get_summon_index(self, source_index):
+		return source_index + 1
+
 	def do(self, source, target, cards):
 		log.info("%s summons %r", target, cards)
 		if not isinstance(cards, list):
@@ -1293,7 +1319,8 @@ class Summon(TargetedAction):
 			if card.zone != Zone.PLAY:
 				if source.type == CardType.MINION and source.zone == Zone.PLAY:
 					source_index = source.controller.field.index(source)
-					card._summon_index = source_index + ((self.trigger_index + 1) % 2)
+					# card._summon_index = source_index + ((self.trigger_index + 1) % 2)
+					card._summon_index = self.get_summon_index(source_index)
 				card.zone = Zone.PLAY
 			if card.type == CardType.MINION and card.race == Race.TOTEM:
 				card.controller.times_totem_summoned_this_game += 1
@@ -1301,6 +1328,14 @@ class Summon(TargetedAction):
 			self.broadcast(source, EventListener.AFTER, target, card)
 
 		return cards
+
+
+class SummonBothSides(Summon):
+	TARGET = ActionArg()
+	CARD = CardArg()
+
+	def get_summon_index(self, source_index):
+		return source_index + ((self.trigger_index + 1) % 2)
 
 
 class Shuffle(TargetedAction):
@@ -1346,6 +1381,14 @@ class Swap(TargetedAction):
 			orig = target.zone
 			target.zone = other.zone
 			other.zone = orig
+
+
+class SwapController(TargetedAction):
+	def do(self, source, card):
+		old_zone = card.zone
+		card.zone = Zone.SETASIDE
+		card.controller = card.controller.opponent
+		card.zone = old_zone
 
 
 class SwapHealth(TargetedAction):
@@ -1443,6 +1486,7 @@ class CastSpell(TargetedAction):
 				log.info("%s cast spell %s don't have a legal target", source, card)
 				return
 		card.target = target
+		card.zone = Zone.PLAY
 		log.info("%s cast spell %s target %s", source, card, target)
 		source.game.queue_actions(source, [Battlecry(card, card.target)])
 		while player.choice:
@@ -1731,10 +1775,13 @@ class Adapt(TargetedAction):
 class AddProgress(TargetedAction):
 	TARGET = ActionArg()
 	CARD = CardArg()
+	AMOUNT = IntArg()
 
-	def do(self, source, target, card):
+	def do(self, source, target, card, amount=1):
 		log.info("%r add progress from %r", target, card)
-		target.add_progress(card)
+		if not target:
+			return
+		target.add_progress(card, amount)
 		if target.progress >= target.progress_total:
 			source.game.trigger(target, target.get_actions("reward"), event_args=None)
 			if target.data.quest:
@@ -1842,6 +1889,7 @@ class CreateZombeast(TargetedAction):
 			"cant_be_targeted_by_hero_powers", "heavily_armored", "min_health",
 			"rush", "taunt", "poisonous", "ignore_taunt", "cannot_attack_heroes",
 			"unlimited_attacks", "cant_be_damaged", "lifesteal",
+			"cant_be_targeted_by_op_abilities", "cant_be_targeted_by_op_hero_powers",
 		)
 		for attribute in int_mergeable_attributes:
 			setattr(zombeast, attribute, getattr(card1, attribute) + getattr(card2, attribute))

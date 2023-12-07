@@ -7,19 +7,23 @@ from ..utils import *
 class LOOT_078:
 	"""Cave Hydra"""
 	# Also damages the minions next to whomever this attacks.
-	pass
+	events = Attack(SELF).on(CLEAVE)
 
 
 class LOOT_511:
 	"""Kathrena Winterwisp"""
 	# <b>Battlecry and Deathrattle:</b> <b>Recruit</b> a Beast.
-	pass
+	play = deathrattle = Recruit(BEAST)
 
 
 class LOOT_520:
 	"""Seeping Oozeling"""
 	# <b>Battlecry:</b> Gain the <b>Deathrattle</b> of a random minion in your deck.
-	pass
+	play = Buff(SELF, "LOOT_520e").then(
+		CopyDeathrattles(Buff.BUFF, RANDOM(FRIENDLY_DECK + MINION + DEATHRATTLE)))
+
+
+LOOT_520e = buff(deathrattle=True)
 
 
 ##
@@ -28,14 +32,16 @@ class LOOT_520:
 class LOOT_077:
 	"""Flanking Strike"""
 	# Deal $3 damage to a minion. Summon a 3/3 Wolf.
-	pass
+	play = Hit(3, TARGET), Summon(CONTROLLER, "LOOT_077t")
 
 
 class LOOT_079:
 	"""Wandering Monster"""
 	# <b>Secret:</b> When an enemy attacks your hero, summon a 3-Cost minion as the new
 	# target.
-	pass
+	secret = Attack(ENEMY_MINIONS, FRIENDLY_HERO).on(
+		Reveal(SELF), Retarget(Attack.ATTACKER, Summon(CONTROLLER, RandomMinion(cost=3)))
+	)
 
 
 class LOOT_080:

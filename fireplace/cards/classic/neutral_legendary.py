@@ -132,7 +132,7 @@ class EX1_561e:
 
 class EX1_562:
 	"""Onyxia"""
-	play = Summon(CONTROLLER, "ds1_whelptoken") * 7
+	play = SummonBothSides(CONTROLLER, "ds1_whelptoken") * 7
 
 
 class EX1_572:

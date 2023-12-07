@@ -12,7 +12,7 @@ class CFM_341:
 class CFM_344:
 	"""Finja, the Flying Star"""
 	events = Attack(SELF, ALL_MINIONS).after(
-		Dead(ALL_MINIONS + Attack.DEFENDER) & (RECRUIT(MURLOC), RECRUIT(MURLOC))
+		Dead(ALL_MINIONS + Attack.DEFENDER) & (Recruit(MURLOC) * 2)
 	)
 
 

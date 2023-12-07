@@ -251,6 +251,8 @@ CARD_ATTRIBUTE_MAP = {
 	enums.UNLIMITED_ATTACKS: "unlimited_attacks",
 	enums.EXTRA_END_TURN_EFFECT: "extra_end_turn_effect",
 	enums.PASSIVE_HERO_POWER: "passive_hero_power",
+	enums.CANT_BE_TARGETED_BY_OP_ABILITIES: "cant_be_targeted_by_op_abilities",
+	enums.CANT_BE_TARGETED_BY_OP_HERO_POWERS: "cant_be_targeted_by_op_hero_powers",
 	GameTag.CARDTEXT_ENTITY_0: "cardtext_entity_0",
 	GameTag.CARDTEXT_ENTITY_1: "cardtext_entity_1",
 	GameTag.CARDTEXT_ENTITY_2: "cardtext_entity_2",

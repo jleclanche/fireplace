@@ -44,24 +44,41 @@ class LOOT_998k:
 class LOOT_516:
 	"""Zola the Gorgon"""
 	# <b>Battlecry:</b> Choose a friendly minion. Add a Golden copy of it to your hand.
-	pass
+	play = Give(CONTROLLER, Copy(TARGET))
 
 
 class LOOT_521:
 	"""Master Oakheart"""
 	# <b>Battlecry:</b> <b>Recruit</b> a 1, 2, and 3-Attack minion.
-	pass
+	play = Recruit(COST == 1), Recruit(COST == 2), Recruit(COST == 3)
 
 
 class LOOT_526:
 	"""The Darkness"""
 	# [x]Starts dormant. <b>Battlecry:</b> Shuffle 3 Candles into the enemy deck. When
 	# drawn, this awakens.
-	pass
+	play = Morph(SELF, "LOOT_526d"), Shuffle(CONTROLLER, "LOOT_526t") * 3
+
+
+class LOOT_526d:
+	progress_total = 3
+	reward = Morph(SELF, "LOOT_526")
+
+
+class LOOT_526t:
+	draw = (
+		Destroy(SELF),
+		AddProgress(FuncSelector(lambda entities, source: [source.creator.morphed]), SELF),
+		Draw(CONTROLLER)
+	)
 
 
 class LOOT_541:
 	"""King Togwaggle"""
 	# [x]<b>Battlecry:</b> Swap decks with your opponent. Give them a Ransom spell to swap
 	# back.
-	pass
+	play = SwapController(IN_DECK), Give(OPPONENT, "LOOT_541t")
+
+
+class LOOT_541t:
+	play = SwapController(IN_DECK)

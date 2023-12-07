@@ -83,7 +83,7 @@ EX1_573ae = buff(+2, +2)
 
 
 class EX1_573b:
-	play = Summon(CONTROLLER, "EX1_573t") * 2
+	play = SummonBothSides(CONTROLLER, "EX1_573t") * 2
 
 
 class NEW1_008:

@@ -76,6 +76,8 @@ LICH_KING_CARDS = [
 	"ICC_314t8",
 ]
 
+THE_COIN = "GAME_005"
+
 RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
 RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
 RandomPotion = lambda *args: RandomID(*POTIONS)
@@ -110,7 +112,13 @@ JOUST = JoustHelper(
 	RANDOM(FRIENDLY_DECK + MINION),
 	RANDOM(ENEMY_DECK + MINION)
 )
-RECRUIT = lambda selector: Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + selector))
+
+JOUST_SPELL = JoustHelper(
+	RANDOM(FRIENDLY_DECK + SPELL),
+	RANDOM(ENEMY_DECK + SPELL)
+)
+
+Recruit = lambda selector: Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION + selector))
 
 
 def SET(amt):

@@ -28,7 +28,7 @@ class TBA01_6:
 
 class BRMC_84:
 	"""Dragonkin Spellcaster"""
-	play = Summon(CONTROLLER, "BRMA09_2Ht") * 2
+	play = SummonBothSides(CONTROLLER, "BRMA09_2Ht") * 2
 
 
 class BRMC_85:
