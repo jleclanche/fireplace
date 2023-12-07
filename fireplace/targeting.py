@@ -32,10 +32,22 @@ def is_valid_target(self, target, requirements=None):
 			return False
 		if target.immune and self.controller != target.controller:
 			return False
-		if self.type == CardType.SPELL and target.cant_be_targeted_by_abilities:
-			return False
-		if self.type == CardType.HERO_POWER and target.cant_be_targeted_by_hero_powers:
-			return False
+		if self.type == CardType.SPELL:
+			if target.cant_be_targeted_by_abilities:
+				return False
+			if (
+				self.controller != target.controller and
+				target.cant_be_targeted_by_op_abilities
+			):
+				return False
+		if self.type == CardType.HERO_POWER:
+			if target.cant_be_targeted_by_hero_powers:
+				return False
+			if (
+				self.controller != target.controller and
+				target.cant_be_targeted_by_op_hero_powers
+			):
+				return False
 
 	if target.cant_be_targeted_by_opponents and self.controller != target.controller:
 		return False

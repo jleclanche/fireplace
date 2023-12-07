@@ -62,12 +62,8 @@ class UNG_028:
 
 
 class UNG_028t:
-	play = Buff(CONTROLLER, "UNG_028e")
-
-
-class UNG_028e:
-	def apply(self, target):
-		target.extra_turns += 1
+	def play(self):
+		self.game.next_players.insert(0, self.controller)
 
 
 class UNG_941:

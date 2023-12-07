@@ -6,7 +6,7 @@ from ..utils import *
 
 class GVG_110:
 	"""Dr. Boom"""
-	play = Summon(CONTROLLER, "GVG_110t") * 2
+	play = SummonBothSides(CONTROLLER, "GVG_110t") * 2
 
 
 class GVG_110t:

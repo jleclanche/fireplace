@@ -76,13 +76,9 @@ class ICC_829p:
 		totems = [t for t in self.entourage if not self.controller.field.contains(t)]
 		yield Summon(CONTROLLER, random.choice(totems))
 
-	update = (
-		Find(FRIENDLY_MINIONS + ID("ICC_829t2")) & (
-			Find(FRIENDLY_MINIONS + ID("ICC_829t3")) & (
-				Find(FRIENDLY_MINIONS + ID("ICC_829t4")) & (
-					Find(FRIENDLY_MINIONS + ID("ICC_829t5")) &
-					Destroy(ENEMY_HERO)
-				)
-			)
-		)
-	)
+	update = FindAll(
+		FRIENDLY_MINIONS + ID("ICC_829t2"),
+		FRIENDLY_MINIONS + ID("ICC_829t3"),
+		FRIENDLY_MINIONS + ID("ICC_829t4"),
+		FRIENDLY_MINIONS + ID("ICC_829t5")
+	) & Destroy(ENEMY_HERO)

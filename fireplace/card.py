@@ -115,11 +115,23 @@ class BaseCard(BaseEntity):
 					self.controller.get_spell_damage(int(match.group("damage")))
 				),
 				description)
+			description = re.sub(
+				"\\#(?P<heal>\\d+)",
+				lambda match: str(
+					self.controller.get_spell_heal(int(match.group("heal")))
+				),
+				description)
 		elif self.type == CardType.HERO_POWER:
 			description = re.sub(
 				"\\$(?P<damage>\\d+)",
 				lambda match: str(
 					self.controller.get_heropower_damage(int(match.group("damage")))
+				),
+				description)
+			description = re.sub(
+				"\\#(?P<heal>\\d+)",
+				lambda match: str(
+					self.controller.get_heropower_heal(int(match.group("heal")))
 				),
 				description)
 		return description
@@ -201,10 +213,11 @@ class BaseCard(BaseEntity):
 	def play(self, *args):
 		raise NotImplementedError
 
-	def add_progress(self, card):
-		if self.data.scripts.add_progress:
+	def add_progress(self, card, amount):
+		if self.data.scripts.add_progress and amount == 1:
+			# Rogue quest: The Caverns Below
 			return self.data.scripts.add_progress(self, card)
-		self.progress += 1
+		self.progress += amount
 
 	@property
 	def progress(self):
@@ -225,6 +238,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	has_choose_one = boolean_property("has_choose_one")
 	playable_zone = Zone.HAND
 	lifesteal = boolean_property("lifesteal")
+	keep_buff = boolean_property("keep_buff")
 
 	def __init__(self, data):
 		self.cant_play = False
@@ -236,7 +250,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.choose_cards = CardList()
 		self.morphed = None
 		self.upgrade_counter = 0
-		self.cast_on_friendly_characters = False
+		self.cast_on_friendly_minions = False
 		super().__init__(data)
 
 	@property
@@ -302,7 +316,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		old_zone = self.zone
 		super()._set_zone(zone)
 		if old_zone == Zone.PLAY and zone not in (Zone.GRAVEYARD, Zone.SETASIDE):
-			self.clear_buffs()
+			if not self.keep_buff:
+				self.clear_buffs()
 			if self.id == self.controller.cthun.id:
 				self.controller.copy_cthun_buff(self)
 
@@ -581,6 +596,9 @@ class Character(LiveEntity):
 	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
 	cant_be_targeted_by_abilities = boolean_property("cant_be_targeted_by_abilities")
 	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
+	cant_be_targeted_by_op_abilities = boolean_property("cant_be_targeted_by_op_abilities")
+	cant_be_targeted_by_op_hero_powers = boolean_property("cant_be_targeted_by_op_hero_powers")
+
 	heavily_armored = boolean_property("heavily_armored")
 	min_health = boolean_property("min_health")
 	rush = boolean_property("rush")
@@ -773,7 +791,8 @@ class Minion(Character):
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
 		"forgetful", "frozen", "has_deathrattle", "has_inspire", "poisonous",
 		"stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush",
-		"secret_deathrattle",
+		"secret_deathrattle", "cant_be_targeted_by_op_abilities",
+		"cant_be_targeted_by_op_hero_powers",
 	)
 
 	def __init__(self, data):
@@ -899,6 +918,11 @@ class Spell(PlayableCard):
 			amount = self.controller.get_spell_damage(amount)
 		if self.receives_double_spelldamage_bonus:
 			amount *= 2
+		return amount
+
+	def get_heal(self, amount, target):
+		if not self.immune_to_spellpower:
+			amount = self.controller.get_spell_heal(amount)
 		return amount
 
 	def _set_zone(self, value):
@@ -1112,6 +1136,10 @@ class HeroPower(PlayableCard):
 	def get_damage(self, amount, target):
 		amount = super().get_damage(amount, target)
 		return self.controller.get_heropower_damage(amount)
+
+	def get_heal(self, amount, target):
+		amount = super().get_heal(amount, target)
+		return self.controller.get_heropower_heal(amount)
 
 	def use(self, target=None, choose=None):
 		if choose:

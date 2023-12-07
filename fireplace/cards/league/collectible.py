@@ -221,7 +221,8 @@ class LOE_110:
 
 class LOE_110t:
 	"""Ancient Curse"""
-	draw = Destroy(SELF), Hit(FRIENDLY_HERO, 7), Draw(CONTROLLER)
+	play = Hit(FRIENDLY_HERO, 7)
+	draw = CAST_WHEN_DRAWN
 
 
 class LOE_116:

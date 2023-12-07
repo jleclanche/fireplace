@@ -110,7 +110,10 @@ class Max(LazyNum):
 		return "%s(%r)" % (self.__class__.__name__, self.selectors)
 
 	def evaluate(self, source) -> int:
-		return max([selector.evaluate(source) for selector in self.selectors])
+		return max([
+			selector if isinstance(selector, int) else selector.evaluate(source)
+			for selector in self.selectors
+		])
 
 
 class Min(LazyNum):
@@ -125,7 +128,10 @@ class Min(LazyNum):
 		return "%s(%r)" % (self.__class__.__name__, self.selectors)
 
 	def evaluate(self, source) -> int:
-		return min([selector.evaluate(source) for selector in self.selectors])
+		return min([
+			selector if isinstance(selector, int) else selector.evaluate(source)
+			for selector in self.selectors
+		])
 
 
 class OpAttr(LazyNum):

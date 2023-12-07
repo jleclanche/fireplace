@@ -28,7 +28,7 @@ class ICC_252:
 
 class ICC_838:
 	"""Sindragosa"""
-	play = Summon(CONTROLLER, "ICC_838t")
+	play = SummonBothSides(CONTROLLER, "ICC_838t") * 2
 
 
 class ICC_838t:

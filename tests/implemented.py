@@ -99,6 +99,13 @@ def main():
 		dest="collectible",
 		help="Show only collectible cards"
 	)
+
+	p.add_argument(
+		"--card_set",
+		type=int,
+		dest="card_set",
+		help="Show only cards of card set"
+	)
 	args = p.parse_args(sys.argv[1:])
 
 	if not args.implemented and not args.unimplemented:
@@ -112,6 +119,10 @@ def main():
 			continue
 		description = cleanup_description(card.description)
 		implemented = False
+
+		if args.card_set:
+			if card.card_set != args.card_set:
+				continue
 
 		if not description:
 			# Minions without card text or with basic abilities are implemented

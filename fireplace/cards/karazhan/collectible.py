@@ -22,7 +22,7 @@ class KAR_009:
 class KAR_010:
 	"""Nightbane Templar"""
 	powered_up = HOLDING_DRAGON
-	play = powered_up & (Summon(CONTROLLER, "KAR_010a") * 2)
+	play = powered_up & (SummonBothSides(CONTROLLER, "KAR_010a") * 2)
 
 
 class KAR_021:

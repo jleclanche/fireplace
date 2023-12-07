@@ -32,6 +32,7 @@ class BaseGame(Entity):
 		self.next_step = Step.BEGIN_SHUFFLE
 		self.turn = 0
 		self.current_player = None
+		self.next_players = []
 		self.tick = 0
 		self.active_aura_buffs = CardList()
 		self.setaside = CardList()
@@ -312,11 +313,11 @@ class BaseGame(Entity):
 				self.log("Ending One-Turn effect: %r", buff)
 				buff.remove()
 		# Extra turn
-		if self.current_player.extra_turns:
-			self.current_player.extra_turns -= 1
-			self.begin_turn(self.current_player)
+		if self.next_players:
+			next_player = self.next_players.pop(0)
 		else:
-			self.begin_turn(self.current_player.opponent)
+			next_player = self.current_player.opponent
+		self.begin_turn(next_player)
 
 	def skip_turn(self):
 		self.end_turn()

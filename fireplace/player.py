@@ -72,7 +72,6 @@ class Player(Entity, TargetableByAuras):
 		self.elemental_played_last_turn = 0
 		self.cards_played_this_game = CardList()
 		self.cthun = None
-		self.extra_turns = 0
 
 	def __str__(self):
 		return self.name
@@ -206,9 +205,21 @@ class Player(Entity, TargetableByAuras):
 		amount <<= self.controller.spellpower_double
 		return amount
 
+	def get_spell_heal(self, amount: int) -> int:
+		"""
+		Returns the amount of heal \a amount will do, taking
+		SPELLPOWER and SPELLPOWER_DOUBLE into account.
+		"""
+		amount <<= self.controller.healing_double
+		return amount
+
 	def get_heropower_damage(self, amount: int) -> int:
 		amount += self.heropower_damage
 		amount <<= self.controller.hero_power_double
+		return amount
+
+	def get_heropower_heal(self, amount: int) -> int:
+		amount <<= self.controller.healing_double
 		return amount
 
 	def discard_hand(self):

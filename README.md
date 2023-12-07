@@ -7,6 +7,25 @@
 A Hearthstone simulator and implementation, written in Python.
 
 
+## Cards Implementation
+
+Now updated to [Patch 10.4.0.23576](https://hearthstone.fandom.com/wiki/Patch_10.4.0.23576)
+* **100%** Basic (142 of 142 cards)
+* **100%** Classic (239 of 239 cards)
+* **100%** Hall of Fame (10 of 10 cards)
+* **100%** Curse of Naxxramas (30 of 30 cards)
+* **100%** Goblins vs Gnomes (123 of 123 cards)
+* **100%** Blackrock Mountain (31 of 31 cards)
+* **100%** The Grand Tournament (132 of 132 cards)
+* **100%** The League of Explorers (45 of 45 cards)
+* **100%** Whispers of the Old Gods (134 of 134 cards)
+* **100%** One Night in Karazhan (45 of 45 cards)
+* **100%** Mean Streets of Gadgetzan (132 of 132 cards)
+* **100%** Journey to Un'Goro (135 of 135 cards)
+* **100%** Knights of the Frozen Throne (135 of 135 cards)
+* **100%** Kobolds & Catacombs (135 of 135 cards)
+
+
 ## Requirements
 
 * Python 3.10+

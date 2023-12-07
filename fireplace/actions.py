@@ -417,8 +417,8 @@ class Play(GameAction):
 		card.zone = Zone.PLAY
 
 		# Remember cast on friendly characters
-		if target and target.controller == source:
-			card.cast_on_friendly_characters = True
+		if target and target.type == CardType.MINION and target.controller == source:
+			card.cast_on_friendly_minions = True
 
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
@@ -614,7 +614,8 @@ class Buff(TargetedAction):
 			if isinstance(v, LazyValue):
 				v = v.evaluate(source)
 			setattr(buff, k, v)
-		return buff.apply(target)
+		buff.apply(target)
+		return target
 
 
 class StoringBuff(TargetedAction):
@@ -832,6 +833,8 @@ class Battlecry(TargetedAction):
 			arg = arg[0]
 		elif isinstance(arg, LazyValue):
 			arg = arg.evaluate(source)[0]
+		else:
+			arg = _eval_card(source, arg)[0]
 		return [arg]
 
 	def do(self, source, card, target):
@@ -1078,6 +1081,27 @@ class Hit(TargetedAction):
 		return 0
 
 
+class HitAndExcessDamageToHero(TargetedAction):
+	"""
+	Hit character targets by \a amount and excess damage to their hero.
+	"""
+	TARGET = ActionArg()
+	AMOUNT = IntArg()
+
+	def do(self, source, target, amount):
+		amount = source.get_damage(amount, target)
+		if amount:
+			if target.health >= amount:
+				return source.game.queue_actions(source, [Predamage(target, amount)])[0][0]
+			else:
+				excess_amount = amount - target.health
+				return source.game.queue_actions(source, [
+					Predamage(target, amount),
+					Predamage(target.controller.hero, excess_amount)
+				])[0]
+		return 0
+
+
 class Heal(TargetedAction):
 	"""
 	Heal character targets by \a amount.
@@ -1089,7 +1113,7 @@ class Heal(TargetedAction):
 		if source.controller.healing_as_damage:
 			return source.game.queue_actions(source, [Hit(target, amount)])
 
-		amount <<= source.controller.healing_double
+		amount = source.get_heal(amount, target)
 		amount = min(amount, target.damage)
 		if amount:
 			# Undamaged targets do not receive heals
@@ -1280,6 +1304,9 @@ class Summon(TargetedAction):
 			return
 		return super()._broadcast(entity, source, at, *args)
 
+	def get_summon_index(self, source_index):
+		return source_index + 1
+
 	def do(self, source, target, cards):
 		log.info("%s summons %r", target, cards)
 		if not isinstance(cards, list):
@@ -1293,7 +1320,8 @@ class Summon(TargetedAction):
 			if card.zone != Zone.PLAY:
 				if source.type == CardType.MINION and source.zone == Zone.PLAY:
 					source_index = source.controller.field.index(source)
-					card._summon_index = source_index + ((self.trigger_index + 1) % 2)
+					# card._summon_index = source_index + ((self.trigger_index + 1) % 2)
+					card._summon_index = self.get_summon_index(source_index)
 				card.zone = Zone.PLAY
 			if card.type == CardType.MINION and card.race == Race.TOTEM:
 				card.controller.times_totem_summoned_this_game += 1
@@ -1301,6 +1329,14 @@ class Summon(TargetedAction):
 			self.broadcast(source, EventListener.AFTER, target, card)
 
 		return cards
+
+
+class SummonBothSides(Summon):
+	TARGET = ActionArg()
+	CARD = CardArg()
+
+	def get_summon_index(self, source_index):
+		return source_index + ((self.trigger_index + 1) % 2)
 
 
 class Shuffle(TargetedAction):
@@ -1346,6 +1382,14 @@ class Swap(TargetedAction):
 			orig = target.zone
 			target.zone = other.zone
 			other.zone = orig
+
+
+class SwapController(TargetedAction):
+	def do(self, source, card):
+		old_zone = card.zone
+		card.zone = Zone.SETASIDE
+		card.controller = card.controller.opponent
+		card.zone = old_zone
 
 
 class SwapHealth(TargetedAction):
@@ -1427,10 +1471,17 @@ class CastSpell(TargetedAction):
 	"""
 	Cast a spell target random
 	"""
-	CARD = CardArg()
+	SPELL = CardArg()
+	SPELL_TARGET = CardArg()
 
-	def do(self, source, card):
-		target = None
+	def get_target_args(self, source, target):
+		ret = super().get_target_args(source, target)
+		spell_target = None
+		if ret:
+			spell_target = ret[0][0]
+		return [spell_target]
+
+	def do(self, source, card, target=None):
 		player = source.controller
 		old_choice = player.choice
 		player.choice = None
@@ -1438,11 +1489,13 @@ class CastSpell(TargetedAction):
 			card = random.choice(card.choose_cards)
 		if card.requires_target():
 			if len(card.targets):
-				target = random.choice(card.targets)
+				if target not in card.targets:
+					target = random.choice(card.targets)
 			else:
 				log.info("%s cast spell %s don't have a legal target", source, card)
 				return
 		card.target = target
+		card.zone = Zone.PLAY
 		log.info("%s cast spell %s target %s", source, card, target)
 		source.game.queue_actions(source, [Battlecry(card, card.target)])
 		while player.choice:
@@ -1533,6 +1586,25 @@ class SwapState(TargetedAction):
 		buff2 = source.controller.card(buff)
 		buff2._xatk = target.atk
 		buff2._xhealth = target.health
+		buff1.apply(target)
+		buff2.apply(other)
+
+
+class SwapAtk(TargetedAction):
+	"""
+	Swap atk between two minions using \a buff.
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, other, buff):
+		log.info("swap atk %s and %s", target, other)
+		other = other[0]
+		buff1 = source.controller.card(buff)
+		buff1._xatk = other.atk
+		buff2 = source.controller.card(buff)
+		buff2._xatk = target.atk
 		buff1.apply(target)
 		buff2.apply(other)
 
@@ -1731,10 +1803,13 @@ class Adapt(TargetedAction):
 class AddProgress(TargetedAction):
 	TARGET = ActionArg()
 	CARD = CardArg()
+	AMOUNT = IntArg()
 
-	def do(self, source, target, card):
+	def do(self, source, target, card, amount=1):
 		log.info("%r add progress from %r", target, card)
-		target.add_progress(card)
+		if not target:
+			return
+		target.add_progress(card, amount)
 		if target.progress >= target.progress_total:
 			source.game.trigger(target, target.get_actions("reward"), event_args=None)
 			if target.data.quest:
@@ -1842,6 +1917,7 @@ class CreateZombeast(TargetedAction):
 			"cant_be_targeted_by_hero_powers", "heavily_armored", "min_health",
 			"rush", "taunt", "poisonous", "ignore_taunt", "cannot_attack_heroes",
 			"unlimited_attacks", "cant_be_damaged", "lifesteal",
+			"cant_be_targeted_by_op_abilities", "cant_be_targeted_by_op_hero_powers",
 		)
 		for attribute in int_mergeable_attributes:
 			setattr(zombeast, attribute, getattr(card1, attribute) + getattr(card2, attribute))

@@ -11,7 +11,7 @@ class ICC_019:
 
 class ICC_026:
 	"""Grim Necromancer"""
-	play = Summon(CONTROLLER, "ICC_026t") * 2
+	play = SummonBothSides(CONTROLLER, "ICC_026t") * 2
 
 
 ICC_028e = buff(health=2)
