@@ -85,6 +85,9 @@ class BaseEntity(object):
 			return 0
 		return amount
 
+	def get_heal(self, amount: int, target) -> int:
+		return amount
+
 
 class BuffableEntity(BaseEntity):
 	def __init__(self):

@@ -63,7 +63,7 @@ class UNG_028:
 
 class UNG_028t:
 	def play(self):
-		self.controller.extra_turns += 1
+		self.game.next_players.insert(0, self.controller)
 
 
 class UNG_941:

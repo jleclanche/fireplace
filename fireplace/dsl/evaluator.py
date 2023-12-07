@@ -146,6 +146,21 @@ class Find(Evaluator):
 		return bool(len(self.selector.eval(source.game, source)))
 
 
+class FindAll(Evaluator):
+	"""
+	Evaluates to True if \a selector has a match.
+	"""
+	def __init__(self, *selectors):
+		super().__init__()
+		self.selectors = selectors
+
+	def check(self, source):
+		return all(
+			bool(len(selector.eval(source.game, source)))
+			for selector in self.selectors
+		)
+
+
 class FindDuplicates(Evaluator):
 	"""
 	Evaluates to True if \a selector has duplicates.

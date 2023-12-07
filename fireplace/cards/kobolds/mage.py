@@ -13,7 +13,7 @@ class LOOT_170:
 class LOOT_231:
 	"""Arcane Artificer"""
 	# Whenever you cast a spell, gain Armor equal to its_Cost.
-	pass
+	events = Play(CONTROLLER, SPELL).after(GainArmor(FRIENDLY_HERO, COST(Play.CARD)))
 
 
 class LOOT_535:
@@ -109,7 +109,8 @@ class LOOT_106:
 class LOOT_106t:
 	"""Scroll of Wonder"""
 	# Cast a random spell. Draw a card. Cast this when drawn.
-	draw = Destroy(SELF), CastSpell(RandomSpell()), Draw(CONTROLLER)
+	play = CastSpell(RandomSpell())
+	draw = CAST_WHEN_DRAWN
 
 
 class LOOT_172:

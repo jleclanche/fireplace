@@ -417,8 +417,8 @@ class Play(GameAction):
 		card.zone = Zone.PLAY
 
 		# Remember cast on friendly characters
-		if target and target.controller == source:
-			card.cast_on_friendly_characters = True
+		if target and target.type == CardType.MINION and target.controller == source:
+			card.cast_on_friendly_minions = True
 
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
@@ -614,7 +614,8 @@ class Buff(TargetedAction):
 			if isinstance(v, LazyValue):
 				v = v.evaluate(source)
 			setattr(buff, k, v)
-		return buff.apply(target)
+		buff.apply(target)
+		return target
 
 
 class StoringBuff(TargetedAction):
@@ -1112,7 +1113,7 @@ class Heal(TargetedAction):
 		if source.controller.healing_as_damage:
 			return source.game.queue_actions(source, [Hit(target, amount)])
 
-		amount <<= source.controller.healing_double
+		amount = source.get_heal(amount, target)
 		amount = min(amount, target.damage)
 		if amount:
 			# Undamaged targets do not receive heals
@@ -1470,10 +1471,17 @@ class CastSpell(TargetedAction):
 	"""
 	Cast a spell target random
 	"""
-	CARD = CardArg()
+	SPELL = CardArg()
+	SPELL_TARGET = CardArg()
 
-	def do(self, source, card):
-		target = None
+	def get_target_args(self, source, target):
+		ret = super().get_target_args(source, target)
+		spell_target = None
+		if ret:
+			spell_target = ret[0][0]
+		return [spell_target]
+
+	def do(self, source, card, target=None):
 		player = source.controller
 		old_choice = player.choice
 		player.choice = None
@@ -1481,7 +1489,8 @@ class CastSpell(TargetedAction):
 			card = random.choice(card.choose_cards)
 		if card.requires_target():
 			if len(card.targets):
-				target = random.choice(card.targets)
+				if target not in card.targets:
+					target = random.choice(card.targets)
 			else:
 				log.info("%s cast spell %s don't have a legal target", source, card)
 				return
@@ -1577,6 +1586,25 @@ class SwapState(TargetedAction):
 		buff2 = source.controller.card(buff)
 		buff2._xatk = target.atk
 		buff2._xhealth = target.health
+		buff1.apply(target)
+		buff2.apply(other)
+
+
+class SwapAtk(TargetedAction):
+	"""
+	Swap atk between two minions using \a buff.
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, other, buff):
+		log.info("swap atk %s and %s", target, other)
+		other = other[0]
+		buff1 = source.controller.card(buff)
+		buff1._xatk = other.atk
+		buff2 = source.controller.card(buff)
+		buff2._xatk = target.atk
 		buff1.apply(target)
 		buff2.apply(other)
 

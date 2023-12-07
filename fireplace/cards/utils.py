@@ -46,6 +46,8 @@ BASIC_HERO_POWERS = [
 	"CS2_083b", "CS2_056", "CS2_102",
 ]
 
+BASIC_TOTEMS = ["CS2_050", "CS2_051", "CS2_052", "NEW1_009"]
+
 POTIONS = [
 	"CFM_021",  # Freezing Potion
 	"CFM_065",  # Volcanic Potion
@@ -78,7 +80,7 @@ LICH_KING_CARDS = [
 
 THE_COIN = "GAME_005"
 
-RandomBasicTotem = lambda *args: RandomID("CS2_050", "CS2_051", "CS2_052", "NEW1_009")
+RandomBasicTotem = lambda *args: RandomID(*BASIC_TOTEMS)
 RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
 RandomPotion = lambda *args: RandomID(*POTIONS)
 
@@ -89,6 +91,7 @@ FORGETFUL = Attack(SELF).on(
 
 AT_MAX_MANA = lambda s: MANA(s) == 10
 CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
+CAST_WHEN_DRAWN = Destroy(SELF), Battlecry(SELF, None), Draw(CONTROLLER)
 
 
 class JoustHelper(Evaluator):
@@ -118,6 +121,7 @@ JOUST_SPELL = JoustHelper(
 	RANDOM(ENEMY_DECK + SPELL)
 )
 
+RECRUIT = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION))
 Recruit = lambda selector: Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION + selector))
 
 

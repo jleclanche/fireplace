@@ -37,7 +37,8 @@ class GVG_056:
 
 class GVG_056t:
 	"""Burrowing Mine"""
-	draw = Destroy(SELF), Hit(FRIENDLY_HERO, 10), Draw(CONTROLLER)
+	play = Hit(FRIENDLY_HERO, 10)
+	draw = CAST_WHEN_DRAWN
 
 
 class GVG_086:

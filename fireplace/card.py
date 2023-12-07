@@ -115,11 +115,23 @@ class BaseCard(BaseEntity):
 					self.controller.get_spell_damage(int(match.group("damage")))
 				),
 				description)
+			description = re.sub(
+				"\\#(?P<heal>\\d+)",
+				lambda match: str(
+					self.controller.get_spell_heal(int(match.group("heal")))
+				),
+				description)
 		elif self.type == CardType.HERO_POWER:
 			description = re.sub(
 				"\\$(?P<damage>\\d+)",
 				lambda match: str(
 					self.controller.get_heropower_damage(int(match.group("damage")))
+				),
+				description)
+			description = re.sub(
+				"\\#(?P<heal>\\d+)",
+				lambda match: str(
+					self.controller.get_heropower_heal(int(match.group("heal")))
 				),
 				description)
 		return description
@@ -226,6 +238,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	has_choose_one = boolean_property("has_choose_one")
 	playable_zone = Zone.HAND
 	lifesteal = boolean_property("lifesteal")
+	keep_buff = boolean_property("keep_buff")
 
 	def __init__(self, data):
 		self.cant_play = False
@@ -237,8 +250,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.choose_cards = CardList()
 		self.morphed = None
 		self.upgrade_counter = 0
-		self.cast_on_friendly_characters = False
-		self.keep_buff = False
+		self.cast_on_friendly_minions = False
 		super().__init__(data)
 
 	@property
@@ -908,6 +920,11 @@ class Spell(PlayableCard):
 			amount *= 2
 		return amount
 
+	def get_heal(self, amount, target):
+		if not self.immune_to_spellpower:
+			amount = self.controller.get_spell_heal(amount)
+		return amount
+
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
 			value = Zone.GRAVEYARD
@@ -1119,6 +1136,10 @@ class HeroPower(PlayableCard):
 	def get_damage(self, amount, target):
 		amount = super().get_damage(amount, target)
 		return self.controller.get_heropower_damage(amount)
+
+	def get_heal(self, amount, target):
+		amount = super().get_heal(amount, target)
+		return self.controller.get_heropower_heal(amount)
 
 	def use(self, target=None, choose=None):
 		if choose:

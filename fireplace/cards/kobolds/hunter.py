@@ -47,19 +47,42 @@ class LOOT_079:
 class LOOT_080:
 	"""Lesser Emerald Spellstone"""
 	# Summon two 3/3_Wolves. <i>(Play a <b>Secret</b> to upgrade.)</i>
-	pass
+	play = Summon(CONTROLLER, "LOOT_077t") * 2
+
+	class Hand:
+		events = Play(CONTROLLER, SECRET).after(Morph(SELF, "LOOT_080t2"))
+
+
+class LOOT_080t2:
+	"""Emerald Spellstone"""
+	# Summon three 3/3_Wolves. <i>(Play a <b>Secret</b> to upgrade.)</i>
+	play = Summon(CONTROLLER, "LOOT_077t") * 3
+
+	class Hand:
+		events = Play(CONTROLLER, SECRET).after(Morph(SELF, "LOOT_080t3"))
+
+
+class LOOT_080t3:
+	"""Greater Emerald Spellstone"""
+	# Summon four 3/3_Wolves.
+	play = Summon(CONTROLLER, "LOOT_077t") * 4
 
 
 class LOOT_217:
 	"""To My Side!"""
 	# [x]Summon an Animal Companion, or 2 if your deck has no minions.
-	pass
+	entourage = ["NEW1_032", "NEW1_033", "NEW1_034"]
+	play = Find(FRIENDLY_DECK + MINION) & (
+		Summon(RandomEntourage())
+	) | (
+		Summon(RandomEntourage()) * 2
+	)
 
 
 class LOOT_522:
 	"""Crushing Walls"""
 	# Destroy your opponent's left and right-most minions.
-	pass
+	play = Destroy(ENEMY_MINIONS + (LEFTMOST_FIELD | RIGTHMOST_FIELD))
 
 
 ##
@@ -68,10 +91,14 @@ class LOOT_522:
 class LOOT_085:
 	"""Rhok'delar"""
 	# <b>Battlecry:</b> If your deck has no minions, fill your_hand with Hunter_spells.
-	pass
+	play = Find(FRIENDLY_DECK + MINION) | (
+		Give(CONTROLLER, RandomSpell(card_class=CardClass.HUNTER)) * (
+			MAX_HAND_SIZE(CONTROLLER) - Count(FRIENDLY_HAND)
+		)
+	)
 
 
 class LOOT_222:
 	"""Candleshot"""
 	# Your hero is <b>Immune</b> while attacking.
-	pass
+	update = Refresh(FRIENDLY_HERO, {GameTag.IMMUNE_WHILE_ATTACKING: True})

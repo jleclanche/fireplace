@@ -434,7 +434,7 @@ LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
-CAST_ON_FRIENDLY_CHARACTERS = AttrValue(enums.CAST_ON_FRIENDLY_CHARACTERS) == True  # noqa
+CAST_ON_FRIENDLY_MINIONS = AttrValue(enums.CAST_ON_FRIENDLY_MINIONS) == True  # noqa
 EXHAUSTED = AttrValue(GameTag.EXHAUSTED) == True  # noqa
 
 ROGUE = EnumSelector(CardClass.ROGUE)
@@ -534,6 +534,10 @@ OTHER_CLASS_CHARACTER = FuncSelector(
 
 NEUTRAL = AttrValue(GameTag.CLASS) == CardClass.NEUTRAL
 
+LEFTMOST_FIELD = FuncSelector(lambda entities, source: [
+	source.game.player1.field[0], source.game.player2.field[0]])
+RIGTHMOST_FIELD = FuncSelector(lambda entities, source: [
+	source.game.player1.field[-1], source.game.player2.field[-1]])
 LEFTMOST_HAND = FuncSelector(lambda entities, source: [
 	source.game.player1.hand[0], source.game.player2.hand[0]])
 RIGTHMOST_HAND = FuncSelector(lambda entities, source: [

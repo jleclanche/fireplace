@@ -59,7 +59,8 @@ class AT_035:
 
 
 class AT_035t:
-	draw = Destroy(SELF), Summon(OPPONENT, "AT_036t"), Draw(CONTROLLER)
+	play = Summon(OPPONENT, "AT_036t")
+	draw = CAST_WHEN_DRAWN
 
 
 ##

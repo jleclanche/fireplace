@@ -98,10 +98,16 @@ def single_card(card):
 def main():
 	p = argparse.ArgumentParser()
 	p.add_argument(
-		"--card_set", dest="card_set", default=1004, help="Generate cards of card set"
+		"--card_set",
+		dest="card_set",
+		type=int,
+		default=1004,
+		help="Generate cards of card set"
 	)
 	p.add_argument(
-		"--card_id", dest="card_id", help="Generate single card"
+		"--card_id",
+		dest="card_id",
+		help="Generate single card"
 	)
 	p.add_argument(
 		"--output_dir",
