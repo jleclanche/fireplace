@@ -7,16 +7,7 @@
 A Hearthstone simulator and implementation, written in Python.
 
 
-## Requirements
-
-* Python 3.10+
-
-
-## Installation
-
-* `pip install .`
-
-# Cards Implementation
+## Cards Implementation
 
 Now updated to [Patch 10.4.0.23576](https://hearthstone.fandom.com/wiki/Patch_10.4.0.23576)
 * **100%** Basic (142 of 142 cards)
@@ -33,6 +24,17 @@ Now updated to [Patch 10.4.0.23576](https://hearthstone.fandom.com/wiki/Patch_10
 * **100%** Journey to Un'Goro (135 of 135 cards)
 * **100%** Knights of the Frozen Throne (135 of 135 cards)
 * **100%** Kobolds & Catacombs (135 of 135 cards)
+
+
+## Requirements
+
+* Python 3.10+
+
+
+## Installation
+
+* `pip install .`
+
 
 ## Documentation
 
