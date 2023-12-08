@@ -27,6 +27,7 @@ class Selector:
 	Set operations preserve ordering (necessary for cards like Echo of
 	Medivh, where ordering matters)
 	"""
+
 	def eval(self, entities: List[BaseEntity], source: BaseEntity) -> List[BaseEntity]:
 		return entities
 
@@ -534,14 +535,14 @@ OTHER_CLASS_CHARACTER = FuncSelector(
 
 NEUTRAL = AttrValue(GameTag.CLASS) == CardClass.NEUTRAL
 
-LEFTMOST_FIELD = FuncSelector(lambda entities, source:
-	source.game.player1.field[:1] + source.game.player2.field[:1])
-RIGTHMOST_FIELD = FuncSelector(lambda entities, source:
-	source.game.player1.field[-1:] + source.game.player2.field[-1:])
-LEFTMOST_HAND = FuncSelector(lambda entities, source:
-	source.game.player1.hand[:1] + source.game.player2.hand[-1:])
-RIGTHMOST_HAND = FuncSelector(lambda entities, source:
-	source.game.player1.hand[:1] + source.game.player2.hand[-1:])
+LEFTMOST_FIELD = FuncSelector(
+	lambda entities, source: source.game.player1.field[:1] + source.game.player2.field[:1])
+RIGTHMOST_FIELD = FuncSelector(
+	lambda entities, source: source.game.player1.field[-1:] + source.game.player2.field[-1:])
+LEFTMOST_HAND = FuncSelector(
+	lambda entities, source: source.game.player1.hand[:1] + source.game.player2.hand[-1:])
+RIGTHMOST_HAND = FuncSelector(
+	lambda entities, source: source.game.player1.hand[:1] + source.game.player2.hand[-1:])
 OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND
 
 CARDS_PLAYED_THIS_GAME = FuncSelector(
