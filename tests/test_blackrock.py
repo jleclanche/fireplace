@@ -191,17 +191,19 @@ def test_emperor_thaurissan():
 
 def test_emperor_thaurissan_molten_recombobulator():
 	game = prepare_empty_game()
+	game.player1.is_standard = False
 	molten = game.player1.give("EX1_620")
 	thaurissan = game.player1.give("BRM_028")
 	thaurissan.play()
 	game.end_turn()
 	game.end_turn()
 
-	assert molten.cost == 25 - 1
+	molten_cost = molten.data.cost
+	assert molten.cost == molten_cost - 1
 	thaurissan.destroy()
 	ancestor = game.player1.give("GVG_029")
 	ancestor.play()
-	assert molten.cost == 25
+	assert molten.cost == molten_cost
 	assert molten in game.player1.field
 	game.end_turn()
 	game.end_turn()

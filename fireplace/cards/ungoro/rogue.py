@@ -89,8 +89,8 @@ class UNG_067t1e:
 
 
 class UNG_067t1e2:
-	atk = SET(5)
-	max_health = SET(5)
+	atk = SET(4)
+	max_health = SET(4)
 
 
 class UNG_823:

@@ -864,7 +864,8 @@ def test_recombobulator_molten_giant():
 	game.player1.hero.set_current_health(15)
 
 	molten = game.player1.give("EX1_620")
-	assert molten.cost == 25 - 15
+	molten_base_cost = molten.data.cost
+	assert molten.cost == molten_base_cost - 15
 	molten.play()
 	game.end_turn()
 	game.end_turn()
