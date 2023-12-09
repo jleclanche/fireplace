@@ -14,7 +14,7 @@ class LOOT_528:
 	"""Twilight Acolyte"""
 	# <b>Battlecry:</b> If you're holding a Dragon, swap this minion's Attack with another
 	# minion's.
-	play = HOLDING_DRAGON & SwapAtk(TARGET, SELF, "LOOT_528e")
+	play = HOLDING_DRAGON & SwapStateBuff(TARGET, SELF, "LOOT_528e")
 
 
 class LOOT_528e:

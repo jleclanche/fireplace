@@ -21,3 +21,12 @@ def test_echo():
 	game.end_turn()
 	assert len(game.player1.hand) == 0
 	assert len(game.player1.field) == 3
+
+
+def test_wing_blast():
+	game = prepare_game()
+	wing_blast = game.player1.give("GIL_518")
+	assert wing_blast.cost == 4
+	wisp = game.player1.give(WISP).play()
+	game.player1.give(MOONFIRE).play(target=wisp)
+	assert wing_blast.cost == 1

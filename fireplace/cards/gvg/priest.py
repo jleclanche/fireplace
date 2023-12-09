@@ -21,11 +21,11 @@ GVG_011a = buff(atk=-2)
 class GVG_014:
 	"""Vol'jin"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	play = SwapHealth(SELF, TARGET, "GVG_014a")
+	play = SwapStateBuff(SELF, TARGET, "GVG_014a")
 
 
 class GVG_014a:
-	max_health = lambda self, i: self.health
+	max_health = lambda self, i: self._xhealth
 
 
 class GVG_072:

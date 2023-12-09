@@ -1398,24 +1398,6 @@ class SwapController(TargetedAction):
 		card.zone = old_zone
 
 
-class SwapHealth(TargetedAction):
-	"""
-	Swap health between two minions using \a buff.
-	"""
-	TARGET = ActionArg()
-	OTHER = ActionArg()
-	BUFF = ActionArg()
-
-	def do(self, source, target, other, buff):
-		other = other[0]
-		buff1 = source.controller.card(buff)
-		buff1.health = other.health
-		buff2 = source.controller.card(buff)
-		buff2.health = target.health
-		buff1.apply(target)
-		buff2.apply(other)
-
-
 class Steal(TargetedAction):
 	"""
 	Make the controller take control of targets.
@@ -1575,7 +1557,7 @@ class ExtraAttack(TargetedAction):
 		target.num_attacks -= 1
 
 
-class SwapState(TargetedAction):
+class SwapStateBuff(TargetedAction):
 	"""
 	Swap stats between two minions using \a buff.
 	"""
@@ -1596,26 +1578,7 @@ class SwapState(TargetedAction):
 		buff2.apply(other)
 
 
-class SwapAtk(TargetedAction):
-	"""
-	Swap atk between two minions using \a buff.
-	"""
-	TARGET = ActionArg()
-	OTHER = ActionArg()
-	BUFF = ActionArg()
-
-	def do(self, source, target, other, buff):
-		log.info("swap atk %s and %s", target, other)
-		other = other[0]
-		buff1 = source.controller.card(buff)
-		buff1._xatk = other.atk
-		buff2 = source.controller.card(buff)
-		buff2._xatk = target.atk
-		buff1.apply(target)
-		buff2.apply(other)
-
-
-class CopyState(TargetedAction):
+class CopyStateBuff(TargetedAction):
 	"""
 	Copy target state, buff on self
 	"""

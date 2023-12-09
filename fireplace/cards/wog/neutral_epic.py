@@ -59,7 +59,7 @@ class OG_102:
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	play = SwapState(TARGET, SELF, "OG_102e")
+	play = SwapStateBuff(TARGET, SELF, "OG_102e")
 
 
 class OG_102e:
@@ -76,7 +76,7 @@ class OG_174:
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	play = CopyState(TARGET, "OG_174e")
+	play = CopyStateBuff(TARGET, "OG_174e")
 
 
 class OG_174e:

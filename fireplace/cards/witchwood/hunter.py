@@ -70,15 +70,26 @@ class GIL_518:
 	"""Wing Blast"""
 	# Deal $4 damage to a minion. If a minion died this turn, this costs (1).
 	play = Hit(TARGET, 4)
+	class Hand:
+		update = Find(KILLED_THIS_TURN) & Refresh(SELF, {GameTag.COST: SET(1)})
 
 
 class GIL_577:
 	"""Rat Trap"""
 	# [x]<b>Secret:</b> After your opponent plays three cards in a turn, summon a 6/6 Rat.
-	pass
+	secret = Play(OPPONENT).after(
+		(Attr(OPPONENT, GameTag.NUM_CARDS_PLAYED_THIS_TURN) >= 3) & (
+			FULL_BOARD | (Reveal(SELF), Summon(CONTROLLER, "GIL_577t"))
+		)
+	)
 
 
 class GIL_828:
 	"""Dire Frenzy"""
 	# Give a Beast +3/+3. Shuffle 3 copies into your deck with +3/+3.
-	pass
+	play = Buff(TARGET, "GIL_828e").then(
+		Shuffle(CONTROLLER, ExactCopy(TARGET)) * 3
+	)
+
+
+GLI_828e = buff(+3, +3)
