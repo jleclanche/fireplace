@@ -239,6 +239,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	playable_zone = Zone.HAND
 	lifesteal = boolean_property("lifesteal")
 	keep_buff = boolean_property("keep_buff")
+	echo = boolean_property("echo")
 
 	def __init__(self, data):
 		self.cant_play = False

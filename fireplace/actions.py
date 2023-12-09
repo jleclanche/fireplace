@@ -5,7 +5,10 @@ from hearthstone.enums import (
 	BlockType, CardClass, CardType, GameTag, Mulligan, Race, PlayState, Step, Zone
 )
 
+from fireplace.dsl.selector import SELF
+
 from .dsl import LazyNum, LazyValue, Selector
+from .dsl.copy import Copy
 from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion
 from .entity import Entity
 from .exceptions import InvalidAction
@@ -437,6 +440,9 @@ class Play(GameAction):
 				source.game.trigger(card, card.get_actions("outcast"), event_args=None)
 			elif trigger_battlecry:
 				source.game.queue_actions(card, [Battlecry(battlecry_card, card.target)])
+
+			if card.echo:
+				source.game.queue_actions(card, [Give(player, Buff(Copy(SELF), "GIL_000"))])
 
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.

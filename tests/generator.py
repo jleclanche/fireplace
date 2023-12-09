@@ -31,6 +31,8 @@ SOLVED_KEYWORDS = [
 	"Stealth",
 	"Poisonous",
 	"Lifesteal",
+	"Rush",
+	"Echo",
 	r"Can't be targeted by spells or Hero Powers\.",
 	r"Can't attack\.",
 	"Destroy any minion damaged by this minion.",

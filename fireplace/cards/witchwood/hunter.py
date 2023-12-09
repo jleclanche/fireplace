@@ -7,43 +7,60 @@ from ..utils import *
 class GIL_128:
 	"""Emeriss"""
 	# <b>Battlecry:</b> Double the Attack and Health of all minions in_your hand.
-	pass
+	play = Buff(FRIENDLY_HAND + MINION, "GIL_128e")
+
+
+class GIL_128e:
+	def apply(self, target):
+		self._xatk = target.atk * 2
+		self._xhealth = target.health * 2
+		target.damage = 0
+
+	atk = lambda self, _: self._xatk
+	max_health = lambda self, _: self._xhealth
 
 
 class GIL_200:
 	"""Duskhaven Hunter"""
 	# [x]<b>Stealth</b> Each turn this is in your hand, swap its Attack and Health.
-	pass
+	class Hand:
+		events = OWN_TURN_BEGIN.on(Morph(SELF, Buff("GIL_200t", "GIL_200e")))
 
 
-class GIL_562:
-	"""Vilebrood Skitterer"""
-	# <b>Poisonous</b> <b>Rush</b>
-	pass
+class GIL_200t:
+	"""Duskhaven Hunter"""
+	# [x]<b>Stealth</b> Each turn this is in your hand, swap its Attack and Health.
+	class Hand:
+		events = OWN_TURN_BEGIN.on(Morph(SELF, Buff("GIL_200", "GIL_200e")))
+
+
+class GIL_200e:
+	def apply(self, target):
+		self._xatk = self.source.health
+		self._xhealth = self.source.atk
+		target.damage = 0
+
+	atk = lambda self, _: self._xatk
+	max_health = lambda self, _: self._xhealth
 
 
 class GIL_607:
 	"""Toxmonger"""
 	# [x]Whenever you play a 1-Cost minion, give it <b>Poisonous</b>.
-	pass
+	events = Play(CONTROLLER, MINION + (COST == 1)).then(GivePoisonous(Play.CARD))
 
-
-class GIL_607t:
-	"""Hunting Mastiff"""
-	# <b>Echo</b> <b>Rush</b>
-	pass
 
 
 class GIL_650:
 	"""Houndmaster Shaw"""
 	# Your other minions have <b>Rush</b>.
-	pass
+	update = Refresh(FRIENDLY_MINIONS - SELF, {GameTag.RUSH: True})
 
 
 class GIL_905:
 	"""Carrion Drake"""
 	# <b>Battlecry:</b> If a minion died this turn, gain <b>Poisonous</b>.
-	pass
+	play = Find(KILLED_THIS_TURN) & GivePoisonous(SELF)
 
 
 ##
@@ -52,7 +69,7 @@ class GIL_905:
 class GIL_518:
 	"""Wing Blast"""
 	# Deal $4 damage to a minion. If a minion died this turn, this costs (1).
-	pass
+	play = Hit(TARGET, 4)
 
 
 class GIL_577:

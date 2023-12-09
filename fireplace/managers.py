@@ -227,6 +227,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.RARITY: "rarity",
 	GameTag.RECEIVES_DOUBLE_SPELLDAMAGE_BONUS: "receives_double_spelldamage_bonus",
 	GameTag.RUSH: "rush",
+	GameTag.ECHO: "echo",
 	GameTag.SECRET: "secret",
 	GameTag.SECRET_DEATHRATTLE: "secret_deathrattle",
 	GameTag.SHADOWFORM: "shadowform",
