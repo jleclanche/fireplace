@@ -6,7 +6,7 @@ from ..logging import log
 from ..utils import get_script_definition
 
 
-year = ZodiacYear.MAMMOTH
+year = ZodiacYear.RAVEN
 default_language = "enUS"
 
 

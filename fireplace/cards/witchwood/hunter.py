@@ -50,7 +50,6 @@ class GIL_607:
 	events = Play(CONTROLLER, MINION + (COST == 1)).then(GivePoisonous(Play.CARD))
 
 
-
 class GIL_650:
 	"""Houndmaster Shaw"""
 	# Your other minions have <b>Rush</b>.
@@ -70,6 +69,7 @@ class GIL_518:
 	"""Wing Blast"""
 	# Deal $4 damage to a minion. If a minion died this turn, this costs (1).
 	play = Hit(TARGET, 4)
+
 	class Hand:
 		update = Find(KILLED_THIS_TURN) & Refresh(SELF, {GameTag.COST: SET(1)})
 
