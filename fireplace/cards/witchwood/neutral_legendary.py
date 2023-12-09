@@ -4,23 +4,23 @@ from ..utils import *
 ##
 # Minions
 
-class GIL_198:
-	"""Azalina Soulthief"""
-	# <b>Battlecry:</b> Replace your hand with a copy of your_opponent's.
-	pass
+# class GIL_198:
+# 	"""Azalina Soulthief"""
+# 	# <b>Battlecry:</b> Replace your hand with a copy of your_opponent's.
+# 	pass
 
 
-class GIL_578:
-	"""Countess Ashmore"""
-	# [x]<b>Battlecry:</b> Draw a <b>Rush</b>, <b>Lifesteal</b>, and <b>Deathrattle</b>
-	# card from your deck.
-	pass
+# class GIL_578:
+# 	"""Countess Ashmore"""
+# 	# [x]<b>Battlecry:</b> Draw a <b>Rush</b>, <b>Lifesteal</b>, and <b>Deathrattle</b>
+# 	# card from your deck.
+# 	pass
 
 
-class GIL_620:
-	"""Dollmaster Dorian"""
-	# Whenever you draw a minion, summon a 1/1 copy of it.
-	pass
+# class GIL_620:
+# 	"""Dollmaster Dorian"""
+# 	# Whenever you draw a minion, summon a 1/1 copy of it.
+# 	pass
 
 
 class GIL_692:
