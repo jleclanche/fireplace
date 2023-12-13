@@ -1041,9 +1041,15 @@ class Enchantment(BaseCard):
 				# Can happen if a Destroy is queued after a bounce, for example
 				self.logger.warning("Trying to remove %r which is already gone", self)
 				return
+			if hasattr(self.owner, "health"):
+				old_health = self.owner.health
 			self.owner.buffs.remove(self)
 			if self in self.game.active_aura_buffs:
 				self.game.active_aura_buffs.remove(self)
+			if hasattr(self.owner, "health"):
+				if self.owner.health < old_health:
+					self.owner.damage = max(self.owner.damage - (old_health - self.owner.health), 0)
+
 		super()._set_zone(zone)
 
 	def apply(self, target):
