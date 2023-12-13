@@ -259,7 +259,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			return self.data.scripts.Hand.events
 		if self.zone == Zone.DECK:
 			return self.data.scripts.Deck.events
-		return self.base_events + self._events
+		return self.base_events + list(self._events)
 
 	@property
 	def cost(self):
@@ -338,7 +338,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.zone = Zone.GRAVEYARD
 		if old_zone == Zone.HAND:
 			actions = self.get_actions("discard")
-			self.game.trigger(self, actions, event_args=None)
+			self.game.cheat_action(self, actions)
 
 	def draw(self):
 		if len(self.controller.hand) >= self.controller.max_hand_size:
@@ -352,7 +352,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			if self.game.step > Step.BEGIN_MULLIGAN:
 				# Proc the draw script, but only if we are past mulligan
 				actions = self.get_actions("draw")
-				self.game.trigger(self, actions, event_args=None)
+				self.game.cheat_action(self, actions)
 
 	def heal(self, target, amount):
 		return self.game.cheat_action(self, [actions.Heal(target, amount)])
@@ -1089,7 +1089,7 @@ class Weapon(rules.WeaponRules, LiveEntity):
 		if zone == Zone.PLAY:
 			if self.controller.weapon:
 				self.log("Destroying old weapon %r", self.controller.weapon)
-				self.game.trigger(self, [actions.Destroy(self.controller.weapon)], event_args=None)
+				self.controller.weapon.destroy()
 			self.controller.weapon = self
 		elif self.zone == Zone.PLAY:
 			self.controller.weapon = None

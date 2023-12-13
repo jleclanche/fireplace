@@ -34,7 +34,7 @@ class BaseEntity(object):
 
 	@property
 	def events(self):
-		return self.base_events + self._events
+		return self.base_events + list(self._events)
 
 	@property
 	def update_scripts(self):

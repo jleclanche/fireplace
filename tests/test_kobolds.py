@@ -118,3 +118,15 @@ def test_crushing_walls():
 	game.player2.give("LOOT_522").play()
 	assert len(game.player1.field) == 1
 	assert game.player1.field[0].id == CHICKEN
+
+
+def test_dragon_soul():
+	game = prepare_game()
+	game.player1.give("LOOT_209").play()
+	for _ in range(3):
+		game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert len(game.player1.field) == 1
+	game.skip_turn()
+	for _ in range(3):
+		game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert len(game.player1.field) == 2
