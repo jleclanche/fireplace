@@ -144,16 +144,18 @@ class Action(metaclass=ActionMeta):
 				entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
+		source.game.action_start(BlockType.TRIGGER, source, 0, None)
+
 		for entity in source.game.entities:
 			self._broadcast(entity, source, at, *args)
-
 		for hand in source.game.hands:
 			for entity in hand.entities:
 				self._broadcast(entity, source, at, *args)
-
 		for deck in source.game.decks:
 			for entity in deck.entities:
 				self._broadcast(entity, source, at, *args)
+
+		source.game.action_end(BlockType.TRIGGER, source)
 
 	def queue_broadcast(self, obj, args):
 		self.event_queue.append((obj, args))
