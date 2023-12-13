@@ -1277,7 +1277,6 @@ class Silence(TargetedAction):
 	def do(self, source, target):
 		log.info("Silencing %r", self)
 		self.broadcast(source, EventListener.ON, target)
-		old_health = target.health
 		target.clear_buffs()
 		for attr in target.silenceable_attributes:
 			if getattr(target, attr):
@@ -1286,8 +1285,6 @@ class Silence(TargetedAction):
 		# Wipe the event listeners
 		target._events = []
 		target.silenced = True
-		if target.health < old_health:
-			target.damage = max(target.damage - (old_health - target.health), 0)
 
 
 class Summon(TargetedAction):

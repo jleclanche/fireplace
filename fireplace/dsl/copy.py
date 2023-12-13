@@ -51,5 +51,8 @@ class ExactCopy(Copy):
 			ret.damage = entity.damage
 		for buff in entity.buffs:
 			# Recreate the buff stack
-			entity.buff(ret, buff.id)
+			new_buff = buff.source.buff(ret, buff.id)
+			if buff in source.game.active_aura_buffs:
+				new_buff.tick = buff.tick
+				source.game.active_aura_buffs.append(new_buff)
 		return ret
