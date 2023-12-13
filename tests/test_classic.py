@@ -237,11 +237,13 @@ def test_angry_chicken():
 	assert chicken.enrage
 	assert not chicken.enraged
 	assert chicken.atk == chicken.health == 2
+	game.skip_turn()
 	game.player1.give(MOONFIRE).play(target=chicken)
 	assert chicken.enraged
 	assert chicken.atk == 1 + 1 + 5
 	assert chicken.health == 1
-	stormwind.destroy()
+	game.player1.give(FIREBALL).play(target=stormwind)
+	assert len(game.player1.field) == 1
 	assert chicken.atk == chicken.health == 1
 	assert not chicken.enraged
 
