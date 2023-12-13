@@ -41,7 +41,7 @@ class LOOT_134e:
 class LOOT_136:
 	"""Sneaky Devil"""
 	# <b>Stealth</b> Your other minions have +1 Attack.
-	update = Refresh(FRIENDLY_MINIONS - SELF, "LOOT_136e")
+	update = Refresh(FRIENDLY_MINIONS - SELF, buff="LOOT_136e")
 
 
 LOOT_136e = buff(atk=1)

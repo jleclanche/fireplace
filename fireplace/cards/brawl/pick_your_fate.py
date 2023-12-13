@@ -210,7 +210,7 @@ class TB_PickYourFate_9:
 
 
 class TB_PickYourFate_9_Ench:
-	update = Refresh(FRIENDLY_MINIONS + DEATHRATTLE, "TB_PickYourFate_9_EnchMinion")
+	update = Refresh(FRIENDLY_MINIONS + DEATHRATTLE, buff="TB_PickYourFate_9_EnchMinion")
 
 
 TB_PickYourFate_9_EnchMinion = buff(+1, +1)
@@ -222,7 +222,7 @@ class TB_PickYourFate_10:
 
 
 class TB_PickYourFate_10_Ench:
-	update = Refresh(FRIENDLY_MINIONS + BATTLECRY, "TB_PickYourFate_10_EnchMinion")
+	update = Refresh(FRIENDLY_MINIONS + BATTLECRY, buff="TB_PickYourFate_10_EnchMinion")
 
 
 TB_PickYourFate_10_EnchMinion = buff(+1, +1)
