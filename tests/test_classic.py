@@ -3755,7 +3755,7 @@ def test_mirror_entity_aura():
 	# https://github.com/jleclanche/fireplace/issues/221
 	game = prepare_game()
 	game.end_turn()
-	game.player2.give("CS2_222").play() # Stormwind Champion
+	game.player2.give("CS2_222").play()
 	game.end_turn()
 
 	mirror = game.player1.give("EX1_294")
@@ -3794,3 +3794,19 @@ def test_stormwind_champion_heal():
 	game.player2.give(FIREBALL).play(target=stormwind)
 	assert goldshire.atk == 1
 	assert goldshire.health == 2
+
+
+def test_gruul_ragnaros():
+	# https://github.com/jleclanche/fireplace/issues/4
+	# Firelord may damage your opponent's Gruul to 8/0 but the Phase is not over
+	# Gruul triggers and buffs himself to 9/1, and survives the Phase.
+	game = prepare_game()
+	gruul = game.player1.give("NEW1_038").play()
+	game.end_turn()
+	assert gruul.atk == 8
+	assert gruul.health == 8
+	game.player2.give("EX1_298").play()
+	game.end_turn()
+	assert len(game.player1.field) == 1
+	assert gruul.atk == 9
+	assert (gruul.damage == 8) ^ (game.player1.hero.damage == 8)
