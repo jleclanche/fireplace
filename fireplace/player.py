@@ -177,6 +177,7 @@ class Player(Entity, TargetableByAuras):
 
 	def prepare_for_game(self):
 		self.summon(self.starting_hero)
+		# self.game.trigger(self, [Summon(self, self.starting_hero)], event_args=None)
 		self.starting_hero = self.hero
 		for id in self.starting_deck:
 			card = self.card(id, zone=Zone.DECK)
@@ -190,8 +191,14 @@ class Player(Entity, TargetableByAuras):
 		# Draw initial hand (but not any more than what we have in the deck)
 		hand_size = min(len(self.deck), self.start_hand_size)
 		# Quest cards are automatically included in the player's mulligan as the left-most card
-		quests = [card for card in self.deck if card.data.quest]
-		starting_hand = quests + random.sample(self.deck, hand_size - len(quests))
+		quests = []
+		exclude_quests = []
+		for card in self.deck:
+			if card.data.quest:
+				quests.append(card)
+			else:
+				exclude_quests.append(card)
+		starting_hand = quests + random.sample(exclude_quests, hand_size - len(quests))
 		# It's faster to move cards directly to the hand instead of drawing
 		for card in starting_hand:
 			card.zone = Zone.HAND
@@ -298,6 +305,6 @@ class Player(Entity, TargetableByAuras):
 		Puts \a card in the PLAY zone
 		"""
 		if isinstance(card, str):
-			card = self.card(card, zone=Zone.PLAY)
+			card = self.card(card)
 		self.game.cheat_action(self, [Summon(self, card)])
 		return card
