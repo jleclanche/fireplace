@@ -853,3 +853,19 @@ def test_darnassus_aspirant():
 	assert game.current_player.mana == 7
 	assert game.current_player.max_mana == 9
 	assert game.current_player.used_mana == 2
+
+
+def test_arcane_blast():
+	game = prepare_game()
+	minion = game.player1.summon("CFM_712_t30")
+	game.player1.give("AT_004").play(target=minion)
+	assert minion.damage == 2
+	game.player1.summon(KOBOLD_GEOMANCER)
+	game.player1.give("AT_004").play(target=minion)
+	assert minion.damage == 2 + 4
+	game.player1.summon(KOBOLD_GEOMANCER)
+	game.player1.give("AT_004").play(target=minion)
+	assert minion.damage == 2 + 4 + 6
+	game.player1.field[-1].destroy()
+	game.player1.give("AT_004").play(target=minion)
+	assert minion.damage == 2 + 4 + 6 + 4

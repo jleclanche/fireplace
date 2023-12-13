@@ -917,7 +917,7 @@ class Spell(PlayableCard):
 		if not self.immune_to_spellpower:
 			amount = self.controller.get_spell_damage(amount)
 		if self.receives_double_spelldamage_bonus:
-			amount *= 2
+			amount = self.controller.get_spell_damage(amount)
 		return amount
 
 	def get_heal(self, amount, target):
