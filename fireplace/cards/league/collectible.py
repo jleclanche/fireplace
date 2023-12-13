@@ -142,7 +142,7 @@ LOE_073e = buff(taunt=True)
 
 class LOE_076:
 	"""Sir Finley Mrrgglton"""
-	play = GenericChoice(CONTROLLER, RandomBasicHeroPower() * 3)
+	play = GenericChoice(CONTROLLER, RandomBasicHeroPower(exclude=FRIENDLY_HERO_POWER) * 3)
 
 
 class LOE_077:

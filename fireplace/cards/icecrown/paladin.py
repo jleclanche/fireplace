@@ -71,11 +71,7 @@ class ICC_829:
 
 class ICC_829p:
 	entourage = ["ICC_829t2", "ICC_829t3", "ICC_829t4", "ICC_829t5"]
-
-	def activate(self):
-		totems = [t for t in self.entourage if not self.controller.field.contains(t)]
-		yield Summon(CONTROLLER, random.choice(totems))
-
+	activate = Summon(CONTROLLER, RandomEntourage(exclude=FRIENDLY_MINIONS))
 	update = FindAll(
 		FRIENDLY_MINIONS + ID("ICC_829t2"),
 		FRIENDLY_MINIONS + ID("ICC_829t3"),

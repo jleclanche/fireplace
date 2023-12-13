@@ -183,7 +183,7 @@ class BaseCard(BaseEntity):
 				caches[value].append(self)
 		self._zone = value
 
-		if value == Zone.PLAY:
+		if value == Zone.PLAY or value == Zone.SECRET:
 			self.play_counter = self.game.play_counter
 			self.game.play_counter += 1
 
@@ -749,6 +749,7 @@ class Hero(Character):
 		return ret
 
 	def _set_zone(self, value):
+		super()._set_zone(value)
 		if value == Zone.PLAY:
 			old_hero = self.controller.hero
 			self.controller.hero = self
@@ -761,7 +762,6 @@ class Hero(Character):
 				self.power.zone = Zone.GRAVEYARD
 			if self.controller.hero is self:
 				self.controller.playstate = PlayState.LOSING
-		super()._set_zone(value)
 
 	def _hit(self, amount):
 		amount = super()._hit(amount)

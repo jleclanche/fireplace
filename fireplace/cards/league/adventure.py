@@ -307,7 +307,7 @@ LOEA09_2eH = buff(atk=5)
 
 class LOEA09_3:
 	"""Getting Hungry"""
-	activate = Summon("LOEA09_5").then(
+	activate = Summon(CONTROLLER, "LOEA09_5").then(
 		Buff(Summon.CARD, "LOEA09_3a") * Attr(
 			CONTROLLER, GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME
 		)
@@ -319,7 +319,7 @@ LOEA09_3a = buff(atk=1)
 
 class LOEA09_3H:
 	"""Getting Hungry (Heroic)"""
-	activate = Summon("LOEA09_5").then(
+	activate = Summon(CONTROLLER, "LOEA09_5").then(
 		Buff(Summon.CARD, "LOEA09_3aH") * Attr(
 			CONTROLLER, GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME
 		)

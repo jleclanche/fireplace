@@ -3810,3 +3810,14 @@ def test_gruul_ragnaros():
 	assert len(game.player1.field) == 1
 	assert gruul.atk == 9
 	assert (gruul.damage == 8) ^ (game.player1.hero.damage == 8)
+
+
+def test_sorted_deathrattle():
+	game = prepare_game()
+	game.player1.give("LOOT_153").play()
+	game.player1.give("OG_241").play(index=0)
+	game.end_turn()
+	game.player2.give("EX1_312").play()
+	assert len(game.player1.field) == 7
+	for minion in game.player1.field:
+		assert minion.id == "LOOT_153t1"

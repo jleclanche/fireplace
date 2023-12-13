@@ -65,7 +65,7 @@ LOOT_152e = buff(health=1)
 class LOOT_153:
 	"""Violet Wurm"""
 	# <b>Deathrattle:</b> Summon seven 1/1 Grubs.
-	deathrattle = Summon("LOOT_153t1") * 7
+	deathrattle = Summon(CONTROLLER, "LOOT_153t1") * 7
 
 
 class LOOT_167:
