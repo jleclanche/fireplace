@@ -83,7 +83,7 @@ class XXX_015:
 
 class XXX_016:
 	"""Snake Ball"""
-	play = Summon("EX1_554t") * 5
+	play = Summon(CONTROLLER, "EX1_554t") * 5
 
 
 class XXX_017:

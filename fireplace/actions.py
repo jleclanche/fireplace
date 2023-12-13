@@ -425,8 +425,6 @@ class Play(GameAction):
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(player, card)
-		if card.type == CardType.MINION and card.race == Race.TOTEM:
-			card.controller.times_totem_summoned_this_game += 1
 
 		if card.type in (CardType.MINION, CardType.WEAPON):
 			self.queue_broadcast(summon_action, (player, EventListener.ON, player, card))
@@ -452,6 +450,8 @@ class Play(GameAction):
 		player.cards_played_this_turn += 1
 		if card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
+			if card.race == Race.TOTEM:
+				card.controller.times_totem_summoned_this_game += 1
 			if card.race == Race.ELEMENTAL:
 				player.elemental_played_this_turn += 1
 		player.cards_played_this_game.append(card)

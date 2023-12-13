@@ -81,6 +81,14 @@ class RandomCardPicker(LazyValue):
 		if cards:
 			# Use specific card list if given
 			self.weights = [1]
+			if "exclude" in self.filters:
+				exclude = self.filters["exclude"]
+				if isinstance(exclude, LazyValue):
+					exclude = exclude.evaluate(source)
+				elif isinstance(exclude, Selector):
+					exclude = exclude.eval(source.game, source)
+				exclude = [card.id for card in exclude]
+				cards = [card for card in cards if card not in exclude]
 			card_sets = [list(cards)]
 		elif not self.weightedfilters:
 			# Use global filters if no weighted filter sets given
@@ -118,8 +126,8 @@ class RandomEntourage(RandomCardPicker):
 
 
 class RandomID(RandomCardPicker):
-	def __init__(self, *args):
-		super().__init__()
+	def __init__(self, *args, **kw):
+		super().__init__(**kw)
 		self._cards = args
 
 	def clone(self, memo):

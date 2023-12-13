@@ -80,9 +80,9 @@ LICH_KING_CARDS = [
 
 THE_COIN = "GAME_005"
 
-RandomBasicTotem = lambda *args: RandomID(*BASIC_TOTEMS)
-RandomBasicHeroPower = lambda *args: RandomID(*BASIC_HERO_POWERS)
-RandomPotion = lambda *args: RandomID(*POTIONS)
+RandomBasicTotem = lambda *args, **kw: RandomID(*BASIC_TOTEMS, **kw)
+RandomBasicHeroPower = lambda *args, **kw: RandomID(*BASIC_HERO_POWERS, **kw)
+RandomPotion = lambda *args, **kw: RandomID(*POTIONS, **kw)
 
 # 50% chance to attack the wrong enemy.
 FORGETFUL = Attack(SELF).on(

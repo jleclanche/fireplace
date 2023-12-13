@@ -54,7 +54,9 @@ class BaseGame(Entity):
 
 	@property
 	def board(self):
-		return CardList(chain(self.players[0].field, self.players[1].field))
+		ret = CardList(chain(self.players[0].field, self.players[1].field))
+		ret.sort(key=lambda e: e.play_counter)
+		return ret
 
 	@property
 	def decks(self):
@@ -70,7 +72,9 @@ class BaseGame(Entity):
 
 	@property
 	def characters(self):
-		return CardList(chain(self.players[0].characters, self.players[1].characters))
+		ret = CardList(chain(self.players[0].characters, self.players[1].characters))
+		ret.sort(key=lambda e: e.play_counter)
+		return ret
 
 	@property
 	def graveyard(self):
@@ -78,11 +82,15 @@ class BaseGame(Entity):
 
 	@property
 	def entities(self):
-		return CardList(chain([self], self.players[0].entities, self.players[1].entities))
+		ret = CardList(chain([self], self.players[0].entities, self.players[1].entities))
+		ret.sort(key=lambda e: e.play_counter)
+		return ret
 
 	@property
 	def live_entities(self):
-		return CardList(chain(self.players[0].live_entities, self.players[1].live_entities))
+		ret = CardList(chain(self.players[0].live_entities, self.players[1].live_entities))
+		ret.sort(key=lambda e: e.play_counter)
+		return ret
 
 	@property
 	def minions_killed_this_turn(self):
