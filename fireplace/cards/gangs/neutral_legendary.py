@@ -46,13 +46,7 @@ class CFM_672:
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 
-	def play(self):
-		targets = self.controller.deck.filter(type=CardType.MINION)
-		if targets:
-			target = random.choice(targets)
-			target.zone = Zone.SETASIDE
-			yield Shuffle(CONTROLLER, TARGET)
-			yield Summon(CONTROLLER, target)
+	play = Swap(TARGET, RANDOM(FRIENDLY_DECK + MINION))
 
 
 class CFM_685:
@@ -65,16 +59,11 @@ CFM_685e = buff(+5, +5)
 
 class CFM_806:
 	"""Wrathion"""
-	def play(self):
-		while True:
-			current_handsize = len(self.controller.hand)
-			yield Draw(self.controller)
-			if len(self.controller.hand) == current_handsize:
-				# Unable to draw card due to fatigue or max hand size
-				break
-			card = self.controller.hand[-1]
-			if card.type != CardType.MINION or card.race != Race.DRAGON:
-				break
+	play = Draw(CONTROLLER).then(
+		Find(Draw.CARD + DRAGON) | (
+			Find(LazyValueSelector(Draw.CARD)) & Battlecry(SELF, None)
+		)
+	)
 
 
 class CFM_807:

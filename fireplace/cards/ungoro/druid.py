@@ -56,13 +56,13 @@ UNG_108e = buff(+1, +1)
 
 class UNG_111:
 	"""Living Mana"""
-	def play(self):
-		count = min(
-			self.controller.max_mana,
-			self.game.MAX_MINIONS_ON_FIELD - len(self.controller.field)
+	play = (MANA(CONTROLLER) > 0) & (
+		FULL_BOARD | (
+			GainEmptyMana(CONTROLLER, -1),
+			Summon(CONTROLLER, "UNG_111t1"),
+			Battlecry(SELF, None)
 		)
-		yield GainEmptyMana(CONTROLLER, -count)
-		yield Summon(CONTROLLER, "UNG_111t1") * count
+	)
 
 
 class UNG_111t1:

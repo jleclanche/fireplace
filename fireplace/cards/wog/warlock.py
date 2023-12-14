@@ -49,7 +49,6 @@ class OG_116:
 class OG_118:
 	"""Renounce Darkness"""
 	def play(self):
-		import random
 		classes = [
 			(CardClass.DRUID, "CS2_017"),
 			(CardClass.HUNTER, "DS1h_292"),
@@ -85,7 +84,6 @@ class OG_239:
 
 class OG_114:
 	"""Forbidden Ritual"""
-	def play(self):
-		mana = self.controller.mana
-		yield SpendMana(CONTROLLER, mana)
-		yield Summon(CONTROLLER, "OG_114a") * mana
+	play = SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER)).then(
+		Summon(CONTROLLER, "OG_114a") * SpendMana.AMOUNT
+	)

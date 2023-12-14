@@ -65,7 +65,6 @@ class OG_100:
 
 class OG_101:
 	"""Forbidden Shaping"""
-	def play(self):
-		mana = self.controller.mana
-		yield SpendMana(CONTROLLER, mana)
-		yield Summon(CONTROLLER, RandomMinion(cost=mana))
+	play = SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER)).then(
+		Summon(CONTROLLER, RandomMinion(cost=SpendMana.AMOUNT))
+	)

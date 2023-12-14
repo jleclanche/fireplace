@@ -54,8 +54,6 @@ class OG_090:
 class OG_086:
 	"""Forbidden Flame"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-
-	def play(self):
-		mana = self.controller.mana
-		yield SpendMana(CONTROLLER, mana)
-		yield Hit(TARGET, mana)
+	play = SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER)).then(
+		Hit(TARGET, SpendMana.AMOUNT)
+	)

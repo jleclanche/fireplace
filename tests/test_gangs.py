@@ -362,3 +362,22 @@ def test_madam_goya():
 	game.player1.give("CFM_672").play(target=wisp)
 	assert wisp.zone == Zone.DECK
 	assert murloc.zone == Zone.PLAY
+
+
+def test_wrathion():
+	game = prepare_empty_game()
+	game.player1.give(WISP).put_on_top()
+	game.player1.give("NEW1_023").put_on_top()
+	for _ in range(4):
+		game.player1.give(WISP).put_on_top()
+	assert len(game.player1.hand) == 0
+	game.player1.give("CFM_806").play()
+	assert len(game.player1.hand) == 5
+
+
+def test_wrathion_empty():
+	game = prepare_empty_game()
+	game.player1.cant_fatigue = False
+	game.player1.give(WISP).put_on_top()
+	game.player1.give("CFM_806").play()
+	assert game.player1.hero.health == 30 - 1

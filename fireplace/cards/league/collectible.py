@@ -198,9 +198,7 @@ LOEA16_3e = buff(+10, +10)
 
 class LOEA16_4:
 	"""Timepiece of Horror"""
-	def play(self):
-		count = self.controller.get_spell_damage(10)
-		yield Hit(RANDOM_ENEMY_CHARACTER, 1) * count
+	play = Hit(RANDOM_ENEMY_CHARACTER, 1) * SPELL_DAMAGE(10)
 
 
 class LOEA16_5:
