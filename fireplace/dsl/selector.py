@@ -127,6 +127,7 @@ ATK = AttrValue(GameTag.ATK)
 CONTROLLER = AttrValue(GameTag.CONTROLLER)
 MAX_HEALTH = AttrValue(GameTag.HEALTH)
 CURRENT_HEALTH = AttrValue("health")
+MIN_HEALTH = AttrValue(GameTag.HEALTH_MINIMUM)
 COST = AttrValue(GameTag.COST)
 DAMAGE = AttrValue(GameTag.DAMAGE)
 MANA = AttrValue(GameTag.RESOURCES)
@@ -154,7 +155,11 @@ class ComparisonSelector(Selector):
 		)
 		return [
 			e for e in entities
-			if self.op(self.left.value(e, source), right_value)
+			if self.op(
+				self.left.value(e, source),
+				right_value.value(e, source) if isinstance(right_value, SelectorEntityValue)
+				else right_value
+			)
 		]
 
 	def __repr__(self):
@@ -269,7 +274,8 @@ OWNER = FuncSelector(
 
 
 def LazyValueSelector(value):
-	return FuncSelector(lambda entities, source: [value.evaluate(source)])
+	return FuncSelector(
+		lambda entities, source: [value.evaluate(source)] if value.evaluate(source) else [])
 
 
 def ID(id):
@@ -432,6 +438,7 @@ WINDFURY = EnumSelector(GameTag.WINDFURY)
 CLASS_CARD = EnumSelector(GameTag.CLASS)
 DORMANT = EnumSelector(GameTag.DORMANT)
 LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
+IMMUNE = EnumSelector(GameTag.IMMUNE)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
@@ -550,3 +557,8 @@ CARDS_PLAYED_THIS_GAME = FuncSelector(
 
 STARTING_DECK = FuncSelector(
 	lambda entities, source: source.controller.starting_deck)
+
+SPELL_DAMAGE = lambda amount: FuncSelector(
+	lambda entities, source: source.controller.get_spell_damage(amount))
+SPELL_HEAL = lambda amount: FuncSelector(
+	lambda entities, source: source.controller.get_spell_heal(amount))

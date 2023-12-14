@@ -57,7 +57,7 @@ def test_anubar_ambusher_cult_master():
 	ambusher1.destroy()
 	assert len(game.player1.hand) == 2
 	assert cultmaster1 in game.player1.hand
-	game.end_turn(); game.end_turn()
+	game.skip_turn()
 
 	game.player1.discard_hand()
 	ambusher2 = game.player1.summon("FP1_026")

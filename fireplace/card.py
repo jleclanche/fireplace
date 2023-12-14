@@ -455,6 +455,12 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		return self.game.cheat_action(self, [actions.Shuffle(self.controller, self)])
 
+	def put_on_top(self):
+		"""
+		Put the card into the controller's deck top
+		"""
+		return self.game.cheat_action(self, [actions.PutOnTop(self.controller, self)])
+
 	def battlecry_requires_target(self):
 		"""
 		True if the play action of the card requires a target
@@ -600,7 +606,7 @@ class Character(LiveEntity):
 	cant_be_targeted_by_op_hero_powers = boolean_property("cant_be_targeted_by_op_hero_powers")
 
 	heavily_armored = boolean_property("heavily_armored")
-	min_health = boolean_property("min_health")
+	min_health = int_property("min_health")
 	rush = boolean_property("rush")
 	taunt = boolean_property("taunt")
 	poisonous = boolean_property("poisonous")
@@ -999,6 +1005,7 @@ class Enchantment(BaseCard):
 	incoming_damage_multiplier = int_property("incoming_damage_multiplier")
 	max_health = int_property("max_health")
 	spellpower = int_property("spellpower")
+	min_health = int_property("min_health")
 
 	buffs = []
 	slots = []

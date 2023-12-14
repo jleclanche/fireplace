@@ -62,9 +62,7 @@ class UNG_938:
 
 class UNG_025:
 	"""Volcano"""
-	def play(self):
-		count = self.controller.get_spell_damage(15)
-		yield Hit(RANDOM_MINION, 1) * count
+	play = Hit(RANDOM_MINION, 1) * SPELL_DAMAGE(15)
 
 
 class UNG_817:

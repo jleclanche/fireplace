@@ -156,9 +156,7 @@ class EX1_371:
 
 class EX1_384:
 	"""Avenging Wrath"""
-	def play(self):
-		count = self.controller.get_spell_damage(8)
-		yield Hit(RANDOM_ENEMY_CHARACTER, 1) * count
+	play = Hit(RANDOM_ENEMY_CHARACTER, 1) * SPELL_DAMAGE(8)
 
 
 class EX1_619:

@@ -97,9 +97,7 @@ class LOOT_344e:
 class LOOT_373:
 	"""Healing Rain"""
 	# Restore #12 Health randomly split among all friendly characters.
-	def play(self):
-		count = self.controller.get_spell_heal(12)
-		yield Heal(RANDOM_FRIENDLY_CHARACTER, 1) * count
+	play = Heal(RANDOM_FRIENDLY_CHARACTER, 1) * SPELL_HEAL(12)
 
 
 class LOOT_504:
