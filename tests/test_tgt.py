@@ -869,3 +869,12 @@ def test_arcane_blast():
 	game.player1.field[-1].destroy()
 	game.player1.give("AT_004").play(target=minion)
 	assert minion.damage == 2 + 4 + 6 + 4
+
+
+def test_poisoned_blade():
+	game = prepare_game(CardClass.ROGUE, CardClass.ROGUE)
+	blade = game.player1.give("AT_034").play()
+	atk = blade.atk
+	game.player1.hero.power.use()
+	assert game.player1.weapon.id == "AT_034"
+	assert game.player1.weapon.atk == atk + 1

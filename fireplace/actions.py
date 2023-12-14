@@ -301,10 +301,20 @@ class Death(GameAction):
 	"""
 	ENTITY = ActionArg()
 
+	def _broadcast(self, entity, source, at, *args):
+		# https://github.com/jleclanche/fireplace/issues/126
+		target = args[0]
+		if (not self.triggered_dearattle) and entity.play_counter > target.play_counter:
+			self.triggered_dearattle = True
+			if target.deathrattles:
+				source.game.queue_actions(target.controller, [Deathrattle(target)])
+		return super()._broadcast(entity, source, at, *args)
+
 	def do(self, source, target):
 		log.info("Processing Death for %r", target)
+		self.triggered_dearattle = False
 		self.broadcast(source, EventListener.ON, target)
-		if target.deathrattles:
+		if (not self.triggered_dearattle) and target.deathrattles:
 			source.game.queue_actions(target.controller, [Deathrattle(target)])
 
 
@@ -1316,6 +1326,14 @@ class Summon(TargetedAction):
 				continue
 			if card.controller != target:
 				card.controller = target
+			# Poisoned Blade
+			if (
+				card.controller.weapon and
+				card.controller.weapon.id == "AT_034" and
+				source.type == CardType.HERO_POWER and
+				card.type == CardType.WEAPON
+			):
+				continue
 			if card.zone != Zone.PLAY:
 				if source.type == CardType.MINION and source.zone == Zone.PLAY:
 					source_index = source.controller.field.index(source)

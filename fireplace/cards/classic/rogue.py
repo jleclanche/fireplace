@@ -6,7 +6,7 @@ from ..utils import *
 
 class CS2_083b:
 	"""Dagger Mastery"""
-	activate = Find(FRIENDLY_WEAPON + ID("AT_034")) | Summon(CONTROLLER, "CS2_082")
+	activate = Summon(CONTROLLER, "CS2_082")
 
 
 # Sharpened (Unused)
