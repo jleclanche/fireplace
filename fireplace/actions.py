@@ -197,8 +197,8 @@ class Action(metaclass=ActionMeta):
 class GameAction(Action):
 	def trigger(self, source):
 		args = self.get_args(source)
-		self.do(source, *args)
 		source.game.manager.game_action(self, source, *args)
+		self.do(source, *args)
 
 
 class Attack(GameAction):
@@ -598,8 +598,8 @@ class TargetedAction(Action):
 		log.info("%r triggering %r targeting %r", source, self, targets)
 		for target in targets:
 			target_args = self.get_target_args(source, target)
-			ret.append(self.do(source, target, *target_args))
 			source.game.manager.targeted_action(self, source, target, *target_args)
+			ret.append(self.do(source, target, *target_args))
 
 			for action in self.callback:
 				log.info("%r queues up callback %r", self, action)

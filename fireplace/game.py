@@ -152,19 +152,23 @@ class BaseGame(Entity):
 	def process_deaths(self):
 		type = BlockType.DEATHS
 		cards = []
+		destroy_cards = []
 		for card in self.live_entities:
 			if card.to_be_destroyed:
 				cards.append(card)
+				if card._to_be_destroyed:
+					card.zone = Zone.GRAVEYARD
+					destroy_cards.append(card)
 
-		actions = []
 		if cards:
 			self.action_start(type, self, 0, None)
 			for card in cards:
-				card.zone = Zone.GRAVEYARD
-				actions.append(Death(card))
-			self.check_for_end_game()
+				if card.to_be_destroyed or card in destroy_cards:
+					card.zone = Zone.GRAVEYARD
+					self.check_for_end_game()
+					self.refresh_auras()
+					self.trigger(self, [Death(card)], event_args=None)
 			self.action_end(type, self)
-			self.trigger(self, actions, event_args=None)
 
 	def trigger(self, source, actions, event_args):
 		"""
