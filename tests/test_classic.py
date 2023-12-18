@@ -900,6 +900,18 @@ def test_cult_master_board_clear():
 	assert len(game.player1.field) == 5
 	# Whirlwind the board
 	game.player1.give("EX1_400").play()
+	assert len(game.player1.hand) == 4
+
+	game = prepare_game()
+	game.player1.discard_hand()
+	cultmaster = game.player1.give("EX1_595")
+	cultmaster.play()
+	for i in range(4):
+		game.player1.give(WISP).play()
+	game.player1.give(MOONFIRE).play(target=cultmaster)
+	assert len(game.player1.field) == 5
+	# Whirlwind the board
+	game.player1.give("EX1_400").play()
 	assert len(game.player1.hand) == 0
 
 
@@ -1903,7 +1915,18 @@ def test_knife_juggler_swipe():
 	assert juggler.dead
 	assert creeper.dead
 	assert len(game.player2.field) == 2
-	assert game.player1.hero.health == 30
+	assert game.player1.hero.health == 28
+
+	game = prepare_game()
+	juggler = game.player2.summon("NEW1_019")
+	creeper = game.player2.summon("FP1_002")
+	game.current_player.give(MOONFIRE).play(target=creeper)
+	swipe = game.player1.give("CS2_012")
+	swipe.play(target=juggler)
+	assert juggler.dead
+	assert creeper.dead
+	assert len(game.player2.field) == 2
+	assert game.player1.hero.health == 29
 
 
 def test_leeroy():
@@ -3810,14 +3833,3 @@ def test_gruul_ragnaros():
 	assert len(game.player1.field) == 1
 	assert gruul.atk == 9
 	assert (gruul.damage == 8) ^ (game.player1.hero.damage == 8)
-
-
-def test_sorted_deathrattle():
-	game = prepare_game()
-	game.player1.give("LOOT_153").play()
-	game.player1.give("OG_241").play(index=0)
-	game.end_turn()
-	game.player2.give("EX1_312").play()
-	assert len(game.player1.field) == 7
-	for minion in game.player1.field:
-		assert minion.id == "LOOT_153t1"

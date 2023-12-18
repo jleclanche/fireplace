@@ -11,7 +11,7 @@ class FP1_001:
 
 class FP1_002:
 	"""Haunted Creeper"""
-	deathrattle = Summon(CONTROLLER, "FP1_002t"), Summon(CONTROLLER, "FP1_002t")
+	deathrattle = Summon(CONTROLLER, "FP1_002t") * 2
 
 
 class FP1_003:
