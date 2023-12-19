@@ -188,4 +188,4 @@ NEW1_037e = buff(atk=1)
 
 class NEW1_041:
 	"""Stampeding Kodo"""
-	play = Destroy(RANDOM(ENEMY_MINIONS + (ATK <= 2)))
+	play = Destroy(RANDOM(ENEMY_MINIONS - DEAD + (ATK <= 2)))

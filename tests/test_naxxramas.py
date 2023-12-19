@@ -28,6 +28,20 @@ def test_avenge_board_clear():
 	assert game.player1.field[0].atk == 4
 	assert game.player1.field[0].health == 2
 
+	game = prepare_game()
+	avenge = game.player1.give("FP1_020")
+	wisp1 = game.player1.give(WISP)
+	wisp2 = game.player1.give(WISP)
+	avenge.play()
+	wisp1.play()
+	wisp2.play()
+	game.end_turn()
+
+	nether = game.player2.give("EX1_312")
+	nether.play()
+	assert avenge in game.player1.secrets
+	assert len(game.player1.field) == 0
+
 
 def test_baron_rivendare():
 	game = prepare_game()

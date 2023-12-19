@@ -16,7 +16,7 @@ class OG_083:
 
 class OG_085:
 	"""Demented Frostcaller"""
-	events = OWN_SPELL_PLAY.after(Freeze(RANDOM(ENEMY_CHARACTERS - MORTALLY_WOUNDED - FROZEN)))
+	events = OWN_SPELL_PLAY.after(Freeze(RANDOM(ENEMY_CHARACTERS - DEAD - FROZEN)))
 
 
 class OG_120:
