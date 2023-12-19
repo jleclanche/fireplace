@@ -570,7 +570,11 @@ class LiveEntity(PlayableCard, Entity):
 
 	@property
 	def dead(self):
-		return self.zone == Zone.GRAVEYARD or self.to_be_destroyed
+		return (
+			self.zone == Zone.GRAVEYARD or
+			self.to_be_destroyed or
+			getattr(self, self.health_attribute) <= 0
+		)
 
 	@property
 	def delayed_destruction(self):
@@ -578,7 +582,7 @@ class LiveEntity(PlayableCard, Entity):
 
 	@property
 	def to_be_destroyed(self):
-		return getattr(self, self.health_attribute) == 0 or self._to_be_destroyed
+		return self._to_be_destroyed
 
 	@to_be_destroyed.setter
 	def to_be_destroyed(self, value):
@@ -698,7 +702,7 @@ class Character(LiveEntity):
 
 	@property
 	def health(self):
-		return max(0, self.max_health - self.damage)
+		return self.max_health - self.damage
 
 	@property
 	def targets(self):
@@ -1082,7 +1086,7 @@ class Weapon(rules.WeaponRules, LiveEntity):
 
 	@property
 	def durability(self):
-		return max(0, self.max_durability - self.damage)
+		return self.max_durability - self.damage
 
 	@property
 	def max_durability(self):

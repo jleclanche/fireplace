@@ -65,4 +65,4 @@ class CFM_620:
 
 class CFM_623:
 	"""Greater Arcane Missiles"""
-	play = Hit(RANDOM(ENEMY_CHARACTERS), 3) * 3
+	play = Hit(RANDOM_ENEMY_CHARACTER, 3) * 3
