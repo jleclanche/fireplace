@@ -147,16 +147,18 @@ class Action(metaclass=ActionMeta):
 				entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
+		source.game.action_start(BlockType.TRIGGER, source, 0, None)
+
 		for entity in source.game.entities:
 			self._broadcast(entity, source, at, *args)
-
 		for hand in source.game.hands:
 			for entity in hand.entities:
 				self._broadcast(entity, source, at, *args)
-
 		for deck in source.game.decks:
 			for entity in deck.entities:
 				self._broadcast(entity, source, at, *args)
+
+		source.game.action_end(BlockType.TRIGGER, source)
 
 	def queue_broadcast(self, obj, args):
 		self.event_queue.append((obj, args))
@@ -198,8 +200,8 @@ class Action(metaclass=ActionMeta):
 class GameAction(Action):
 	def trigger(self, source):
 		args = self.get_args(source)
-		self.do(source, *args)
 		source.game.manager.game_action(self, source, *args)
+		self.do(source, *args)
 
 
 class Attack(GameAction):
@@ -302,10 +304,20 @@ class Death(GameAction):
 	"""
 	ENTITY = ActionArg()
 
+	def _broadcast(self, entity, source, at, *args):
+		# https://github.com/jleclanche/fireplace/issues/126
+		target = args[0]
+		if (not self.triggered_dearattle) and entity.play_counter > target.play_counter:
+			self.triggered_dearattle = True
+			if target.deathrattles:
+				source.game.queue_actions(target.controller, [Deathrattle(target)])
+		return super()._broadcast(entity, source, at, *args)
+
 	def do(self, source, target):
 		log.info("Processing Death for %r", target)
+		self.triggered_dearattle = False
 		self.broadcast(source, EventListener.ON, target)
-		if target.deathrattles:
+		if (not self.triggered_dearattle) and target.deathrattles:
 			source.game.queue_actions(target.controller, [Deathrattle(target)])
 
 
@@ -426,8 +438,6 @@ class Play(GameAction):
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(player, card)
-		if card.type == CardType.MINION and card.race == Race.TOTEM:
-			card.controller.times_totem_summoned_this_game += 1
 
 		if card.type in (CardType.MINION, CardType.WEAPON):
 			self.queue_broadcast(summon_action, (player, EventListener.ON, player, card))
@@ -456,6 +466,8 @@ class Play(GameAction):
 		player.cards_played_this_turn += 1
 		if card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
+			if card.race == Race.TOTEM:
+				card.controller.times_totem_summoned_this_game += 1
 			if card.race == Race.ELEMENTAL:
 				player.elemental_played_this_turn += 1
 		player.cards_played_this_game.append(card)
@@ -568,6 +580,8 @@ class TargetedAction(Action):
 			times = times.evaluate(source)
 		elif isinstance(times, Action):
 			times = times.trigger(source)[0]
+		elif isinstance(times, Selector):
+			times = times.eval(source.game, source)
 
 		for i in range(times):
 			ret += self._trigger(i, source)
@@ -590,8 +604,8 @@ class TargetedAction(Action):
 		log.info("%r triggering %r targeting %r", source, self, targets)
 		for target in targets:
 			target_args = self.get_target_args(source, target)
-			ret.append(self.do(source, target, *target_args))
 			source.game.manager.targeted_action(self, source, target, *target_args)
+			ret.append(self.do(source, target, *target_args))
 
 			for action in self.callback:
 				log.info("%r queues up callback %r", self, action)
@@ -1283,7 +1297,6 @@ class Silence(TargetedAction):
 	def do(self, source, target):
 		log.info("Silencing %r", self)
 		self.broadcast(source, EventListener.ON, target)
-		old_health = target.health
 		target.clear_buffs()
 		for attr in target.silenceable_attributes:
 			if getattr(target, attr):
@@ -1292,8 +1305,6 @@ class Silence(TargetedAction):
 		# Wipe the event listeners
 		target._events = []
 		target.silenced = True
-		if target.health < old_health:
-			target.damage = max(target.damage - (old_health - target.health), 0)
 
 
 class Summon(TargetedAction):
@@ -1323,6 +1334,14 @@ class Summon(TargetedAction):
 				continue
 			if card.controller != target:
 				card.controller = target
+			# Poisoned Blade
+			if (
+				card.controller.weapon and
+				card.controller.weapon.id == "AT_034" and
+				source.type == CardType.HERO_POWER and
+				card.type == CardType.WEAPON
+			):
+				continue
 			if card.zone != Zone.PLAY:
 				if source.type == CardType.MINION and source.zone == Zone.PLAY:
 					source_index = source.controller.field.index(source)
@@ -1569,9 +1588,11 @@ class SwapStateBuff(TargetedAction):
 		log.info("swap state %s and %s", target, other)
 		other = other[0]
 		buff1 = source.controller.card(buff)
+		buff1.source = source
 		buff1._xatk = other.atk
 		buff1._xhealth = other.health
 		buff2 = source.controller.card(buff)
+		buff2.source = source
 		buff2._xatk = target.atk
 		buff2._xhealth = target.health
 		buff1.apply(target)

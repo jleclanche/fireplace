@@ -66,9 +66,6 @@ class OG_102e:
 	atk = lambda self, i: self._xatk
 	max_health = lambda self, i: self._xhealth
 
-	def apply(self, target):
-		target.damage = 0
-
 
 class OG_174:
 	"""Faceless Shambler"""

@@ -16,7 +16,7 @@ class OG_083:
 
 class OG_085:
 	"""Demented Frostcaller"""
-	events = OWN_SPELL_PLAY.after(Freeze(RANDOM(ENEMY_CHARACTERS - MORTALLY_WOUNDED - FROZEN)))
+	events = OWN_SPELL_PLAY.after(Freeze(RANDOM(ENEMY_CHARACTERS - DEAD - FROZEN)))
 
 
 class OG_120:
@@ -54,8 +54,6 @@ class OG_090:
 class OG_086:
 	"""Forbidden Flame"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-
-	def play(self):
-		mana = self.controller.mana
-		yield SpendMana(CONTROLLER, mana)
-		yield Hit(TARGET, mana)
+	play = SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER)).then(
+		Hit(TARGET, SpendMana.AMOUNT)
+	)

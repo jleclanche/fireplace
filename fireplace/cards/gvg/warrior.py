@@ -55,14 +55,9 @@ GVG_086e = buff(atk=1)
 class GVG_050:
 	"""Bouncing Blade"""
 	requirements = {PlayReq.REQ_MINIMUM_TOTAL_MINIONS: 1}
-
-	def play(self):
-		targets = self.game.board.filter(dead=False)
-		while True:
-			live_targets = [t for t in targets if t.health > t.min_health]
-			if live_targets != targets:
-				break
-			yield Hit(random.choice(targets), 1)
+	play = Hit(RANDOM(ALL_MINIONS - IMMUNE - (CURRENT_HEALTH == MIN_HEALTH)), 1).then(
+		Dead(Hit.TARGET) | CastSpell("GVG_050")
+	)
 
 
 class GVG_052:

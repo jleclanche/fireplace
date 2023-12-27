@@ -42,7 +42,7 @@ class UNG_915:
 class UNG_919:
 	"""Swamp King Dred"""
 	events = Play(OPPONENT, MINION).after(
-		Find(Play.CARD + IN_PLAY - MORTALLY_WOUNDED) & (
+		Find(Play.CARD + IN_PLAY - DEAD) & (
 			Find(SELF - FROZEN) &
 			Attack(SELF, Play.CARD)
 		)

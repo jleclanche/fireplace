@@ -183,7 +183,7 @@ class BaseCard(BaseEntity):
 				caches[value].append(self)
 		self._zone = value
 
-		if value == Zone.PLAY:
+		if value == Zone.PLAY or value == Zone.SECRET:
 			self.play_counter = self.game.play_counter
 			self.game.play_counter += 1
 
@@ -456,6 +456,12 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		return self.game.cheat_action(self, [actions.Shuffle(self.controller, self)])
 
+	def put_on_top(self):
+		"""
+		Put the card into the controller's deck top
+		"""
+		return self.game.cheat_action(self, [actions.PutOnTop(self.controller, self)])
+
 	def battlecry_requires_target(self):
 		"""
 		True if the play action of the card requires a target
@@ -565,7 +571,11 @@ class LiveEntity(PlayableCard, Entity):
 
 	@property
 	def dead(self):
-		return self.zone == Zone.GRAVEYARD or self.to_be_destroyed
+		return (
+			self.zone == Zone.GRAVEYARD or
+			self.to_be_destroyed or
+			getattr(self, self.health_attribute) <= 0
+		)
 
 	@property
 	def delayed_destruction(self):
@@ -573,7 +583,7 @@ class LiveEntity(PlayableCard, Entity):
 
 	@property
 	def to_be_destroyed(self):
-		return getattr(self, self.health_attribute) == 0 or self._to_be_destroyed
+		return self._to_be_destroyed
 
 	@to_be_destroyed.setter
 	def to_be_destroyed(self, value):
@@ -601,7 +611,7 @@ class Character(LiveEntity):
 	cant_be_targeted_by_op_hero_powers = boolean_property("cant_be_targeted_by_op_hero_powers")
 
 	heavily_armored = boolean_property("heavily_armored")
-	min_health = boolean_property("min_health")
+	min_health = int_property("min_health")
 	rush = boolean_property("rush")
 	taunt = boolean_property("taunt")
 	poisonous = boolean_property("poisonous")
@@ -693,7 +703,7 @@ class Character(LiveEntity):
 
 	@property
 	def health(self):
-		return max(0, self.max_health - self.damage)
+		return self.max_health - self.damage
 
 	@property
 	def targets(self):
@@ -750,6 +760,7 @@ class Hero(Character):
 		return ret
 
 	def _set_zone(self, value):
+		super()._set_zone(value)
 		if value == Zone.PLAY:
 			old_hero = self.controller.hero
 			self.controller.hero = self
@@ -762,7 +773,6 @@ class Hero(Character):
 				self.power.zone = Zone.GRAVEYARD
 			if self.controller.hero is self:
 				self.controller.playstate = PlayState.LOSING
-		super()._set_zone(value)
 
 	def _hit(self, amount):
 		amount = super()._hit(amount)
@@ -918,7 +928,7 @@ class Spell(PlayableCard):
 		if not self.immune_to_spellpower:
 			amount = self.controller.get_spell_damage(amount)
 		if self.receives_double_spelldamage_bonus:
-			amount *= 2
+			amount = self.controller.get_spell_damage(amount)
 		return amount
 
 	def get_heal(self, amount, target):
@@ -1000,6 +1010,7 @@ class Enchantment(BaseCard):
 	incoming_damage_multiplier = int_property("incoming_damage_multiplier")
 	max_health = int_property("max_health")
 	spellpower = int_property("spellpower")
+	min_health = int_property("min_health")
 
 	buffs = []
 	slots = []
@@ -1042,9 +1053,15 @@ class Enchantment(BaseCard):
 				# Can happen if a Destroy is queued after a bounce, for example
 				self.logger.warning("Trying to remove %r which is already gone", self)
 				return
+			if hasattr(self.owner, "health"):
+				old_health = self.owner.health
 			self.owner.buffs.remove(self)
 			if self in self.game.active_aura_buffs:
 				self.game.active_aura_buffs.remove(self)
+			if hasattr(self.owner, "health"):
+				if self.owner.health < old_health:
+					self.owner.damage = max(self.owner.damage - (old_health - self.owner.health), 0)
+
 		super()._set_zone(zone)
 
 	def apply(self, target):
@@ -1070,7 +1087,7 @@ class Weapon(rules.WeaponRules, LiveEntity):
 
 	@property
 	def durability(self):
-		return max(0, self.max_durability - self.damage)
+		return self.max_durability - self.damage
 
 	@property
 	def max_durability(self):

@@ -154,6 +154,9 @@ class FindAll(Evaluator):
 		super().__init__()
 		self.selectors = selectors
 
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.selectors)
+
 	def check(self, source):
 		return all(
 			bool(len(selector.eval(source.game, source)))

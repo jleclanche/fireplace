@@ -45,3 +45,24 @@ def test_silence():
 	assert minion.health == 4
 	game.player1.give("CS2_203").play(target=minion)
 	assert minion.health == 4
+
+
+def test_anubar_ambusher_cult_master():
+	# https://github.com/jleclanche/fireplace/issues/126
+	game = prepare_game()
+	game.player1.discard_hand()
+	cultmaster1 = game.player1.summon("EX1_595")
+	ambusher1 = game.player1.summon("FP1_026")
+	assert len(game.player1.hand) == 0
+	ambusher1.destroy()
+	assert len(game.player1.hand) == 2
+	assert cultmaster1 in game.player1.hand
+	game.skip_turn()
+
+	game.player1.discard_hand()
+	ambusher2 = game.player1.summon("FP1_026")
+	cultmaster2 = game.player1.summon("EX1_595")
+	assert len(game.player1.hand) == 0
+	ambusher2.destroy()
+	assert len(game.player1.hand) == 1
+	assert cultmaster2 in game.player1.hand

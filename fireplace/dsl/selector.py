@@ -127,6 +127,7 @@ ATK = AttrValue(GameTag.ATK)
 CONTROLLER = AttrValue(GameTag.CONTROLLER)
 MAX_HEALTH = AttrValue(GameTag.HEALTH)
 CURRENT_HEALTH = AttrValue("health")
+MIN_HEALTH = AttrValue(GameTag.HEALTH_MINIMUM)
 COST = AttrValue(GameTag.COST)
 DAMAGE = AttrValue(GameTag.DAMAGE)
 MANA = AttrValue(GameTag.RESOURCES)
@@ -154,7 +155,11 @@ class ComparisonSelector(Selector):
 		)
 		return [
 			e for e in entities
-			if self.op(self.left.value(e, source), right_value)
+			if self.op(
+				self.left.value(e, source),
+				right_value.value(e, source) if isinstance(right_value, SelectorEntityValue)
+				else right_value
+			)
 		]
 
 	def __repr__(self):
@@ -269,7 +274,8 @@ OWNER = FuncSelector(
 
 
 def LazyValueSelector(value):
-	return FuncSelector(lambda entities, source: [value.evaluate(source)])
+	return FuncSelector(
+		lambda entities, source: [value.evaluate(source)] if value.evaluate(source) else [])
 
 
 def ID(id):
@@ -341,7 +347,11 @@ class RandomSelector(Selector):
 
 RANDOM = RandomSelector
 
-MORTALLY_WOUNDED = CURRENT_HEALTH <= 0
+DEAD = FuncSelector(
+	lambda entities, source: [
+		e for e in entities
+		if hasattr(e, "dead") and e.dead
+	])
 
 # Selects the highest and lowest attack entities, respectively
 HIGHEST_ATK = lambda sel: (
@@ -432,6 +442,7 @@ WINDFURY = EnumSelector(GameTag.WINDFURY)
 CLASS_CARD = EnumSelector(GameTag.CLASS)
 DORMANT = EnumSelector(GameTag.DORMANT)
 LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
+IMMUNE = EnumSelector(GameTag.IMMUNE)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
@@ -511,8 +522,8 @@ RANDOM_OTHER_CHARACTER = RANDOM(ALL_CHARACTERS - SELF)
 RANDOM_FRIENDLY_MINION = RANDOM(FRIENDLY_MINIONS)
 RANDOM_OTHER_FRIENDLY_MINION = RANDOM(FRIENDLY_MINIONS - SELF)
 RANDOM_FRIENDLY_CHARACTER = RANDOM(FRIENDLY_CHARACTERS)
-RANDOM_ENEMY_MINION = RANDOM(ENEMY_MINIONS - MORTALLY_WOUNDED)
-RANDOM_ENEMY_CHARACTER = RANDOM(ENEMY_CHARACTERS - MORTALLY_WOUNDED)
+RANDOM_ENEMY_MINION = RANDOM(ENEMY_MINIONS - DEAD)
+RANDOM_ENEMY_CHARACTER = RANDOM(ENEMY_CHARACTERS - DEAD)
 
 DAMAGED_CHARACTERS = ALL_CHARACTERS + DAMAGED
 CTHUN = FRIENDLY + ID("OG_280")
@@ -550,3 +561,8 @@ CARDS_PLAYED_THIS_GAME = FuncSelector(
 
 STARTING_DECK = FuncSelector(
 	lambda entities, source: source.controller.starting_deck)
+
+SPELL_DAMAGE = lambda amount: FuncSelector(
+	lambda entities, source: source.controller.get_spell_damage(amount))
+SPELL_HEAL = lambda amount: FuncSelector(
+	lambda entities, source: source.controller.get_spell_heal(amount))

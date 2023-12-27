@@ -142,7 +142,7 @@ LOE_073e = buff(taunt=True)
 
 class LOE_076:
 	"""Sir Finley Mrrgglton"""
-	play = GenericChoice(CONTROLLER, RandomBasicHeroPower() * 3)
+	play = GenericChoice(CONTROLLER, RandomBasicHeroPower(exclude=FRIENDLY_HERO_POWER) * 3)
 
 
 class LOE_077:
@@ -198,9 +198,7 @@ LOEA16_3e = buff(+10, +10)
 
 class LOEA16_4:
 	"""Timepiece of Horror"""
-	def play(self):
-		count = self.controller.get_spell_damage(10)
-		yield Hit(RANDOM_ENEMY_CHARACTER, 1) * count
+	play = Hit(RANDOM_ENEMY_CHARACTER, 1) * SPELL_DAMAGE(10)
 
 
 class LOEA16_5:

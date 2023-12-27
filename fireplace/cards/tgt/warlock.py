@@ -64,4 +64,4 @@ AT_024e = buff(+3, +3)
 class AT_025:
 	"""Dark Bargain"""
 	requirements = {PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1}
-	play = Destroy(RANDOM(ENEMY_MINIONS) * 2), Discard(RANDOM(FRIENDLY_HAND) * 2)
+	play = Destroy(RANDOM_ENEMY_MINION * 2), Discard(RANDOM(FRIENDLY_HAND) * 2)

@@ -23,7 +23,24 @@ def test_avenge_board_clear():
 
 	arcane = game.player2.give("CS2_025")
 	arcane.play()
+	assert avenge not in game.player1.secrets
+	assert len(game.player1.field) == 1
+	assert game.player1.field[0].atk == 4
+	assert game.player1.field[0].health == 2
+
+	game = prepare_game()
+	avenge = game.player1.give("FP1_020")
+	wisp1 = game.player1.give(WISP)
+	wisp2 = game.player1.give(WISP)
+	avenge.play()
+	wisp1.play()
+	wisp2.play()
+	game.end_turn()
+
+	nether = game.player2.give("EX1_312")
+	nether.play()
 	assert avenge in game.player1.secrets
+	assert len(game.player1.field) == 0
 
 
 def test_baron_rivendare():
@@ -448,9 +465,8 @@ def test_stalagg_feugen_both_killed():
 	stalagg.attack(feugen)
 	assert stalagg.dead
 	assert feugen.dead
-	assert len(game.player1.field) == 1
+	assert len(game.player1.field) == 0
 	assert len(game.player2.field) == 1
-	assert game.player1.field[0].id == "FP1_014t"
 	assert game.player2.field[0].id == "FP1_014t"
 
 

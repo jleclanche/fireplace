@@ -237,11 +237,13 @@ def test_angry_chicken():
 	assert chicken.enrage
 	assert not chicken.enraged
 	assert chicken.atk == chicken.health == 2
+	game.skip_turn()
 	game.player1.give(MOONFIRE).play(target=chicken)
 	assert chicken.enraged
 	assert chicken.atk == 1 + 1 + 5
 	assert chicken.health == 1
-	stormwind.destroy()
+	game.player1.give(FIREBALL).play(target=stormwind)
+	assert len(game.player1.field) == 1
 	assert chicken.atk == chicken.health == 1
 	assert not chicken.enraged
 
@@ -894,6 +896,18 @@ def test_cult_master_board_clear():
 		game.player1.give(WISP).play()
 	cultmaster = game.player1.give("EX1_595")
 	cultmaster.play()
+	game.player1.give(MOONFIRE).play(target=cultmaster)
+	assert len(game.player1.field) == 5
+	# Whirlwind the board
+	game.player1.give("EX1_400").play()
+	assert len(game.player1.hand) == 4
+
+	game = prepare_game()
+	game.player1.discard_hand()
+	cultmaster = game.player1.give("EX1_595")
+	cultmaster.play()
+	for i in range(4):
+		game.player1.give(WISP).play()
 	game.player1.give(MOONFIRE).play(target=cultmaster)
 	assert len(game.player1.field) == 5
 	# Whirlwind the board
@@ -1901,7 +1915,18 @@ def test_knife_juggler_swipe():
 	assert juggler.dead
 	assert creeper.dead
 	assert len(game.player2.field) == 2
-	assert game.player1.hero.health == 30
+	assert game.player1.hero.health == 28
+
+	game = prepare_game()
+	juggler = game.player2.summon("NEW1_019")
+	creeper = game.player2.summon("FP1_002")
+	game.current_player.give(MOONFIRE).play(target=creeper)
+	swipe = game.player1.give("CS2_012")
+	swipe.play(target=juggler)
+	assert juggler.dead
+	assert creeper.dead
+	assert len(game.player2.field) == 2
+	assert game.player1.hero.health == 29
 
 
 def test_leeroy():
@@ -3747,3 +3772,64 @@ def test_ysera_awakens():
 	assert game.player1.hero.health == game.player2.hero.health == 30 - 5
 	assert len(game.board) == 1
 	assert ysera.health == 12
+
+
+def test_mirror_entity_aura():
+	# https://github.com/jleclanche/fireplace/issues/221
+	game = prepare_game()
+	game.end_turn()
+	game.player2.give("CS2_222").play()
+	game.end_turn()
+
+	mirror = game.player1.give("EX1_294")
+	mirror.play()
+	game.end_turn()
+
+	# Mirror entity copies the exact nature of the card when it hits the field.
+	blademaster = game.player2.give("CS2_181")
+	blademaster.play()
+	assert len(game.player1.field) == 1
+	assert len(game.player2.field) == 2
+	assert game.player1.field[0].health == 4
+	assert game.player1.field[0].max_health == 7
+	assert game.player2.field[1].health == 4
+	assert game.player2.field[1].max_health == 8
+
+
+def test_stormwind_champion_heal():
+	# https://github.com/jleclanche/fireplace/issues/226
+	game = prepare_game()
+
+	goldshire = game.player1.summon(GOLDSHIRE_FOOTMAN)
+	assert goldshire.atk == 1
+	assert goldshire.health == 2
+	stormwind = game.player1.give("CS2_222")
+	stormwind.play()
+	assert goldshire.atk == 2
+	assert goldshire.health == 3
+
+	game.player1.give(MOONFIRE).play(target=goldshire)
+	assert goldshire.atk == 2
+	assert goldshire.health == 2
+	game.end_turn()
+
+	# Destroy with Fireball
+	game.player2.give(FIREBALL).play(target=stormwind)
+	assert goldshire.atk == 1
+	assert goldshire.health == 2
+
+
+def test_gruul_ragnaros():
+	# https://github.com/jleclanche/fireplace/issues/4
+	# Firelord may damage your opponent's Gruul to 8/0 but the Phase is not over
+	# Gruul triggers and buffs himself to 9/1, and survives the Phase.
+	game = prepare_game()
+	gruul = game.player1.give("NEW1_038").play()
+	game.end_turn()
+	assert gruul.atk == 8
+	assert gruul.health == 8
+	game.player2.give("EX1_298").play()
+	game.end_turn()
+	assert len(game.player1.field) == 1
+	assert gruul.atk == 9
+	assert (gruul.damage == 8) ^ (game.player1.hero.damage == 8)

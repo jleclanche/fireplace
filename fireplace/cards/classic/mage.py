@@ -132,9 +132,7 @@ class EX1_275:
 
 class EX1_277:
 	"""Arcane Missiles"""
-	def play(self):
-		count = self.controller.get_spell_damage(3)
-		yield Hit(RANDOM_ENEMY_CHARACTER, 1) * count
+	play = Hit(RANDOM_ENEMY_CHARACTER, 1) * SPELL_DAMAGE(3)
 
 
 class EX1_279:

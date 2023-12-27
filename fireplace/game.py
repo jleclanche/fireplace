@@ -54,7 +54,9 @@ class BaseGame(Entity):
 
 	@property
 	def board(self):
-		return CardList(chain(self.players[0].field, self.players[1].field))
+		ret = CardList(chain(self.players[0].field, self.players[1].field))
+		ret.sort(key=lambda e: e.play_counter)
+		return ret
 
 	@property
 	def decks(self):
@@ -70,7 +72,9 @@ class BaseGame(Entity):
 
 	@property
 	def characters(self):
-		return CardList(chain(self.players[0].characters, self.players[1].characters))
+		ret = CardList(chain(self.players[0].characters, self.players[1].characters))
+		ret.sort(key=lambda e: e.play_counter)
+		return ret
 
 	@property
 	def graveyard(self):
@@ -78,11 +82,15 @@ class BaseGame(Entity):
 
 	@property
 	def entities(self):
-		return CardList(chain([self], self.players[0].entities, self.players[1].entities))
+		ret = CardList(chain([self], self.players[0].entities, self.players[1].entities))
+		ret.sort(key=lambda e: e.play_counter)
+		return ret
 
 	@property
 	def live_entities(self):
-		return CardList(chain(self.players[0].live_entities, self.players[1].live_entities))
+		ret = CardList(chain(self.players[0].live_entities, self.players[1].live_entities))
+		ret.sort(key=lambda e: e.play_counter)
+		return ret
 
 	@property
 	def minions_killed_this_turn(self):
@@ -144,19 +152,24 @@ class BaseGame(Entity):
 	def process_deaths(self):
 		type = BlockType.DEATHS
 		cards = []
+		destroy_cards = []
 		for card in self.live_entities:
-			if card.to_be_destroyed:
+			if card.dead:
 				cards.append(card)
+				if card.to_be_destroyed:
+					card.zone = Zone.GRAVEYARD
+					destroy_cards.append(card)
 
-		actions = []
 		if cards:
 			self.action_start(type, self, 0, None)
 			for card in cards:
-				card.zone = Zone.GRAVEYARD
-				actions.append(Death(card))
-			self.check_for_end_game()
+				if card.dead:
+					if card not in destroy_cards:
+						card.zone = Zone.GRAVEYARD
+					self.check_for_end_game()
+					self.refresh_auras()
+					self.trigger(self, [Death(card)], event_args=None)
 			self.action_end(type, self)
-			self.trigger(self, actions, event_args=None)
 
 	def trigger(self, source, actions, event_args):
 		"""
