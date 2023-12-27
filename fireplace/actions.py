@@ -466,9 +466,9 @@ class Play(GameAction):
 		player.cards_played_this_turn += 1
 		if card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
-			if card.race == Race.TOTEM:
+			if Race.TOTEM in card.races:
 				card.controller.times_totem_summoned_this_game += 1
-			if card.race == Race.ELEMENTAL:
+			if Race.ELEMENTAL in card.races:
 				player.elemental_played_this_turn += 1
 		player.cards_played_this_game.append(card)
 		card.choose = None
@@ -804,7 +804,7 @@ class Damage(TargetedAction):
 	def do(self, source, target, amount):
 		amount = target._hit(target.predamage)
 		target.predamage = 0
-		if source.type == CardType.MINION and source.stealthed:
+		if (source.type == CardType.MINION or source.type == CardType.HERO) and source.stealthed:
 			# TODO this should be an event listener of sorts
 			source.stealthed = False
 		if amount:
@@ -817,6 +817,7 @@ class Damage(TargetedAction):
 			if hasattr(source, "poisonous") and source.poisonous and (
 				target.type != CardType.HERO and source.type != CardType.WEAPON):
 				target.destroy()
+			target.damage_this_turn += amount
 		return amount
 
 
@@ -857,7 +858,7 @@ class Battlecry(TargetedAction):
 			arg = _eval_card(source, arg)[0]
 		return [arg]
 
-	def do(self, source, card, target):
+	def do(self, source, card, target=None):
 		player = card.controller
 
 		if card.has_combo and player.combo:
@@ -866,6 +867,13 @@ class Battlecry(TargetedAction):
 		else:
 			log.info("Activating %r action targeting %r", card, target)
 			actions = card.get_actions("play")
+
+		if card.requires_target() and target is None:
+			if len(card.targets):
+				target = random.choice(card.targets)
+			else:
+				log.info("%s battlecry %s don't have a legal target", source, card)
+				return
 
 		source.target = target
 		source.game.main_power(source, actions, target)
@@ -1242,9 +1250,10 @@ class Reveal(TargetedAction):
 	"""
 
 	def do(self, source, target):
-		log.info("Revealing secret %r", target)
-		self.broadcast(source, EventListener.ON, target)
-		target.zone = Zone.GRAVEYARD
+		log.info("Revealing %r", target)
+		if target.zone == Zone.SECRET and target.data.secret:
+			self.broadcast(source, EventListener.ON, target)
+			target.zone = Zone.GRAVEYARD
 
 
 class SetCurrentHealth(TargetedAction):
@@ -1258,6 +1267,7 @@ class SetCurrentHealth(TargetedAction):
 		log.info("Setting current health on %r to %i", target, amount)
 		maxhp = target.max_health
 		target.damage = max(0, maxhp - amount)
+		return target
 
 
 class SetTag(TargetedAction):
@@ -1348,7 +1358,7 @@ class Summon(TargetedAction):
 					# card._summon_index = source_index + ((self.trigger_index + 1) % 2)
 					card._summon_index = self.get_summon_index(source_index)
 				card.zone = Zone.PLAY
-			if card.type == CardType.MINION and card.race == Race.TOTEM:
+			if card.type == CardType.MINION and Race.TOTEM in card.races:
 				card.controller.times_totem_summoned_this_game += 1
 			self.queue_broadcast(self, (source, EventListener.ON, target, card))
 			self.broadcast(source, EventListener.AFTER, target, card)
@@ -1931,3 +1941,21 @@ class LosesDivineShield(TargetedAction):
 	def do(self, source, target):
 		target.divine_shield = False
 		self.broadcast(source, EventListener.AFTER, target)
+
+
+class Remove(TargetedAction):
+	def do(self, source, target):
+		target.zone = Zone.REMOVEDFROMGAME
+
+
+class Replay(TargetedAction):
+	def do(self, source, target):
+		if target.type == CardType.MINION:
+			source.game.queue_actions(source, [Summon(source.controller, target)])
+		else:
+			source.game.queue_actions(source, [CastSpell(target)])
+
+
+class Show(TargetedAction):
+	def do(self, source, target):
+		log.info("%r show %r", source, target)

@@ -17,7 +17,7 @@ def test_feign_death():
 	assert not webspinner.dead
 	assert len(game.player1.field) == 4
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].race == Race.BEAST
+	assert Race.BEAST in game.player1.hand[0].races
 
 
 def test_feign_death_anubar_ambusher():

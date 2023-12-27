@@ -593,7 +593,7 @@ def test_webspinner():
 	webspinner.play()
 	game.player1.give(MOONFIRE).play(target=webspinner)
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].race == Race.BEAST
+	assert Race.BEAST in game.player1.hand[0].races
 	assert game.player1.hand[0].type == CardType.MINION
 
 

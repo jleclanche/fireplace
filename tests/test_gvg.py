@@ -227,7 +227,7 @@ def test_druid_of_the_fang():
 	assert druid2.id == "GVG_080t"
 	assert druid2.atk == 7
 	assert druid2.health == 7
-	assert druid2.race == Race.BEAST
+	assert Race.BEAST in druid2.races
 
 
 def test_echo_of_medivh():
@@ -361,7 +361,7 @@ def test_gazlowe():
 	assert smite.cost == 1
 	smite.play(target=gazlowe)
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].race == Race.MECHANICAL
+	assert Race.MECHANICAL in game.player1.hand[0].races
 
 
 def test_gazlowe_preparation():
@@ -373,7 +373,7 @@ def test_gazlowe_preparation():
 	assert drainlife.cost == 1
 	drainlife.play(target=game.player2.hero)
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].race == Race.MECHANICAL
+	assert Race.MECHANICAL in game.player1.hand[0].races
 
 
 def test_gnomish_experimenter():
@@ -406,7 +406,7 @@ def test_goblin_blastmage():
 	assert not blastmage2.powered_up
 	clockwork = game.player1.give("GVG_082")
 	clockwork.play()
-	assert clockwork.race == Race.MECHANICAL
+	assert Race.MECHANICAL in clockwork.races
 	assert blastmage2.powered_up
 	blastmage2.play()
 	assert game.player2.hero.health == 30 - 4
@@ -755,7 +755,7 @@ def test_mimirons_head():
 	game.end_turn()
 
 	assert not head.dead
-	assert head.race == Race.MECHANICAL
+	assert Race.MECHANICAL in head.races
 	assert len(game.player1.field) == 1
 	dummy1 = game.player1.give(TARGET_DUMMY)
 	dummy1.play()
@@ -819,7 +819,7 @@ def test_neptulon():
 	assert len(game.player1.hand) == 4
 	assert len(game.player2.hand) == 0
 	for i in range(4):
-		assert game.player1.hand[i].race == Race.MURLOC
+		assert Race.MURLOC in game.player1.hand[i].races
 	assert game.player1.overloaded == 3
 
 

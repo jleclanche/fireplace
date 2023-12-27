@@ -14,7 +14,6 @@ class GIL_128e:
 	def apply(self, target):
 		self._xatk = target.atk * 2
 		self._xhealth = target.health * 2
-		target.damage = 0
 
 	atk = lambda self, _: self._xatk
 	max_health = lambda self, _: self._xhealth
@@ -38,7 +37,6 @@ class GIL_200e:
 	def apply(self, target):
 		self._xatk = self.source.health
 		self._xhealth = self.source.atk
-		target.damage = 0
 
 	atk = lambda self, _: self._xatk
 	max_health = lambda self, _: self._xhealth

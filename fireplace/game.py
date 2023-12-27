@@ -371,6 +371,7 @@ class BaseGame(Entity):
 
 		for character in self.characters:
 			character.num_attacks = 0
+			character.damage_this_turn = 0
 
 		for minion in player.field:
 			if minion.dormant:
@@ -417,6 +418,7 @@ class MulliganRules:
 			self.queue_actions(self, [MulliganChoice(player, callback=self.mulligan_done)])
 
 	def mulligan_done(self):
+		self.queue_actions(self, [GameStart()])
 		self.begin_turn(self.player1)
 
 

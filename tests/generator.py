@@ -24,6 +24,7 @@ PREFIXES = {
 }
 
 SOLVED_KEYWORDS = [
+	"[x]",
 	"Windfury",
 	"Charge",
 	"Divine Shield",
@@ -39,6 +40,7 @@ SOLVED_KEYWORDS = [
 	r"Your Hero Power deals \d+ extra damage.",
 	r"Spell Damage \+\d+",
 	r"Overload: \(\d+\)",
+	r"This is an Elemental, Mech,\nDemon, Murloc, Dragon,\nBeast, Pirate and Totem\.",
 ]
 
 DUMMY_CARDS = (

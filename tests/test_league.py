@@ -308,14 +308,14 @@ def test_gorillabot_a3():
 	game.end_turn()
 	game.end_turn()
 
-	assert gorillabot1.race == Race.MECHANICAL
+	assert Race.MECHANICAL in gorillabot1.races
 	gorillabot2 = game.player1.give("LOE_039")
 	assert gorillabot2.powered_up
 	gorillabot2.play()
 	assert game.player1.choice
 	assert len(game.player1.choice.cards) == 3
 	for i in range(3):
-		assert game.player1.choice.cards[i].race == Race.MECHANICAL
+		assert Race.MECHANICAL in game.player1.choice.cards[i].races
 
 
 def test_huge_toad():

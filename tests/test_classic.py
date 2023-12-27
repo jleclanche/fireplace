@@ -367,7 +367,7 @@ def test_bane_of_doom():
 	doom2 = game.player1.give("EX1_320")
 	doom2.play(target=wisp)
 	assert len(game.player1.field) == 1
-	assert game.player1.field[0].race == Race.DEMON
+	assert Race.DEMON in game.player1.field[0].races
 	assert game.player1.field[0].data.collectible
 
 
@@ -639,12 +639,12 @@ def test_captains_parrot():
 	game.player1.give("NEW1_016").play()
 	assert len(game.player1.deck) == 2
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].race == Race.PIRATE
+	assert Race.PIRATE in game.player1.hand[0].races
 	game.player1.discard_hand()
 	game.player1.give("NEW1_016").play()
 	assert len(game.player1.deck) == 1
 	assert len(game.player1.hand) == 1
-	assert game.player1.hand[0].race == Race.PIRATE
+	assert Race.PIRATE in game.player1.hand[0].races
 	game.player1.discard_hand()
 	assert len(game.player1.deck) == 1
 	assert len(game.player1.hand) == 0

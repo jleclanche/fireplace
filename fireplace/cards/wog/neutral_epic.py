@@ -80,9 +80,6 @@ class OG_174e:
 	atk = lambda self, _: self._xatk
 	max_health = lambda self, _: self._xhealth
 
-	def apply(self, target):
-		target.damage = 0
-
 
 class OG_321:
 	"""Crazed Worshipper"""

@@ -265,7 +265,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	@property
 	def cost(self):
 		ret = 0
-		if self.zone == Zone.HAND:
+		if self.zone == Zone.HAND and self.game.turn > 0:
 			mod = self.data.scripts.cost_mod
 			if mod is not None:
 				r = mod.evaluate(self)
@@ -485,7 +485,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if PlayReq.REQ_TARGET_IF_AVAILABLE in self.requirements:
 			return bool(self.play_targets)
 		if PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND in self.requirements:
-			if self.controller.hand.filter(race=Race.DRAGON):
+			if self.controller.hand.filter(races=Race.DRAGON):
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_FRIENDLY_MINIONS)
 		if req is not None:
@@ -535,6 +535,7 @@ class LiveEntity(PlayableCard, Entity):
 		self.predamage = 0
 		self.turns_in_play = 0
 		self.turn_killed = -1
+		self.damage_this_turn = 0
 
 	def _set_zone(self, zone):
 		if zone == Zone.GRAVEYARD and self.zone == Zone.PLAY:
@@ -618,6 +619,7 @@ class Character(LiveEntity):
 	ignore_taunt = boolean_property("ignore_taunt")
 	cannot_attack_heroes = boolean_property("cannot_attack_heroes")
 	unlimited_attacks = boolean_property("unlimited_attacks")
+	stealthed = boolean_property("stealthed")
 
 	def __init__(self, data):
 		self.frozen = False
@@ -688,6 +690,17 @@ class Character(LiveEntity):
 		if self.num_attacks >= self.max_attacks:
 			return True
 		return False
+
+	@property
+	def races(self):
+		if self.race == Race.ALL:
+			return [
+				Race.ELEMENTAL, Race.MECHANICAL,
+				Race.DEMON, Race.DRAGON,
+				Race.MURLOC, Race.BEAST,
+				Race.PIRATE, Race.TOTEM,
+			]
+		return [self.race]
 
 	@property
 	def should_exit_combat(self):
@@ -795,7 +808,6 @@ class Minion(Character):
 	charge = boolean_property("charge")
 	has_inspire = boolean_property("has_inspire")
 	spellpower = int_property("spellpower")
-	stealthed = boolean_property("stealthed")
 
 	silenceable_attributes = (
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",

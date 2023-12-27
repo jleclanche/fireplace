@@ -60,9 +60,7 @@ class GIL_838:
 class GIL_147:
 	"""Cinderstorm"""
 	# Deal $5 damage randomly split among all enemies.
-	def play(self):
-		count = self.controller.get_spell_damage(5)
-		yield Hit(RANDOM_ENEMY_CHARACTER, 1) * count
+	play = Hit(RANDOM_ENEMY_CHARACTER, 1) * SPELL_DAMAGE(5)
 
 
 class GIL_548:

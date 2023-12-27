@@ -60,7 +60,12 @@ class CardList(list):
 			return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k) != v)
 
 	def filter(self, **kwargs):
-		return self.__class__(e for k, v in kwargs.items() for e in self if getattr(e, k, 0) == v)
+		def conditional(e, k, v):
+			p = getattr(e, k, 0)
+			if isinstance(p, list):
+				return v in p
+			return p == v
+		return self.__class__(e for k, v in kwargs.items() for e in self if conditional(e, k, v))
 
 
 def random_draft(card_class: CardClass, exclude=[], include=[]):
