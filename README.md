@@ -9,7 +9,7 @@ A Hearthstone simulator and implementation, written in Python.
 
 ## Cards Implementation
 
-Now updated to [Patch 10.4.0.23576](https://hearthstone.fandom.com/wiki/Patch_10.4.0.23576)
+Now updated to [Patch 11.4.0.25252](https://hearthstone.fandom.com/wiki/Patch_11.4.0.252526)
 * **100%** Basic (142 of 142 cards)
 * **100%** Classic (239 of 239 cards)
 * **100%** Hall of Fame (10 of 10 cards)
@@ -24,7 +24,7 @@ Now updated to [Patch 10.4.0.23576](https://hearthstone.fandom.com/wiki/Patch_10
 * **100%** Journey to Un'Goro (135 of 135 cards)
 * **100%** Knights of the Frozen Throne (135 of 135 cards)
 * **100%** Kobolds & Catacombs (135 of 135 cards)
-
+* **100%** The Witchwood (135 of 135 cards)
 
 ## Requirements
 

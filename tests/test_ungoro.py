@@ -89,16 +89,16 @@ def test_crystal_core():
 	game = prepare_game()
 	wisp1 = game.player1.give(WISP).play()
 	game.player1.give("UNG_067t1").play()
-	assert wisp1.atk == 5
-	assert wisp1.health == 5
-	wisp2 = game.player1.give(WISP)
-	assert wisp2.atk == 5
-	assert wisp2.health == 5
-	wisp2.play()
-	assert wisp2.atk == 5
-	assert wisp2.health == 5
-	game.player1.give(MOONFIRE).play(target=wisp1)
+	assert wisp1.atk == 4
 	assert wisp1.health == 4
+	wisp2 = game.player1.give(WISP)
+	assert wisp2.atk == 4
+	assert wisp2.health == 4
+	wisp2.play()
+	assert wisp2.atk == 4
+	assert wisp2.health == 4
+	game.player1.give(MOONFIRE).play(target=wisp1)
+	assert wisp1.health == 4 - 1
 
 
 def test_kalimos_primal_lord():

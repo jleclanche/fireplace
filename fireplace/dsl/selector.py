@@ -135,6 +135,7 @@ MAX_MANA = AttrValue(GameTag.MAXRESOURCES)
 USED_MANA = AttrValue(GameTag.RESOURCES_USED)
 CURRENT_MANA = AttrValue("mana")
 NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
+DAMAGE_THIS_TURN = AttrValue(enums.DAMAGE_THIS_TURN)
 UPGRADE_COUNTER = AttrValue("upgrade_counter")
 NUM_ATTACKS = AttrValue("num_attacks")
 MAX_HAND_SIZE = AttrValue("max_hand_size")
@@ -416,7 +417,10 @@ CardType.test = lambda self, entity, *args: (
 	entity is not None and self == entity.type
 )
 Race.test = lambda self, entity, *args: (
-	entity is not None and self == getattr(entity, "race", Race.INVALID)
+	entity is not None and (
+		self == getattr(entity, "race", Race.INVALID) or
+		Race.ALL == getattr(entity, "race", Race.INVALID)
+	)
 )
 Rarity.test = lambda self, entity, *args: (
 	entity is not None and self == getattr(entity, "rarity", Rarity.INVALID)
@@ -430,6 +434,8 @@ CardClass.test = lambda self, entity, *args: (
 
 BATTLECRY = EnumSelector(GameTag.BATTLECRY)
 CHARGE = EnumSelector(GameTag.CHARGE)
+COMBO = EnumSelector(GameTag.COMBO)
+BATTLECRITES = EnumSelector(GameTag.BATTLECRY)
 DAMAGED = EnumSelector(GameTag.DAMAGE)
 DEATHRATTLE = EnumSelector(GameTag.DEATHRATTLE)
 DIVINE_SHIELD = EnumSelector(GameTag.DIVINE_SHIELD)
@@ -443,6 +449,8 @@ CLASS_CARD = EnumSelector(GameTag.CLASS)
 DORMANT = EnumSelector(GameTag.DORMANT)
 LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
 IMMUNE = EnumSelector(GameTag.IMMUNE)
+RUSH = EnumSelector(GameTag.RUSH)
+ECHO = EnumSelector(GameTag.ECHO)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
@@ -520,6 +528,7 @@ RANDOM_MINION = RANDOM(ALL_MINIONS)
 RANDOM_CHARACTER = RANDOM(ALL_CHARACTERS)
 RANDOM_OTHER_CHARACTER = RANDOM(ALL_CHARACTERS - SELF)
 RANDOM_FRIENDLY_MINION = RANDOM(FRIENDLY_MINIONS)
+RANDOM_OTHER_MINION = RANDOM(ALL_MINIONS - SELF)
 RANDOM_OTHER_FRIENDLY_MINION = RANDOM(FRIENDLY_MINIONS - SELF)
 RANDOM_FRIENDLY_CHARACTER = RANDOM(FRIENDLY_CHARACTERS)
 RANDOM_ENEMY_MINION = RANDOM(ENEMY_MINIONS - DEAD)

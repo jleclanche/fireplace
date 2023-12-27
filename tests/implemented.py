@@ -22,13 +22,23 @@ PREFIXES = {
 }
 
 SOLVED_KEYWORDS = [
-	"Windfury", "Charge", "Divine Shield", "Taunt", "Stealth", "Poisonous", "Lifesteal",
+	"[x]",
+	"Windfury",
+	"Charge",
+	"Divine Shield",
+	"Taunt",
+	"Stealth",
+	"Poisonous",
+	"Lifesteal",
+	"Rush",
+	"Echo",
 	r"Can't be targeted by spells or Hero Powers\.",
 	r"Can't attack\.",
 	"Destroy any minion damaged by this minion.",
 	r"Your Hero Power deals \d+ extra damage.",
 	r"Spell Damage \+\d+",
 	r"Overload: \(\d+\)",
+	r"This is an Elemental, Mech,\nDemon, Murloc, Dragon,\nBeast, Pirate and Totem\.",
 ]
 
 DUMMY_CARDS = (

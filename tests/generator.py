@@ -24,6 +24,7 @@ PREFIXES = {
 }
 
 SOLVED_KEYWORDS = [
+	"[x]",
 	"Windfury",
 	"Charge",
 	"Divine Shield",
@@ -31,12 +32,15 @@ SOLVED_KEYWORDS = [
 	"Stealth",
 	"Poisonous",
 	"Lifesteal",
+	"Rush",
+	"Echo",
 	r"Can't be targeted by spells or Hero Powers\.",
 	r"Can't attack\.",
 	"Destroy any minion damaged by this minion.",
 	r"Your Hero Power deals \d+ extra damage.",
 	r"Spell Damage \+\d+",
 	r"Overload: \(\d+\)",
+	r"This is an Elemental, Mech,\nDemon, Murloc, Dragon,\nBeast, Pirate and Totem\.",
 ]
 
 DUMMY_CARDS = (
@@ -101,7 +105,7 @@ def main():
 		"--card_set",
 		dest="card_set",
 		type=int,
-		default=1004,
+		default=CardSet.GILNEAS,
 		help="Generate cards of card set"
 	)
 	p.add_argument(
@@ -112,7 +116,7 @@ def main():
 	p.add_argument(
 		"--output_dir",
 		dest="output_dir",
-		default="./output",
+		default="./fireplace/cards/witchwood",
 		help="Generate code output dir",
 	)
 	args = p.parse_args(sys.argv[1:])

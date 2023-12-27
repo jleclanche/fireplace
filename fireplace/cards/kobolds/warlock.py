@@ -84,8 +84,8 @@ class LOOT_415t6:
 
 class LOOT_017:
 	"""Dark Pact"""
-	# Destroy a friendly minion. Restore #8 Health to your hero.
-	play = Destroy(TARGET), Heal(FRIENDLY_HERO, 8)
+	# Destroy a friendly minion. Restore #4 Health to your hero.
+	play = Destroy(TARGET), Heal(FRIENDLY_HERO, 4)
 
 
 class LOOT_043:

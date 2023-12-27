@@ -9,6 +9,11 @@ class CS2_083b:
 	activate = Summon(CONTROLLER, "CS2_082")
 
 
+class CS2_083b_H1:
+	"""Dagger Mastery (Maiev Shadowsong)"""
+	activate = Find(FRIENDLY_WEAPON + ID("AT_034")) | Summon(CONTROLLER, "CS2_082_H1")
+
+
 # Sharpened (Unused)
 CS2_083e = buff(atk=1)
 

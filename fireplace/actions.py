@@ -5,7 +5,10 @@ from hearthstone.enums import (
 	BlockType, CardClass, CardType, GameTag, Mulligan, Race, PlayState, Step, Zone
 )
 
+from fireplace.dsl.selector import SELF
+
 from .dsl import LazyNum, LazyValue, Selector
+from .dsl.copy import Copy
 from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion
 from .entity import Entity
 from .exceptions import InvalidAction
@@ -448,6 +451,9 @@ class Play(GameAction):
 			elif trigger_battlecry:
 				source.game.queue_actions(card, [Battlecry(battlecry_card, card.target)])
 
+			if card.echo:
+				source.game.queue_actions(card, [Give(player, Buff(Copy(SELF), "GIL_000"))])
+
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.
 			played_card = card.morphed or card
@@ -460,9 +466,9 @@ class Play(GameAction):
 		player.cards_played_this_turn += 1
 		if card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
-			if card.race == Race.TOTEM:
+			if Race.TOTEM in card.races:
 				card.controller.times_totem_summoned_this_game += 1
-			if card.race == Race.ELEMENTAL:
+			if Race.ELEMENTAL in card.races:
 				player.elemental_played_this_turn += 1
 		player.cards_played_this_game.append(card)
 		card.choose = None
@@ -798,7 +804,7 @@ class Damage(TargetedAction):
 	def do(self, source, target, amount):
 		amount = target._hit(target.predamage)
 		target.predamage = 0
-		if source.type == CardType.MINION and source.stealthed:
+		if (source.type == CardType.MINION or source.type == CardType.HERO) and source.stealthed:
 			# TODO this should be an event listener of sorts
 			source.stealthed = False
 		if amount:
@@ -811,6 +817,7 @@ class Damage(TargetedAction):
 			if hasattr(source, "poisonous") and source.poisonous and (
 				target.type != CardType.HERO and source.type != CardType.WEAPON):
 				target.destroy()
+			target.damage_this_turn += amount
 		return amount
 
 
@@ -851,7 +858,7 @@ class Battlecry(TargetedAction):
 			arg = _eval_card(source, arg)[0]
 		return [arg]
 
-	def do(self, source, card, target):
+	def do(self, source, card, target=None):
 		player = card.controller
 
 		if card.has_combo and player.combo:
@@ -860,6 +867,13 @@ class Battlecry(TargetedAction):
 		else:
 			log.info("Activating %r action targeting %r", card, target)
 			actions = card.get_actions("play")
+
+		if card.requires_target() and target is None:
+			if len(card.targets):
+				target = random.choice(card.targets)
+			else:
+				log.info("%s battlecry %s don't have a legal target", source, card)
+				return
 
 		source.target = target
 		source.game.main_power(source, actions, target)
@@ -1236,9 +1250,10 @@ class Reveal(TargetedAction):
 	"""
 
 	def do(self, source, target):
-		log.info("Revealing secret %r", target)
-		self.broadcast(source, EventListener.ON, target)
-		target.zone = Zone.GRAVEYARD
+		log.info("Revealing %r", target)
+		if target.zone == Zone.SECRET and target.data.secret:
+			self.broadcast(source, EventListener.ON, target)
+			target.zone = Zone.GRAVEYARD
 
 
 class SetCurrentHealth(TargetedAction):
@@ -1252,6 +1267,7 @@ class SetCurrentHealth(TargetedAction):
 		log.info("Setting current health on %r to %i", target, amount)
 		maxhp = target.max_health
 		target.damage = max(0, maxhp - amount)
+		return target
 
 
 class SetTag(TargetedAction):
@@ -1342,7 +1358,7 @@ class Summon(TargetedAction):
 					# card._summon_index = source_index + ((self.trigger_index + 1) % 2)
 					card._summon_index = self.get_summon_index(source_index)
 				card.zone = Zone.PLAY
-			if card.type == CardType.MINION and card.race == Race.TOTEM:
+			if card.type == CardType.MINION and Race.TOTEM in card.races:
 				card.controller.times_totem_summoned_this_game += 1
 			self.queue_broadcast(self, (source, EventListener.ON, target, card))
 			self.broadcast(source, EventListener.AFTER, target, card)
@@ -1570,7 +1586,7 @@ class ExtraAttack(TargetedAction):
 		target.num_attacks -= 1
 
 
-class SwapState(TargetedAction):
+class SwapStateBuff(TargetedAction):
 	"""
 	Swap stats between two minions using \a buff.
 	"""
@@ -1593,7 +1609,7 @@ class SwapState(TargetedAction):
 		buff2.apply(other)
 
 
-class CopyState(TargetedAction):
+class CopyStateBuff(TargetedAction):
 	"""
 	Copy target state, buff on self
 	"""
@@ -1744,7 +1760,6 @@ class GameStart(GameAction):
 	def do(self, source):
 		log.info("Game start")
 		self.broadcast(source, EventListener.ON)
-		self.broadcast(source, EventListener.AFTER)
 
 
 class Adapt(TargetedAction):
@@ -1785,6 +1800,9 @@ class Adapt(TargetedAction):
 
 
 class AddProgress(TargetedAction):
+	"""
+	Add Progress for target, such as quest card and upgradeable card
+	"""
 	TARGET = ActionArg()
 	CARD = CardArg()
 	AMOUNT = IntArg()
@@ -1801,12 +1819,18 @@ class AddProgress(TargetedAction):
 
 
 class ClearProgress(TargetedAction):
+	"""
+	Clear Progress for target
+	"""
 	def do(self, source, target):
 		log.info("%r clear progress", target)
 		target.clear_progress()
 
 
 class GlimmerrootAction(TargetedAction):
+	"""
+	Curious Glimmerroot (UNG_035)
+	"""
 	def do(self, source, player):
 		self.player = player
 		self.source = source
@@ -1852,6 +1876,10 @@ class GlimmerrootAction(TargetedAction):
 
 
 class CreateZombeast(TargetedAction):
+	"""
+	Build-A-Beast (ICC_828p)
+	Heropower of Deathstalker Rexxar
+	"""
 	def init(self, source):
 		hunter_beast_ids = RandomBeast(
 			card_class=CardClass.HUNTER,
@@ -1923,6 +1951,29 @@ class CreateZombeast(TargetedAction):
 
 
 class LosesDivineShield(TargetedAction):
+	"""
+	Losses Divine Shield
+	"""
 	def do(self, source, target):
 		target.divine_shield = False
 		self.broadcast(source, EventListener.AFTER, target)
+
+
+class Remove(TargetedAction):
+	"""
+	Remove character targets
+	"""
+	def do(self, source, target):
+		target.zone = Zone.REMOVEDFROMGAME
+
+
+class Replay(TargetedAction):
+	"""
+	Cast it if it's spell, otherwise summon it (minion, weapon, hero).
+	Now only for Tess Greymane (GIL_598)
+	"""
+	def do(self, source, target):
+		if target.type == CardType.SPELL:
+			source.game.queue_actions(source, [CastSpell(target)])
+		else:
+			source.game.queue_actions(source, [Summon(source.controller, target)])

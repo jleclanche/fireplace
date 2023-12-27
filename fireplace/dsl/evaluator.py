@@ -177,6 +177,38 @@ class FindDuplicates(Evaluator):
 		return len(set(entities)) < len(entities)
 
 
+class EvenCost(Evaluator):
+	"""
+	Evaluates to True if the cost of \a selector are all even cost.
+	"""
+	def __init__(self, selector, count=1):
+		super().__init__()
+		self.selector = selector
+
+	def check(self, source):
+		entities = self.selector.eval(source.game, source)
+		for entity in entities:
+			if entity.cost % 2 == 1:
+				return False
+		return True
+
+
+class OddCost(Evaluator):
+	"""
+	Evaluates to True if the cost of \a selector are all odd cost.
+	"""
+	def __init__(self, selector, count=1):
+		super().__init__()
+		self.selector = selector
+
+	def check(self, source):
+		entities = self.selector.eval(source.game, source)
+		for entity in entities:
+			if entity.cost % 2 == 0:
+				return False
+		return True
+
+
 class JoustEvaluator(Evaluator):
 	"""
 	Compare the sum of the costs of \a selector versus \a selector2.

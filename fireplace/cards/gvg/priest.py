@@ -21,7 +21,7 @@ GVG_011a = buff(atk=-2)
 class GVG_014:
 	"""Vol'jin"""
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	play = SwapState(SELF, TARGET, "GVG_014a")
+	play = SwapStateBuff(SELF, TARGET, "GVG_014a")
 
 
 class GVG_014a:

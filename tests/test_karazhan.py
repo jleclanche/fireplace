@@ -175,7 +175,7 @@ def test_netherspite_historian():
 	assert len(game.player1.choice.cards) == 3
 	for card in game.player1.choice.cards:
 		assert card.type == CardType.MINION
-		assert card.race == Race.DRAGON
+		assert Race.DRAGON in card.races
 
 
 def test_menagerie_warden():

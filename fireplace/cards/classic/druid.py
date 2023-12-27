@@ -9,6 +9,11 @@ class CS2_017:
 	activate = Buff(FRIENDLY_HERO, "CS2_017o"), GainArmor(FRIENDLY_HERO, 1)
 
 
+class CS2_017_HS1(CS2_017):
+	"""Shapeshift (Lunara)"""
+	pass
+
+
 CS2_017o = buff(atk=1)
 
 

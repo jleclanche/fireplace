@@ -224,7 +224,7 @@ class Player(Entity, TargetableByAuras):
 		return amount
 
 	def get_heropower_heal(self, amount: int) -> int:
-		amount <<= self.controller.healing_double
+		amount <<= self.controller.hero_power_double
 		return amount
 
 	def discard_hand(self):
@@ -241,7 +241,7 @@ class Player(Entity, TargetableByAuras):
 		if self.spells_cost_health and card.type == CardType.SPELL:
 			return self.hero.health > card.cost
 		if self.murlocs_cost_health:
-			if card.type == CardType.MINION and card.race == Race.MURLOC:
+			if card.type == CardType.MINION and Race.MURLOC in card.races:
 				return self.hero.health > card.cost
 		return self.mana >= card.cost
 
@@ -255,7 +255,7 @@ class Player(Entity, TargetableByAuras):
 			self.game.queue_actions(self, [Hit(self.hero, amount)])
 			return amount
 		if self.murlocs_cost_health:
-			if source.type == CardType.MINION and source.race == Race.MURLOC:
+			if source.type == CardType.MINION and Race.MURLOC in source.races:
 				self.log("%s murlocs cost %i health", self, amount)
 				self.game.queue_actions(self, [Hit(self.hero, amount)])
 				return amount

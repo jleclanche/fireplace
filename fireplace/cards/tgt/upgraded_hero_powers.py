@@ -15,6 +15,11 @@ class AT_132_DRUID:
 AT_132_DRUIDe = buff(atk=2)
 
 
+class AT_132_DRUIDa(AT_132_DRUID):
+	"""Dire Shapeshift (Lunara)"""
+	pass
+
+
 class AT_132_HUNTER:
 	"""Ballista Shot"""
 	requirements = {PlayReq.REQ_MINION_OR_ENEMY_HERO: 0, PlayReq.REQ_STEADY_SHOT: 0}
@@ -74,6 +79,11 @@ class AT_132_ROGUE:
 	activate = Summon(CONTROLLER, "AT_132_ROGUEt")
 
 
+class AT_132_ROGUE_H1:
+	"""Poisoned Daggers (Maiev Shadowsong)"""
+	activate = Summon(CONTROLLER, "AT_132_ROGUEt_H1")
+
+
 class AT_132_WARRIOR:
 	"""Tank Up!"""
 	activate = GainArmor(FRIENDLY_HERO, 4)
@@ -87,6 +97,16 @@ class CS2_102_H1_AT_132(AT_132_WARRIOR):
 class AT_132_WARLOCK:
 	"""Soul Tap"""
 	activate = Draw(CONTROLLER)
+
+
+class AT_132_WARLOCKa(AT_132_WARLOCK):
+	"""Soul Tap (Nemsy Necrofizzle)"""
+	pass
+
+
+class AT_132_WARLOCKb(AT_132_WARLOCK):
+	"""Soul Tap (Mecha-Jaraxxus)"""
+	pass
 
 
 class AT_132_SHAMAN:
