@@ -1800,6 +1800,9 @@ class Adapt(TargetedAction):
 
 
 class AddProgress(TargetedAction):
+	"""
+	Add Progress for target, such as quest card and upgradeable card
+	"""
 	TARGET = ActionArg()
 	CARD = CardArg()
 	AMOUNT = IntArg()
@@ -1816,12 +1819,18 @@ class AddProgress(TargetedAction):
 
 
 class ClearProgress(TargetedAction):
+	"""
+	Clear Progress for target
+	"""
 	def do(self, source, target):
 		log.info("%r clear progress", target)
 		target.clear_progress()
 
 
 class GlimmerrootAction(TargetedAction):
+	"""
+	Curious Glimmerroot (UNG_035)
+	"""
 	def do(self, source, player):
 		self.player = player
 		self.source = source
@@ -1867,6 +1876,10 @@ class GlimmerrootAction(TargetedAction):
 
 
 class CreateZombeast(TargetedAction):
+	"""
+	Build-A-Beast (ICC_828p)
+	Heropower of Deathstalker Rexxar
+	"""
 	def init(self, source):
 		hunter_beast_ids = RandomBeast(
 			card_class=CardClass.HUNTER,
@@ -1938,24 +1951,29 @@ class CreateZombeast(TargetedAction):
 
 
 class LosesDivineShield(TargetedAction):
+	"""
+	Losses Divine Shield
+	"""
 	def do(self, source, target):
 		target.divine_shield = False
 		self.broadcast(source, EventListener.AFTER, target)
 
 
 class Remove(TargetedAction):
+	"""
+	Remove character targets
+	"""
 	def do(self, source, target):
 		target.zone = Zone.REMOVEDFROMGAME
 
 
 class Replay(TargetedAction):
+	"""
+	Cast it if it's spell, otherwise summon it (minion, weapon, hero).
+	Now only for Tess Greymane (GIL_598)
+	"""
 	def do(self, source, target):
-		if target.type == CardType.MINION:
-			source.game.queue_actions(source, [Summon(source.controller, target)])
-		else:
+		if target.type == CardType.SPELL:
 			source.game.queue_actions(source, [CastSpell(target)])
-
-
-class Show(TargetedAction):
-	def do(self, source, target):
-		log.info("%r show %r", source, target)
+		else:
+			source.game.queue_actions(source, [Summon(source.controller, target)])
