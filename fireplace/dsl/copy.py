@@ -51,8 +51,28 @@ class ExactCopy(Copy):
 			ret.damage = entity.damage
 		for buff in entity.buffs:
 			# Recreate the buff stack
-			new_buff = buff.source.buff(ret, buff.id)
+			new_buff = buff.source.buff(ret, buff.id,
+				atk=buff.atk, max_health=buff.max_health)
 			if buff in source.game.active_aura_buffs:
 				new_buff.tick = buff.tick
 				source.game.active_aura_buffs.append(new_buff)
+		return ret
+
+
+class KeepMagneticCopy(Copy):
+	"""
+	Kangor's Endless Army
+	They keep any <b>Magnetic</b> upgrades
+	"""
+	def __init__(self, selector, id=None):
+		self.id = id
+		self.selector = selector
+
+	def copy(self, source, entity):
+		ret = super().copy(source, entity)
+		if self.id:
+			ret = source.controller.card(self.id, source)
+		for buff in entity.buffs:
+			if getattr(buff.source, "has_magnetic", False):
+				buff.source.buff(ret, buff.id, atk=buff.atk, max_health=buff.max_health)
 		return ret

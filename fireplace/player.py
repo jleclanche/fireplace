@@ -70,6 +70,7 @@ class Player(Entity, TargetableByAuras):
 		self.times_totem_summoned_this_game = 0
 		self.elemental_played_this_turn = 0
 		self.elemental_played_last_turn = 0
+		self.cards_played_this_turn = CardList()
 		self.cards_played_this_game = CardList()
 		self.cthun = None
 
@@ -174,6 +175,11 @@ class Player(Entity, TargetableByAuras):
 		return card
 
 	def prepare_for_game(self):
+		# Whizbang
+		if self.starting_hero == "BOT_914h" or self.starting_deck == ["BOT_914"]:
+			from .cards.boomsday.whizbang_decks import WHIZBANG_DECKS
+			self.starting_hero, self.starting_deck = random.choice(WHIZBANG_DECKS)
+
 		self.summon(self.starting_hero)
 		# self.game.trigger(self, [Summon(self, self.starting_hero)], event_args=None)
 		self.starting_hero = self.hero

@@ -170,7 +170,7 @@ class EX1_533:
 
 class EX1_554:
 	"""Snake Trap"""
-	secret = Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(FULL_BOARD | (
+	secret = Attack(None, FRIENDLY_MINIONS).on(FULL_BOARD | (
 		Reveal(SELF), Summon(CONTROLLER, "EX1_554t") * 3
 	))
 

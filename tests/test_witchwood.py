@@ -30,3 +30,14 @@ def test_wing_blast():
 	wisp = game.player1.give(WISP).play()
 	game.player1.give(MOONFIRE).play(target=wisp)
 	assert wing_blast.cost == 1
+
+
+def test_tess_greymane():
+	game = prepare_game(CardClass.ROGUE, CardClass.ROGUE)
+	game.player1.give("CS2_065").play()
+	game.player1.give("EX1_169").play()
+	mana = game.player1.mana
+	tess = game.player1.give("GIL_598")
+	tess.play()
+	assert len(game.player1.field) == 3
+	assert game.player1.mana == mana - tess.cost + 1

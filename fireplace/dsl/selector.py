@@ -346,7 +346,14 @@ class RandomSelector(Selector):
 		return RandomSelector(self.child, self.times * other)
 
 
+class RandomShuffle(RandomSelector):
+	def eval(self, entities, source):
+		child_entities = self.child.eval(entities, source)
+		return random.sample(child_entities, len(child_entities))
+
+
 RANDOM = RandomSelector
+SHUFFLE = RandomShuffle
 
 DEAD = FuncSelector(
 	lambda entities, source: [
@@ -485,6 +492,12 @@ MURLOC = EnumSelector(Race.MURLOC)
 PIRATE = EnumSelector(Race.PIRATE)
 TOTEM = EnumSelector(Race.TOTEM)
 ELEMENTAL = EnumSelector(Race.ELEMENTAL)
+TREANT = FuncSelector(
+	lambda entities, src: [
+		e for e in entities
+		if (e.data.strings[GameTag.CARDNAME]["enUS"]).endswith("Treant")
+	]
+)
 
 COMMON = EnumSelector(Rarity.COMMON)
 RARE = EnumSelector(Rarity.RARE)
@@ -565,6 +578,11 @@ RIGTHMOST_HAND = FuncSelector(
 	lambda entities, source: source.game.player1.hand[:1] + source.game.player2.hand[-1:])
 OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND
 
+CARDS_PLAYED_THIS_TRUN = FuncSelector(
+	lambda entities, source: source.controller.cards_played_this_turn)
+OPPONENT_CARDS_PLAYED_THIS_TRUN = FuncSelector(
+	lambda entities, source: source.controller.opponent.cards_played_this_turn)
+
 CARDS_PLAYED_THIS_GAME = FuncSelector(
 	lambda entities, source: source.controller.cards_played_this_game)
 
@@ -575,3 +593,6 @@ SPELL_DAMAGE = lambda amount: FuncSelector(
 	lambda entities, source: source.controller.get_spell_damage(amount))
 SPELL_HEAL = lambda amount: FuncSelector(
 	lambda entities, source: source.controller.get_spell_heal(amount))
+
+PLAY_RIGHT_MOST = FuncSelector(
+	lambda entities, source: [e for e in entities if getattr(e, "play_right_most", False)])

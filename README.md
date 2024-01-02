@@ -9,10 +9,10 @@ A Hearthstone simulator and implementation, written in Python.
 
 ## Cards Implementation
 
-Now updated to [Patch 11.4.0.25252](https://hearthstone.fandom.com/wiki/Patch_11.4.0.252526)
+Now updated to [Patch 12.4.0.27405](https://hearthstone.fandom.com/wiki/Patch_12.4.0.27405)
 * **100%** Basic (142 of 142 cards)
-* **100%** Classic (239 of 239 cards)
-* **100%** Hall of Fame (10 of 10 cards)
+* **100%** Classic (240 of 240 cards)
+* **100%** Hall of Fame (13 of 13 cards)
 * **100%** Curse of Naxxramas (30 of 30 cards)
 * **100%** Goblins vs Gnomes (123 of 123 cards)
 * **100%** Blackrock Mountain (31 of 31 cards)
@@ -25,6 +25,7 @@ Now updated to [Patch 11.4.0.25252](https://hearthstone.fandom.com/wiki/Patch_11
 * **100%** Knights of the Frozen Throne (135 of 135 cards)
 * **100%** Kobolds & Catacombs (135 of 135 cards)
 * **100%** The Witchwood (135 of 135 cards)
+* **100%** The Boomsday Project (135 of 135 cards)
 
 ## Requirements
 

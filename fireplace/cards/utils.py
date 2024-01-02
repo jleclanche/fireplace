@@ -61,6 +61,7 @@ HERO_POWER_MAP = {
 	"CS2_101": "AT_132_PALADIN",  # Uther Lightbringer
 	"CS2_101_H1": "CS2_101_H1_AT_132",  # Lady Liadrin
 	"CS2_101_H2": "CS2_101_H2_AT_132",  # Prince Arthas
+	"CS2_101_H3": "CS2_101_H3_AT_132",  # Sir Annoy-O
 	# Priest
 	"CS1h_001": "AT_132_PRIEST",  # Anduin Wrynn
 	"CS1h_001_H1": "CS1h_001_H1_AT_132",  # Tyrande Whisperwind
@@ -70,6 +71,7 @@ HERO_POWER_MAP = {
 	# Shaman
 	"CS2_049": "AT_132_SHAMAN",  # Thrall
 	"CS2_049_H1": "CS2_049_H1_AT_132",  # Morgl the Oracle
+	"CS2_049_H2": "CS2_049_H2_AT_132",  # King Rastakhan
 	# Warlock
 	"CS2_056": "AT_132_WARLOCK",  # Gul'dan
 	"CS2_056_H1": "AT_132_WARLOCKa",  # Nemsy Necrofizzle
@@ -160,6 +162,10 @@ JOUST_SPELL = JoustHelper(
 
 RECRUIT = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION))
 Recruit = lambda selector: Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION + selector))
+
+MAGNETIC = lambda buff: Find(RIGHT_OF(SELF) + MECH) & (
+	Buff(RIGHT_OF(SELF), buff, atk=ATK(SELF), max_health=CURRENT_HEALTH(SELF)), Remove(SELF)
+)
 
 
 def SET(amt):

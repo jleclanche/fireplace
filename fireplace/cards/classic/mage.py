@@ -196,3 +196,15 @@ class EX1_594:
 	secret = Attack(MINION, FRIENDLY_HERO).on(
 		Reveal(SELF), Destroy(Attack.ATTACKER)
 	)
+
+
+class EX1_179:
+	"""Icicle"""
+	# Deal $2 damage to a minion. If it's <b>Frozen</b>, draw a card.
+	play = Hit(TARGET, 2), Find(TARGET + FROZEN) & Draw(CONTROLLER)
+
+
+class EX1_180:
+	"""Tome of Intellect"""
+	# Add a random Mage spell to your hand.
+	play = Give(CONTROLLER, RandomSpell(card_class=CardClass.MAGE))

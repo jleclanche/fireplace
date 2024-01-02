@@ -254,3 +254,16 @@ class Lethal(Evaluator):
 			if health > amount:
 				return False
 		return True
+
+
+class Actived(Evaluator):
+	def __init__(self, selector, count=1):
+		super().__init__()
+		self.selector = selector
+
+	def check(self, source):
+		entities = self.selector.eval(source.game, source)
+		for entity in entities:
+			if not getattr(entity, "actived", False):
+				return False
+		return True

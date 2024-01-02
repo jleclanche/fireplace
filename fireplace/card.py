@@ -252,6 +252,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.morphed = None
 		self.upgrade_counter = 0
 		self.cast_on_friendly_minions = False
+		self.play_right_most = False
 		super().__init__(data)
 
 	@property
@@ -808,6 +809,7 @@ class Minion(Character):
 	charge = boolean_property("charge")
 	has_inspire = boolean_property("has_inspire")
 	spellpower = int_property("spellpower")
+	has_magnetic = boolean_property("has_magnetic")
 
 	silenceable_attributes = (
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",

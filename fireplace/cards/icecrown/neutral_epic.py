@@ -13,7 +13,7 @@ class ICC_025:
 class ICC_096:
 	"""Furnacefire Colossus"""
 	play = Discard(IN_HAND + WEAPON).then(
-		Buff(SELF, "ICC_096e", atk=ATK(Discard.TARGET), health=CURRENT_HEALTH(Discard.TARGET))
+		Buff(SELF, "ICC_096e", atk=ATK(Discard.TARGET), max_health=CURRENT_HEALTH(Discard.TARGET))
 	)
 
 

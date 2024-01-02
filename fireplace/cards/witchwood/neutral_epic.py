@@ -7,7 +7,7 @@ from ..utils import *
 class GIL_117:
 	"""Worgen Abomination"""
 	# At the end of your turn, deal 2 damage to all other damaged minions.
-	event = OWN_TURN_END.on(Hit(ALL_MINIONS - SELF + DAMAGED, 2))
+	events = OWN_TURN_END.on(Hit(ALL_MINIONS - SELF + DAMAGED, 2))
 
 
 class GIL_124:

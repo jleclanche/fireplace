@@ -198,3 +198,9 @@ EX1_596e = buff(+2, +2)
 class NEW1_003:
 	"""Sacrificial Pact"""
 	play = Destroy(TARGET), Heal(FRIENDLY_HERO, 5)
+
+
+class EX1_181:
+	"""Call of the Void"""
+	# Add a random Demon to your hand.
+	play = Give(CONTROLLER, RandomDemon())

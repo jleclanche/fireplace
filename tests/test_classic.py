@@ -3506,20 +3506,20 @@ def test_vancleef():
 	vancleef1 = game.current_player.give("EX1_613")
 	vancleef2 = game.current_player.give("EX1_613")
 
-	assert not game.current_player.cards_played_this_turn
+	assert len(game.current_player.cards_played_this_turn) == 0
 	for i in range(5):
 		game.player1.give(THE_COIN).play()
-	assert game.current_player.cards_played_this_turn == 5
+	assert len(game.current_player.cards_played_this_turn) == 5
 	vancleef1.play()
-	assert game.current_player.cards_played_this_turn == 6
+	assert len(game.current_player.cards_played_this_turn) == 6
 	assert vancleef1.atk == 12
 	assert vancleef1.health == 12
 	game.end_turn()
 	game.end_turn()
 
-	assert not game.current_player.cards_played_this_turn
+	assert len(game.current_player.cards_played_this_turn) == 0
 	vancleef2.play()
-	assert game.current_player.cards_played_this_turn == 1
+	assert len(game.current_player.cards_played_this_turn) == 1
 	assert vancleef2.atk == 2
 	assert vancleef2.health == 2
 

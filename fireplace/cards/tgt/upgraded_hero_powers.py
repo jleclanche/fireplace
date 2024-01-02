@@ -63,6 +63,11 @@ class CS2_101_H2_AT_132(AT_132_PALADIN):
 	pass
 
 
+class CS2_101_H3_AT_132(AT_132_PALADIN):
+	"""The Silver Hand (Sir Annoy-O)"""
+	pass
+
+
 class AT_132_PRIEST:
 	"""Heal"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
@@ -117,6 +122,11 @@ class AT_132_SHAMAN:
 
 class CS2_049_H1_AT_132(AT_132_SHAMAN):
 	"""Totemic Slam (Morgl the Oracle)"""
+	pass
+
+
+class CS2_049_H2_AT_132(AT_132_SHAMAN):
+	"""Totemic Slam (King Rastakhan)"""
 	pass
 
 

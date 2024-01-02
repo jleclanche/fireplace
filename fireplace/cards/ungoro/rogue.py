@@ -13,7 +13,7 @@ class UNG_058:
 
 class UNG_063:
 	"""Biteweed"""
-	combo = Buff(SELF, "UNG_063e") * Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
+	combo = Buff(SELF, "UNG_063e") * Count(CARDS_PLAYED_THIS_TRUN)
 
 
 UNG_063e = buff(+1, +1)

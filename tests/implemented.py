@@ -72,6 +72,9 @@ DUMMY_CARDS = (
 	"CFM_668t2",  # Doppelgangster
 
 	"OG_118e",  # Renounce Darkness
+
+	# The Boomsday Project
+	"BOT_914",  # Whizbang the Wonderful
 )
 
 

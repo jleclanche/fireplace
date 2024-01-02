@@ -26,7 +26,7 @@ class ICC_811:
 
 class ICC_910:
 	"""Spectral Pillager"""
-	combo = Hit(TARGET, Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN))
+	combo = Hit(TARGET, Count(CARDS_PLAYED_THIS_TRUN))
 
 
 ##

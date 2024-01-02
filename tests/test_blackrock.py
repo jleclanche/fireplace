@@ -533,3 +533,15 @@ def test_dark_iron_bouncer_brawl():
 	brawl.play()
 	assert len(game.board) == 1
 	assert not bouncer.dead
+
+
+def test_zerek_master_cloner():
+	game = prepare_game()
+	zerek1 = game.player1.give("BOT_258").play()
+	zerek1.destroy()
+	assert len(game.player1.field) == 0
+	game.skip_turn()
+	zerek2 = game.player1.give("BOT_258").play()
+	game.player1.give(MOONFIRE).play(target=zerek2)
+	zerek2.destroy()
+	assert len(game.player1.field) == 1
