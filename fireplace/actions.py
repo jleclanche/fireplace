@@ -429,10 +429,19 @@ class Play(GameAction):
 		else:
 			trigger_outcast = False
 
+		if card is card.controller.hand[-1]:
+			card.play_right_most = True
+		else:
+			card.play_right_most = False
+
 		card.zone = Zone.PLAY
 
 		# Remember cast on friendly characters
-		if target and target.type == CardType.MINION and target.controller == source:
+		if (
+			card.type == CardType.SPELL and
+			target and target.type == CardType.MINION and
+			target.controller == source
+		):
 			card.cast_on_friendly_minions = True
 
 		# NOTE: A Play is not a summon! But it sure looks like one.
@@ -454,22 +463,27 @@ class Play(GameAction):
 			if card.echo:
 				source.game.queue_actions(card, [Give(player, Buff(Copy(SELF), "GIL_000"))])
 
+			actions = card.get_actions("magnetic")
+			if actions:
+				source.game.trigger(card, actions, event_args=None)
+
 			# If the play action transforms the card (eg. Druid of the Claw), we
 			# have to broadcast the morph result as minion instead.
 			played_card = card.morphed or card
+			played_card.play_right_most = card.play_right_most
 			if played_card.type in (CardType.MINION, CardType.WEAPON):
 				summon_action.broadcast(player, EventListener.AFTER, player, played_card)
 			self.broadcast(player, EventListener.AFTER, player, played_card, target)
 
 		player.combo = True
 		player.last_card_played = card
-		player.cards_played_this_turn += 1
 		if card.type == CardType.MINION:
 			player.minions_played_this_turn += 1
 			if Race.TOTEM in card.races:
 				card.controller.times_totem_summoned_this_game += 1
 			if Race.ELEMENTAL in card.races:
 				player.elemental_played_this_turn += 1
+		player.cards_played_this_turn.append(card)
 		player.cards_played_this_game.append(card)
 		card.choose = None
 
@@ -546,6 +560,8 @@ class TargetedAction(Action):
 				v = v.eval(source.game, source)
 			elif isinstance(v, LazyValue):
 				v = v.evaluate(source)
+			elif isinstance(v, Action):
+				v = v.trigger(source)[0]
 			elif isinstance(k, CardArg):
 				v = _eval_card(source, v)
 			ret.append(v)
@@ -558,6 +574,8 @@ class TargetedAction(Action):
 			ret = t.evaluate(source)
 		elif isinstance(t, str):
 			ret = source.controller.card(t)
+		elif isinstance(t, Action):
+			ret = t.trigger(source)[0]
 		else:
 			ret = t.eval(source.game, source)
 		if not ret:
@@ -853,7 +871,9 @@ class Battlecry(TargetedAction):
 			assert len(arg) == 1
 			arg = arg[0]
 		elif isinstance(arg, LazyValue):
-			arg = arg.evaluate(source)[0]
+			arg = arg.evaluate(source)
+			if hasattr(arg, "__iter__"):
+				arg = arg[0]
 		else:
 			arg = _eval_card(source, arg)[0]
 		return [arg]
@@ -1005,6 +1025,7 @@ class ForceDraw(TargetedAction):
 
 	def do(self, source, target):
 		target.draw()
+		return [target]
 
 
 class DrawUntil(TargetedAction):
@@ -1496,6 +1517,9 @@ class CastSpell(TargetedAction):
 		spell_target = None
 		if ret:
 			spell_target = ret[0][0]
+		else:
+			if target.target:
+				return [target.target]
 		return [spell_target]
 
 	def do(self, source, card, target=None):
@@ -1596,15 +1620,21 @@ class SwapStateBuff(TargetedAction):
 
 	def do(self, source, target, other, buff):
 		log.info("swap state %s and %s", target, other)
+		if not target or not other:
+			return
 		other = other[0]
 		buff1 = source.controller.card(buff)
 		buff1.source = source
-		buff1._xatk = other.atk
-		buff1._xhealth = other.health
+		buff1._xcost = other.cost
+		if other.type == CardType.MINION:
+			buff1._xatk = other.atk
+			buff1._xhealth = other.health
 		buff2 = source.controller.card(buff)
 		buff2.source = source
-		buff2._xatk = target.atk
-		buff2._xhealth = target.health
+		buff2._xcost = target.cost
+		if target.type == CardType.MINION:
+			buff2._xatk = target.atk
+			buff2._xhealth = target.health
 		buff1.apply(target)
 		buff2.apply(other)
 

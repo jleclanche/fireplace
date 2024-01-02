@@ -21,6 +21,7 @@ IMP = "EX1_598"
 MURLOC = "PRO_001at"
 WISP = "CS2_231"
 WHELP = "ds1_whelptoken"
+MECH = "BOT_309"
 
 # Token spells
 INNERVATE = "VAN_EX1_169"

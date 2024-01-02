@@ -34,7 +34,7 @@ class EX1_134:
 
 class EX1_613:
 	"""Edwin VanCleef"""
-	combo = Buff(SELF, "EX1_613e") * Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
+	combo = Buff(SELF, "EX1_613e") * Count(CARDS_PLAYED_THIS_TRUN)
 
 
 EX1_613e = buff(+2, +2)
@@ -215,3 +215,9 @@ class EX1_133:
 	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Hit(TARGET, 1)
 	combo = Hit(TARGET, 2)
+
+
+class EX1_182:
+	"""Pilfer"""
+	# Add a random card to your hand <i>(from your opponent's class)</i>.
+	play = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))

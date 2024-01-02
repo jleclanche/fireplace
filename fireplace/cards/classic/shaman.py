@@ -13,13 +13,14 @@ class CS2_049:
 	activate = Summon(CONTROLLER, RandomEntourage(exclude=FRIENDLY_MINIONS))
 
 
-class CS2_049_H1:
+class CS2_049_H1(CS2_049):
 	"""Totemic Call (Morgl the Oracle)"""
-	requirements = {
-		PlayReq.REQ_ENTIRE_ENTOURAGE_NOT_IN_PLAY: 0,
-		PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	entourage = ["CS2_050", "CS2_051", "CS2_052", "NEW1_009"]
-	activate = CS2_049.activate
+	pass
+
+
+class CS2_049_H2(CS2_049):
+	"""Totemic Call (King Rastakhan)"""
+	pass
 
 
 class NEW1_009:

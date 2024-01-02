@@ -22,6 +22,11 @@ class CS2_101_H2:
 	activate = CS2_101.activate
 
 
+class CS2_101_H3(CS2_101):
+	"""Reinforce (Sir Annoy-O)"""
+	pass
+
+
 ##
 # Minions
 

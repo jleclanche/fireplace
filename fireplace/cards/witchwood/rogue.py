@@ -23,7 +23,7 @@ class GIL_598:
 	"""Tess Greymane"""
 	# [x]<b>Battlecry:</b> Replay every card from another class you've played this game
 	# <i>(targets chosen randomly)</i>.
-	play = Replay(Shuffle(Copy(CARDS_PLAYED_THIS_GAME + OTHER_CLASS_CHARACTER)))
+	play = Replay(Copy(SHUFFLE(CARDS_PLAYED_THIS_GAME + OTHER_CLASS_CHARACTER)))
 
 
 class GIL_677:

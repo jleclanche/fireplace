@@ -105,7 +105,7 @@ def main():
 		"--card_set",
 		dest="card_set",
 		type=int,
-		default=CardSet.GILNEAS,
+		default=CardSet.BOOMSDAY,
 		help="Generate cards of card set"
 	)
 	p.add_argument(
@@ -116,7 +116,7 @@ def main():
 	p.add_argument(
 		"--output_dir",
 		dest="output_dir",
-		default="./fireplace/cards/witchwood",
+		default="./fireplace/cards/boomsday",
 		help="Generate code output dir",
 	)
 	args = p.parse_args(sys.argv[1:])

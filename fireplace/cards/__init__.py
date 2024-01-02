@@ -35,7 +35,7 @@ class CardDB(dict):
 		scriptnames = (
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
 			"enrage", "update", "powered_up", "outcast", "awaken", "reward",
-			"add_progress", "discard", "secret_deathrattles"
+			"add_progress", "discard", "secret_deathrattles", "magnetic",
 		)
 
 		for script in scriptnames:

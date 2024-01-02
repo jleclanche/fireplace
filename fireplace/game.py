@@ -350,7 +350,7 @@ class BaseGame(Entity):
 			p.cards_drawn_this_turn = 0
 
 		player.turn_start = timegm(time.gmtime())
-		player.cards_played_this_turn = 0
+		player.cards_played_this_turn = CardList()
 		player.minions_played_this_turn = 0
 		player.minions_killed_this_turn = 0
 		player.combo = False

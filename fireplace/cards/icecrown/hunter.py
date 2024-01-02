@@ -48,7 +48,7 @@ class ICC_052:
 
 class ICC_200:
 	"""Venomstrike Trap"""
-	secret = Attack(ALL_MINIONS, FRIENDLY_MINIONS).on(FULL_BOARD | (
+	secret = Attack(None, FRIENDLY_MINIONS).on(FULL_BOARD | (
 		Reveal(SELF), Summon(CONTROLLER, "EX1_170")
 	))
 

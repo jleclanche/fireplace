@@ -83,4 +83,4 @@ class OG_174e:
 
 class OG_321:
 	"""Crazed Worshipper"""
-	events = SELF_DAMAGE.on(Buff(CTHUN, "OG_281e", atk=1, health=1))
+	events = SELF_DAMAGE.on(Buff(CTHUN, "OG_281e", atk=1, max_health=1))

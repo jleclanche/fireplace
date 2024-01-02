@@ -7,13 +7,13 @@ from ..utils import *
 class OG_162:
 	"""Disciple of C'Thun"""
 	requirements = {PlayReq.REQ_NONSELF_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
-	play = Hit(TARGET, 2), Buff(CTHUN, "OG_281e", atk=2, health=2)
+	play = Hit(TARGET, 2), Buff(CTHUN, "OG_281e", atk=2, max_health=2)
 
 
 class OG_255:
 	"""Doomcaller"""
 	play = (
-		Buff(CTHUN, "OG_281e", atk=2, health=2),
+		Buff(CTHUN, "OG_281e", atk=2, max_health=2),
 		Find(KILLED + CTHUN) & Shuffle(CONTROLLER, "OG_280")
 	)
 
@@ -27,7 +27,7 @@ class OG_034:
 
 class OG_339:
 	"""Skeram Cultist"""
-	play = Buff(CTHUN, "OG_281e", atk=2, health=2)
+	play = Buff(CTHUN, "OG_281e", atk=2, max_health=2)
 
 
 class OG_147:
