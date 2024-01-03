@@ -939,7 +939,7 @@ class Minion(Character):
 
 		amount = super()._hit(amount)
 
-		if self.health < self.min_health:
+		if self.health < self.min_health and self.min_health > 0:
 			self.log("%r has HEALTH_MINIMUM of %i", self, self.min_health)
 			self.damage = self.max_health - self.min_health
 

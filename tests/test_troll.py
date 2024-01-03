@@ -33,3 +33,13 @@ def test_hakkar():
 	game.skip_turn()
 	assert game.player2.hero.health == 21
 	assert len(game.player2.deck) == 4
+
+
+def test_overkill():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	game.end_turn()
+	direhorn = game.player2.give("TRL_232").play()
+	game.skip_turn()
+	direhorn.attack(wisp)
+	assert len(game.player2.field) == 2
