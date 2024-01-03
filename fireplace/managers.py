@@ -138,6 +138,7 @@ class PlayerManager(Manager):
 		GameTag.MAXRESOURCES: "max_resources",
 		GameTag.NUM_CARDS_DRAWN_THIS_TURN: "cards_drawn_this_turn",
 		GameTag.NUM_CARDS_PLAYED_THIS_TURN: "cards_played_this_turn",
+		GameTag.NUM_HERO_POWER_DAMAGE_THIS_GAME: "hero_power_damage_this_game",
 		GameTag.NUM_MINIONS_PLAYED_THIS_TURN: "minions_played_this_turn",
 		GameTag.NUM_MINIONS_PLAYER_KILLED_THIS_TURN: "minions_killed_this_turn",
 		GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME: "times_hero_power_used_this_game",

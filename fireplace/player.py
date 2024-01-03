@@ -73,6 +73,8 @@ class Player(Entity, TargetableByAuras):
 		self.cards_played_this_turn = CardList()
 		self.cards_played_last_turn = CardList()
 		self.cards_played_this_game = CardList()
+		self.hero_power_damage_this_game = 0
+		self.spent_mana_on_spells_this_game = 0
 		self.cthun = None
 
 	def __str__(self):
@@ -266,6 +268,8 @@ class Player(Entity, TargetableByAuras):
 				self.log("%s murlocs cost %i health", self, amount)
 				self.game.queue_actions(self, [Hit(self.hero, amount)])
 				return amount
+		if source.type == CardType.SPELL:
+			self.spent_mana_on_spells_this_game += amount
 		if self.temp_mana:
 			# Coin, Innervate etc
 			used_temp = min(self.temp_mana, amount)

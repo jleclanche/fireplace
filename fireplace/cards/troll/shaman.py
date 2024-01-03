@@ -20,7 +20,9 @@ class TRL_060:
 class TRL_085:
 	"""Zentimo"""
 	# [x]Whenever you target a minion with a spell, cast it again on its neighbors.
-	pass
+	events = Play(SPELL, MINION).after(
+		CastSpell(Play.CARD, ADJACENT(Play.TARGET))
+	)
 
 
 class TRL_345:

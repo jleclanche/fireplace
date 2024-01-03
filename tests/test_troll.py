@@ -43,3 +43,12 @@ def test_overkill():
 	game.skip_turn()
 	direhorn.attack(wisp)
 	assert len(game.player2.field) == 2
+
+
+def test_snapjaw_shellfighter():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	shellfighter = game.player1.give("TRL_535").play()
+	game.player1.give(MOONFIRE).play(target=wisp)
+	assert wisp.damage == 0
+	assert shellfighter.damage == 1

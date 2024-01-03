@@ -39,7 +39,9 @@ class TRL_530:
 class TRL_532:
 	"""Mosh'Ogg Announcer"""
 	# [x]Enemies attacking this have a 50% chance to attack someone else.
-	pass
+	events = Attack(ENEMY_CHARACTERS, SELF).on(
+		COINFLIP & Retarget(Attack.ATTACKER, RANDOM(FRIENDLY_CHARACTERS - SELF))
+	)
 
 
 class TRL_533:
@@ -51,7 +53,9 @@ class TRL_533:
 class TRL_535:
 	"""Snapjaw Shellfighter"""
 	# [x]Whenever an adjacent minion takes damage, this _minion takes it instead.
-	pass
+	events = Predamage(SELF_ADJACENT).on(
+		Predamage(Predamage.TARGET, 0), Hit(SELF, Predamage.AMOUNT)
+	)
 
 
 class TRL_569:

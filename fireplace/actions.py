@@ -840,6 +840,8 @@ class Damage(TargetedAction):
 				if actions:
 					source.game.trigger(source, actions, event_args=None)
 			target.damage_this_turn += amount
+			if source.type == CardType.HERO_POWER:
+				source.controller.hero_power_damage_this_game += amount
 		return amount
 
 
