@@ -580,6 +580,8 @@ OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND
 
 CARDS_PLAYED_THIS_TRUN = FuncSelector(
 	lambda entities, source: source.controller.cards_played_this_turn)
+CARDS_PLAYED_LAST_TRUN = FuncSelector(
+	lambda entities, source: source.controller.cards_played_last_turn)
 OPPONENT_CARDS_PLAYED_THIS_TRUN = FuncSelector(
 	lambda entities, source: source.controller.opponent.cards_played_this_turn)
 
@@ -588,6 +590,8 @@ CARDS_PLAYED_THIS_GAME = FuncSelector(
 
 STARTING_DECK = FuncSelector(
 	lambda entities, source: source.controller.starting_deck)
+STARTING_HAND = FuncSelector(
+	lambda entities, source: source.controller.starting_hand)
 
 SPELL_DAMAGE = lambda amount: FuncSelector(
 	lambda entities, source: source.controller.get_spell_damage(amount))
@@ -596,3 +600,5 @@ SPELL_HEAL = lambda amount: FuncSelector(
 
 PLAY_RIGHT_MOST = FuncSelector(
 	lambda entities, source: [e for e in entities if getattr(e, "play_right_most", False)])
+
+ENTOURAGE = FuncSelector(lambda entities, source: source.entourage)

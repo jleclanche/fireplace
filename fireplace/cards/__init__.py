@@ -7,7 +7,7 @@ from ..utils import get_script_definition
 
 
 year = ZodiacYear.RAVEN
-default_language = "enUS"
+default_language = "zhCN"
 
 
 class CardDB(dict):
@@ -36,6 +36,7 @@ class CardDB(dict):
 			"activate", "combo", "deathrattle", "draw", "inspire", "play",
 			"enrage", "update", "powered_up", "outcast", "awaken", "reward",
 			"add_progress", "discard", "secret_deathrattles", "magnetic",
+			"overkill",
 		)
 
 		for script in scriptnames:

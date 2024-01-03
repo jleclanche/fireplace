@@ -835,6 +835,10 @@ class Damage(TargetedAction):
 			if hasattr(source, "poisonous") and source.poisonous and (
 				target.type != CardType.HERO and source.type != CardType.WEAPON):
 				target.destroy()
+			if hasattr(source, "has_overkill") and source.has_overkill and target.health < 0:
+				actions = source.get_actions("overkill")
+				if actions:
+					source.game.trigger(source, actions, event_args=None)
 			target.damage_this_turn += amount
 		return amount
 
@@ -1093,6 +1097,20 @@ class SpendMana(TargetedAction):
 		target.used_mana = max(target.used_mana + amount, 0)
 
 
+class SetMana(TargetedAction):
+	"""
+	Set player to targets Mana crystals.
+	"""
+	TARGET = ActionArg()
+	AMOUNT = IntArg()
+
+	def do(self, source, target, amount):
+		old_mana = target.mana
+		target.max_mana = amount
+		if old_mana > target.mana:
+			target.used_mana -= old_mana - target.mana
+
+
 class Give(TargetedAction):
 	"""
 	Give player targets card \a id.
@@ -1169,6 +1187,7 @@ class Heal(TargetedAction):
 			log.info("%r heals %r for %i", source, target, amount)
 			target.damage -= amount
 			self.queue_broadcast(self, (source, EventListener.ON, target, amount))
+			target.heal_this_turn += amount
 
 
 class ManaThisTurn(TargetedAction):
@@ -1287,7 +1306,12 @@ class SetCurrentHealth(TargetedAction):
 	def do(self, source, target, amount):
 		log.info("Setting current health on %r to %i", target, amount)
 		maxhp = target.max_health
+		old_damage = target.damage
 		target.damage = max(0, maxhp - amount)
+		if old_damage > target.damage:
+			target.heal_this_turn += old_damage - target.damage
+		elif old_damage < target.damage:
+			target.damage_this_turn += target.damage - old_damage
 		return target
 
 

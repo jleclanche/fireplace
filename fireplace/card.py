@@ -240,6 +240,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	lifesteal = boolean_property("lifesteal")
 	keep_buff = boolean_property("keep_buff")
 	echo = boolean_property("echo")
+	has_overkill = boolean_property("has_overkill")
 
 	def __init__(self, data):
 		self.cant_play = False
@@ -349,7 +350,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		else:
 			self.log("%s draws %r", self.controller, self)
 			self.zone = Zone.HAND
-			self.controller.cards_drawn_this_turn += 1
+			self.controller.cards_drawn_this_turn.append(self)
 
 			if self.game.step > Step.BEGIN_MULLIGAN:
 				# Proc the draw script, but only if we are past mulligan
@@ -508,6 +509,37 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if len(self.controller.deck.filter(cost=3)) == 0:
 				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_HERO_HAS_ATTACK)
+		if req is not None:
+			if self.controller.hero.atk >= 0:
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_SPELLS_PLAYED_THIS_TURN)
+		if req is not None:
+			if len(self.controller.cards_played_this_turn.filter(type=CardType.SPELL)) >= req:
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_HAS_OVERLOADED_MANA)
+		if req is not None:
+			if self.controller.overloaded > 0:
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAWN_THIS_TURN)
+		if req is not None:
+			if self in self.controller.cards_drawn_this_turn:
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_NOT_DRAWN_THIS_TURN)
+		if req is not None:
+			if self not in self.controller.cards_drawn_this_turn:
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
+		if req is not None:
+			if self.controller.hero.heal_this_turn or self.controller.hero.damage_this_turn:
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_SOUL_FRAGMENT_IN_DECK)
+		if req is not None:
+			if len(self.controller.deck.filter(id="SCH_307t")) > 0:
+				return bool(self.play_targets)
+		# req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_BOUGHT_RACE_THIS_TURN)
+		# req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_SOLD_RACE_THIS_TURN)
+		req = self.requirements.get(PlayReq)
 		return PlayReq.REQ_TARGET_TO_PLAY in self.requirements
 
 	@property
@@ -537,6 +569,7 @@ class LiveEntity(PlayableCard, Entity):
 		self.turns_in_play = 0
 		self.turn_killed = -1
 		self.damage_this_turn = 0
+		self.heal_this_turn = 0
 
 	def _set_zone(self, zone):
 		if zone == Zone.GRAVEYARD and self.zone == Zone.PLAY:
@@ -817,7 +850,7 @@ class Minion(Character):
 		"forgetful", "frozen", "has_deathrattle", "has_inspire", "poisonous",
 		"stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush",
 		"secret_deathrattle", "cant_be_targeted_by_op_abilities",
-		"cant_be_targeted_by_op_hero_powers",
+		"cant_be_targeted_by_op_hero_powers", "has_overkill",
 	)
 
 	def __init__(self, data):

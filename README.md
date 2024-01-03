@@ -9,7 +9,7 @@ A Hearthstone simulator and implementation, written in Python.
 
 ## Cards Implementation
 
-Now updated to [Patch 12.4.0.27405](https://hearthstone.fandom.com/wiki/Patch_12.4.0.27405)
+Now updated to [Patch 13.4.0.29349](https://hearthstone.fandom.com/wiki/Patch_13.4.0.29349)
 * **100%** Basic (142 of 142 cards)
 * **100%** Classic (240 of 240 cards)
 * **100%** Hall of Fame (13 of 13 cards)
@@ -26,6 +26,7 @@ Now updated to [Patch 12.4.0.27405](https://hearthstone.fandom.com/wiki/Patch_12
 * **100%** Kobolds & Catacombs (135 of 135 cards)
 * **100%** The Witchwood (135 of 135 cards)
 * **100%** The Boomsday Project (135 of 135 cards)
+* **WIP** Rastakhan's Rumble (??? of 135 cards)
 
 ## Requirements
 

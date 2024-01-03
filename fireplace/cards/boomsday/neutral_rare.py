@@ -26,11 +26,11 @@ class BOT_107:
 	"""Missile Launcher"""
 	# [x]<b>Magnetic</b> At the end of your turn, deal 1 damage to all other characters.
 	magnetic = MAGNETIC("BOT_107e")
-	events = Hit(ALL_CHARACTERS - SELF, 1)
+	events = OWN_TURN_END.on(Hit(ALL_CHARACTERS - SELF, 1))
 
 
 class BOT_107e:
-	events = Hit(ALL_CHARACTERS - OWNER, 1)
+	events = OWN_TURN_END.on(Hit(ALL_CHARACTERS - OWNER, 1))
 
 
 class BOT_270:

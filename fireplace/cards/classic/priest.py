@@ -15,6 +15,11 @@ class CS1h_001_H1(CS1h_001):
 	pass
 
 
+class CS1h_001_H2(CS1h_001):
+	"""Heal (Madame Lazul)"""
+	pass
+
+
 ##
 # Minions
 

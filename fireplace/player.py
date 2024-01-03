@@ -52,7 +52,7 @@ class Player(Entity, TargetableByAuras):
 		self.cant_fatigue = False
 		self.fatigue_counter = 0
 		self.last_card_played = None
-		self.cards_drawn_this_turn = 0
+		self.cards_drawn_this_turn = CardList()
 		self.overloaded = 0
 		self.overload_locked = 0
 		self.overloaded_this_game = 0
@@ -71,6 +71,7 @@ class Player(Entity, TargetableByAuras):
 		self.elemental_played_this_turn = 0
 		self.elemental_played_last_turn = 0
 		self.cards_played_this_turn = CardList()
+		self.cards_played_last_turn = CardList()
 		self.cards_played_this_game = CardList()
 		self.cthun = None
 

@@ -347,9 +347,10 @@ class BaseGame(Entity):
 		self.manager.step(self.next_step, Step.MAIN_ACTION)
 
 		for p in self.players:
-			p.cards_drawn_this_turn = 0
+			p.cards_drawn_this_turn = CardList()
 
 		player.turn_start = timegm(time.gmtime())
+		player.cards_played_last_turn = player.cards_played_this_turn
 		player.cards_played_this_turn = CardList()
 		player.minions_played_this_turn = 0
 		player.minions_killed_this_turn = 0
@@ -372,6 +373,7 @@ class BaseGame(Entity):
 		for character in self.characters:
 			character.num_attacks = 0
 			character.damage_this_turn = 0
+			character.heal_this_turn = 0
 
 		for minion in player.field:
 			if minion.dormant:

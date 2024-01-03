@@ -65,6 +65,7 @@ HERO_POWER_MAP = {
 	# Priest
 	"CS1h_001": "AT_132_PRIEST",  # Anduin Wrynn
 	"CS1h_001_H1": "CS1h_001_H1_AT_132",  # Tyrande Whisperwind
+	"CS1h_001_H2": "CS1h_001_H2_AT_132",  # Madame Lazul
 	# Rogue
 	"CS2_083b": "AT_132_ROGUE",  # Valeera Sanguinar
 	"CS2_083b_H1": "AT_132_ROGUE_H1",  # Maiev Shadowsong
@@ -130,7 +131,7 @@ FORGETFUL = Attack(SELF).on(
 
 AT_MAX_MANA = lambda s: MANA(s) == 10
 CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
-CAST_WHEN_DRAWN = Destroy(SELF), Battlecry(SELF, None), Draw(CONTROLLER)
+CAST_WHEN_DRAWN = Destroy(SELF), Draw(CONTROLLER), Battlecry(SELF, None)
 
 
 class JoustHelper(Evaluator):
