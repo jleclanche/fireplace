@@ -513,7 +513,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self.controller.hero.atk >= 0:
 				return bool(self.play_targets)
-		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_SPELLS_PLAYED_THIS_TURN)
+		req = self.requirements.get(
+			PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_SPELLS_PLAYED_THIS_TURN)
 		if req is not None:
 			if len(self.controller.cards_played_this_turn.filter(type=CardType.SPELL)) >= req:
 				return bool(self.play_targets)
@@ -529,7 +530,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self not in self.controller.cards_drawn_this_turn:
 				return bool(self.play_targets)
-		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
+		req = self.requirements.get(
+			PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
 		if req is not None:
 			if self.controller.hero.heal_this_turn or self.controller.hero.damage_this_turn:
 				return bool(self.play_targets)
