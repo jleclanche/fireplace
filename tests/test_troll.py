@@ -45,6 +45,14 @@ def test_overkill():
 	assert len(game.player2.field) == 2
 
 
+def test_overkill_spell():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	arrow = game.player1.give("TRL_347")
+	arrow.play(target=wisp)
+	assert len(game.player1.field) == 1
+
+
 def test_snapjaw_shellfighter():
 	game = prepare_game()
 	wisp = game.player1.give(WISP).play()

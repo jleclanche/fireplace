@@ -530,15 +530,15 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self not in self.controller.cards_drawn_this_turn:
 				return bool(self.play_targets)
-		req = self.requirements.get(
-			PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
-		if req is not None:
-			if self.controller.hero.heal_this_turn or self.controller.hero.damage_this_turn:
-				return bool(self.play_targets)
-		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_SOUL_FRAGMENT_IN_DECK)
-		if req is not None:
-			if len(self.controller.deck.filter(id="SCH_307t")) > 0:
-				return bool(self.play_targets)
+		# req = self.requirements.get(
+		# 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
+		# if req is not None:
+		# 	if self.controller.hero.healed_this_turn or self.controller.hero.damaged_this_turn:
+		# 		return bool(self.play_targets)
+		# req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_SOUL_FRAGMENT_IN_DECK)
+		# if req is not None:
+		# 	if len(self.controller.deck.filter(id="SCH_307t")) > 0:
+		# 		return bool(self.play_targets)
 		# req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_BOUGHT_RACE_THIS_TURN)
 		# req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_SOLD_RACE_THIS_TURN)
 		req = self.requirements.get(PlayReq)
@@ -570,8 +570,8 @@ class LiveEntity(PlayableCard, Entity):
 		self.predamage = 0
 		self.turns_in_play = 0
 		self.turn_killed = -1
-		self.damage_this_turn = 0
-		self.heal_this_turn = 0
+		self.damaged_this_turn = 0
+		self.healed_this_turn = 0
 
 	def _set_zone(self, zone):
 		if zone == Zone.GRAVEYARD and self.zone == Zone.PLAY:
@@ -799,6 +799,13 @@ class Hero(Character):
 		ret = super().poisonous
 		if self.controller.weapon and not self.controller.weapon.exhausted:
 			return self.controller.weapon.poisonous or ret
+		return ret
+
+	@property
+	def has_overkill(self):
+		ret = super().has_overkill
+		if self.controller.weapon and not self.controller.weapon.exhausted:
+			return self.controller.weapon.has_overkill or ret
 		return ret
 
 	def _getattr(self, attr, i):

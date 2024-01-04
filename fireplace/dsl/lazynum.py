@@ -1,4 +1,5 @@
 import copy
+import math
 import operator
 import random
 from abc import ABCMeta, abstractmethod
@@ -50,8 +51,13 @@ class LazyNum(LazyValue):
 		ret.base *= other
 		return ret
 
+	def __div__(self, other):
+		ret = copy.copy(self)
+		ret.base /= other
+		return ret
+
 	def num(self, n):
-		return n * self.base
+		return math.ceil(n * self.base)
 
 	def get_entities(self, source):
 		from .selector import Selector
@@ -190,6 +196,18 @@ class BinOpAttr(LazyNum):
 
 	def evaluate(self, source):
 		return self.op(self.left.evaluate(source), self.right.evaluate(source))
+
+
+class Number(LazyNum):
+	def __init__(self, value):
+		super().__init__()
+		self.value = value
+
+	def __repr__(self):
+		return "%s(%r)" % (self.__class__.__name__, self.value)
+
+	def evaluate(self, source):
+		return self.num(self.value)
 
 
 class RandomNumber(LazyNum):

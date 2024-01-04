@@ -372,8 +372,8 @@ class BaseGame(Entity):
 
 		for character in self.characters:
 			character.num_attacks = 0
-			character.damage_this_turn = 0
-			character.heal_this_turn = 0
+			character.damaged_this_turn = 0
+			character.healed_this_turn = 0
 
 		for minion in player.field:
 			if minion.dormant:

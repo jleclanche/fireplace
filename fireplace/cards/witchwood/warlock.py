@@ -7,7 +7,7 @@ from ..utils import *
 class GIL_508:
 	"""Duskbat"""
 	# <b>Battlecry:</b> If your hero took damage this turn, summon two 1/1 Bats.
-	powered_up = DAMAGE_THIS_TURN(FRIENDLY_HERO) >= 0
+	powered_up = DAMAGED_THIS_TURN(FRIENDLY_HERO) >= 0
 	play = powered_up & SummonBothSides(CONTROLLER, "GIL_508t")
 
 
@@ -24,7 +24,7 @@ class GIL_515:
 class GIL_565:
 	"""Deathweb Spider"""
 	# <b>Battlecry:</b> If your hero took damage this turn, gain <b>Lifesteal</b>.
-	powered_up = DAMAGE_THIS_TURN(FRIENDLY_HERO) >= 0
+	powered_up = DAMAGED_THIS_TURN(FRIENDLY_HERO) >= 0
 	play = powered_up & GiveLifesteal(SELF)
 
 

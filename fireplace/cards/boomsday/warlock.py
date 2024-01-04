@@ -13,7 +13,7 @@ class BOT_224:
 class BOT_226:
 	"""Nethersoul Buster"""
 	# <b>Battlecry:</b> Gain +1 Attack for each damage your hero has taken this turn.
-	play = Buff(SELF, "BOT_226e") * DAMAGE_THIS_TURN(FRIENDLY_HERO)
+	play = Buff(SELF, "BOT_226e") * DAMAGED_THIS_TURN(FRIENDLY_HERO)
 
 
 BOT_226e = buff(atk=1)

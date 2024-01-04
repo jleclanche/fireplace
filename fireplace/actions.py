@@ -248,7 +248,8 @@ class Attack(GameAction):
 
 		attacker.attack_target = None
 		defender.defending = False
-		attacker.num_attacks += 1
+		if source == attacker:
+			attacker.num_attacks += 1
 
 
 class BeginTurn(GameAction):
@@ -836,10 +837,13 @@ class Damage(TargetedAction):
 				target.type != CardType.HERO and source.type != CardType.WEAPON):
 				target.destroy()
 			if hasattr(source, "has_overkill") and source.has_overkill and target.health < 0:
-				actions = source.get_actions("overkill")
+				if source.type == CardType.HERO:
+					actions = source.weapon.get_actions("overkill")
+				else:
+					actions = source.get_actions("overkill")
 				if actions:
 					source.game.trigger(source, actions, event_args=None)
-			target.damage_this_turn += amount
+			target.damaged_this_turn += amount
 			if source.type == CardType.HERO_POWER:
 				source.controller.hero_power_damage_this_game += amount
 		return amount
@@ -905,6 +909,12 @@ class Battlecry(TargetedAction):
 		source.game.main_power(source, actions, target)
 
 		if player.extra_battlecries and card.has_battlecry:
+			source.game.main_power(source, actions, target)
+
+		if (
+			player.extra_combos and card.type == CardType.MINIO
+			and card.has_combo and player.combo
+		):
 			source.game.main_power(source, actions, target)
 
 		if card.overload:
@@ -1189,7 +1199,8 @@ class Heal(TargetedAction):
 			log.info("%r heals %r for %i", source, target, amount)
 			target.damage -= amount
 			self.queue_broadcast(self, (source, EventListener.ON, target, amount))
-			target.heal_this_turn += amount
+			target.healed_this_turn += amount
+			source.controller.healed_this_game += amount
 
 
 class ManaThisTurn(TargetedAction):
@@ -1308,12 +1319,7 @@ class SetCurrentHealth(TargetedAction):
 	def do(self, source, target, amount):
 		log.info("Setting current health on %r to %i", target, amount)
 		maxhp = target.max_health
-		old_damage = target.damage
 		target.damage = max(0, maxhp - amount)
-		if old_damage > target.damage:
-			target.heal_this_turn += old_damage - target.damage
-		elif old_damage < target.damage:
-			target.damage_this_turn += target.damage - old_damage
 		return target
 
 
@@ -1419,6 +1425,24 @@ class SummonBothSides(Summon):
 
 	def get_summon_index(self, source_index):
 		return source_index + ((self.trigger_index + 1) % 2)
+
+
+class SummonTiger(TargetedAction):
+	"""
+	Summon a Tiger with stats equal to its Cost.
+	"""
+	TARGET = ActionArg()
+	COST = IntArg()
+
+	def do(self, source, target, cost):
+		if cost <= 0:
+			return
+		tiger = target.controller.card("TRL_309t")
+		tiger.atk = cost
+		tiger.max_health = cost
+		tiger.cost = cost
+		if tiger.is_summonable():
+			source.game.queue_actions(source, [Summon(target, tiger)])
 
 
 class Shuffle(TargetedAction):

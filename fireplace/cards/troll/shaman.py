@@ -7,20 +7,36 @@ from ..utils import *
 class TRL_059:
 	"""Bog Slosher"""
 	# <b>Battlecry:</b> Return a friendly minion to your hand and give it +2/+2.
-	pass
+	play = Bounce(TARGET), Buff(TARGET, "TRL_059e")
+
+
+TRL_059e = buff(+2, +2)
 
 
 class TRL_060:
 	"""Spirit of the Frog"""
 	# [x]<b>Stealth</b> for 1 turn. Whenever you cast a spell, draw a spell from your deck
 	# that costs (1) more.
-	pass
+	# TODO need test
+	events = (
+		OWN_TURN_BEGIN.on(Unstealth(SELF)),
+		Play(CONTROLLER, SPELL).on(
+			ForceDraw(
+				RANDOM(FRIENDLY_DECK + SPELL + (
+					COST == (
+						COST(Play.CARD) + Number(1)
+					)
+				))
+			)
+		)
+	)
 
 
 class TRL_085:
 	"""Zentimo"""
 	# [x]Whenever you target a minion with a spell, cast it again on its neighbors.
-	events = Play(SPELL, MINION).after(
+	# TODO need test
+	events = Play(CONTROLLER, SPELL, MINION).on(
 		CastSpell(Play.CARD, ADJACENT(Play.TARGET))
 	)
 
@@ -44,26 +60,41 @@ class TRL_522:
 class TRL_012:
 	"""Totemic Smash"""
 	# Deal $2 damage. <b>Overkill</b>: Summon a basic Totem.
-	pass
+	play = Hit(TARGET, 2)
+	overkill = Summon(CONTROLLER, RandomBasicTotem())
 
 
 class TRL_058:
 	"""Haunting Visions"""
 	# The next spell you cast this turn costs (3) less. <b>Discover</b> a spell.
-	pass
+	play = (
+		Buff(CONTROLLER, "TRL_058e"),
+		DISCOVER(RandomSpell())
+	)
+
+
+class TRL_058e:
+	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -3})
+	events = Play(CONTROLLER, SPELL).on(Destroy(SELF))
 
 
 class TRL_082:
 	"""Big Bad Voodoo"""
 	# Give a friendly minion "<b>Deathrattle:</b> Summon a random minion that costs (1)
 	# more."
-	pass
+	play = Buff(TARGET, "TRL_082e")
+
+
+class TRL_082e:
+	# TODO need test
+	tags = {GameTag.DEATHRATTLE: True}
+	deathrattle = Summon(CONTROLLER, RandomMinion(cost=COST(SELF) + Number(1)))
 
 
 class TRL_351:
 	"""Rain of Toads"""
 	# Summon three 2/4 Toads with <b>Taunt</b>. <b>Overload:</b> (3)
-	pass
+	play = Summon(CONTROLLER, "TRL_351t") * 3
 
 
 ##
@@ -72,4 +103,9 @@ class TRL_351:
 class TRL_352:
 	"""Likkim"""
 	# Has +2 Attack while you have <b>Overloaded</b> Mana Crystals.
-	pass
+	# update = OVERLOADED & Refresh(SELF, "TRL_352e")
+	# TODO need test
+	update = OVERLOADED(CONTROLLER) & Refresh(SELF, "TRL_352e")
+
+
+TRL_352e = buff(atk=2)

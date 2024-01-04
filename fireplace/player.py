@@ -18,6 +18,7 @@ class Player(Entity, TargetableByAuras):
 	cant_overload = slot_property("cant_overload")
 	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
+	extra_combos = slot_property("extra_combos")
 	extra_deathrattles = slot_property("extra_deathrattles")
 	extra_end_turn_effect = slot_property("extra_end_turn_effect")
 	healing_double = slot_property("healing_double", sum)
@@ -75,6 +76,7 @@ class Player(Entity, TargetableByAuras):
 		self.cards_played_this_game = CardList()
 		self.hero_power_damage_this_game = 0
 		self.spent_mana_on_spells_this_game = 0
+		self.healed_this_game = 0
 		self.cthun = None
 
 	def __str__(self):
@@ -107,12 +109,12 @@ class Player(Entity, TargetableByAuras):
 
 	@property
 	def heropower_damage(self):
-		return sum(minion.heropower_damage for minion in self.field)
+		return sum(minion.heropower_damage for minion in self.characters)
 
 	@property
 	def spellpower(self):
 		aura_power = self.controller.spellpower_adjustment
-		minion_power = sum(minion.spellpower for minion in self.field)
+		minion_power = sum(minion.spellpower for minion in self.characters)
 		return aura_power + minion_power
 
 	@property

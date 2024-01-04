@@ -130,6 +130,7 @@ FORGETFUL = Attack(SELF).on(
 )
 
 AT_MAX_MANA = lambda s: MANA(s) == 10
+OVERLOADED = lambda s: (OVERLOAD_LOCKED(s) > 0) or (OVERLOAD_OWED(s) > 0)
 CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
 CAST_WHEN_DRAWN = Destroy(SELF), Draw(CONTROLLER), Battlecry(SELF, None)
 

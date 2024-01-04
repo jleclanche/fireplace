@@ -133,9 +133,11 @@ DAMAGE = AttrValue(GameTag.DAMAGE)
 MANA = AttrValue(GameTag.RESOURCES)
 MAX_MANA = AttrValue(GameTag.MAXRESOURCES)
 USED_MANA = AttrValue(GameTag.RESOURCES_USED)
+OVERLOAD_LOCKED = AttrValue(GameTag.OVERLOAD_LOCKED)
+OVERLOAD_OWED = AttrValue(GameTag.OVERLOAD_OWED)
 CURRENT_MANA = AttrValue("mana")
 NUM_ATTACKS_THIS_TURN = AttrValue(GameTag.NUM_ATTACKS_THIS_TURN)
-DAMAGE_THIS_TURN = AttrValue(enums.DAMAGE_THIS_TURN)
+DAMAGED_THIS_TURN = AttrValue(enums.DAMAGED_THIS_TURN)
 UPGRADE_COUNTER = AttrValue("upgrade_counter")
 NUM_ATTACKS = AttrValue("num_attacks")
 MAX_HAND_SIZE = AttrValue("max_hand_size")
@@ -463,6 +465,7 @@ ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
 CAST_ON_FRIENDLY_MINIONS = AttrValue(enums.CAST_ON_FRIENDLY_MINIONS) == True  # noqa
 EXHAUSTED = AttrValue(GameTag.EXHAUSTED) == True  # noqa
+THE_TURN_SUMMONED = AttrValue(GameTag.NUM_TURNS_IN_PLAY) == 0 # noqa
 
 ROGUE = EnumSelector(CardClass.ROGUE)
 WARLOCK = EnumSelector(CardClass.WARLOCK)
@@ -497,7 +500,7 @@ TREANT = FuncSelector(
 		e for e in entities
 		if (e.data.strings[GameTag.CARDNAME]["enUS"]).endswith("Treant")
 	]
-)
+)  # Race.TREANT is not defined yet.
 
 COMMON = EnumSelector(Rarity.COMMON)
 RARE = EnumSelector(Rarity.RARE)
@@ -602,3 +605,9 @@ PLAY_RIGHT_MOST = FuncSelector(
 	lambda entities, source: [e for e in entities if getattr(e, "play_right_most", False)])
 
 ENTOURAGE = FuncSelector(lambda entities, source: source.entourage)
+
+ANOTHER_CLASS = FuncSelector(
+	lambda entities, source: [
+		card_class for card_class in CardClass if source.card_class != card_class
+	]
+)
