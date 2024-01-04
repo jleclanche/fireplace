@@ -128,6 +128,7 @@ class PlayerManager(Manager):
 		GameTag.CONTROLLER: "controller",
 		GameTag.CURRENT_PLAYER: "current_player",
 		GameTag.CURRENT_SPELLPOWER: "spellpower",
+		GameTag.CURRENT_HEROPOWER_DAMAGE_BONUS: "heropower_damage",
 		GameTag.EMBRACE_THE_SHADOW: "healing_as_damage",
 		GameTag.FATIGUE: "fatigue_counter",
 		GameTag.FIRST_PLAYER: "first_player",

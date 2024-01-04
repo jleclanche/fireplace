@@ -19,9 +19,9 @@ class TRL_259:
 class TRL_260:
 	"""Bwonsamdi, the Dead"""
 	# [x]<b>Battlecry:</b> Draw 1-Cost minions from your deck until your hand is full.
-	play = ForceDraw(RANDOM(FRIENDLY_DECK + MINION + (COST == 1)) * (
+	play = ForceDraw(RANDOM(FRIENDLY_DECK + MINION + (COST == 1))) * (
 		MAX_HAND_SIZE(CONTROLLER) - Count(FRIENDLY_HAND)
-	))
+	)
 
 
 class TRL_408:

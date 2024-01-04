@@ -29,7 +29,7 @@ class TRL_252:
 	"""High Priestess Jeklik"""
 	# [x]<b>Taunt</b>, <b>Lifesteal</b> When you discard this, add 2 copies of it to your
 	# hand.
-	discard = Give(CONTROLLER, Copy(SELF) * 2)
+	discard = Give(CONTROLLER, Copy(SELF)) * 2
 
 
 class TRL_253:
@@ -67,8 +67,8 @@ class TRL_246:
 	# Destroy half of each player's deck.
 	# TODO need test
 	play = (
-		Destroy(RANDOM(FRIENDLY_DECK) * (Count(FRIENDLY_DECK) / 2)),
-		Destroy(RANDOM(ENEMY_DECK) * (Count(ENEMY_DECK) / 2)),
+		Destroy(RANDOM(FRIENDLY_DECK)) * (Count(FRIENDLY_DECK) / 2),
+		Destroy(RANDOM(ENEMY_DECK)) * (Count(ENEMY_DECK) / 2),
 	)
 
 class TRL_249:

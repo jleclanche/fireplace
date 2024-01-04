@@ -58,7 +58,7 @@ class TRL_321:
 class TRL_324:
 	"""Heavy Metal!"""
 	# [x]Summon a random minion with Cost equal to your Armor <i>(up to 10).</i>
-	play = Summon(CONTROLLER, RandomMinion(cost=Max(ARMOR(FRIENDLY_HERO, 10))))
+	play = Summon(CONTROLLER, RandomMinion(cost=Max(ARMOR(FRIENDLY_HERO), 10)))
 
 
 class TRL_362:
