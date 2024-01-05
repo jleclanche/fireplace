@@ -77,7 +77,7 @@ KAR_037t = buff(+1, +1, taunt=True)
 class KAR_041:
 	"""Moat Lurker"""
 	play = Destroy(TARGET)
-	deathrattle = Summon(TARGET_PLAYER, Copy(TARGET))
+	deathrattle = HAS_TARGET & Summon(TARGET_PLAYER, Copy(TARGET))
 
 
 class KAR_044:

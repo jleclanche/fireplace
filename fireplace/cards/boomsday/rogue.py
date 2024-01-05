@@ -11,13 +11,8 @@ class BOT_243:
 	play = Discover(CONTROLLER, RandomMinion(deathrattle=True)).then(
 		Retarget(SELF, Discover.CARD),
 		Give(CONTROLLER, TARGET),
-		Buff(SELF, "BOT_243e").then(
-			CopyDeathrattles(Buff.BUFF, TARGET)
-		)
+		CopyDeathrattleBuff(TARGET, "BOT_243e"),
 	)
-
-
-BOT_243e = buff(deathrattle=True)
 
 
 class BOT_283:

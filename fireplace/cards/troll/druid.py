@@ -88,7 +88,7 @@ class TRL_244:
 class TRL_254:
 	"""Mark of the Loa"""
 	# <b>Choose One</b> - Give a minion +2/+4 and <b>Taunt</b>; or Summon two 3/2 Raptors.
-	choose = ("TRL_254a", "TRL_25b")
+	choose = ("TRL_254a", "TRL_254b")
 	play = ChooseBoth(CONTROLLER) & (
 		Buff(TARGET, "TRL_254ae"),
 		Summon(CONTROLLER, "TRL_254t") * 2

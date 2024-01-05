@@ -71,6 +71,7 @@ class TRL_246:
 		Destroy(RANDOM(ENEMY_DECK)) * (Count(ENEMY_DECK) / 2),
 	)
 
+
 class TRL_249:
 	"""Grim Rally"""
 	# Destroy a friendly minion. Give your minions +1/+1.

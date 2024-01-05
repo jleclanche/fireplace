@@ -14,7 +14,7 @@ AT_028e = buff(atk=3)
 
 class AT_029:
 	"""Buccaneer"""
-	events = Summon(FRIENDLY_WEAPON).on(Buff(Summon.TARGET, "AT_029e"))
+	events = Summon(CONTROLLER, FRIENDLY_WEAPON).on(Buff(Summon.TARGET, "AT_029e"))
 
 
 AT_029e = buff(atk=1)

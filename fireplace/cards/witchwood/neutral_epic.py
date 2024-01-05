@@ -25,7 +25,7 @@ class GIL_581:
 class GIL_614:
 	"""Voodoo Doll"""
 	# <b>Battlecry:</b> Choose a minion. <b>Deathrattle:</b> Destroy the chosen minion.
-	deathrattle = Destroy(TARGET)
+	deathrattle = HAS_TARGET & Destroy(TARGET)
 
 
 class GIL_616:

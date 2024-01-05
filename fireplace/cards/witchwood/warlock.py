@@ -54,7 +54,7 @@ class GIL_825:
 	# [x]<b>Battlecry:</b> Deal 2 damage to all other minions. If any die, repeat this
 	# <b>Battlecry</b>.
 	play = Hit(ALL_MINIONS - SELF, 2), Dead(ALL_MINIONS) & (
-		Deaths(), Battlecry(SELF)
+		Deaths(), Battlecry(SELF, None)
 	)
 
 

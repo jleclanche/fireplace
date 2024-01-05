@@ -194,3 +194,13 @@ def test_hero_armor():
 	assert game.player1.hero.armor == 2
 	game.player1.give("ICC_481").play()
 	assert game.player1.hero.armor == 7
+
+
+def test_death_grip():
+	game = prepare_game()
+	grip = game.player1.give("ICC_314t4")
+	deck = len(game.player2.deck)
+	hand = len(game.player1.hand)
+	grip.play()
+	assert len(game.player2.deck) == deck - 1
+	assert len(game.player1.hand) == hand

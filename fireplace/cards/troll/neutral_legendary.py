@@ -12,10 +12,15 @@ class TRL_096:
 		Discover(CONTROLLER, RandomCollectible()).then(
 			StoringBuff(SELF, "TRL_096e", Discover.CARD).then(
 				COINFLIP & (
-					Give(CONTROLLER, ENTOURAGE[:1]), Give(OPPONENT, ENTOURAGE[1:])
+					Give(CONTROLLER, ENTOURAGE[:1]),
+					Steal(ENTOURAGE[1:]),
+					Give(OPPONENT, ENTOURAGE[1:])
 				) | (
-					Give(CONTROLLER, ENTOURAGE[1:]), Give(OPPONENT, ENTOURAGE[:1])
-				)
+					Give(CONTROLLER, ENTOURAGE[1:]),
+					Steal(ENTOURAGE[:1]),
+					Give(OPPONENT, ENTOURAGE[:1])
+				),
+				ClearEntourage(SELF),
 			)
 		)
 	)
@@ -30,12 +35,10 @@ class TRL_537:
 	"""Da Undatakah"""
 	# [x]<b>Battlecry:</b> Gain the <b>Deathrattle</b> effects of 3 friendly minions that
 	# died this game.
-	play = Buff(SELF, "TRL_537e").then(
-		CopyDeathrattles(Buff.BUFF, RANDOM(FRIENDLY + KILLED + MINION + DEATHRATTLE) * 3)
+	# TODO need test
+	play = CopyDeathrattleBuff(
+		RANDOM(FRIENDLY + KILLED + MINION + DEATHRATTLE) * 3, "TRL_537e"
 	)
-
-
-TRL_537e = buff(deathrattle=True)
 
 
 class TRL_541:

@@ -34,6 +34,8 @@ class TRL_092:
 	# trigger twice._
 	events = (
 		OWN_TURN_BEGIN.on(Unstealth(SELF)),
+	)
+	update = (
 		Refresh(CONTROLLER, {enums.EXTRA_BATTLECRIES: True}),
 		Refresh(CONTROLLER, {enums.EXTRA_COMBOS: True}),
 	)
@@ -60,7 +62,7 @@ class TRL_409:
 		Destroy(TARGET),
 		Buff(SELF, "TRL_409e", atk=ATK(TARGET), max_health=CURRENT_HEALTH(TARGET))
 	)
-	deathrattle = Give(CONTROLLER, Copy(TARGET))
+	deathrattle = HAS_TARGET & Give(CONTROLLER, Copy(TARGET))
 
 
 ##

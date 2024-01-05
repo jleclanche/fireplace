@@ -216,9 +216,10 @@ class BaseGame(Entity):
 		Queue a list of \a actions for processing from \a source.
 		Triggers an aura refresh afterwards.
 		"""
+		old_event_args = source.event_args
 		source.event_args = event_args
 		ret = self.trigger_actions(source, actions)
-		source.event_args = None
+		source.event_args = old_event_args
 		return ret
 
 	def trigger_actions(self, source, actions):

@@ -16,6 +16,7 @@ class BaseEntity(object):
 		self.play_counter = 0
 		self.tags = self.manager
 		self.uuid = uuid.uuid4()
+		self.event_args = None
 
 		if self.data:
 			self._events = self.data.scripts.events[:]

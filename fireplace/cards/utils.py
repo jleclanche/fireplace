@@ -10,7 +10,7 @@ from ..events import *
 
 # For buffs which are removed when the card is moved to play (eg. cost buffs)
 # This needs to be Summon, because of Summon from the hand
-REMOVED_IN_PLAY = Summon(PLAYER, OWNER).after(Destroy(SELF))
+REMOVED_IN_PLAY = Summon(ALL_PLAYERS, OWNER).after(Destroy(SELF))
 
 ENEMY_CLASS = Attr(ENEMY_HERO, GameTag.CLASS)
 FRIENDLY_CLASS = Attr(FRIENDLY_HERO, GameTag.CLASS)

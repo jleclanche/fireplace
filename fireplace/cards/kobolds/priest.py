@@ -31,8 +31,8 @@ class LOOT_538:
 	"""Temporus"""
 	# <b>Battlecry:</b> Your opponent takes two turns. Then you take two turns.
 	def play(self):
-		self.game.next_players.append(self.opponent)
-		self.game.next_players.append(self.opponent)
+		self.game.next_players.append(self.controller.opponent)
+		self.game.next_players.append(self.controller.opponent)
 		self.game.next_players.append(self.controller)
 		self.game.next_players.append(self.controller)
 

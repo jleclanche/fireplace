@@ -30,6 +30,7 @@ class TRL_527:
 		Give(OPPONENT, ExactCopy(RANDOM(ENEMY_DECK))),
 	)
 
+
 class TRL_528:
 	"""Linecracker"""
 	# <b>Overkill:</b> Double this minion's Attack.

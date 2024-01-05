@@ -31,7 +31,7 @@ class TRL_151:
 class TRL_312:
 	"""Spellzerker"""
 	# Has <b>Spell Damage +2</b> while damaged.
-	enrage = Refresh(SELF, "TRL_312e")
+	enrage = Refresh(SELF, buff="TRL_312e")
 
 
 TRL_312e = buff(spellpower=2)
@@ -46,7 +46,7 @@ class TRL_363:
 class TRL_406:
 	"""Dozing Marksman"""
 	# Has +4 Attack while damaged.
-	enrage = Refresh(SELF, "TRL_406e")
+	enrage = Refresh(SELF, buff="TRL_406e")
 
 
 TRL_406e = buff(atk=+4)
@@ -64,7 +64,7 @@ class TRL_505:
 	deathrattle = Buff(RANDOM(FRIENDLY_HAND + BEAST), "TRL_505e")
 
 
-TRL_505 = buff(cost=-1)
+TRL_505e = buff(cost=-1)
 
 
 class TRL_506:
@@ -118,10 +118,10 @@ class TRL_515:
 class TRL_517:
 	"""Arena Fanatic"""
 	# <b>Battlecry:</b> Give all minions in your hand +1/+1.
-	play = Buff(FRIENDLY_HAND + MINION, "TRL_517e")
+	play = Buff(FRIENDLY_HAND + MINION, "TRL_517e2")
 
 
-TRL_517e = buff(+1, +1)
+TRL_517e2 = buff(+1, +1)
 
 
 class TRL_525:

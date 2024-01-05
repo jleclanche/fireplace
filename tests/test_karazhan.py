@@ -602,6 +602,10 @@ def test_moat_lurker():
 	wisp = game.player1.field[0]
 	assert wisp.id == WISP
 
+	game = prepare_game()
+	lurker = game.player1.give("KAR_041").play()
+	game.player1.give(FIREBALL).play(target=lurker)
+
 
 def test_ivory_knight():
 	game = prepare_empty_game(CardClass.PALADIN, CardClass.PALADIN)

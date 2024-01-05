@@ -103,9 +103,8 @@ class TRL_351:
 class TRL_352:
 	"""Likkim"""
 	# Has +2 Attack while you have <b>Overloaded</b> Mana Crystals.
-	# update = OVERLOADED & Refresh(SELF, "TRL_352e")
 	# TODO need test
-	update = OVERLOADED(CONTROLLER) & Refresh(SELF, "TRL_352e")
+	update = OVERLOADED(CONTROLLER) & Refresh(SELF, buff="TRL_352e")
 
 
 TRL_352e = buff(atk=2)

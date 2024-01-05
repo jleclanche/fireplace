@@ -210,9 +210,11 @@ class Player(Entity, TargetableByAuras):
 				quests.append(card)
 			else:
 				exclude_quests.append(card)
-		starting_hand = quests + random.sample(exclude_quests, hand_size - len(quests))
+		self.starting_hand = CardList(
+			quests + random.sample(exclude_quests, hand_size - len(quests))
+		)
 		# It's faster to move cards directly to the hand instead of drawing
-		for card in starting_hand:
+		for card in self.starting_hand:
 			card.zone = Zone.HAND
 
 	def get_spell_damage(self, amount: int) -> int:

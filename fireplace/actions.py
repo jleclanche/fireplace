@@ -748,17 +748,26 @@ class GenericChoice(Choice):
 				_card.discard()
 
 
-class CopyDeathrattles(TargetedAction):
+class CopyDeathrattleBuff(TargetedAction):
 	"""
 	Copy the deathrattles from a card onto the target
 	"""
 	TARGET = ActionArg()
-	DEATHRATTLES = ActionArg()
+	Buff = ActionArg()
 
-	def do(self, source, target, entities):
-		for entity in entities:
-			for deathrattle in entity.deathrattles:
-				target.additional_deathrattles.append(deathrattle)
+	def get_target_args(self, source, target):
+		buff = self._args[1]
+		buff = source.controller.card(buff)
+		buff.tags[GameTag.DEATHRATTLE] = True
+		buff.source = source
+		return [buff]
+
+	def do(self, source, target, buff):
+		log.info("%r copy deathrattle from %r by %r", source, target, buff)
+		if target.deathrattles:
+			for deathrattle in target.deathrattles:
+				buff.additional_deathrattles.append(deathrattle)
+			buff.apply(source)
 
 
 class Counter(TargetedAction):
@@ -836,9 +845,15 @@ class Damage(TargetedAction):
 			if hasattr(source, "poisonous") and source.poisonous and (
 				target.type != CardType.HERO and source.type != CardType.WEAPON):
 				target.destroy()
-			if hasattr(source, "has_overkill") and source.has_overkill and target.health < 0:
+			if (
+				hasattr(source, "has_overkill") and
+				source.has_overkill and
+				source.controller.current_player and
+				target.type != CardType.WEAPON and
+				target.health < 0
+			):
 				if source.type == CardType.HERO:
-					actions = source.weapon.get_actions("overkill")
+					actions = source.controller.weapon.get_actions("overkill")
 				else:
 					actions = source.get_actions("overkill")
 				if actions:
@@ -908,13 +923,12 @@ class Battlecry(TargetedAction):
 		source.target = target
 		source.game.main_power(source, actions, target)
 
-		if player.extra_battlecries and card.has_battlecry:
-			source.game.main_power(source, actions, target)
-
 		if (
-			player.extra_combos and card.type == CardType.MINIO
-			and card.has_combo and player.combo
+			player.extra_combos and card.type == CardType.MINIO and
+			card.has_combo and player.combo
 		):
+			source.game.main_power(source, actions, target)
+		elif player.extra_battlecries and card.has_battlecry:
 			source.game.main_power(source, actions, target)
 
 		if card.overload:
@@ -968,7 +982,9 @@ class Discover(TargetedAction):
 		else:
 			# use random class for neutral hero classes with neutral cards
 			discover_class = random_class()
-
+		if "card_class" in self._args[1].filters:
+			picker = self._args[1] * 3
+			return [picker.evaluate(source)]
 		picker = self._args[1] * 3
 		picker = picker.copy_with_weighting(1, card_class=CardClass.NEUTRAL)
 		picker = picker.copy_with_weighting(4, card_class=discover_class)
@@ -1700,6 +1716,7 @@ class CopyStateBuff(TargetedAction):
 	def do(self, source, target, buff):
 		target = target
 		buff = source.controller.card(buff)
+		buff.source = source
 		buff._xatk = target.atk
 		buff._xhealth = target.health
 		buff.apply(source)
@@ -2057,3 +2074,8 @@ class Replay(TargetedAction):
 			source.game.queue_actions(source, [CastSpell(target)])
 		else:
 			source.game.queue_actions(source, [Summon(source.controller, target)])
+
+
+class ClearEntourage(TargetedAction):
+	def do(self, source, target):
+		target.entourage = []

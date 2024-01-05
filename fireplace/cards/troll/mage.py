@@ -44,7 +44,7 @@ class TRL_319:
 	events = (
 		OWN_TURN_BEGIN.on(Unstealth(SELF))
 	)
-	update = Refresh(CONTROLLER, "TRL_319e")
+	update = Refresh(CONTROLLER, buff="TRL_319e")
 
 
 class TRL_319e:

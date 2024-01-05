@@ -41,7 +41,9 @@ class ICC_314t3:
 
 class ICC_314t4:
 	"""Death Grip"""
-	play = Give(CONTROLLER, RANDOM(ENEMY_DECK + MINION))
+	play = Steal(RANDOM(ENEMY_DECK + MINION)).then(
+		Give(CONTROLLER, Steal.TARGET)
+	)
 
 
 class ICC_314t5:

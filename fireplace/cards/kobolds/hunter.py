@@ -19,11 +19,7 @@ class LOOT_511:
 class LOOT_520:
 	"""Seeping Oozeling"""
 	# <b>Battlecry:</b> Gain the <b>Deathrattle</b> of a random minion in your deck.
-	play = Buff(SELF, "LOOT_520e").then(
-		CopyDeathrattles(Buff.BUFF, RANDOM(FRIENDLY_DECK + MINION + DEATHRATTLE)))
-
-
-LOOT_520e = buff(deathrattle=True)
+	play = CopyDeathrattleBuff(RANDOM(FRIENDLY_DECK + MINION + DEATHRATTLE), "LOOT_520e"),
 
 
 ##
@@ -73,9 +69,9 @@ class LOOT_217:
 	# [x]Summon an Animal Companion, or 2 if your deck has no minions.
 	entourage = ["NEW1_032", "NEW1_033", "NEW1_034"]
 	play = Find(FRIENDLY_DECK + MINION) & (
-		Summon(RandomEntourage())
+		Summon(CONTROLLER, RandomEntourage())
 	) | (
-		Summon(RandomEntourage()) * 2
+		Summon(CONTROLLER, RandomEntourage() * 2)
 	)
 
 

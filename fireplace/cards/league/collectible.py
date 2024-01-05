@@ -60,10 +60,7 @@ class LOE_019:
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
 		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
-	play = Buff(SELF, "LOE_019e").then(CopyDeathrattles(Buff.BUFF, TARGET))
-
-
-LOE_019e = buff(deathrattle=True)
+	play = CopyDeathrattleBuff(TARGET, "LOE_019e")
 
 
 class LOE_020:

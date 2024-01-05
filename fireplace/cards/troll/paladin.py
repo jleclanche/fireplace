@@ -27,6 +27,7 @@ class TRL_308:
 		SetCurrentHealth(FRIENDLY_HERO, 1)
 	)
 
+
 class TRL_309:
 	"""Spirit of the Tiger"""
 	# [x]<b>Stealth</b> for 1 turn. After you cast a spell, summon a Tiger with stats equal

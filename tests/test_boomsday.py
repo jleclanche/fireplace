@@ -88,3 +88,15 @@ def test_electra_stormsurge():
 
 	game.player1.give("EX1_238").play(target=game.player2.hero)
 	assert game.player2.hero.health == 21
+
+
+def test_holomancer():
+	game = prepare_game()
+	game.player1.give("BOT_280").play()
+	game.end_turn()
+	game.player2.give(MECH).play()
+	assert len(game.player1.field) == 2
+	new_mech = game.player1.field[1]
+	assert new_mech.id == MECH
+	assert new_mech.atk == 1
+	assert new_mech.max_health == 1
