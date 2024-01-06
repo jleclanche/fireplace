@@ -41,3 +41,15 @@ def test_tess_greymane():
 	tess.play()
 	assert len(game.player1.field) == 3
 	assert game.player1.mana == mana - tess.cost + 1
+
+
+def test_shudderwock():
+	game = prepare_game()
+	for _ in range(2):
+		engineer = game.player1.give("EX1_015").play()
+		engineer.destroy()
+	game.skip_turn()
+	hand = len(game.player1.hand)
+	shudderwock = game.player1.give("GIL_820")
+	shudderwock.play()
+	assert len(game.player1.hand) == hand + 2

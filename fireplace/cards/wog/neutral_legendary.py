@@ -62,12 +62,7 @@ class OG_133:
 
 class OG_134:
 	"""Yogg-Saron, Hope's End"""
-	def play(self):
-		times = TIMES_SPELL_PLAYED_THIS_GAME.evaluate(self)
-		for _ in range(times):
-			if self.dead or self.silenced or self.zone != Zone.PLAY:
-				break
-			self.game.main_power(self, (CastSpell(RandomSpell()), ), None)
+	play = CastSpell(RandomSpell()) * TIMES_SPELL_PLAYED_THIS_GAME
 
 
 class OG_280:

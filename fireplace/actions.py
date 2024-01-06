@@ -904,7 +904,11 @@ class Battlecry(TargetedAction):
 		return [arg]
 
 	def do(self, source, card, target=None):
-		player = card.controller
+		if source.type == CardType.MINION and (
+			source.dead or source.silenced or source.zone != Zone.PLAY
+		):
+			return
+		player = source.controller
 
 		if card.has_combo and player.combo:
 			log.info("Activating %r combo targeting %r", card, target)
@@ -1589,6 +1593,11 @@ class CastSpell(TargetedAction):
 		return [spell_target]
 
 	def do(self, source, card, target=None):
+		if source.type == CardType.MINION and (
+			source.dead or source.silenced or source.zone != Zone.PLAY
+		):
+			return
+
 		player = source.controller
 		old_choice = player.choice
 		player.choice = None

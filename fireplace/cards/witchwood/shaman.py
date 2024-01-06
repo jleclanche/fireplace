@@ -36,7 +36,7 @@ class GIL_820:
 	"""Shudderwock"""
 	# [x]<b>Battlecry:</b> Repeat all other <b>Battlecries</b> from cards you played this
 	# game <i>(targets chosen randomly)</i>.
-	play = Battlecry(Shuffle(CARDS_PLAYED_THIS_GAME + BATTLECRITES), None)
+	play = Battlecry(RANDOM(CARDS_PLAYED_THIS_GAME + BATTLECRITES - SELF) * 30, None)
 
 
 ##
