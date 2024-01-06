@@ -73,7 +73,7 @@ class UNG_067:
 		# * NEW1_040t: Gnoll 豺狼人
 		# * OG_318t: Gnoll 腐化豺狼人
 		# * TU4a_003: Gnoll 豺狼人
-		name = card.data.strings[GameTag.CARDNAME]["enUS"]
+		name = card.name_enUS
 		self.card_name_counter[name] += 1
 
 

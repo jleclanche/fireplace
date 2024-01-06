@@ -76,6 +76,10 @@ class BaseCard(BaseEntity):
 		return self.data.is_standard
 
 	@property
+	def name_enUS(self):
+		return self.data.strings[GameTag.CARDNAME]["enUS"]
+
+	@property
 	def description(self):
 		description = self.data.description
 		if "@" in description:

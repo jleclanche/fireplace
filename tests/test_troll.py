@@ -60,3 +60,15 @@ def test_snapjaw_shellfighter():
 	game.player1.give(MOONFIRE).play(target=wisp)
 	assert wisp.damage == 0
 	assert shellfighter.damage == 1
+
+
+def test_treespeaker():
+	game = prepare_game()
+	game.player1.give("EX1_571").play()
+	game.player1.give(WISP).play()
+	game.player1.give("TRL_341").play()
+	assert len(game.player1.field) == 5
+	for i in range(3):
+		assert game.player1.field[i].id == "TRL_341t"
+	assert game.player1.field[3].id == WISP
+	assert game.player1.field[4].id == "TRL_341"

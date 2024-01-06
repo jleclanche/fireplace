@@ -498,9 +498,9 @@ ELEMENTAL = EnumSelector(Race.ELEMENTAL)
 TREANT = FuncSelector(
 	lambda entities, src: [
 		e for e in entities
-		if (e.data.strings[GameTag.CARDNAME]["enUS"]).endswith("Treant")
+		if getattr(e, "name_enUS", "").endswith("Treant")
 	]
-)  # Race.TREANT is not defined yet.
+)  # Race.`TREANT` is not defined yet.
 
 COMMON = EnumSelector(Rarity.COMMON)
 RARE = EnumSelector(Rarity.RARE)
