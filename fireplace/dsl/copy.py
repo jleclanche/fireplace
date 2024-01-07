@@ -53,6 +53,7 @@ class ExactCopy(Copy):
 		for buff in entity.buffs:
 			# Recreate the buff stack
 			new_buff = source.controller.card(buff.id)
+			new_buff.source = source
 			attributes = ["atk", "max_health", "_xatk", "_xhealth", "_xcost", "store_card"]
 			for attribute in attributes:
 				if hasattr(buff, attribute):

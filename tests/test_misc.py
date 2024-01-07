@@ -68,13 +68,12 @@ def test_anubar_ambusher_cult_master():
 	assert cultmaster2 in game.player1.hand
 
 
-def test_copy_griftah():
+def test_copy_voljin():
 	game = prepare_empty_game()
-	griftah = game.player1.give("TRL_096").play()
-	card1 = game.player1.choice.cards[0]
-	game.player1.choice.choose(card1)
-	card2 = game.player1.choice.cards[0]
-	game.player1.choice.choose(card2)
-	assert not game.player1.choice
+	wisp = game.player1.give(WISP).play()
+	voljin = game.player1.give("GVG_014").play(target=wisp)
 	game.end_turn()
-	game.player2.give("EX1_564").play(target=griftah)
+	game.player2.give("EX1_564").play(target=voljin)
+	voljin_copy = game.player2.field[0]
+	assert voljin_copy.atk == voljin.atk
+	assert voljin_copy.health == voljin.health
