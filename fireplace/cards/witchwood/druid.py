@@ -87,7 +87,7 @@ class GIL_571:
 class GIL_637:
 	"""Ferocious Howl"""
 	# Draw a card. Gain 1 Armor for each card in your hand.
-	play = Draw(CONTROLLER), GainArmor(CONTROLLER, Count(FRIENDLY_HAND))
+	play = Draw(CONTROLLER), GainArmor(FRIENDLY_HERO, Count(FRIENDLY_HAND))
 
 
 class GIL_663:

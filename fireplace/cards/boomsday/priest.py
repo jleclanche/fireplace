@@ -47,13 +47,10 @@ class BOT_558e:
 class BOT_566:
 	"""Reckless Experimenter"""
 	# [x]<b>Deathrattle</b> minions you play cost (3) less, but die at the end of the turn.
-	update = Refresh(FRIENDLY_HAND + DEATHRATTLE + MINION, "BOT_556e2")
+	update = Refresh(FRIENDLY_HAND + DEATHRATTLE + MINION, {GameTag.COST: -3})
 	events = Play(CONTROLLER, DEATHRATTLE + MINION).after(
 		Buff(Play.CARD, "BOT_566e")
 	)
-
-
-BOT_556e2 = buff(cost=-3)
 
 
 class BOT_566e:

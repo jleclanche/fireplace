@@ -6,7 +6,11 @@ from ..utils import *
 
 class UNG_011:
 	"""Hydrologist"""
-	play = DISCOVER(RandomSpell(secret=True))
+	play = WITH_SECRECTS & (
+		DISCOVER(RandomSpell(secret=True))
+	) | (
+		DISCOVER(RandomSpell(secret=True, card_class=CardClass.PALADIN))
+	)
 
 
 class UNG_015:

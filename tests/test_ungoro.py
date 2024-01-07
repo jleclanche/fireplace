@@ -298,3 +298,21 @@ def test_volcanosaur():
 	choice = game.player1.choice
 	assert not choice
 	assert len(volcanosaur.buffs) == 4
+
+
+def test_hydrologist():
+	game = prepare_game(CardClass.WARRIOR, CardClass.WARRIOR)
+	game.player1.give("UNG_011").play()
+	assert game.player1.choice
+	cards = game.player1.choice.cards
+	for card in cards:
+		assert card.card_class == CardClass.PALADIN
+	game.player1.choice.choose(cards[0])
+
+	game = prepare_game(CardClass.MAGE, CardClass.MAGE)
+	game.player1.give("UNG_011").play()
+	assert game.player1.choice
+	cards = game.player1.choice.cards
+	for card in cards:
+		assert card.card_class == CardClass.MAGE
+	game.player1.choice.choose(cards[0])

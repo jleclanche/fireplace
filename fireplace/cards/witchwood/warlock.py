@@ -7,7 +7,7 @@ from ..utils import *
 class GIL_508:
 	"""Duskbat"""
 	# <b>Battlecry:</b> If your hero took damage this turn, summon two 1/1 Bats.
-	powered_up = DAMAGE_THIS_TURN(FRIENDLY_HERO) >= 0
+	powered_up = DAMAGED_THIS_TURN(FRIENDLY_HERO) >= 0
 	play = powered_up & SummonBothSides(CONTROLLER, "GIL_508t")
 
 
@@ -24,7 +24,7 @@ class GIL_515:
 class GIL_565:
 	"""Deathweb Spider"""
 	# <b>Battlecry:</b> If your hero took damage this turn, gain <b>Lifesteal</b>.
-	powered_up = DAMAGE_THIS_TURN(FRIENDLY_HERO) >= 0
+	powered_up = DAMAGED_THIS_TURN(FRIENDLY_HERO) >= 0
 	play = powered_up & GiveLifesteal(SELF)
 
 
@@ -53,8 +53,11 @@ class GIL_825:
 	"""Lord Godfrey"""
 	# [x]<b>Battlecry:</b> Deal 2 damage to all other minions. If any die, repeat this
 	# <b>Battlecry</b>.
+	progress_total = 14
 	play = Hit(ALL_MINIONS - SELF, 2), Dead(ALL_MINIONS) & (
-		Deaths(), Battlecry(SELF)
+		Deaths(),
+		AddProgress(SELF, None),
+		FINISH_PROGRESS | Battlecry(SELF, None)
 	)
 
 
@@ -80,5 +83,5 @@ class GIL_665:
 
 
 class GIL_665e:
-	atk = -2
+	tags = {GameTag.ATK: -2}
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))

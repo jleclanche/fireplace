@@ -62,6 +62,7 @@ class LOOT_285:
 	# Gain 5 Armor. Gains a bonus effect in_your hand.
 	entourage = ["LOOT_285t", "LOOT_285t2", "LOOT_285t3", "LOOT_285t4"]
 	play = GainArmor(FRIENDLY_HERO, 5)
+	draw = Morph(SELF, RandomEntourage())
 
 
 class LOOT_285t:

@@ -177,10 +177,12 @@ def setup_game():
 	from .game import Game
 	from .player import Player
 
-	deck1 = random_draft(CardClass.MAGE)
-	deck2 = random_draft(CardClass.WARRIOR)
-	player1 = Player("Player1", deck1, CardClass.MAGE.default_hero)
-	player2 = Player("Player2", deck2, CardClass.WARRIOR.default_hero)
+	card_class1 = random_class()
+	card_class2 = random_class()
+	deck1 = random_draft(card_class1)
+	deck2 = random_draft(card_class2)
+	player1 = Player("Player1", deck1, card_class1.default_hero)
+	player2 = Player("Player2", deck2, card_class2.default_hero)
 
 	game = Game(players=(player1, player2))
 	game.start()
@@ -192,6 +194,11 @@ def play_turn(game):
 	player = game.current_player
 
 	while True:
+		while player.choice:
+			choice = random.choice(player.choice.cards)
+			print("Choosing card %r" % (choice))
+			player.choice.choose(choice)
+
 		heropower = player.hero.power
 		if heropower.is_usable() and random.random() < 0.1:
 			choose = None
@@ -215,6 +222,8 @@ def play_turn(game):
 				target = None
 				if card.must_choose_one:
 					card = random.choice(card.choose_cards)
+					if not card.is_playable():
+						continue
 				if card.requires_target():
 					target = random.choice(card.targets)
 				print("Playing %r on %r" % (card, target))

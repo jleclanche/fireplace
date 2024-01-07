@@ -216,9 +216,10 @@ class BaseGame(Entity):
 		Queue a list of \a actions for processing from \a source.
 		Triggers an aura refresh afterwards.
 		"""
+		old_event_args = source.event_args
 		source.event_args = event_args
 		ret = self.trigger_actions(source, actions)
-		source.event_args = None
+		source.event_args = old_event_args
 		return ret
 
 	def trigger_actions(self, source, actions):
@@ -347,9 +348,10 @@ class BaseGame(Entity):
 		self.manager.step(self.next_step, Step.MAIN_ACTION)
 
 		for p in self.players:
-			p.cards_drawn_this_turn = 0
+			p.cards_drawn_this_turn = CardList()
 
 		player.turn_start = timegm(time.gmtime())
+		player.cards_played_last_turn = player.cards_played_this_turn
 		player.cards_played_this_turn = CardList()
 		player.minions_played_this_turn = 0
 		player.minions_killed_this_turn = 0
@@ -371,7 +373,8 @@ class BaseGame(Entity):
 
 		for character in self.characters:
 			character.num_attacks = 0
-			character.damage_this_turn = 0
+			character.damaged_this_turn = 0
+			character.healed_this_turn = 0
 
 		for minion in player.field:
 			if minion.dormant:

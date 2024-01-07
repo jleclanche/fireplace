@@ -12,7 +12,7 @@ class OG_109:
 
 class OG_113:
 	"""Darkshire Councilman"""
-	events = Summon(MINION, CONTROLLER).on(Buff(SELF, "OG_113e"))
+	events = Summon(CONTROLLER, MINION).on(Buff(SELF, "OG_113e"))
 
 
 OG_113e = buff(atk=1)

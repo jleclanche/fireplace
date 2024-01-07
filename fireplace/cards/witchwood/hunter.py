@@ -45,7 +45,7 @@ class GIL_200e:
 class GIL_607:
 	"""Toxmonger"""
 	# [x]Whenever you play a 1-Cost minion, give it <b>Poisonous</b>.
-	events = Play(CONTROLLER, MINION + (COST == 1)).then(GivePoisonous(Play.CARD))
+	events = Play(CONTROLLER, MINION + (COST == 1)).on(GivePoisonous(Play.CARD))
 
 
 class GIL_650:

@@ -7,7 +7,7 @@ from ..utils import *
 class BOT_059:
 	"""Eternium Rover"""
 	# Whenever this minion takes damage, gain 2_Armor.
-	events = Damage(SELF).on(GainArmor(SELF, 2))
+	events = Damage(SELF).on(GainArmor(FRIENDLY_HERO, 2))
 
 
 class BOT_104:
@@ -40,7 +40,7 @@ BOT_237e = buff(
 class BOT_042:
 	"""Weapons Project"""
 	# Each player equips a 2/3 Weapon and gains 6 Armor.
-	play = Summon(PLAYER, "BOT_042t"), GainArmor(PLAYER, 6)
+	play = Summon(ALL_PLAYERS, "BOT_042t"), GainArmor(IN_PLAY + HERO, 6)
 
 
 class BOT_067:
@@ -77,6 +77,7 @@ class BOT_406:
 	"""Supercollider"""
 	# [x]After you attack a minion, force it to attack one of its neighbors.
 	events = Attack(FRIENDLY_HERO, MINION).after(
+		Find(ADJACENT(Attack.DEFENDER)) &
 		Attack(Attack.DEFENDER, RANDOM(ADJACENT(Attack.DEFENDER)))
 	)
 

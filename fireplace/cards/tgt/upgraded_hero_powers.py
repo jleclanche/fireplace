@@ -79,6 +79,11 @@ class CS1h_001_H1_AT_132(AT_132_PRIEST):
 	pass
 
 
+class CS1h_001_H2_AT_132(AT_132_PRIEST):
+	"""Heal (Madame Lazul)"""
+	pass
+
+
 class AT_132_ROGUE:
 	"""Poisoned Daggers"""
 	activate = Summon(CONTROLLER, "AT_132_ROGUEt")

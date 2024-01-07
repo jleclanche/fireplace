@@ -27,7 +27,8 @@ class OG_335:
 
 class OG_316:
 	"""Herald Volazj"""
-	play = Summon(ExactCopy(FRIENDLY_MINIONS - SELF)).then(Buff(Summon.CARD, "OG_316k"))
+	play = Summon(CONTROLLER, ExactCopy(FRIENDLY_MINIONS - SELF)).then(
+		Buff(Summon.CARD, "OG_316k"))
 
 
 class OG_316k:

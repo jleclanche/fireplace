@@ -130,3 +130,32 @@ def test_dragon_soul():
 	for _ in range(3):
 		game.player1.give(MOONFIRE).play(target=game.player2.hero)
 	assert len(game.player1.field) == 2
+
+
+def test_reckless_flurry():
+	game = prepare_game()
+	game.player1.give("EX1_606").play()
+	assert game.player1.hero.armor == 5
+	game.player1.give(WISP).play()
+	game.player1.give("LOOT_364").play()
+	assert game.player1.hero.armor == 0
+	assert len(game.player1.field) == 0
+
+
+def test_the_runespear():
+	game = prepare_game()
+	game.player1.give("LOOT_506").play()
+	game.player1.hero.attack(game.player2.hero)
+	assert game.player1.choice
+	game.player1.choice.choose(game.player1.choice.cards[0])
+
+
+def test_dragons_fury():
+	game = prepare_empty_game()
+	game.player1.give(FIREBALL).shuffle_into_deck()
+	wisp = game.player1.give(WISP).play()
+	mech = game.player1.give(MECH).play()
+	game.player1.give("LOOT_172").play()
+	assert wisp.dead
+	assert not mech.dead
+	assert mech.health == 1

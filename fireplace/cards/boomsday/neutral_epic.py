@@ -8,7 +8,7 @@ class BOT_280:
 	"""Holomancer"""
 	# After your opponent plays a minion, summon a 1/1_copy of it.
 	events = Play(OPPONENT, MINION).after(
-		Summon(CONTROLLER, Buff(ExactCopy(Play.TARGET), "BOT_280e"))
+		Summon(CONTROLLER, Buff(ExactCopy(Play.CARD), "BOT_280e"))
 	)
 
 

@@ -10,7 +10,7 @@ from ..events import *
 
 # For buffs which are removed when the card is moved to play (eg. cost buffs)
 # This needs to be Summon, because of Summon from the hand
-REMOVED_IN_PLAY = Summon(PLAYER, OWNER).after(Destroy(SELF))
+REMOVED_IN_PLAY = Summon(ALL_PLAYERS, OWNER).after(Destroy(SELF))
 
 ENEMY_CLASS = Attr(ENEMY_HERO, GameTag.CLASS)
 FRIENDLY_CLASS = Attr(FRIENDLY_HERO, GameTag.CLASS)
@@ -25,6 +25,7 @@ GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD, ))
 GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
 GivePoisonous = lambda target: SetTag(target, (GameTag.POISONOUS, ))
 GiveLifesteal = lambda target: SetTag(target, (GameTag.LIFESTEAL, ))
+GivRush = lambda target: SetTag(target, (GameTag.RUSH, ))
 
 
 CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))
@@ -65,6 +66,7 @@ HERO_POWER_MAP = {
 	# Priest
 	"CS1h_001": "AT_132_PRIEST",  # Anduin Wrynn
 	"CS1h_001_H1": "CS1h_001_H1_AT_132",  # Tyrande Whisperwind
+	"CS1h_001_H2": "CS1h_001_H2_AT_132",  # Madame Lazul
 	# Rogue
 	"CS2_083b": "AT_132_ROGUE",  # Valeera Sanguinar
 	"CS2_083b_H1": "AT_132_ROGUE_H1",  # Maiev Shadowsong
@@ -129,8 +131,9 @@ FORGETFUL = Attack(SELF).on(
 )
 
 AT_MAX_MANA = lambda s: MANA(s) == 10
+OVERLOADED = lambda s: (OVERLOAD_LOCKED(s) > 0) or (OVERLOAD_OWED(s) > 0)
 CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
-CAST_WHEN_DRAWN = Destroy(SELF), Battlecry(SELF, None), Draw(CONTROLLER)
+CAST_WHEN_DRAWN = Destroy(SELF), Draw(CONTROLLER), Battlecry(SELF, None)
 
 
 class JoustHelper(Evaluator):

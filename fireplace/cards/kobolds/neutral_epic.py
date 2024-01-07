@@ -37,7 +37,7 @@ class LOOT_161:
 	# <b>Battlecry:</b> Destroy a friendly minion. <b>Deathrattle:</b> Summon 2 copies of
 	# it.
 	play = Destroy(TARGET)
-	deathrattle = Summon(CONTROLLER, TARGET) * 2
+	deathrattle = HAS_TARGET & Summon(CONTROLLER, Copy(TARGET)) * 2
 
 
 class LOOT_193:

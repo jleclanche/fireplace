@@ -66,3 +66,14 @@ def test_anubar_ambusher_cult_master():
 	ambusher2.destroy()
 	assert len(game.player1.hand) == 1
 	assert cultmaster2 in game.player1.hand
+
+
+def test_copy_voljin():
+	game = prepare_empty_game()
+	wisp = game.player1.give(WISP).play()
+	voljin = game.player1.give("GVG_014").play(target=wisp)
+	game.end_turn()
+	game.player2.give("EX1_564").play(target=voljin)
+	voljin_copy = game.player2.field[0]
+	assert voljin_copy.atk == voljin.atk
+	assert voljin_copy.health == voljin.health

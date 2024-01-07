@@ -38,7 +38,7 @@ class GIL_601:
 	"""Scaleworm"""
 	# <b>Battlecry:</b> If you're holding a Dragon, gain +1 Attack and <b>Rush</b>.
 	powered_up = HOLDING_DRAGON
-	play = powered_up & buff(SELF, "GIL_601e")
+	play = powered_up & Buff(SELF, "GIL_601e")
 
 
 GIL_601e = buff(atk=1, rush=True)

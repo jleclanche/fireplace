@@ -37,8 +37,11 @@ ICC_903t = buff(+2, +2)
 
 class ICC_041:
 	"""Defile"""
+	progress_total = 14
 	play = Hit(ALL_MINIONS, 1), Dead(ALL_MINIONS) & (
-		Deaths(), CastSpell("ICC_041")
+		Deaths(),
+		AddProgress(SELF, None),
+		FINISH_PROGRESS | CastSpell(SELF)
 	)
 
 

@@ -18,6 +18,7 @@ class Player(Entity, TargetableByAuras):
 	cant_overload = slot_property("cant_overload")
 	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
+	extra_combos = slot_property("extra_combos")
 	extra_deathrattles = slot_property("extra_deathrattles")
 	extra_end_turn_effect = slot_property("extra_end_turn_effect")
 	healing_double = slot_property("healing_double", sum)
@@ -26,6 +27,7 @@ class Player(Entity, TargetableByAuras):
 	shadowform = slot_property("shadowform")
 	spellpower_double = slot_property("spellpower_double", sum)
 	spellpower_adjustment = slot_property("spellpower", sum)
+	heropower_damage_adjustment = slot_property("heropower_damage", sum)
 	spells_cost_health = slot_property("spells_cost_health")
 	murlocs_cost_health = slot_property("murlocs_cost_health")
 	type = CardType.PLAYER
@@ -52,7 +54,7 @@ class Player(Entity, TargetableByAuras):
 		self.cant_fatigue = False
 		self.fatigue_counter = 0
 		self.last_card_played = None
-		self.cards_drawn_this_turn = 0
+		self.cards_drawn_this_turn = CardList()
 		self.overloaded = 0
 		self.overload_locked = 0
 		self.overloaded_this_game = 0
@@ -71,7 +73,11 @@ class Player(Entity, TargetableByAuras):
 		self.elemental_played_this_turn = 0
 		self.elemental_played_last_turn = 0
 		self.cards_played_this_turn = CardList()
+		self.cards_played_last_turn = CardList()
 		self.cards_played_this_game = CardList()
+		self.hero_power_damage_this_game = 0
+		self.spent_mana_on_spells_this_game = 0
+		self.healed_this_game = 0
 		self.cthun = None
 
 	def __str__(self):
@@ -104,7 +110,9 @@ class Player(Entity, TargetableByAuras):
 
 	@property
 	def heropower_damage(self):
-		return sum(minion.heropower_damage for minion in self.field)
+		aura_power = self.controller.heropower_damage_adjustment
+		minion_power = sum(minion.heropower_damage for minion in self.field)
+		return aura_power + minion_power
 
 	@property
 	def spellpower(self):
@@ -202,9 +210,11 @@ class Player(Entity, TargetableByAuras):
 				quests.append(card)
 			else:
 				exclude_quests.append(card)
-		starting_hand = quests + random.sample(exclude_quests, hand_size - len(quests))
+		self.starting_hand = CardList(
+			quests + random.sample(exclude_quests, hand_size - len(quests))
+		)
 		# It's faster to move cards directly to the hand instead of drawing
-		for card in starting_hand:
+		for card in self.starting_hand:
 			card.zone = Zone.HAND
 
 	def get_spell_damage(self, amount: int) -> int:
@@ -265,6 +275,8 @@ class Player(Entity, TargetableByAuras):
 				self.log("%s murlocs cost %i health", self, amount)
 				self.game.queue_actions(self, [Hit(self.hero, amount)])
 				return amount
+		if source.type == CardType.SPELL:
+			self.spent_mana_on_spells_this_game += amount
 		if self.temp_mana:
 			# Coin, Innervate etc
 			used_temp = min(self.temp_mana, amount)

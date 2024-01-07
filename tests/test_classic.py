@@ -3642,17 +3642,17 @@ def test_water_elemental():
 
 def test_wild_growth():
 	game = prepare_game(game_class=Game)
-	game.end_turn()
-	game.end_turn()
-	assert game.player1.max_mana == 2
 	wildgrowth1 = game.player1.give("CS2_013")
+	mana = wildgrowth1.cost
+	for _ in range(wildgrowth1.cost - 1):
+		game.skip_turn()
+	assert game.player1.max_mana == mana
 	wildgrowth1.play()
 	assert game.player1.mana == 0
-	assert game.player1.used_mana == 2 + 1
-	assert game.player1.max_mana == 2 + 1
+	assert game.player1.used_mana == mana + 1
+	assert game.player1.max_mana == mana + 1
 	for i in range(7):
-		game.end_turn()
-		game.end_turn()
+		game.skip_turn()
 
 	game.player1.discard_hand()
 	assert len(game.player1.hand) == 0

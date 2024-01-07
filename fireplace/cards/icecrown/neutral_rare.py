@@ -7,7 +7,9 @@ from ..utils import *
 class ICC_018:
 	"""Phantom Freebooter"""
 	play = Find(FRIENDLY_WEAPON) & Buff(
-		SELF, "ICC_018e", atk=ATK(FRIENDLY_WEAPON), health=CURRENT_HEALTH(FRIENDLY_WEAPON))
+		SELF, "ICC_018e",
+		atk=ATK(FRIENDLY_WEAPON),
+		max_health=CURRENT_DURABILITY(FRIENDLY_WEAPON))
 
 
 class ICC_027:
