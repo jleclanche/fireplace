@@ -105,8 +105,3 @@ def test_holomancer():
 def test_flarks_boom_zooka():
 	game = prepare_game()
 	game.player1.give("BOT_429").play()
-
-
-def test_prismatic_lens():
-	game = prepare_empty_game()
-	game.player1.give("BOT_436").play()

@@ -101,4 +101,3 @@ class TRL_352:
 	"""Likkim"""
 	# Has +2 Attack while you have <b>Overloaded</b> Mana Crystals.
 	update = OVERLOADED(CONTROLLER) & Refresh(SELF, {GameTag.ATK: 2})
-

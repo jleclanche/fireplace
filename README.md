@@ -26,7 +26,7 @@ Now updated to [Patch 13.4.0.29349](https://hearthstone.fandom.com/wiki/Patch_13
 * **100%** Kobolds & Catacombs (135 of 135 cards)
 * **100%** The Witchwood (135 of 135 cards)
 * **100%** The Boomsday Project (135 of 135 cards)
-* **WIP** Rastakhan's Rumble (??? of 135 cards)
+* **100%** Rastakhan's Rumble (135 of 135 cards)
 
 ## Requirements
 
