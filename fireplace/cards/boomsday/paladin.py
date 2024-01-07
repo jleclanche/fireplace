@@ -61,10 +61,16 @@ class BOT_234e:
 class BOT_436:
 	"""Prismatic Lens"""
 	# Draw a minion and a spell from your deck. Swap their Costs.
-	play = SwapStateBuff(
+	play = FindAll(
+		FRIENDLY_DECK + MINION,
+		FRIENDLY_DECK + SPELL
+	) & SwapStateBuff(
 		ForceDraw(RANDOM(FRIENDLY_DECK + MINION)),
 		ForceDraw(RANDOM(FRIENDLY_DECK + SPELL)),
 		"BOT_436e"
+	) | (
+		ForceDraw(RANDOM(FRIENDLY_DECK + MINION)),
+		ForceDraw(RANDOM(FRIENDLY_DECK + SPELL)),
 	)
 
 

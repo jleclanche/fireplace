@@ -212,12 +212,16 @@ class Attack(GameAction):
 	DEFENDER = ActionArg()
 
 	def get_args(self, source):
-		attacker = _eval_card(source, self._args[0])[0]
-		defender = _eval_card(source, self._args[1])[0]
+		attackers = _eval_card(source, self._args[0])
+		attacker = attackers[0] if attackers else None
+		defenders = _eval_card(source, self._args[1])
+		defender = defenders[0] if defenders else None
 		return attacker, defender
 
 	def do(self, source, attacker, defender):
 		log.info("%r attacks %r", attacker, defender)
+		if not attacker or not defender:
+			return
 		attacker.attack_target = defender
 		defender.defending = True
 		source.game.proposed_attacker = attacker
@@ -503,9 +507,8 @@ class Activate(GameAction):
 		self.broadcast(source, EventListener.ON, player, heropower, target, choose)
 
 		card = choose or heropower
-		actions = card.get_actions("activate")
 		source.game.action_start(BlockType.PLAY, heropower, 0, target)
-		source.game.main_power(heropower, actions, target)
+		source.game.queue_actions(source, [PlayHeroPower(card, target)])
 		source.game.action_end(BlockType.PLAY, heropower)
 
 		for entity in player.live_entities:
@@ -514,6 +517,7 @@ class Activate(GameAction):
 				if actions:
 					source.game.trigger(entity, actions, event_args=None)
 
+		self.broadcast(source, EventListener.AFTER, player, heropower, target, choose)
 		heropower.activations_this_turn += 1
 
 
@@ -717,6 +721,8 @@ class Choice(TargetedAction):
 			return
 		log.info("%r choice from %r", player, cards)
 		player.choice = self
+		self._callback = self.callback
+		self.callback = []
 		self.source = source
 		self.player = player
 		self.cards = cards
@@ -727,7 +733,7 @@ class Choice(TargetedAction):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
 		self.player.choice = None
-		for action in self.callback:
+		for action in self._callback:
 			self.source.game.trigger(
 				self.source, [action], [self.cards, card])
 		self.trigger_choice_callback()
@@ -924,11 +930,15 @@ class Battlecry(TargetedAction):
 				log.info("%s battlecry %s don't have a legal target", source, card)
 				return
 
+		if card.battlecry_requires_target() and not target:
+			log.info("%r requires a target for its battlecry. Will not trigger.")
+			return
+
 		source.target = target
 		source.game.main_power(source, actions, target)
 
 		if (
-			player.extra_combos and card.type == CardType.MINIO and
+			player.extra_combos and card.type == CardType.MINION and
 			card.has_combo and player.combo
 		):
 			source.game.main_power(source, actions, target)
@@ -937,6 +947,19 @@ class Battlecry(TargetedAction):
 
 		if card.overload:
 			source.game.queue_actions(card, [Overload(player, card.overload)])
+
+
+class PlayHeroPower(TargetedAction):
+	HERO_POWER = CardArg()
+	TARGET = ActionArg()
+
+	def do(self, source, heropower, targets):
+		actions = heropower.get_actions("activate")
+		if not hasattr(targets, "__iter__"):
+			targets = [targets]
+		for target in targets:
+			heropower.target = target
+			source.game.main_power(heropower, actions, target)
 
 
 class Destroy(TargetedAction):
@@ -999,6 +1022,8 @@ class Discover(TargetedAction):
 		self.cards = cards
 		player = source.controller
 		player.choice = self
+		self._callback = self.callback
+		self.callback = []
 		self.player = player
 		self.source = source
 		self.target = target
@@ -1010,7 +1035,7 @@ class Discover(TargetedAction):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
 		self.player.choice = None
-		for action in self.callback:
+		for action in self._callback:
 			self.source.game.trigger(
 				self.source, [action], [self.target, self.cards, card])
 		self.trigger_choice_callback()
@@ -2085,6 +2110,50 @@ class Replay(TargetedAction):
 			source.game.queue_actions(source, [Summon(source.controller, target)])
 
 
-class ClearEntourage(TargetedAction):
-	def do(self, source, target):
-		target.entourage = []
+class GriftahAction(TargetedAction):
+	def picker(self, source, player):
+		if player.hero.data.card_class != CardClass.NEUTRAL:
+			# use hero class for Discover if not neutral (eg. Ragnaros)
+			discover_class = player.hero.data.card_class
+		elif source.data.card_class != CardClass.NEUTRAL:
+			# use card class for neutral hero classes
+			discover_class = source.data.card_class
+		else:
+			# use random class for neutral hero classes with neutral cards
+			discover_class = random_class()
+		picker = RandomCollectible() * 3
+		picker = picker.copy_with_weighting(1, card_class=CardClass.NEUTRAL)
+		picker = picker.copy_with_weighting(4, card_class=discover_class)
+		return picker.evaluate(source)
+
+	def do(self, source, player):
+		self.player = player
+		self.source = source
+		self.min_count = 1
+		self.max_count = 1
+		self.choosed_cards = []
+		self.player.choice = self
+		self.do_step1()
+
+	def do_step1(self):
+		self.cards = self.picker(self.source, self.player)
+
+	def do_step2(self):
+		self.cards = self.picker(self.source, self.player)
+
+	def done(self):
+		random.shuffle(self.choosed_cards)
+		self.source.controller.give(self.choosed_cards[0])
+		self.source.controller.opponent.give(self.choosed_cards[1])
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		else:
+			self.choosed_cards.append(card)
+			if len(self.choosed_cards) == 1:
+				self.do_step2()
+			elif len(self.choosed_cards) == 2:
+				self.player.choice = None
+				self.done()
+				self.trigger_choice_callback()

@@ -28,7 +28,7 @@ class LOOT_520:
 class LOOT_077:
 	"""Flanking Strike"""
 	# Deal $3 damage to a minion. Summon a 3/3 Wolf.
-	play = Hit(3, TARGET), Summon(CONTROLLER, "LOOT_077t")
+	play = Hit(TARGET, 3), Summon(CONTROLLER, "LOOT_077t")
 
 
 class LOOT_079:

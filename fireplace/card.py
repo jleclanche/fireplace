@@ -371,11 +371,22 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if not self.controller.current_player:
 			return False
 
-		zone = self.parent_card.zone if self.parent_card else self.zone
-		if zone != self.playable_zone:
+		if self.parent_card:
+			zone = self.parent_card.zone
+			playable_zone = self.parent_card.playable_zone
+		else:
+			zone = self.zone
+			playable_zone = self.playable_zone
+		if zone != playable_zone:
 			return False
 
 		if not self.controller.can_pay_cost(self):
+			return False
+
+		if self.must_choose_one:
+			for card in self.choose_cards:
+				if card.is_playable():
+					return True
 			return False
 
 		if PlayReq.REQ_TARGET_TO_PLAY in self.requirements:
@@ -872,7 +883,7 @@ class Minion(Character):
 		self.enrage = False
 		self.silenced = False
 		self._summon_index = None
-		self.dormant = data.dormant
+		self.dormant = 0
 		super().__init__(data)
 
 	@property

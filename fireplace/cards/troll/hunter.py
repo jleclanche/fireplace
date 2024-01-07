@@ -42,7 +42,7 @@ TRL_901e = buff(+1, +1)
 class TRL_119:
 	"""The Beast Within"""
 	# Give a friendly Beast +1/+1, then it attacks a random enemy minion.
-	play = Buff(TARGET, "TRL_119e").then(Attack(TARGET, RANDOM(ENEMY_MINIONS)))
+	play = Buff(TARGET, "TRL_119e").then(Attack(TARGET, RANDOM_ENEMY_MINION))
 
 
 TRL_119e = buff(+1, +1)
@@ -51,9 +51,8 @@ TRL_119e = buff(+1, +1)
 class TRL_339:
 	"""Master's Call"""
 	# <b>Discover</b> a minion in your deck. If all 3 are Beasts, draw them all.
-	# TODO need test
 	def play(self):
-		entities = (RANDOM(DeDuplicate(FRIENDLY_DECK + BEAST)) * 3).eval(self.game, self)
+		entities = (RANDOM(DeDuplicate(FRIENDLY_DECK + MINION)) * 3).eval(self.game, self)
 		if all(Race.BEAST in entity.races for entity in entities):
 			yield Give(CONTROLLER, entities)
 		else:
@@ -79,10 +78,10 @@ class TRL_566:
 class TRL_111:
 	"""Headhunter's Hatchet"""
 	# [x]<b>Battlecry:</b> If you control a Beast, gain +1 Durability.
-	play = Find(FRIENDLY_MINIONS + BEAST) & Buff(SELF, "TRL_111e")
+	play = Find(FRIENDLY_MINIONS + BEAST) & Buff(SELF, "TRL_111e1")
 
 
-TRL_111e = buff(health=1)
+TRL_111e1 = buff(health=1)
 
 
 ##

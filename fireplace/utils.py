@@ -222,6 +222,8 @@ def play_turn(game):
 				target = None
 				if card.must_choose_one:
 					card = random.choice(card.choose_cards)
+					if not card.is_playable():
+						continue
 				if card.requires_target():
 					target = random.choice(card.targets)
 				print("Playing %r on %r" % (card, target))

@@ -17,7 +17,6 @@ class TRL_060:
 	"""Spirit of the Frog"""
 	# [x]<b>Stealth</b> for 1 turn. Whenever you cast a spell, draw a spell from your deck
 	# that costs (1) more.
-	# TODO need test
 	events = (
 		OWN_TURN_BEGIN.on(Unstealth(SELF)),
 		Play(CONTROLLER, SPELL).on(
@@ -35,7 +34,6 @@ class TRL_060:
 class TRL_085:
 	"""Zentimo"""
 	# [x]Whenever you target a minion with a spell, cast it again on its neighbors.
-	# TODO need test
 	events = Play(CONTROLLER, SPELL, MINION).on(
 		CastSpell(Play.CARD, ADJACENT(Play.TARGET))
 	)
@@ -86,7 +84,6 @@ class TRL_082:
 
 
 class TRL_082e:
-	# TODO need test
 	tags = {GameTag.DEATHRATTLE: True}
 	deathrattle = Summon(CONTROLLER, RandomMinion(cost=COST(SELF) + Number(1)))
 
@@ -103,8 +100,5 @@ class TRL_351:
 class TRL_352:
 	"""Likkim"""
 	# Has +2 Attack while you have <b>Overloaded</b> Mana Crystals.
-	# TODO need test
-	update = OVERLOADED(CONTROLLER) & Refresh(SELF, buff="TRL_352e")
+	update = OVERLOADED(CONTROLLER) & Refresh(SELF, {GameTag.ATK: 2})
 
-
-TRL_352e = buff(atk=2)

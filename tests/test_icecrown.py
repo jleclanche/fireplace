@@ -170,6 +170,15 @@ def test_defile():
 	assert game.player1.field[0].health == 1
 
 
+def test_defile_max_time():
+	game = prepare_empty_game()
+	grim1 = game.player1.give("BRM_019").play()
+	game.player1.give(MOONFIRE).play(target=grim1)
+	game.player1.give(WISP).play()
+	game.player1.give("ICC_041").play()
+	assert len(game.player1.field) > 0
+
+
 def test_frostmourne():
 	game = prepare_game()
 	game.player1.give("ICC_314t1").play()
@@ -204,3 +213,14 @@ def test_death_grip():
 	grip.play()
 	assert len(game.player2.deck) == deck - 1
 	assert len(game.player1.hand) == hand
+
+
+def test_phantom_freebooter():
+	game = prepare_game()
+	weapon = game.player1.give("CS2_106").play()
+	freebooter = game.player1.give("ICC_018")
+	atk = freebooter.atk
+	health = freebooter.health
+	freebooter.play()
+	assert freebooter.atk == atk + weapon.atk
+	assert freebooter.health == health + weapon.durability

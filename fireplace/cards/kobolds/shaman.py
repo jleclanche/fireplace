@@ -15,7 +15,7 @@ class LOOT_062:
 class LOOT_358:
 	"""Grumble, Worldshaker"""
 	# <b>Battlecry:</b> Return your other minions to your hand. They cost (1).
-	play = Bounce(Buff(FRIENDLY_MINIONS - SELF, "LOOT_358e"))
+	play = Bounce(FRIENDLY_MINIONS - SELF).then(Buff(Bounce.TARGET, "LOOT_358e"))
 
 
 class LOOT_358e:

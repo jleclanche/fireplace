@@ -178,7 +178,10 @@ class CardDB(dict):
 				# cards = __builtins__["filter"](lambda c: getattr(c, attr) == value, cards)
 
 				if attr == "card_class":
-					cards = [card for card in cards if value in card.classes]
+					if hasattr(value, "__iter__"):
+						cards = [card for card in cards if card.card_class in value]
+					else:
+						cards = [card for card in cards if value in card.classes]
 				else:
 					cards = [
 						card for card in cards if (

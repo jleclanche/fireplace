@@ -92,6 +92,11 @@ class CFM_811:
 	) * 2
 
 
+@custom_card
 class CFM_811e:
+	tags = {
+		GameTag.CARDNAME: "Lunar Visions Buff",
+		GameTag.CARDTYPE: CardType.ENCHANTMENT,
+		GameTag.COST: -2
+	}
 	events = REMOVED_IN_PLAY
-	tags = {GameTag.COST: -2}

@@ -62,14 +62,19 @@ class BOT_033:
 class BOT_402:
 	"""Secret Plan"""
 	# <b>Discover</b> a <b>Secret</b>.
-	play = DISCOVER(RandomSpell(secret=True))
+	play = WITH_SECRECTS & (
+		DISCOVER(RandomSpell(secret=True))
+	) | (
+		DISCOVER(RandomSpell(secret=True, card_class=CardClass.HUNTER))
+	)
 
 
 class BOT_429:
 	"""Flark's Boom-Zooka"""
 	# [x]Summon 3 minions from your deck. They attack enemy minions, then die.
 	play = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION)).then(
-		Attack(Summon.CARD, RANDOM_ENEMY_MINION), Destroy(Summon.CARD)
+		Attack(Summon.CARD, RANDOM_ENEMY_MINION),
+		Destroy(Summon.CARD)
 	) * 3
 
 

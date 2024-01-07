@@ -53,8 +53,11 @@ class GIL_825:
 	"""Lord Godfrey"""
 	# [x]<b>Battlecry:</b> Deal 2 damage to all other minions. If any die, repeat this
 	# <b>Battlecry</b>.
+	progress_total = 14
 	play = Hit(ALL_MINIONS - SELF, 2), Dead(ALL_MINIONS) & (
-		Deaths(), Battlecry(SELF, None)
+		Deaths(),
+		AddProgress(SELF, None),
+		FINISH_PROGRESS | Battlecry(SELF, None)
 	)
 
 
@@ -80,5 +83,5 @@ class GIL_665:
 
 
 class GIL_665e:
-	atk = -2
+	tags = {GameTag.ATK: -2}
 	events = OWN_TURN_BEGIN.on(Destroy(SELF))

@@ -15,7 +15,6 @@ class TRL_311:
 class TRL_315:
 	"""Pyromaniac"""
 	# Whenever your Hero Power_kills a minion, draw a card.
-	# TODO need test
 	events = Activate(CONTROLLER, FRIENDLY_HERO_POWER).after(
 		Dead(Activate.TARGET) & Draw(CONTROLLER)
 	)
@@ -25,7 +24,6 @@ class TRL_316:
 	"""Jan'alai, the Dragonhawk"""
 	# [x]<b>Battlecry:</b> If your Hero Power dealt 8 damage this game, summon Ragnaros the
 	# Firelord.@ <i>({0} left!)</i>@ <i>(Ready!)</i>
-	# TODO need test
 	powered_up = AttrValue("hero_power_damage_this_game")(CONTROLLER) >= 8
 	play = powered_up & Summon(CONTROLLER, "TRL_316t")
 
@@ -40,7 +38,6 @@ class TRL_318:
 class TRL_319:
 	"""Spirit of the Dragonhawk"""
 	# [x]<b>Stealth</b> for 1 turn. Your Hero Power also targets adjacent minions.
-	# TODO need test
 	events = (
 		OWN_TURN_BEGIN.on(Unstealth(SELF))
 	)
@@ -48,20 +45,19 @@ class TRL_319:
 
 
 class TRL_319e:
-	events = Activate(CONTROLLER, FRIENDLY_HERO_POWER).after(
-		Find(Activate.TARGET) & Activate(FRIENDLY_HERO_POWER, ADJACENT(Activate.TARGET))
+	events = Activate(CONTROLLER, FRIENDLY_HERO_POWER).on(
+		PlayHeroPower(FRIENDLY_HERO_POWER, ADJACENT(Activate.TARGET))
 	)
 
 
 class TRL_390:
 	"""Daring Fire-Eater"""
 	# <b>Battlecry:</b> Your next Hero Power this turn deals 2_more damage.
-	# TODO need test
 	play = Buff(CONTROLLER, "TRL_390e")
 
 
 class TRL_390e:
-	tags = {GameTag.HEROPOWER_DAMAGE: 2}
+	update = Refresh(CONTROLLER, {GameTag.HEROPOWER_DAMAGE: 2})
 	events = Activate(CONTROLLER, FRIENDLY_HERO_POWER).after(Destroy(SELF))
 
 

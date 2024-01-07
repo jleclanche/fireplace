@@ -1,4 +1,4 @@
-from hearthstone.enums import CardType
+from hearthstone.enums import CardType, GameTag
 
 from ..logging import log
 from .lazynum import LazyValue
@@ -23,7 +23,8 @@ class Copy(LazyValue):
 
 	def evaluate(self, source) -> list[str]:
 		if isinstance(self.selector, LazyValue):
-			entities = [self.selector.evaluate(source)]
+			entity = self.selector.evaluate(source)
+			entities = [entity] if entity else []
 		else:
 			entities = self.selector.eval(source.game, source)
 
@@ -51,8 +52,12 @@ class ExactCopy(Copy):
 			ret.damage = entity.damage
 		for buff in entity.buffs:
 			# Recreate the buff stack
-			new_buff = buff.source.buff(
-				ret, buff.id, atk=buff.atk, max_health=buff.max_health)
+			new_buff = source.controller.card(buff.id)
+			attributes = ["atk", "max_health", "_xatk", "_xhealth", "_xcost", "store_card"]
+			for attribute in attributes:
+				if hasattr(buff, attribute):
+					setattr(new_buff, attribute, getattr(buff, attribute))
+			new_buff.apply(ret)
 			if buff in source.game.active_aura_buffs:
 				new_buff.tick = buff.tick
 				source.game.active_aura_buffs.append(new_buff)

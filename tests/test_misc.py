@@ -66,3 +66,15 @@ def test_anubar_ambusher_cult_master():
 	ambusher2.destroy()
 	assert len(game.player1.hand) == 1
 	assert cultmaster2 in game.player1.hand
+
+
+def test_copy_griftah():
+	game = prepare_empty_game()
+	griftah = game.player1.give("TRL_096").play()
+	card1 = game.player1.choice.cards[0]
+	game.player1.choice.choose(card1)
+	card2 = game.player1.choice.cards[0]
+	game.player1.choice.choose(card2)
+	assert not game.player1.choice
+	game.end_turn()
+	game.player2.give("EX1_564").play(target=griftah)

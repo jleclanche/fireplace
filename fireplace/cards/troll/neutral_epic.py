@@ -51,7 +51,6 @@ class TRL_530:
 class TRL_532:
 	"""Mosh'Ogg Announcer"""
 	# [x]Enemies attacking this have a 50% chance to attack someone else.
-	# TODO need test
 	events = Attack(ENEMY_CHARACTERS, SELF).on(
 		COINFLIP & Retarget(Attack.ATTACKER, RANDOM(FRIENDLY_CHARACTERS - SELF))
 	)

@@ -21,9 +21,8 @@ class TRL_306:
 class TRL_308:
 	"""High Priest Thekal"""
 	# <b>Battlecry:</b> Convert all but 1_of your Hero's Health into Armor.
-	# TODO need test
 	play = (
-		GainArmor(FRIENDLY_HERO, CURRENT_HEALTH(FRIENDLY_HERO) - 1),
+		GainArmor(FRIENDLY_HERO, CURRENT_HEALTH(FRIENDLY_HERO) - Number(1)),
 		SetCurrentHealth(FRIENDLY_HERO, 1)
 	)
 
@@ -73,15 +72,11 @@ class TRL_305:
 	# <b>Discover</b> a 6-Cost minion. Summon it with <b>Taunt</b> and <b>Divine
 	# Shield</b>.
 	play = Discover(CONTROLLER, RandomMinion(cost=6)).then(
-		Summon(CONTROLLER, Buff(Discover.CARD, "TRL_305e"))
+		Summon(CONTROLLER, Discover.CARD).then(
+			Taunt(Summon.CARD),
+			GiveDivineShield(Summon.CARD),
+		)
 	)
-
-
-class TRL_305e:
-	tags = {GameTag.TAUNT: True}
-
-	def apply(self, target):
-		self.game.trigger(self, (GiveDivineShield(target), ), None)
 
 
 class TRL_307:

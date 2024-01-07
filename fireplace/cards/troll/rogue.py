@@ -45,11 +45,8 @@ class TRL_126:
 	"""Captain Hooktusk"""
 	# <b>Battlecry:</b> Summon 3 Pirates from your deck. Give them <b>Rush</b>.
 	play = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + PIRATE) * 3).then(
-		Buff(Summon.CARD, "TRL_126e")
+		GivRush(Summon.CARD)
 	)
-
-
-TRL_126e = buff(rush=True)
 
 
 class TRL_409:
@@ -87,7 +84,6 @@ class TRL_127:
 class TRL_156:
 	"""Stolen Steel"""
 	# <b>Discover</b> a weapon <i>(from another class)</i>.
-	# TODO need test
 	play = GenericChoice(
 		CONTROLLER,
 		RandomWeapon(card_class=ANOTHER_CLASS) * 3

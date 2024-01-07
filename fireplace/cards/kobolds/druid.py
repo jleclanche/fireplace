@@ -79,9 +79,12 @@ class LOOT_051t2:
 class LOOT_054:
 	"""Branching Paths"""
 	# [x]<b>Choose Twice -</b> Draw a card; Give your minions +1 Attack; Gain 6 Armor.
-	play = Choice(CONTROLLER, [
-		"LOOT_054b", "LOOT_054c", "LOOT_054d"
-	]).then(Battlecry(Choice.CARD, None)) * 2
+	play = Choice(CONTROLLER, ["LOOT_054b", "LOOT_054c", "LOOT_054d"]).then(
+		Battlecry(Choice.CARD, None),
+		Choice(CONTROLLER, ["LOOT_054b", "LOOT_054c", "LOOT_054d"]).then(
+			Battlecry(Choice.CARD, None),
+		)
+	)
 
 
 class LOOT_054b:

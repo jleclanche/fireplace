@@ -7,35 +7,13 @@ from ..utils import *
 class TRL_096:
 	"""Griftah"""
 	# [x]<b>Battlecry:</b> <b>Discover</b> two cards. Give one to your opponent at random.
-	play = Discover(CONTROLLER, RandomCollectible()).then(
-		StoringBuff(SELF, "TRL_096e", Discover.CARD),
-		Discover(CONTROLLER, RandomCollectible()).then(
-			StoringBuff(SELF, "TRL_096e", Discover.CARD).then(
-				COINFLIP & (
-					Give(CONTROLLER, ENTOURAGE[:1]),
-					Steal(ENTOURAGE[1:]),
-					Give(OPPONENT, ENTOURAGE[1:])
-				) | (
-					Give(CONTROLLER, ENTOURAGE[1:]),
-					Steal(ENTOURAGE[:1]),
-					Give(OPPONENT, ENTOURAGE[:1])
-				),
-				ClearEntourage(SELF),
-			)
-		)
-	)
-
-
-class TRL_096e:
-	def apply(self, target):
-		target.entourage.append(self.store_card)
+	play = GriftahAction(CONTROLLER)
 
 
 class TRL_537:
 	"""Da Undatakah"""
 	# [x]<b>Battlecry:</b> Gain the <b>Deathrattle</b> effects of 3 friendly minions that
 	# died this game.
-	# TODO need test
 	play = CopyDeathrattleBuff(
 		RANDOM(FRIENDLY + KILLED + MINION + DEATHRATTLE) * 3, "TRL_537e"
 	)

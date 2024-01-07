@@ -73,15 +73,16 @@ class TRL_128:
 class TRL_258:
 	"""Mass Hysteria"""
 	# Force each minion to_attack another random minion.
-	# TODO need test
 	def play(self):
-		for attacker in random.shuffle(self.game.board):
+		board = ALL_MINIONS.eval(self.game, self)
+		random.shuffle(board)
+		for attacker in board:
 			if attacker.dead:
 				continue
-			defenders = self.game.board[:]
-			defenders.remove(attacker)
-			defender = random.choice(defenders)
-			yield Attack(attacker, defender)
+			defenders = RANDOM(ALL_MINIONS - DEAD - SELF).eval(self.game, attacker)
+			if defenders:
+				defender = random.choice(defenders)
+				yield Attack(attacker, defender)
 
 
 class TRL_500:

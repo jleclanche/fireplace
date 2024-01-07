@@ -65,7 +65,6 @@ class TRL_245:
 class TRL_246:
 	"""Void Contract"""
 	# Destroy half of each player's deck.
-	# TODO need test
 	play = (
 		Destroy(RANDOM(FRIENDLY_DECK)) * (Count(FRIENDLY_DECK) / 2),
 		Destroy(RANDOM(ENEMY_DECK)) * (Count(ENEMY_DECK) / 2),

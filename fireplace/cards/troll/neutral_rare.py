@@ -65,7 +65,6 @@ class TRL_524:
 class TRL_570:
 	"""Soup Vendor"""
 	# Whenever you restore 3 or more Health to your hero, draw a card.
-	# TODO need test
 	events = Heal(FRIENDLY_HERO).on(
 		(Heal.AMOUNT >= 3) & Draw(CONTROLLER)
 	)
