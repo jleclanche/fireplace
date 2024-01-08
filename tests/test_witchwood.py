@@ -61,3 +61,15 @@ def test_lady_in_white():
 	for card in game.player1.deck:
 		if card.type == CardType.MINION:
 			assert card.atk == card.health
+
+
+def test_murkspark_eel():
+	game = prepare_game()
+	eel = game.player1.give("GIL_530")
+	assert not eel.requires_target()
+	eel.play()
+
+	game = prepare_empty_game()
+	eel = game.player1.give("GIL_530")
+	assert eel.requires_target()
+	eel.play(target=game.player2.hero)

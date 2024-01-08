@@ -545,6 +545,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self not in self.controller.cards_drawn_this_turn:
 				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_DRAG_TO_PLAY_PRE29933)
+		if req is not None:
+			if all(card.cost % 2 == 0 for card in self.controller.deck):
+				return bool(self.play_targets)
 		# req = self.requirements.get(
 		# 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
 		# if req is not None:
