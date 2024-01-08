@@ -45,7 +45,7 @@ class TRL_126:
 	"""Captain Hooktusk"""
 	# <b>Battlecry:</b> Summon 3 Pirates from your deck. Give them <b>Rush</b>.
 	play = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + PIRATE) * 3).then(
-		GivRush(Summon.CARD)
+		GiveRush(Summon.CARD)
 	)
 
 

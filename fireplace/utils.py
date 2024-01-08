@@ -224,9 +224,10 @@ def play_turn(game):
 					card = random.choice(card.choose_cards)
 					if not card.is_playable():
 						continue
+				print("Playing %r" % card)
 				if card.requires_target():
 					target = random.choice(card.targets)
-				print("Playing %r on %r" % (card, target))
+				print("Target on %r" % target)
 				card.play(target=target)
 
 				while player.choice:

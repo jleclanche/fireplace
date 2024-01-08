@@ -498,7 +498,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		if self.has_combo and PlayReq.REQ_TARGET_FOR_COMBO in self.requirements:
 			if self.controller.combo:
-				return True
+				return bool(self.play_targets)
 		if PlayReq.REQ_TARGET_IF_AVAILABLE in self.requirements:
 			return bool(self.play_targets)
 		if PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND in self.requirements:

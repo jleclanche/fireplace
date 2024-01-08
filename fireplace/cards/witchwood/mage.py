@@ -7,8 +7,14 @@ from ..utils import *
 class GIL_116:
 	"""Arcane Keysmith"""
 	# <b>Battlecry:</b> <b>Discover</b> a <b>Secret</b>. Put it into the battlefield.
-	play = Discover(CONTROLLER, RandomSpell(secret=True)).then(
-		Summon(CONTROLLER, Discover.CARD)
+	play = WITH_SECRECTS & (
+		Discover(CONTROLLER, RandomSpell(secret=True)).then(
+			Summon(CONTROLLER, Discover.CARD)
+		)
+	) | (
+		Discover(CONTROLLER, RandomSpell(secret=True, card_class=CardClass.MAGE)).then(
+			Summon(CONTROLLER, Discover.CARD)
+		)
 	)
 
 
