@@ -77,3 +77,11 @@ def test_copy_voljin():
 	voljin_copy = game.player2.field[0]
 	assert voljin_copy.atk == voljin.atk
 	assert voljin_copy.health == voljin.health
+
+
+def test_lifesteal_and_auchenai():
+	game = prepare_game()
+	game.player1.give("EX1_591").play()
+	game.player1.give("TRL_512").play(target=game.player2.hero)
+	assert game.player1.hero.health == 29
+	assert game.player2.hero.health == 29

@@ -1235,7 +1235,7 @@ class Heal(TargetedAction):
 
 	def do(self, source, target, amount):
 		if source.controller.healing_as_damage:
-			return source.game.queue_actions(source, [Hit(target, amount)])
+			return source.game.queue_actions(source.controller, [Hit(target, amount)])
 
 		amount = source.get_heal(amount, target)
 		amount = min(amount, target.damage)
@@ -1609,15 +1609,15 @@ class CastSpell(TargetedAction):
 
 	def get_target_args(self, source, target):
 		ret = super().get_target_args(source, target)
-		spell_target = None
+		spell_target = [None]
 		if ret:
-			spell_target = ret[0][0]
+			spell_target = ret[0]
 		else:
 			if target.target:
 				return [target.target]
 		return [spell_target]
 
-	def do(self, source, card, target=None):
+	def do(self, source, card, targets):
 		if source.type == CardType.MINION and (
 			source.dead or source.silenced or source.zone != Zone.PLAY
 		):
@@ -1628,23 +1628,25 @@ class CastSpell(TargetedAction):
 		player.choice = None
 		if card.must_choose_one:
 			card = random.choice(card.choose_cards)
-		if card.requires_target():
-			if len(card.targets):
-				if target not in card.targets:
-					target = random.choice(card.targets)
-			else:
-				log.info("%s cast spell %s don't have a legal target", source, card)
-				return
-		card.target = target
-		card.zone = Zone.PLAY
-		log.info("%s cast spell %s target %s", source, card, target)
-		source.game.queue_actions(source, [Battlecry(card, card.target)])
-		while player.choice:
-			choice = random.choice(player.choice.cards)
-			log.info("Choosing card %r" % (choice))
-			player.choice.choose(choice)
-		player.choice = old_choice
-		source.game.queue_actions(source, [Deaths()])
+		for target in targets:
+			if not target:
+				if card.requires_target():
+					if len(card.targets):
+						if target not in card.targets:
+							target = random.choice(card.targets)
+					else:
+						log.info("%s cast spell %s don't have a legal target", source, card)
+						return
+			card.target = target
+			card.zone = Zone.PLAY
+			log.info("%s cast spell %s target %s", source, card, target)
+			source.game.queue_actions(source, [Battlecry(card, card.target)])
+			while player.choice:
+				choice = random.choice(player.choice.cards)
+				log.info("Choosing card %r" % (choice))
+				player.choice.choose(choice)
+			player.choice = old_choice
+			source.game.queue_actions(source, [Deaths()])
 
 
 class CastSpellTargetsEnemiesIfPossible(TargetedAction):
@@ -1838,6 +1840,7 @@ class KazakusAction(TargetedAction):
 		new_card.requirements.update(card1.requirements)
 		new_card.requirements.update(card2.requirements)
 		new_card.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+		new_card.requirements = card1.requirements | card2.requirements
 		new_card.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
 		new_card.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
 		self.player.give(new_card)

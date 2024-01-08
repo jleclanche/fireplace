@@ -105,7 +105,8 @@ class BOT_529e:
 class BOT_567:
 	"""Zerek's Cloning Gallery"""
 	# Summon a 1/1 copy of_each minion in your_deck.
-	play = Summon(CONTROLLER, Buff(Copy(FRIENDLY_DECK + MINION), "BOT_567e"))
+	play = Summon(CONTROLLER, Copy(FRIENDLY_DECK + MINION)).then(
+		Buff(Summon.CARD, "BOT_567e"))
 
 
 class BOT_567e:

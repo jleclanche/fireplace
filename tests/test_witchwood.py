@@ -53,3 +53,23 @@ def test_shudderwock():
 	shudderwock = game.player1.give("GIL_820")
 	shudderwock.play()
 	assert len(game.player1.hand) == hand + 2
+
+
+def test_lady_in_white():
+	game = prepare_game()
+	game.player1.give("GIL_840").play()
+	for card in game.player1.deck:
+		if card.type == CardType.MINION:
+			assert card.atk == card.health
+
+
+def test_murkspark_eel():
+	game = prepare_game()
+	eel = game.player1.give("GIL_530")
+	assert not eel.requires_target()
+	eel.play()
+
+	game = prepare_empty_game()
+	eel = game.player1.give("GIL_530")
+	assert eel.requires_target()
+	eel.play(target=game.player2.hero)

@@ -105,3 +105,8 @@ def test_holomancer():
 def test_flarks_boom_zooka():
 	game = prepare_game()
 	game.player1.give("BOT_429").play()
+
+
+def test_zereks_cloning_gallery_when_empty():
+	game = prepare_empty_game()
+	game.player1.give("BOT_567").play()

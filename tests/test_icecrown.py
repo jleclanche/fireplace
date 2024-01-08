@@ -224,3 +224,14 @@ def test_phantom_freebooter():
 	freebooter.play()
 	assert freebooter.atk == atk + weapon.atk
 	assert freebooter.health == health + weapon.durability
+
+
+def test_plague_scientist():
+	game = prepare_game()
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	scientist = game.player1.give("ICC_809")
+	assert not scientist.requires_target()
+	assert not scientist.targets
+	wisp = game.player1.give(WISP).play()
+	assert scientist.requires_target()
+	assert scientist.targets == [wisp]
