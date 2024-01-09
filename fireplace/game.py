@@ -6,7 +6,7 @@ from itertools import chain
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
 from .actions import (
-	Attack, Awaken, BeginTurn, Death, EndTurn, EventListener, GameStart, Play
+	Attack, BeginTurn, Death, EndTurn, EventListener, GameStart, Play
 )
 from .card import THE_COIN
 from .entity import Entity
@@ -375,12 +375,6 @@ class BaseGame(Entity):
 			character.num_attacks = 0
 			character.damaged_this_turn = 0
 			character.healed_this_turn = 0
-
-		for minion in player.field:
-			if minion.dormant:
-				minion.dormant -= 1
-				if not minion.dormant:
-					self.queue_actions(self, [Awaken(minion)])
 
 		player.draw()
 		self.manager.step(self.next_step, Step.MAIN_END)

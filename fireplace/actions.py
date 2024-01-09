@@ -1166,8 +1166,8 @@ class SetMana(TargetedAction):
 	def do(self, source, target, amount):
 		old_mana = target.mana
 		target.max_mana = amount
-		if old_mana > target.mana:
-			target.used_mana -= old_mana - target.mana
+		target.used_mana = max(
+			0, target.max_mana - target.overload_locked - old_mana + target.temp_mana)
 
 
 class Give(TargetedAction):
@@ -1485,9 +1485,16 @@ class SummonTiger(TargetedAction):
 		if cost <= 0:
 			return
 		tiger = target.controller.card("TRL_309t")
-		tiger.atk = cost
-		tiger.max_health = cost
-		tiger.cost = cost
+		tiger.custom_card = True
+
+		def create_custom_card(tiger):
+			tiger.atk = cost
+			tiger.max_health = cost
+			tiger.cost = cost
+
+		tiger.create_custom_card = create_custom_card
+		tiger.create_custom_card(tiger)
+
 		if tiger.is_summonable():
 			source.game.queue_actions(source, [Summon(target, tiger)])
 
@@ -1628,14 +1635,13 @@ class CastSpell(TargetedAction):
 		if card.must_choose_one:
 			card = random.choice(card.choose_cards)
 		for target in targets:
-			if not target:
-				if card.requires_target():
-					if len(card.targets):
-						if target not in card.targets:
-							target = random.choice(card.targets)
-					else:
-						log.info("%s cast spell %s don't have a legal target", source, card)
-						return
+			if card.requires_target() and not target:
+				if len(card.targets) > 0:
+					if target not in card.targets:
+						target = random.choice(card.targets)
+				else:
+					log.info("%s cast spell %s don't have a legal target", source, card)
+					return
 			card.target = target
 			card.zone = Zone.PLAY
 			log.info("%s cast spell %s target %s", source, card, target)
@@ -1646,43 +1652,6 @@ class CastSpell(TargetedAction):
 				player.choice.choose(choice)
 			player.choice = old_choice
 			source.game.queue_actions(source, [Deaths()])
-
-
-class CastSpellTargetsEnemiesIfPossible(TargetedAction):
-	"""
-	Cast a spell target random targets enemies if possible
-	"""
-	CARD = CardArg()
-
-	def do(self, source, card):
-		target = None
-		player = source.controller
-		old_choice = player.choice
-		player.choice = None
-		if card.must_choose_one:
-			card = random.choice(card.choose_cards)
-		if card.requires_target():
-			targets = card.targets
-			if len(targets) > 0:
-				enemy_targets = list(filter(
-					lambda item: item.controller != source.controller, targets))
-				if len(enemy_targets) > 0:
-					target = random.choice(enemy_targets)
-				else:
-					target = random.choice(targets)
-			else:
-				log.info("%s cast spell %s don't have a legal target", source, card)
-				return
-		card.target = target
-		log.info("%s cast spell %s target %s", source, card, target)
-		source.game.queue_actions(source, [Battlecry(card, card.target)])
-		player = source.controller
-		while player.choice:
-			choice = random.choice(player.choice.cards)
-			log.info("Choosing card %r" % (choice))
-			player.choice.choose(choice)
-		player.choice = old_choice
-		source.game.queue_actions(source, [Deaths()])
 
 
 class Evolve(TargetedAction):
@@ -1862,32 +1831,6 @@ class KazakusAction(TargetedAction):
 				self.player.choice = None
 				self.done()
 				self.trigger_choice_callback()
-
-
-class Upgrade(TargetedAction):
-	"""
-	Upgrade cards
-	"""
-	TARGET = ActionArg
-	AMOUNT = IntArg()
-
-	def do(self, source, target):
-		log.info("Upgrade %s counter to %s", target, target.upgrade_counter + 1)
-		target.upgrade_counter += 1
-		self.broadcast(source, EventListener.AFTER, target, target.upgrade_counter)
-
-
-class Awaken(TargetedAction):
-	"""
-	Awaken a dormant minion
-	"""
-	TARGET = ActionArg()
-
-	def do(self, source, target):
-		log.info("%s is awaken", target)
-		target.turns_in_play = 0
-		if target.get_actions("awaken"):
-			source.game.trigger(target, target.get_actions("awaken"), event_args=None)
 
 
 class GameStart(GameAction):

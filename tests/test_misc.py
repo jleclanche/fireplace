@@ -1,3 +1,4 @@
+from full_game import test_full_game
 from utils import *
 
 

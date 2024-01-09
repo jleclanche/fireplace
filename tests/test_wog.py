@@ -686,3 +686,11 @@ def test_thing_from_below():
 	assert below.cost == below_cost - 2
 	below.play()
 	assert below.cost == below_cost
+
+
+def test_faceless_shambler():
+	game = prepare_game()
+	wisp = game.player1.give(WISP).play()
+	faceless = game.player1.give("OG_174").play(target=wisp)
+	assert faceless.atk == wisp.atk
+	assert faceless.health == wisp.health
