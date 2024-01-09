@@ -2,7 +2,7 @@
 [![](https://img.shields.io/badge/python-3.10+-blue.svg)](https://peps.python.org/pep-0619/)
 [![](https://img.shields.io/github/license/jleclanche/fireplace.svg)](https://github.com/jleclanche/fireplace/blob/master/LICENSE.md)
 [![](https://github.com/jleclanche/fireplace/actions/workflows/build.yml/badge.svg)](https://github.com/jleclanche/fireplace/actions/workflows/build.yml)
-[![codecov](https://codecov.io/github/jleclanche/fireplace/branch/8.4.0.20022/graph/badge.svg?token=FXDTJSKZL9)](https://codecov.io/github/jleclanche/fireplace)
+[![codecov](https://codecov.io/github/jleclanche/fireplace/graph/badge.svg?token=FXDTJSKZL9)](https://codecov.io/github/jleclanche/fireplace)
 
 A Hearthstone simulator and implementation, written in Python.
 
