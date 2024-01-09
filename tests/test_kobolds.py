@@ -159,3 +159,12 @@ def test_dragons_fury():
 	assert wisp.dead
 	assert not mech.dead
 	assert mech.health == 1
+
+
+def test_unstable_evolution():
+	game = prepare_game()
+	game.player1.give(WISP).play()
+	game.player1.give("LOOT_504")
+	evolution = game.player1.hand[-1]
+	evolution.play(target=game.player1.field[0])
+	assert game.player1.field[0].cost == 1

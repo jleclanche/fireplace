@@ -107,11 +107,6 @@ class CardDB(dict):
 		if hasattr(cardscript, "entourage"):
 			card.entourage = cardscript.entourage
 
-		if hasattr(cardscript, "dormant"):
-			card.dormant = cardscript.dormant
-		else:
-			card.dormant = 0
-
 		if hasattr(cardscript, "progress_total"):
 			card.scripts.progress_total = cardscript.progress_total
 		else:

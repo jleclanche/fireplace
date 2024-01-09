@@ -204,3 +204,62 @@ def test_zuljin():
 	assert game.player1.temp_mana == 0
 	game.player1.give("TRL_065").play()
 	assert game.player1.temp_mana == 1
+
+
+def test_sulthraze():
+	game = prepare_game()
+	wisps = [game.player1.give(WISP).play() for _ in range(4)]
+	game.end_turn()
+	game.player2.give("TRL_325").play()
+	for wisp in wisps:
+		assert game.player2.hero.can_attack()
+		game.player2.hero.attack(wisp)
+	assert not game.player2.hero.can_attack()
+
+
+def test_summon_tiger():
+	game = prepare_game()
+	game.player1.give("TRL_309").play()
+	game.player1.give(FIREBALL).play(target=game.player2.hero)
+	tiger = game.player1.field[1]
+	assert tiger.cost == 4
+	assert tiger.atk == 4
+	assert tiger.health == 4
+	game.player1.give(SILENCE).play(target=tiger)
+	assert tiger.cost == 4
+	assert tiger.atk == 4
+	assert tiger.health == 4
+	game.end_turn()
+
+	game.player2.give("EX1_564").play(target=tiger)
+	copy_tiger = game.player2.field[0]
+	assert copy_tiger.cost == 4
+	assert copy_tiger.atk == 4
+	assert copy_tiger.health == 4
+
+
+def test_mojomaster_zihi():
+	game = prepare_game()
+	zihi = game.player1.give("TRL_564").play()
+	assert game.player1.max_mana == 5
+	assert game.player2.max_mana == 5
+	assert game.player1.mana == 10 - zihi.cost
+	assert game.player2.mana == 5
+
+	game2 = prepare_game(game_class=Game)
+	for _ in range(5):
+		game2.player1.give(THE_COIN).play()
+	game2.player1.give("TRL_564").play()
+	assert game2.player1.max_mana == 5
+	assert game2.player2.max_mana == 5
+	assert game2.player1.mana == 0
+	assert game2.player2.mana == 0
+
+	game3 = prepare_game(game_class=Game)
+	for _ in range(10):
+		game3.player1.give(THE_COIN).play()
+	game3.player1.give("TRL_564").play()
+	assert game3.player1.max_mana == 5
+	assert game3.player2.max_mana == 5
+	assert game3.player1.mana == 10 - zihi.cost
+	assert game3.player2.mana == 0
