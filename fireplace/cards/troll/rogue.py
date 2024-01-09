@@ -36,8 +36,8 @@ class TRL_092:
 		OWN_TURN_BEGIN.on(Unstealth(SELF)),
 	)
 	update = (
-		Refresh(CONTROLLER, {enums.EXTRA_BATTLECRIES: True}),
-		Refresh(CONTROLLER, {enums.EXTRA_COMBOS: True}),
+		Refresh(CONTROLLER, {enums.MINION_EXTRA_BATTLECRIES: True}),
+		Refresh(CONTROLLER, {enums.MINION_EXTRA_COMBOS: True}),
 	)
 
 

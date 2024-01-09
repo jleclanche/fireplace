@@ -937,11 +937,14 @@ class Battlecry(TargetedAction):
 		source.game.main_power(source, actions, target)
 
 		if (
-			player.extra_combos and card.type == CardType.MINION and
+			player.minion_extra_combos and card.type == CardType.MINION and
 			card.has_combo and player.combo
+		) or (
+			player.extra_battlecries and card.has_battlecry
+		) or (
+			player.minion_extra_battlecries and card.type == CardType.MINION and
+			card.has_battlecry
 		):
-			source.game.main_power(source, actions, target)
-		elif player.extra_battlecries and card.has_battlecry:
 			source.game.main_power(source, actions, target)
 
 		if card.overload:
