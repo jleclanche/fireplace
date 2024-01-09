@@ -153,7 +153,7 @@ class BRM_029:
 
 class BRM_030:
 	"""Nefarian"""
-	play = Find(ENEMY_HERO + CLASS_CARD) & (
+	play = Find(ENEMY_HERO - NEUTRAL) & (
 		Give(CONTROLLER, RandomSpell(card_class=ENEMY_CLASS)) * 2
 	) | (
 		Give(CONTROLLER, "BRM_030t") * 2

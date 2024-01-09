@@ -36,6 +36,17 @@ def test_hakkar():
 	assert len(game.player2.deck) == 4
 
 
+def test_hakkar_full():
+	game = prepare_empty_game()
+	game.player1.give("KAR_712").play()
+	for _ in range(60):
+		blood = game.player1.give("TRL_541t")
+		blood.shuffle_into_deck()
+	assert len(game.player1.deck) == 60
+	game.skip_turn()
+	assert len(game.player1.deck) == 60
+
+
 def test_overkill():
 	game = prepare_game()
 	wisp = game.player1.give(WISP).play()
@@ -61,6 +72,15 @@ def test_snapjaw_shellfighter():
 	game.player1.give(MOONFIRE).play(target=wisp)
 	assert wisp.damage == 0
 	assert shellfighter.damage == 1
+
+
+def test_two_snapjaw_shellfighters():
+	game = prepare_game()
+	shellfighter1 = game.player1.give("TRL_535").play()
+	shellfighter2 = game.player1.give("TRL_535").play()
+	game.player1.give(MOONFIRE).play(target=shellfighter1)
+	assert shellfighter1.damage == 0
+	assert shellfighter2.damage == 1
 
 
 def test_treespeaker():
@@ -175,3 +195,12 @@ def test_daring_fire_eater():
 	game.player1.hero.power.use(target=game.player2.field[1])
 	for i in range(3):
 		assert game.player2.field[i].damage == 4
+
+
+def test_zuljin():
+	game = prepare_game()
+	game.player1.give(THE_COIN).play()
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert game.player1.temp_mana == 0
+	game.player1.give("TRL_065").play()
+	assert game.player1.temp_mana == 1

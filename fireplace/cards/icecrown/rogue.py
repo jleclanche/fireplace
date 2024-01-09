@@ -21,7 +21,8 @@ class ICC_809:
 
 class ICC_811:
 	"""Lilian Voss"""
-	play = Morph(FRIENDLY_HAND + SPELL, RandomSpell(card_class=ENEMY_CLASS))
+	play = Find(ENEMY_HERO - NEUTRAL) & (
+		Morph(FRIENDLY_HAND + SPELL, RandomSpell(card_class=ENEMY_CLASS)))
 
 
 class ICC_910:

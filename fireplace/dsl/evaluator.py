@@ -127,7 +127,8 @@ class Dead(Evaluator):
 		if isinstance(self.selector, Selector):
 			entities = self.selector.eval(source.game, source)
 		else:
-			entities = [self.selector.evaluate(source)]
+			entity = self.selector.evaluate(source)
+			entities = [entity] if entity else []
 		for target in entities:
 			if target.dead:
 				return True

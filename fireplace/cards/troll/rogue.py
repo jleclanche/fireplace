@@ -53,7 +53,7 @@ class TRL_409:
 	"""Gral, the Shark"""
 	# [x]<b>Battlecry:</b> Eat a minion in your deck and gain its stats.
 	# <b>Deathrattle:</b> Add it to your hand.
-	play = (
+	play = Find(FRIENDLY_DECK + MINION) & (
 		Retarget(SELF, RANDOM(FRIENDLY_DECK + MINION)),
 		Reveal(TARGET),
 		Destroy(TARGET),

@@ -46,7 +46,8 @@ class LOOT_211:
 class LOOT_412:
 	"""Kobold Illusionist"""
 	# <b>Deathrattle:</b> Summon a 1/1 copy of a minion from your hand.
-	deathrattle = Summon(CONTROLLER, Buff(RANDOM(FRIENDLY_HAND + MINION), "LOOT_412e"))
+	deathrattle = Summon(CONTROLLER, RANDOM(FRIENDLY_HAND + MINION)).then(
+		Buff(Summon.CARD, "LOOT_412e"))
 
 
 class LOOT_412e:

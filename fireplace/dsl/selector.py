@@ -445,7 +445,6 @@ CardClass.test = lambda self, entity, *args: (
 BATTLECRY = EnumSelector(GameTag.BATTLECRY)
 CHARGE = EnumSelector(GameTag.CHARGE)
 COMBO = EnumSelector(GameTag.COMBO)
-BATTLECRITES = EnumSelector(GameTag.BATTLECRY)
 DAMAGED = EnumSelector(GameTag.DAMAGE)
 DEATHRATTLE = EnumSelector(GameTag.DEATHRATTLE)
 DIVINE_SHIELD = EnumSelector(GameTag.DIVINE_SHIELD)

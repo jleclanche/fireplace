@@ -258,6 +258,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.upgrade_counter = 0
 		self.cast_on_friendly_minions = False
 		self.play_right_most = False
+		self.custom_card = False
 		super().__init__(data)
 
 	@property

@@ -85,3 +85,45 @@ def test_lifesteal_and_auchenai():
 	game.player1.give("TRL_512").play(target=game.player2.hero)
 	assert game.player1.hero.health == 29
 	assert game.player2.hero.health == 29
+
+
+def test_mirror_entity_and_pumpkin_peasant():
+	game = prepare_empty_game()
+	game.player1.give("GIL_201")
+	game.end_turn()
+	game.player2.give("EX1_294").play()
+	game.end_turn()
+	for _ in range(3):
+		game.skip_turn()
+	game.player1.hand[0].play()
+	minion1 = game.player1.field[0]
+	minion2 = game.player2.field[0]
+	assert minion1.id == minion2.id
+	assert minion1.atk == minion2.atk
+	assert minion1.health == minion2.health
+
+
+def test_nefarian_and_ragnaros_hero():
+	game = prepare_empty_game()
+	game.end_turn()
+	game.player2.give("BRM_027").play().destroy()
+	assert game.player2.hero.card_class == CardClass.NEUTRAL
+	game.end_turn()
+	game.player1.give("BRM_030").play()
+	assert len(game.player1.hand) == 2
+	assert game.player1.hand[0].id == "BRM_030t"
+	assert game.player1.hand[0].id == "BRM_030t"
+
+
+def test_lilian_voss_andragnaros_hero():
+	game = prepare_empty_game()
+	game.end_turn()
+	game.player2.give("BRM_027").play().destroy()
+	assert game.player2.hero.card_class == CardClass.NEUTRAL
+	game.end_turn()
+	game.player1.give(MOONFIRE)
+	game.player1.give(MOONFIRE)
+	game.player1.give("ICC_811").play()
+	assert len(game.player1.hand) == 2
+	assert game.player1.hand[0].id == MOONFIRE
+	assert game.player1.hand[0].id == MOONFIRE
