@@ -9,14 +9,18 @@ class GIL_142:
 	# Each turn this is in your hand, transform it into a card your opponent is holding.
 	class Hand:
 		events = OWN_TURN_BEGIN.on(
-			Morph(SELF, ExactCopy(RANDOM(ENEMY_HAND))).then(Buff(Morph.CARD, "GIL_142e"))
+			Find(ENEMY_HAND) & (
+				Morph(SELF, ExactCopy(RANDOM(ENEMY_HAND))).then(Buff(Morph.CARD, "GIL_142e"))
+			)
 		)
 
 
 class GIL_142e:
 	class Hand:
 		events = OWN_TURN_BEGIN.on(
-			Morph(OWNER, ExactCopy(RANDOM(ENEMY_HAND))).then(Buff(Morph.CARD, "GIL_142e"))
+			Find(ENEMY_HAND) & (
+				Morph(OWNER, ExactCopy(RANDOM(ENEMY_HAND))).then(Buff(Morph.CARD, "GIL_142e"))
+			)
 		)
 	events = REMOVED_IN_PLAY
 

@@ -91,7 +91,7 @@ class TRL_065:
 	"""Zul'jin"""
 	# [x]<b>Battlecry:</b> Cast all spells you've played this game <i>(targets chosen
 	# randomly)</i>.
-	play = CastSpell(CARDS_PLAYED_THIS_GAME + SPELL)
+	play = CastSpell(Copy(CARDS_PLAYED_THIS_GAME + SPELL))
 
 
 class TRL_065h:

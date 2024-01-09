@@ -18,7 +18,8 @@ class Player(Entity, TargetableByAuras):
 	cant_overload = slot_property("cant_overload")
 	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
-	extra_combos = slot_property("extra_combos")
+	minion_extra_battlecries = slot_property("minion_extra_battlecries")
+	minion_extra_combos = slot_property("minion_extra_combos")
 	extra_deathrattles = slot_property("extra_deathrattles")
 	extra_end_turn_effect = slot_property("extra_end_turn_effect")
 	healing_double = slot_property("healing_double", sum)
@@ -303,8 +304,9 @@ class Player(Entity, TargetableByAuras):
 		return ret
 
 	def give(self, id):
-		cards = self.game.cheat_action(self, [Give(self, id)])[0]
-		return cards[0][0]
+		cards = self.game.cheat_action(self, [Give(self, id)])[0][0]
+		if len(cards) > 0:
+			return cards[0]
 
 	def concede(self):
 		ret = self.game.cheat_action(self, [Concede(self)])

@@ -832,11 +832,10 @@ class Damage(TargetedAction):
 	TARGET = ActionArg()
 	AMOUNT = IntArg()
 
-	def get_target_args(self, source, target):
-		return [target.predamage]
-
-	def do(self, source, target, amount):
-		amount = target._hit(target.predamage)
+	def do(self, source, target, amount=None):
+		if not amount:
+			amount = target.predamage
+		amount = target._hit(amount)
 		target.predamage = 0
 		if (source.type == CardType.MINION or source.type == CardType.HERO) and source.stealthed:
 			# TODO this should be an event listener of sorts
@@ -938,11 +937,14 @@ class Battlecry(TargetedAction):
 		source.game.main_power(source, actions, target)
 
 		if (
-			player.extra_combos and card.type == CardType.MINION and
+			player.minion_extra_combos and card.type == CardType.MINION and
 			card.has_combo and player.combo
+		) or (
+			player.extra_battlecries and card.has_battlecry
+		) or (
+			player.minion_extra_battlecries and card.type == CardType.MINION and
+			card.has_battlecry
 		):
-			source.game.main_power(source, actions, target)
-		elif player.extra_battlecries and card.has_battlecry:
 			source.game.main_power(source, actions, target)
 
 		if card.overload:
@@ -1612,9 +1614,6 @@ class CastSpell(TargetedAction):
 		spell_target = [None]
 		if ret:
 			spell_target = ret[0]
-		else:
-			if target.target:
-				return [target.target]
 		return [spell_target]
 
 	def do(self, source, card, targets):
@@ -1831,18 +1830,23 @@ class KazakusAction(TargetedAction):
 
 	def done(self):
 		card = self.choosed_cards[0]
-		new_card = self.player.card(self.potions_card[card.id])
-		self.potions = self.potions_choice_map[card.id][:]
 		card1 = self.choosed_cards[1]
 		card2 = self.choosed_cards[2]
+		self.potions = self.potions_choice_map[card.id][:]
 		if self.potions.index(card1.id) > self.potions.index(card2.id):
 			card1, card2 = card2, card1
-		new_card.requirements.update(card1.requirements)
-		new_card.requirements.update(card2.requirements)
-		new_card.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
-		new_card.requirements = card1.requirements | card2.requirements
-		new_card.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
-		new_card.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
+
+		new_card = self.player.card(self.potions_card[card.id])
+		new_card.custom_card = True
+
+		def create_custom_card(new_card):
+			new_card.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+			new_card.requirements = card1.requirements | card2.requirements
+			new_card.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
+			new_card.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
+
+		new_card.create_custom_card = create_custom_card
+		new_card.create_custom_card(new_card)
 		self.player.give(new_card)
 
 	def choose(self, card):
@@ -2047,28 +2051,35 @@ class CreateZombeast(TargetedAction):
 		self.cards = [self.player.card(id) for id in random.sample(self.second_ids, 3)]
 
 	def done(self):
-		zombeast = self.player.card("ICC_828t")
 		card1 = self.choosed_cards[0]
 		card2 = self.choosed_cards[1]
-		zombeast.tags[GameTag.CARDTEXT_ENTITY_0] = card2.data.strings[GameTag.CARDTEXT]
-		zombeast.tags[GameTag.CARDTEXT_ENTITY_1] = card1.data.strings[GameTag.CARDTEXT]
-		zombeast.data.scripts = card1.data.scripts
-		int_mergeable_attributes = (
-			"atk", "cost", "max_health", "incoming_damage_multiplier", "spellpower",
-			"windfury",
-		)
-		bool_mergeable_attributes = (
-			"has_deathrattle", "charge", "has_inspire", "stealthed", "cant_attack",
-			"cant_be_targeted_by_opponents", "cant_be_targeted_by_abilities",
-			"cant_be_targeted_by_hero_powers", "heavily_armored", "min_health",
-			"rush", "taunt", "poisonous", "ignore_taunt", "cannot_attack_heroes",
-			"unlimited_attacks", "cant_be_damaged", "lifesteal",
-			"cant_be_targeted_by_op_abilities", "cant_be_targeted_by_op_hero_powers",
-		)
-		for attribute in int_mergeable_attributes:
-			setattr(zombeast, attribute, getattr(card1, attribute) + getattr(card2, attribute))
-		for attribute in bool_mergeable_attributes:
-			setattr(zombeast, attribute, getattr(card1, attribute) or getattr(card2, attribute))
+
+		zombeast = self.player.card("ICC_828t")
+		zombeast.custom_card = True
+
+		def create_custom_card(zombeast):
+			zombeast.tags[GameTag.CARDTEXT_ENTITY_0] = card2.data.strings[GameTag.CARDTEXT]
+			zombeast.tags[GameTag.CARDTEXT_ENTITY_1] = card1.data.strings[GameTag.CARDTEXT]
+			zombeast.data.scripts = card1.data.scripts
+			int_mergeable_attributes = (
+				"atk", "cost", "max_health", "incoming_damage_multiplier", "spellpower",
+				"windfury",
+			)
+			bool_mergeable_attributes = (
+				"has_deathrattle", "charge", "has_inspire", "stealthed", "cant_attack",
+				"cant_be_targeted_by_opponents", "cant_be_targeted_by_abilities",
+				"cant_be_targeted_by_hero_powers", "heavily_armored", "min_health",
+				"rush", "taunt", "poisonous", "ignore_taunt", "cannot_attack_heroes",
+				"unlimited_attacks", "cant_be_damaged", "lifesteal",
+				"cant_be_targeted_by_op_abilities", "cant_be_targeted_by_op_hero_powers",
+			)
+			for attribute in int_mergeable_attributes:
+				setattr(zombeast, attribute, getattr(card1, attribute) + getattr(card2, attribute))
+			for attribute in bool_mergeable_attributes:
+				setattr(zombeast, attribute, getattr(card1, attribute) or getattr(card2, attribute))
+
+		zombeast.create_custom_card = create_custom_card
+		zombeast.create_custom_card(zombeast)
 		self.player.give(zombeast)
 
 	def choose(self, card):

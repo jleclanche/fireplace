@@ -19,7 +19,12 @@ class Copy(LazyValue):
 		Return a copy of \a entity
 		"""
 		log.info("Creating a copy of %r", entity)
-		return source.controller.card(entity.id, source)
+		new_entity = source.controller.card(entity.id, source)
+		if entity.custom_card:
+			new_entity.custom_card = True
+			new_entity.create_custom_card = entity.create_custom_card
+			new_entity.create_custom_card(new_entity)
+		return new_entity
 
 	def evaluate(self, source) -> list[str]:
 		if isinstance(self.selector, LazyValue):
@@ -53,7 +58,7 @@ class ExactCopy(Copy):
 		for buff in entity.buffs:
 			# Recreate the buff stack
 			new_buff = source.controller.card(buff.id)
-			new_buff.source = source
+			new_buff.source = buff.source
 			attributes = ["atk", "max_health", "_xatk", "_xhealth", "_xcost", "store_card"]
 			for attribute in attributes:
 				if hasattr(buff, attribute):
