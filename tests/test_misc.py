@@ -116,7 +116,7 @@ def test_nefarian_and_ragnaros_hero():
 	assert game.player1.hand[0].id == "BRM_030t"
 
 
-def test_lilian_voss_andragnaros_hero():
+def test_lilian_voss_and_ragnaros_hero():
 	game = prepare_empty_game()
 	game.end_turn()
 	game.player2.give("BRM_027").play().destroy()
@@ -128,3 +128,30 @@ def test_lilian_voss_andragnaros_hero():
 	assert len(game.player1.hand) == 2
 	assert game.player1.hand[0].id == MOONFIRE
 	assert game.player1.hand[0].id == MOONFIRE
+
+
+def test_darkspeaker_and_shudderwock():
+	game = prepare_game()
+	darkspeaker = game.player1.give("OG_102").play()
+	game.skip_turn()
+	shudderwock = game.player1.give("GIL_820")
+	darkspeaker_atk = darkspeaker.atk
+	darkspeaker_health = darkspeaker.health
+	shudder_atk = shudderwock.atk
+	shudder_health = shudderwock.health
+	shudderwock.play()
+	assert darkspeaker.atk == shudder_atk
+	assert darkspeaker.health == shudder_health
+	assert shudderwock.atk == darkspeaker_atk
+	assert shudderwock.health == darkspeaker_health
+
+
+def test_doppelgangster_and_shudderwock():
+	game = prepare_game()
+	doppelgangster = game.player1.give("CFM_668").play()
+	game.skip_turn()
+	shudderwock = game.player1.give("GIL_820").play()
+	for i in range(0, 3):
+		assert game.player1.field[i].id == doppelgangster.id
+	for i in range(3, 6):
+		assert game.player1.field[i].id == shudderwock.id

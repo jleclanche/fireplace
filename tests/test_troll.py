@@ -263,3 +263,15 @@ def test_mojomaster_zihi():
 	assert game3.player2.max_mana == 5
 	assert game3.player1.mana == 10 - zihi.cost
 	assert game3.player2.mana == 0
+
+
+def test_heavy_metal():
+	game = prepare_game()
+	game.player1.give("TRL_324").play()
+	assert game.player1.field[0].cost == 0
+	game.skip_turn()
+	game.player1.give("LOOT_285t").play()
+	game.skip_turn()
+	assert game.player1.hero.armor == 15
+	game.player1.give("TRL_324").play()
+	assert game.player1.field[1].cost == 10

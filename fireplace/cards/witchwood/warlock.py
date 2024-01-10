@@ -57,7 +57,7 @@ class GIL_825:
 	play = Hit(ALL_MINIONS - SELF, 2), Dead(ALL_MINIONS) & (
 		Deaths(),
 		AddProgress(SELF, None),
-		FINISH_PROGRESS | Battlecry(SELF, None)
+		FINISH_PROGRESS | ExtraBattlecry(SELF, None)
 	)
 
 

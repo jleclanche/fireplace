@@ -61,7 +61,7 @@ class CFM_806:
 	"""Wrathion"""
 	play = Draw(CONTROLLER).then(
 		Find(Draw.CARD + DRAGON) | (
-			Find(LazyValueSelector(Draw.CARD)) & Battlecry(SELF, None)
+			Find(LazyValueSelector(Draw.CARD)) & ExtraBattlecry(SELF, None)
 		)
 	)
 

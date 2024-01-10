@@ -908,11 +908,21 @@ class Battlecry(TargetedAction):
 			arg = _eval_card(source, arg)[0]
 		return [arg]
 
+	def has_extra_battlecries(self, player, card):
+		# Brann Bronzebeard
+		if player.extra_battlecries and card.has_battlecry:
+			return True
+
+		# Spirit of the Shark
+		if card.type == CardType.MINION:
+			if player.minion_extra_combos and card.has_combo and player.combo:
+				return True
+			if player.minion_extra_battlecries and card.has_battlecry:
+				return True
+
+		return False
+
 	def do(self, source, card, target=None):
-		if source.type == CardType.MINION and (
-			source.dead or source.silenced or source.zone != Zone.PLAY
-		):
-			return
 		player = source.controller
 
 		if card.has_combo and player.combo:
@@ -922,13 +932,6 @@ class Battlecry(TargetedAction):
 			log.info("Activating %r action targeting %r", card, target)
 			actions = card.get_actions("play")
 
-		if card.requires_target() and target is None:
-			if len(card.targets):
-				target = random.choice(card.targets)
-			else:
-				log.info("%s battlecry %s don't have a legal target", source, card)
-				return
-
 		if card.battlecry_requires_target() and not target:
 			log.info("%r requires a target for its battlecry. Will not trigger.")
 			return
@@ -936,19 +939,31 @@ class Battlecry(TargetedAction):
 		source.target = target
 		source.game.main_power(source, actions, target)
 
-		if (
-			player.minion_extra_combos and card.type == CardType.MINION and
-			card.has_combo and player.combo
-		) or (
-			player.extra_battlecries and card.has_battlecry
-		) or (
-			player.minion_extra_battlecries and card.type == CardType.MINION and
-			card.has_battlecry
-		):
+		if self.has_extra_battlecries(player, card):
 			source.game.main_power(source, actions, target)
 
 		if card.overload:
 			source.game.queue_actions(card, [Overload(player, card.overload)])
+
+
+class ExtraBattlecry(Battlecry):
+	def has_extra_battlecries(self, player, card):
+		return False
+
+	def do(self, source, card, target=None):
+		if source.type == CardType.MINION and (
+			source.dead or source.silenced or source.zone != Zone.PLAY
+		):
+			return
+
+		if target is None:
+			old_requirements = source.requirements
+			source.requirements = card.requirements
+			if source.requires_target():
+				target = random.choice(source.play_targets)
+			source.requirements = old_requirements
+
+		return super().do(source, card, target)
 
 
 class PlayHeroPower(TargetedAction):

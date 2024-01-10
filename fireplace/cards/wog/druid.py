@@ -50,7 +50,7 @@ OG_313e = buff(+1, +1)
 
 class OG_188:
 	"""Klaxxi Amber-Weaver"""
-	play = CHECK_CTHUN & Buff(SELF, "OG_188")
+	play = CHECK_CTHUN & Buff(SELF, "OG_188e")
 
 
 OG_188e = buff(health=4)
