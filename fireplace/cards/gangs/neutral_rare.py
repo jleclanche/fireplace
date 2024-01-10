@@ -67,7 +67,7 @@ class CFM_668:
 	# Whichever Doppelgangster is played (either the original card or one of the
 	# uncollectible cards), its Battlecry will summon copies of the two other versions,
 	# meaning all three versions will always be summoned.[1]
-	play = Summon(CONTROLLER, ExactCopy(SELF)) * 2
+	play = SummonBothSides(CONTROLLER, ExactCopy(SELF)) * 2
 
 
 class CFM_688:
