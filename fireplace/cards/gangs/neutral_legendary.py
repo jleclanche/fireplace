@@ -60,8 +60,10 @@ CFM_685e = buff(+5, +5)
 class CFM_806:
 	"""Wrathion"""
 	play = Draw(CONTROLLER).then(
-		Find(Draw.CARD + DRAGON) | (
-			Find(LazyValueSelector(Draw.CARD)) & ExtraBattlecry(SELF, None)
+		Find(Draw.CARD + DRAGON) & (
+			Find(LazyValueSelector(Draw.CARD)) & (
+				ExtraBattlecry(SELF, None)
+			)
 		)
 	)
 

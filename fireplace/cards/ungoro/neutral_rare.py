@@ -24,7 +24,7 @@ class UNG_072:
 
 class UNG_075:
 	"""Vicious Fledgling"""
-	events = Attack(SELF).after(Adapt(SELF))
+	events = Attack(SELF, ALL_HEROES).after(Adapt(SELF))
 
 
 class UNG_079:

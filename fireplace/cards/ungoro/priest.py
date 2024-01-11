@@ -83,7 +83,6 @@ class UNG_940:
 
 
 class UNG_940t8:
-	requirements = {PlayReq.REQ_HERO_TARGET: 0, PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Buff(FRIENDLY_HERO, "UNG_940t8e")
 
 
