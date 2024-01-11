@@ -49,12 +49,6 @@ class ExactCopy(Copy):
 		ret = super().copy(source, entity)
 		if self.id:
 			ret = source.controller.card(self.id, source)
-		if entity.type == CardType.MINION:
-			for k in entity.silenceable_attributes:
-				v = getattr(entity, k)
-				setattr(ret, k, v)
-			ret.silenced = entity.silenced
-			ret.damage = entity.damage
 		for buff in entity.buffs:
 			# Recreate the buff stack
 			new_buff = source.controller.card(buff.id)
@@ -67,6 +61,12 @@ class ExactCopy(Copy):
 			if buff in source.game.active_aura_buffs:
 				new_buff.tick = buff.tick
 				source.game.active_aura_buffs.append(new_buff)
+		if entity.type == CardType.MINION:
+			for k in entity.silenceable_attributes:
+				v = getattr(entity, k)
+				setattr(ret, k, v)
+			ret.silenced = entity.silenced
+			ret.damage = entity.damage
 		return ret
 
 

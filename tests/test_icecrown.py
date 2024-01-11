@@ -205,6 +205,15 @@ def test_hero_armor():
 	assert game.player1.hero.armor == 7
 
 
+def test_hero_health():
+	game = prepare_game()
+	game.player1.give("UNG_940t8").play()
+	game.player1.give(MOONFIRE).play(target=game.player1.hero)
+	assert game.player1.hero.health == 39
+	game.player1.give("ICC_481").play()
+	assert game.player1.hero.health == 39
+
+
 def test_death_grip():
 	game = prepare_game()
 	grip = game.player1.give("ICC_314t4")

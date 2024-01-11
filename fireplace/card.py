@@ -861,6 +861,22 @@ class Hero(Character):
 
 	def play(self, target=None, index=None, choose=None):
 		armor = self.armor
+
+		# Copy hero buff
+		for buff in self.controller.hero.buffs:
+			# Recreate the buff stack
+			new_buff = self.controller.card(buff.id)
+			new_buff.source = buff.source
+			attributes = ["atk", "max_health", "_xatk", "_xhealth", "_xcost", "store_card"]
+			for attribute in attributes:
+				if hasattr(buff, attribute):
+					setattr(new_buff, attribute, getattr(buff, attribute))
+			new_buff.apply(self)
+			if buff in self.game.active_aura_buffs:
+				new_buff.tick = buff.tick
+				self.game.active_aura_buffs.append(new_buff)
+
+		self.damage = self.controller.hero.damage
 		self.armor = self.controller.hero.armor
 		super().play(target, index, choose)
 		if armor:
