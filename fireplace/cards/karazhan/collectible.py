@@ -141,7 +141,7 @@ class KAR_070e:
 
 class KAR_089:
 	"""Malchezaar's Imp"""
-	events = Discard(RANDOM(FRIENDLY_HAND)).on(Draw(CONTROLLER))
+	events = Discard(FRIENDLY_HAND).on(Draw(CONTROLLER))
 
 
 class KAR_092:

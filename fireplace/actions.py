@@ -5,7 +5,6 @@ from hearthstone.enums import (
 	BlockType, CardClass, CardType, GameTag, Mulligan, Race, PlayState, Step, Zone
 )
 
-
 from .enums import DISCARDED
 from .dsl import LazyNum, LazyValue, Selector
 from .dsl.copy import Copy
@@ -1098,7 +1097,10 @@ class Draw(TargetedAction):
 	def get_target_args(self, source, target):
 		args = super().get_target_args(source, target)
 		if args:
-			return args[0]
+			card = args[0]
+			if hasattr(card, "__iter__"):
+				card = card[0]
+			return [card]
 		if target.deck:
 			card = target.deck[-1]
 		else:
