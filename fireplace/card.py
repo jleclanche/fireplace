@@ -55,6 +55,22 @@ class BaseCard(BaseEntity):
 		self.progress_total = data.scripts.progress_total
 		self.tags.update(data.tags)
 
+	def dump(self):
+		data = super().dump()
+		data["id"] = self.id
+		data["name"] = self.data.name
+		data["description"] = self.description
+		data["classes"] = [int(card_class) for card_class in self.classes]
+		data["is_playable"] = self.is_playable()
+		data["progress"] = self.progress
+		data["progress_total"] = self.progress_total
+		return data
+
+	def dump_hidden(self):
+		if self.zone == Zone.PLAY:
+			return self.dump()
+		return super().dump_hidden()
+
 	def __str__(self):
 		return self.data.name
 
@@ -163,14 +179,14 @@ class BaseCard(BaseEntity):
 		# TODO
 		# Keep Buff: Deck -> Hand, Hand -> Play, Deck -> Play
 		# Remove Buff: Other case
-		old = self.zone
+		self.old_zone = self.zone
 
-		if old == value:
-			self.logger.warning("%r attempted a same-zone move in %r", self, old)
+		if self.old_zone == value:
+			self.logger.warning("%r attempted a same-zone move in %r", self, self.old_zone)
 			return
 
-		if old:
-			self.logger.debug("%r moves from %r to %r", self, old, value)
+		if self.old_zone:
+			self.logger.debug("%r moves from %r to %r", self, self.old_zone, value)
 
 		caches = {
 			Zone.HAND: self.controller.hand,
@@ -178,8 +194,8 @@ class BaseCard(BaseEntity):
 			Zone.GRAVEYARD: self.controller.graveyard,
 			Zone.SETASIDE: self.game.setaside,
 		}
-		if caches.get(old) is not None:
-			caches[old].remove(self)
+		if caches.get(self.old_zone) is not None:
+			caches[self.old_zone].remove(self)
 		if caches.get(value) is not None:
 			if hasattr(self, "_summon_index") and self._summon_index is not None:
 				caches[value].insert(self._summon_index, self)
@@ -255,11 +271,23 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.rarity = Rarity.INVALID
 		self.choose_cards = CardList()
 		self.morphed = None
-		self.upgrade_counter = 0
 		self.cast_on_friendly_minions = False
 		self.play_right_most = False
 		self.custom_card = False
 		super().__init__(data)
+
+	def dump(self):
+		data = super().dump()
+		data["rarity"] = int(self.rarity)
+		data["cost"] = self.cost
+		data["powered_up"] = self.powered_up
+		data["targets"] = self.targets
+		data["choose_cards"] = [card.dump() for card in self.choose_cards]
+		data["windfury"] = self.windfury
+		data["lifesteal"] = self.lifesteal
+		data["events"] = bool(self._events)
+		data["must_choose_one"] = self.must_choose_one
+		return data
 
 	@property
 	def events(self):
@@ -340,27 +368,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		return self.game.cheat_action(self, [actions.Destroy(self), actions.Deaths()])
 
 	def discard(self):
-		self.log("Discarding %r" % self)
-		self.tags[enums.DISCARDED] = True
-		old_zone = self.zone
-		self.zone = Zone.GRAVEYARD
-		if old_zone == Zone.HAND:
-			actions = self.get_actions("discard")
-			self.game.cheat_action(self, actions)
+		return self.game.cheat_action(self, [actions.Discard(self)])
 
 	def draw(self):
-		if len(self.controller.hand) >= self.controller.max_hand_size:
-			self.log("%s overdraws and loses %r!", self.controller, self)
-			self.discard()
-		else:
-			self.log("%s draws %r", self.controller, self)
-			self.zone = Zone.HAND
-			self.controller.cards_drawn_this_turn.append(self)
-
-			if self.game.step > Step.BEGIN_MULLIGAN:
-				# Proc the draw script, but only if we are past mulligan
-				actions = self.get_actions("draw")
-				self.game.cheat_action(self, actions)
+		return self.game.cheat_action(self, [actions.Draw(self.controller, self)])
 
 	def heal(self, target, amount):
 		return self.game.cheat_action(self, [actions.Heal(target, amount)])
@@ -593,6 +604,15 @@ class LiveEntity(PlayableCard, Entity):
 		self.damaged_this_turn = 0
 		self.healed_this_turn = 0
 
+	def dump(self):
+		data = super().dump()
+		data["has_deathrattle"] = self.has_deathrattle
+		data["atk"] = self.atk
+		data["max_health"] = self.max_health
+		data["damage"] = self.damage
+		data["immue"] = self.immune
+		return data
+
 	def _set_zone(self, zone):
 		if zone == Zone.GRAVEYARD and self.zone == Zone.PLAY:
 			self.turn_killed = self.game.turn
@@ -683,6 +703,17 @@ class Character(LiveEntity):
 		self.num_attacks = 0
 		self.race = Race.INVALID
 		super().__init__(data)
+
+	def dump(self):
+		data = super().dump()
+		data["heavily_armored"] = self.heavily_armored
+		data["taunt"] = self.taunt
+		data["poisonous"] = self.poisonous
+		data["stealthed"] = self.stealthed
+		data["frozen"] = self.frozen
+		data["race"] = int(self.race)
+		data["can_attack"] = self.can_attack()
+		return data
 
 	@property
 	def events(self):
@@ -789,6 +820,11 @@ class Hero(Character):
 		self.armor = 0
 		self.power = None
 		super().__init__(data)
+
+	def dump(self):
+		data = super().dump()
+		data["armor"] = self.armor
+		return data
 
 	@property
 	def entities(self):
@@ -904,8 +940,16 @@ class Minion(Character):
 		self.enrage = False
 		self.silenced = False
 		self._summon_index = None
-		self.dormant = 0
+		self.dormant = False
 		super().__init__(data)
+
+	def dump(self):
+		data = super().dump()
+		data["has_inspire"] = self.has_inspire
+		data["divine_shield"] = self.divine_shield
+		data["silenced"] = self.silenced
+		data["dormant"] = self.dormant
+		return data
 
 	@property
 	def ignore_scripts(self):
@@ -1010,10 +1054,17 @@ class Minion(Character):
 
 
 class Spell(PlayableCard):
+	spelltype = enums.SpellType.INVALID
+
 	def __init__(self, data):
 		self.immune_to_spellpower = False
 		self.receives_double_spelldamage_bonus = False
 		super().__init__(data)
+
+	def dump(self):
+		data = super().dump()
+		data["spelltype"] = int(self.spelltype)
+		return data
 
 	def get_damage(self, amount, target):
 		amount = super().get_damage(amount, target)
@@ -1035,6 +1086,15 @@ class Spell(PlayableCard):
 
 
 class Secret(Spell):
+	spelltype = enums.SpellType.SECRET
+
+	def dump_hidden(self):
+		if self.zone == Zone.SECRET:
+			data = super().dump_hidden()
+			data["classes"] = [card_class.value for card_class in self.classes]
+			return data
+		return super().dump_hidden()
+
 	@property
 	def events(self):
 		ret = super().events
@@ -1072,6 +1132,13 @@ class Secret(Spell):
 
 
 class Quest(Spell):
+	spelltype = enums.SpellType.QUEST
+
+	def dump_hidden(self):
+		if self.zone == Zone.SECRET:
+			return self.dump()
+		return super().dump_hidden()
+
 	def is_summonable(self):
 		if len(self.controller.secrets) > 0 and self.controller.secrets[0].data.quest:
 			return False
@@ -1177,6 +1244,11 @@ class Weapon(rules.WeaponRules, LiveEntity):
 		super().__init__(*args)
 		self.damage = 0
 
+	def dump(self):
+		data = super().dump()
+		data["max_durability"] = self.max_durability
+		return data
+
 	@property
 	def durability(self):
 		return self.max_durability - self.damage
@@ -1217,6 +1289,11 @@ class HeroPower(PlayableCard):
 		self.activations_this_turn = 0
 		self.additional_activations_this_turn = 0
 		self.old_power = None
+
+	def dump(self):
+		data = super().dump()
+		data["is_usable"] = self.is_usable()
+		return data
 
 	@property
 	def exhausted(self):

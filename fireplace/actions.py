@@ -5,11 +5,12 @@ from hearthstone.enums import (
 	BlockType, CardClass, CardType, GameTag, Mulligan, Race, PlayState, Step, Zone
 )
 
-from fireplace.dsl.selector import SELF
 
+from .enums import DISCARDED
 from .dsl import LazyNum, LazyValue, Selector
 from .dsl.copy import Copy
 from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion
+from .dsl.selector import SELF
 from .entity import Entity
 from .exceptions import InvalidAction
 from .logging import log
@@ -200,7 +201,6 @@ class Action(metaclass=ActionMeta):
 class GameAction(Action):
 	def trigger(self, source):
 		args = self.get_args(source)
-		source.game.manager.game_action(self, source, *args)
 		self.do(source, *args)
 
 
@@ -228,6 +228,7 @@ class Attack(GameAction):
 		source.game.proposed_defender = defender
 		source.game.manager.step(Step.MAIN_COMBAT, Step.MAIN_ACTION)
 		source.game.refresh_auras()  # XXX Needed for Gorehowl
+		source.game.manager.game_action(self, source, attacker, defender)
 		self.broadcast(source, EventListener.ON, attacker, defender)
 
 		defender = source.game.proposed_defender
@@ -269,6 +270,7 @@ class BeginTurn(GameAction):
 		source.current_player = player
 		source.manager.step(source.next_step, Step.MAIN_START_TRIGGERS)
 		source.manager.step(source.next_step, source.next_step)
+		source.game.manager.game_action(self, source, player)
 		self.broadcast(source, EventListener.ON, player)
 		source._begin_turn(player)
 
@@ -281,6 +283,7 @@ class Concede(GameAction):
 
 	def do(self, source, player):
 		player.playstate = PlayState.CONCEDED
+		source.game.manager.game_action(self, source, player)
 		source.game.check_for_end_game()
 
 
@@ -292,6 +295,7 @@ class Disconnect(GameAction):
 
 	def do(self, source, player):
 		player.playstate = PlayState.DISCONNECTED
+		source.game.manager.game_action(self, source, player)
 
 
 class Deaths(GameAction):
@@ -321,6 +325,7 @@ class Death(GameAction):
 	def do(self, source, target):
 		log.info("Processing Death for %r", target)
 		self.triggered_dearattle = False
+		source.game.manager.game_action(self, source, target)
 		self.broadcast(source, EventListener.ON, target)
 		if (not self.triggered_dearattle) and target.deathrattles:
 			source.game.queue_actions(target.controller, [Deathrattle(target)])
@@ -337,6 +342,7 @@ class EndTurn(GameAction):
 			raise InvalidAction(
 				"%r cannot end turn with the open choice %r." % (player, player.choice)
 			)
+		source.game.manager.game_action(self, source, player)
 		self.broadcast(source, EventListener.ON, player)
 		if player.extra_end_turn_effect:
 			self.broadcast(source, EventListener.ON, player)
@@ -359,6 +365,7 @@ class Joust(GameAction):
 
 	def do(self, source, challenger, defender):
 		log.info("Jousting %r vs %r", challenger, defender)
+		source.game.manager.game_action(self, source, challenger, defender)
 		source.game.joust(source, challenger, defender, self.callback)
 
 
@@ -380,6 +387,7 @@ class MulliganChoice(GameAction):
 		self.min_count = 0
 		# but weirdly, the game server includes the coin in the mulligan count
 		self.max_count = len(player.hand)
+		source.game.manager.game_action(self, source, player)
 
 	def choose(self, *cards):
 		for card in cards:
@@ -449,6 +457,7 @@ class Play(GameAction):
 		):
 			card.cast_on_friendly_minions = True
 
+		source.game.manager.game_action(self, source, card, target, index, choose)
 		# NOTE: A Play is not a summon! But it sure looks like one.
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(player, card)
@@ -504,6 +513,7 @@ class Activate(GameAction):
 
 	def do(self, source, player, heropower, target, choose):
 		player.pay_cost(heropower, heropower.cost)
+		source.game.manager.game_action(self, source, player, heropower, target, choose)
 		self.broadcast(source, EventListener.ON, player, heropower, target, choose)
 
 		card = choose or heropower
@@ -530,6 +540,7 @@ class Overload(GameAction):
 			log.info("%r cannot overload %s", source, player)
 			return
 		log.info("%r overloads %s for %i", source, player, amount)
+		source.game.manager.game_action(self, source, player, amount)
 		self.broadcast(source, EventListener.ON, player, amount)
 		player.overloaded += amount
 		player.overloaded_this_game += amount
@@ -627,7 +638,6 @@ class TargetedAction(Action):
 		log.info("%r triggering %r targeting %r", source, self, targets)
 		for target in targets:
 			target_args = self.get_target_args(source, target)
-			source.game.manager.targeted_action(self, source, target, *target_args)
 			ret.append(self.do(source, target, *target_args))
 
 			for action in self.callback:
@@ -658,6 +668,7 @@ class Buff(TargetedAction):
 				v = v.evaluate(source)
 			setattr(buff, k, v)
 		buff.apply(target)
+		source.game.manager.targeted_action(self, source, target, buff)
 		return target
 
 
@@ -691,6 +702,7 @@ class Bounce(TargetedAction):
 		else:
 			log.info("%r is bounced back to %s's hand", target, target.controller)
 			target.zone = Zone.HAND
+			source.game.manager.targeted_action(self, source, target)
 
 
 class Choice(TargetedAction):
@@ -728,6 +740,7 @@ class Choice(TargetedAction):
 		self.cards = cards
 		self.min_count = 1
 		self.max_count = 1
+		source.game.manager.targeted_action(self, source, player, cards)
 
 	def choose(self, card):
 		if card not in self.cards:
@@ -774,6 +787,7 @@ class CopyDeathrattleBuff(TargetedAction):
 			for deathrattle in target.deathrattles:
 				buff.additional_deathrattles.append(deathrattle)
 			buff.apply(source)
+		source.game.manager.targeted_action(self, source, target, buff)
 
 
 class Counter(TargetedAction):
@@ -783,6 +797,7 @@ class Counter(TargetedAction):
 
 	def do(self, source, target):
 		target.cant_play = True
+		source.game.manager.targeted_action(self, source, target)
 
 
 class Predamage(TargetedAction):
@@ -823,6 +838,7 @@ class PutOnTop(TargetedAction):
 				continue
 			card.zone = Zone.DECK
 			card, card.controller.deck[-1] = card.controller.deck[-1], card
+			source.game.manager.targeted_action(self, source, target, card)
 
 
 class Damage(TargetedAction):
@@ -840,6 +856,7 @@ class Damage(TargetedAction):
 		if (source.type == CardType.MINION or source.type == CardType.HERO) and source.stealthed:
 			# TODO this should be an event listener of sorts
 			source.stealthed = False
+		source.game.manager.targeted_action(self, source, target, amount)
 		if amount:
 			# check hasattr: some sources of damage are game or player (like fatigue)
 			# weapon damage itself after hero attack, but does not trigger lifesteal
@@ -880,6 +897,7 @@ class Deathrattle(TargetedAction):
 				actions = deathrattle(target)
 			else:
 				actions = deathrattle
+			source.game.manager.targeted_action(self, source, target)
 			source.game.queue_actions(target, actions)
 
 			if target.controller.extra_deathrattles:
@@ -936,6 +954,7 @@ class Battlecry(TargetedAction):
 			log.info("%r requires a target for its battlecry. Will not trigger.")
 			return
 
+		source.game.manager.targeted_action(self, source, card, target)
 		source.target = target
 		source.game.main_power(source, actions, target)
 
@@ -976,6 +995,7 @@ class PlayHeroPower(TargetedAction):
 			targets = [targets]
 		for target in targets:
 			heropower.target = target
+			source.game.manager.targeted_action(self, source, heropower, target)
 			source.game.main_power(heropower, actions, target)
 
 
@@ -990,12 +1010,14 @@ class Destroy(TargetedAction):
 			# It will be moved to the graveyard on the next Death event
 			log.info("%r marks %r for imminent death", source, target)
 			target.to_be_destroyed = True
+			source.game.manager.targeted_action(self, source, target)
 		else:
 			log.info("%r destroys %r", source, target)
 			if target.type == CardType.ENCHANTMENT:
 				target.remove()
 			else:
 				target.zone = Zone.GRAVEYARD
+				source.game.manager.targeted_action(self, source, target)
 
 
 class Discard(TargetedAction):
@@ -1005,7 +1027,14 @@ class Discard(TargetedAction):
 
 	def do(self, source, target):
 		self.broadcast(source, EventListener.ON, target)
-		target.discard()
+		log.info("Discarding %r", target)
+		old_zone = target.zone
+		target.zone = Zone.GRAVEYARD
+		source.game.manager.targeted_action(self, source, target)
+		if old_zone == Zone.HAND:
+			target.tags[DISCARDED] = True
+			actions = target.get_actions("discard")
+			source.game.cheat_action(target, actions)
 
 
 class Discover(TargetedAction):
@@ -1047,6 +1076,7 @@ class Discover(TargetedAction):
 		self.cards = cards
 		self.min_count = 1
 		self.max_count = 1
+		source.game.manager.targeted_action(self, source, target, cards)
 
 	def choose(self, card):
 		if card not in self.cards:
@@ -1066,6 +1096,9 @@ class Draw(TargetedAction):
 	CARD = CardArg()
 
 	def get_target_args(self, source, target):
+		args = super().get_target_args(source, target)
+		if args:
+			return args[0]
 		if target.deck:
 			card = target.deck[-1]
 		else:
@@ -1076,8 +1109,19 @@ class Draw(TargetedAction):
 		if card is None:
 			target.fatigue()
 			return []
-		card.draw()
-		self.broadcast(source, EventListener.ON, target, card, source)
+		if len(target.hand) >= target.max_hand_size:
+			log.info("%s overdraws and loses %r!", target, card)
+			card.discard()
+		else:
+			log.info("%s draws %r", target, card)
+			card.zone = Zone.HAND
+			target.cards_drawn_this_turn.append(card)
+			source.game.manager.targeted_action(self, source, target, card)
+			if source.game.step > Step.BEGIN_MULLIGAN:
+				# Proc the draw script, but only if we are past mulligan
+				actions = card.get_actions("draw")
+				source.game.cheat_action(card, actions)
+			self.broadcast(source, EventListener.ON, target, card, source)
 
 		return [card]
 
@@ -1093,6 +1137,7 @@ class Fatigue(TargetedAction):
 			return
 		target.fatigue_counter += 1
 		log.info("%s takes %i fatigue damage", target, target.fatigue_counter)
+		source.game.manager.targeted_action(self, source, target)
 		return source.game.queue_actions(source, [Hit(target.hero, target.fatigue_counter)])
 
 
@@ -1139,6 +1184,7 @@ class GainArmor(TargetedAction):
 
 	def do(self, source, target, amount):
 		target.armor += amount
+		source.game.manager.targeted_action(self, source, target, amount)
 		self.broadcast(source, EventListener.ON, target, amount)
 
 
@@ -1158,6 +1204,7 @@ class GainMana(TargetedAction):
 
 	def do(self, source, target, amount):
 		target.max_mana = max(target.max_mana + amount, 0)
+		source.game.manager.targeted_action(self, source, target, amount)
 
 
 class SpendMana(TargetedAction):
@@ -1169,6 +1216,7 @@ class SpendMana(TargetedAction):
 
 	def do(self, source, target, amount):
 		target.used_mana = max(target.used_mana + amount, 0)
+		source.game.manager.targeted_action(self, source, target, amount)
 
 
 class SetMana(TargetedAction):
@@ -1183,6 +1231,7 @@ class SetMana(TargetedAction):
 		target.max_mana = amount
 		target.used_mana = max(
 			0, target.max_mana - target.overload_locked - old_mana + target.temp_mana)
+		source.game.manager.targeted_action(self, source, target, amount)
 
 
 class Give(TargetedAction):
@@ -1205,6 +1254,7 @@ class Give(TargetedAction):
 			card.controller = target
 			card.zone = Zone.HAND
 			ret.append(card)
+			source.game.manager.targeted_action(self, source, target, card)
 		return ret
 
 
@@ -1218,6 +1268,7 @@ class Hit(TargetedAction):
 	def do(self, source, target, amount):
 		amount = source.get_damage(amount, target)
 		if amount:
+			source.game.manager.targeted_action(self, source, target, amount)
 			return source.game.queue_actions(source, [Predamage(target, amount)])[0][0]
 		return 0
 
@@ -1232,6 +1283,7 @@ class HitAndExcessDamageToHero(TargetedAction):
 	def do(self, source, target, amount):
 		amount = source.get_damage(amount, target)
 		if amount:
+			source.game.manager.targeted_action(self, source, target, amount)
 			if target.health >= amount:
 				return source.game.queue_actions(source, [Predamage(target, amount)])[0][0]
 			else:
@@ -1260,6 +1312,7 @@ class Heal(TargetedAction):
 			# Undamaged targets do not receive heals
 			log.info("%r heals %r for %i", source, target, amount)
 			target.damage -= amount
+			source.game.manager.targeted_action(self, source, target, amount)
 			self.queue_broadcast(self, (source, EventListener.ON, target, amount))
 			target.healed_this_turn += amount
 			source.controller.healed_this_game += amount
@@ -1274,6 +1327,7 @@ class ManaThisTurn(TargetedAction):
 
 	def do(self, source, target, amount):
 		target.temp_mana += min(target.max_resources - target.mana, amount)
+		source.game.manager.targeted_action(self, source, target, amount)
 
 
 class Mill(TargetedAction):
@@ -1293,6 +1347,7 @@ class Mill(TargetedAction):
 	def do(self, source, target, card):
 		if card is None:
 			return []
+		source.game.manager.targeted_action(self, source, target, card)
 		card.discard()
 		self.broadcast(source, EventListener.ON, target, card, source)
 
@@ -1324,6 +1379,7 @@ class Morph(TargetedAction):
 		target.clear_buffs()
 		target.zone = Zone.SETASIDE
 		target.morphed = card
+		source.game.manager.targeted_action(self, source, target, card)
 		return card
 
 
@@ -1336,6 +1392,7 @@ class FillMana(TargetedAction):
 
 	def do(self, source, target, amount):
 		target.used_mana -= amount
+		source.game.manager.targeted_action(self, source, target, amount)
 
 
 class Retarget(TargetedAction):
@@ -1355,6 +1412,7 @@ class Retarget(TargetedAction):
 		else:
 			log.info("Retargeting %r from %r to %r", target, target.target, new_target)
 			target.target = new_target
+		source.game.manager.targeted_action(self, source, target, new_target)
 
 		return new_target
 
@@ -1369,6 +1427,7 @@ class Reveal(TargetedAction):
 		if target.zone == Zone.SECRET and target.data.secret:
 			self.broadcast(source, EventListener.ON, target)
 			target.zone = Zone.GRAVEYARD
+		source.game.manager.targeted_action(self, source, target)
 
 
 class SetCurrentHealth(TargetedAction):
@@ -1382,6 +1441,7 @@ class SetCurrentHealth(TargetedAction):
 		log.info("Setting current health on %r to %i", target, amount)
 		maxhp = target.max_health
 		target.damage = max(0, maxhp - amount)
+		source.game.manager.targeted_action(self, source, target, amount)
 		return target
 
 
@@ -1430,6 +1490,7 @@ class Silence(TargetedAction):
 		# Wipe the event listeners
 		target._events = []
 		target.silenced = True
+		source.game.manager.targeted_action(self, source, target)
 
 
 class Summon(TargetedAction):
@@ -1475,6 +1536,7 @@ class Summon(TargetedAction):
 				card.zone = Zone.PLAY
 			if card.type == CardType.MINION and Race.TOTEM in card.races:
 				card.controller.times_totem_summoned_this_game += 1
+			source.game.manager.targeted_action(self, source, target, card)
 			self.queue_broadcast(self, (source, EventListener.ON, target, card))
 			self.broadcast(source, EventListener.AFTER, target, card)
 
@@ -1535,6 +1597,7 @@ class Shuffle(TargetedAction):
 				continue
 			card.zone = Zone.DECK
 			target.shuffle_deck()
+			source.game.manager.targeted_action(self, source, target, card)
 
 
 class Swap(TargetedAction):
@@ -1557,6 +1620,7 @@ class Swap(TargetedAction):
 			orig = target.zone
 			target.zone = other.zone
 			other.zone = orig
+			source.game.manager.targeted_action(self, source, target, other)
 
 
 class SwapController(TargetedAction):
@@ -1565,6 +1629,7 @@ class SwapController(TargetedAction):
 		card.zone = Zone.SETASIDE
 		card.controller = card.controller.opponent
 		card.zone = old_zone
+		source.game.manager.targeted_action(self, source, card)
 
 
 class Steal(TargetedAction):
@@ -1593,6 +1658,7 @@ class Steal(TargetedAction):
 		target.controller = controller
 		target.turns_in_play = 0  # To ensure summoning sickness
 		target.zone = zone
+		source.game.manager.targeted_action(self, source, target, controller)
 
 
 class UnlockOverload(TargetedAction):
@@ -1604,6 +1670,7 @@ class UnlockOverload(TargetedAction):
 		log.info("%s overload gets cleared", target)
 		target.overloaded = 0
 		target.overload_locked = 0
+		source.game.manager.targeted_action(self, source, target)
 
 
 class SummonJadeGolem(TargetedAction):
@@ -1660,6 +1727,7 @@ class CastSpell(TargetedAction):
 			card.target = target
 			card.zone = Zone.PLAY
 			log.info("%s cast spell %s target %s", source, card, target)
+			source.game.manager.targeted_action(self, source, card, target)
 			source.game.queue_actions(source, [Battlecry(card, card.target)])
 			while player.choice:
 				choice = random.choice(player.choice.cards)
@@ -1693,6 +1761,7 @@ class ExtraAttack(TargetedAction):
 	def do(self, source, target):
 		log.info("%s gets an extra attack change.", target)
 		target.num_attacks -= 1
+		source.game.manager.targeted_action(self, source, target)
 
 
 class SwapStateBuff(TargetedAction):
@@ -1722,6 +1791,7 @@ class SwapStateBuff(TargetedAction):
 			buff2._xhealth = target.health
 		buff1.apply(target)
 		buff2.apply(other)
+		source.game.manager.targeted_action(self, source, target, other, buff)
 
 
 class CopyStateBuff(TargetedAction):
@@ -1739,6 +1809,7 @@ class CopyStateBuff(TargetedAction):
 		buff._xatk = target.atk
 		buff._xhealth = target.health
 		buff.apply(source)
+		source.game.manager.targeted_action(self, source, target, buff)
 
 
 class RefreshHeroPower(TargetedAction):
@@ -1754,6 +1825,7 @@ class RefreshHeroPower(TargetedAction):
 		if not heropower.exhausted:
 			return
 		heropower.additional_activations_this_turn += 1
+		source.game.manager.targeted_action(self, source, heropower)
 
 
 class KazakusAction(TargetedAction):
@@ -1797,6 +1869,7 @@ class KazakusAction(TargetedAction):
 		self.choosed_cards = []
 		self.player.choice = self
 		self.do_step1()
+		source.game.manager.targeted_action(self, source, player)
 
 	def do_step1(self):
 		self.cards = [self.player.card(card) for card in self.potions]
@@ -1855,6 +1928,7 @@ class GameStart(GameAction):
 
 	def do(self, source):
 		log.info("Game start")
+		source.game.manager.game_action(self, source)
 		self.broadcast(source, EventListener.ON)
 
 
@@ -1886,6 +1960,7 @@ class Adapt(TargetedAction):
 		self.cards = cards
 		self.min_count = 1
 		self.max_count = 1
+		source.game.manager.targeted_action(self, source, target, cards)
 
 	def choose(self, card):
 		if card not in self.cards:
@@ -1908,6 +1983,7 @@ class AddProgress(TargetedAction):
 		if not target:
 			return
 		target.add_progress(card, amount)
+		source.game.manager.targeted_action(self, source, target, card, amount)
 		if target.progress >= target.progress_total:
 			source.game.trigger(target, target.get_actions("reward"), event_args=None)
 			if target.data.quest:
@@ -1921,6 +1997,7 @@ class ClearProgress(TargetedAction):
 	def do(self, source, target):
 		log.info("%r clear progress", target)
 		target.clear_progress()
+		source.game.manager.targeted_action(self, source, target)
 
 
 class GlimmerrootAction(TargetedAction):
@@ -1957,6 +2034,7 @@ class GlimmerrootAction(TargetedAction):
 		self.other_card_2 = player.card(other_card_id_2)
 		self.cards = [self.starting_card, self.other_card_1, self.other_card_2]
 		random.shuffle(self.cards)
+		source.game.manager.targeted_action(self, source, player)
 
 	def choose(self, card):
 		if card not in self.cards:
@@ -2001,6 +2079,7 @@ class CreateZombeast(TargetedAction):
 		self.choosed_cards = []
 		self.player.choice = self
 		self.do_step1()
+		source.game.manager.targeted_action(self, source, player)
 
 	def do_step1(self):
 		self.cards = [self.player.card(id) for id in random.sample(self.first_ids, 3)]
@@ -2059,6 +2138,7 @@ class LosesDivineShield(TargetedAction):
 	"""
 	def do(self, source, target):
 		target.divine_shield = False
+		source.game.manager.targeted_action(self, source, target)
 		self.broadcast(source, EventListener.AFTER, target)
 
 
@@ -2068,6 +2148,7 @@ class Remove(TargetedAction):
 	"""
 	def do(self, source, target):
 		target.zone = Zone.REMOVEDFROMGAME
+		source.game.manager.targeted_action(self, source, target)
 
 
 class Replay(TargetedAction):
@@ -2076,6 +2157,7 @@ class Replay(TargetedAction):
 	Now only for Tess Greymane (GIL_598)
 	"""
 	def do(self, source, target):
+		source.game.manager.targeted_action(self, source, target)
 		if target.type == CardType.SPELL:
 			source.game.queue_actions(source, [CastSpell(target)])
 		else:
@@ -2106,6 +2188,7 @@ class GriftahAction(TargetedAction):
 		self.choosed_cards = []
 		self.player.choice = self
 		self.do_step1()
+		source.game.manager.targeted_action(self, source, player)
 
 	def do_step1(self):
 		self.cards = self.picker(self.source, self.player)

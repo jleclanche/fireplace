@@ -23,6 +23,17 @@ class BaseEntity(object):
 		else:
 			self._events = []
 
+	def dump(self):
+		return {
+			"entity_id": self.entity_id,
+			"type": int(self.type),
+		}
+
+	def dump_hidden(self):
+		return {
+			"entity_id": self.entity_id,
+		}
+
 	def __int__(self):
 		return self.entity_id
 
