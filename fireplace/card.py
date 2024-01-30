@@ -1091,6 +1091,9 @@ class Secret(Spell):
 	def dump_hidden(self):
 		if self.zone == Zone.SECRET:
 			data = super().dump_hidden()
+			data["type"] = int(CardType.SPELL)
+			data["name"] = "秘密"
+			data["spelltype"] = int(self.spelltype)
 			data["classes"] = [card_class.value for card_class in self.classes]
 			return data
 		return super().dump_hidden()
