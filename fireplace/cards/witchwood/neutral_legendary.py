@@ -38,9 +38,14 @@ class GIL_692:
 	"""Genn Greymane"""
 	# [x]<b>Start of Game:</b> If your deck has only even- Cost cards, your starting Hero
 	# Power costs (1).
-	events = GameStart.on(
-		EvenCost(STARTING_DECK) & Buff(FRIENDLY_HERO_POWER, "GIL_692e")
-	)
+	class Deck:
+		events = GameStart.on(
+			EvenCost(STARTING_DECK) & Buff(FRIENDLY_HERO_POWER, "GIL_692e")
+		)
+	class Hand:
+		events = GameStart.on(
+			EvenCost(STARTING_DECK) & Buff(FRIENDLY_HERO_POWER, "GIL_692e")
+		)
 
 
 class GIL_692e:
@@ -51,6 +56,11 @@ class GIL_826:
 	"""Baku the Mooneater"""
 	# [x]<b>Start of Game:</b> If your deck has only odd- Cost cards, upgrade your Hero
 	# Power.
-	events = GameStart.on(
-		OddCost(STARTING_DECK) & UPGRADE_HERO_POWER
-	)
+	class Deck:
+		events = GameStart.on(
+			EvenCost(STARTING_DECK) & Buff(FRIENDLY_HERO_POWER, "GIL_692e")
+		)
+	class Hand:
+		events = GameStart.on(
+			OddCost(STARTING_DECK) & UPGRADE_HERO_POWER
+		)
