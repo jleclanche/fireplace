@@ -64,6 +64,7 @@ class BaseCard(BaseEntity):
 		data["is_playable"] = self.is_playable()
 		data["progress"] = self.progress
 		data["progress_total"] = self.progress_total
+		data["zone"] = int(self.zone)
 		return data
 
 	def dump_hidden(self):
@@ -281,7 +282,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		data["rarity"] = int(self.rarity)
 		data["cost"] = self.cost
 		data["powered_up"] = self.powered_up
-		data["targets"] = self.targets
+		data["targets"] = [card.entity_id for card in self.targets]
 		data["choose_cards"] = [card.dump() for card in self.choose_cards]
 		data["windfury"] = self.windfury
 		data["lifesteal"] = self.lifesteal
@@ -592,6 +593,7 @@ class LiveEntity(PlayableCard, Entity):
 	immune_while_attacking = slot_property("immune_while_attacking")
 	incoming_damage_multiplier = int_property("incoming_damage_multiplier")
 	max_health = int_property("max_health")
+	poisonous = boolean_property("poisonous")
 
 	def __init__(self, data):
 		super().__init__(data)
@@ -691,7 +693,6 @@ class Character(LiveEntity):
 	min_health = int_property("min_health")
 	rush = boolean_property("rush")
 	taunt = boolean_property("taunt")
-	poisonous = boolean_property("poisonous")
 	ignore_taunt = boolean_property("ignore_taunt")
 	cannot_attack_heroes = boolean_property("cannot_attack_heroes")
 	unlimited_attacks = boolean_property("unlimited_attacks")
@@ -1094,7 +1095,7 @@ class Secret(Spell):
 			data["type"] = int(CardType.SPELL)
 			data["name"] = "秘密"
 			data["spelltype"] = int(self.spelltype)
-			data["classes"] = [card_class.value for card_class in self.classes]
+			data["classes"] = [int(card_class) for card_class in self.classes]
 			return data
 		return super().dump_hidden()
 

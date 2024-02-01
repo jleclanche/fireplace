@@ -83,7 +83,7 @@ class Player(Entity, TargetableByAuras):
 
 	def dump(self):
 		data = super().dump()
-		data["name"], data["avatar"] = self.name
+		# data["name"], data["avatar"] = self.name
 		if self.hero:
 			data["hero"] = self.hero.dump()
 			if self.hero.power:
@@ -108,7 +108,7 @@ class Player(Entity, TargetableByAuras):
 
 	def dump_hidden(self):
 		data = super().dump()
-		data["name"], data["avatar"] = self.name
+		# data["name"], data["avatar"] = self.name
 		if self.hero:
 			data["hero"] = self.hero.dump()
 			if self.hero.power:
@@ -129,6 +129,7 @@ class Player(Entity, TargetableByAuras):
 		data["mana"] = self.mana
 		data["timeout"] = self.timeout
 		data["playstate"] = int(self.playstate)
+		return data
 
 	def __str__(self):
 		return self.name
