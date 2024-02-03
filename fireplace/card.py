@@ -122,7 +122,10 @@ class BaseCard(BaseEntity):
 			if isinstance(entity, LazyNum):
 				formats.append(entity.evaluate(self))
 			elif isinstance(entity, dict):
-				formats.append(entity[self.data.locale])
+				if self.data.locale in entity:
+					formats.append(entity[self.data.locale])
+				else:
+					formats.append("")
 			else:
 				break
 
