@@ -833,10 +833,11 @@ class Hero(Character):
 	@property
 	def entities(self):
 		yield self
-		if self.power:
-			yield self.power
-		if self.controller.weapon:
-			yield self.controller.weapon
+		if self.zone == Zone.PLAY:
+			if self.power:
+				yield self.power
+			if self.controller.weapon:
+				yield self.controller.weapon
 		yield from self.buffs
 
 	@property
