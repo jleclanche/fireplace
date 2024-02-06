@@ -73,3 +73,12 @@ def test_murkspark_eel():
 	eel = game.player1.give("GIL_530")
 	assert eel.requires_target()
 	eel.play(target=game.player2.hero)
+
+
+def test_baku_and_genn():
+	player1 = Player("Player1", [CHICKEN] * 29 + ["GIL_826"], "HERO_01")
+	player2 = Player("Player1", [WISP] * 29 + ["GIL_692"], "HERO_02")
+	game = BaseTestGame(players=(player1, player2))
+	game.start()
+	assert player1.hero.power.id == "AT_132_WARRIOR"
+	assert player2.hero.power.cost == 1

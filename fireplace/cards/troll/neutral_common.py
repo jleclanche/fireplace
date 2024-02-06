@@ -64,7 +64,9 @@ class TRL_505:
 	deathrattle = Buff(RANDOM(FRIENDLY_HAND + BEAST), "TRL_505e")
 
 
-TRL_505e = buff(cost=-1)
+class TRL_505e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -1}
 
 
 class TRL_506:

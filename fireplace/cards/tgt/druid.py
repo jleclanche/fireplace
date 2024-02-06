@@ -33,10 +33,13 @@ AT_040e = buff(health=3)
 
 class AT_041:
 	"""Knight of the Wild"""
-	events = Summon(CONTROLLER, BEAST).on(Buff(SELF, "AT_041e"))
+	class Hand:
+		events = Summon(CONTROLLER, BEAST).on(Buff(SELF, "AT_041e"))
 
 
-AT_041e = buff(cost=-1)
+class AT_041e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -1}
 
 
 class AT_042:

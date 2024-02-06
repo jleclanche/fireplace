@@ -39,11 +39,11 @@ class GIL_692:
 	# [x]<b>Start of Game:</b> If your deck has only even- Cost cards, your starting Hero
 	# Power costs (1).
 	class Deck:
-		events = GameStart.on(
+		events = GameStart().on(
 			EvenCost(STARTING_DECK) & Buff(FRIENDLY_HERO_POWER, "GIL_692e")
 		)
 	class Hand:
-		events = GameStart.on(
+		events = GameStart().on(
 			EvenCost(STARTING_DECK) & Buff(FRIENDLY_HERO_POWER, "GIL_692e")
 		)
 
@@ -57,10 +57,10 @@ class GIL_826:
 	# [x]<b>Start of Game:</b> If your deck has only odd- Cost cards, upgrade your Hero
 	# Power.
 	class Deck:
-		events = GameStart.on(
-			EvenCost(STARTING_DECK) & Buff(FRIENDLY_HERO_POWER, "GIL_692e")
+		events = GameStart().on(
+			OddCost(STARTING_DECK) & UPGRADE_HERO_POWER
 		)
 	class Hand:
-		events = GameStart.on(
+		events = GameStart().on(
 			OddCost(STARTING_DECK) & UPGRADE_HERO_POWER
 		)

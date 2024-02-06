@@ -16,6 +16,7 @@ class TBA01_5e:
 		GameTag.CARDTYPE: CardType.ENCHANTMENT,
 	}
 	cost = SET(0)
+	events = REMOVED_IN_PLAY
 
 
 class TBA01_6:
@@ -84,7 +85,9 @@ class BRMC_97:
 
 
 # Burning Adrenaline (Unused)
-BRMC_97e = buff(cost=-2)
+class BRMC_97e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -2}
 
 
 class BRMC_98:

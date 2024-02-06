@@ -66,7 +66,9 @@ class BOT_539:
 class BOT_907:
 	"""Galvanizer"""
 	# [x]<b>Battlecry:</b> Reduce the Cost of Mechs in your hand by (1).
-	play = Buff(FRIENDLY_MINIONS + MECH, "BOT_907e")
+	play = Buff(FRIENDLY_HAND + MECH, "BOT_907e")
 
 
-BOT_907e = buff(cost=-1)
+class BOT_907e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -1}

@@ -76,6 +76,7 @@ class BOT_436:
 
 class BOT_436e:
 	cost = lambda self, i: self._xcost
+	events = REMOVED_IN_PLAY
 
 
 class BOT_908:

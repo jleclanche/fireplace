@@ -209,7 +209,9 @@ class BRM_003:
 
 
 # Dragon's Might (Unused)
-BRM_003e = buff(cost=-3)
+class BRM_003e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -3}
 
 
 class BRM_005:

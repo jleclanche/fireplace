@@ -53,6 +53,7 @@ class TRL_502:
 
 class TRL_502e:
 	cost = SET(1)
+	events = REMOVED_IN_PLAY
 
 
 ##

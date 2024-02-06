@@ -26,4 +26,6 @@ class TB_GiftExchange_Treasure_Spell:
 
 
 # Cheap Gift
-TB_GiftExchange_Enchantment = buff(cost=-5)
+class TB_GiftExchange_Enchantment:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -5}

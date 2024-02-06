@@ -124,7 +124,9 @@ class CS2_053:
 	play = Draw(CONTROLLER).then(Buff(Draw.CARD, "CS2_053e"))
 
 
-CS2_053e = buff(cost=-3)
+class CS2_053e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -3}
 
 
 class EX1_238:

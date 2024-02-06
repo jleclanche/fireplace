@@ -21,3 +21,48 @@ class GAME_004:
 class GAME_005:
 	"""The Coin"""
 	play = ManaThisTurn(CONTROLLER, 1)
+
+
+class GBL_001e:
+	cost = SET(1)
+	events = REMOVED_IN_PLAY
+
+
+class GBL_002e:
+	tags = {GameTag.COST: -2}
+	events = REMOVED_IN_PLAY
+
+
+class GBL_003e:
+	tags = {GameTag.COST: -1}
+	events = REMOVED_IN_PLAY
+
+
+class GBL_004e:
+	tags = {GameTag.COST: -3}
+	events = REMOVED_IN_PLAY
+
+
+class GBL_005e:
+	tags = {GameTag.COST: +2}
+	events = REMOVED_IN_PLAY
+
+
+class GBL_006e:
+	cost = SET(2)
+	events = REMOVED_IN_PLAY
+
+
+class GBL_007e:
+	cost = SET(10)
+	events = REMOVED_IN_PLAY
+
+
+class GBL_008e:
+	tags = {GameTag.COST: -4}
+	events = REMOVED_IN_PLAY
+
+
+class GBL_008e:
+	cost = SET(0)
+	events = REMOVED_IN_PLAY

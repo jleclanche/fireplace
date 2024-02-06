@@ -406,16 +406,7 @@ class LOEA13_2:
 
 class LOEA13_2H:
 	"""Ancient Power (Heroic)"""
-	activate = Give(CONTROLLER, RandomCollectible()).then(Buff(Give.CARD, "LOEA13_2e"))
-
-
-@custom_card
-class LOEA13_2e:
-	tags = {
-		GameTag.CARDNAME: "Ancient Power buff",
-		GameTag.CARDTYPE: CardType.ENCHANTMENT,
-	}
-	cost = SET(0)
+	activate = Give(CONTROLLER, RandomCollectible()).then(Buff(Give.CARD, "GBL_008e"))
 
 
 ##
@@ -527,17 +518,8 @@ class LOEA16_14:
 	"""Khadgar's Pipe"""
 	play = (
 		Give(OPPONENT, RandomSpell()),
-		Give(PLAYER, RandomSpell()).then(Buff(Give.CARD, "LOEA16_14e"))
+		Give(PLAYER, RandomSpell()).then(Buff(Give.CARD, "GBL_008e"))
 	)
-
-
-@custom_card
-class LOEA16_14e:
-	tags = {
-		GameTag.CARDNAME: "Khadgar's Pipe Buff",
-		GameTag.CARDTYPE: CardType.ENCHANTMENT,
-	}
-	cost = SET(0)
 
 
 class LOEA16_15:

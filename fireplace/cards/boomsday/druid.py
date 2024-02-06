@@ -36,7 +36,9 @@ class BOT_423:
 	events = OWN_TURN_END.on(Buff(RANDOM(FRIENDLY_HAND + MINION), "BOT_423e"))
 
 
-BOT_423e = buff(cost=-7)
+class BOT_423e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -7}
 
 
 class BOT_434:

@@ -176,6 +176,7 @@ class TB_PickYourFate_7_EnchMiniom2nde:
 		GameTag.CARDTYPE: CardType.ENCHANTMENT,
 	}
 	cost = SET(0)
+	events = REMOVED_IN_PLAY
 
 
 class TB_PickYourFate_11rand:
