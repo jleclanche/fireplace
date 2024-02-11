@@ -172,11 +172,7 @@ class LOE_086:
 
 class LOE_089:
 	"""Wobbling Runts"""
-	deathrattle = (
-		Summon(CONTROLLER, "LOE_089t"),
-		Summon(CONTROLLER, "LOE_089t2"),
-		Summon(CONTROLLER, "LOE_089t3")
-	)
+	deathrattle = Summon(CONTROLLER, ["LOE_089t", "LOE_089t2", "LOE_089t3"])
 
 
 class LOE_092:

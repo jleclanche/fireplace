@@ -63,6 +63,6 @@ class GBL_008e:
 	events = REMOVED_IN_PLAY
 
 
-class GBL_008e:
+class GBL_009e:
 	cost = SET(0)
 	events = REMOVED_IN_PLAY

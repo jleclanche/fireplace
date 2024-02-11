@@ -465,6 +465,7 @@ KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
 CAST_ON_FRIENDLY_MINIONS = AttrValue(enums.CAST_ON_FRIENDLY_MINIONS) == True  # noqa
 EXHAUSTED = AttrValue(GameTag.EXHAUSTED) == True  # noqa
 THE_TURN_SUMMONED = AttrValue(GameTag.NUM_TURNS_IN_PLAY) == 0 # noqa
+TO_BE_DESTROYED = AttrValue("to_be_destroyed") == True  # noqa
 
 ROGUE = EnumSelector(CardClass.ROGUE)
 WARLOCK = EnumSelector(CardClass.WARLOCK)

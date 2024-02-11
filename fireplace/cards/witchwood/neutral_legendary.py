@@ -42,6 +42,7 @@ class GIL_692:
 		events = GameStart().on(
 			EvenCost(STARTING_DECK) & Buff(FRIENDLY_HERO_POWER, "GIL_692e")
 		)
+
 	class Hand:
 		events = GameStart().on(
 			EvenCost(STARTING_DECK) & Buff(FRIENDLY_HERO_POWER, "GIL_692e")
@@ -60,6 +61,7 @@ class GIL_826:
 		events = GameStart().on(
 			OddCost(STARTING_DECK) & UPGRADE_HERO_POWER
 		)
+
 	class Hand:
 		events = GameStart().on(
 			OddCost(STARTING_DECK) & UPGRADE_HERO_POWER

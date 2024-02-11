@@ -95,7 +95,7 @@ class TRL_508:
 class TRL_509:
 	"""Banana Buffoon"""
 	# <b>Battlecry:</b> Add 2 Bananas to your hand.
-	play = Give(CONTROLLER, "TRL_509t")
+	play = Give(CONTROLLER, "TRL_509t") * 2
 
 
 class TRL_509t:

@@ -1531,10 +1531,14 @@ class Summon(TargetedAction):
 			):
 				continue
 			if card.zone != Zone.PLAY:
-				if source.type == CardType.MINION and source.zone == Zone.PLAY:
-					source_index = source.controller.field.index(source)
-					# card._summon_index = source_index + ((self.trigger_index + 1) % 2)
-					card._summon_index = self.get_summon_index(source_index)
+				if source.type == CardType.MINION:
+					if source.zone == Zone.PLAY:
+						source_index = source.controller.field.index(source)
+						card._summon_index = self.get_summon_index(source_index)
+					elif source.zone == Zone.GRAVEYARD:
+						card._summon_index = getattr(source, "_dead_position", None)
+						if card._summon_index is not None:
+							card._summon_index += cards.index(card)
 				card.zone = Zone.PLAY
 			if card.type == CardType.MINION and Race.TOTEM in card.races:
 				card.controller.times_totem_summoned_this_game += 1
