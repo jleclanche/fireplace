@@ -46,6 +46,7 @@ class GVG_017:
 
 @custom_card
 class GVG_017e:
+	events = REMOVED_IN_PLAY
 	tags = {
 		GameTag.CARDNAME: "Call Pet Buff",
 		GameTag.CARDTYPE: CardType.ENCHANTMENT,

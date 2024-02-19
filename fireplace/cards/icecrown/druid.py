@@ -123,11 +123,11 @@ class ICC_832a:
 
 
 class ICC_832b:
-	play = Summon(CONTROLLER, "ICC_832t4") * 2
+	play = Summon(CONTROLLER, "ICC_832t3") * 2
 
 
 class ICC_832p:
-	choose = ("ICC_832pa", "ICC_832pa")
+	choose = ("ICC_832pa", "ICC_832pb")
 	activate = ChooseBoth(CONTROLLER) & (
 		GainArmor(FRIENDLY_HERO, 3), Buff(FRIENDLY_HERO, "ICC_832e")
 	)

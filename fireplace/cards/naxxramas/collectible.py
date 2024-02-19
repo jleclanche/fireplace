@@ -165,8 +165,8 @@ class FP1_018:
 
 class FP1_020:
 	"""Avenge"""
-	secret = Death(FRIENDLY + MINION).on(EMPTY_BOARD | (
-		Reveal(SELF), Buff(RANDOM_FRIENDLY_MINION, "FP1_020e")
+	secret = Death(FRIENDLY + MINION).on((Count(FRIENDLY_MINIONS - TO_BE_DESTROYED) == 0) | (
+		Reveal(SELF), Buff(RANDOM(FRIENDLY_MINIONS - TO_BE_DESTROYED), "FP1_020e")
 	))
 
 

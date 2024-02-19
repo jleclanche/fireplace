@@ -64,7 +64,9 @@ class TRL_505:
 	deathrattle = Buff(RANDOM(FRIENDLY_HAND + BEAST), "TRL_505e")
 
 
-TRL_505e = buff(cost=-1)
+class TRL_505e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -1}
 
 
 class TRL_506:
@@ -93,7 +95,7 @@ class TRL_508:
 class TRL_509:
 	"""Banana Buffoon"""
 	# <b>Battlecry:</b> Add 2 Bananas to your hand.
-	play = Give(CONTROLLER, "TRL_509t")
+	play = Give(CONTROLLER, "TRL_509t") * 2
 
 
 class TRL_509t:

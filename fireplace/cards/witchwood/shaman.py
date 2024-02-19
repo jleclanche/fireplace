@@ -53,6 +53,9 @@ class GIL_586:
 	)
 
 
+GIL_586e = buff(+2, +2)
+
+
 class GIL_600:
 	"""Zap!"""
 	# Deal $2 damage to a minion. <b>Overload:</b> (1)

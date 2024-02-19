@@ -38,6 +38,7 @@ class AT_027:
 
 class AT_027e:
 	cost = SET(0)
+	events = REMOVED_IN_PLAY
 
 
 ##

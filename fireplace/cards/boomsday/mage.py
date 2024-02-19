@@ -56,6 +56,7 @@ class BOT_257:
 
 class BOT_257e:
 	cost = SET(1)
+	events = REMOVED_IN_PLAY
 
 
 class BOT_453:

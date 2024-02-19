@@ -10,7 +10,7 @@ def test_aya_blackpaw():
 	assert game.current_player.jade_golem == 2
 	aya.destroy()
 	assert game.current_player.jade_golem == 3
-	jade2 = game.current_player.field[-1]
+	jade2 = game.current_player.field[0]
 	assert jade2.id == "CFM_712_t02"
 	assert jade2.health == jade2.atk == 2
 

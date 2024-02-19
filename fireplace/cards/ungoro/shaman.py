@@ -11,17 +11,7 @@ class UNG_201:
 
 class UNG_202:
 	"""Fire Plume Harbinger"""
-	play = Buff(FRIENDLY_HAND + ELEMENTAL, "UNG_202e")
-
-
-@custom_card
-class UNG_202e:
-	tags = {
-		GameTag.CARDNAME: "Fire Plume Harbinger Buff",
-		GameTag.CARDTYPE: CardType.ENCHANTMENT,
-		GameTag.COST: -1
-	}
-	events = REMOVED_IN_PLAY
+	play = Buff(FRIENDLY_HAND + ELEMENTAL, "GBL_003e")
 
 
 class UNG_208:

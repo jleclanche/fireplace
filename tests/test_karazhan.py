@@ -257,7 +257,10 @@ def test_malchezaars_imp():
 	game.end_turn()
 	game.end_turn()
 
+	imp.destroy()
 	game.player1.discard_hand()
+	imp = game.player1.give("KAR_089")
+	imp.play()
 	assert len(game.player1.hand) == 0
 	game.player1.give(CHICKEN)
 	assert len(game.player1.hand) == 1

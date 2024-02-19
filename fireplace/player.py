@@ -81,6 +81,56 @@ class Player(Entity, TargetableByAuras):
 		self.healed_this_game = 0
 		self.cthun = None
 
+	def dump(self):
+		data = super().dump()
+		# data["name"], data["avatar"] = self.name
+		if self.hero:
+			data["hero"] = self.hero.dump()
+			if self.hero.power:
+				data["heropower"] = self.hero.power.dump()
+		if self.weapon:
+			data["weapon"] = self.weapon.dump()
+		data["deck"] = len(self.deck)
+		data["fatigue_counter"] = self.fatigue_counter
+		data["hand"] = [card.dump() for card in self.hand]
+		data["field"] = [card.dump() for card in self.field]
+		data["secrets"] = [card.dump() for card in self.secrets]
+		if self.choice:
+			choice = data["choice"] = {}
+			choice["cards"] = [card.dump() for card in self.choice.cards]
+			choice["max_count"] = self.choice.max_count
+			choice["min_count"] = self.choice.min_count
+		data["max_mana"] = self.max_mana
+		data["mana"] = self.mana
+		data["timeout"] = self.timeout
+		data["playstate"] = int(self.playstate)
+		return data
+
+	def dump_hidden(self):
+		data = super().dump()
+		# data["name"], data["avatar"] = self.name
+		if self.hero:
+			data["hero"] = self.hero.dump()
+			if self.hero.power:
+				data["heropower"] = self.hero.power.dump()
+		if self.weapon:
+			data["weapon"] = self.weapon.dump()
+		data["deck"] = len(self.deck)
+		data["fatigue_counter"] = self.fatigue_counter
+		data["hand"] = [card.dump_hidden() for card in self.hand]
+		data["field"] = [card.dump() for card in self.field]
+		data["secrets"] = [card.dump_hidden() for card in self.secrets]
+		if self.choice:
+			choice = data["choice"] = {}
+			choice["cards"] = [card.dump_hidden() for card in self.choice.cards]
+			choice["max_count"] = self.choice.max_count
+			choice["min_count"] = self.choice.min_count
+		data["max_mana"] = self.max_mana
+		data["mana"] = self.mana
+		data["timeout"] = self.timeout
+		data["playstate"] = int(self.playstate)
+		return data
+
 	def __str__(self):
 		return self.name
 

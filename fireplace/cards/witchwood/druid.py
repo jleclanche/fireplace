@@ -43,13 +43,12 @@ class GIL_658:
 	"""Splintergraft"""
 	# [x]<b>Battlecry:</b> Choose a friendly minion. Add a 10/10 copy to your hand that
 	# costs (10).
-	play = Give(CONTROLLER, Buff(Copy(TARGET), "GIL_658e"))
+	play = Give(CONTROLLER, Buff(Buff(Copy(TARGET), "GIL_658e"), "GBL_007e"))
 
 
 class GIL_658e:
 	atk = SET(10)
 	max_health = SET(10)
-	cost = SET(10)
 
 
 class GIL_800:

@@ -29,7 +29,9 @@ class LOOT_149:
 		events = Death(MINION).on(Buff(SELF, "LOOT_149e"))
 
 
-LOOT_149e = buff(cost=-1)
+class LOOT_149e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -1}
 
 
 class LOOT_161:

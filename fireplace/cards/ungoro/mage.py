@@ -52,6 +52,7 @@ class UNG_024e:
 		GameTag.CARDTYPE: CardType.ENCHANTMENT,
 	}
 	cost = SET(0)
+	events = REMOVED_IN_PLAY
 
 
 class UNG_028:
@@ -74,7 +75,9 @@ class UNG_941:
 	)
 
 
-UNG_941e = buff(cost=-2)
+class UNG_941e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -2}
 
 
 class UNG_948:

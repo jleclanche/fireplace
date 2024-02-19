@@ -22,7 +22,9 @@ class AT_014:
 	events = Draw(CONTROLLER).on(Buff(Draw.CARD, "AT_014e"))
 
 
-AT_014e = buff(cost=-1)
+class AT_014e:
+	events = REMOVED_IN_PLAY
+	tags = {GameTag.COST: -1}
 
 
 class AT_018:

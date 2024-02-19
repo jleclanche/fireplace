@@ -1,3 +1,6 @@
+from enum import IntEnum
+
+
 ##
 # Internal fireplace tags
 
@@ -19,3 +22,11 @@ KEEP_BUFF = -24,
 DAMAGED_THIS_TURN = -25
 MINION_EXTRA_COMBOS = -26
 MINION_EXTRA_BATTLECRIES = -27
+
+
+class SpellType(IntEnum):
+	INVALID = 0
+	SECRET = 1
+	QUEST = 2
+	SIDEQUEST = 3
+	TRIGGER_EFFECT = 4

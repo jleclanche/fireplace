@@ -18,12 +18,11 @@ class TRL_077:
 	# <b>Battlecry:</b> <b>Discover</b> a 1/1 copy of a <b>Battlecry</b> minion. It costs
 	# (1).
 	play = Discover(CONTROLLER, RandomMinion(battlecry=True)).then(
-		Give(CONTROLLER, Buff(Discover.CARD, "TRL_077e"))
+		Give(CONTROLLER, Buff(Buff(Discover.CARD, "TRL_077e"), "GBL_001e"))
 	)
 
 
 class TRL_077e:
-	cost = SET(1)
 	atk = SET(1)
 	max_health = SET(1)
 
