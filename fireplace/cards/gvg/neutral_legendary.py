@@ -23,7 +23,7 @@ class GVG_111:
 
 
 class GVG_111t:
-	tags = {GameTag.WINDFURY: 3}
+	tags = {GameTag.MEGA_WINDFURY: True}
 
 
 class GVG_112:

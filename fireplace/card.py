@@ -258,7 +258,8 @@ class BaseCard(BaseEntity):
 
 
 class PlayableCard(BaseCard, Entity, TargetableByAuras):
-	windfury = int_property("windfury")
+	windfury = boolean_property("windfury")
+	mega_windfury = boolean_property("mega_windfury")
 	has_choose_one = boolean_property("has_choose_one")
 	playable_zone = Zone.HAND
 	lifesteal = boolean_property("lifesteal")
@@ -772,7 +773,11 @@ class Character(LiveEntity):
 
 	@property
 	def max_attacks(self):
-		return self.windfury + 1
+		if self.mega_windfury:
+			return 4
+		if self.windfury:
+			return 2
+		return 1
 
 	@property
 	def exhausted(self):

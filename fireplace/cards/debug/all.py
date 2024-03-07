@@ -219,7 +219,7 @@ class XXX_051:
 
 class XXX_052:
 	"""Grant Mega-Windfury"""
-	play = SetTag(TARGET, {GameTag.WINDFURY: 3})
+	play = SetTag(TARGET, {GameTag.MEGA_WINDFURY: True})
 
 
 class XXX_053:

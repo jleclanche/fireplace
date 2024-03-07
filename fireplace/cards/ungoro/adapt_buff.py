@@ -39,9 +39,7 @@ UNG_999t5e = buff(
 UNG_999t6e = buff(taunt=True)
 
 
-class UNG_999t7e:
-	"""Lightning Speed"""
-	windfury = SET(1)
+UNG_999t7e = buff(windfury=True)
 
 
 class UNG_999t8e:

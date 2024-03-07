@@ -41,7 +41,7 @@ class Selector:
 		# Note that here we define negation in terms of subtraction, and
 		# not the other way around, because selectors are implemented using
 		# concrete set operations instead of boolean manipulation
-		return self.__class__() - self
+		return Selector() - self
 
 	def __sub__(self, other: SelectorLike) -> "Selector":
 		return SetOpSelector(operator.sub, self, other)
