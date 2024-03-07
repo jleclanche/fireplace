@@ -17,8 +17,7 @@ class AT_083:
 	inspire = Buff(SELF, "AT_083e")
 
 
-class AT_083e:
-	windfury = SET(1)
+AT_083e = buff(windfury=True)
 
 
 class AT_084:

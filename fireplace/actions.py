@@ -1476,6 +1476,31 @@ class UnsetTag(TargetedAction):
 			target.tags[tag] = False
 
 
+class SetAttribute(TargetedAction):
+	TARGET = ActionArg()
+	KEY = ActionArg()
+	VALUE = ActionArg()
+
+	def do(self, source, target, key, value):
+		setattr(target, key, value)
+
+
+class DelAttribute(TargetedAction):
+	TARGET = ActionArg()
+	KEY = ActionArg()
+
+	def do(self, source, target, key):
+		delattr(target, key)
+
+
+class GetAttribute(TargetedAction):
+	TARGET = ActionArg()
+	KEY = ActionArg()
+
+	def do(self, source, target, key):
+		return getattr(target, key)
+
+
 class Silence(TargetedAction):
 	"""
 	Silence minion targets.
@@ -2168,53 +2193,3 @@ class Replay(TargetedAction):
 			source.game.queue_actions(source, [CastSpell(target)])
 		else:
 			source.game.queue_actions(source, [Summon(source.controller, target)])
-
-
-class GriftahAction(TargetedAction):
-	def picker(self, source, player):
-		if player.hero.data.card_class != CardClass.NEUTRAL:
-			# use hero class for Discover if not neutral (eg. Ragnaros)
-			discover_class = player.hero.data.card_class
-		elif source.data.card_class != CardClass.NEUTRAL:
-			# use card class for neutral hero classes
-			discover_class = source.data.card_class
-		else:
-			# use random class for neutral hero classes with neutral cards
-			discover_class = random_class()
-		picker = RandomCollectible() * 3
-		picker = picker.copy_with_weighting(1, card_class=CardClass.NEUTRAL)
-		picker = picker.copy_with_weighting(4, card_class=discover_class)
-		return picker.evaluate(source)
-
-	def do(self, source, player):
-		self.player = player
-		self.source = source
-		self.min_count = 1
-		self.max_count = 1
-		self.choosed_cards = []
-		self.player.choice = self
-		self.do_step1()
-		source.game.manager.targeted_action(self, source, player)
-
-	def do_step1(self):
-		self.cards = self.picker(self.source, self.player)
-
-	def do_step2(self):
-		self.cards = self.picker(self.source, self.player)
-
-	def done(self):
-		random.shuffle(self.choosed_cards)
-		self.source.controller.give(self.choosed_cards[0])
-		self.source.controller.opponent.give(self.choosed_cards[1])
-
-	def choose(self, card):
-		if card not in self.cards:
-			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		else:
-			self.choosed_cards.append(card)
-			if len(self.choosed_cards) == 1:
-				self.do_step2()
-			elif len(self.choosed_cards) == 2:
-				self.player.choice = None
-				self.done()
-				self.trigger_choice_callback()

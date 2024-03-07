@@ -771,7 +771,7 @@ def test_mimirons_head():
 	assert len(game.player1.field) == 1
 	voltron = game.player1.field[0]
 	assert voltron.id == "GVG_111t"
-	assert voltron.windfury == 3
+	assert voltron.mega_windfury
 	assert voltron.charge
 	for i in range(4):
 		assert voltron.can_attack()

@@ -265,9 +265,7 @@ class EX1_412:
 	enrage = Refresh(SELF, buff="EX1_412e")
 
 
-class EX1_412e:
-	tags = {GameTag.ATK: +1}
-	windfury = SET(1)
+EX1_412e = buff(atk=1, windfury=True)
 
 
 class EX1_506:

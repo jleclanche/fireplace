@@ -7,7 +7,21 @@ from ..utils import *
 class TRL_096:
 	"""Griftah"""
 	# [x]<b>Battlecry:</b> <b>Discover</b> two cards. Give one to your opponent at random.
-	play = GriftahAction(CONTROLLER)
+	play = DISCOVER(RandomCollectible()).then(
+		SetAttribute(SELF, "_card1", Discover.CARD),
+		DISCOVER(RandomCollectible()).then(
+			SetAttribute(SELF, "_card2", Discover.CARD),
+			COINFLIP & (
+				Give(CONTROLLER, GetAttribute(SELF, "_card1")),
+				Give(OPPONENT, GetAttribute(SELF, "_card2")),
+			) | (
+				Give(OPPONENT, GetAttribute(SELF, "_card1")),
+				Give(CONTROLLER, GetAttribute(SELF, "_card2")),
+			),
+			DelAttribute(SELF, "_card1"),
+			DelAttribute(SELF, "_card2"),
+		)
+	)
 
 
 class TRL_537:
