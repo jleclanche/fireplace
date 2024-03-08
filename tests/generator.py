@@ -105,7 +105,7 @@ def main():
 		"--card_set",
 		dest="card_set",
 		type=int,
-		default=CardSet.TROLL,
+		default=CardSet.DALARAN,
 		help="Generate cards of card set"
 	)
 	p.add_argument(
@@ -116,7 +116,7 @@ def main():
 	p.add_argument(
 		"--output_dir",
 		dest="output_dir",
-		default="./fireplace/cards/troll",
+		default="./fireplace/cards/dalaran",
 		help="Generate code output dir",
 	)
 	args = p.parse_args(sys.argv[1:])

@@ -1,0 +1,43 @@
+from ..utils import *
+
+
+##
+# Minions
+
+class DAL_546:
+	"""Barista Lynchen"""
+	# <b>Battlecry:</b> Add a copy of each of your other <b>Battlecry</b>
+	# minions_to_your_hand.
+	pass
+
+
+class DAL_554:
+	"""Chef Nomi"""
+	# <b>Battlecry:</b> If your deck is empty, summon six 6/6 Greasefire_Elementals.
+	pass
+
+
+class DAL_558:
+	"""Archmage Vargoth"""
+	# [x]At the end of your turn, cast a spell you've cast this turn <i>(targets are
+	# random)</i>.
+	pass
+
+
+class DAL_736:
+	"""Archivist Elysiana"""
+	# <b>Battlecry:</b> <b>Discover</b> 5 cards. Replace your deck with 2_copies of each.
+	pass
+
+
+class DAL_752:
+	"""Jepetto Joybuzz"""
+	# <b>Battlecry:</b> Draw 2 minions from your deck. Set their Attack, Health, and Cost
+	# to 1.
+	pass
+
+
+class DAL_800:
+	"""Zayle, Shadow Cloak"""
+	# You start the game with one of Zayle's EVIL Decks!
+	pass

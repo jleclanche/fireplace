@@ -6,7 +6,7 @@ from ..logging import log
 from ..utils import get_script_definition
 
 
-year = ZodiacYear.RAVEN
+year = ZodiacYear.DRAGON
 default_language = "enUS"
 
 
