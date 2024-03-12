@@ -8,20 +8,20 @@ class DAL_546:
 	"""Barista Lynchen"""
 	# <b>Battlecry:</b> Add a copy of each of your other <b>Battlecry</b>
 	# minions_to_your_hand.
-	pass
+	play = Give(CONTROLLER, Copy(FRIENDLY_HAND + Battlecry + MINION))
 
 
 class DAL_554:
 	"""Chef Nomi"""
 	# <b>Battlecry:</b> If your deck is empty, summon six 6/6 Greasefire_Elementals.
-	pass
+	play = Find(FRIENDLY_DECK) | SummonBothSides(CONTROLLER, "DAL_554t") * 6
 
 
 class DAL_558:
 	"""Archmage Vargoth"""
 	# [x]At the end of your turn, cast a spell you've cast this turn <i>(targets are
 	# random)</i>.
-	pass
+	events = OWN_TURN_END.on(CastSpell(Copy(RANDOM(CARDS_PLAYED_THIS_TRUN + SPELL))))
 
 
 class DAL_736:
@@ -50,9 +50,3 @@ class DAL_752e:
 class DAL_752e2:
 	cost = SET(1)
 	events = REMOVED_IN_PLAY
-
-
-class DAL_800:
-	"""Zayle, Shadow Cloak"""
-	# You start the game with one of Zayle's EVIL Decks!
-	pass

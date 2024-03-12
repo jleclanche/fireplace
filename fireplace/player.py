@@ -240,6 +240,10 @@ class Player(Entity, TargetableByAuras):
 			from .cards.boomsday.whizbang_decks import WHIZBANG_DECKS
 			self.starting_hero, self.starting_deck = random.choice(WHIZBANG_DECKS)
 
+		if self.starting_hero == "DAL_800h" or self.starting_deck == ["DAL_800"]:
+			from .cards.dalaran.zayle_decks import ZAYLE_DECKS
+			self.starting_hero, self.starting_deck = random.choice(ZAYLE_DECKS)
+
 		self.summon(self.starting_hero)
 		# self.game.trigger(self, [Summon(self, self.starting_hero)], event_args=None)
 		self.starting_hero = self.hero

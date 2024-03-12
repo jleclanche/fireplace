@@ -1,6 +1,4 @@
-from hearthstone.deckstrings import Deck
-
-from .. import db
+from ..utils import *
 
 
 # Where can I find a list of all the current Whizbang decks?
@@ -52,16 +50,5 @@ WHIZBANG_DECK_STRINGS = [
 ]
 
 
-def decode(deckstring: str):
-	deck = Deck.from_deckstring(deckstring)
-	hero_id = deck.heroes[0]
-	hero_id = db.dbf[hero_id]
-	cards = []
-	for card_id, num in deck.cards:
-		card_id = db.dbf[card_id]
-		cards += [card_id] * num
-	return hero_id, cards
-
-
 if "WHIZBANG_DECKS" not in globals():
-	WHIZBANG_DECKS = [decode(code) for code in WHIZBANG_DECK_STRINGS]
+	WHIZBANG_DECKS = [decode_deckstring(code) for code in WHIZBANG_DECK_STRINGS]

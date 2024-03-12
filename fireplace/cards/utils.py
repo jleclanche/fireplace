@@ -1,9 +1,11 @@
 import random
 
-from hearthstone.enums import CardClass, CardType, GameTag, PlayReq, Race, Rarity, CardSet
+from hearthstone.deckstrings import Deck
+from hearthstone.enums import CardClass, CardSet, CardType, GameTag, PlayReq, Race, Rarity
 
 from ..actions import *
 from ..aura import Refresh
+from ..cards import db
 from ..dsl import *
 from ..events import *
 
@@ -243,6 +245,17 @@ def custom_card(cls):
 		GameTag.CARDTEXT_INHAND: {"enUS": ""}
 	}
 	return cls
+
+
+def decode_deckstring(deckstring: str):
+	deck = Deck.from_deckstring(deckstring)
+	hero_id = deck.heroes[0]
+	hero_id = db.dbf[hero_id]
+	cards = []
+	for card_id, num in deck.cards:
+		card_id = db.dbf[card_id]
+		cards += [card_id] * num
+	return hero_id, cards
 
 
 class JadeGolemCardtextEntity0(LazyNum):
