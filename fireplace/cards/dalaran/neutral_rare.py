@@ -42,6 +42,11 @@ class DAL_582:
 	pass
 
 
+class DAL_582t:
+	play = Summon(CONTROLLER, "DAL_582t2")
+	draw = CAST_WHEN_DRAWN
+
+
 class DAL_749:
 	"""Recurring Villain"""
 	# <b>Deathrattle:</b> If this minion has 4 or more Attack, resummon it.
