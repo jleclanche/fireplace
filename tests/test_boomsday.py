@@ -110,3 +110,11 @@ def test_flarks_boom_zooka():
 def test_zereks_cloning_gallery_when_empty():
 	game = prepare_empty_game()
 	game.player1.give("BOT_567").play()
+
+
+def test_omega_mind():
+	game = prepare_game()
+	game.player1.give("BOT_543").play()
+	game.player1.hero.set_current_health(1)
+	game.player1.give(FIREBALL).play(target=game.player2.hero)
+	assert game.player1.hero.health == 1 + 6

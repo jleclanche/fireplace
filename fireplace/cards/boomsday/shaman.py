@@ -46,7 +46,7 @@ class BOT_543:
 
 
 class BOT_543e:
-	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.LIFESTEAL: True})
+	update = Refresh(FRIENDLY + SPELL, {GameTag.LIFESTEAL: True})
 
 
 ##
