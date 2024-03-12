@@ -27,14 +27,29 @@ class DAL_558:
 class DAL_736:
 	"""Archivist Elysiana"""
 	# <b>Battlecry:</b> <b>Discover</b> 5 cards. Replace your deck with 2_copies of each.
-	pass
+	play = (
+		Destroy(FRIENDLY_DECK),
+		DISCOVER(RandomCollectible()).then(
+			Shuffle(CONTROLLER, Copy(Discover.CARD)) * 2
+		) * 5
+	)
 
 
 class DAL_752:
 	"""Jepetto Joybuzz"""
 	# <b>Battlecry:</b> Draw 2 minions from your deck. Set their Attack, Health, and Cost
 	# to 1.
-	pass
+	play = Buff(Buff(ForceDraw(RANDOM(FRIENDLY_DECK + MINION) * 2), "DAL_752e"), "DAL_752e2")
+
+
+class DAL_752e:
+	atk = SET(1)
+	max_health = SET(1)
+
+
+class DAL_752e2:
+	cost = SET(1)
+	events = REMOVED_IN_PLAY
 
 
 class DAL_800:

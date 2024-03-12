@@ -145,6 +145,8 @@ class Action(metaclass=ActionMeta):
 			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, args):
 				log.info("%r triggers off %r from %r", entity, self, source)
 				entity.trigger_event(source, event, args)
+				if entity.data.secret and entity.controller.extra_trigger_secret:
+					entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
 		source.game.action_start(BlockType.TRIGGER, source, 0, None)

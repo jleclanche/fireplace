@@ -18,6 +18,7 @@ class Player(Entity, TargetableByAuras):
 	cant_overload = slot_property("cant_overload")
 	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
+	extra_trigger_secret = slot_property("extra_trigger_secret")
 	minion_extra_battlecries = slot_property("minion_extra_battlecries")
 	minion_extra_combos = slot_property("minion_extra_combos")
 	extra_deathrattles = slot_property("extra_deathrattles")

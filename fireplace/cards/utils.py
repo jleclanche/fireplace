@@ -102,6 +102,14 @@ POTIONS = [
 	"CFM_611",  # Bloodfury Potion
 ]
 
+LACKEYS = [
+	"DAL_613",
+	"DAL_614",
+	"DAL_615",
+	"DAL_739",
+	"DAL_741",
+]
+
 LIBRAMS = IDS([
 	"BT_011",  # Libram of Justice
 	"BT_024",  # Libram of Hope
@@ -124,6 +132,7 @@ THE_COIN = "GAME_005"
 RandomBasicTotem = lambda *args, **kw: RandomID(*BASIC_TOTEMS, **kw)
 RandomBasicHeroPower = lambda *args, **kw: RandomID(*BASIC_HERO_POWERS, **kw)
 RandomPotion = lambda *args, **kw: RandomID(*POTIONS, **kw)
+RandomLackey = lambda *args, **kw: RandomID(*LACKEYS, **kw)
 
 # 50% chance to attack the wrong enemy.
 FORGETFUL = Attack(SELF).on(

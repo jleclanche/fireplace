@@ -19,13 +19,13 @@ class DAL_147:
 class DAL_573:
 	"""Commander Rhyssa"""
 	# Your <b>Secrets</b> trigger twice.
-	pass
+	update = Refresh(CONTROLLER, {enums.EXTRA_TRIGGER_SECRET: True})
 
 
 class DAL_581:
 	"""Nozari"""
 	# <b>Battlecry:</b> Restore both heroes to full Health.
-	pass
+	play = FullHeal(ALL_HEROES)
 
 
 ##

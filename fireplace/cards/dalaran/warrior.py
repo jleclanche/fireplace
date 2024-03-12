@@ -8,7 +8,7 @@ class DAL_060:
 	"""Clockwork Goblin"""
 	# [x]<b>Battlecry:</b> Shuffle a Bomb into your opponent's deck. When drawn, it
 	# explodes for 5 damage.
-	pass
+	play = Shuffle(OPPONENT, "BOT_511t")
 
 
 class DAL_064:
@@ -59,7 +59,7 @@ class DAL_062:
 class DAL_769:
 	"""Improve Morale"""
 	# [x]Deal $1 damage to a minion. If it survives, add a <b>Lackey</b> to your hand.
-	pass
+	play = Hit(TARGET, 1), Dead(TARGET) | Give(CONTROLLER, RandomLackey())
 
 
 ##
@@ -68,4 +68,4 @@ class DAL_769:
 class DAL_063:
 	"""Wrenchcalibur"""
 	# After your hero attacks, shuffle a Bomb into your [x]opponent's deck.
-	pass
+	events = Attack(FRIENDLY_HERO).after(Shuffle(OPPONENT, "BOT_511t"))
