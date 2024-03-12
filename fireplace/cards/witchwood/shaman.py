@@ -29,7 +29,7 @@ GIL_583e = buff(+2, +2)
 class GIL_807:
 	"""Bogshaper"""
 	# Whenever you cast a spell, draw a minion from your_deck.
-	play = Play(CONTROLLER, SPELL).after(ForceDraw(FRIENDLY_DECK + MINION))
+	events = Play(CONTROLLER, SPELL).after(ForceDraw(FRIENDLY_DECK + MINION))
 
 
 class GIL_820:

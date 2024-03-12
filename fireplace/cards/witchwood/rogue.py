@@ -74,7 +74,7 @@ class GIL_696:
 class GIL_672:
 	"""Spectral Cutlass"""
 	# [x]<b>Lifesteal</b> Whenever you play a card from another class, gain +1 Durability.
-	play = Play(CONTROLLER, OTHER_CLASS_CHARACTER).after(Buff(SELF, "GIL_672e"))
+	events = Play(CONTROLLER, OTHER_CLASS_CHARACTER).after(Buff(SELF, "GIL_672e"))
 
 
 GIL_672e = buff(health=1)

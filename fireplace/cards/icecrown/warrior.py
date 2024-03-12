@@ -11,7 +11,7 @@ class ICC_062:
 
 class ICC_238:
 	"""Animated Berserker"""
-	play = Play(CONTROLLER, MINION).after(Hit(Play.CARD, 1))
+	events = Play(CONTROLLER, MINION).after(Hit(Play.CARD, 1))
 
 
 class ICC_405:
