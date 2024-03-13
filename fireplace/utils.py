@@ -62,7 +62,7 @@ class CardList(list):
 	def filter(self, **kwargs):
 		def conditional(e, k, v):
 			p = getattr(e, k, 0)
-			if isinstance(p, list):
+			if hasattr(p, "__iter__"):
 				return v in p
 			return p == v
 		return self.__class__(e for k, v in kwargs.items() for e in self if conditional(e, k, v))

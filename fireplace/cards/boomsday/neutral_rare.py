@@ -60,7 +60,7 @@ class BOT_538:
 class BOT_539:
 	"""Arcane Dynamo"""
 	# <b>Battlecry:</b> <b>Discover</b> a spell that costs (5) or more.
-	play = DISCOVER(RandomSpell(cost=list(range(5, 25))))
+	play = DISCOVER(RandomSpell(cost=range(5, 100)))
 
 
 class BOT_907:

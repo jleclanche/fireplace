@@ -145,7 +145,11 @@ class Action(metaclass=ActionMeta):
 			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, args):
 				log.info("%r triggers off %r from %r", entity, self, source)
 				entity.trigger_event(source, event, args)
-				if entity.data.secret and entity.controller.extra_trigger_secret:
+				if (
+					entity.zone == Zone.SECRET and
+					entity.data.secret and
+					entity.controller.extra_trigger_secret
+				):
 					entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
@@ -2090,10 +2094,10 @@ class CreateZombeast(TargetedAction):
 	def init(self, source):
 		hunter_beast_ids = RandomBeast(
 			card_class=CardClass.HUNTER,
-			cost=list(range(0, 6))).find_cards(source)
+			cost=range(0, 6)).find_cards(source)
 		neutral_beast_ids = RandomBeast(
 			card_class=CardClass.NEUTRAL,
-			cost=list(range(0, 6))).find_cards(source)
+			cost=range(0, 6)).find_cards(source)
 		beast_ids = hunter_beast_ids + neutral_beast_ids
 		self.first_ids = []
 		self.second_ids = []

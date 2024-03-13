@@ -42,7 +42,6 @@ class GameManager(Manager):
 	map = {
 		GameTag.CARDTYPE: "type",
 		GameTag.NEXT_STEP: "next_step",
-		GameTag.NUM_MINIONS_KILLED_THIS_TURN: "minions_killed_this_turn",
 		GameTag.PROPOSED_ATTACKER: "proposed_attacker",
 		GameTag.PROPOSED_DEFENDER: "proposed_defender",
 		GameTag.STATE: "state",
@@ -142,7 +141,6 @@ class PlayerManager(Manager):
 		GameTag.NUM_HERO_POWER_DAMAGE_THIS_GAME: "hero_power_damage_this_game",
 		GameTag.AMOUNT_HEALED_THIS_GAME: "healed_this_game",
 		GameTag.NUM_MINIONS_PLAYED_THIS_TURN: "minions_played_this_turn",
-		GameTag.NUM_MINIONS_PLAYER_KILLED_THIS_TURN: "minions_killed_this_turn",
 		GameTag.NUM_TIMES_HERO_POWER_USED_THIS_GAME: "times_hero_power_used_this_game",
 		GameTag.OVERLOAD_LOCKED: "overload_locked",
 		GameTag.OVERLOAD_OWED: "overloaded",

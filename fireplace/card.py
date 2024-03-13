@@ -4,6 +4,7 @@ from itertools import chain
 
 from hearthstone.enums import CardType, GameTag, MultiClassGroup, PlayReq, PlayState, \
 	Race, Rarity, Step, Zone
+from hearthstone.utils import LACKEY_CARDS
 
 from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
@@ -391,13 +392,15 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if self.parent_card:
 			zone = self.parent_card.zone
 			playable_zone = self.parent_card.playable_zone
+			if not self.controller.can_pay_cost(self.parent_card):
+				return False
 		else:
 			zone = self.zone
 			playable_zone = self.playable_zone
-		if zone != playable_zone:
-			return False
+			if not self.controller.can_pay_cost(self):
+				return False
 
-		if not self.controller.can_pay_cost(self):
+		if zone != playable_zone:
 			return False
 
 		if self.must_choose_one:
@@ -436,6 +439,43 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 		if PlayReq.REQ_SECRET_ZONE_CAP_FOR_NON_SECRET in self.requirements:
 			if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
+				return False
+
+		if PlayReq.REQ_MINION_SLOT_OR_MANA_CRYSTAL_SLOT in self.requirements:
+			if (
+				len(self.controller.game.board) >= self.game.MAX_MINIONS_ON_FIELD and
+				self.controller.max_mana >= self.controller.max_resources
+			):
+				return False
+
+		if PlayReq.REQ_MUST_PLAY_OTHER_CARD_FIRST in self.requirements:
+			if len(self.controller.cards_played_this_turn) == 0:
+				return False
+
+		if PlayReq.REQ_HAND_NOT_FULL in self.requirements:
+			if len(self.controller.hand) >= self.controller.max_hand_size:
+				return False
+
+		if PlayReq.REQ_CANNOT_PLAY_THIS in self.requirements:
+			return False
+
+		if PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME in self.requirements:
+			race = self.requirements.get(PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME, 0)
+			if not self.controller.graveyard.filter(type=CardType.MINION, race=race):
+				return False
+
+		if PlayReq.REQ_FRIENDLY_MINION_OF_RACE_DIED_THIS_TURN in self.requirements:
+			race = self.requirements.get(PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME, 0)
+			if not self.controller.minions_killed_this_turn.filter(race=race):
+				return False
+
+		if PlayReq.REQ_FRIENDLY_MINION_OF_RACE_IN_HAND in self.requirements:
+			race = self.requirements.get(PlayReq.REQ_FRIENDLY_MINION_OF_RACE_IN_HAND, 0)
+			if not self.controller.hand.filter(races=race):
+				return False
+
+		if PlayReq.REQ_FRIENDLY_DEATHRATTLE_MINION_DIED_THIS_GAME in self.requirements:
+			if not self.controller.graveyard.filter(has_deathrattle=True):
 				return False
 
 		return self.is_summonable()
@@ -562,9 +602,25 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self not in self.controller.cards_drawn_this_turn:
 				return bool(self.play_targets)
-		req = self.requirements.get(PlayReq.REQ_DRAG_TO_PLAY_PRE29933)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_ONLY_EVEN_COST_CARD_IN_DECK)
 		if req is not None:
 			if all(card.cost % 2 == 0 for card in self.controller.deck):
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_ONLY_ODD_COST_CARD_IN_DECK)
+		if req is not None:
+			if all(card.cost % 2 == 1 for card in self.controller.deck):
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_COST_5_OR_MORE_SPELL_IN_HAND)
+		if req is not None:
+			if self.controller.hand.filter(cost=range(5, 100)):
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MIN_MANA_CRYSTAL)
+		if req is not None:
+			if self.controller.max_mana >= req:
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_FRIENDLY_LACKEY)
+		if req is not None:
+			if self.controller.filed.filter(id=LACKEY_CARDS):
 				return bool(self.play_targets)
 		# req = self.requirements.get(
 		# 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
@@ -1020,7 +1076,7 @@ class Minion(Character):
 			else:
 				self.controller.field.append(self)
 		elif value == Zone.GRAVEYARD and self.zone == Zone.PLAY:
-			self.controller.minions_killed_this_turn += 1
+			self.controller.minions_killed_this_turn.append(self)
 
 		if self.zone == Zone.PLAY:
 			self.log("%r is removed from the field", self)

@@ -67,7 +67,7 @@ class Player(Entity, TargetableByAuras):
 		self.timeout = 75
 		self.times_hero_power_used_this_game = 0
 		self.used_mana = 0
-		self.minions_killed_this_turn = 0
+		self.minions_killed_this_turn = CardList()
 		self.weapon = None
 		self.zone = Zone.INVALID
 		self.jade_golem = 1

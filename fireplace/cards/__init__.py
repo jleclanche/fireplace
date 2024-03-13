@@ -180,7 +180,7 @@ class CardDB(dict):
 				else:
 					cards = [
 						card for card in cards if (
-							isinstance(value, list) and getattr(card, attr) in value) or
+							hasattr(value, "__iter__") and getattr(card, attr) in value) or
 						getattr(card, attr) == value
 					]
 
