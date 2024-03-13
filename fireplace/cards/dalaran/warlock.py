@@ -65,6 +65,9 @@ class DAL_607e:
 class DAL_007:
 	"""Rafaam's Scheme"""
 	# Summon @ 1/1 |4(Imp, Imps). <i>(Upgrades each turn!)</i>
+	class Hand:
+		events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
+
 	play = Summon(CONTROLLER, "DAL_751t") * Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1)
 
 
