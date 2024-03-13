@@ -68,7 +68,7 @@ class DAL_007:
 	class Hand:
 		events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
 
-	play = Summon(CONTROLLER, "DAL_751t") * Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1)
+	play = Summon(CONTROLLER, "DAL_751t") * (Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
 
 
 class DAL_173:

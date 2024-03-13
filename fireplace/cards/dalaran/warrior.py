@@ -57,7 +57,11 @@ class DAL_008:
 class DAL_059:
 	"""Dimensional Ripper"""
 	# Summon 2 copies of a minion in your deck.
-	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY_DECK + MINION)) * 2)
+	play = (
+		SetAttribute(SELF, "_card", RANDOM(FRIENDLY_DECK + MINION)),
+		Summon(CONTROLLER, GetAttribute(SELF, "_card")) * 2,
+		DelAttribute(SELF, "_card"),
+	)
 
 
 class DAL_062:
