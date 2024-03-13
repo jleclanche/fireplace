@@ -2199,3 +2199,21 @@ class Replay(TargetedAction):
 			source.game.queue_actions(source, [CastSpell(target)])
 		else:
 			source.game.queue_actions(source, [Summon(source.controller, target)])
+
+
+class CreateSwampqueenHagathaHorror(TargetedAction):
+	def do(self, source, player):
+		horror = player.card("DAL_431t")
+		horror.custom_card = True
+		card1 = source._card1
+		card2 = source._card2
+
+		def create_custom_card(horror):
+			horror.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+			horror.requirements = card1.requirements | card2.requirements
+			horror.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
+			horror.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
+
+		horror.create_custom_card = create_custom_card
+		horror.create_custom_card(horror)
+		player.give(horror)
