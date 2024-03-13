@@ -80,4 +80,4 @@ class DAL_723:
 class DAL_724:
 	"""Mass Resurrection"""
 	# Summon 3 friendly minions that died this game.
-	pass
+	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION) * 3))
