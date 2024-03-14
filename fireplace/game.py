@@ -94,9 +94,7 @@ class BaseGame(Entity):
 
 	@property
 	def minions_killed_this_turn(self):
-		return CardList(chain(
-			self.players[0].minions_killed_this_turn,
-			self.players[1].minions_killed_this_turn))
+		return self.players[0].minions_killed_this_turn + self.players[1].minions_killed_this_turn
 
 	@property
 	def ended(self):
@@ -304,7 +302,7 @@ class BaseGame(Entity):
 
 	def end_turn(self):
 		for player in self.players:
-			player.minions_killed_this_turn = CardList()
+			player.minions_killed_this_turn = 0
 		return self.queue_actions(self, [EndTurn(self.current_player)])
 
 	def _end_turn(self):
@@ -354,7 +352,7 @@ class BaseGame(Entity):
 		player.cards_played_last_turn = player.cards_played_this_turn
 		player.cards_played_this_turn = CardList()
 		player.minions_played_this_turn = 0
-		player.minions_killed_this_turn = CardList()
+		player.minions_killed_this_turn = 0
 		player.combo = False
 		player.max_mana += 1
 		player.used_mana = 0

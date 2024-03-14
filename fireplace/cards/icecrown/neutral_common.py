@@ -108,7 +108,7 @@ class ICC_900:
 
 class ICC_904:
 	"""Wicked Skeleton"""
-	play = Buff(SELF, "ICC_904e") * Count(MINIONS_KILLED_THIS_TURN)
+	play = Buff(SELF, "ICC_904e") * Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
 ICC_904e = buff(+1, +1)

@@ -82,7 +82,7 @@ class DAL_378:
 	play = Give(CONTROLLER, "DAL_378ts"), Summon(CONTROLLER, "DAL_378t1")
 
 
-class DAL_378:
+class DAL_378ts:
 	play = Summon(CONTROLLER, "DAL_378t1")
 
 

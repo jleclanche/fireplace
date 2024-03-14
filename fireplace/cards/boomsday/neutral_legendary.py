@@ -42,3 +42,15 @@ class BOT_573:
 	"""Subject 9"""
 	# <b>Battlecry:</b> Draw 5 different <b>Secrets</b> from your deck.
 	play = ForceDraw(RANDOM(DeDuplicate(FRIENDLY_DECK + SECRET)) * 5)
+
+
+class BOT_700:
+	"""SN1P-SN4P"""
+	# <b>Magnetic</b>, <b>Echo</b> <b>Deathrattle:</b> Summon two 1/1 Microbots.
+	magnetic = MAGNETIC("BOT_700e")
+	deathrattle = Summon(CONTROLLER, "BOT_312t") * 2
+
+
+class BOT_700e:
+	tags = {GameTag.DEATHRATTLE: True}
+	deathrattle = Summon(CONTROLLER, "BOT_312t") * 2

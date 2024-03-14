@@ -466,7 +466,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 		if PlayReq.REQ_FRIENDLY_MINION_OF_RACE_DIED_THIS_TURN in self.requirements:
 			race = self.requirements.get(PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME, 0)
-			if not self.controller.minions_killed_this_turn.filter(race=race):
+			if not self.controller.graveyard.filter(killed_this_turn=True, race=race):
 				return False
 
 		if PlayReq.REQ_FRIENDLY_MINION_OF_RACE_IN_HAND in self.requirements:
@@ -602,15 +602,18 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self not in self.controller.cards_drawn_this_turn:
 				return bool(self.play_targets)
-		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_ONLY_EVEN_COST_CARD_IN_DECK)
+		req = self.requirements.get(
+			PlayReq.REQ_TARGET_IF_AVAILABLE_AND_ONLY_EVEN_COST_CARD_IN_DECK)
 		if req is not None:
 			if all(card.cost % 2 == 0 for card in self.controller.deck):
 				return bool(self.play_targets)
-		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_ONLY_ODD_COST_CARD_IN_DECK)
+		req = self.requirements.get(
+			PlayReq.REQ_TARGET_IF_AVAILABLE_AND_ONLY_ODD_COST_CARD_IN_DECK)
 		if req is not None:
 			if all(card.cost % 2 == 1 for card in self.controller.deck):
 				return bool(self.play_targets)
-		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_COST_5_OR_MORE_SPELL_IN_HAND)
+		req = self.requirements.get(
+			PlayReq.REQ_TARGET_IF_AVAILABLE_AND_COST_5_OR_MORE_SPELL_IN_HAND)
 		if req is not None:
 			if self.controller.hand.filter(cost=range(5, 100)):
 				return bool(self.play_targets)
@@ -1076,7 +1079,7 @@ class Minion(Character):
 			else:
 				self.controller.field.append(self)
 		elif value == Zone.GRAVEYARD and self.zone == Zone.PLAY:
-			self.controller.minions_killed_this_turn.append(self)
+			self.controller.minions_killed_this_turn += 1
 
 		if self.zone == Zone.PLAY:
 			self.log("%r is removed from the field", self)

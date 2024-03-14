@@ -24,6 +24,11 @@ class DAL_561:
 		events = Death(FRIENDLY + DEMON).on(Buff(SELF, "DAL_561e"))
 
 
+class DAL_561e:
+	tags = {GameTag.COST: -1}
+	events = REMOVED_IN_PLAY
+
+
 class GVG_063e:
 	tags = {GameTag.COST: -1}
 	events = REMOVED_IN_PLAY

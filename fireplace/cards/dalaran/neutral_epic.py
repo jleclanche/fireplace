@@ -47,6 +47,7 @@ class DAL_592:
 		Dead(ALL_MINIONS + Attack.DEFENDER) & ExtraAttack(SELF)
 	)
 
+
 class DAL_742:
 	"""Whirlwind Tempest"""
 	# Your minions with <b>Windfury</b> have <b>Mega-Windfury</b>.

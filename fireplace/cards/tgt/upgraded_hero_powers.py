@@ -20,6 +20,11 @@ class AT_132_DRUIDa(AT_132_DRUID):
 	pass
 
 
+class AT_132_DRUIDb(AT_132_DRUID):
+	"""Dire Shapeshift (Elise Starseeker)"""
+	pass
+
+
 class AT_132_HUNTER:
 	"""Ballista Shot"""
 	requirements = {PlayReq.REQ_MINION_OR_ENEMY_HERO: 0, PlayReq.REQ_STEADY_SHOT: 0}
@@ -132,6 +137,11 @@ class CS2_049_H1_AT_132(AT_132_SHAMAN):
 
 class CS2_049_H2_AT_132(AT_132_SHAMAN):
 	"""Totemic Slam (King Rastakhan)"""
+	pass
+
+
+class CS2_049_H3_AT_132(AT_132_SHAMAN):
+	"""Totemic Slam (The Thunder King)"""
 	pass
 
 

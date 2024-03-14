@@ -2,7 +2,7 @@ import random
 
 from hearthstone.deckstrings import Deck
 from hearthstone.enums import CardClass, CardSet, CardType, GameTag, PlayReq, Race, Rarity
-from hearthstone.utils import LACKEY_CARDS
+# from hearthstone.utils import LACKEY_CARDS
 
 from ..actions import *
 from ..aura import Refresh
@@ -54,6 +54,7 @@ HERO_POWER_MAP = {
 	# Druid
 	"CS2_017": "AT_132_DRUID",  # Malfurion Stormrage
 	"CS2_017_HS1": "AT_132_DRUIDa",  # Lunara
+	"CS2_017_HS2": "AT_132_DRUIDb",  # Elise Starseeker
 	# Hunter
 	"DS1h_292": "AT_132_HUNTER",  # Rexxar
 	"DS1h_292_H1": "DS1h_292_H1_AT_132",  # Alleria Windrunner
@@ -77,6 +78,7 @@ HERO_POWER_MAP = {
 	"CS2_049": "AT_132_SHAMAN",  # Thrall
 	"CS2_049_H1": "CS2_049_H1_AT_132",  # Morgl the Oracle
 	"CS2_049_H2": "CS2_049_H2_AT_132",  # King Rastakhan
+	"CS2_049_H3": "CS2_049_H3_AT_132",  # The Thunder King
 	# Warlock
 	"CS2_056": "AT_132_WARLOCK",  # Gul'dan
 	"CS2_056_H1": "AT_132_WARLOCKa",  # Nemsy Necrofizzle
@@ -123,6 +125,16 @@ LICH_KING_CARDS = [
 ]
 
 THE_COIN = "GAME_005"
+
+LACKEY_CARDS = [
+	"DAL_613",
+	"DAL_614",
+	"DAL_615",
+	"DAL_739",
+	"DAL_741",
+	# "ULD_616",
+	# "DRG_052",
+]
 
 RandomBasicTotem = lambda *args, **kw: RandomID(*BASIC_TOTEMS, **kw)
 RandomBasicHeroPower = lambda *args, **kw: RandomID(*BASIC_HERO_POWERS, **kw)

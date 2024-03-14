@@ -619,6 +619,3 @@ ANOTHER_CLASS = FuncSelector(
 		card_class for card_class in CardClass if source.card_class != card_class
 	]
 )
-
-MINIONS_KILLED_THIS_TURN = FuncSelector(
-	lambda entities, source: source.game.minions_killed_this_turn)

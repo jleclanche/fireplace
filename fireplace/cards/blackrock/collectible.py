@@ -30,7 +30,7 @@ class BRM_008:
 
 class BRM_009:
 	"""Volcanic Lumberer"""
-	cost_mod = -Count(MINIONS_KILLED_THIS_TURN)
+	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
 class BRM_010:
@@ -108,7 +108,7 @@ BRM_024e = buff(+3, +3)
 
 class BRM_025:
 	"""Volcanic Drake"""
-	cost_mod = -Count(MINIONS_KILLED_THIS_TURN)
+	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
 class BRM_026:
@@ -193,7 +193,7 @@ class BRM_034:
 class BRM_001:
 	"""Solemn Vigil"""
 	play = Draw(CONTROLLER) * 2
-	cost_mod = -Count(MINIONS_KILLED_THIS_TURN)
+	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
 class BRM_001e:
@@ -205,7 +205,7 @@ class BRM_003:
 	"""Dragon's Breath"""
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
 	play = Hit(TARGET, 4)
-	cost_mod = -Count(MINIONS_KILLED_THIS_TURN)
+	cost_mod = -Attr(GAME, GameTag.NUM_MINIONS_KILLED_THIS_TURN)
 
 
 # Dragon's Might (Unused)

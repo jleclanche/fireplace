@@ -43,10 +43,21 @@ class DAL_141:
 	)
 
 
+class DAL_141ts:
+	play = CastSpell(RandomSpell(secret=True, card_class=CardClass.PALADIN))
+
+
 class DAL_568:
 	"""Lightforged Blessing"""
 	# <b>Twinspell</b> Give a friendly minion <b>Lifesteal</b>.
-	play = CastSpell(RandomSpell(secret=True, card_class=CardClass.PALADIN))
+	play = (
+		Give(CONTROLLER, "DAL_568ts"),
+		GiveLifesteal(TARGET)
+	)
+
+
+class DAL_568ts:
+	play = GiveLifesteal(TARGET)
 
 
 class DAL_570:

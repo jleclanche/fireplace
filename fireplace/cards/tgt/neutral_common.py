@@ -34,7 +34,11 @@ AT_084e = buff(atk=2)
 
 class AT_085:
 	"""Maiden of the Lake"""
-	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.COST: SET(1)})
+	update = Refresh(FRIENDLY_HERO_POWER, buff="AT_085e")
+
+
+class AT_085e:
+	cost = SET(1)
 
 
 class AT_089:

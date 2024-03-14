@@ -18,6 +18,7 @@ class DAL_416:
 		RandomSpell(card_class=ANOTHER_CLASS) * 3
 	)
 
+
 class DAL_417:
 	"""Heistbaron Togwaggle"""
 	# <b>Battlecry:</b> If you control a_<b>Lackey</b>, choose a fantastic treasure.
@@ -43,7 +44,6 @@ class DAL_719:
 	events = Shuffle(source=FRIENDLY).after(
 		Give(CONTROLLER, Copy(Shuffle.CARD))
 	)
-
 
 
 ##

@@ -127,7 +127,7 @@ def is_valid_target(self, target, requirements=None):
 			if not target.stealthed:
 				return False
 		elif req == PlayReq.REQ_FRIENDLY_LACKEY:
-			if not target.id in LACKEY_CARDS:
+			if target.id not in LACKEY_CARDS:
 				return False
 		elif req == PlayReq.REQ_MINION_ATTACK_LESS_OR_EQUAL_MANA:
 			if target.atk > self.controller.mana:

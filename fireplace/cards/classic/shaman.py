@@ -23,6 +23,11 @@ class CS2_049_H2(CS2_049):
 	pass
 
 
+class CS2_049_H3(CS2_049):
+	"""Totemic Call (The Thunder King)"""
+	pass
+
+
 class NEW1_009:
 	"""Healing Totem"""
 	events = OWN_TURN_END.on(Heal(FRIENDLY_MINIONS, 1))

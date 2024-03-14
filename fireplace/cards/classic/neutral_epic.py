@@ -78,3 +78,9 @@ class NEW1_027:
 
 
 NEW1_027e = buff(+1, +1)
+
+
+class EX1_188:
+	"""Barrens Stablehand"""
+	# <b>Battlecry:</b> Summon a random Beast.
+	play = Summon(CONTROLLER, RandomBeast())

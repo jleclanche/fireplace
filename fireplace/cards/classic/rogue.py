@@ -221,3 +221,9 @@ class EX1_182:
 	"""Pilfer"""
 	# Add a random card to your hand <i>(from your opponent's class)</i>.
 	play = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))
+
+
+class EX1_191:
+	"""Plaguebringer"""
+	# <b>Battlecry:</b> Give a friendly minion <b>Poisonous</b>.
+	play = GivePoisonous(TARGET)

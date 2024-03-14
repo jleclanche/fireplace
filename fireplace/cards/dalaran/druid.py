@@ -13,7 +13,8 @@ class DAL_354:
 class DAL_355:
 	"""Lifeweaver"""
 	# Whenever you restore Health, add a random Druid spell to your hand.
-	events = Heal(source=FRIENDLY).on(Give(CONTROLLER, RandomSpell(card_class=CardClass.DRUID)))
+	events = Heal(source=FRIENDLY).on(
+		Give(CONTROLLER, RandomSpell(card_class=CardClass.DRUID)))
 
 
 class DAL_357:

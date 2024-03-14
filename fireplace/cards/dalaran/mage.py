@@ -72,7 +72,10 @@ class DAL_577:
 	"""Ray of Frost"""
 	# <b>Twinspell</b> <b>Freeze</b> a minion. If it's already <b>Frozen</b>, deal $2
 	# damage to it.
-	play = Give(CONTROLLER, "DAL_577ts"), Find(TARGET + FROZEN) & Hit(TARGET, 2) | Freeze(TARGET)
+	play = (
+		Give(CONTROLLER, "DAL_577ts"),
+		Find(TARGET + FROZEN) & Hit(TARGET, 2) | Freeze(TARGET)
+	)
 
 
 class DAL_577ts:
@@ -90,4 +93,4 @@ class DAL_578:
 class DAL_608:
 	"""Magic Trick"""
 	# <b>Discover</b> a spell that costs (3) or less.
-	play = DISCOVER(RandomSpell(cost=list(range(0,4))))
+	play = DISCOVER(RandomSpell(cost=list(range(0, 4))))
