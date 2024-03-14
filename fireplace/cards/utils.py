@@ -258,7 +258,8 @@ def decode_deckstring(deckstring: str):
 	hero_id = db.dbf[hero_id]
 	cards = []
 	for card_id, num in deck.cards:
-		card_id = db.dbf[card_id]
+		card_id: str = db.dbf[card_id]
+		card_id = card_id.removeprefix("CORE_")
 		cards += [card_id] * num
 	return hero_id, cards
 
