@@ -72,6 +72,7 @@ class DAL_377:
 	play = GenericChoice(
 		CONTROLLER, Copy(RANDOM(DeDuplicate(FRIENDLY + KILLED + DEATHRATTLE + MINION)) * 3)
 	).then(
+		Give(CONTROLLER, GenericChoice.CARD),
 		Deathrattle(GenericChoice.CARD)
 	)
 

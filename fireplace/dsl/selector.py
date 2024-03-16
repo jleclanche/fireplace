@@ -619,3 +619,9 @@ ANOTHER_CLASS = FuncSelector(
 		card_class for card_class in CardClass if source.card_class != card_class
 	]
 )
+
+CHOOSE_CARDS = lambda sel: (
+	FuncSelector(
+		lambda entities, source: sel.evaluate(source).choose_cards
+	)
+)

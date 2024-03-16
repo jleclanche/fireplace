@@ -8,7 +8,7 @@ class DAL_546:
 	"""Barista Lynchen"""
 	# <b>Battlecry:</b> Add a copy of each of your other <b>Battlecry</b>
 	# minions_to_your_hand.
-	play = Give(CONTROLLER, Copy(FRIENDLY_HAND + Battlecry + MINION))
+	play = Give(CONTROLLER, Copy(FRIENDLY_HAND + BATTLECRY + MINION))
 
 
 class DAL_554:
@@ -29,7 +29,7 @@ class DAL_736:
 	# <b>Battlecry:</b> <b>Discover</b> 5 cards. Replace your deck with 2_copies of each.
 	play = (
 		Destroy(FRIENDLY_DECK),
-		DISCOVER(RandomCollectible()).then(
+		Discover(CONTROLLER, RandomCollectible()).then(
 			Shuffle(CONTROLLER, Copy(Discover.CARD)) * 2
 		) * 5
 	)
@@ -39,7 +39,7 @@ class DAL_752:
 	"""Jepetto Joybuzz"""
 	# <b>Battlecry:</b> Draw 2 minions from your deck. Set their Attack, Health, and Cost
 	# to 1.
-	play = Buff(Buff(ForceDraw(RANDOM(FRIENDLY_DECK + MINION) * 2), "DAL_752e"), "DAL_752e2")
+	play = Buff(Buff(ForceDraw(RANDOM(FRIENDLY_DECK + MINION)), "DAL_752e"), "DAL_752e2") * 2
 
 
 class DAL_752e:

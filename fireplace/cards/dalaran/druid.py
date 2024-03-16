@@ -37,7 +37,7 @@ class DAL_732:
 	"""Keeper Stalladris"""
 	# After you cast a <b>Choose One</b> spell, add copies of both choices_to_your_hand.
 	events = Play(CONTROLLER, CHOOSE_ONE + SPELL).after(
-		Give(CONTROLLER, Copy(GetAttribute(Play.CARD, "choose_cards")))
+		Give(CONTROLLER, Copy(CHOOSE_CARDS(Play.CARD)))
 	)
 
 
@@ -45,7 +45,7 @@ class DAL_799:
 	"""Crystal Stag"""
 	# <b>Rush</b>. <b>Battlecry:</b> If you've restored 5 Health this game, summon a copy
 	# of this.@ <i>({0} left!)</i>@ <i>(Ready!)</i>
-	powered_up = AttrValue(GameTag.AMOUNT_HEALED_THIS_GAME)(CONTROLLER) >= 5
+	powered_up = Attr(CONTROLLER, GameTag.AMOUNT_HEALED_THIS_GAME) >= 5
 	play = powered_up & Summon(CONTROLLER, ExactCopy(SELF))
 
 
@@ -95,9 +95,9 @@ class DAL_352:
 	# <b>Discover</b> a Druid minion. If your hand has no minions, keep all 3.
 	powered_up = -Find(FRIENDLY_HAND + MINION)
 	play = powered_up & (
-		Give(CONTROLLER, RandomCollectible(card_class=CardClass.DRUID)) * 3
+		Give(CONTROLLER, RandomMinion(card_class=CardClass.DRUID)) * 3
 	) | (
-		DISCOVER(RandomCollectible(card_class=CardClass.DRUID))
+		DISCOVER(RandomMinion(card_class=CardClass.DRUID))
 	)
 
 

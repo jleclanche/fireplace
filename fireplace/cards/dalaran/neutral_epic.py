@@ -14,7 +14,6 @@ class DAL_538:
 	"""Unseen Saboteur"""
 	# <b>Battlecry:</b> Your opponent casts a random spell from their hand <i>(targets
 	# chosen randomly)</i>.
-	# TODO need test
 	play = CastSpell(RANDOM(ENEMY_HAND + SPELL))
 
 
@@ -44,7 +43,7 @@ class DAL_592:
 	"""Batterhead"""
 	# <b>Rush</b>. After this attacks and kills a minion, it may_attack again.
 	events = Attack(SELF, ALL_MINIONS).after(
-		Dead(ALL_MINIONS + Attack.DEFENDER) & ExtraAttack(SELF)
+		Dead(Attack.DEFENDER) & ExtraAttack(SELF)
 	)
 
 

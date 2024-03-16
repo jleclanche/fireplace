@@ -2,15 +2,15 @@ import random
 from collections import OrderedDict
 
 from hearthstone.enums import (
-	BlockType, CardClass, CardType, GameTag, Mulligan, Race, PlayState, Step, Zone
+	BlockType, CardClass, CardType, GameTag, Mulligan, PlayState, Race, Step, Zone
 )
 
-from .enums import DISCARDED
 from .dsl import LazyNum, LazyValue, Selector
 from .dsl.copy import Copy
 from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion
 from .dsl.selector import SELF
 from .entity import Entity
+from .enums import DISCARDED
 from .exceptions import InvalidAction
 from .logging import log
 from .utils import get_script_definition, random_class
@@ -142,14 +142,10 @@ class Action(metaclass=ActionMeta):
 		for event in entity.events:
 			if event.at != at:
 				continue
-			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, args):
+			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, source, args):
 				log.info("%r triggers off %r from %r", entity, self, source)
 				entity.trigger_event(source, event, args)
-				if (
-					entity.zone == Zone.SECRET and
-					entity.data.secret and
-					entity.controller.extra_trigger_secret
-				):
+				if entity.data.secret and entity.controller.extra_trigger_secret:
 					entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
@@ -177,7 +173,7 @@ class Action(metaclass=ActionMeta):
 	def get_args(self, source):
 		return self._args
 
-	def matches(self, source, args):
+	def matches(self, entity, source, args):
 		for arg, match in zip(args, self._args):
 			if match is None:
 				# Allow matching Action(None, None, z) to Action(x, y, z)
@@ -191,9 +187,13 @@ class Action(metaclass=ActionMeta):
 					return False
 			else:
 				# this stuff is stupidslow
-				res = match.eval([arg], source)
+				res = match.eval([arg], entity)
 				if not res or res[0] is not arg:
 					return False
+		if hasattr(self, "source") and self.source:
+			res = self.source.eval([source], entity)
+			if not res or res[0] is not source:
+				return False
 		return True
 
 	def trigger_choice_callback(self):
@@ -1090,6 +1090,7 @@ class Discover(TargetedAction):
 		for action in self._callback:
 			self.source.game.trigger(
 				self.source, [action], [self.target, self.cards, card])
+		self.callback = self._callback
 		self.trigger_choice_callback()
 
 
@@ -1765,11 +1766,15 @@ class CastSpell(TargetedAction):
 			card.zone = Zone.PLAY
 			log.info("%s cast spell %s target %s", source, card, target)
 			source.game.manager.targeted_action(self, source, card, target)
-			source.game.queue_actions(source, [Battlecry(card, card.target)])
+			source.game.queue_actions(card, [Battlecry(card, card.target)])
 			while player.choice:
 				choice = random.choice(player.choice.cards)
 				log.info("Choosing card %r" % (choice))
 				player.choice.choose(choice)
+			while player.opponent.choice:
+				choice = random.choice(player.opponent.choice.cards)
+				log.info("Choosing card %r" % (choice))
+				player.opponent.choice.choose(choice)
 			player.choice = old_choice
 			source.game.queue_actions(source, [Deaths()])
 

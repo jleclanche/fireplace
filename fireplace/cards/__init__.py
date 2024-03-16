@@ -7,7 +7,7 @@ from ..utils import get_script_definition
 
 
 year = ZodiacYear.DRAGON
-default_language = "enUS"
+default_language = "zhCN"
 
 
 class CardDB(dict):

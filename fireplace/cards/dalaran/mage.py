@@ -13,13 +13,13 @@ class DAL_163:
 class DAL_182:
 	"""Magic Dart Frog"""
 	# After you cast a spell, deal 1 damage to a random enemy minion.
-	pass
+	events = OWN_SPELL_PLAY.after(Hit(RANDOM_ENEMY_MINION, 1))
 
 
 class DAL_575:
 	"""Khadgar"""
 	# Your cards that summon minions summon twice_as_many.
-	events = Summon(CONTROLLER, MINION, source=-PLAYER - ID("DAL_575")).after(
+	events = Summon(CONTROLLER, MINION, source=FRIENDLY-PLAYER-ID("DAL_575")).after(
 		Summon(CONTROLLER, ExactCopy(Summon.CARD))
 	)
 
@@ -45,6 +45,7 @@ class DAL_609:
 		(Count(CARDS_PLAYED_THIS_TRUN + SPELL) == 0) &
 		Refresh(FRIENDLY_HAND + SPELL, buff="DAL_609e")
 	)
+	play = DISCOVER(RandomSpell())
 
 
 class DAL_609e:
@@ -86,7 +87,7 @@ class DAL_578:
 	"""Power of Creation"""
 	# <b>Discover</b> a 6-Cost minion. Summon two copies of it.
 	play = Discover(CONTROLLER, RandomMinion(cost=6)).then(
-		Summon(CONTROLLER, Discover.CARD) * 2
+		Summon(CONTROLLER, Copy(Discover.CARD)) * 2
 	)
 
 
