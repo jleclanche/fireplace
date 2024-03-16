@@ -2,6 +2,7 @@
 Targeting logic
 """
 from hearthstone.enums import CardType, PlayReq, Rarity
+from hearthstone.utils import LACKEY_CARDS
 
 
 TARGETING_PREREQUISITES = (
@@ -19,7 +20,11 @@ TARGETING_PREREQUISITES = (
 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_HAS_OVERLOADED_MANA,
 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAWN_THIS_TURN,
 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_NOT_DRAWN_THIS_TURN,
-	PlayReq.REQ_DRAG_TO_PLAY_PRE29933,
+	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_ONLY_EVEN_COST_CARD_IN_DECK,
+	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_ONLY_ODD_COST_CARD_IN_DECK,
+	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_COST_5_OR_MORE_SPELL_IN_HAND,
+	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MIN_MANA_CRYSTAL,
+	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_FRIENDLY_LACKEY,
 	# PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN,
 	# PlayReq.REQ_TARGET_IF_AVAILABLE_AND_SOUL_FRAGMENT_IN_DECK,
 	# PlayReq.REQ_TARGET_IF_AVAILABLE_AND_BOUGHT_RACE_THIS_TURN,
@@ -120,6 +125,12 @@ def is_valid_target(self, target, requirements=None):
 				return False
 		elif req == PlayReq.REQ_STEALTHED_TARGET:
 			if not target.stealthed:
+				return False
+		elif req == PlayReq.REQ_FRIENDLY_LACKEY:
+			if target.id not in LACKEY_CARDS:
+				return False
+		elif req == PlayReq.REQ_MINION_ATTACK_LESS_OR_EQUAL_MANA:
+			if target.atk > self.controller.mana:
 				return False
 
 	return True

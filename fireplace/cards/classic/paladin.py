@@ -226,3 +226,9 @@ class EX1_366:
 
 
 EX1_366e = buff(+1, +1)
+
+
+class EX1_184:
+	"""Righteousness"""
+	# Give your minions <b>Divine Shield</b>.
+	play = GiveDivineShield(FRIENDLY_MINIONS)

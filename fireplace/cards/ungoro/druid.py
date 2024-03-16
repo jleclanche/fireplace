@@ -6,7 +6,7 @@ from ..utils import *
 
 class UNG_078:
 	"""Tortollan Forager"""
-	play = Give(CONTROLLER, RandomMinion(atk=list(range(5, 30))))
+	play = Give(CONTROLLER, RandomMinion(atk=range(5, 100)))
 
 
 class UNG_086:

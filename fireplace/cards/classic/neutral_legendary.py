@@ -232,3 +232,15 @@ class PRO_001c:
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	entourage = ["CS2_121", "EX1_021", "EX1_023", "EX1_110", "EX1_390", "CS2_179"]
 	play = Summon(CONTROLLER, RandomEntourage())
+
+
+class EX1_189:
+	"""Brightwing"""
+	# <b>Battlecry:</b> Add a random <b>Legendary</b> minion to your_hand.
+	play = Give(CONTROLLER, RandomLegendaryMinion())
+
+
+class EX1_190:
+	"""High Inquisitor Whitemane"""
+	# <b>Battlecry:</b> Summon all friendly minions that died_this turn.
+	play = Summon(CONTROLLER, Copy(FRIENDLY + MINION + KILLED_THIS_TURN))

@@ -6,7 +6,7 @@ from ..logging import log
 from ..utils import get_script_definition
 
 
-year = ZodiacYear.RAVEN
+year = ZodiacYear.DRAGON
 default_language = "enUS"
 
 
@@ -127,9 +127,11 @@ class CardDB(dict):
 		self.initialized = True
 		dirname = os.path.dirname(__file__)
 		filename = os.path.join(dirname, "CardDefs.xml")
-		db, xml = cardxml.load(path=filename, locale=locale)
+		db, _ = cardxml.load(path=filename, locale=locale)
 		for id, card in db.items():
 			self[id] = self.merge(id, card)
+		db2, _ = cardxml.load(locale=locale)
+		for id, card in db2.items():
 			self.dbf[card.dbf_id] = id
 
 		log.info("Merged %i cards", len(self))
@@ -180,7 +182,7 @@ class CardDB(dict):
 				else:
 					cards = [
 						card for card in cards if (
-							isinstance(value, list) and getattr(card, attr) in value) or
+							hasattr(value, "__iter__") and getattr(card, attr) in value) or
 						getattr(card, attr) == value
 					]
 

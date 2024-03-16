@@ -232,3 +232,9 @@ class EX1_625t2:
 class EX1_626:
 	"""Mass Dispel"""
 	play = Silence(ENEMY_MINIONS), Draw(CONTROLLER)
+
+
+class EX1_192:
+	"""Radiance"""
+	# Restore #5 Health to your hero.
+	play = Heal(FRIENDLY_HERO, 5)

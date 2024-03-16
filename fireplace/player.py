@@ -18,6 +18,7 @@ class Player(Entity, TargetableByAuras):
 	cant_overload = slot_property("cant_overload")
 	choose_both = slot_property("choose_both")
 	extra_battlecries = slot_property("extra_battlecries")
+	extra_trigger_secret = slot_property("extra_trigger_secret")
 	minion_extra_battlecries = slot_property("minion_extra_battlecries")
 	minion_extra_combos = slot_property("minion_extra_combos")
 	extra_deathrattles = slot_property("extra_deathrattles")
@@ -238,6 +239,10 @@ class Player(Entity, TargetableByAuras):
 		if self.starting_hero == "BOT_914h" or self.starting_deck == ["BOT_914"]:
 			from .cards.boomsday.whizbang_decks import WHIZBANG_DECKS
 			self.starting_hero, self.starting_deck = random.choice(WHIZBANG_DECKS)
+
+		if self.starting_hero == "DAL_800h" or self.starting_deck == ["DAL_800"]:
+			from .cards.dalaran.zayle_decks import ZAYLE_DECKS
+			self.starting_hero, self.starting_deck = random.choice(ZAYLE_DECKS)
 
 		self.summon(self.starting_hero)
 		# self.game.trigger(self, [Summon(self, self.starting_hero)], event_args=None)

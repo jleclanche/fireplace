@@ -122,7 +122,7 @@ class TB_PickYourFate_3:
 
 
 class TB_PickYourFate_3_Ench:
-	events = Play(CONTROLLER, MINION).on(Buff(Play.CARD, "TB_PickYourFate_Windfury", windfury=True))
+	events = Play(CONTROLLER, MINION).on(Buff(Play.CARD, "TB_PickYourFate_Windfury"))
 
 
 TB_PickYourFate_Windfury = buff(windfury=True)

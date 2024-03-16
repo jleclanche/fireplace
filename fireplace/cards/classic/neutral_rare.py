@@ -189,3 +189,18 @@ NEW1_037e = buff(atk=1)
 class NEW1_041:
 	"""Stampeding Kodo"""
 	play = Destroy(RANDOM(ENEMY_MINIONS - DEAD + (ATK <= 2)))
+
+
+class EX1_186:
+	"""SI:7 Infiltrator"""
+	# <b>Battlecry:</b> Destroy a random enemy <b>Secret</b>.
+	play = Destroy(RANDOM(ENEMY_SECRETS))
+
+
+class EX1_187:
+	"""Arcane Devourer"""
+	# Whenever you cast a spell, gain +2/+2.
+	events = OWN_SPELL_PLAY.on(Buff(SELF, "EX1_187e"))
+
+
+EX1_187e = buff(+2, +2)

@@ -49,7 +49,7 @@ class EX1_304:
 
 
 class EX1_306:
-	"""Succubus"""
+	"""Felstalker"""
 	play = Discard(RANDOM(FRIENDLY_HAND))
 
 
@@ -204,3 +204,9 @@ class EX1_181:
 	"""Call of the Void"""
 	# Add a random Demon to your hand.
 	play = Give(CONTROLLER, RandomDemon())
+
+
+class EX1_185:
+	"""Siegebreaker"""
+	# <b>Taunt</b> Your other Demons have +1 Attack.
+	update = Refresh(FRIENDLY_MINIONS - SELF + DEMON, {GameTag.ATK: 1})

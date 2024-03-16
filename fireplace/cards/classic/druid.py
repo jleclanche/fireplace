@@ -14,6 +14,11 @@ class CS2_017_HS1(CS2_017):
 	pass
 
 
+class CS2_017_HS2(CS2_017):
+	"""Shapeshift (Elise Starseeker)"""
+	pass
+
+
 CS2_017o = buff(atk=1)
 
 
@@ -305,3 +310,12 @@ class NEW1_007a:
 class NEW1_007b:
 	play = Hit(TARGET, 5)
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+
+
+class EX1_183:
+	"""Gift of the Wild"""
+	# Give your minions +2/+2 and <b>Taunt</b>.
+	play = Buff(FRIENDLY_MINIONS, "EX1_183e")
+
+
+EX1_183e = buff(+2, +2, taunt=True)

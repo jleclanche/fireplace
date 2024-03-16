@@ -43,7 +43,7 @@ class TRL_545:
 	"""Zandalari Templar"""
 	# [x]<b>Battlecry:</b> If you've restored 10 Health this game, gain +4/+4 and
 	# <b>Taunt</b>.@ <i>({0} left!)</i>@ <i>(Ready!)</i>
-	powered_up = AttrValue(GameTag.AMOUNT_HEALED_THIS_GAME)(CONTROLLER) >= 10
+	powered_up = Attr(CONTROLLER, GameTag.AMOUNT_HEALED_THIS_GAME) >= 10
 	play = powered_up & Buff(SELF, "TRL_545e")
 
 

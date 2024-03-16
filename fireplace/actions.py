@@ -2,15 +2,16 @@ import random
 from collections import OrderedDict
 
 from hearthstone.enums import (
-	BlockType, CardClass, CardType, GameTag, Mulligan, Race, PlayState, Step, Zone
+	BlockType, CardClass, CardType, GameTag, Mulligan, PlayState, Race, Step, Zone
 )
 
-from .enums import DISCARDED
+from .cards import db
 from .dsl import LazyNum, LazyValue, Selector
 from .dsl.copy import Copy
-from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion
+from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion, RandomSpell
 from .dsl.selector import SELF
 from .entity import Entity
+from .enums import DISCARDED
 from .exceptions import InvalidAction
 from .logging import log
 from .utils import get_script_definition, random_class
@@ -142,9 +143,18 @@ class Action(metaclass=ActionMeta):
 		for event in entity.events:
 			if event.at != at:
 				continue
-			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, args):
+			if (
+				isinstance(event.trigger, self.__class__) and
+				event.trigger.matches(entity, source, args)
+			):
 				log.info("%r triggers off %r from %r", entity, self, source)
 				entity.trigger_event(source, event, args)
+				if (
+					entity.type == CardType.SPELL and
+					entity.data.secret and
+					entity.controller.extra_trigger_secret
+				):
+					entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
 		source.game.action_start(BlockType.TRIGGER, source, 0, None)
@@ -171,7 +181,7 @@ class Action(metaclass=ActionMeta):
 	def get_args(self, source):
 		return self._args
 
-	def matches(self, source, args):
+	def matches(self, entity, source, args):
 		for arg, match in zip(args, self._args):
 			if match is None:
 				# Allow matching Action(None, None, z) to Action(x, y, z)
@@ -185,9 +195,13 @@ class Action(metaclass=ActionMeta):
 					return False
 			else:
 				# this stuff is stupidslow
-				res = match.eval([arg], source)
+				res = match.eval([arg], entity)
 				if not res or res[0] is not arg:
 					return False
+		if hasattr(self, "source") and self.source:
+			res = self.source.eval([source], entity)
+			if not res or res[0] is not source:
+				return False
 		return True
 
 	def trigger_choice_callback(self):
@@ -1084,6 +1098,7 @@ class Discover(TargetedAction):
 		for action in self._callback:
 			self.source.game.trigger(
 				self.source, [action], [self.target, self.cards, card])
+		self.callback = self._callback
 		self.trigger_choice_callback()
 
 
@@ -1629,6 +1644,7 @@ class Shuffle(TargetedAction):
 			card.zone = Zone.DECK
 			target.shuffle_deck()
 			source.game.manager.targeted_action(self, source, target, card)
+			self.broadcast(source, EventListener.AFTER, target, card)
 
 
 class Swap(TargetedAction):
@@ -1759,11 +1775,15 @@ class CastSpell(TargetedAction):
 			card.zone = Zone.PLAY
 			log.info("%s cast spell %s target %s", source, card, target)
 			source.game.manager.targeted_action(self, source, card, target)
-			source.game.queue_actions(source, [Battlecry(card, card.target)])
+			source.game.queue_actions(card, [Battlecry(card, card.target)])
 			while player.choice:
 				choice = random.choice(player.choice.cards)
 				log.info("Choosing card %r" % (choice))
 				player.choice.choose(choice)
+			while player.opponent.choice:
+				choice = random.choice(player.opponent.choice.cards)
+				log.info("Choosing card %r" % (choice))
+				player.opponent.choice.choose(choice)
 			player.choice = old_choice
 			source.game.queue_actions(source, [Deaths()])
 
@@ -2088,10 +2108,10 @@ class CreateZombeast(TargetedAction):
 	def init(self, source):
 		hunter_beast_ids = RandomBeast(
 			card_class=CardClass.HUNTER,
-			cost=list(range(0, 6))).find_cards(source)
+			cost=range(0, 6)).find_cards(source)
 		neutral_beast_ids = RandomBeast(
 			card_class=CardClass.NEUTRAL,
-			cost=list(range(0, 6))).find_cards(source)
+			cost=range(0, 6)).find_cards(source)
 		beast_ids = hunter_beast_ids + neutral_beast_ids
 		self.first_ids = []
 		self.second_ids = []
@@ -2193,3 +2213,69 @@ class Replay(TargetedAction):
 			source.game.queue_actions(source, [CastSpell(target)])
 		else:
 			source.game.queue_actions(source, [Summon(source.controller, target)])
+
+
+class SwampqueenHagathaAction(TargetedAction):
+	def init(self, source):
+		self.all_shaman_spells = RandomSpell(card_class=CardClass.SHAMAN).find_cards(source)
+		self.targeted_spells = []
+		self.non_targeted_spells = []
+		for id in self.all_shaman_spells:
+			if db[id].requirements:
+				self.targeted_spells.append(id)
+			else:
+				self.non_targeted_spells.append(id)
+
+	def do(self, source, player):
+		self.init(source)
+		self.player = player
+		self.source = source
+		self.min_count = 1
+		self.max_count = 1
+		self.choosed_cards = []
+		self.player.choice = self
+		self.do_step1()
+		source.game.manager.targeted_action(self, source, player)
+
+	def do_step1(self):
+		self.cards = [
+			self.player.card(id) for id in random.sample(self.all_shaman_spells, 3)]
+
+	def do_step2(self):
+		if self.cards[0] in self.targeted_spells:
+			self.cards = [
+				self.player.card(id) for id in random.sample(self.non_targeted_spells, 3)]
+		else:
+			self.cards = [
+				self.player.card(id) for id in random.sample(self.all_shaman_spells, 3)]
+
+	def done(self):
+		card1 = self.choosed_cards[0]
+		card2 = self.choosed_cards[1]
+
+		horror = self.player.card("DAL_431t")
+		horror.custom_card = True
+
+		def create_custom_card(horror):
+			horror.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+			horror.requirements = card1.requirements | card2.requirements
+			horror.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
+			horror.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
+			horror.tags[GameTag.OVERLOAD] = card1.tags[GameTag.OVERLOAD] + \
+				card2.tags[GameTag.OVERLOAD]
+
+		horror.create_custom_card = create_custom_card
+		horror.create_custom_card(horror)
+		self.player.give(horror)
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		else:
+			self.choosed_cards.append(card)
+			if len(self.choosed_cards) == 1:
+				self.do_step2()
+			elif len(self.choosed_cards) == 2:
+				self.player.choice = None
+				self.done()
+				self.trigger_choice_callback()

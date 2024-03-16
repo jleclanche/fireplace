@@ -4,7 +4,7 @@ import re
 import string
 import sys
 
-from hearthstone.enums import CardSet
+from hearthstone.enums import CardSet, GameTag
 
 from fireplace import cards
 from fireplace.utils import get_script_definition
@@ -75,6 +75,9 @@ DUMMY_CARDS = (
 
 	# The Boomsday Project
 	"BOT_914",  # Whizbang the Wonderful
+
+	# Rise of Shadows
+	"DAL_800",  # Zayle, Shadow Cloak
 )
 
 
@@ -130,6 +133,10 @@ def main():
 		card = cards.db[id]
 		if args.collectible and not card.collectible:
 			continue
+
+		if card.tags.get(GameTag.HIDE_WATERMARK, 0):
+			continue
+
 		description = cleanup_description(card.description)
 		implemented = False
 

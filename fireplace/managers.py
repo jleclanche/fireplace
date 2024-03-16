@@ -251,6 +251,7 @@ CARD_ATTRIBUTE_MAP = {
 	enums.ALWAYS_WINS_BRAWLS: "always_wins_brawls",
 	enums.CAST_ON_FRIENDLY_MINIONS: "cast_on_friendly_minions",
 	enums.EXTRA_BATTLECRIES: "extra_battlecries",
+	enums.EXTRA_TRIGGER_SECRET: "extra_trigger_secret",
 	enums.MINION_EXTRA_BATTLECRIES: "minio_extra_battlecries",
 	enums.MINION_EXTRA_COMBOS: "minio_extra_combos",
 	enums.KILLED_THIS_TURN: "killed_this_turn",
