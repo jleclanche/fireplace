@@ -19,7 +19,7 @@ class DAL_182:
 class DAL_575:
 	"""Khadgar"""
 	# Your cards that summon minions summon twice_as_many.
-	events = Summon(CONTROLLER, MINION, source=FRIENDLY-PLAYER-ID("DAL_575")).after(
+	events = Summon(CONTROLLER, MINION, source=FRIENDLY - PLAYER - ID("DAL_575")).after(
 		Summon(CONTROLLER, ExactCopy(Summon.CARD))
 	)
 

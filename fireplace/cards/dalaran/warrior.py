@@ -20,7 +20,7 @@ class DAL_064:
 class DAL_070:
 	"""The Boom Reaver"""
 	# <b>Battlecry:</b> Summon a copy of a minion in your deck. Give it <b>Rush</b>.
-	play = Summon(CONTROLLER, Copy(FRIENDLY_DECK + MINION)).then(
+	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY_DECK + MINION))).then(
 		Buff(Summon.CARD, "DAL_070e")
 	)
 
@@ -57,11 +57,9 @@ class DAL_008:
 class DAL_059:
 	"""Dimensional Ripper"""
 	# Summon 2 copies of a minion in your deck.
-	play = (
-		SetAttribute(SELF, "_card", RANDOM(FRIENDLY_DECK + MINION)),
-		Summon(CONTROLLER, GetAttribute(SELF, "_card")) * 2,
-		DelAttribute(SELF, "_card"),
-	)
+	def play(self):
+		minion = random.choice(self.controller.deck.filter(type=CardType.MINION))
+		yield Summon(CONTROLLER, minion.id) * 2
 
 
 class DAL_062:
@@ -71,7 +69,7 @@ class DAL_062:
 
 
 class DAL_062e:
-	events = Attack(OWNER).on(Hit(ADJACENT(Attack.DEFENDER), ATK(OWNER)))
+	events = Attack(OWNER).on(Hit(ADJACENT(Attack.DEFENDER), ATK(OWNER), source=OWNER))
 
 
 class DAL_769:

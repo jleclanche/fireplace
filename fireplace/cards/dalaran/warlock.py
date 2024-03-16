@@ -29,11 +29,6 @@ class DAL_561e:
 	events = REMOVED_IN_PLAY
 
 
-class GVG_063e:
-	tags = {GameTag.COST: -1}
-	events = REMOVED_IN_PLAY
-
-
 class DAL_563:
 	"""Eager Underling"""
 	# <b>Deathrattle:</b> Give two random friendly minions +2/+2.
@@ -47,14 +42,14 @@ class DAL_606:
 	"""EVIL Genius"""
 	# <b>Battlecry:</b> Destroy a friendly minion to add 2 random
 	# <b>Lackeys</b>_to_your_hand.
-	play = Destroy(TARGET), Give(CONTROLLER, RandomLackey() * 2)
+	play = Destroy(TARGET), Give(CONTROLLER, RandomLackey()) * 2
 
 
 class DAL_607:
 	"""Fel Lord Betrug"""
 	# [x]Whenever you draw a minion, summon a copy with <b>Rush</b> that dies at end of
 	# turn.
-	events = Draw(CONTROLLER).on(
+	events = Draw(CONTROLLER, MINION).on(
 		Summon(CONTROLLER, Copy(Draw.CARD)).then(Buff(Summon.CARD, "DAL_607e"))
 	)
 
@@ -79,7 +74,10 @@ class DAL_007:
 class DAL_173:
 	"""Darkest Hour"""
 	# Destroy all friendly minions. For each one, summon a random minion from your deck.
-	play = Destroy(FRIENDLY_MINIONS).then(Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION)))
+	play = Destroy(FRIENDLY_MINIONS).then(
+		Deaths(),
+		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION))
+	)
 
 
 class DAL_602:
@@ -87,7 +85,7 @@ class DAL_602:
 	# Shuffle your hand into your deck. Draw that many cards.
 	def play(self):
 		count = len(self.controller.hand)
-		yield Shuffle(FRIENDLY_HAND)
+		yield Shuffle(CONTROLLER, FRIENDLY_HAND)
 		yield Draw(CONTROLLER) * count
 
 
@@ -97,4 +95,4 @@ class DAL_605:
 	play = Buff(FRIENDLY_MINIONS + DEMON, "DAL_605e"), Hit(ENEMY_MINIONS, 1)
 
 
-DAL_605e = buff(+1, +1)
+DAL_605e = buff(atk=1)

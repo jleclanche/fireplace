@@ -5,9 +5,10 @@ from hearthstone.enums import (
 	BlockType, CardClass, CardType, GameTag, Mulligan, PlayState, Race, Step, Zone
 )
 
+from .cards import db
 from .dsl import LazyNum, LazyValue, Selector
 from .dsl.copy import Copy
-from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion
+from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion, RandomSpell
 from .dsl.selector import SELF
 from .entity import Entity
 from .enums import DISCARDED
@@ -142,10 +143,17 @@ class Action(metaclass=ActionMeta):
 		for event in entity.events:
 			if event.at != at:
 				continue
-			if isinstance(event.trigger, self.__class__) and event.trigger.matches(entity, source, args):
+			if (
+				isinstance(event.trigger, self.__class__) and
+				event.trigger.matches(entity, source, args)
+			):
 				log.info("%r triggers off %r from %r", entity, self, source)
 				entity.trigger_event(source, event, args)
-				if entity.data.secret and entity.controller.extra_trigger_secret:
+				if (
+					entity.type == CardType.SPELL and
+					entity.data.secret and
+					entity.controller.extra_trigger_secret
+				):
 					entity.trigger_event(source, event, args)
 
 	def broadcast(self, source, at, *args):
@@ -1636,6 +1644,7 @@ class Shuffle(TargetedAction):
 			card.zone = Zone.DECK
 			target.shuffle_deck()
 			source.game.manager.targeted_action(self, source, target, card)
+			self.broadcast(source, EventListener.AFTER, target, card)
 
 
 class Swap(TargetedAction):
@@ -2206,19 +2215,67 @@ class Replay(TargetedAction):
 			source.game.queue_actions(source, [Summon(source.controller, target)])
 
 
-class CreateSwampqueenHagathaHorror(TargetedAction):
+class SwampqueenHagathaAction(TargetedAction):
+	def init(self, source):
+		self.all_shaman_spells = RandomSpell(card_class=CardClass.SHAMAN).find_cards(source)
+		self.targeted_spells = []
+		self.non_targeted_spells = []
+		for id in self.all_shaman_spells:
+			if db[id].requirements:
+				self.targeted_spells.append(id)
+			else:
+				self.non_targeted_spells.append(id)
+
 	def do(self, source, player):
-		horror = player.card("DAL_431t")
+		self.init(source)
+		self.player = player
+		self.source = source
+		self.min_count = 1
+		self.max_count = 1
+		self.choosed_cards = []
+		self.player.choice = self
+		self.do_step1()
+		source.game.manager.targeted_action(self, source, player)
+
+	def do_step1(self):
+		self.cards = [
+			self.player.card(id) for id in random.sample(self.all_shaman_spells, 3)]
+
+	def do_step2(self):
+		if self.cards[0] in self.targeted_spells:
+			self.cards = [
+				self.player.card(id) for id in random.sample(self.non_targeted_spells, 3)]
+		else:
+			self.cards = [
+				self.player.card(id) for id in random.sample(self.all_shaman_spells, 3)]
+
+	def done(self):
+		card1 = self.choosed_cards[0]
+		card2 = self.choosed_cards[1]
+
+		horror = self.player.card("DAL_431t")
 		horror.custom_card = True
-		card1 = source._card1
-		card2 = source._card2
 
 		def create_custom_card(horror):
 			horror.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
 			horror.requirements = card1.requirements | card2.requirements
 			horror.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
 			horror.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
+			horror.tags[GameTag.OVERLOAD] = card1.tags[GameTag.OVERLOAD] + \
+				card2.tags[GameTag.OVERLOAD]
 
 		horror.create_custom_card = create_custom_card
 		horror.create_custom_card(horror)
-		player.give(horror)
+		self.player.give(horror)
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		else:
+			self.choosed_cards.append(card)
+			if len(self.choosed_cards) == 1:
+				self.do_step2()
+			elif len(self.choosed_cards) == 2:
+				self.player.choice = None
+				self.done()
+				self.trigger_choice_callback()

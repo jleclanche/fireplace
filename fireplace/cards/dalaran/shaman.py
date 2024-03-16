@@ -14,7 +14,7 @@ class DAL_049:
 class DAL_052:
 	"""Muckmorpher"""
 	# [x]<b>Battlecry:</b> Transform into a 4/4 copy of a different minion in your deck.
-	play = Morph(SELF, Copy(RANDOM(FRIENDLY_DECK - ID("DAL_052")))).then(
+	play = Morph(SELF, Copy(RANDOM(FRIENDLY_DECK + MINION - ID("DAL_052")))).then(
 		Buff(Morph.CARD, "DAL_052e")
 	)
 
@@ -27,15 +27,7 @@ class DAL_052e:
 class DAL_431:
 	"""Swampqueen Hagatha"""
 	# [x]<b>Battlecry:</b> Add a 5/5 Horror to your hand. Teach it two Shaman spells.
-	play = DISCOVER(RandomSpell(card_class=CardClass.SHAMAN)).then(
-		SetAttribute(SELF, "_card1", Discover.CARD),
-		DISCOVER(RandomSpell(card_class=CardClass.SHAMAN)).then(
-			SetAttribute(SELF, "_card2", Discover.CARD),
-			CreateSwampqueenHagathaHorror(CONTROLLER),
-			DelAttribute(SELF, "_card1"),
-			DelAttribute(SELF, "_card2"),
-		)
-	)
+	play = SwampqueenHagathaAction(CONTROLLER)
 
 
 class DAL_433:
@@ -65,7 +57,7 @@ class DAL_009:
 class DAL_071:
 	"""Mutate"""
 	# Transform a friendly minion into a random one that costs (1) more.
-	play = Evolve(FRIENDLY_MINIONS, 1)
+	play = Evolve(TARGET, 1)
 
 
 class DAL_432:

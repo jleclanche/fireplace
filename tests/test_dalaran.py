@@ -57,12 +57,12 @@ def test_nine_lives():
 
 def test_khadgar():
 	game = prepare_game()
-	khadgar = game.player1.give("DAL_575").play()
+	game.player1.give("DAL_575").play()
 	game.player1.give("CFM_315").play()
 	assert len(game.player1.field) == 4
 	game.end_turn()
-	khadgar1 = game.player2.give("DAL_575").play()
-	khadgar2 = game.player2.give("DAL_575").play()
+	game.player2.give("DAL_575").play()
+	game.player2.give("DAL_575").play()
 	game.player2.give("CFM_315").play()
 	assert len(game.player2.field) == 6
 
@@ -80,6 +80,7 @@ def test_kalecgos():
 
 def test_unseen_saboteur():
 	game = prepare_empty_game()
+	game.player2.discard_hand()
 	blast = game.player2.give("DS1_233")
 	game.player1.give("DAL_538").play()
 	assert game.player1.hero.health == 25
@@ -176,5 +177,79 @@ def test_forbidden_words():
 	assert not words.is_playable()
 	game.end_turn()
 
-	minion_10 = game.player2.summon("OG_141")
-	minion_8 = CS2_232
+	minion_12 = game.player2.summon("CFM_712_t12")
+	minion_10 = game.player2.summon("CFM_712_t10")
+	minion_8 = game.player2.summon("CFM_712_t08")
+	minion_6 = game.player2.summon("CFM_712_t06")
+	minion_4 = game.player2.summon("CFM_712_t04")
+	minion_2 = game.player2.summon("CFM_712_t02")
+
+	game.end_turn()
+	assert words.is_playable()
+	assert minion_12 not in words.play_targets
+	assert words.play_targets == [minion_10, minion_8, minion_6, minion_4, minion_2]
+	game.player1.pay_cost(game, 4)
+	assert words.play_targets == [minion_6, minion_4, minion_2]
+	words.play(target=minion_4)
+	assert minion_4.dead
+	assert game.player1.mana == 0
+
+
+def test_tak_nozwhisker():
+	game = prepare_empty_game()
+	game.player1.give("DAL_719").play()
+	game.player1.give("CFM_602").play(choose="CFM_602b")
+	assert game.player1.hand == ["CFM_602"] * 3
+	assert game.player1.deck == ["CFM_602"] * 3
+
+
+def test_swampqueen_hagatha():
+	game = prepare_empty_game()
+	game.player1.give("DAL_431").play()
+	choice = game.player1.choice
+	assert choice
+	card1 = choice.cards[0]
+	choice.choose(card1)
+	choice = game.player1.choice
+	assert choice
+	card2 = choice.cards[0]
+	choice.choose(card2)
+
+	horror = game.player1.hand[0]
+	assert horror.id == "DAL_431t"
+	assert horror.data.scripts.play == card1.data.scripts.play + card2.data.scripts.play
+	assert horror.overload == card1.overload + card2.overload
+
+
+def test_darkest_hour():
+	game = prepare_empty_game()
+	for _ in range(4):
+		game.player1.give(WISP).play()
+		game.player1.give(CHICKEN).shuffle_into_deck()
+	game.player1.give("DAL_173").play()
+	assert game.player1.field == [CHICKEN] * 4
+	assert len(game.player1.deck) == 0
+
+
+def test_plot_twist():
+	game = prepare_game()
+	count = len(game.player1.hand)
+	game.player1.give("DAL_602").play()
+	assert len(game.player1.hand) == count
+
+
+def test_dimensional_ripper():
+	game = prepare_empty_game()
+	game.player1.give(WISP).shuffle_into_deck()
+	game.player1.give(CHICKEN).shuffle_into_deck()
+	game.player1.give("DAL_059").play()
+	assert (game.player1.field == [WISP] * 2) ^ (game.player1.field == [CHICKEN] * 2)
+
+
+def test_zayle():
+	player1 = Player("Player1", ["DAL_800"], "DAL_800h")
+	player2 = Player("Player1", ["DAL_800"], "DAL_800h")
+	game = BaseTestGame(players=(player1, player2))
+	game.start()
+	assert len(game.player1.starting_deck) == 30
+	assert len(game.player2.starting_deck) == 30

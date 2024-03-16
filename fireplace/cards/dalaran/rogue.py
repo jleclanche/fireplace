@@ -7,7 +7,7 @@ from ..utils import *
 class DAL_415:
 	"""EVIL Miscreant"""
 	# <b>Combo:</b> Add two random <b>Lackeys</b> to your hand.
-	combo = Give(CONTROLLER, RandomLackey())
+	combo = Give(CONTROLLER, RandomLackey()) * 2
 
 
 class DAL_416:
@@ -41,7 +41,7 @@ DAL_714e = buff(+1, +1, rush=True)
 class DAL_719:
 	"""Tak Nozwhisker"""
 	# [x]Whenever you shuffle a card into your deck, add a copy to your hand.
-	events = Shuffle(source=FRIENDLY).after(
+	events = Shuffle(CONTROLLER, source=FRIENDLY).after(
 		Give(CONTROLLER, Copy(Shuffle.CARD))
 	)
 
