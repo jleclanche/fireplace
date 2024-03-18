@@ -110,7 +110,7 @@ def main():
 		"--card_set",
 		dest="card_set",
 		type=int,
-		default=CardSet.DALARAN,
+		default=CardSet.ULDUM,
 		help="Generate cards of card set"
 	)
 	p.add_argument(
@@ -121,7 +121,7 @@ def main():
 	p.add_argument(
 		"--output_dir",
 		dest="output_dir",
-		default="./fireplace/cards/dalaran",
+		default="./fireplace/cards/uldum",
 		help="Generate code output dir",
 	)
 	args = p.parse_args(sys.argv[1:])
@@ -185,7 +185,7 @@ def main():
 		]:
 			tmp_cards = []
 			for id in cards.filter(
-				card_set=args.card_set, collectible=True, type=card_type, **kw
+				card_set=args.card_set, collectible=True, type=card_type, include_quest=True, **kw
 			):
 				card = cards.db[id]
 				description = cleanup_description(card.description)
@@ -194,7 +194,7 @@ def main():
 				if not description:
 					# Minions without card text or with basic abilities are implemented
 					implemented = True
-				elif card.card_set == CardSet.CREDITS:
+				elif card.card_set == CardSet.CREDITS or card.card_set == CardSet.WILD_EVENT:
 					implemented = True
 
 				if id in DUMMY_CARDS:

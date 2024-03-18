@@ -154,7 +154,10 @@ class CardDB(dict):
 		cards = self.values()
 
 		# Quests cannot be randomly generated
-		cards = [card for card in cards if not card.quest]
+		if "include_quest" not in kwargs:
+			cards = [card for card in cards if not card.quest]
+		else:
+			kwargs.pop("include_quest")
 
 		# exclude default hero
 		cards = [card for card in cards if not card.id.startswith("HERO_")]

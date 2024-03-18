@@ -9,7 +9,7 @@ A Hearthstone simulator and implementation, written in Python.
 
 ## Cards Implementation
 
-Now updated to [Patch 14.6.0.31761](https://hearthstone.fandom.com/wiki/Patch_14.6.0.31761)
+Now updated to [Patch 15.6.2.36393](https://hearthstone.fandom.com/wiki/Patch_15.6.2.36393)
 * **100%** Basic (142 of 142 cards)
 * **100%** Classic (245 of 245 cards)
 * **100%** Hall of Fame (24 of 24 cards)

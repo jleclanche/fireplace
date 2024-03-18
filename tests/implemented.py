@@ -147,7 +147,7 @@ def main():
 		if not description:
 			# Minions without card text or with basic abilities are implemented
 			implemented = True
-		elif card.card_set == CardSet.CREDITS:
+		elif card.card_set == CardSet.CREDITS or card.card_set == CardSet.WILD_EVENT:
 			implemented = True
 
 		if id in DUMMY_CARDS:
