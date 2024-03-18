@@ -34,6 +34,7 @@ SOLVED_KEYWORDS = [
 	"Lifesteal",
 	"Rush",
 	"Echo",
+	"Reborn",
 	r"Can't be targeted by spells or Hero Powers\.",
 	r"Can't attack\.",
 	"Destroy any minion damaged by this minion.",
@@ -200,9 +201,9 @@ def main():
 				if id in DUMMY_CARDS:
 					implemented = True
 
-				carddef = get_script_definition(id)
-				if carddef:
-					implemented = True
+				# carddef = get_script_definition(id)
+				# if carddef:
+				# 	implemented = True
 
 				if not implemented:
 					tmp_cards.append(card)

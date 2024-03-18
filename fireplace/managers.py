@@ -231,6 +231,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.QUEST_PROGRESS: "progress",
 	GameTag.QUEST_PROGRESS_TOTAL: "progress_total",
 	GameTag.RARITY: "rarity",
+	GameTag.REBORN: "reborn",
 	GameTag.RECEIVES_DOUBLE_SPELLDAMAGE_BONUS: "receives_double_spelldamage_bonus",
 	GameTag.RUSH: "rush",
 	GameTag.ECHO: "echo",

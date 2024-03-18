@@ -10,12 +10,6 @@ class ULD_195:
 	pass
 
 
-class ULD_206:
-	"""Restless Mummy"""
-	# <b>Rush</b> <b>Reborn</b>
-	pass
-
-
 class ULD_253:
 	"""Tomb Warden"""
 	# <b>Taunt</b> <b>Battlecry:</b> Summon a copy of this minion.

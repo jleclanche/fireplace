@@ -10,12 +10,6 @@ class ULD_145:
 	pass
 
 
-class ULD_207:
-	"""Ancestral Guardian"""
-	# <b>Lifesteal</b> <b>Reborn</b>
-	pass
-
-
 class ULD_217:
 	"""Micro Mummy"""
 	# [x]<b>Reborn</b> At the end of your turn, give another random friendly minion +1

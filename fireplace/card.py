@@ -997,7 +997,7 @@ class Minion(Character):
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
 		"forgetful", "frozen", "has_deathrattle", "has_inspire", "lifesteal",
 		"poisonous", "stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush",
-		"secret_deathrattle", "has_overkill",
+		"secret_deathrattle", "has_overkill", "reborn",
 	)
 
 	def __init__(self, data):
@@ -1007,6 +1007,7 @@ class Minion(Character):
 		self.silenced = False
 		self._summon_index = None
 		self.dormant = False
+		self.reborn = False
 		super().__init__(data)
 
 	def dump(self):

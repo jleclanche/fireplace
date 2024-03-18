@@ -72,27 +72,9 @@ class ULD_191:
 	pass
 
 
-class ULD_205:
-	"""Candletaker"""
-	# <b>Reborn</b>
-	pass
-
-
 class ULD_271:
 	"""Injured Tol'vir"""
 	# <b>Taunt</b> <b>Battlecry:</b> Deal 3 damage to this minion.
-	pass
-
-
-class ULD_274:
-	"""Wasteland Assassin"""
-	# <b>Stealth</b> <b>Reborn</b>
-	pass
-
-
-class ULD_275:
-	"""Bone Wraith"""
-	# <b>Taunt</b> <b>Reborn</b>
 	pass
 
 
@@ -117,10 +99,4 @@ class ULD_712:
 class ULD_719:
 	"""Desert Hare"""
 	# <b>Battlecry:</b> Summon two 1/1 Desert Hares.
-	pass
-
-
-class ULD_723:
-	"""Murmy"""
-	# <b>Reborn</b>
 	pass

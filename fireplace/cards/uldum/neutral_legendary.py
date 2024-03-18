@@ -28,9 +28,3 @@ class ULD_304:
 	# [x]<b>Battlecry:</b> For each spell in your hand, summon a random minion of the same
 	# Cost.
 	pass
-
-
-class ULD_721:
-	"""Colossus of the Moon"""
-	# <b>Divine Shield</b> <b>Reborn</b>
-	pass

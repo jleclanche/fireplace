@@ -87,3 +87,11 @@ class KeepMagneticCopy(Copy):
 			if getattr(buff.source, "has_magnetic", False):
 				buff.source.buff(ret, buff.id, atk=buff.atk, max_health=buff.max_health)
 		return ret
+
+
+class RebornCopy(Copy):
+	def copy(self, source, entity):
+		ret = super().copy(source, entity)
+		ret.reborn = False
+		ret.set_current_health(1)
+		return ret

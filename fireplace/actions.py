@@ -7,7 +7,7 @@ from hearthstone.enums import (
 
 from .cards import db
 from .dsl import LazyNum, LazyValue, Selector
-from .dsl.copy import Copy
+from .dsl.copy import Copy, RebornCopy
 from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion, RandomSpell
 from .dsl.selector import SELF
 from .entity import Entity
@@ -331,8 +331,10 @@ class Death(GameAction):
 		target = args[0]
 		if (not self.triggered_dearattle) and entity.play_counter > target.play_counter:
 			self.triggered_dearattle = True
+			if target.type == CardType.MINION and target.reborn:
+				source.game.queue_actions(target, [Summon(target.controller, RebornCopy(SELF))])
 			if target.deathrattles:
-				source.game.queue_actions(target.controller, [Deathrattle(target)])
+				source.game.queue_actions(target, [Deathrattle(target)])
 		return super()._broadcast(entity, source, at, *args)
 
 	def do(self, source, target):
@@ -341,7 +343,7 @@ class Death(GameAction):
 		source.game.manager.game_action(self, source, target)
 		self.broadcast(source, EventListener.ON, target)
 		if (not self.triggered_dearattle) and target.deathrattles:
-			source.game.queue_actions(target.controller, [Deathrattle(target)])
+			source.game.queue_actions(target, [Deathrattle(target)])
 
 
 class EndTurn(GameAction):

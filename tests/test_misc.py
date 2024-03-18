@@ -155,3 +155,16 @@ def test_doppelgangster_and_shudderwock():
 		assert game.player1.field[i].id == doppelgangster.id
 	for i in range(3, 6):
 		assert game.player1.field[i].id == shudderwock.id
+
+
+def test_reborn():
+	game = prepare_game()
+	moon = game.player1.give("ULD_721").play()
+	moon.destroy()
+	new_moon = game.player1.field[0]
+	assert new_moon.id == "ULD_721"
+	assert new_moon.health == 1
+	assert not new_moon.reborn
+	assert new_moon.divine_shield
+	new_moon.destroy()
+	assert len(game.player1.field) == 0
