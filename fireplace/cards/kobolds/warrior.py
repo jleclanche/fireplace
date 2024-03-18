@@ -103,6 +103,9 @@ class LOOT_364:
 class LOOT_370:
 	"""Gather Your Party"""
 	# <b>Recruit</b> a minion.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = RECRUIT
 
 

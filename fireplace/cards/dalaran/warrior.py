@@ -61,6 +61,9 @@ class DAL_008:
 class DAL_059:
 	"""Dimensional Ripper"""
 	# Summon 2 copies of a minion in your deck.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	def play(self):
 		minion = random.choice(self.controller.deck.filter(type=CardType.MINION))
 		yield Summon(CONTROLLER, minion.id) * 2

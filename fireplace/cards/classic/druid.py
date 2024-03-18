@@ -93,6 +93,9 @@ EX1_573ae = buff(+2, +2)
 
 
 class EX1_573b:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 2,
+	}
 	play = SummonBothSides(CONTROLLER, "EX1_573t") * 2
 
 

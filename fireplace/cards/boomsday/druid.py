@@ -27,6 +27,9 @@ BOT_422ae = buff(+1, +1)
 
 
 class BOT_422b:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 2,
+	}
 	play = SummonBothSides(CONTROLLER, "EX1_158t") * 2
 
 

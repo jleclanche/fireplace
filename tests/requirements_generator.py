@@ -5,6 +5,9 @@ from hearthstone.enums import CardType
 from fireplace import cards
 from fireplace.utils import CARD_SETS
 
+GREEN = "\033[92m"
+RED = "\033[91m"
+ENDC = "\033[0m"
 
 cards.db.initialize()
 
@@ -20,7 +23,7 @@ for id in cards.db:
 				not hasattr(carddef, "requirements") and
 				card.type != CardType.ENCHANTMENT
 			):
-				print(card.name)
+				print(GREEN, card.name, ENDC)
 
 				req_lines = []
 				req_lines.append("\trequirements = {\n")

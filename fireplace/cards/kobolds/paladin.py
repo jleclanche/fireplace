@@ -81,6 +81,9 @@ class LOOT_091t2:
 class LOOT_093:
 	"""Call to Arms"""
 	# [x]<b>Recruit</b> 3 minions that cost (2) or less.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Recruit(COST <= 2) * 3
 
 
