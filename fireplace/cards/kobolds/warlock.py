@@ -46,30 +46,45 @@ class LOOT_415:
 class LOOT_415t1:
 	"""The First Seal"""
 	# Summon a 2/2 Demon. Add 'The Second Seal' to your hand.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "LOOT_415t1t"), Give(CONTROLLER, "LOOT_415t2")
 
 
 class LOOT_415t2:
 	"""The Second Seal"""
 	# Summon a 3/3 Demon. Add 'The Third Seal' to your hand.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "LOOT_415t2t"), Give(CONTROLLER, "LOOT_415t3")
 
 
 class LOOT_415t3:
 	"""The Third Seal"""
 	# Summon a 4/4 Demon. Add 'The Fourth Seal' to your hand.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "LOOT_415t3t"), Give(CONTROLLER, "LOOT_415t4")
 
 
 class LOOT_415t4:
 	"""The Fourth Seal"""
 	# Summon a 5/5 Demon. Add 'The Final Seal' to your hand.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "LOOT_415t4t"), Give(CONTROLLER, "LOOT_415t5")
 
 
 class LOOT_415t5:
 	"""The Final Seal"""
 	# [x]Summon a 6/6 Demon. Add 'Azari, the Devourer' to your hand.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "LOOT_415t5t"), Give(CONTROLLER, "LOOT_415t6")
 
 
@@ -85,6 +100,11 @@ class LOOT_415t6:
 class LOOT_017:
 	"""Dark Pact"""
 	# Destroy a friendly minion. Restore #4 Health to your hero.
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Destroy(TARGET), Heal(FRIENDLY_HERO, 4)
 
 
@@ -92,6 +112,10 @@ class LOOT_043:
 	"""Lesser Amethyst Spellstone"""
 	# <b>Lifesteal.</b> Deal $3 damage to a minion. <i>(Take damage from your cards to
 	# upgrade.)</i>
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 3)
 
 	class Hand:
@@ -102,6 +126,10 @@ class LOOT_043t2:
 	"""Amethyst Spellstone"""
 	# <b>Lifesteal.</b> Deal $5 damage to a minion. <i>(Take damage from your cards to
 	# upgrade.)</i>
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 5)
 
 	class Hand:
@@ -111,6 +139,10 @@ class LOOT_043t2:
 class LOOT_043t3:
 	"""Greater Amethyst Spellstone"""
 	# <b>Lifesteal.</b> Deal $7 damage to a minion.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 7)
 
 

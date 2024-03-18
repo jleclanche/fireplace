@@ -99,6 +99,10 @@ class TRL_509:
 
 
 class TRL_509t:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "TRL_509te")
 
 
@@ -108,6 +112,9 @@ TRL_509te = buff(+1, +1)
 class TRL_512:
 	"""Cheaty Anklebiter"""
 	# <b>Lifesteal</b> <b>Battlecry:</b> Deal 1 damage.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+	}
 	play = Hit(TARGET, 1)
 
 

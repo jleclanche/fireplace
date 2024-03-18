@@ -45,6 +45,9 @@ class BOT_101:
 class BOT_254:
 	"""Unexpected Results"""
 	# [x]Summon two random $2-Cost minions <i>(improved by <b>Spell Damage</b>)</i>.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, RandomMinion(cost=SPELL_DAMAGE(2)))
 
 
@@ -62,6 +65,10 @@ class BOT_257e:
 class BOT_453:
 	"""Shooting Star"""
 	# Deal $1 damage to a minion and the minions next to it.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 1), Hit(TARGET_ADJACENT, 1)
 
 

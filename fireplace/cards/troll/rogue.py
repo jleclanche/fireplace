@@ -17,6 +17,9 @@ class TRL_077:
 	"""Gurubashi Hypemon"""
 	# <b>Battlecry:</b> <b>Discover</b> a 1/1 copy of a <b>Battlecry</b> minion. It costs
 	# (1).
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Discover(CONTROLLER, RandomMinion(battlecry=True)).then(
 		Give(CONTROLLER, Buff(Buff(Discover.CARD, "TRL_077e"), "GBL_001e"))
 	)
@@ -92,6 +95,11 @@ class TRL_156:
 class TRL_157:
 	"""Walk the Plank"""
 	# Destroy an undamaged minion.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_UNDAMAGED_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Destroy(TARGET)
 
 

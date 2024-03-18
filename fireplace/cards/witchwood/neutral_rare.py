@@ -7,6 +7,10 @@ from ..utils import *
 class GIL_125:
 	"""Mad Hatter"""
 	# [x]<b>Battlecry:</b> Randomly toss 3 hats to other minions. Each hat gives +1/+1.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 11,
+	}
 	play = Buff(RANDOM_OTHER_MINION, "GIL_125e") * 3
 
 

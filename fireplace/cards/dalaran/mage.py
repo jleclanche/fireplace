@@ -59,6 +59,10 @@ class DAL_609e:
 class DAL_177:
 	"""Conjurer's Calling"""
 	# <b>Twinspell</b> Destroy a minion. Summon 2 minions of the same Cost to replace it.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = (
 		Give(CONTROLLER, "DAL_177ts"),
 		Destroy(TARGET), Summon(CONTROLLER, RandomMinion(cost=COST(TARGET))) * 2
@@ -66,6 +70,10 @@ class DAL_177:
 
 
 class DAL_177ts:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Destroy(TARGET), Summon(CONTROLLER, RandomMinion(cost=COST(TARGET))) * 2
 
 
@@ -73,6 +81,10 @@ class DAL_577:
 	"""Ray of Frost"""
 	# <b>Twinspell</b> <b>Freeze</b> a minion. If it's already <b>Frozen</b>, deal $2
 	# damage to it.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = (
 		Give(CONTROLLER, "DAL_577ts"),
 		Find(TARGET + FROZEN) & Hit(TARGET, 2) | Freeze(TARGET)
@@ -80,12 +92,19 @@ class DAL_577:
 
 
 class DAL_577ts:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Find(TARGET + FROZEN) & Hit(TARGET, 2) | Freeze(TARGET)
 
 
 class DAL_578:
 	"""Power of Creation"""
 	# <b>Discover</b> a 6-Cost minion. Summon two copies of it.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Discover(CONTROLLER, RandomMinion(cost=6)).then(
 		Summon(CONTROLLER, Copy(Discover.CARD)) * 2
 	)

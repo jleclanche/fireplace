@@ -49,6 +49,10 @@ class LOOT_518:
 class LOOT_060:
 	"""Crushing Hand"""
 	# Deal $8 damage to a minion. <b><b>Overload</b>:</b> (3)
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 8)
 
 
@@ -56,6 +60,11 @@ class LOOT_064:
 	"""Lesser Sapphire Spellstone"""
 	# Summon 1 copy of a friendly minion. @<i>(<b>Overload</b> 3 Mana Crystals to
 	# upgrade.)</i>
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Summon(CONTROLLER, ExactCopy(TARGET))
 	progress_total = 3
 	reward = Morph(SELF, "LOOT_064t1")
@@ -67,6 +76,11 @@ class LOOT_064:
 class LOOT_064t1:
 	"""Sapphire Spellstone"""
 	# Summon 2 copies of a friendly minion. @
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Summon(CONTROLLER, ExactCopy(TARGET)) * 2
 	progress_total = 3
 	reward = Morph(SELF, "LOOT_064t2")
@@ -78,6 +92,11 @@ class LOOT_064t1:
 class LOOT_064t2:
 	"""Greater Sapphire Spellstone"""
 	# Summon 3 copies of a friendly minion.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Summon(CONTROLLER, ExactCopy(TARGET)) * 3
 
 
@@ -103,10 +122,20 @@ class LOOT_373:
 class LOOT_504:
 	"""Unstable Evolution"""
 	# Transform a friendly minion into one that costs (1) more. Repeatable this turn.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Evolve(TARGET, 1), Give(CONTROLLER, "LOOT_504t")
 
 
 class LOOT_504t:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Evolve(TARGET, 1), Give(CONTROLLER, "LOOT_504t")
 	events = OWN_TURN_END.on(Destroy(SELF))
 

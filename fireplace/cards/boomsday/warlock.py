@@ -47,6 +47,10 @@ class BOT_536:
 class BOT_222:
 	"""Spirit Bomb"""
 	# Deal $4 damage to a minion and your hero.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 4), Hit(FRIENDLY_HERO, 4)
 
 
@@ -62,6 +66,9 @@ BOT_263e = buff(+2, +2)
 class BOT_521:
 	"""Ectomancy"""
 	# Summon copies of all Demons you control.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, ExactCopy(FRIENDLY_MINIONS + DEMON))
 
 

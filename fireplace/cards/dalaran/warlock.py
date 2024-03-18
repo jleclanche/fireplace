@@ -42,6 +42,11 @@ class DAL_606:
 	"""EVIL Genius"""
 	# <b>Battlecry:</b> Destroy a friendly minion to add 2 random
 	# <b>Lackeys</b>_to_your_hand.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Destroy(TARGET), Give(CONTROLLER, RandomLackey()) * 2
 
 
@@ -65,10 +70,13 @@ class DAL_607e:
 class DAL_007:
 	"""Rafaam's Scheme"""
 	# Summon @ 1/1 |4(Imp, Imps). <i>(Upgrades each turn!)</i>
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
+	play = Summon(CONTROLLER, "DAL_751t") * (Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
+
 	class Hand:
 		events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
-
-	play = Summon(CONTROLLER, "DAL_751t") * (Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
 
 
 class DAL_173:
@@ -92,6 +100,10 @@ class DAL_602:
 class DAL_605:
 	"""Impferno"""
 	# Give your Demons +1 Attack. Deal $1 damage to all enemy minions.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 15,
+	}
 	play = Buff(FRIENDLY_MINIONS + DEMON, "DAL_605e"), Hit(ENEMY_MINIONS, 1)
 
 

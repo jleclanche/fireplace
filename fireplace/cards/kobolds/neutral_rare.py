@@ -7,6 +7,11 @@ from ..utils import *
 class LOOT_111:
 	"""Scorp-o-matic"""
 	# <b>Battlecry:</b> Destroy a minion with 1 or less Attack.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_MAX_ATTACK: 1,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+	}
 	play = Destroy(TARGET)
 
 
@@ -34,6 +39,11 @@ LOOT_124e = buff(taunt=True)
 class LOOT_150:
 	"""Furbolg Mossbinder"""
 	# <b>Battlecry:</b> Transform a friendly minion into a 6/6_Elemental.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Morph(TARGET, "LOOT_150t1")
 
 

@@ -73,5 +73,10 @@ class TRL_535:
 class TRL_569:
 	"""Crowd Roaster"""
 	# [x]<b>Battlecry:</b> If you're holding a Dragon, deal 7 damage to an enemy minion.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0,
+	}
 	powered_up = HOLDING_DRAGON
 	play = powered_up & Hit(TARGET, 7)

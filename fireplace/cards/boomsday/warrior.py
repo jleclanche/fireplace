@@ -46,6 +46,11 @@ class BOT_042:
 class BOT_067:
 	"""Rocket Boots"""
 	# Give a minion <b>Rush</b>. Draw a card.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Buff(TARGET, "BOT_067e"), Draw(CONTROLLER)
 
 
@@ -55,6 +60,9 @@ BOT_067e = buff(rush=True)
 class BOT_069:
 	"""The Boomship"""
 	# Summon 3 random minions from your hand. Give them <b>Rush</b>.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, RANDOM(FRIENDLY_HAND + MINION) * 3).then(
 		Buff(Summon.CARD, "BOT_069e")
 	)
@@ -111,6 +119,9 @@ class BOT_238p:
 
 
 class BOT_238p1:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	entourage = BOT_238.entourage
 	activate = Hit(TARGET, 3)
 	events = OWN_TURN_END.on(Summon(CONTROLLER, RandomEntourage(exclude=SELF)))
@@ -129,12 +140,18 @@ class BOT_238p3:
 
 
 class BOT_238p4:
+	requirements = {
+		PlayReq.REQ_HAND_NOT_FULL: 0,
+	}
 	entourage = BOT_238.entourage
 	activate = DISCOVER(RandomMech())
 	events = OWN_TURN_END.on(Summon(CONTROLLER, RandomEntourage(exclude=SELF)))
 
 
 class BOT_238p6:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	entourage = BOT_238.entourage
 	activate = Summon(CONTROLLER, "BOT_312t") * 3
 	events = OWN_TURN_END.on(Summon(CONTROLLER, RandomEntourage(exclude=SELF)))

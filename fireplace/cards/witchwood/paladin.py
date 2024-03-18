@@ -47,6 +47,10 @@ class GIL_817:
 class GIL_145:
 	"""Sound the Bells!"""
 	# <b>Echo</b> Give a minion +1/+2.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "GIL_145e")
 
 

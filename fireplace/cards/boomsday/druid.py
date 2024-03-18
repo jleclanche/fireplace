@@ -60,6 +60,10 @@ class BOT_434e:
 class BOT_507:
 	"""Gloop Sprayer"""
 	# <b>Battlecry:</b> Summon a copy of each adjacent minion.
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Summon(CONTROLLER, ExactCopy(SELF_ADJACENT))
 
 
@@ -92,6 +96,9 @@ class BOT_404:
 class BOT_420:
 	"""Landscaping"""
 	# Summon two 2/2 Treants.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "EX1_158t") * 2
 
 

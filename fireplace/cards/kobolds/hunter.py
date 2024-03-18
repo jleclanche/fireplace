@@ -28,6 +28,10 @@ class LOOT_520:
 class LOOT_077:
 	"""Flanking Strike"""
 	# Deal $3 damage to a minion. Summon a 3/3 Wolf.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 3), Summon(CONTROLLER, "LOOT_077t")
 
 
@@ -43,6 +47,9 @@ class LOOT_079:
 class LOOT_080:
 	"""Lesser Emerald Spellstone"""
 	# Summon two 3/3_Wolves. <i>(Play a <b>Secret</b> to upgrade.)</i>
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Summon(CONTROLLER, "LOOT_077t") * 2
 
 	class Hand:
@@ -52,6 +59,9 @@ class LOOT_080:
 class LOOT_080t2:
 	"""Emerald Spellstone"""
 	# Summon three 3/3_Wolves. <i>(Play a <b>Secret</b> to upgrade.)</i>
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Summon(CONTROLLER, "LOOT_077t") * 3
 
 	class Hand:
@@ -67,6 +77,10 @@ class LOOT_080t3:
 class LOOT_217:
 	"""To My Side!"""
 	# [x]Summon an Animal Companion, or 2 if your deck has no minions.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	entourage = ["NEW1_032", "NEW1_033", "NEW1_034"]
 	play = Find(FRIENDLY_DECK + MINION) & (
 		Summon(CONTROLLER, RandomEntourage())

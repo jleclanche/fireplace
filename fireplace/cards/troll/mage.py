@@ -78,6 +78,10 @@ class TRL_310e:
 class TRL_313:
 	"""Scorch"""
 	# [x]Deal $4 damage to a minion. Costs (1) if you played an Elemental last turn.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	cost_mod = ELEMENTAL_PLAYED_LAST_TURN & -1
 	play = Hit(TARGET, 4)
 

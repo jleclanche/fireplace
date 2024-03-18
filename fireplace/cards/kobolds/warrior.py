@@ -74,6 +74,9 @@ class LOOT_285t:
 class LOOT_285t2:
 	"""Serrated Shield"""
 	# Gain 5 Armor. Deal 5 damage.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = GainArmor(FRIENDLY_HERO, 5), Hit(TARGET, 5)
 
 

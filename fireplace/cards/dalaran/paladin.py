@@ -37,6 +37,9 @@ class DAL_581:
 class DAL_141:
 	"""Desperate Measures"""
 	# <b>Twinspell</b> Cast a random Paladin <b>Secret</b>.
+	requirements = {
+		PlayReq.REQ_SECRET_ZONE_CAP_FOR_NON_SECRET: 0,
+	}
 	play = (
 		Give(CONTROLLER, "DAL_141ts"),
 		CastSpell(RandomSpell(secret=True, card_class=CardClass.PALADIN))
@@ -44,12 +47,20 @@ class DAL_141:
 
 
 class DAL_141ts:
+	requirements = {
+		PlayReq.REQ_SECRET_ZONE_CAP_FOR_NON_SECRET: 0,
+	}
 	play = CastSpell(RandomSpell(secret=True, card_class=CardClass.PALADIN))
 
 
 class DAL_568:
 	"""Lightforged Blessing"""
 	# <b>Twinspell</b> Give a friendly minion <b>Lifesteal</b>.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = (
 		Give(CONTROLLER, "DAL_568ts"),
 		GiveLifesteal(TARGET)
@@ -57,6 +68,11 @@ class DAL_568:
 
 
 class DAL_568ts:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = GiveLifesteal(TARGET)
 
 
@@ -87,6 +103,9 @@ class DAL_731:
 	"""Duel!"""
 	# Summon a minion from each player's deck. They fight!
 	# TODO need test
+	requirements = {
+		PlayReq.REQ_BOARD_NOT_COMPLETELY_FULL: 0,
+	}
 	play = Attack(
 		Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION)),
 		Summon(OPPONENT, RANDOM(ENEMY_DECK + MINION)),

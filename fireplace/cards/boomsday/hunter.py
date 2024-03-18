@@ -23,6 +23,12 @@ class BOT_038:
 	"""Fireworks Tech"""
 	# [x]<b>Battlecry:</b> Give a friendly Mech +1/+1. If it has <b>Deathrattle</b>,
 	# trigger it.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 17,
+	}
 	play = (
 		Buff(TARGET, "BOT_038e"),
 		Find(TARGET + DEATHRATTLE) & Deathrattle(TARGET)
@@ -56,6 +62,9 @@ class BOT_251e:
 class BOT_033:
 	"""Bomb Toss"""
 	# Deal $2 damage. Summon a 0/2 Goblin_Bomb.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 2), Summon(CONTROLLER, "BOT_031")
 
 
@@ -72,6 +81,9 @@ class BOT_402:
 class BOT_429:
 	"""Flark's Boom-Zooka"""
 	# [x]Summon 3 minions from your deck. They attack enemy minions, then die.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MINION)).then(
 		Attack(Summon.CARD, RANDOM_ENEMY_MINION),
 		Destroy(Summon.CARD)
@@ -81,6 +93,11 @@ class BOT_429:
 class BOT_437:
 	"""Goblin Prank"""
 	# Give a friendly minion +3/+3 and <b>Rush</b>. It_dies at end of turn.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Buff(TARGET, "BOT_437e")
 
 

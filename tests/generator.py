@@ -95,6 +95,11 @@ def single_card(card):
 	description = " ".join(description_lines)
 	for des in textwrap.wrap(description, width=85):
 		str += f"\t# {des}\n"
+	if card.requirements:
+		str += "\trequirements = {\n"
+		for req, value in card.requirements.items():
+			str += f"\t\tPlayReq.{req.name}: {value},\n"
+		str += "\t}\n"
 	str += "\tpass\n"
 	return str
 

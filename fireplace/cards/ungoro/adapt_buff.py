@@ -49,40 +49,80 @@ class UNG_999t8e:
 
 
 class UNG_999t10:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t10e")
 
 
 class UNG_999t2:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t2e")
 
 
 class UNG_999t3:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t3e")
 
 
 class UNG_999t4:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t4e")
 
 
 class UNG_999t5:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t5e")
 
 
 class UNG_999t6:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t6e")
 
 
 class UNG_999t7:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t7e")
 
 
 class UNG_999t8:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t8e")
 
 
 class UNG_999t13:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t13e")
 
 
 class UNG_999t14:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "UNG_999t14e")

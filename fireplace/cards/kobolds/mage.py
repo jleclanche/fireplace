@@ -84,6 +84,10 @@ class LOOT_103t2:
 class LOOT_104:
 	"""Shifting Scroll"""
 	# Each turn this is in your hand, transform it into a random Mage spell.
+	requirements = {
+		PlayReq.REQ_CANNOT_PLAY_THIS: 0,
+	}
+
 	class Hand:
 		events = OWN_TURN_BEGIN.on(
 			Morph(SELF, RandomSpell(card_class=CardClass.MAGE)).then(

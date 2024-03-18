@@ -6,6 +6,10 @@ from ..utils import *
 
 class ICC_058:
 	"""Brrrloc"""
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_ENEMY_TARGET: 0,
+	}
 	play = Freeze(TARGET)
 
 
@@ -30,6 +34,10 @@ class ICC_289:
 
 class ICC_056:
 	"""Cryostasis"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "ICC_056e"), Freeze(TARGET)
 
 
@@ -38,6 +46,10 @@ ICC_056e = buff(+3, +3)
 
 class ICC_078:
 	"""Avalanche"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 3), Freeze(TARGET_ADJACENT)
 
 
@@ -65,4 +77,9 @@ class ICC_481:
 
 
 class ICC_481p:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	activate = Evolve(TARGET, 1)

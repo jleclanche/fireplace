@@ -34,12 +34,19 @@ class LOOT_398:
 class LOOT_088:
 	"""Potion of Heroism"""
 	# Give a minion <b>Divine_Shield</b>. Draw a card.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = GiveDivineShield(TARGET), Draw(CONTROLLER)
 
 
 class LOOT_091:
 	"""Lesser Pearl Spellstone"""
 	# Summon a 2/2 Spirit with <b>Taunt</b>. @<i>(Restore 3 Health to upgrade.)</i>
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	progress_total = 3
 	play = Summon(CONTROLLER, "LOOT_091t")
 	reward = Morph(SELF, "LOOT_091t1")
@@ -51,6 +58,9 @@ class LOOT_091:
 class LOOT_091t1:
 	"""Pearl Spellstone"""
 	# Summon a 4/4 Spirit with <b>Taunt</b>. @
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	progress_total = 3
 	play = Summon(CONTROLLER, "LOOT_091t1t")
 	reward = Morph(SELF, "LOOT_091t2")
@@ -62,6 +72,9 @@ class LOOT_091t1:
 class LOOT_091t2:
 	"""Greater Pearl Spellstone"""
 	# Summon a 6/6 Spirit with <b>Taunt</b>.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Summon(CONTROLLER, "LOOT_091t2t")
 
 

@@ -63,10 +63,18 @@ class BOT_566e:
 class BOT_219:
 	"""Extra Arms"""
 	# [x]Give a minion +2/+2. Add 'More Arms!' to your hand that gives +2/+2.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "BOT_219e"), Give(CONTROLLER, "BOT_219t")
 
 
 class BOT_219t:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "BOT_219te")
 
 
@@ -85,6 +93,10 @@ class BOT_435:
 class BOT_517:
 	"""Topsy Turvy"""
 	# Swap a minion's Attack and Health.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "BOT_517e")
 
 
@@ -94,6 +106,12 @@ BOT_517e = AttackHealthSwapBuff()
 class BOT_529:
 	"""Power Word: Replicate"""
 	# Choose a friendly minion. Summon a 5/5 copy of it.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, Buff(ExactCopy(TARGET), "BOT_529e"))
 
 

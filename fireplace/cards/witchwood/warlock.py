@@ -15,6 +15,11 @@ class GIL_515:
 	"""Ratcatcher"""
 	# <b>Rush</b> <b>Battlecry:</b> Destroy a friendly minion and gain its Attack and
 	# Health.
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+	}
 	play = (
 		Buff(SELF, "GIL_515e", atk=ATK(TARGET), max_health=CURRENT_HEALTH(TARGET)),
 		Destroy(TARGET)
@@ -73,6 +78,10 @@ class GIL_191:
 class GIL_543:
 	"""Dark Possession"""
 	# Deal $2 damage to a friendly character. <b>Discover</b> a Demon.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Hit(TARGET, 2), DISCOVER(RandomDemon())
 
 

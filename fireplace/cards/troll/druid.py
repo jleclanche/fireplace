@@ -25,6 +25,11 @@ class TRL_232:
 class TRL_240:
 	"""Savage Striker"""
 	# <b>Battlecry:</b> Deal damage to an enemy minion equal to your hero's Attack.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_HERO_HAS_ATTACK: 0,
+	}
 	play = Hit(TARGET, ATK(FRIENDLY_HERO))
 
 
@@ -88,6 +93,10 @@ class TRL_244:
 class TRL_254:
 	"""Mark of the Loa"""
 	# <b>Choose One</b> - Give a minion +2/+4 and <b>Taunt</b>; or Summon two 3/2 Raptors.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	choose = ("TRL_254a", "TRL_254b")
 	play = ChooseBoth(CONTROLLER) & (
 		Buff(TARGET, "TRL_254ae"),
@@ -96,6 +105,10 @@ class TRL_254:
 
 
 class TRL_254a:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "TRL_254ae")
 
 
@@ -103,12 +116,21 @@ TRL_254ae = buff(+2, +4, taunt=True)
 
 
 class TRL_254b:
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "TRL_254t") * 2
 
 
 class TRL_255:
 	"""Stampeding Roar"""
 	# Summon a random Beast from your hand and give it <b>Rush</b>.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+		PlayReq.REQ_FRIENDLY_MINION_OF_RACE_IN_HAND: 20,
+	}
 	play = Summon(CONTROLLER, RANDOM(FRIENDLY_HAND + BEAST)).then(
 		Buff(Summon.CARD, "TRL_255e")
 	)

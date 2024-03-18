@@ -27,6 +27,11 @@ BOT_283e = buff(+2, +2)
 class BOT_288:
 	"""Lab Recruiter"""
 	# <b>Battlecry:</b> Shuffle 3 copies of a friendly minion into your deck.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Shuffle(CONTROLLER, Copy(TARGET)) * 3
 
 
@@ -39,6 +44,11 @@ class BOT_565:
 class BOT_576:
 	"""Crazed Chemist"""
 	# <b>Combo:</b> Give a friendly minion +4 Attack.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_FOR_COMBO: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	combo = Buff(TARGET, "BOT_576e")
 
 
@@ -57,6 +67,9 @@ class BOT_084:
 class BOT_087:
 	"""Academic Espionage"""
 	# Shuffle 10 cards from your opponent's class into your deck. They_cost (1).
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Shuffle(CONTROLLER, Buff(
 		RandomCollectible(card_class=ENEMY_CLASS), "BOT_087e")) * 10
 
@@ -75,6 +88,12 @@ class BOT_242:
 class BOT_508:
 	"""Necrium Vial"""
 	# Trigger a friendly minion's <b>Deathrattle</b> twice.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0,
+	}
 	play = Deathrattle(TARGET) * 2
 
 

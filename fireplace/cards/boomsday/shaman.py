@@ -63,6 +63,9 @@ class BOT_093:
 class BOT_099:
 	"""Eureka!"""
 	# Summon a copy of_a_random minion from your hand.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, ExactCopy(RANDOM(FRIENDLY_HAND + MINION)))
 
 
@@ -81,4 +84,7 @@ class BOT_246:
 class BOT_451:
 	"""Voltaic Burst"""
 	# Summon two 1/1 Sparks with <b>Rush</b>. <b>Overload:</b> (1)
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "BOT_102t") * 2

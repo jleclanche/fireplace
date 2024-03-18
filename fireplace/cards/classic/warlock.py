@@ -197,6 +197,10 @@ EX1_596e = buff(+2, +2)
 
 class NEW1_003:
 	"""Sacrificial Pact"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 15,
+	}
 	play = Destroy(TARGET), Heal(FRIENDLY_HERO, 5)
 
 

@@ -57,12 +57,20 @@ class DAL_009:
 class DAL_071:
 	"""Mutate"""
 	# Transform a friendly minion into a random one that costs (1) more.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Evolve(TARGET, 1)
 
 
 class DAL_432:
 	"""Witch's Brew"""
 	# Restore #4 Health. Repeatable this turn.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = (
 		Heal(TARGET, 4),
 		Give(CONTROLLER, "DAL_432").then(Buff(Give.CARD, "GIL_000"))

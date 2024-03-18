@@ -55,35 +55,57 @@ class DAL_799:
 class DAL_256:
 	"""The Forest's Aid"""
 	# <b>Twinspell</b> Summon five 2/2 Treants.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Give(CONTROLLER, "DAL_256ts"), Summon(CONTROLLER, "DAL_256t2") * 5
 
 
 class DAL_256ts:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "DAL_256t2") * 5
 
 
 class DAL_350:
 	"""Crystal Power"""
 	# <b>Choose One -</b> Deal $2 damage to a minion; or_Restore #5 Health.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	choose = ("DAL_350a", "DAL_350b")
 	play = ChooseBoth(CONTROLLER) & (Hit(TARGET, 2), Heal(TARGET, 5))
 
 
 class DAL_350a:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 2)
 
 
 class DAL_350b:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Heal(TARGET, 5)
 
 
 class DAL_351:
 	"""Blessing of the Ancients"""
 	# <b>Twinspell</b> Give your minions +1/+1.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Give(CONTROLLER, "DAL_351ts"), Buff(FRIENDLY_MINIONS, "DAL_351e")
 
 
 class DAL_351ts:
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(FRIENDLY_MINIONS, "DAL_351e")
 
 
@@ -104,4 +126,8 @@ class DAL_352:
 class DAL_733:
 	"""Dreamway Guardians"""
 	# Summon two 1/2 Dryads with <b>Lifesteal</b>.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "DAL_733t") * 2

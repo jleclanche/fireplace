@@ -74,6 +74,11 @@ class TRL_246:
 class TRL_249:
 	"""Grim Rally"""
 	# Destroy a friendly minion. Give your minions +1/+1.
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Destroy(TARGET), Buff(FRIENDLY_MINIONS, "TRL_249e")
 
 
@@ -83,5 +88,9 @@ TRL_249e = buff(+1, +1)
 class TRL_555:
 	"""Demonbolt"""
 	# Destroy a minion. Costs (1) less for each minion you control.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	cost_mod = -Count(FRIENDLY_MINIONS)
 	play = Destroy(TARGET)

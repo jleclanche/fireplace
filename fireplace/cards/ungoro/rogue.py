@@ -21,6 +21,10 @@ UNG_063e = buff(+1, +1)
 
 class UNG_064:
 	"""Vilespine Slayer"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_FOR_COMBO: 0,
+	}
 	combo = Destroy(TARGET)
 
 
@@ -51,11 +55,17 @@ class UNG_057:
 
 
 class UNG_057t1:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 1)
 
 
 class UNG_060:
 	"""Mimic Pod"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Draw(CONTROLLER).then(Give(CONTROLLER, Copy(Draw.CARD)))
 
 
@@ -95,6 +105,9 @@ class UNG_067t1e2:
 
 class UNG_823:
 	"""Envenom Weapon"""
+	requirements = {
+		PlayReq.REQ_WEAPON_EQUIPPED: 0,
+	}
 	play = SetTag(FRIENDLY_WEAPON, (GameTag.POISONOUS, ))
 
 

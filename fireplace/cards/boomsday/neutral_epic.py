@@ -53,6 +53,11 @@ class BOT_511t:
 class BOT_540:
 	"""E.M.P. Operative"""
 	# <b>Battlecry:</b> Destroy a Mech.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 17,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Destroy(TARGET)
 
 

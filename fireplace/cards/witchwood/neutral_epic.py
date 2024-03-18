@@ -25,6 +25,10 @@ class GIL_581:
 class GIL_614:
 	"""Voodoo Doll"""
 	# <b>Battlecry:</b> Choose a minion. <b>Deathrattle:</b> Destroy the chosen minion.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	deathrattle = HAS_TARGET & Destroy(TARGET)
 
 
@@ -49,6 +53,11 @@ class GIL_682:
 class GIL_815:
 	"""Baleful Banker"""
 	# <b>Battlecry:</b> Choose a friendly minion. Shuffle a copy into your deck.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Shuffle(CONTROLLER, Copy(TARGET))
 
 

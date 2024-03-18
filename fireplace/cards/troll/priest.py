@@ -62,18 +62,30 @@ class TRL_502e:
 class TRL_097:
 	"""Seance"""
 	# Choose a minion. Add_a copy of it to your hand.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Give(CONTROLLER, Copy(TARGET))
 
 
 class TRL_128:
 	"""Regenerate"""
 	# Restore #3 Health.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Heal(TARGET, 3)
 
 
 class TRL_258:
 	"""Mass Hysteria"""
 	# Force each minion to_attack another random minion.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_ENEMY_TARGET: 0,
+	}
+
 	def play(self):
 		board = ALL_MINIONS.eval(self.game, self)
 		random.shuffle(board)

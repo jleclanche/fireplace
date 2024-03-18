@@ -39,6 +39,10 @@ class DAL_759:
 class DAL_770:
 	"""Omega Devastator"""
 	# [x]<b>Battlecry:</b> If you have 10 Mana Crystals, deal 10 damage to a minion.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MIN_MANA_CRYSTAL: 10,
+	}
 	play = Hit(TARGET, 10)
 
 
@@ -65,6 +69,10 @@ class DAL_059:
 class DAL_062:
 	"""Sweeping Strikes"""
 	# Give a minion "Also damages minions next to whomever this attacks."
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "DAL_062e")
 
 
@@ -75,6 +83,10 @@ class DAL_062e:
 class DAL_769:
 	"""Improve Morale"""
 	# [x]Deal $1 damage to a minion. If it survives, add a <b>Lackey</b> to your hand.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 1), Dead(TARGET) | Give(CONTROLLER, RandomLackey())
 
 

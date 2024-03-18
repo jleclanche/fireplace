@@ -16,6 +16,11 @@ class ICC_240:
 
 class ICC_809:
 	"""Plague Scientist"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_FOR_COMBO: 0,
+	}
 	combo = GivePoisonous(TARGET)
 
 
@@ -27,6 +32,9 @@ class ICC_811:
 
 class ICC_910:
 	"""Spectral Pillager"""
+	requirements = {
+		PlayReq.REQ_TARGET_FOR_COMBO: 0,
+	}
 	combo = Hit(TARGET, Count(CARDS_PLAYED_THIS_TRUN))
 
 
@@ -40,11 +48,19 @@ class ICC_201:
 
 class ICC_221:
 	"""Leeching Poison"""
+	requirements = {
+		PlayReq.REQ_WEAPON_EQUIPPED: 0,
+	}
 	play = GiveLifesteal(FRIENDLY_WEAPON)
 
 
 class ICC_233:
 	"""Doomerang"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_WEAPON_EQUIPPED: 0,
+	}
 	play = Hit(TARGET, ATK(FRIENDLY_WEAPON)), Bounce(FRIENDLY_WEAPON)
 
 
@@ -83,6 +99,10 @@ class ICC_827p:
 
 
 class ICC_827t:
+	requirements = {
+		PlayReq.REQ_MUST_PLAY_OTHER_CARD_FIRST: 0,
+	}
+
 	class Hand:
 		events = (
 			Play(CONTROLLER).on(

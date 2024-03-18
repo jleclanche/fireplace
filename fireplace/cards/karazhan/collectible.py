@@ -76,6 +76,10 @@ KAR_037t = buff(+1, +1, taunt=True)
 
 class KAR_041:
 	"""Moat Lurker"""
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Destroy(TARGET)
 	deathrattle = HAS_TARGET & Summon(TARGET_PLAYER, Copy(TARGET))
 

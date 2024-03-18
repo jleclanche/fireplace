@@ -14,6 +14,12 @@ class TRL_323:
 class TRL_326:
 	"""Smolderthorn Lancer"""
 	# <b>Battlecry:</b> If you're holding a Dragon, destroy a damaged enemy minion.
+	requirements = {
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAGON_IN_HAND: 0,
+		PlayReq.REQ_DAMAGED_TARGET: 0,
+	}
 	powered_up = HOLDING_DRAGON
 	play = powered_up & Destroy(TARGET)
 
@@ -52,12 +58,21 @@ TRL_329e = buff(+5, +5)
 class TRL_321:
 	"""Devastate"""
 	# Deal $4 damage to a damaged minion.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_DAMAGED_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 4)
 
 
 class TRL_324:
 	"""Heavy Metal!"""
 	# [x]Summon a random minion with Cost equal to your Armor <i>(up to 10).</i>
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, RandomMinion(cost=Min(ARMOR(FRIENDLY_HERO), 10)))
 
 

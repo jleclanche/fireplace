@@ -56,6 +56,9 @@ TRL_545e = buff(+4, +4)
 class TRL_302:
 	"""Time Out!"""
 	# Your hero is <b>Immune</b> until your next turn.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(SELF, "TRL_302e")
 
 
@@ -71,6 +74,10 @@ class TRL_305:
 	"""A New Challenger..."""
 	# <b>Discover</b> a 6-Cost minion. Summon it with <b>Taunt</b> and <b>Divine
 	# Shield</b>.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Discover(CONTROLLER, RandomMinion(cost=6)).then(
 		Summon(CONTROLLER, Discover.CARD).then(
 			Taunt(Summon.CARD),
@@ -82,6 +89,9 @@ class TRL_305:
 class TRL_307:
 	"""Flash of Light"""
 	# Restore #4 Health. Draw a card.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Heal(TARGET, 4), Draw(CONTROLLER)
 
 

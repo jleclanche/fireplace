@@ -6,6 +6,11 @@ from ..utils import *
 
 class UNG_047:
 	"""Ravenous Pterrordax"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+	}
 	play = Destroy(TARGET), Adapt(SELF) * 2
 
 
@@ -51,6 +56,9 @@ class UNG_829:
 
 
 class UNG_829t1:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "UNG_829t2")
 
 
@@ -79,4 +87,8 @@ class UNG_832e:
 
 class UNG_834:
 	"""Feeding Time"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 3), Summon(CONTROLLER, "UNG_834t1") * 3

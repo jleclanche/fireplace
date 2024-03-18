@@ -31,6 +31,12 @@ class BOT_031:
 class BOT_079:
 	"""Faithful Lumi"""
 	# <b>Battlecry:</b> Give a friendly Mech +1/+1.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 17,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "BOT_079e")
 
 
@@ -55,6 +61,9 @@ class BOT_267:
 class BOT_308:
 	"""Spring Rocket"""
 	# <b>Battlecry:</b> Deal 2 damage.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+	}
 	play = Hit(TARGET, 2)
 
 

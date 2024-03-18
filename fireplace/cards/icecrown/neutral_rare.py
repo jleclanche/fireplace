@@ -24,6 +24,11 @@ class ICC_099:
 
 class ICC_257:
 	"""Corpse Raiser"""
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "ICC_257e")
 
 

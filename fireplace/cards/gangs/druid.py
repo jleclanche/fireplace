@@ -36,6 +36,12 @@ CFM_617e = buff(+2, +2)
 
 class CFM_816:
 	"""Virmen Sensei"""
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 20,
+	}
 	play = Buff(TARGET, "CFM_816e")
 
 
@@ -82,6 +88,9 @@ class CFM_616:
 
 class CFM_713(JadeGolemUtils):
 	"""Jade Blossom"""
+	requirements = {
+		PlayReq.REQ_MINION_SLOT_OR_MANA_CRYSTAL_SLOT: 0,
+	}
 	play = SummonJadeGolem(CONTROLLER), GainEmptyMana(CONTROLLER, 1)
 
 

@@ -26,6 +26,11 @@ class ICC_841:
 
 class ICC_903:
 	"""Sanguine Reveler"""
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Destroy(TARGET), Buff(SELF, "ICC_903t")
 
 
@@ -53,11 +58,21 @@ class ICC_055:
 
 class ICC_206:
 	"""Treachery"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Steal(TARGET, OPPONENT)
 
 
 class ICC_469:
 	"""Unwilling Sacrifice"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Destroy(TARGET), Destroy(RANDOM_ENEMY_MINION)
 
 
@@ -70,4 +85,7 @@ class ICC_831:
 
 
 class ICC_831p:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	activate = Hit(TARGET, 3)

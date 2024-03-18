@@ -43,6 +43,11 @@ class GIL_658:
 	"""Splintergraft"""
 	# [x]<b>Battlecry:</b> Choose a friendly minion. Add a 10/10 copy to your hand that
 	# costs (10).
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Give(CONTROLLER, Buff(Buff(Copy(TARGET), "GIL_658e"), "GBL_007e"))
 
 
@@ -80,12 +85,19 @@ class GIL_553:
 class GIL_571:
 	"""Witching Hour"""
 	# Summon a random friendly Beast that died this game.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+		PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME: 20,
+	}
 	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + BEAST)))
 
 
 class GIL_637:
 	"""Ferocious Howl"""
 	# Draw a card. Gain 1 Armor for each card in your hand.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Draw(CONTROLLER), GainArmor(FRIENDLY_HERO, Count(FRIENDLY_HAND))
 
 

@@ -13,6 +13,9 @@ class TRL_057:
 class TRL_407:
 	"""Waterboy"""
 	# <b>Battlecry:</b> Your next Hero Power this turn costs (0).
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(CONTROLLER, "TRL_407e")
 
 
@@ -59,6 +62,12 @@ class TRL_523:
 class TRL_524:
 	"""Shieldbreaker"""
 	# <b>Battlecry:</b> <b>Silence</b> an enemy minion with <b>Taunt</b>.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_MUST_TARGET_TAUNTER: 0,
+	}
 	play = Silence(TARGET)
 
 

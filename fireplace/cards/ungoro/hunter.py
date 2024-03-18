@@ -73,6 +73,10 @@ class UNG_917:
 
 
 class UNG_917t1:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 20,
+	}
 	activate = Buff(TARGET, "UNG_917e")
 
 

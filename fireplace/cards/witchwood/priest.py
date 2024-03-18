@@ -46,6 +46,9 @@ class GIL_805:
 class GIL_835:
 	"""Squashling"""
 	# [x]<b>Echo</b> <b>Battlecry:</b> Restore 2 Health.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Heal(TARGET, 2)
 
 
@@ -77,16 +80,30 @@ class GIL_840:
 class GIL_134:
 	"""Holy Water"""
 	# Deal $4 damage to a minion. If that kills it, add a copy of it to your_hand.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 4), Dead(TARGET) & Give(CONTROLLER, Copy(TARGET))
 
 
 class GIL_661:
 	"""Divine Hymn"""
 	# Restore #6 Health to all friendly characters.
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Heal(FRIENDLY_CHARACTERS, 6)
 
 
 class GIL_813:
 	"""Vivid Nightmare"""
 	# [x]Choose a friendly minion. Summon a copy of it with 1 Health remaining.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Summon(CONTROLLER, SetCurrentHealth(ExactCopy(TARGET), 1))

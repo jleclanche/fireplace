@@ -7,12 +7,21 @@ from ..utils import *
 class DAL_077:
 	"""Toxfin"""
 	# <b>Battlecry:</b> Give a friendly Murloc <b>Poisonous</b>.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 14,
+	}
 	play = GivePoisonous(TARGET)
 
 
 class DAL_078:
 	"""Traveling Healer"""
 	# [x]<b>Divine Shield</b> <b>Battlecry:</b> Restore #3 Health.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+	}
 	play = Heal(TARGET, 3)
 
 
@@ -96,6 +105,11 @@ class DAL_743:
 class DAL_744:
 	"""Faceless Rager"""
 	# <b>Battlecry:</b> Copy a friendly minion's Health.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = CopyStateBuff(TARGET, "DAL_744e")
 
 

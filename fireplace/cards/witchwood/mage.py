@@ -78,4 +78,8 @@ class GIL_548:
 class GIL_801:
 	"""Snap Freeze"""
 	# <b>Freeze</b> a minion. If it's already <b>Frozen</b>, destroy it.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Find(TARGET + FROZEN) & Destroy(TARGET) | Freeze(TARGET)

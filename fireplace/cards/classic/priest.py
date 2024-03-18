@@ -118,6 +118,9 @@ class CS1_129e:
 
 class CS1_130:
 	"""Holy Smite"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 2)
 
 

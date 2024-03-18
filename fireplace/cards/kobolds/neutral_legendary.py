@@ -17,12 +17,18 @@ class LOOT_357l:
 
 
 class LOOT_998h:
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Draw(CONTROLLER).then(Give(CONTROLLER, Copy(Draw.CARD)) * (
 		MAX_HAND_SIZE(CONTROLLER) - Count(FRIENDLY_HAND)
 	))
 
 
 class LOOT_998j:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Discover(CONTROLLER, RandomLegendaryMinion()).then(
 		Summon(CONTROLLER, Discover.CARD) * 2
 	)
@@ -44,6 +50,11 @@ class LOOT_998k:
 class LOOT_516:
 	"""Zola the Gorgon"""
 	# <b>Battlecry:</b> Choose a friendly minion. Add a Golden copy of it to your hand.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Give(CONTROLLER, Copy(TARGET))
 
 

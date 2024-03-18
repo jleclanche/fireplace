@@ -66,6 +66,10 @@ class GIL_905:
 class GIL_518:
 	"""Wing Blast"""
 	# Deal $4 damage to a minion. If a minion died this turn, this costs (1).
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 4)
 
 	class Hand:
@@ -85,6 +89,11 @@ class GIL_577:
 class GIL_828:
 	"""Dire Frenzy"""
 	# Give a Beast +3/+3. Shuffle 3 copies into your deck with +3/+3.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 20,
+	}
 	play = Buff(TARGET, "GIL_828e").then(
 		Shuffle(CONTROLLER, ExactCopy(TARGET)) * 3
 	)

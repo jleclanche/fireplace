@@ -38,11 +38,21 @@ class ICC_825:
 
 class ICC_049:
 	"""Toxic Arrow"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 2), Dead(TARGET) | GivePoisonous(TARGET)
 
 
 class ICC_052:
 	"""Play Dead"""
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Deathrattle(TARGET)
 
 
@@ -62,4 +72,7 @@ class ICC_828:
 
 
 class ICC_828p:
+	requirements = {
+		PlayReq.REQ_HAND_NOT_FULL: 0,
+	}
 	activate = CreateZombeast(CONTROLLER)

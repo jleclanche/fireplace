@@ -53,12 +53,20 @@ GIL_902e = buff(atk=1)
 class GIL_506:
 	"""Cheap Shot"""
 	# <b>Echo</b> Deal $2 damage to a_minion.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 2)
 
 
 class GIL_687:
 	"""WANTED!"""
 	# Deal $3 damage to a minion. If that kills it, add a Coin to your hand.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 3), Dead(TARGET) & Give(CONTROLLER, THE_COIN)
 
 

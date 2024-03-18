@@ -76,11 +76,17 @@ class ICC_835:
 
 class ICC_050:
 	"""Webweave"""
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "ICC_832t3") * 2
 
 
 class ICC_054:
 	"""Spreading Plague"""
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "ICC_832t4").then(
 		(Count(FRIENDLY_MINIONS) < Count(ENEMY_MINIONS)) & CastSpell("ICC_054")
 	)
@@ -127,6 +133,10 @@ class ICC_832b:
 
 
 class ICC_832p:
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	choose = ("ICC_832pa", "ICC_832pb")
 	activate = ChooseBoth(CONTROLLER) & (
 		GainArmor(FRIENDLY_HERO, 3), Buff(FRIENDLY_HERO, "ICC_832e")

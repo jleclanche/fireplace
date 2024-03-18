@@ -34,6 +34,9 @@ class DAL_434:
 class DAL_539:
 	"""Sunreaver Warmage"""
 	# <b>Battlecry:</b> If you're holding a spell that costs (5) or more, deal 4 damage.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_COST_5_OR_MORE_SPELL_IN_HAND: 0,
+	}
 	powered_up = Find(FRIENDLY_HAND + SPELL + (COST >= 5))
 	play = powered_up & Hit(TARGET, 4)
 

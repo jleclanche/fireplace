@@ -32,6 +32,10 @@ ICC_858e = buff(atk=2)
 
 class ICC_039:
 	"""Dark Conviction"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Buff(TARGET, "ICC_039e")
 
 
@@ -42,6 +46,10 @@ class ICC_039e:
 
 class ICC_244:
 	"""Desperate Stand"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Buff(TARGET, "ICC_244e")
 
 
@@ -70,6 +78,9 @@ class ICC_829:
 
 
 class ICC_829p:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	entourage = ["ICC_829t2", "ICC_829t3", "ICC_829t4", "ICC_829t5"]
 	activate = Summon(CONTROLLER, RandomEntourage(exclude=FRIENDLY_MINIONS))
 	update = FindAll(

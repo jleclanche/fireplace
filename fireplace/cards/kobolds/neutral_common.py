@@ -7,6 +7,9 @@ from ..utils import *
 class LOOT_069:
 	"""Sewer Crawler"""
 	# <b>Battlecry:</b> Summon a 2/3_Giant Rat.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Summon(CONTROLLER, "LOOT_069t")
 
 
@@ -25,6 +28,10 @@ class LOOT_131:
 class LOOT_132:
 	"""Dragonslayer"""
 	# <b>Battlecry:</b> Deal 6 damage to a Dragon.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 24,
+	}
 	play = Hit(TARGET, 6)
 
 
@@ -92,6 +99,9 @@ class LOOT_233:
 class LOOT_291:
 	"""Shroom Brewer"""
 	# <b>Battlecry:</b> Restore 4_Health.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+	}
 	play = Heal(TARGET, 4)
 
 

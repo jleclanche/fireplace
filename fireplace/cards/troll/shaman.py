@@ -7,6 +7,11 @@ from ..utils import *
 class TRL_059:
 	"""Bog Slosher"""
 	# <b>Battlecry:</b> Return a friendly minion to your hand and give it +2/+2.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Bounce(TARGET), Buff(TARGET, "TRL_059e")
 
 
@@ -48,6 +53,9 @@ class TRL_345:
 class TRL_522:
 	"""Wartbringer"""
 	# <b>Battlecry:</b> If you played 2_spells this turn, deal 2_damage.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_SPELLS_PLAYED_THIS_TURN: 2,
+	}
 	powered_up = Count(CARDS_PLAYED_THIS_TRUN + SPELL) >= 2
 	play = powered_up & Hit(TARGET, 2)
 
@@ -58,6 +66,9 @@ class TRL_522:
 class TRL_012:
 	"""Totemic Smash"""
 	# Deal $2 damage. <b>Overkill</b>: Summon a basic Totem.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 2)
 	overkill = Summon(CONTROLLER, RandomBasicTotem())
 
@@ -80,6 +91,11 @@ class TRL_082:
 	"""Big Bad Voodoo"""
 	# Give a friendly minion "<b>Deathrattle:</b> Summon a random minion that costs (1)
 	# more."
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Buff(TARGET, "TRL_082e")
 
 
@@ -91,6 +107,9 @@ class TRL_082e:
 class TRL_351:
 	"""Rain of Toads"""
 	# Summon three 2/4 Toads with <b>Taunt</b>. <b>Overload:</b> (3)
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "TRL_351t") * 3
 
 

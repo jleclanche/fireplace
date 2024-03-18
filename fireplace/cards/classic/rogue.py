@@ -226,4 +226,9 @@ class EX1_182:
 class EX1_191:
 	"""Plaguebringer"""
 	# <b>Battlecry:</b> Give a friendly minion <b>Poisonous</b>.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+	}
 	play = GivePoisonous(TARGET)

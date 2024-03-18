@@ -46,6 +46,10 @@ class OG_291e:
 
 
 class OG_282:
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = (
 		Buff(CTHUN, "OG_281e", atk=ATK(TARGET), max_health=CURRENT_HEALTH(TARGET)),
 		Destroy(TARGET)

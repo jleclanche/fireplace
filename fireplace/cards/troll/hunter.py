@@ -42,6 +42,12 @@ TRL_901e = buff(+1, +1)
 class TRL_119:
 	"""The Beast Within"""
 	# Give a friendly Beast +1/+1, then it attacks a random enemy minion.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_TARGET_WITH_RACE: 20,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Buff(TARGET, "TRL_119e").then(Attack(TARGET, RANDOM_ENEMY_MINION))
 
 
@@ -62,6 +68,9 @@ class TRL_339:
 class TRL_347:
 	"""Baited Arrow"""
 	# Deal $3 damage. <b>Overkill:</b> Summon a 5/5 Devilsaur.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 3)
 	overkill = Summon(CONTROLLER, "TRL_347t")
 
@@ -69,6 +78,10 @@ class TRL_347:
 class TRL_566:
 	"""Revenge of the Wild"""
 	# Summon your Beasts that died this turn.
+	requirements = {
+		PlayReq.REQ_FRIENDLY_MINION_OF_RACE_DIED_THIS_TURN: 20,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, Copy(FRIENDLY + BEAST + KILLED_THIS_TURN))
 
 
@@ -95,4 +108,7 @@ class TRL_065:
 
 
 class TRL_065h:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	activate = Hit(TARGET, 2)

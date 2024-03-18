@@ -68,6 +68,9 @@ class GIL_537:
 class GIL_654:
 	"""Warpath"""
 	# <b>Echo</b> Deal $1 damage to all_minions.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(ALL_MINIONS, 1)
 
 

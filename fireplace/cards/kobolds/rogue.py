@@ -40,6 +40,10 @@ class LOOT_165e:
 class LOOT_211:
 	"""Elven Minstrel"""
 	# <b>Combo:</b> Draw 2 minions from your deck.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	combo = ForceDraw(RANDOM(FRIENDLY_DECK + MINION))
 
 
@@ -96,6 +100,9 @@ LOOT_214e = buff(immune=True)
 class LOOT_503:
 	"""Lesser Onyx Spellstone"""
 	# Destroy 1 random enemy minion. @<i>(Play 3 <b>Deathrattle</b> cards to upgrade.)</i>
+	requirements = {
+		PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1,
+	}
 	play = Destroy(RANDOM_ENEMY_MINION)
 	progress_total = 3
 	reward = Morph(SELF, "LOOT_503t")
@@ -107,6 +114,9 @@ class LOOT_503:
 class LOOT_503t:
 	"""Onyx Spellstone"""
 	# Destroy up to 2 random enemy minions. @
+	requirements = {
+		PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1,
+	}
 	play = Destroy(RANDOM_ENEMY_MINION * 2)
 	progress_total = 3
 	reward = Morph(SELF, "LOOT_503t")
@@ -118,6 +128,9 @@ class LOOT_503t:
 class LOOT_503t2:
 	"""Greater Onyx Spellstone"""
 	# Destroy up to 3 random enemy minions.
+	requirements = {
+		PlayReq.REQ_MINIMUM_ENEMY_MINIONS: 1,
+	}
 	play = Destroy(RANDOM_ENEMY_MINION * 3)
 
 

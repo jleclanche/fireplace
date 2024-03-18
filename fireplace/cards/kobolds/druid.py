@@ -40,6 +40,10 @@ class LOOT_351:
 class LOOT_047:
 	"""Barkskin"""
 	# Give a minion +3 Health. Gain 3 Armor.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Buff(TARGET, "LOOT_047e"), GainArmor(FRIENDLY_HERO, 3)
 
 
@@ -49,6 +53,10 @@ LOOT_047e = buff(health=3)
 class LOOT_051:
 	"""Lesser Jasper Spellstone"""
 	# Deal $2 damage to a minion. @<i>(Gain 3 Armor to upgrade.)</i>
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	progress_total = 3
 	play = Hit(TARGET, 2)
 	reward = Morph(SELF, "LOOT_051t1")
@@ -61,6 +69,10 @@ class LOOT_051:
 class LOOT_051t1:
 	"""Jasper Spellstone"""
 	# Deal $4 damage to a minion. @
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 4)
 	progress_total = 3
 	reward = Morph(SELF, "LOOT_051t2")
@@ -73,6 +85,10 @@ class LOOT_051t1:
 class LOOT_051t2:
 	"""Greater Jasper Spellstone"""
 	# Deal $6 damage to a minion.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 6)
 
 

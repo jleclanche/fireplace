@@ -16,6 +16,10 @@ class UNG_202:
 
 class UNG_208:
 	"""Stone Sentinel"""
+	requirements = {
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0,
+	}
 	play = ELEMENTAL_PLAYED_LAST_TURN & (SummonBothSides(CONTROLLER, "UNG_208t") * 2)
 
 
@@ -44,6 +48,9 @@ class UNG_211d:
 
 class UNG_938:
 	"""Hot Spring Guardian"""
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+	}
 	play = Heal(TARGET, 3)
 
 
@@ -57,6 +64,10 @@ class UNG_025:
 
 class UNG_817:
 	"""Tidal Surge"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 4), Heal(FRIENDLY_HERO, 4)
 
 

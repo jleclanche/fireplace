@@ -23,6 +23,10 @@ class ICC_083:
 
 class ICC_252:
 	"""Coldwraith"""
+	requirements = {
+		PlayReq.REQ_FROZEN_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Find(ENEMY + FROZEN) & Draw(CONTROLLER)
 
 
@@ -47,6 +51,9 @@ class ICC_082:
 
 class ICC_086:
 	"""Glacial Mysteries"""
+	requirements = {
+		PlayReq.REQ_SECRET_ZONE_CAP_FOR_NON_SECRET: 0,
+	}
 	play = Summon(CONTROLLER, FRIENDLY_DECK + SECRET)
 
 
@@ -73,6 +80,9 @@ class ICC_833:
 
 
 class ICC_833h:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	activate = Hit(TARGET, 1).then(Dead(TARGET) & Summon(CONTROLLER, "ICC_833t"))
 
 

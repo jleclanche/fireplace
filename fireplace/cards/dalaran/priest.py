@@ -7,6 +7,12 @@ from ..utils import *
 class DAL_030:
 	"""Shadowy Figure"""
 	# <b>Battlecry:</b> Transform into a_2/2 copy of a friendly <b>Deathrattle</b> minion.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0,
+	}
 	play = Morph(SELF, ExactCopy(TARGET)).then(
 		Buff(Morph.CARD, "DAL_030e"))
 
@@ -54,10 +60,15 @@ class DAL_011:
 	# Reduce the Attack of an enemy minion by @ until your next turn. <i>(Upgrades each
 	# turn!)</i>
 	# TODO need test
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_ENEMY_TARGET: 0,
+	}
+	play = Buff(TARGET, "DAL_011e") * (Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
+
 	class Hand:
 		events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
-
-	play = Buff(ENEMY_MINIONS, "DAL_011e") * (Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
 
 
 class DAL_011e:
@@ -68,16 +79,30 @@ class DAL_011e:
 class DAL_065:
 	"""Unsleeping Soul"""
 	# <b>Silence</b> a friendly minion, then summon a copy of it.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Silence(TARGET), Summon(CONTROLLER, ExactCopy(TARGET))
 
 
 class DAL_723:
 	"""Forbidden Words"""
 	# [x]Spend all your Mana. Destroy a minion with that much Attack or less.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_MINION_ATTACK_LESS_OR_EQUAL_MANA: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = SpendMana(CONTROLLER, CURRENT_MANA(CONTROLLER)), Destroy(TARGET)
 
 
 class DAL_724:
 	"""Mass Resurrection"""
 	# Summon 3 friendly minions that died this game.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+		PlayReq.REQ_FRIENDLY_MINION_DIED_THIS_GAME: 0,
+	}
 	play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + MINION) * 3))

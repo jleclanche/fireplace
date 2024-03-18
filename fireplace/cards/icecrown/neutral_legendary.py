@@ -48,11 +48,18 @@ class ICC_314t4:
 
 class ICC_314t5:
 	"""Death Coil"""
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Find(TARGET + ENEMY) & Hit(TARGET, 5) | Heal(TARGET, 5)
 
 
 class ICC_314t6:
 	"""Obliterate"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Destroy(TARGET).then(Hit(FRIENDLY_HERO, ATK(TARGET)))
 
 
@@ -84,6 +91,10 @@ ICC_851e = buff(+1, +1)
 
 class ICC_852:
 	"""Prince Taldaram"""
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_NO_3_COST_CARD_IN_DECK: 0,
+	}
 	play = Morph(SELF, ExactCopy(TARGET)).then(
 		Buff(Morph.CARD, "ICC_852e"))
 

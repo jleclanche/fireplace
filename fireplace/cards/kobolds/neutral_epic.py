@@ -38,6 +38,11 @@ class LOOT_161:
 	"""Carnivorous Cube"""
 	# <b>Battlecry:</b> Destroy a friendly minion. <b>Deathrattle:</b> Summon 2 copies of
 	# it.
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = Destroy(TARGET)
 	deathrattle = HAS_TARGET & Summon(CONTROLLER, Copy(TARGET)) * 2
 

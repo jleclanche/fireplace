@@ -61,6 +61,10 @@ class BOT_234e:
 class BOT_436:
 	"""Prismatic Lens"""
 	# Draw a minion and a spell from your deck. Swap their Costs.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
 	play = FindAll(
 		FRIENDLY_DECK + MINION,
 		FRIENDLY_DECK + SPELL
@@ -96,4 +100,8 @@ class BOT_909:
 class BOT_912:
 	"""Kangor's Endless Army"""
 	# Resurrect 3 friendly Mechs. They keep any <b>Magnetic</b> upgrades.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+		PlayReq.REQ_FRIENDLY_MINIONS_OF_RACE_DIED_THIS_GAME: 17,
+	}
 	play = Summon(CONTROLLER, KeepMagneticCopy(RANDOM(FRIENDLY + KILLED + MECH) * 3))

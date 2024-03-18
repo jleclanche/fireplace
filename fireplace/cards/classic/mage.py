@@ -201,6 +201,10 @@ class EX1_594:
 class EX1_179:
 	"""Icicle"""
 	# Deal $2 damage to a minion. If it's <b>Frozen</b>, draw a card.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 2), Find(TARGET + FROZEN) & Draw(CONTROLLER)
 
 

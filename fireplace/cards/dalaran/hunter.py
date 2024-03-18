@@ -52,16 +52,26 @@ class DAL_604:
 class DAL_371:
 	"""Marked Shot"""
 	# Deal $4 damage to_a_minion. <b>Discover</b>_a_spell.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, 4), DISCOVER(RandomSpell())
 
 
 class DAL_373:
 	"""Rapid Fire"""
 	# <b>Twinspell</b> Deal $1 damage.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Give(CONTROLLER, "DAL_373ts"), Hit(TARGET, 1)
 
 
 class DAL_373ts:
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+	}
 	play = Hit(TARGET, 1)
 
 
@@ -69,6 +79,9 @@ class DAL_377:
 	"""Nine Lives"""
 	# <b>Discover</b> a friendly <b>Deathrattle</b> minion that died this game. Also
 	# trigger its <b>Deathrattle</b>.
+	requirements = {
+		PlayReq.REQ_FRIENDLY_DEATHRATTLE_MINION_DIED_THIS_GAME: 0,
+	}
 	play = GenericChoice(
 		CONTROLLER, Copy(RANDOM(DeDuplicate(FRIENDLY + KILLED + DEATHRATTLE + MINION)) * 3)
 	).then(
@@ -80,10 +93,16 @@ class DAL_377:
 class DAL_378:
 	"""Unleash the Beast"""
 	# <b>Twinspell</b> Summon a 5/5 Wyvern with <b>Rush</b>.
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Give(CONTROLLER, "DAL_378ts"), Summon(CONTROLLER, "DAL_378t1")
 
 
 class DAL_378ts:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "DAL_378t1")
 
 
