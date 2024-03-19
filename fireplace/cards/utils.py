@@ -134,7 +134,7 @@ LACKEY_CARDS = [
 	"DAL_615",
 	"DAL_739",
 	"DAL_741",
-	# "ULD_616",
+	"ULD_616",
 	# "DRG_052",
 ]
 

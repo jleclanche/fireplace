@@ -48,3 +48,17 @@ class DAL_741:
 	"""Ethereal Lackey"""
 	# <b>Battlecry:</b> <b>Discover</b> a spell.
 	play = DISCOVER(RandomSpell())
+
+
+class ULD_616:
+	"""Titanic Lackey"""
+	# <b>Battlecry:</b> Give a friendly minion +2 Health and_<b>Taunt</b>.
+	requirements = {
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+	}
+	play = Buff(TARGET, "ULD_616e")
+
+
+ULD_616e = buff(health=2, taunt=True)
