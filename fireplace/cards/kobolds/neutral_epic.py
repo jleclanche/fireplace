@@ -50,10 +50,10 @@ class LOOT_161:
 class LOOT_193:
 	"""Shimmering Courser"""
 	# Only you can target this with spells and Hero Powers.
-	tags = {
-		enums.CANT_BE_TARGETED_BY_OP_ABILITIES: True,
-		enums.CANT_BE_TARGETED_BY_OP_HERO_POWERS: True,
-	}
+	update = CurrentPlayer(OPPONENT) & Refresh(SELF, {
+		GameTag.CANT_BE_TARGETED_BY_HERO_POWERS: True,
+		GameTag.CANT_BE_TARGETED_BY_ABILITIES: True,
+	})
 
 
 class LOOT_389:

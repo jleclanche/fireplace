@@ -749,8 +749,6 @@ class Character(LiveEntity):
 	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
 	cant_be_targeted_by_abilities = boolean_property("cant_be_targeted_by_abilities")
 	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
-	cant_be_targeted_by_op_abilities = boolean_property("cant_be_targeted_by_op_abilities")
-	cant_be_targeted_by_op_hero_powers = boolean_property("cant_be_targeted_by_op_hero_powers")
 
 	heavily_armored = boolean_property("heavily_armored")
 	min_health = int_property("min_health")
@@ -999,8 +997,7 @@ class Minion(Character):
 		"cant_be_targeted_by_hero_powers", "charge", "divine_shield", "enrage",
 		"forgetful", "frozen", "has_deathrattle", "has_inspire", "lifesteal",
 		"poisonous", "stealthed", "taunt", "windfury", "cannot_attack_heroes", "rush",
-		"secret_deathrattle", "cant_be_targeted_by_op_abilities",
-		"cant_be_targeted_by_op_hero_powers", "has_overkill",
+		"secret_deathrattle", "has_overkill",
 	)
 
 	def __init__(self, data):

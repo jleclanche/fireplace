@@ -2159,7 +2159,6 @@ class CreateZombeast(TargetedAction):
 				"cant_be_targeted_by_hero_powers", "heavily_armored", "min_health",
 				"rush", "taunt", "poisonous", "ignore_taunt", "cannot_attack_heroes",
 				"unlimited_attacks", "cant_be_damaged", "lifesteal",
-				"cant_be_targeted_by_op_abilities", "cant_be_targeted_by_op_hero_powers",
 			)
 			for attribute in int_mergeable_attributes:
 				setattr(zombeast, attribute, getattr(card1, attribute) + getattr(card2, attribute))
