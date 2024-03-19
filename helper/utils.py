@@ -1,25 +1,16 @@
-#!/usr/bin/env python
-import argparse
 import re
 import string
-import sys
 
-from hearthstone.enums import CardSet, GameTag
+from hearthstone.enums import CardSet, CardType
 
-from fireplace import cards
 from fireplace.utils import get_script_definition
 
 
-sys.path.append("..")
-
-
-GREEN = "\033[92m"
 RED = "\033[91m"
+GREEN = "\033[92m"
+YELLOW = '\033[93m'
+BLUE = '\033[94m'
 ENDC = "\033[0m"
-PREFIXES = {
-	GREEN: "Implemented",
-	RED: "Not implemented",
-}
 
 SOLVED_KEYWORDS = [
 	"[x]",
@@ -93,44 +84,27 @@ def cleanup_description(description):
 	return ret
 
 
-def main():
-	cards.db.initialize()
-	unimpl_cards = []
-	for card_set in CardSet:
-		impl = 0
-		unimpl = 0
-		for id in cards.db.filter(card_set=card_set, collectible=True):
-			card = cards.db[id]
+def check_implemented(card):
+	id = card.id
+	description = cleanup_description(card.description)
+	implemented = False
 
-			if card.tags.get(GameTag.HIDE_WATERMARK, 0):
-				continue
-
-			description = cleanup_description(card.description)
-			implemented = False
-
-			if not description:
-				# Minions without card text or with basic abilities are implemented
+	if not description:
+		if card.type == CardType.HERO and card.hero_power:
+			powerdef = get_script_definition(card.hero_power)
+			if powerdef:
 				implemented = True
-			elif card.card_set == CardSet.CREDITS:
-				implemented = True
+		else:
+			# Minions without card text or with basic abilities are implemented
+			implemented = True
+	elif card.card_set == CardSet.CREDITS:
+		implemented = True
 
-			if id in DUMMY_CARDS:
-				implemented = True
+	if id in DUMMY_CARDS:
+		implemented = True
 
-			carddef = get_script_definition(id)
-			if carddef:
-				implemented = True
+	carddef = get_script_definition(id)
+	if carddef:
+		implemented = True
 
-			if implemented:
-				impl += 1
-			else:
-				unimpl += 1
-				unimpl_cards.append(card)
-
-		total = impl + unimpl
-		if total > 0:
-			print("* **%i%** %s (%i of %i cards)", (impl / total) * 100, card_set.name, impl, total)
-
-
-if __name__ == "__main__":
-	main()
+	return implemented
