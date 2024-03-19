@@ -160,7 +160,10 @@ class CardDB(dict):
 			kwargs.pop("include_quest")
 
 		# exclude default hero
-		cards = [card for card in cards if not card.id.startswith("HERO_")]
+		if "include_default_hero" not in kwargs:
+			cards = [card for card in cards if not card.id.startswith("HERO_")]
+		else:
+			kwargs.pop("include_default_hero")
 
 		if "type" not in kwargs:
 			kwargs["type"] = [CardType.SPELL, CardType.WEAPON, CardType.HERO, CardType.MINION]

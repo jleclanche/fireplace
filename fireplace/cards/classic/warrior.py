@@ -14,6 +14,11 @@ class CS2_102_H1:
 	activate = CS2_102.activate
 
 
+class CS2_102_H3(CS2_102):
+	"""Armro Up! (Deathwing)"""
+	pass
+
+
 ##
 # Minions
 

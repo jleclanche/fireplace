@@ -10,7 +10,3 @@ def test_siamat():
     choice.choose(choice.cards[0])
     assert siamat.windfury
     assert siamat.divine_shield
-
-
-def test_vulpera_scoundrel
-ULD_209

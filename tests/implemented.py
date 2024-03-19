@@ -4,7 +4,7 @@ import re
 import string
 import sys
 
-from hearthstone.enums import CardSet, GameTag
+from hearthstone.enums import CardSet, CardType, GameTag
 
 from fireplace import cards
 from fireplace.utils import get_script_definition
@@ -146,9 +146,14 @@ def main():
 				continue
 
 		if not description:
-			# Minions without card text or with basic abilities are implemented
-			implemented = True
-		elif card.card_set == CardSet.CREDITS or card.card_set == CardSet.WILD_EVENT:
+			if card.type == CardType.HERO:
+				powerdef = get_script_definition(card.hero_power)
+				if powerdef:
+					implemented = True
+			else:
+				# Minions without card text or with basic abilities are implemented
+				implemented = True
+		elif card.card_set == CardSet.CREDITS:
 			implemented = True
 
 		if id in DUMMY_CARDS:

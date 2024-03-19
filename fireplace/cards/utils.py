@@ -87,6 +87,7 @@ HERO_POWER_MAP = {
 	# Warrior
 	"CS2_102": "AT_132_WARRIOR",  # Garrosh Hellscream
 	"CS2_102_H1": "CS2_102_H1_AT_132",  # Magni Bronzebeard
+	"CS2_102_H2": "CS2_102_H3_AT_132",  # Deathwing
 }
 
 UPGRADE_HERO_POWER = Switch(FRIENDLY_HERO_POWER, {

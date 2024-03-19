@@ -7,7 +7,7 @@ from ..utils import *
 class ULD_209:
 	"""Vulpera Scoundrel"""
 	# <b>Battlecry</b>: <b>Discover</b> a spell or pick a mystery choice.
-	play = GenericChoice(CONTROLLER, (RandomSpell() * 3) + RandomID("ULD_209t"))
+	pass
 
 
 class ULD_229:
@@ -60,7 +60,7 @@ class ULD_705:
 	# <b>Battlecry:</b> If your board is full of Mogu Cultists, sacrifice them all and
 	# summon Highkeeper Ra.
 	play = (Count(FRIENDLY_MINIONS + ID("ULD_705")) == 7) & (
-		Destroy(FRIENDLY_MINIONS) & Summon(CONTROLLER, "ULD_705t")
+		Destroy(FRIENDLY_MINIONS), Summon(CONTROLLER, "ULD_705t")
 	)
 
 

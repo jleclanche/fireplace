@@ -17,6 +17,7 @@ Now updated to [Patch 15.6.2.36393](https://hearthstone.fandom.com/wiki/Patch_15
 * **100%** Goblins vs Gnomes (123 of 123 cards)
 * **100%** Blackrock Mountain (31 of 31 cards)
 * **100%** The Grand Tournament (132 of 132 cards)
+* **100%** Hero Skins (27 of 27 cards)
 * **100%** The League of Explorers (45 of 45 cards)
 * **100%** Whispers of the Old Gods (134 of 134 cards)
 * **100%** One Night in Karazhan (45 of 45 cards)
@@ -28,6 +29,12 @@ Now updated to [Patch 15.6.2.36393](https://hearthstone.fandom.com/wiki/Patch_15
 * **100%** The Boomsday Project (136 of 136 cards)
 * **100%** Rastakhan's Rumble (135 of 135 cards)
 * **100%** Rise of Shadows (136 of 136 cards)
+* **99%** Saviours of Uldum (134 of 135 cards)
+* **100%** Descent of Dragons (1 of 1 card)
+* **100%** Wild Event (23 of 23 cards)
+
+Not Implemented
+* Zephrys the Great (ULD_003)
 
 ## Requirements
 
