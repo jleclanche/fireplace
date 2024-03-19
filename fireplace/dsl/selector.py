@@ -461,6 +461,7 @@ IMMUNE = EnumSelector(GameTag.IMMUNE)
 RUSH = EnumSelector(GameTag.RUSH)
 ECHO = EnumSelector(GameTag.ECHO)
 CHOOSE_ONE = EnumSelector(GameTag.CHOOSE_ONE)
+HAS_DISCOVER = EnumSelector(GameTag.DISCOVER)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa

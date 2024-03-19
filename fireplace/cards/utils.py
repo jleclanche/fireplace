@@ -29,6 +29,7 @@ GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
 GivePoisonous = lambda target: SetTag(target, (GameTag.POISONOUS, ))
 GiveLifesteal = lambda target: SetTag(target, (GameTag.LIFESTEAL, ))
 GiveRush = lambda target: SetTag(target, (GameTag.RUSH, ))
+GiveReborn = lambda target: SetTag(target, (GameTag.REBORN, ))
 
 
 CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))

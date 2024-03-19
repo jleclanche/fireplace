@@ -53,6 +53,7 @@ class ULD_435e:
 	cost = SET(5)
 	events = REMOVED_IN_PLAY
 
+
 ##
 # Spells
 

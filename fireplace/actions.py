@@ -2280,3 +2280,43 @@ class SwampqueenHagathaAction(TargetedAction):
 				self.player.choice = None
 				self.done()
 				self.trigger_choice_callback()
+
+
+class SiamatAction(TargetedAction):
+	def do(self, source, player):
+		self.choose_cards = ["ULD_178a", "ULD_178a2", "ULD_178a3", "ULD_178a4"]
+		self.player = player
+		self.source = source
+		self.min_count = 1
+		self.max_count = 1
+		self.choosed_cards = []
+		self.player.choice = self
+		self.do_step1()
+		source.game.manager.targeted_action(self, source, player)
+
+	def do_step1(self):
+		self.cards = [self.player.card(id) for id in self.choose_cards]
+
+	def do_step2(self):
+		self.choose_cards.remove(self.cards[0].id)
+		self.cards = [self.player.card(id) for id in self.choose_cards]
+
+	def done(self):
+		for card in self.choosed_cards:
+			self.source.game.queue_actions(card, [Battlecry(card, self.source)])
+
+	def choose(self, card):
+		if card not in self.cards:
+			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
+		else:
+			self.choosed_cards.append(card)
+			if len(self.choosed_cards) == 1:
+				self.do_step2()
+			elif len(self.choosed_cards) == 2:
+				self.player.choice = None
+				self.done()
+				self.trigger_choice_callback()
+
+
+# class ZephrysAction(TargetedAction):
+# 	pass

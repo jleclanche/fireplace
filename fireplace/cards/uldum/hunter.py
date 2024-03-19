@@ -42,6 +42,7 @@ class ULD_410e:
 	tags = {GameTag.COST: -5}
 	events = REMOVED_IN_PLAY
 
+
 ##
 # Spells
 

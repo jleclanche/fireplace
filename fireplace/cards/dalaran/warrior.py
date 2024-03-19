@@ -64,6 +64,7 @@ class DAL_059:
 	requirements = {
 		PlayReq.REQ_NUM_MINION_SLOTS: 1,
 	}
+
 	def play(self):
 		minion = random.choice(self.controller.deck.filter(type=CardType.MINION))
 		yield Summon(CONTROLLER, minion.id) * 2
