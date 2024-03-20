@@ -764,6 +764,7 @@ class Choice(TargetedAction):
 		for action in self._callback:
 			self.source.game.trigger(
 				self.source, [action], [self.cards, card])
+		self.callback = self._callback
 		self.trigger_choice_callback()
 
 
@@ -1881,96 +1882,34 @@ class RefreshHeroPower(TargetedAction):
 		source.game.manager.targeted_action(self, source, heropower)
 
 
-class KazakusAction(TargetedAction):
-	"""
-	Kazakus is too difficult !!!
-	"""
+class MultipleChoice(TargetedAction):
 	PLAYER = ActionArg()
-
-	def init(self):
-		self.potions = [
-			"CFM_621t11", "CFM_621t12", "CFM_621t13"
-		]
-		self.cost_1_potions = [
-			"CFM_621t4", "CFM_621t10", "CFM_621t37", "CFM_621t2", "CFM_621t3",
-			"CFM_621t6", "CFM_621t8", "CFM_621t9", "CFM_621t5"]
-		self.cost_5_potions = [
-			"CFM_621t21", "CFM_621t18", "CFM_621t20", "CFM_621t38", "CFM_621t16",
-			"CFM_621t17", "CFM_621t24", "CFM_621t22", "CFM_621t23", "CFM_621t19"]
-		self.cost_10_potions = [
-			"CFM_621t29", "CFM_621t33", "CFM_621t28", "CFM_621t39", "CFM_621t25",
-			"CFM_621t26", "CFM_621t32", "CFM_621t30", "CFM_621t31", "CFM_621t27"]
-		# The order is Polymorph > AOE > Summon > Revive > Damage
-		# > Armor > Health > Draw > Deamon > Freeze
-		self.potions_choice_map = {
-			"CFM_621t11": self.cost_1_potions,
-			"CFM_621t12": self.cost_5_potions,
-			"CFM_621t13": self.cost_10_potions,
-		}
-		self.potions_card = {
-			"CFM_621t11": "CFM_621t",
-			"CFM_621t12": "CFM_621t14",
-			"CFM_621t13": "CFM_621t15",
-		}
+	choose_times = 2
 
 	def do(self, source, player):
-		self.init()
 		self.player = player
 		self.source = source
 		self.min_count = 1
 		self.max_count = 1
 		self.choosed_cards = []
 		self.player.choice = self
-		self.do_step1()
+		self._callback = self.callback
+		self.callback = []
+		getattr(self, "do_step1")()
 		source.game.manager.targeted_action(self, source, player)
-
-	def do_step1(self):
-		self.cards = [self.player.card(card) for card in self.potions]
-
-	def do_step2(self):
-		card = self.choosed_cards[0]
-		self.potions = self.potions_choice_map[card.id][:]
-		cards = random.sample(self.potions, 3)
-		self.cards = [self.player.card(card) for card in cards]
-
-	def do_step3(self):
-		self.potions.remove(self.choosed_cards[1].id)
-		cards = random.sample(self.potions, 3)
-		self.cards = [self.player.card(card) for card in cards]
-
-	def done(self):
-		card = self.choosed_cards[0]
-		card1 = self.choosed_cards[1]
-		card2 = self.choosed_cards[2]
-		self.potions = self.potions_choice_map[card.id][:]
-		if self.potions.index(card1.id) > self.potions.index(card2.id):
-			card1, card2 = card2, card1
-
-		new_card = self.player.card(self.potions_card[card.id])
-		new_card.custom_card = True
-
-		def create_custom_card(new_card):
-			new_card.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
-			new_card.requirements = card1.requirements | card2.requirements
-			new_card.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
-			new_card.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
-
-		new_card.create_custom_card = create_custom_card
-		new_card.create_custom_card(new_card)
-		self.player.give(new_card)
 
 	def choose(self, card):
 		if card not in self.cards:
 			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
 		else:
 			self.choosed_cards.append(card)
-			if len(self.choosed_cards) == 1:
-				self.do_step2()
-			elif len(self.choosed_cards) == 2:
-				self.do_step3()
-			elif len(self.choosed_cards) == 3:
+			lens = len(self.choosed_cards)
+			if lens < self.choose_times:
+				getattr(self, f"do_step{lens+1}")()
+			else:
 				self.player.choice = None
 				self.done()
+				self.callback = self._callback
 				self.trigger_choice_callback()
 
 
@@ -2053,137 +1992,6 @@ class ClearProgress(TargetedAction):
 		source.game.manager.targeted_action(self, source, target)
 
 
-class GlimmerrootAction(TargetedAction):
-	"""
-	Curious Glimmerroot (UNG_035)
-	"""
-	def do(self, source, player):
-		self.player = player
-		self.source = source
-		self.min_count = 1
-		self.max_count = 1
-		self.player.choice = self
-		# all class cards involved in this effect belong to the opponent's class
-		#
-		# If the opponent's deck started with no class cards in the deck,
-		# a neutral card is shown from the deck together with two other neutral
-		# cards from outside the deck.
-		enemy_class = player.opponent.starting_hero.card_class
-		starting_cards = [
-			card for card in player.opponent.starting_deck if enemy_class in card.classes
-		]
-		if len(starting_cards) == 0:
-			enemy_class = CardClass.NEUTRAL
-			starting_cards = player.opponent.starting_deck[:]
-		starting_card_ids = [card.id for card in starting_cards]
-		starting_card_id = random.choice(starting_card_ids)
-		other_card_ids = [
-			card for card in RandomCollectible(card_class=enemy_class).find_cards(source)
-			if card not in starting_card_ids
-		]
-		other_card_id_1, other_card_id_2 = random.sample(other_card_ids, 2)
-		self.starting_card = player.card(starting_card_id)
-		self.other_card_1 = player.card(other_card_id_1)
-		self.other_card_2 = player.card(other_card_id_2)
-		self.cards = [self.starting_card, self.other_card_1, self.other_card_2]
-		random.shuffle(self.cards)
-		source.game.manager.targeted_action(self, source, player)
-
-	def choose(self, card):
-		if card not in self.cards:
-			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		else:
-			if card is self.starting_card:
-				if len(self.player.hand) < self.player.max_hand_size:
-					card.zone = Zone.HAND
-			else:
-				log.info("Choose incorrectly, corrent choice is %r", self.starting_card)
-		self.player.choice = None
-		self.trigger_choice_callback()
-
-
-class CreateZombeast(TargetedAction):
-	"""
-	Build-A-Beast (ICC_828p)
-	Heropower of Deathstalker Rexxar
-	"""
-	def init(self, source):
-		hunter_beast_ids = RandomBeast(
-			card_class=CardClass.HUNTER,
-			cost=range(0, 6)).find_cards(source)
-		neutral_beast_ids = RandomBeast(
-			card_class=CardClass.NEUTRAL,
-			cost=range(0, 6)).find_cards(source)
-		beast_ids = hunter_beast_ids + neutral_beast_ids
-		self.first_ids = []
-		self.second_ids = []
-		for id in beast_ids:
-			if get_script_definition(id):
-				self.first_ids.append(id)
-			else:
-				self.second_ids.append(id)
-
-	def do(self, source, player):
-		self.init(source)
-		self.player = player
-		self.source = source
-		self.min_count = 1
-		self.max_count = 1
-		self.choosed_cards = []
-		self.player.choice = self
-		self.do_step1()
-		source.game.manager.targeted_action(self, source, player)
-
-	def do_step1(self):
-		self.cards = [self.player.card(id) for id in random.sample(self.first_ids, 3)]
-
-	def do_step2(self):
-		self.cards = [self.player.card(id) for id in random.sample(self.second_ids, 3)]
-
-	def done(self):
-		card1 = self.choosed_cards[0]
-		card2 = self.choosed_cards[1]
-
-		zombeast = self.player.card("ICC_828t")
-		zombeast.custom_card = True
-
-		def create_custom_card(zombeast):
-			zombeast.tags[GameTag.CARDTEXT_ENTITY_0] = card2.data.strings[GameTag.CARDTEXT]
-			zombeast.tags[GameTag.CARDTEXT_ENTITY_1] = card1.data.strings[GameTag.CARDTEXT]
-			zombeast.data.scripts = card1.data.scripts
-			int_mergeable_attributes = (
-				"atk", "cost", "max_health", "incoming_damage_multiplier", "spellpower",
-				"windfury",
-			)
-			bool_mergeable_attributes = (
-				"has_deathrattle", "charge", "has_inspire", "stealthed", "cant_attack",
-				"cant_be_targeted_by_opponents", "cant_be_targeted_by_abilities",
-				"cant_be_targeted_by_hero_powers", "heavily_armored", "min_health",
-				"rush", "taunt", "poisonous", "ignore_taunt", "cannot_attack_heroes",
-				"unlimited_attacks", "cant_be_damaged", "lifesteal",
-			)
-			for attribute in int_mergeable_attributes:
-				setattr(zombeast, attribute, getattr(card1, attribute) + getattr(card2, attribute))
-			for attribute in bool_mergeable_attributes:
-				setattr(zombeast, attribute, getattr(card1, attribute) or getattr(card2, attribute))
-
-		zombeast.create_custom_card = create_custom_card
-		zombeast.create_custom_card(zombeast)
-		self.player.give(zombeast)
-
-	def choose(self, card):
-		if card not in self.cards:
-			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		else:
-			self.choosed_cards.append(card)
-			if len(self.choosed_cards) == 1:
-				self.do_step2()
-			elif len(self.choosed_cards) == 2:
-				self.player.choice = None
-				self.done()
-				self.trigger_choice_callback()
-
-
 class LosesDivineShield(TargetedAction):
 	"""
 	Losses Divine Shield
@@ -2214,109 +2022,3 @@ class Replay(TargetedAction):
 			source.game.queue_actions(source, [CastSpell(target)])
 		else:
 			source.game.queue_actions(source, [Summon(source.controller, target)])
-
-
-class SwampqueenHagathaAction(TargetedAction):
-	def init(self, source):
-		self.all_shaman_spells = RandomSpell(card_class=CardClass.SHAMAN).find_cards(source)
-		self.targeted_spells = []
-		self.non_targeted_spells = []
-		for id in self.all_shaman_spells:
-			if db[id].requirements:
-				self.targeted_spells.append(id)
-			else:
-				self.non_targeted_spells.append(id)
-
-	def do(self, source, player):
-		self.init(source)
-		self.player = player
-		self.source = source
-		self.min_count = 1
-		self.max_count = 1
-		self.choosed_cards = []
-		self.player.choice = self
-		self.do_step1()
-		source.game.manager.targeted_action(self, source, player)
-
-	def do_step1(self):
-		self.cards = [
-			self.player.card(id) for id in random.sample(self.all_shaman_spells, 3)]
-
-	def do_step2(self):
-		if self.cards[0] in self.targeted_spells:
-			self.cards = [
-				self.player.card(id) for id in random.sample(self.non_targeted_spells, 3)]
-		else:
-			self.cards = [
-				self.player.card(id) for id in random.sample(self.all_shaman_spells, 3)]
-
-	def done(self):
-		card1 = self.choosed_cards[0]
-		card2 = self.choosed_cards[1]
-
-		horror = self.player.card("DAL_431t")
-		horror.custom_card = True
-
-		def create_custom_card(horror):
-			horror.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
-			horror.requirements = card1.requirements | card2.requirements
-			horror.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
-			horror.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
-			horror.tags[GameTag.OVERLOAD] = card1.tags[GameTag.OVERLOAD] + \
-				card2.tags[GameTag.OVERLOAD]
-
-		horror.create_custom_card = create_custom_card
-		horror.create_custom_card(horror)
-		self.player.give(horror)
-
-	def choose(self, card):
-		if card not in self.cards:
-			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		else:
-			self.choosed_cards.append(card)
-			if len(self.choosed_cards) == 1:
-				self.do_step2()
-			elif len(self.choosed_cards) == 2:
-				self.player.choice = None
-				self.done()
-				self.trigger_choice_callback()
-
-
-class SiamatAction(TargetedAction):
-	def do(self, source, player):
-		self.choose_cards = ["ULD_178a", "ULD_178a2", "ULD_178a3", "ULD_178a4"]
-		self.player = player
-		self.source = source
-		self.min_count = 1
-		self.max_count = 1
-		self.choosed_cards = []
-		self.player.choice = self
-		self.do_step1()
-		source.game.manager.targeted_action(self, source, player)
-
-	def do_step1(self):
-		self.cards = [self.player.card(id) for id in self.choose_cards]
-
-	def do_step2(self):
-		self.choose_cards.remove(self.cards[0].id)
-		self.cards = [self.player.card(id) for id in self.choose_cards]
-
-	def done(self):
-		for card in self.choosed_cards:
-			self.source.game.queue_actions(card, [Battlecry(card, self.source)])
-
-	def choose(self, card):
-		if card not in self.cards:
-			raise InvalidAction("%r is not a valid choice (one of %r)" % (card, self.cards))
-		else:
-			self.choosed_cards.append(card)
-			if len(self.choosed_cards) == 1:
-				self.do_step2()
-			elif len(self.choosed_cards) == 2:
-				self.player.choice = None
-				self.done()
-				self.trigger_choice_callback()
-
-
-# class ZephrysAction(TargetedAction):
-# 	pass

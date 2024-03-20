@@ -182,7 +182,9 @@ class CardDB(dict):
 
 				if attr == "card_class":
 					if hasattr(value, "__iter__"):
-						cards = [card for card in cards if card.card_class in value]
+						cards = [card for card in cards if any(
+							v in card.classes for v in value
+						)]
 					else:
 						cards = [card for card in cards if value in card.classes]
 				else:

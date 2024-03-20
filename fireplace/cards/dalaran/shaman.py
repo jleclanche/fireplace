@@ -27,6 +27,52 @@ class DAL_052e:
 class DAL_431:
 	"""Swampqueen Hagatha"""
 	# [x]<b>Battlecry:</b> Add a 5/5 Horror to your hand. Teach it two Shaman spells.
+	class SwampqueenHagathaAction(MultipleChoice):
+		PLAYER = ActionArg()
+		choose_times = 2
+
+		def init(self, source):
+			self.all_shaman_spells = RandomSpell(card_class=CardClass.SHAMAN).find_cards(source)
+			self.targeted_spells = []
+			self.non_targeted_spells = []
+			for id in self.all_shaman_spells:
+				if db[id].requirements:
+					self.targeted_spells.append(id)
+				else:
+					self.non_targeted_spells.append(id)
+
+		def do_step1(self):
+			self.init(self.source)
+			self.cards = [
+				self.player.card(id) for id in random.sample(self.all_shaman_spells, 3)]
+
+		def do_step2(self):
+			if self.cards[0] in self.targeted_spells:
+				self.cards = [
+					self.player.card(id) for id in random.sample(self.non_targeted_spells, 3)]
+			else:
+				self.cards = [
+					self.player.card(id) for id in random.sample(self.all_shaman_spells, 3)]
+
+		def done(self):
+			card1 = self.choosed_cards[0]
+			card2 = self.choosed_cards[1]
+
+			horror = self.player.card("DAL_431t")
+			horror.custom_card = True
+
+			def create_custom_card(horror):
+				horror.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+				horror.requirements = card1.requirements | card2.requirements
+				horror.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
+				horror.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
+				horror.tags[GameTag.OVERLOAD] = card1.tags[GameTag.OVERLOAD] + \
+					card2.tags[GameTag.OVERLOAD]
+
+			horror.create_custom_card = create_custom_card
+			horror.create_custom_card(horror)
+			self.player.give(horror)
+
 	play = SwampqueenHagathaAction(CONTROLLER)
 
 

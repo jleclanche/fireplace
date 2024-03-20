@@ -76,7 +76,7 @@ def main():
 				CARD_SET_NAME[card_set],
 				impl,
 				total,
-				's' if total > 1 else '',
+				"s" if total > 1 else "",
 				ENDC
 			))
 

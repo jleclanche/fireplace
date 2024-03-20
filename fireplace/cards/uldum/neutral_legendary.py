@@ -7,6 +7,9 @@ from ..utils import *
 # class ULD_003:
 # 	"""Zephrys the Great"""
 # 	# <b>Battlecry:</b> If your deck has no duplicates, wish for the perfect card.
+# 	class ZephrysAction(TargetedAction):
+# 		pass
+
 # 	powered_up = -FindDuplicates(FRIENDLY_DECK)
 # 	play = powered_up & ZephrysAction(CONTROLLER)
 
@@ -21,6 +24,22 @@ class ULD_178:
 	"""Siamat"""
 	# [x]<b>Battlecry:</b> Gain 2 of <b>Rush</b>, <b>Taunt</b>, <b>Divine Shield</b>, or
 	# <b>Windfury</b> <i>(your choice).</i>
+	class SiamatAction(MultipleChoice):
+		PLAYER = ActionArg()
+		choose_times = 2
+
+		def do_step1(self):
+			self.siamat_ids = ["ULD_178a", "ULD_178a2", "ULD_178a3", "ULD_178a4"]
+			self.cards = [self.player.card(id) for id in self.siamat_ids]
+
+		def do_step2(self):
+			self.siamat_ids.remove(self.choosed_cards[0])
+			self.cards = [self.player.card(id) for id in self.siamat_ids]
+
+		def done(self):
+			for card in self.choosed_cards:
+				self.source.game.queue_actions(card, [Battlecry(card, self.source)])
+
 	play = SiamatAction(CONTROLLER)
 
 

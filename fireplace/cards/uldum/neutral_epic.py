@@ -7,7 +7,23 @@ from ..utils import *
 class ULD_209:
 	"""Vulpera Scoundrel"""
 	# <b>Battlecry</b>: <b>Discover</b> a spell or pick a mystery choice.
-	pass
+	class VulperaScoundrelAction(Discover):
+		TARGET = ActionArg()
+		CARDS = CardArg()
+		CARD = CardArg()
+
+		def get_target_args(self, source, target):
+			cards = super().get_target_args(source, target)
+			cards[0].append(source.controller.card("ULD_209t"))
+			return cards
+
+	play = VulperaScoundrelAction(CONTROLLER, RandomSpell()).then(
+		Find(VulperaScoundrelAction.CARD + ID("ULD_209t")) & (
+			Give(CONTROLLER, RandomSpell())
+		) | (
+			Give(CONTROLLER, VulperaScoundrelAction.CARD)
+		)
+	)
 
 
 class ULD_229:
