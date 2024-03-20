@@ -21,3 +21,15 @@ def test_vulpera_scoundrel():
 	choice.choose(choice.cards[3])
 	assert game.player1.hand[0].type == CardType.SPELL
 	assert not game.player1.choice
+
+
+def test_dwarven_archaeologist():
+	game = prepare_empty_game()
+	game.player1.give("ULD_309").play()
+	game.player1.give("DAL_741").play()
+	choice = game.player1.choice
+	card = choice.cards[0]
+	origin_cost = card.cost
+	choice.choose(card)
+	assert card.zone == Zone.HAND
+	assert card.cost == max(origin_cost - 0, 0)

@@ -7,14 +7,22 @@ from ..utils import *
 class ULD_145:
 	"""Brazen Zealot"""
 	# Whenever you summon a minion, gain +1 Attack.
-	pass
+	events = Summon(CONTROLLER, MINION).on(Buff(SELF, "ULD_145e"))
+
+
+ULD_145e = buff(atk=1)
 
 
 class ULD_217:
 	"""Micro Mummy"""
 	# [x]<b>Reborn</b> At the end of your turn, give another random friendly minion +1
 	# Attack.
-	pass
+	events = OWN_TURN_END.on(
+		Buff(RANDOM_OTHER_FRIENDLY_MINION, "ULD_217e")
+	)
+
+
+ULD_217e = buff(atk=1)
 
 
 class ULD_438:

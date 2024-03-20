@@ -7,13 +7,19 @@ from ..utils import *
 class ULD_262:
 	"""High Priest Amet"""
 	# [x]Whenever you summon a minion, set its Health equal to this minion's.
-	pass
+	events = Summon(CONTROLLER, MINION).on(
+		SetStateBuff(Summon.CARD, "ULD_262e")
+	)
+
+
+class ULD_262e:
+	max_health = lambda self, _: self._xhealth
 
 
 class ULD_266:
 	"""Grandmummy"""
 	# [x]<b>Reborn</b> <b>Deathrattle:</b> Give a random friendly minion +1/+1.
-	pass
+	deathrattle = Buff(RANDOM_OTHER_FRIENDLY_MINION, "ULD_266e")
 
 
 class ULD_268:

@@ -1866,6 +1866,24 @@ class CopyStateBuff(TargetedAction):
 		source.game.manager.targeted_action(self, source, target, buff)
 
 
+class SetStateBuff(TargetedAction):
+	"""
+	Set target state, buff on self
+	"""
+	TARGET = ActionArg()
+	OTHER = ActionArg()
+	BUFF = ActionArg()
+
+	def do(self, source, target, buff):
+		target = target
+		buff = source.controller.card(buff)
+		buff.source = source
+		buff._xatk = source.atk
+		buff._xhealth = source.health
+		buff.apply(target)
+		source.game.manager.targeted_action(self, source, target, buff)
+
+
 class RefreshHeroPower(TargetedAction):
 	"""
 	Helper to Refresh Hero Power
