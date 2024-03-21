@@ -460,6 +460,7 @@ LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
 IMMUNE = EnumSelector(GameTag.IMMUNE)
 RUSH = EnumSelector(GameTag.RUSH)
 ECHO = EnumSelector(GameTag.ECHO)
+REBORN = EnumSelector(GameTag.REBORN)
 CHOOSE_ONE = EnumSelector(GameTag.CHOOSE_ONE)
 HAS_DISCOVER = EnumSelector(GameTag.DISCOVER)
 

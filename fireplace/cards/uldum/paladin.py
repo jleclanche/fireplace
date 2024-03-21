@@ -28,20 +28,21 @@ ULD_217e = buff(atk=1)
 class ULD_438:
 	"""Salhet's Pride"""
 	# <b>Deathrattle:</b> Draw two 1-Health minions from your_deck.
-	pass
+	deathrattle = ForceDraw(RANDOM(FRIENDLY_DECK + MINION + (CURRENT_HEALTH == 1)) * 2)
 
 
 class ULD_439:
 	"""Sandwasp Queen"""
 	# <b>Battlecry:</b> Add two 2/1 Sandwasps to your hand.
-	pass
+	play = Give(CONTROLLER, "ULD_439t") * 2
 
 
 class ULD_500:
 	"""Sir Finley of the Sands"""
 	# [x]<b>Battlecry:</b> If your deck has no duplicates, <b>Discover</b> an upgraded Hero
 	# Power.
-	pass
+	powered_up = -FindDuplicates(FRIENDLY_DECK)
+	play = powered_up & GenericChoice(CONTROLLER, RandomUpgradedHeroPower() * 3)
 
 
 ##
@@ -54,13 +55,35 @@ class ULD_143:
 		PlayReq.REQ_TARGET_TO_PLAY: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 	}
-	pass
+	play = Buff(TARGET, "ULD_143e"), GiveDivineShield(TARGET)
+
+
+ULD_143e = buff(+4, +4, taunt=True)
 
 
 class ULD_431:
 	"""Making Mummies"""
 	# [x]<b>Quest:</b> Play 5 <b>Reborn</b> minions. <b>Reward:</b> Emperor Wraps.
-	pass
+	progress_total = 5
+	quest = Play(CONTROLLER, REBORN + MINION).after(AddProgress(SELF, Play.CARD))
+	reward = Summon(CONTROLLER, "ULD_431p")
+
+
+class ULD_431p:
+	"""Emperor Wraps"""
+	# [x]<b>Hero Power</b> Summon a 2/2 copy of a friendly minion.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_FRIENDLY_TARGET: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
+	activate = Summon(CONTROLLER, Buff(ExactCopy(TARGET), "ULD_431e"))
+
+
+class ULD_431e:
+	atk = SET(2)
+	max_health = SET(2)
 
 
 class ULD_716:
@@ -69,7 +92,7 @@ class ULD_716:
 	requirements = {
 		PlayReq.REQ_MINION_TARGET: 0,
 	}
-	pass
+	play = Summon(CONTROLLER, RANDOM(FRIENDLY_DECK + MURLOC) * 7)
 
 
 class ULD_728:
@@ -79,4 +102,9 @@ class ULD_728:
 		PlayReq.REQ_TARGET_TO_PLAY: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 	}
-	pass
+	play = Buff(TARGET, "ULD_728e")
+
+
+class ULD_728e:
+	atk = SET(1)
+	max_health = SET(1)
