@@ -27,7 +27,7 @@ class ULD_163:
 	# [x]<b>Battlecry:</b> Discard your highest Cost card. <b>Deathrattle:</b> Add 2 copies
 	# of it to your hand.
 	play = Discard(RANDOM(HIGHEST_COST(FRIENDLY_HAND))).then(
-		StoringBuff(SELF, "ULD_163e", Discard.CARD)
+		StoringBuff(SELF, "ULD_163e", Discard.TARGET)
 	)
 
 
@@ -52,7 +52,7 @@ class ULD_167:
 	"""Diseased Vulture"""
 	# After your hero takes damage on your turn, summon a random 3-Cost minion.
 	events = Hit(FRIENDLY_HERO).on(
-		CURRENT_PLAYER(CONTROLLER) & Summon(CONTROLLER, RandomMinion(cost=3))
+		Find(CURRENT_PLAYER + CONTROLLER) & Summon(CONTROLLER, RandomMinion(cost=3))
 	)
 
 

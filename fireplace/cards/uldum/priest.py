@@ -101,7 +101,7 @@ class ULD_724p:
 	requirements = {
 		PlayReq.REQ_TARGET_TO_PLAY: 0,
 	}
-	play = Find(TARGET + MINION) & (
+	activate = Find(TARGET + MINION) & (
 		Heal(TARGET, 3), Buff(TARGET, "ULD_724e")
 	) | (
 		Heal(TARGET, 3)
