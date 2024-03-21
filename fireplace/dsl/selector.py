@@ -292,6 +292,7 @@ def IDS(ids):
 
 TARGET = FuncSelector(lambda entities, source: [source.target])
 ATTACK_TARGET = FuncSelector(lambda entities, source: [source.attack_target])
+CREATOR_TARGET = FuncSelector(lambda entities, source: [source.creator.target])
 
 
 class BoardPositionSelector(Selector):

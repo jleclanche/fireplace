@@ -612,7 +612,7 @@ class TargetedAction(Action):
 		elif isinstance(t, LazyValue):
 			ret = t.evaluate(source)
 		elif isinstance(t, str):
-			ret = source.controller.card(t)
+			ret = source.controller.card(t, source=source)
 		elif isinstance(t, Action):
 			ret = t.trigger(source)[0]
 		else:
@@ -680,7 +680,7 @@ class Buff(TargetedAction):
 
 	def get_target_args(self, source, target):
 		buff = self._args[1]
-		buff = source.controller.card(buff)
+		buff = source.controller.card(buff, source=source)
 		buff.source = source
 		return [buff]
 
@@ -703,7 +703,7 @@ class StoringBuff(TargetedAction):
 	def get_target_args(self, source, target):
 		buff = self._args[1]
 		card = _eval_card(source, self._args[2])[0]
-		buff = source.controller.card(buff)
+		buff = source.controller.card(buff, source=source)
 		buff.source = source
 		return [buff, card]
 
@@ -800,7 +800,7 @@ class CopyDeathrattleBuff(TargetedAction):
 
 	def get_target_args(self, source, target):
 		buff = self._args[1]
-		buff = source.controller.card(buff)
+		buff = source.controller.card(buff, source=source)
 		buff.tags[GameTag.DEATHRATTLE] = True
 		buff.source = source
 		return [buff]
@@ -1618,7 +1618,7 @@ class SummonTiger(TargetedAction):
 	def do(self, source, target, cost):
 		if cost <= 0:
 			return
-		tiger = target.controller.card("TRL_309t")
+		tiger = target.controller.card("TRL_309t", source=source)
 		tiger.custom_card = True
 
 		def create_custom_card(tiger):
@@ -1839,13 +1839,13 @@ class SwapStateBuff(TargetedAction):
 		if not target or not other:
 			return
 		other = other[0]
-		buff1 = source.controller.card(buff)
+		buff1 = source.controller.card(buff, source=source)
 		buff1.source = source
 		buff1._xcost = other.cost
 		if other.type == CardType.MINION:
 			buff1._xatk = other.atk
 			buff1._xhealth = other.health
-		buff2 = source.controller.card(buff)
+		buff2 = source.controller.card(buff, source=source)
 		buff2.source = source
 		buff2._xcost = target.cost
 		if target.type == CardType.MINION:
@@ -1866,7 +1866,7 @@ class CopyStateBuff(TargetedAction):
 
 	def do(self, source, target, buff):
 		target = target
-		buff = source.controller.card(buff)
+		buff = source.controller.card(buff, source=source)
 		buff.source = source
 		buff._xatk = target.atk
 		buff._xhealth = target.health
@@ -1884,7 +1884,7 @@ class SetStateBuff(TargetedAction):
 
 	def do(self, source, target, buff):
 		target = target
-		buff = source.controller.card(buff)
+		buff = source.controller.card(buff, source=source)
 		buff.source = source
 		buff._xatk = source.atk
 		buff._xhealth = source.health
@@ -1964,7 +1964,7 @@ class Adapt(TargetedAction):
 			"UNG_999t6", "UNG_999t7", "UNG_999t8", "UNG_999t13", "UNG_999t14",
 		]
 		cards = random.sample(choices, 3)
-		cards = [source.controller.card(card) for card in cards]
+		cards = [source.controller.card(card, source=source) for card in cards]
 		return [cards]
 
 	def do(self, source, target, cards):
