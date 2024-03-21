@@ -13,4 +13,8 @@ class DRG_402:
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
 	}
-	pass
+	play = (
+		Give(CONTROLLER, Copy(TARGET)),
+		Shuffle(CONTROLLER, Copy(TARGET)),
+		Summon(CONTROLLER, ExactCopy(TARGET)),
+	)

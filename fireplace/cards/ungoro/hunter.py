@@ -11,7 +11,7 @@ class UNG_800:
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
 		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
-	pass
+	play = Deathrattle(TARGET)
 
 
 class UNG_912:
