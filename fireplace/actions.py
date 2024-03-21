@@ -331,19 +331,27 @@ class Death(GameAction):
 		target = args[0]
 		if (not self.triggered_dearattle) and entity.play_counter > target.play_counter:
 			self.triggered_dearattle = True
-			if target.type == CardType.MINION and target.reborn:
-				source.game.queue_actions(target, [Summon(target.controller, RebornCopy(SELF))])
 			if target.deathrattles:
 				source.game.queue_actions(target, [Deathrattle(target)])
 		return super()._broadcast(entity, source, at, *args)
 
-	def do(self, source, target):
-		log.info("Processing Death for %r", target)
-		self.triggered_dearattle = False
-		source.game.manager.game_action(self, source, target)
-		self.broadcast(source, EventListener.ON, target)
-		if (not self.triggered_dearattle) and target.deathrattles:
-			source.game.queue_actions(target, [Deathrattle(target)])
+	def do(self, source, cards):
+		for card in cards:
+			if not card.dead:
+				continue
+			if card.zone == Zone.PLAY:
+				card._dead_position = card.zone_position - 1
+			card.zone = Zone.GRAVEYARD
+			source.game.check_for_end_game()
+			source.game.refresh_auras()
+			log.info("Processing Deathrattle for %r", card)
+			self.triggered_dearattle = False
+			source.game.manager.game_action(self, source, card)
+			self.broadcast(source, EventListener.ON, card)
+
+		for card in cards:
+			if card.dead and card.type == CardType.MINION and card.reborn:
+				source.game.queue_actions(card, [Summon(card.controller, RebornCopy(SELF))])
 
 
 class EndTurn(GameAction):
