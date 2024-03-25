@@ -5,7 +5,6 @@ from enum import IntEnum
 from typing import Any, Callable, Iterable, List, Optional, Set, Union
 
 from hearthstone.enums import CardClass, CardType, GameTag, Race, Rarity, Zone
-from hearthstone.utils import LACKEY_CARDS
 
 from .. import enums
 from ..entity import BaseEntity
@@ -464,6 +463,7 @@ ECHO = EnumSelector(GameTag.ECHO)
 REBORN = EnumSelector(GameTag.REBORN)
 CHOOSE_ONE = EnumSelector(GameTag.CHOOSE_ONE)
 HAS_DISCOVER = EnumSelector(GameTag.DISCOVER)
+LACKEY = EnumSelector(GameTag.MARK_OF_EVIL)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
@@ -507,12 +507,6 @@ TREANT = FuncSelector(
 		if getattr(e, "name_enUS", "").endswith("Treant")
 	]
 )  # Race.`TREANT` is not defined yet.
-LACKEY = FuncSelector(
-	lambda entities, src: [
-		e for e in entities
-		if e.id in LACKEY_CARDS
-	]
-)
 
 COMMON = EnumSelector(Rarity.COMMON)
 RARE = EnumSelector(Rarity.RARE)

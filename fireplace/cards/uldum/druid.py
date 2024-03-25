@@ -118,10 +118,10 @@ class ULD_135b:
 class ULD_136:
 	"""Worthy Expedition"""
 	# <b>Discover</b> a <b>Choose One</b> card.
-	play = DISCOVER(RandomCollectible(has_choose_one=True))
+	play = DISCOVER(RandomCollectible(choose_one=True, card_class=CardClass.DRUID))
 
 
 class ULD_273:
 	"""Overflow"""
 	# Restore #5 Health to all characters. Draw 5 cards.
-	play = Heal(ALL_CHARACTERS, 5), Draw(CONTROLLER, 5)
+	play = Heal(ALL_CHARACTERS, 5), Draw(CONTROLLER) * 5

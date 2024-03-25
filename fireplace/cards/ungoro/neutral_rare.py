@@ -55,4 +55,4 @@ class UNG_816:
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
 	powered_up = ELEMENTAL_PLAYED_LAST_TURN
-	play = powered_up & Discover(RandomElemental())
+	play = powered_up & DISCOVER(RandomElemental())

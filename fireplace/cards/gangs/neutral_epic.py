@@ -29,7 +29,7 @@ class CFM_095:
 
 class CFM_328:
 	"""Fight Promoter"""
-	play = Find(FRIENDLY_MINIONS + (CURRENT_HEALTH >= 6)) & Draw(CONTROLLER, 2)
+	play = Find(FRIENDLY_MINIONS + (CURRENT_HEALTH >= 6)) & Draw(CONTROLLER) * 2
 
 
 class CFM_609:

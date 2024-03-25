@@ -28,7 +28,7 @@ class LOOT_165:
 	"""Sonya Shadowdancer"""
 	# After a friendly minion dies, add a 1/1 copy of it to your hand. It costs (1).
 	events = Death(FRIENDLY + MINION).on(
-		Give(CONTROLLER, Buff(Buff(Copy(Death.ENTITY), "LOOT_165e"), "GBL_001e"))
+		Give(CONTROLLER, MultiBuff(Copy(Death.ENTITY), ["LOOT_165e", "GBL_001e"]))
 	)
 
 

@@ -695,6 +695,29 @@ class Buff(TargetedAction):
 		return target
 
 
+class MultiBuff(TargetedAction):
+	TARGET = ActionArg()
+	BUFFS = ActionArg()
+
+	def get_target_args(self, source, target):
+		buffs = self._args[1]
+		buffs = [source.controller.card(buff, source=source) for buff in buffs]
+		for buff in buffs:
+			buff.source = source
+		return [buffs]
+
+	def do(self, source, target, buffs):
+		for buff in buffs:
+			kwargs = self._kwargs.copy()
+			for k, v in kwargs.items():
+				if isinstance(v, LazyValue):
+					v = v.evaluate(source)
+				setattr(buff, k, v)
+			buff.apply(target)
+			source.game.manager.targeted_action(self, source, target, buff)
+		return target
+
+
 class StoringBuff(TargetedAction):
 	TARGET = ActionArg()
 	BUFF = ActionArg()

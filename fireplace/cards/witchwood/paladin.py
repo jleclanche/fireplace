@@ -73,7 +73,7 @@ class GIL_903:
 	# [x]<b>Secret:</b> After your opponent plays three cards in a turn, draw 2 cards.
 	secret = Play(OPPONENT).after(
 		(Count(OPPONENT_CARDS_PLAYED_THIS_TRUN) >= 3) & (
-			Reveal(SELF), Draw(CONTROLLER, 2)
+			Reveal(SELF), Draw(CONTROLLER) * 2
 		)
 	)
 

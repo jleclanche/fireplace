@@ -14,7 +14,7 @@ class ULD_231:
 	"""Whirlkick Master"""
 	# Whenever you play a <b>Combo</b> card, add a random <b>Combo</b> card to your hand.
 	events = Play(CONTROLLER, COMBO).on(
-		Give(CONTROLLER, RandomCollectible(has_combo=True))
+		Give(CONTROLLER, RandomCollectible(combo=True))
 	)
 
 
@@ -28,7 +28,7 @@ class ULD_288:
 	"""Anka, the Buried"""
 	# <b>Battlecry:</b> Change each <b>Deathrattle</b> minion in your hand into a 1/1 that
 	# costs (1).
-	play = Buff(Buff(FRIENDLY_HAND + MINION + DEATHRATTLE, "ULD_288e"), "GBL_001e")
+	play = MultiBuff(FRIENDLY_HAND + MINION + DEATHRATTLE, ["ULD_288e", "GBL_001e"])
 
 
 class ULD_288e:
@@ -56,7 +56,7 @@ class ULD_286:
 
 
 class ULD_286t:
-	play = Summon(CONTROLLER, CREATOR_TARGET)
+	play = Summon(CONTROLLER, Copy(CREATOR_TARGET))
 	draw = CAST_WHEN_DRAWN
 
 

@@ -103,7 +103,7 @@ class LOOT_064t2:
 class LOOT_344:
 	"""Primal Talismans"""
 	# Give your minions "<b>Deathrattle:</b> Summon a random basic Totem."
-	deathrattle = Buff(ALL_MINIONS, "LOOT_344e")
+	play = Buff(ALL_MINIONS, "LOOT_344e")
 
 
 class LOOT_344e:

@@ -81,7 +81,7 @@ class DAL_062:
 
 
 class DAL_062e:
-	events = Attack(OWNER).on(Hit(ADJACENT(Attack.DEFENDER), ATK(OWNER), source=OWNER))
+	events = Attack(OWNER).on(Hit(ADJACENT(Attack.DEFENDER), ATK(OWNER)))
 
 
 class DAL_769:

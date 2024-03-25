@@ -4,7 +4,6 @@ from itertools import chain
 
 from hearthstone.enums import CardType, GameTag, MultiClassGroup, PlayReq, PlayState, \
 	Race, Rarity, Step, Zone
-from hearthstone.utils import LACKEY_CARDS
 
 from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
@@ -623,7 +622,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_FRIENDLY_LACKEY)
 		if req is not None:
-			if self.controller.filed.filter(id=LACKEY_CARDS):
+			if self.controller.field.filter(mark_of_evil=True):
 				return bool(self.play_targets)
 		# req = self.requirements.get(
 		# 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
@@ -991,6 +990,7 @@ class Minion(Character):
 	has_inspire = boolean_property("has_inspire")
 	spellpower = int_property("spellpower")
 	has_magnetic = boolean_property("has_magnetic")
+	mark_of_evil = boolean_property("mark_of_evil")
 
 	silenceable_attributes = (
 		"always_wins_brawls", "aura", "cant_attack", "cant_be_targeted_by_abilities",

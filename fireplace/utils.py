@@ -6,8 +6,10 @@ from pkgutil import iter_modules
 from typing import List
 from xml.etree import ElementTree
 
-from hearthstone.enums import CardClass, CardType, CardSet
+from hearthstone.enums import CardClass, CardType
 from hearthstone.utils import COPIED_CARDS_WILD_EVENTS_MAP
+
+from .logging import log
 
 
 # Autogenerate the list of cardset modules
@@ -200,7 +202,7 @@ def play_turn(game):
 	while True:
 		while player.choice:
 			choice = random.choice(player.choice.cards)
-			print("Choosing card %r" % (choice))
+			log.info("Choosing card %r" % (choice))
 			player.choice.choose(choice)
 
 		heropower = player.hero.power
@@ -217,7 +219,7 @@ def play_turn(game):
 		# eg. Deathstalker Rexxar
 		while player.choice:
 			choice = random.choice(player.choice.cards)
-			print("Choosing card %r" % (choice))
+			log.info("Choosing card %r" % (choice))
 			player.choice.choose(choice)
 
 		# iterate over our hand and play whatever is playable
@@ -228,15 +230,15 @@ def play_turn(game):
 					card = random.choice(card.choose_cards)
 					if not card.is_playable():
 						continue
-				print("Playing %r" % card)
+				log.info("Playing %r" % card)
 				if card.requires_target():
 					target = random.choice(card.targets)
-				print("Target on %r" % target)
+				log.info("Target on %r" % target)
 				card.play(target=target)
 
 				while player.choice:
 					choice = random.choice(player.choice.cards)
-					print("Choosing card %r" % (choice))
+					log.info("Choosing card %r" % (choice))
 					player.choice.choose(choice)
 
 				continue
@@ -248,7 +250,7 @@ def play_turn(game):
 				# eg. Vicious Fledgling
 				while player.choice:
 					choice = random.choice(player.choice.cards)
-					print("Choosing card %r" % (choice))
+					log.info("Choosing card %r" % (choice))
 					player.choice.choose(choice)
 
 		break
@@ -261,7 +263,7 @@ def play_full_game():
 	game = setup_game()
 
 	for player in game.players:
-		print("Can mulligan %r" % (player.choice.cards))
+		log.info("Can mulligan %r" % (player.choice.cards))
 		mull_count = random.randint(0, len(player.choice.cards))
 		cards_to_mulligan = random.sample(player.choice.cards, mull_count)
 		player.choice.choose(*cards_to_mulligan)

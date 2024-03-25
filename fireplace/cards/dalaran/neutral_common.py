@@ -38,7 +38,7 @@ DAL_086e = buff(+1, +1)
 class DAL_088:
 	"""Safeguard"""
 	# [x]<b>Taunt</b> <b>Deathrattle:</b> Summon a 0/5 Vault Safe with <b>Taunt</b>.
-	deathrattle = Summon(CONTROLLER, "DAL_088t")
+	deathrattle = Summon(CONTROLLER, "DAL_088t2")
 
 
 class DAL_089:

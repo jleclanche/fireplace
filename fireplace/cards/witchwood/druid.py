@@ -48,7 +48,7 @@ class GIL_658:
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 	}
-	play = Give(CONTROLLER, Buff(Buff(Copy(TARGET), "GIL_658e"), "GBL_007e"))
+	play = Give(CONTROLLER, MultiBuff(Copy(TARGET), ["GIL_658e", "GBL_007e"]))
 
 
 class GIL_658e:

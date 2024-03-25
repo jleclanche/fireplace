@@ -33,3 +33,15 @@ def test_dwarven_archaeologist():
 	choice.choose(card)
 	assert card.zone == Zone.HAND
 	assert card.cost == max(origin_cost - 0, 0)
+
+
+def test_evil_recruiter():
+	game = prepare_game()
+	recruiter = game.player1.give("ULD_162")
+	assert not recruiter.requires_target()
+	wisp = game.player1.summon(WISP)
+	assert not recruiter.requires_target()
+	lackey = game.player1.summon("DAL_613")
+	assert recruiter.requires_target()
+	assert wisp not in recruiter.targets
+	assert lackey in recruiter.targets
