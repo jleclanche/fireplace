@@ -57,7 +57,8 @@ class DAL_010:
 		PlayReq.REQ_TARGET_TO_PLAY: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 	}
-	play = Shuffle(TARGET) * (Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
+	play = Shuffle(CONTROLLER, Copy(TARGET)) * (
+		Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
 
 	class Hand:
 		events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))

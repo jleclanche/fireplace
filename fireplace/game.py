@@ -151,22 +151,10 @@ class BaseGame(Entity):
 
 	def process_deaths(self):
 		type = BlockType.DEATHS
-		cards = []
-		for card in self.live_entities:
-			if card.dead:
-				cards.append(card)
 
-		if cards:
+		if any(card.dead for card in self.live_entities):
 			self.action_start(type, self, 0, None)
-			for card in cards:
-				if card.dead:
-					if card.zone == Zone.PLAY:
-						card._dead_position = card.zone_position - 1
-					card.zone = Zone.GRAVEYARD
-					self.check_for_end_game()
-					self.refresh_auras()
-					self.trigger(self, [Death(card)], event_args=None)
-					del card._dead_position
+			self.trigger(self, [Death(self.live_entities)], event_args=None)
 			self.action_end(type, self)
 
 	def trigger(self, source, actions, event_args):

@@ -18,6 +18,73 @@ class CFM_344:
 
 class CFM_621:
 	"""Kazakus"""
+	class KazakusAction(MultipleChoice):
+		PLAYER = ActionArg()
+		choose_times = 3
+
+		def do_step1(self):
+			self.cost_1_potions = [
+				"CFM_621t4", "CFM_621t10", "CFM_621t37",
+				"CFM_621t2", "CFM_621t3", "CFM_621t6",
+				"CFM_621t8", "CFM_621t9", "CFM_621t5"]
+			self.cost_5_potions = [
+				"CFM_621t21", "CFM_621t18", "CFM_621t20",
+				"CFM_621t38", "CFM_621t16", "CFM_621t17",
+				"CFM_621t24", "CFM_621t22", "CFM_621t23",
+				"CFM_621t19"]
+			self.cost_10_potions = [
+				"CFM_621t29", "CFM_621t33", "CFM_621t28",
+				"CFM_621t39", "CFM_621t25", "CFM_621t26",
+				"CFM_621t32", "CFM_621t30", "CFM_621t31",
+				"CFM_621t27"]
+			self.cards = [
+				self.player.card(card) for card in [
+					"CFM_621t11", "CFM_621t12", "CFM_621t13",
+				]
+			]
+
+		def do_step2(self):
+			card1 = self.choosed_cards[0]
+			if card1 == "CFM_621t11":
+				self.potions_id = self.cost_1_potions
+			elif card1 == "CFM_621t12":
+				self.potions_id = self.cost_5_potions
+			elif card1 == "CFM_621t13":
+				self.potions_id = self.cost_10_potions
+			self.potions = [
+				self.player.card(card) for card in self.potions_id
+			]
+			self.cards = random.sample(self.potions, 3)
+
+		def do_step3(self):
+			card2 = self.choosed_cards[1]
+			self.potions.remove(card2)
+			self.cards = random.sample(self.potions, 3)
+
+		def done(self):
+			card0 = self.choosed_cards[0]
+			card1 = self.choosed_cards[1]
+			card2 = self.choosed_cards[2]
+			if card0 == "CFM_621t11":
+				new_card = self.player.card("CFM_621t")
+			elif card0 == "CFM_621t12":
+				new_card = self.player.card("CFM_621t14")
+			elif card0 == "CFM_621t13":
+				new_card = self.player.card("CFM_621t15")
+			if self.potions_id.index(card1) > self.potions_id.index(card2):
+				card1, card2 = card2, card1
+			new_card.custom_card = True
+
+			def create_custom_card(new_card):
+				new_card.data.scripts.play = card1.data.scripts.play + card2.data.scripts.play
+				new_card.requirements = card1.requirements | card2.requirements
+				new_card.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[GameTag.CARDTEXT]
+				new_card.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[GameTag.CARDTEXT]
+
+			new_card.create_custom_card = create_custom_card
+			new_card.create_custom_card(new_card)
+			self.player.give(new_card)
+
 	powered_up = -FindDuplicates(FRIENDLY_DECK)
 	play = powered_up & KazakusAction(CONTROLLER)
 

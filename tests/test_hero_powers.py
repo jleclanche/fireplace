@@ -136,6 +136,15 @@ def test_healing_totem():
 	assert footman.health == 1
 
 
+def test_shaman_upgrade():
+	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
+	game.player1.give("AT_132").play()
+	game.player1.hero.power.use()
+	choice = game.player1.choice
+	choice.choose(choice.cards[0])
+	assert game.player1.field == ["AT_132", "NEW1_009"]
+
+
 def test_warlock():
 	game = prepare_empty_game(CardClass.WARLOCK, CardClass.WARLOCK)
 	game.current_player.discard_hand()

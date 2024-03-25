@@ -21,7 +21,7 @@ class TRL_077:
 		PlayReq.REQ_MINION_TARGET: 0,
 	}
 	play = Discover(CONTROLLER, RandomMinion(battlecry=True)).then(
-		Give(CONTROLLER, Buff(Buff(Discover.CARD, "TRL_077e"), "GBL_001e"))
+		Give(CONTROLLER, MultiBuff(Discover.CARD, ["TRL_077e", "GBL_001e"]))
 	)
 
 

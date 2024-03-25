@@ -5,7 +5,6 @@ from enum import IntEnum
 from typing import Any, Callable, Iterable, List, Optional, Set, Union
 
 from hearthstone.enums import CardClass, CardType, GameTag, Race, Rarity, Zone
-from hearthstone.utils import LACKEY_CARDS
 
 from .. import enums
 from ..entity import BaseEntity
@@ -292,6 +291,7 @@ def IDS(ids):
 
 TARGET = FuncSelector(lambda entities, source: [source.target])
 ATTACK_TARGET = FuncSelector(lambda entities, source: [source.attack_target])
+CREATOR_TARGET = FuncSelector(lambda entities, source: [source.creator.target])
 
 
 class BoardPositionSelector(Selector):
@@ -460,7 +460,10 @@ LIFESTEAL = EnumSelector(GameTag.LIFESTEAL)
 IMMUNE = EnumSelector(GameTag.IMMUNE)
 RUSH = EnumSelector(GameTag.RUSH)
 ECHO = EnumSelector(GameTag.ECHO)
+REBORN = EnumSelector(GameTag.REBORN)
 CHOOSE_ONE = EnumSelector(GameTag.CHOOSE_ONE)
+HAS_DISCOVER = EnumSelector(GameTag.DISCOVER)
+LACKEY = EnumSelector(GameTag.MARK_OF_EVIL)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
@@ -475,7 +478,7 @@ WARLOCK = EnumSelector(CardClass.WARLOCK)
 IN_PLAY = EnumSelector(Zone.PLAY)
 IN_DECK = EnumSelector(Zone.DECK)
 IN_HAND = EnumSelector(Zone.HAND)
-HIDDEN = EnumSelector(Zone.SECRET)
+IN_SECRET = EnumSelector(Zone.SECRET)
 DISCARDED = AttrValue(enums.DISCARDED) == True  # noqa
 KILLED = EnumSelector(Zone.GRAVEYARD) - DISCARDED
 
@@ -487,6 +490,7 @@ CHARACTER = MINION | HERO
 WEAPON = EnumSelector(CardType.WEAPON)
 SPELL = EnumSelector(CardType.SPELL)
 SECRET = EnumSelector(GameTag.SECRET)
+QUEST = EnumSelector(GameTag.QUEST)
 HERO_POWER = EnumSelector(CardType.HERO_POWER)
 
 BEAST = EnumSelector(Race.BEAST)
@@ -503,12 +507,6 @@ TREANT = FuncSelector(
 		if getattr(e, "name_enUS", "").endswith("Treant")
 	]
 )  # Race.`TREANT` is not defined yet.
-LACKEY = FuncSelector(
-	lambda entities, src: [
-		e for e in entities
-		if e.id in LACKEY_CARDS
-	]
-)
 
 COMMON = EnumSelector(Rarity.COMMON)
 RARE = EnumSelector(Rarity.RARE)
@@ -520,7 +518,8 @@ ALL_HEROES = IN_PLAY + HERO
 ALL_MINIONS = IN_PLAY + MINION - DORMANT
 ALL_CHARACTERS = IN_PLAY + CHARACTER - DORMANT
 ALL_WEAPONS = IN_PLAY + WEAPON
-ALL_SECRETS = HIDDEN + SECRET
+ALL_SECRETS = IN_SECRET + SECRET
+ALL_QUESTS = IN_SECRET + QUEST
 ALL_HERO_POWERS = IN_PLAY + HERO_POWER
 
 OWNER_CONTROLLER = ALL_PLAYERS + CONTROLLED_BY(OWNER)
@@ -537,6 +536,7 @@ FRIENDLY_MINIONS = ALL_MINIONS + FRIENDLY
 FRIENDLY_CHARACTERS = ALL_CHARACTERS + FRIENDLY
 FRIENDLY_WEAPON = ALL_WEAPONS + FRIENDLY
 FRIENDLY_SECRETS = ALL_SECRETS + FRIENDLY
+FRIENDLY_QUEST = ALL_QUESTS + FRIENDLY
 FRIENDLY_HERO_POWER = ALL_HERO_POWERS + FRIENDLY
 
 ENEMY_HAND = IN_HAND + ENEMY
@@ -546,6 +546,7 @@ ENEMY_MINIONS = ALL_MINIONS + ENEMY
 ENEMY_CHARACTERS = ALL_CHARACTERS + ENEMY
 ENEMY_WEAPON = ALL_WEAPONS + ENEMY
 ENEMY_SECRETS = ALL_SECRETS + ENEMY
+ENEMY_QUEST = ALL_QUESTS + ENEMY
 ENEMY_HERO_POWER = ALL_HERO_POWERS + ENEMY
 
 RANDOM_MINION = RANDOM(ALL_MINIONS - DEAD)

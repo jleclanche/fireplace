@@ -54,9 +54,5 @@ class UNG_816:
 	requirements = {
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 		PlayReq.REQ_TARGET_WITH_DEATHRATTLE: 0}
-	pass
-
-
-class UNG_844:
-	"""Humongous Razorleaf"""
-	play = ELEMENTAL_PLAYED_LAST_TURN & DISCOVER(RandomElemental())
+	powered_up = ELEMENTAL_PLAYED_LAST_TURN
+	play = powered_up & DISCOVER(RandomElemental())

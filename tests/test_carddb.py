@@ -41,7 +41,7 @@ def test_card_docstrings():
 	for card in CARDS.values():
 		if card.locale != "enUS":
 			continue
-		c = utils.fireplace.utils.get_script_definition(card.id)
+		c = utils.fireplace.cards.get_script_definition(card.id)
 		name = c.__doc__
 		if name is not None:
 			if name.endswith(")"):

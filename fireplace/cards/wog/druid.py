@@ -31,6 +31,9 @@ class OG_202:
 
 
 class OG_202a:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 2,
+	}
 	play = Summon(CONTROLLER, "OG_202c")
 
 
@@ -105,6 +108,9 @@ class OG_195:
 
 
 class OG_195a:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "OG_195c") * 7
 
 

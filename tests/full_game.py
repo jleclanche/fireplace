@@ -3,6 +3,7 @@ import sys
 
 from fireplace import cards
 from fireplace.exceptions import GameOver
+from fireplace.logging import log
 from fireplace.utils import play_full_game
 
 
@@ -13,7 +14,7 @@ def test_full_game():
 	try:
 		play_full_game()
 	except GameOver:
-		print("Game completed normally.")
+		log.info("Game completed normally.")
 
 
 def main():

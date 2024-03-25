@@ -29,6 +29,7 @@ GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY, ))
 GivePoisonous = lambda target: SetTag(target, (GameTag.POISONOUS, ))
 GiveLifesteal = lambda target: SetTag(target, (GameTag.LIFESTEAL, ))
 GiveRush = lambda target: SetTag(target, (GameTag.RUSH, ))
+GiveReborn = lambda target: SetTag(target, (GameTag.REBORN, ))
 
 
 CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))
@@ -50,7 +51,7 @@ BASIC_HERO_POWERS = [
 	"CS2_083b", "CS2_056", "CS2_102",
 ]
 
-HERO_POWER_MAP = {
+UPGRADE_HERO_POWER_MAP = {
 	# Druid
 	"CS2_017": "AT_132_DRUID",  # Malfurion Stormrage
 	"CS2_017_HS1": "AT_132_DRUIDa",  # Lunara
@@ -86,10 +87,15 @@ HERO_POWER_MAP = {
 	# Warrior
 	"CS2_102": "AT_132_WARRIOR",  # Garrosh Hellscream
 	"CS2_102_H1": "CS2_102_H1_AT_132",  # Magni Bronzebeard
+	"CS2_102_H2": "CS2_102_H3_AT_132",  # Deathwing
 }
 
+UPGRADED_HERO_POWERS = [
+	UPGRADE_HERO_POWER_MAP[hero_power] for hero_power in BASIC_HERO_POWERS
+]
+
 UPGRADE_HERO_POWER = Switch(FRIENDLY_HERO_POWER, {
-	k: Summon(CONTROLLER, v) for k, v in HERO_POWER_MAP.items()
+	k: Summon(CONTROLLER, v) for k, v in UPGRADE_HERO_POWER_MAP.items()
 })
 
 BASIC_TOTEMS = ["CS2_050", "CS2_051", "CS2_052", "NEW1_009"]
@@ -132,12 +138,13 @@ LACKEY_CARDS = [
 	"DAL_615",
 	"DAL_739",
 	"DAL_741",
-	# "ULD_616",
+	"ULD_616",
 	# "DRG_052",
 ]
 
 RandomBasicTotem = lambda *args, **kw: RandomID(*BASIC_TOTEMS, **kw)
 RandomBasicHeroPower = lambda *args, **kw: RandomID(*BASIC_HERO_POWERS, **kw)
+RandomUpgradedHeroPower = lambda *args, **kw: RandomID(*UPGRADED_HERO_POWERS, **kw)
 RandomPotion = lambda *args, **kw: RandomID(*POTIONS, **kw)
 RandomLackey = lambda *args, **kw: RandomID(*LACKEY_CARDS, **kw)
 

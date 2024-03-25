@@ -2,7 +2,6 @@
 Targeting logic
 """
 from hearthstone.enums import CardType, PlayReq, Rarity
-from hearthstone.utils import LACKEY_CARDS
 
 
 TARGETING_PREREQUISITES = (
@@ -115,7 +114,7 @@ def is_valid_target(self, target, requirements=None):
 			if not target.stealthed:
 				return False
 		elif req == PlayReq.REQ_FRIENDLY_LACKEY:
-			if target.id not in LACKEY_CARDS:
+			if not target.mark_of_evil:
 				return False
 		elif req == PlayReq.REQ_MINION_ATTACK_LESS_OR_EQUAL_MANA:
 			if target.atk > self.controller.mana:

@@ -70,9 +70,9 @@ def test_deathstalker_rexxar():
 	card2 = choice.cards[0]
 	choice.choose(card2)
 	assert not game.player1.choice
-	game.player1.hand[0].atk = card1.atk + card2.atk
-	game.player1.hand[0].atk = card1.health + card2.health
-	game.player1.hand[0].atk = card1.cost + card2.cost
+	assert game.player1.hand[0].atk == card1.atk + card2.atk
+	assert game.player1.hand[0].health == card1.health + card2.health
+	assert game.player1.hand[0].cost == card1.cost + card2.cost
 
 
 def test_bolvar_fireblood():

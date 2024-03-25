@@ -77,6 +77,9 @@ class AT_037a:
 
 
 class AT_037b:
+	requirements = {
+		PlayReq.REQ_NUM_MINION_SLOTS: 1,
+	}
 	play = Summon(CONTROLLER, "AT_037t") * 2
 
 

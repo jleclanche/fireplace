@@ -39,7 +39,9 @@ class DAL_752:
 	"""Jepetto Joybuzz"""
 	# <b>Battlecry:</b> Draw 2 minions from your deck. Set their Attack, Health, and Cost
 	# to 1.
-	play = Buff(Buff(ForceDraw(RANDOM(FRIENDLY_DECK + MINION)), "DAL_752e"), "DAL_752e2") * 2
+	play = ForceDraw(RANDOM(FRIENDLY_DECK + MINION)).then(
+		MultiBuff(ForceDraw.TARGET, ["DAL_752e", "DAL_752e2"])
+	) * 2
 
 
 class DAL_752e:

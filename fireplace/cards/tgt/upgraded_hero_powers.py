@@ -109,6 +109,11 @@ class CS2_102_H1_AT_132(AT_132_WARRIOR):
 	pass
 
 
+class CS2_102_H3_AT_132(AT_132_WARRIOR):
+	"""Tank Up! (Deathwing)"""
+	pass
+
+
 class AT_132_WARLOCK:
 	"""Soul Tap"""
 	activate = Draw(CONTROLLER)
@@ -127,7 +132,10 @@ class AT_132_WARLOCKb(AT_132_WARLOCK):
 class AT_132_SHAMAN:
 	"""Totemic Slam"""
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	choose = ("AT_132_SHAMANa", "AT_132_SHAMANb", "AT_132_SHAMANc", "AT_132_SHAMANd")
+	activate = Choice(
+		CONTROLLER,
+		["AT_132_SHAMANa", "AT_132_SHAMANb", "AT_132_SHAMANc", "AT_132_SHAMANd"]
+	).then(Battlecry(Choice.CARD, None))
 
 
 class CS2_049_H1_AT_132(AT_132_SHAMAN):
