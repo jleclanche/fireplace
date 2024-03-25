@@ -8,13 +8,17 @@ def test_griftah():
 	game.player1.choice.choose(card1)
 	card2 = game.player1.choice.cards[0]
 	game.player1.choice.choose(card2)
-	assert (
-		game.player1.hand[0].id == card1.id and
-		game.player2.hand[1].id == card2.id
-	) ^ (
-		game.player1.hand[0].id == card2.id and
-		game.player2.hand[1].id == card1.id
-	)
+	if card1.id != card2.id:
+		assert (
+			game.player1.hand[0].id == card1.id and
+			game.player2.hand[1].id == card2.id
+		) ^ (
+			game.player1.hand[0].id == card2.id and
+			game.player2.hand[1].id == card1.id
+		)
+	else:
+		assert game.player1.hand[0].id == card1.id
+		assert game.player2.hand[1].id == card1.id
 	assert not game.player1.choice
 
 
