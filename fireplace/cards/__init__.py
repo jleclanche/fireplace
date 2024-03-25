@@ -1,13 +1,33 @@
 import os
-from pkg_resources import resource_filename
+from importlib import import_module
+
 from hearthstone import cardxml
-from hearthstone.enums import CardClass, CardType, Race, ZodiacYear
+from hearthstone.enums import CardType, GameTag, Race, ZodiacYear
+
 from ..logging import log
-from ..utils import get_script_definition
+from ..utils import CARD_SETS
 
 
 year = ZodiacYear.DRAGON
 default_language = "enUS"
+
+
+def get_script_definition(id, card=None):
+	"""
+	Find and return the script definition for card
+	"""
+	if not card:
+		card = db[id]
+
+	if GameTag.DECK_RULE_COUNT_AS_COPY_OF_CARD_ID in card.tags:
+		dbf_id = card.tags[GameTag.DECK_RULE_COUNT_AS_COPY_OF_CARD_ID]
+		if dbf_id in db.dbf:
+			id = db.dbf[dbf_id]
+
+	for cardset in CARD_SETS:
+		module = import_module("fireplace.cards.%s" % (cardset))
+		if hasattr(module, id):
+			return getattr(module, id)
 
 
 class CardDB(dict):
@@ -25,7 +45,7 @@ class CardDB(dict):
 			card = cardxml.CardXML(id)
 
 		if cardscript is None:
-			cardscript = get_script_definition(id)
+			cardscript = get_script_definition(id, card)
 
 		if cardscript:
 			card.scripts = type(id, (cardscript, ), {})

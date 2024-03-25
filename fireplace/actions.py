@@ -5,16 +5,15 @@ from hearthstone.enums import (
 	BlockType, CardClass, CardType, GameTag, Mulligan, PlayState, Race, Step, Zone
 )
 
-from .cards import db
 from .dsl import LazyNum, LazyValue, Selector
 from .dsl.copy import Copy, RebornCopy
-from .dsl.random_picker import RandomBeast, RandomCollectible, RandomMinion, RandomSpell
+from .dsl.random_picker import RandomMinion
 from .dsl.selector import SELF
 from .entity import Entity
 from .enums import DISCARDED
 from .exceptions import InvalidAction
 from .logging import log
-from .utils import get_script_definition, random_class
+from .utils import random_class
 
 
 def _eval_card(source, card):

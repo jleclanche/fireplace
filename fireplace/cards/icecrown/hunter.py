@@ -1,3 +1,4 @@
+from ...cards import get_script_definition
 from ..utils import *
 
 

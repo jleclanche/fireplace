@@ -3,7 +3,7 @@ import string
 
 from hearthstone.enums import CardSet, CardType
 
-from fireplace.utils import get_script_definition
+from fireplace.cards import get_script_definition
 
 
 RED = "\033[91m"

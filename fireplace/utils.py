@@ -7,7 +7,6 @@ from typing import List
 from xml.etree import ElementTree
 
 from hearthstone.enums import CardClass, CardType
-from hearthstone.utils import COPIED_CARDS_WILD_EVENTS_MAP
 
 from .logging import log
 
@@ -106,19 +105,6 @@ def random_draft(card_class: CardClass, exclude=[], include=[]):
 
 def random_class():
 	return CardClass(random.randint(2, 10))
-
-
-def get_script_definition(id):
-	"""
-	Find and return the script definition for card \a id
-	"""
-	if id in COPIED_CARDS_WILD_EVENTS_MAP:
-		id = COPIED_CARDS_WILD_EVENTS_MAP[id]
-
-	for cardset in CARD_SETS:
-		module = import_module("fireplace.cards.%s" % (cardset))
-		if hasattr(module, id):
-			return getattr(module, id)
 
 
 def entity_to_xml(entity):
