@@ -21,7 +21,7 @@ def get_script_definition(id, card=None):
 
 	if GameTag.DECK_RULE_COUNT_AS_COPY_OF_CARD_ID in card.tags:
 		dbf_id = card.tags[GameTag.DECK_RULE_COUNT_AS_COPY_OF_CARD_ID]
-		if dbf_id in db.dbf:
+		if dbf_id < card.dbf_id and dbf_id in db.dbf:
 			id = db.dbf[dbf_id]
 
 	for cardset in CARD_SETS:
