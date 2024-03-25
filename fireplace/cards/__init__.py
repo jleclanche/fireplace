@@ -150,6 +150,7 @@ class CardDB(dict):
 		db, _ = cardxml.load(path=filename, locale=locale)
 		for id, card in db.items():
 			self[id] = self.merge(id, card)
+			self.dbf[card.dbf_id] = id
 		db2, _ = cardxml.load(locale=locale)
 		for id, card in db2.items():
 			self.dbf[card.dbf_id] = id
