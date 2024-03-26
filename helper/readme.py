@@ -5,7 +5,7 @@ from utils import *
 from fireplace import cards
 
 
-VERSION = "15.6.2.36393"
+VERSION = "16.6.0.43246"
 WIKI_HOST = "https://hearthstone.wiki.gg/wiki"
 
 CARD_SET_NAME = {
@@ -33,6 +33,7 @@ CARD_SET_NAME = {
 	CardSet.DRAGONS: "Descent of Dragons",
 	CardSet.BLACK_TEMPLE: "Ashes of Outlands",
 	CardSet.WILD_EVENT: "Wild Event",
+	CardSet.YEAR_OF_THE_DRAGON: "Galakrond's Awakening",
 }
 
 
@@ -50,7 +51,7 @@ def main():
 		for id in cards.db.filter(
 			card_set=card_set,
 			collectible=True,
-			include_quest=True,
+			can_pick_from_subsets=True,
 			include_default_hero=True,
 		):
 			card = cards.db[id]

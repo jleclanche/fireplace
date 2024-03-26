@@ -36,7 +36,7 @@ def main():
 		"--card_set",
 		dest="card_set",
 		type=int,
-		default=CardSet.ULDUM,
+		default=CardSet.BLACK_TEMPLE,
 		help="Generate cards of card set"
 	)
 	p.add_argument(
@@ -47,7 +47,7 @@ def main():
 	p.add_argument(
 		"--output_dir",
 		dest="output_dir",
-		default="./fireplace/cards/uldum",
+		default="./fireplace/cards/outlands",
 		help="Generate code output dir",
 	)
 	args = p.parse_args(sys.argv[1:])
@@ -114,7 +114,7 @@ def main():
 				card_set=args.card_set,
 				collectible=True,
 				type=card_type,
-				include_quest=True,
+				can_pick_from_subsets=True,
 				**kw
 			):
 				card = cards.db[id]

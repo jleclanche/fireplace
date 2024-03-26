@@ -134,6 +134,7 @@ class PlayerManager(Manager):
 		GameTag.FIRST_PLAYER: "first_player",
 		GameTag.HEALING_DOUBLE: "healing_double",
 		GameTag.HERO_ENTITY: "hero",
+		GameTag.INVOKE_COUNTER: "invoke_counter",
 		GameTag.LAST_CARD_PLAYED: "last_card_played",
 		GameTag.MAXHANDSIZE: "max_hand_size",
 		GameTag.MAXRESOURCES: "max_resources",

@@ -2082,3 +2082,16 @@ class Replay(TargetedAction):
 			source.game.queue_actions(source, [CastSpell(target)])
 		else:
 			source.game.queue_actions(source, [Summon(source.controller, target)])
+
+
+class Invoke(TargetedAction):
+	def do(self, source, player):
+		source.game.manager.targeted_action(self, source, player)
+		player.invoke_counter += 1
+		galakrond = player.galakrond
+		if not galakrond:
+			return
+		source.game.queue_actions(source, [
+			PlayHeroPower(galakrond.data.hero_power, None),
+			AddProgress(galakrond, source)
+		])

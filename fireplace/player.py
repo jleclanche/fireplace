@@ -1,7 +1,7 @@
 import random
 from itertools import chain
 
-from hearthstone.enums import CardType, PlayState, Race, Zone
+from hearthstone.enums import CardType, GameTag, PlayState, Race, Zone
 
 from .actions import Concede, Draw, Fatigue, Give, Hit, Steal, Summon
 from .aura import TargetableByAuras
@@ -81,6 +81,8 @@ class Player(Entity, TargetableByAuras):
 		self.spent_mana_on_spells_this_game = 0
 		self.healed_this_game = 0
 		self.cthun = None
+		self._galakrond = None
+		self.invoke_counter = 0
 
 	def dump(self):
 		data = super().dump()
@@ -131,6 +133,9 @@ class Player(Entity, TargetableByAuras):
 		data["timeout"] = self.timeout
 		data["playstate"] = int(self.playstate)
 		return data
+
+	def __iter__(self):
+		return chain(self.entities, self.hand, self.deck, self.graveyard)
 
 	def __str__(self):
 		return self.name
@@ -212,6 +217,25 @@ class Player(Entity, TargetableByAuras):
 	def minion_slots(self):
 		return max(0, self.game.MAX_MINIONS_ON_FIELD - len(self.field))
 
+	@property
+	def galakrond(self):
+		if self.hero and self.hero.tags.get(GameTag.GALAKROND_HERO_CARD):
+			return self.hero
+
+		if self._galakrond:
+			return self._galakrond
+
+		galakronds = []
+		for entity in self:
+			if entity and entity.tags.get(GameTag.GALAKROND_HERO_CARD):
+				if entity.card_class == self.hero.card_class:
+					return entity
+				galakronds.append(entity)
+		if galakronds:
+			return galakronds[0]
+
+		return None
+
 	def copy_cthun_buff(self, card):
 		for buff in self.cthun.buffs:
 			buff.source.buff(
@@ -254,6 +278,7 @@ class Player(Entity, TargetableByAuras):
 		self.starting_deck = self.deck[:]
 		self.shuffle_deck()
 		self.cthun = self.card("OG_280")
+		self._galakrond = self.galakrond
 		self.playstate = PlayState.PLAYING
 
 		# Draw initial hand (but not any more than what we have in the deck)

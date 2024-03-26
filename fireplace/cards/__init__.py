@@ -174,11 +174,10 @@ class CardDB(dict):
 
 		cards = self.values()
 
-		# Quests cannot be randomly generated
-		if "include_quest" not in kwargs:
-			cards = [card for card in cards if not card.quest]
+		if "can_pick_from_subsets" not in kwargs:
+			cards = [card for card in cards if not bool(card.tags.get(GameTag.DONT_PICK_FROM_SUBSETS))]
 		else:
-			kwargs.pop("include_quest")
+			kwargs.pop("can_pick_from_subsets")
 
 		# exclude default hero
 		if "include_default_hero" not in kwargs:
