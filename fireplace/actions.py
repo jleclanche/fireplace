@@ -1274,8 +1274,10 @@ class SpendMana(TargetedAction):
 	AMOUNT = IntArg()
 
 	def do(self, source, target, amount):
+		log.info("%s pays %i mana", target, amount)
 		target.used_mana = max(target.used_mana + amount, 0)
 		source.game.manager.targeted_action(self, source, target, amount)
+		self.broadcast(source, EventListener.AFTER, target, amount)
 
 
 class SetMana(TargetedAction):

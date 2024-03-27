@@ -28,7 +28,8 @@ class AT_132_DRUIDb(AT_132_DRUID):
 class AT_132_HUNTER:
 	"""Ballista Shot"""
 	requirements = {PlayReq.REQ_MINION_OR_ENEMY_HERO: 0, PlayReq.REQ_STEADY_SHOT: 0}
-	activate = Hit(ENEMY_HERO, 3)
+	powered_up = Find(SELF + EnumSelector(GameTag.STEADY_SHOT_CAN_TARGET))
+	activate = powered_up & Hit(TARGET, 3) | Hit(ENEMY_HERO, 3)
 
 
 class DS1h_292_H1_AT_132(AT_132_HUNTER):

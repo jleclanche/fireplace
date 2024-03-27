@@ -28,10 +28,14 @@ def Card(id):
 		CardType.WEAPON: Weapon,
 		CardType.HERO_POWER: HeroPower,
 	}[data.type]
-	if subclass is Spell and data.secret:
-		subclass = Secret
-	if subclass is Spell and data.quest:
-		subclass = Quest
+	if subclass is Spell:
+		if data.secret:
+			subclass = Secret
+		elif data.quest:
+			subclass = Quest
+		elif data.sidequest:
+			subclass = SideQuest
+
 	return subclass(data)
 
 
@@ -641,6 +645,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		if req is not None:
 			if self.controller.field.filter(mark_of_evil=True):
 				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_STEADY_SHOT)
+		if req is not None:
+			if self.tags.get(GameTag.STEADY_SHOT_CAN_TARGET):
+				return bool(self.play_targets)
 		# req = self.requirements.get(
 		# 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
 		# if req is not None:
@@ -1246,8 +1254,9 @@ class Quest(Spell):
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
-			# Move secrets to the SECRET Zone when played
 			value = Zone.SECRET
+		if self.zone == Zone.SECRET:
+			self.controller.secrets.remove(self)
 		if value == Zone.SECRET:
 			self.controller.secrets.insert(0, self)
 		super()._set_zone(value)
@@ -1257,6 +1266,44 @@ class Quest(Spell):
 		ret = super().events
 		if self.zone == Zone.SECRET:
 			ret += self.data.scripts.quest
+		return ret
+
+
+class SideQuest(Spell):
+	spelltype = enums.SpellType.SIDEQUEST
+
+	@property
+	def zone_position(self):
+		if self.zone == Zone.SECRET:
+			return self.controller.secrets.index(self) + 1
+		return super().zone_position
+
+	def dump_hidden(self):
+		if self.zone == Zone.SECRET:
+			return self.dump()
+		return super().dump_hidden()
+
+	def is_summonable(self):
+		if self.controller.secrets.contains(self):
+			return False
+		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
+			return False
+		return super().is_summonable()
+
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			value = Zone.SECRET
+		if self.zone == Zone.SECRET:
+			self.controller.secrets.remove(self)
+		if value == Zone.SECRET:
+			self.controller.secrets.append(self)
+		super()._set_zone(value)
+
+	@property
+	def events(self):
+		ret = super().events
+		if self.zone == Zone.SECRET:
+			ret += self.data.scripts.sidequest
 		return ret
 
 

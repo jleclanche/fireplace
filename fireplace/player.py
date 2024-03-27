@@ -3,7 +3,7 @@ from itertools import chain
 
 from hearthstone.enums import CardType, GameTag, PlayState, Race, Zone
 
-from .actions import Concede, Draw, Fatigue, Give, Hit, Steal, Summon
+from .actions import Concede, Draw, Fatigue, Give, Hit, SpendMana, Steal, Summon
 from .aura import TargetableByAuras
 from .card import Card
 from .deck import Deck
@@ -134,9 +134,6 @@ class Player(Entity, TargetableByAuras):
 		data["playstate"] = int(self.playstate)
 		return data
 
-	def __iter__(self):
-		return chain(self.entities, self.hand, self.deck, self.graveyard)
-
 	def __str__(self):
 		return self.name
 
@@ -226,7 +223,7 @@ class Player(Entity, TargetableByAuras):
 			return self._galakrond
 
 		galakronds = []
-		for entity in self:
+		for entity in self.hand + self.deck:
 			if entity and entity.tags.get(GameTag.GALAKROND_HERO_CARD):
 				if entity.card_class == self.hero.card_class:
 					return entity
@@ -363,8 +360,7 @@ class Player(Entity, TargetableByAuras):
 			used_temp = min(self.temp_mana, amount)
 			amount -= used_temp
 			self.temp_mana -= used_temp
-		self.log("%s pays %i mana", self, amount)
-		self.used_mana += amount
+		self.game.queue_actions(source, [SpendMana(self, amount)])
 		return amount
 
 	def shuffle_deck(self):

@@ -188,7 +188,7 @@ def test_forbidden_words():
 	assert words.is_playable()
 	assert minion_12 not in words.play_targets
 	assert words.play_targets == [minion_10, minion_8, minion_6, minion_4, minion_2]
-	game.player1.pay_cost(game, 4)
+	game.player1.pay_cost(game.player1, 4)
 	assert words.play_targets == [minion_6, minion_4, minion_2]
 	words.play(target=minion_4)
 	assert minion_4.dead

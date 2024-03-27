@@ -42,6 +42,7 @@ class DRG_026:
 				yield Attack(self, entity)
 				yield Deaths()
 
+
 ##
 # Spells
 
