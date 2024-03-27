@@ -519,8 +519,9 @@ class Play(GameAction):
 				card.controller.times_totem_summoned_this_game += 1
 			if Race.ELEMENTAL in card.races:
 				player.elemental_played_this_turn += 1
-		player.cards_played_this_turn.append(card)
+		player.cards_played_this_turn += 1
 		player.cards_played_this_game.append(card)
+		card.turn_played = source.game.turn
 		card.choose = None
 
 
@@ -1165,7 +1166,8 @@ class Draw(TargetedAction):
 		else:
 			log.info("%s draws %r", target, card)
 			card.zone = Zone.HAND
-			target.cards_drawn_this_turn.append(card)
+			card.turn_drawn = source.game.turn
+			source.controller.cards_drawn_this_turn += 1
 			source.game.manager.targeted_action(self, source, target, card)
 			if source.game.step > Step.BEGIN_MULLIGAN:
 				# Proc the draw script, but only if we are past mulligan

@@ -279,3 +279,16 @@ def test_heavy_metal():
 	assert game.player1.hero.armor == 15
 	game.player1.give("TRL_324").play()
 	assert game.player1.field[1].cost == 10
+
+
+def test_wartbringer():
+	game = prepare_game()
+	wartbringer = game.player1.give("TRL_522")
+	assert not wartbringer.powered_up
+	assert not wartbringer.requires_target()
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert not wartbringer.powered_up
+	assert not wartbringer.requires_target()
+	game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	assert wartbringer.powered_up
+	assert wartbringer.requires_target()

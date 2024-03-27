@@ -590,12 +590,9 @@ RIGTHMOST_HAND = FuncSelector(
 	lambda entities, source: source.game.player1.hand[:1] + source.game.player2.hand[-1:])
 OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND
 
-CARDS_PLAYED_THIS_TRUN = FuncSelector(
-	lambda entities, source: source.controller.cards_played_this_turn)
-CARDS_PLAYED_LAST_TRUN = FuncSelector(
-	lambda entities, source: source.controller.cards_played_last_turn)
-OPPONENT_CARDS_PLAYED_THIS_TRUN = FuncSelector(
-	lambda entities, source: source.controller.opponent.cards_played_this_turn)
+NUM_CARDS_PLAYED_THIS_TURN = Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
+CARDS_PLAYED_THIS_TURN = AttrValue("played_this_turn") == True  # noqa
+CARDS_PLAYED_LAST_TURN = AttrValue("played_this_turn") == True  # noqa
 
 CARDS_PLAYED_THIS_GAME = FuncSelector(
 	lambda entities, source: source.controller.cards_played_this_game)

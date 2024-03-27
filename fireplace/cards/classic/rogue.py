@@ -34,7 +34,7 @@ class EX1_134:
 
 class EX1_613:
 	"""Edwin VanCleef"""
-	combo = Buff(SELF, "EX1_613e") * Count(CARDS_PLAYED_THIS_TRUN)
+	combo = Buff(SELF, "EX1_613e") * NUM_CARDS_PLAYED_THIS_TURN
 
 
 EX1_613e = buff(+2, +2)

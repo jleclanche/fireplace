@@ -106,7 +106,7 @@ def test_card_draw():
 	game.end_turn()
 	game.end_turn()
 
-	assert len(game.current_player.cards_drawn_this_turn) == 1
+	assert game.current_player.cards_drawn_this_turn == 1
 	assert len(game.current_player.hand) == 5
 	novice = game.current_player.give("EX1_015")
 	assert len(game.current_player.hand) == 6
@@ -114,17 +114,17 @@ def test_card_draw():
 	novice.play()
 	# hand should be 1 card played, 1 card drawn; same size
 	assert len(game.current_player.hand) == 6
-	assert len(game.current_player.cards_drawn_this_turn) == 2
+	assert game.current_player.cards_drawn_this_turn == 2
 	game.end_turn()
 
-	assert len(game.current_player.cards_drawn_this_turn) == 1
+	assert game.current_player.cards_drawn_this_turn == 1
 	# succubus should discard 1 card
 	card = game.current_player.give("EX1_306")
 	handlength = len(game.current_player.hand)
 	card.play()
 	assert len(game.current_player.hand) == handlength - 2
 	# Discarding a card should not effect the number of cards drawn.
-	assert len(game.current_player.cards_drawn_this_turn) == 1
+	assert game.current_player.cards_drawn_this_turn == 1
 
 
 def test_cant_draw():

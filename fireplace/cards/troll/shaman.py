@@ -47,7 +47,7 @@ class TRL_085:
 class TRL_345:
 	"""Krag'wa, the Frog"""
 	# <b>Battlecry:</b> Return all spells you played last turn to_your hand.
-	play = Give(CONTROLLER, Copy(CARDS_PLAYED_LAST_TRUN + SPELL))
+	play = Give(CONTROLLER, Copy(CARDS_PLAYED_LAST_TURN + SPELL))
 
 
 class TRL_522:
@@ -56,7 +56,7 @@ class TRL_522:
 	requirements = {
 		PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_SPELLS_PLAYED_THIS_TURN: 2,
 	}
-	powered_up = Count(CARDS_PLAYED_THIS_TRUN + SPELL) >= 2
+	powered_up = Count(CARDS_PLAYED_THIS_TURN + SPELL) >= 2
 	play = powered_up & Hit(TARGET, 2)
 
 

@@ -35,14 +35,14 @@ class DAL_603:
 	# [x]<b>Battlecry:</b> For each spell you've cast this turn, add a random Mage spell to
 	# your hand.
 	play = Give(CONTROLLER, RandomSpell(card_class=CardClass.MAGE)) * Count(
-		CARDS_PLAYED_THIS_TRUN + SPELL)
+		CARDS_PLAYED_THIS_TURN + SPELL)
 
 
 class DAL_609:
 	"""Kalecgos"""
 	# Your first spell each turn costs (0). <b>Battlecry:</b> <b>Discover</b> a spell.
 	update = (
-		(Count(CARDS_PLAYED_THIS_TRUN + SPELL) == 0) &
+		(Count(CARDS_PLAYED_THIS_TURN + SPELL) == 0) &
 		Refresh(FRIENDLY_HAND + SPELL, buff="DAL_609e")
 	)
 	play = DISCOVER(RandomSpell())

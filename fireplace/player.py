@@ -44,7 +44,6 @@ class Player(Entity, TargetableByAuras):
 		super().__init__()
 		self.deck = Deck()
 		self.hand = CardList()
-		self.discarded = CardList()
 		self.field = CardList()
 		self.graveyard = CardList()
 		self.secrets = CardList()
@@ -56,7 +55,6 @@ class Player(Entity, TargetableByAuras):
 		self.cant_fatigue = False
 		self.fatigue_counter = 0
 		self.last_card_played = None
-		self.cards_drawn_this_turn = CardList()
 		self.overloaded = 0
 		self.overload_locked = 0
 		self.overloaded_this_game = 0
@@ -70,12 +68,14 @@ class Player(Entity, TargetableByAuras):
 		self.minions_killed_this_turn = 0
 		self.weapon = None
 		self.zone = Zone.INVALID
+		self.turn = None
+		self.last_turn = None
 		self.jade_golem = 1
 		self.times_totem_summoned_this_game = 0
 		self.elemental_played_this_turn = 0
 		self.elemental_played_last_turn = 0
-		self.cards_played_this_turn = CardList()
-		self.cards_played_last_turn = CardList()
+		self.cards_drawn_this_turn = 0
+		self.cards_played_this_turn = 0
 		self.cards_played_this_game = CardList()
 		self.hero_power_damage_this_game = 0
 		self.spent_mana_on_spells_this_game = 0

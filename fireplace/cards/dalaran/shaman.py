@@ -14,8 +14,10 @@ class DAL_049:
 class DAL_052:
 	"""Muckmorpher"""
 	# [x]<b>Battlecry:</b> Transform into a 4/4 copy of a different minion in your deck.
-	play = Morph(SELF, Copy(RANDOM(FRIENDLY_DECK + MINION - ID("DAL_052")))).then(
-		Buff(Morph.CARD, "DAL_052e")
+	play = Find(FRIENDLY_DECK + MINION - ID("DAL_052")) & (
+		Morph(SELF, Copy(RANDOM(FRIENDLY_DECK + MINION - ID("DAL_052")))).then(
+			Buff(Morph.CARD, "DAL_052e")
+		)
 	)
 
 

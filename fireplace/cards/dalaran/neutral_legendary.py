@@ -21,7 +21,7 @@ class DAL_558:
 	"""Archmage Vargoth"""
 	# [x]At the end of your turn, cast a spell you've cast this turn <i>(targets are
 	# random)</i>.
-	events = OWN_TURN_END.on(CastSpell(Copy(RANDOM(CARDS_PLAYED_THIS_TRUN + SPELL))))
+	events = OWN_TURN_END.on(CastSpell(Copy(RANDOM(CARDS_PLAYED_THIS_TURN + SPELL))))
 
 
 class DAL_736:

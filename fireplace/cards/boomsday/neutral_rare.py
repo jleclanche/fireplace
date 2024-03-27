@@ -13,7 +13,7 @@ class BOT_066:
 class BOT_098:
 	"""Unpowered Mauler"""
 	# Can only attack if you cast a spell this turn.
-	update = Find(CARDS_PLAYED_THIS_TRUN + SPELL) | Refresh(SELF, {GameTag.CANT_ATTACK: True})
+	update = Find(CARDS_PLAYED_THIS_TURN + SPELL) | Refresh(SELF, {GameTag.CANT_ATTACK: True})
 
 
 class BOT_102:

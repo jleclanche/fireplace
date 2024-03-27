@@ -35,7 +35,7 @@ class ICC_910:
 	requirements = {
 		PlayReq.REQ_TARGET_FOR_COMBO: 0,
 	}
-	combo = Hit(TARGET, Count(CARDS_PLAYED_THIS_TRUN))
+	combo = Hit(TARGET, NUM_CARDS_PLAYED_THIS_TURN)
 
 
 ##

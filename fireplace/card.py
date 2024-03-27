@@ -276,6 +276,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		self.rarity = Rarity.INVALID
 		self.choose_cards = CardList()
 		self.morphed = None
+		self.turn_drawn = -1
+		self.turn_played = -1
 		self.cast_on_friendly_minions = False
 		self.play_right_most = False
 		self.custom_card = False
@@ -343,6 +345,18 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	@property
 	def entities(self):
 		return chain([self], self.buffs)
+
+	@property
+	def drawn_this_turn(self):
+		return self.turn_drawn == self.game.turn
+
+	@property
+	def played_this_turn(self):
+		return self.turn_played == self.game.turn
+
+	@property
+	def played_last_turn(self):
+		return self.turn_played == self.controller.last_turn
 
 	@property
 	def zone_position(self):
@@ -448,7 +462,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				return False
 
 		if PlayReq.REQ_MUST_PLAY_OTHER_CARD_FIRST in self.requirements:
-			if len(self.controller.cards_played_this_turn) == 0:
+			if not any(getattr(e, "played_this_turn", False) for e in self.game):
 				return False
 
 		if PlayReq.REQ_HAND_NOT_FULL in self.requirements:
@@ -587,7 +601,11 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		req = self.requirements.get(
 			PlayReq.REQ_TARGET_IF_AVAILABLE_AND_MINIMUM_SPELLS_PLAYED_THIS_TURN)
 		if req is not None:
-			if len(self.controller.cards_played_this_turn.filter(type=CardType.SPELL)) >= req:
+			if sum(
+				getattr(e, "played_this_turn", False) and
+				getattr(e, "type", None) == CardType.SPELL
+				for e in self.game
+			) >= req:
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_HAS_OVERLOADED_MANA)
 		if req is not None:
@@ -595,11 +613,11 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAWN_THIS_TURN)
 		if req is not None:
-			if self in self.controller.cards_drawn_this_turn:
+			if self.drawn_this_turn:
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_NOT_DRAWN_THIS_TURN)
 		if req is not None:
-			if self not in self.controller.cards_drawn_this_turn:
+			if not self.drawn_this_turn:
 				return bool(self.play_targets)
 		req = self.requirements.get(
 			PlayReq.REQ_TARGET_IF_AVAILABLE_AND_ONLY_EVEN_COST_CARD_IN_DECK)

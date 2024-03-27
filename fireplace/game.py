@@ -63,10 +63,6 @@ class BaseGame(Entity):
 		return CardList(chain(self.players[0].deck, self.players[1].deck))
 
 	@property
-	def discarded(self):
-		return CardList(chain(self.players[0].discarded, self.players[1].discarded))
-
-	@property
 	def hands(self):
 		return CardList(chain(self.players[0].hand, self.players[1].hand))
 
@@ -334,11 +330,12 @@ class BaseGame(Entity):
 		self.manager.step(self.next_step, Step.MAIN_ACTION)
 
 		for p in self.players:
-			p.cards_drawn_this_turn = CardList()
+			p.cards_drawn_this_turn = 0
 
 		player.turn_start = timegm(time.gmtime())
-		player.cards_played_last_turn = player.cards_played_this_turn
-		player.cards_played_this_turn = CardList()
+		player.last_turn = player.turn
+		player.turn = self.turn
+		player.cards_played_this_turn = 0
 		player.minions_played_this_turn = 0
 		player.minions_killed_this_turn = 0
 		player.combo = False

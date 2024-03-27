@@ -80,7 +80,7 @@ class GIL_577:
 	"""Rat Trap"""
 	# [x]<b>Secret:</b> After your opponent plays three cards in a turn, summon a 6/6 Rat.
 	secret = Play(OPPONENT).after(
-		(Count(OPPONENT_CARDS_PLAYED_THIS_TRUN) >= 3) & (
+		(Attr(OPPONENT, GameTag.NUM_CARDS_PLAYED_THIS_TURN) >= 3) & (
 			FULL_BOARD | (Reveal(SELF), Summon(CONTROLLER, "GIL_577t"))
 		)
 	)
