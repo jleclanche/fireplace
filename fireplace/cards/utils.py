@@ -56,9 +56,11 @@ UPGRADE_HERO_POWER_MAP = {
 	"CS2_017": "AT_132_DRUID",  # Malfurion Stormrage
 	"CS2_017_HS1": "AT_132_DRUIDa",  # Lunara
 	"CS2_017_HS2": "AT_132_DRUIDb",  # Elise Starseeker
+	"CS2_017_HS4": "AT_132_DRUIDc",  # Dame Hazelbark
 	# Hunter
 	"DS1h_292": "AT_132_HUNTER",  # Rexxar
 	"DS1h_292_H1": "DS1h_292_H1_AT_132",  # Alleria Windrunner
+	"DS1h_292_H3": "DS1h_292_H3_AT_132",  # Sylvanas Windrunner
 	# Mage
 	"CS2_034": "AT_132_MAGE",  # Jaina Proudmoore
 	"CS2_034_H1": "CS2_034_H1_AT_132",  # Medivh
@@ -80,6 +82,7 @@ UPGRADE_HERO_POWER_MAP = {
 	"CS2_049_H1": "CS2_049_H1_AT_132",  # Morgl the Oracle
 	"CS2_049_H2": "CS2_049_H2_AT_132",  # King Rastakhan
 	"CS2_049_H3": "CS2_049_H3_AT_132",  # The Thunder King
+	"CS2_049_H5": "CS2_049_H4_AT_132",  # Lady Vashj
 	# Warlock
 	"CS2_056": "AT_132_WARLOCK",  # Gul'dan
 	"CS2_056_H1": "AT_132_WARLOCKa",  # Nemsy Necrofizzle

@@ -2,27 +2,6 @@ from ..utils import *
 
 
 ##
-# Hero Powers
-
-class CS2_034:
-	"""Fireblast (Jaina Proudmoore)"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-	activate = Hit(TARGET, 1)
-
-
-class CS2_034_H1:
-	"""Fireblast (Medivh)"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-	activate = CS2_034.activate
-
-
-class CS2_034_H2:
-	"""Fireblast (Khadgar)"""
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-	activate = CS2_034.activate
-
-
-##
 # Minions
 
 class CS2_033:
