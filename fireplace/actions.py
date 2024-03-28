@@ -2093,6 +2093,7 @@ class Invoke(TargetedAction):
 		if not galakrond:
 			return
 		source.game.queue_actions(source, [
+			Reveal(galakrond),
 			PlayHeroPower(galakrond.data.hero_power, None),
 			AddProgress(galakrond, source)
 		])
