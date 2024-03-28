@@ -139,9 +139,8 @@ def test_healing_totem():
 def test_shaman_upgrade():
 	game = prepare_game(CardClass.SHAMAN, CardClass.SHAMAN)
 	game.player1.give("AT_132").play()
-	game.player1.hero.power.use()
-	choice = game.player1.choice
-	choice.choose(choice.cards[0])
+	power = game.player1.hero.power
+	power.use(choose=power.choose_cards[0])
 	assert game.player1.field == ["AT_132", "NEW1_009"]
 
 

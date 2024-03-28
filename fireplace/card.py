@@ -499,7 +499,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		"""
 		if choose:
 			if self.must_choose_one:
-				choose = card = self.choose_cards.filter(id=choose)[0]
+				if choose in self.choose_cards:
+					card = choose
+				else:
+					choose = card = self.choose_cards.filter(id=choose)[0]
 				self.log("%r: choosing %r", self, choose)
 			else:
 				raise InvalidAction("%r cannot be played with choice %r" % (self, choose))
@@ -1419,7 +1422,10 @@ class HeroPower(PlayableCard):
 	def use(self, target=None, choose=None):
 		if choose:
 			if self.must_choose_one:
-				choose = card = self.choose_cards.filter(id=choose)[0]
+				if choose in self.choose_cards:
+					card = choose
+				else:
+					choose = card = self.choose_cards.filter(id=choose)[0]
 				self.log("%r: choosing %r", self, choose)
 			else:
 				raise InvalidAction("%r cannot be played with choice %r" % (self, choose))
