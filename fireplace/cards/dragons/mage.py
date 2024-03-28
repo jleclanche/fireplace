@@ -181,4 +181,4 @@ class DRG_324:
 		),
 		OWN_TURN_END.on(Find(CARDS_PLAYED_THIS_TURN + ELEMENTAL) | ClearProgress(SELF))
 	)
-	reward = Draw(CONTROLLER) * 3
+	reward = ForceDraw(RANDOM(FRIENDLY_DECK + SPELL)) * 3

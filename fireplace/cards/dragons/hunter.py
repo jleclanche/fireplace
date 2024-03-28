@@ -77,7 +77,7 @@ class DRG_255:
 	progress_total = 3
 	sidequest = Activate(CONTROLLER, FRIENDLY_HERO_POWER).after(
 		AddProgress(SELF, FRIENDLY_HERO_POWER))
-	reward = Summon(CONTROLLER, "DRG_251t")
+	reward = Summon(CONTROLLER, "DRG_251t") * 3
 
 
 ##
