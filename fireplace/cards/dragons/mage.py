@@ -138,7 +138,7 @@ class DRG_321:
 			RIGHT = 2
 
 		target = self.target
-		left_minion= target.left_minion
+		left_minion = target.left_minion
 		right_minion = target.right_minion
 		if left_minion and right_minion:
 			direction = random.choice([Direction.LEFT, Direction.RIGHT])

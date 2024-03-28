@@ -612,7 +612,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_HAS_OVERLOADED_MANA)
 		if req is not None:
-			if self.controller.overloaded > 0:
+			if self.controller.overloaded > 0 or self.controller.overload_locked > 0:
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAWN_THIS_TURN)
 		if req is not None:
@@ -1069,7 +1069,7 @@ class Minion(Character):
 
 	@property
 	def adjacent_minions(self):
-		return chain(self.left_minion, self.right_minion)
+		return self.left_minion + self.right_minion
 
 	@property
 	def attackable(self):
