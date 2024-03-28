@@ -255,7 +255,7 @@ def test_effigy():
 	summoned_minion.bounce()
 	# assert summoned_minion.is_collectible()
 	game.end_turn()
-	game.player1.give("EX1_136").play()
+	redemption = game.player1.give("EX1_136").play()
 	secret_effigy2.play()
 	assert secret_effigy not in game.player1.secrets
 	assert secret_effigy2 in game.player1.secrets
@@ -264,7 +264,9 @@ def test_effigy():
 		game.player1.summon("EX1_110")
 	game.end_turn()
 	game.player2.give("EX1_617").play()
-	assert secret_effigy2 in game.player1.secrets
+	# Redemption has a low priority
+	assert secret_effigy2 not in game.player1.secrets
+	assert redemption in game.player1.secrets
 
 
 def test_enter_the_coliseum():

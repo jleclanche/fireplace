@@ -242,6 +242,15 @@ def test_combo():
 	game.current_player.give("EX1_134").play()
 
 
+def test_deathrattle_simple():
+	game = prepare_game()
+	loothoarder = game.current_player.give("EX1_096")
+	loothoarder.play()
+	cardcount = len(game.current_player.hand)
+	game.player1.give(MOONFIRE).play(target=loothoarder)
+	assert len(game.player1.hand) == cardcount + 1
+
+
 def test_deathrattle():
 	game = prepare_game()
 	loothoarder = game.current_player.give("EX1_096")

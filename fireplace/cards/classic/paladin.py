@@ -192,7 +192,7 @@ class EX1_132:
 
 class EX1_136:
 	"""Redemption"""
-	secret = Death(FRIENDLY + MINION).on(FULL_BOARD | (
+	secret = Death(FRIENDLY + MINION).after(FULL_BOARD | (
 		Reveal(SELF),
 		Summon(CONTROLLER, Copy(Death.ENTITY)).then(SetCurrentHealth(Summon.CARD, 1))
 	))

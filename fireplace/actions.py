@@ -328,10 +328,12 @@ class Death(GameAction):
 	def _broadcast(self, entity, source, at, *args):
 		# https://github.com/jleclanche/fireplace/issues/126
 		target = args[0]
-		if (not self.triggered_dearattle) and entity.play_counter > target.play_counter:
-			self.triggered_dearattle = True
-			if target.deathrattles:
+		if (not self._trigger) and entity.play_counter > target.play_counter:
+			self._trigger = True
+			if at == EventListener.ON and target.deathrattles:
 				source.game.queue_actions(target, [Deathrattle(target)])
+			if at == EventListener.AFTER and target.type == CardType.MINION and target.reborn:
+				source.game.queue_actions(target, [Summon(target.controller, RebornCopy(SELF))])
 		return super()._broadcast(entity, source, at, *args)
 
 	def do(self, source, cards):
@@ -344,13 +346,15 @@ class Death(GameAction):
 			source.game.check_for_end_game()
 			source.game.refresh_auras()
 			log.info("Processing Deathrattle for %r", card)
-			self.triggered_dearattle = False
+			self._trigger = False
 			source.game.manager.game_action(self, source, card)
 			self.broadcast(source, EventListener.ON, card)
 
 		for card in cards:
-			if card.dead and card.type == CardType.MINION and card.reborn:
-				source.game.queue_actions(card, [Summon(card.controller, RebornCopy(SELF))])
+			if not card.dead:
+				continue
+			self._trigger = False
+			self.broadcast(source, EventListener.AFTER, card)
 
 
 class EndTurn(GameAction):
