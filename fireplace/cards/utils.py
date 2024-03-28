@@ -142,7 +142,7 @@ LACKEY_CARDS = [
 	"DAL_739",
 	"DAL_741",
 	"ULD_616",
-	# "DRG_052",
+	"DRG_052",
 ]
 
 RandomBasicTotem = lambda *args, **kw: RandomID(*BASIC_TOTEMS, **kw)

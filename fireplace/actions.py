@@ -1334,9 +1334,9 @@ class Hit(TargetedAction):
 		return 0
 
 
-class HitAndExcessDamageToHero(TargetedAction):
+class HitExcessDamage(TargetedAction):
 	"""
-	Hit character targets by \a amount and excess damage to their hero.
+	Hit character targets by \a amount and excess damage to other.
 	"""
 	TARGET = ActionArg()
 	AMOUNT = IntArg()
@@ -1346,13 +1346,12 @@ class HitAndExcessDamageToHero(TargetedAction):
 		if amount:
 			source.game.manager.targeted_action(self, source, target, amount)
 			if target.health >= amount:
-				return source.game.queue_actions(source, [Predamage(target, amount)])[0][0]
+				source.game.queue_actions(source, [Predamage(target, amount)])
+				return 0
 			else:
 				excess_amount = amount - target.health
-				return source.game.queue_actions(source, [
-					Predamage(target, amount),
-					Predamage(target.controller.hero, excess_amount)
-				])[0]
+				source.game.queue_actions(source, [Predamage(target, amount)])
+				return excess_amount
 		return 0
 
 

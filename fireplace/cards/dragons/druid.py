@@ -48,6 +48,7 @@ class DRG_051:
 	"""Strength in Numbers"""
 	# <b>Sidequest:</b> Spend 10 Mana on minions. <b>Reward:</b> Summon a minion from your
 	# deck.
+	# TODO need test
 	progress_total = 10
 	sidequest = SpendMana(CONTROLLER, source=MINION).after(
 		AddProgress(SELF, CONTROLLER, SpendMana.AMOUNT)
@@ -86,6 +87,7 @@ class DRG_314:
 class DRG_315:
 	"""Embiggen"""
 	# Give all minions in your deck +2/+2. They cost (1) more <i>(up to 10)</i>.
+	# TODO need test
 	play = MultiBuff(FRIENDLY_DECK + MINION, ["DRG_315e", "DRG_315e2"])
 
 

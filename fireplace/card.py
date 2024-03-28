@@ -1048,17 +1048,28 @@ class Minion(Character):
 		return self.silenced
 
 	@property
-	def adjacent_minions(self):
+	def left_minion(self):
 		assert self.zone is Zone.PLAY, self.zone
 		ret = CardList()
 		index = self.zone_position - 1
 		left = self.controller.field[:index]
-		right = self.controller.field[index + 1:]
 		if left:
 			ret.append(left[-1])
+		return ret
+
+	@property
+	def right_minion(self):
+		assert self.zone is Zone.PLAY, self.zone
+		ret = CardList()
+		index = self.zone_position - 1
+		right = self.controller.field[index + 1:]
 		if right:
 			ret.append(right[0])
 		return ret
+
+	@property
+	def adjacent_minions(self):
+		return chain(self.left_minion, self.right_minion)
 
 	@property
 	def attackable(self):
