@@ -292,3 +292,14 @@ def test_wartbringer():
 	game.player1.give(MOONFIRE).play(target=game.player2.hero)
 	assert wartbringer.powered_up
 	assert wartbringer.requires_target()
+
+
+def test_kragwa_the_frog():
+	game = prepare_empty_game()
+	frog = game.player1.give("TRL_345")
+	for _ in range(4):
+		game.player1.give(MOONFIRE).play(target=game.player2.hero)
+	game.skip_turn()
+	assert game.player1.hand == [frog]
+	frog.play()
+	assert game.player1.hand == [MOONFIRE] * 4

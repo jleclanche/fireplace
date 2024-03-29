@@ -592,7 +592,6 @@ OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND
 
 NUM_CARDS_PLAYED_THIS_TURN = Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
 CARDS_PLAYED_THIS_TURN = AttrValue("played_this_turn") == True  # noqa
-CARDS_PLAYED_LAST_TURN = AttrValue("played_this_turn") == True  # noqa
 
 CARDS_PLAYED_THIS_GAME = FuncSelector(
 	lambda entities, source: source.controller.cards_played_this_game)
@@ -622,4 +621,9 @@ CHOOSE_CARDS = lambda sel: (
 	FuncSelector(
 		lambda entities, source: sel.evaluate(source).choose_cards
 	)
+)
+
+CARDS_PLAYED_LAST_TURN = FuncSelector(
+	lambda entities, source:
+	[e for e in entities if getattr(e, "turn_played", -1) == source.controller.last_turn]
 )

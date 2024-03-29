@@ -355,10 +355,6 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		return self.turn_played == self.game.turn
 
 	@property
-	def played_last_turn(self):
-		return self.turn_played == self.controller.last_turn
-
-	@property
 	def zone_position(self):
 		"""
 		Returns the card's position (1-indexed) in its zone, or 0 if not available.
