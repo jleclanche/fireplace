@@ -272,7 +272,7 @@ class Player(Entity, TargetableByAuras):
 			card = self.card(id, zone=Zone.DECK)
 			if self.is_standard and not card.is_standard:
 				self.is_standard = False
-		self.starting_deck = self.deck[:]
+		self.starting_deck = CardList(self.deck[:])
 		self.shuffle_deck()
 		self.cthun = self.card("OG_280")
 		self._galakrond = self.galakrond

@@ -7,13 +7,14 @@ from ..utils import *
 class YOD_040:
 	"""Steel Beetle"""
 	# <b>Battlecry:</b> If you're holding a spell that costs (5) or more, gain 5 Armor.
-	pass
+	powered_up = Find(FRIENDLY_HAND + SEPLL + (COST >= 5))
+	play = powered_up & GainArmor(FRIENDLY_HERO, 5)
 
 
 class YOD_001:
 	"""Rising Winds"""
 	# <b>Twinspell</b> <b>Choose One -</b> Draw a card; or Summon a 3/2_Eagle.
-	pass
+	choose = ("YOD_001a", "YOD_001b")
 
 
 ##
