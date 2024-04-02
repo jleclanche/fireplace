@@ -65,14 +65,11 @@ class DAL_373:
 	requirements = {
 		PlayReq.REQ_TARGET_TO_PLAY: 0,
 	}
-	play = Give(CONTROLLER, "DAL_373ts"), Hit(TARGET, 1)
-
-
-class DAL_373ts:
-	requirements = {
-		PlayReq.REQ_TARGET_TO_PLAY: 0,
-	}
 	play = Hit(TARGET, 1)
+
+
+class DAL_373ts(DAL_373):
+	pass
 
 
 class DAL_377:
@@ -96,14 +93,11 @@ class DAL_378:
 	requirements = {
 		PlayReq.REQ_NUM_MINION_SLOTS: 1,
 	}
-	play = Give(CONTROLLER, "DAL_378ts"), Summon(CONTROLLER, "DAL_378t1")
-
-
-class DAL_378ts:
-	requirements = {
-		PlayReq.REQ_NUM_MINION_SLOTS: 1,
-	}
 	play = Summon(CONTROLLER, "DAL_378t1")
+
+
+class DAL_378ts(DAL_378):
+	pass
 
 
 class DAL_589:

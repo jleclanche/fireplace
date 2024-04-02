@@ -63,18 +63,11 @@ class DAL_177:
 		PlayReq.REQ_TARGET_TO_PLAY: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 	}
-	play = (
-		Give(CONTROLLER, "DAL_177ts"),
-		Destroy(TARGET), Summon(CONTROLLER, RandomMinion(cost=COST(TARGET))) * 2
-	)
-
-
-class DAL_177ts:
-	requirements = {
-		PlayReq.REQ_TARGET_TO_PLAY: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-	}
 	play = Destroy(TARGET), Summon(CONTROLLER, RandomMinion(cost=COST(TARGET))) * 2
+
+
+class DAL_177ts(DAL_177):
+	pass
 
 
 class DAL_577:
@@ -85,18 +78,11 @@ class DAL_577:
 		PlayReq.REQ_TARGET_TO_PLAY: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
 	}
-	play = (
-		Give(CONTROLLER, "DAL_577ts"),
-		Find(TARGET + FROZEN) & Hit(TARGET, 2) | Freeze(TARGET)
-	)
-
-
-class DAL_577ts:
-	requirements = {
-		PlayReq.REQ_TARGET_TO_PLAY: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-	}
 	play = Find(TARGET + FROZEN) & Hit(TARGET, 2) | Freeze(TARGET)
+
+
+class DAL_577ts(DAL_577):
+	pass
 
 
 class DAL_578:

@@ -40,17 +40,11 @@ class DAL_141:
 	requirements = {
 		PlayReq.REQ_SECRET_ZONE_CAP_FOR_NON_SECRET: 0,
 	}
-	play = (
-		Give(CONTROLLER, "DAL_141ts"),
-		CastSpell(RandomSpell(secret=True, card_class=CardClass.PALADIN))
-	)
-
-
-class DAL_141ts:
-	requirements = {
-		PlayReq.REQ_SECRET_ZONE_CAP_FOR_NON_SECRET: 0,
-	}
 	play = CastSpell(RandomSpell(secret=True, card_class=CardClass.PALADIN))
+
+
+class DAL_141ts(DAL_141):
+	pass
 
 
 class DAL_568:
@@ -61,19 +55,11 @@ class DAL_568:
 		PlayReq.REQ_MINION_TARGET: 0,
 		PlayReq.REQ_FRIENDLY_TARGET: 0,
 	}
-	play = (
-		Give(CONTROLLER, "DAL_568ts"),
-		GiveLifesteal(TARGET)
-	)
-
-
-class DAL_568ts:
-	requirements = {
-		PlayReq.REQ_TARGET_TO_PLAY: 0,
-		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_FRIENDLY_TARGET: 0,
-	}
 	play = GiveLifesteal(TARGET)
+
+
+class DAL_568ts(DAL_568):
+	pass
 
 
 class DAL_570:

@@ -488,6 +488,9 @@ class Play(GameAction):
 		# We need to fake a Summon broadcast.
 		summon_action = Summon(player, card)
 
+		if card.type == CardType.SPELL and card.twinspell:
+			source.game.queue_actions(card, [Give(player, card.twinspell_copy)])
+
 		if card.type in (CardType.MINION, CardType.WEAPON):
 			self.queue_broadcast(summon_action, (player, EventListener.ON, player, card))
 		self.broadcast(player, EventListener.ON, player, card, target)
@@ -1800,6 +1803,9 @@ class CastSpell(TargetedAction):
 		player = source.controller
 		old_choice = player.choice
 		player.choice = None
+
+		if card.twinspell:
+			source.game.queue_actions(card, [Give(player, card.twinspell_copy)])
 		if card.must_choose_one:
 			card = random.choice(card.choose_cards)
 		for target in targets:

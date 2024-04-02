@@ -224,6 +224,8 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.NUM_ATTACKS_THIS_TURN: "num_attacks",
 	GameTag.NUM_TURNS_IN_PLAY: "turns_in_play",
 	GameTag.TAG_ONE_TURN_EFFECT: "one_turn_effect",
+	GameTag.TWINSPELL: "twinspell",
+	GameTag.TWINSPELL_COPY: "twinspell_copy",
 	GameTag.OVERLOAD: "overload",
 	GameTag.OVERKILL: "has_overkill",
 	GameTag.PARENT_CARD: "parent_card",

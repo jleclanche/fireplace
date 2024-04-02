@@ -253,3 +253,13 @@ def test_zayle():
 	game.start()
 	assert len(game.player1.starting_deck) == 30
 	assert len(game.player2.starting_deck) == 30
+
+
+def test_twin_spell():
+	game = prepare_game()
+	twin_spell = game.player1.give("DAL_141")
+	game.player1.give("EX1_095").play()
+	while len(game.player1.hand) < game.player1.max_hand_size:
+		game.player1.give(WISP)
+	twin_spell.play()
+	assert game.player1.hand[-1].id == "DAL_141ts"

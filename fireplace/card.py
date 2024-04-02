@@ -1139,11 +1139,22 @@ class Minion(Character):
 
 class Spell(PlayableCard):
 	spelltype = enums.SpellType.INVALID
+	twinspell = boolean_property("twinspell")
 
 	def __init__(self, data):
 		self.immune_to_spellpower = False
 		self.receives_double_spelldamage_bonus = False
 		super().__init__(data)
+
+	@property
+	def twinspell_copy(self):
+		if self._twinspell_copy:
+			return cards.db.dbf[self._twinspell_copy]
+		return None
+
+	@twinspell_copy.setter
+	def twinspell_copy(self, value):
+		self._twinspell_copy = value
 
 	def dump(self):
 		data = super().dump()

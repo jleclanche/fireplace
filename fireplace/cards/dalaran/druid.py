@@ -58,14 +58,11 @@ class DAL_256:
 	requirements = {
 		PlayReq.REQ_NUM_MINION_SLOTS: 1,
 	}
-	play = Give(CONTROLLER, "DAL_256ts"), Summon(CONTROLLER, "DAL_256t2") * 5
-
-
-class DAL_256ts:
-	requirements = {
-		PlayReq.REQ_NUM_MINION_SLOTS: 1,
-	}
 	play = Summon(CONTROLLER, "DAL_256t2") * 5
+
+
+class DAL_256ts(DAL_256):
+	pass
 
 
 class DAL_350:
@@ -99,14 +96,11 @@ class DAL_351:
 	requirements = {
 		PlayReq.REQ_MINION_TARGET: 0,
 	}
-	play = Give(CONTROLLER, "DAL_351ts"), Buff(FRIENDLY_MINIONS, "DAL_351e")
-
-
-class DAL_351ts:
-	requirements = {
-		PlayReq.REQ_MINION_TARGET: 0,
-	}
 	play = Buff(FRIENDLY_MINIONS, "DAL_351e")
+
+
+class DAL_351ts(DAL_351):
+	pass
 
 
 DAL_351e = buff(+1, +1)
