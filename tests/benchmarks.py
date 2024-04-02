@@ -52,7 +52,7 @@ def test_fullgame(benchmark):
 	benchmark(seeded_fullgame)
 
 
-@pytest.mark.benchark(
+@pytest.mark.benchmark(
 	group="turn"
 )
 def test_singleturn(benchmark):
