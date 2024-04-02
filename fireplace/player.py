@@ -355,11 +355,6 @@ class Player(Entity, TargetableByAuras):
 				return amount
 		if source.type == CardType.SPELL:
 			self.spent_mana_on_spells_this_game += amount
-		if self.temp_mana:
-			# Coin, Innervate etc
-			used_temp = min(self.temp_mana, amount)
-			amount -= used_temp
-			self.temp_mana -= used_temp
 		self.game.queue_actions(source, [SpendMana(self, amount)])
 		return amount
 

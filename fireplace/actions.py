@@ -1275,7 +1275,13 @@ class SpendMana(TargetedAction):
 
 	def do(self, source, target, amount):
 		log.info("%s pays %i mana", target, amount)
-		target.used_mana = max(target.used_mana + amount, 0)
+		_amount = amount
+		if target.temp_mana:
+			# Coin, Innervate etc
+			used_temp = min(target.temp_mana, amount)
+			_amount -= used_temp
+			target.temp_mana -= used_temp
+		target.used_mana = max(target.used_mana + _amount, 0)
 		source.game.manager.targeted_action(self, source, target, amount)
 		self.broadcast(source, EventListener.AFTER, target, amount)
 
@@ -2039,7 +2045,7 @@ class AddProgress(TargetedAction):
 		source.game.manager.targeted_action(self, source, target, card, amount)
 		if target.progress >= target.progress_total:
 			source.game.trigger(target, target.get_actions("reward"), event_args=None)
-			if target.data.quest:
+			if target.data.quest or target.data.sidequest:
 				target.zone = Zone.GRAVEYARD
 
 
