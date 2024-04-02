@@ -399,6 +399,8 @@ class MulliganRules:
 
 	def mulligan_done(self):
 		self.queue_actions(self, [GameStart()])
+		for player in self.players:
+			player.starting_hand = player.hand[:]
 		self.begin_turn(self.player1)
 
 
