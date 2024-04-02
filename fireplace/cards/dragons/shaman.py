@@ -74,6 +74,7 @@ class DRG_217:
 	"""Dragon's Pack"""
 	# Summon two 2/3 Spirit Wolves with <b>Taunt</b>. If you've <b>Invoked</b> twice, give
 	# them +2/+2.
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	powered_up = INVOKED_TWICE
 	play = powered_up & (
 		Summon(CONTROLLER, "DRG_217t").then(Buff(Summon.CARD, "DRG_217e")) * 2

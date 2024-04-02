@@ -69,6 +69,7 @@ class DRG_311:
 
 
 class DRG_311a:
+	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
 	play = Summon(CONTROLLER, "DRG_311t")
 
 

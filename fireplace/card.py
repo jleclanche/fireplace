@@ -1460,6 +1460,17 @@ class HeroPower(PlayableCard):
 		return self.activations_this_turn >= (
 			1 + self.additional_activations + self.additional_activations_this_turn)
 
+	@property
+	def events(self):
+		if self.exhausted:
+			return []
+		return super().events
+
+	@property
+	def update_scripts(self):
+		if not self.exhausted:
+			yield from super().update_scripts
+
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
 			if self.controller.hero.power:

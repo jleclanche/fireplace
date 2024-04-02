@@ -72,7 +72,7 @@ class ULD_131p:
 	"""Ossirian Tear"""
 	# <b>Passive Hero Power</b> Your <b>Choose One</b> cards have both effects combined.
 	tags = {enums.PASSIVE_HERO_POWER: True}
-	update = Find(SELF - EXHAUSTED) & Refresh(CONTROLLER, {GameTag.CHOOSE_BOTH: True})
+	update = Refresh(CONTROLLER, {GameTag.CHOOSE_BOTH: True})
 
 
 class ULD_134:
