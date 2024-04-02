@@ -430,6 +430,14 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			if self.requirements[PlayReq.REQ_NUM_MINION_SLOTS] > self.controller.minion_slots:
 				return False
 
+		if PlayReq.REQ_BOARD_NOT_COMPLETELY_FULL in self.requirements:
+			if (
+				self.controller.minion_slots == 0 and
+				self.controller.opponent.minion_slots == 0
+			):
+				return False
+
+
 		min_enemy_minions = self.requirements.get(PlayReq.REQ_MINIMUM_ENEMY_MINIONS, 0)
 		if len(self.controller.opponent.field) < min_enemy_minions:
 			return False

@@ -88,7 +88,6 @@ DAL_727e = buff(+2, +2)
 class DAL_731:
 	"""Duel!"""
 	# Summon a minion from each player's deck. They fight!
-	# TODO need to add some test cases
 	requirements = {
 		PlayReq.REQ_BOARD_NOT_COMPLETELY_FULL: 0,
 	}
