@@ -17,7 +17,7 @@ Now updated to [Patch 16.6.0.43246](https://hearthstone.wiki.gg/wiki/Patch_16.6.
 * **100%** Goblins vs Gnomes (123 of 123 cards)
 * **100%** Blackrock Mountain (31 of 31 cards)
 * **100%** The Grand Tournament (132 of 132 cards)
-* **90%** Hero Skins (27 of 30 cards)
+* **100%** Hero Skins (30 of 30 cards)
 * **100%** The League of Explorers (45 of 45 cards)
 * **100%** Whispers of the Old Gods (134 of 134 cards)
 * **100%** One Night in Karazhan (45 of 45 cards)
@@ -35,9 +35,6 @@ Now updated to [Patch 16.6.0.43246](https://hearthstone.wiki.gg/wiki/Patch_16.6.
 * **100%** Ashes of Outlands (1 of 1 card)
 
 Not Implemented
-* Lady Vashj (HERO_02e)
-* Sylvanas Windrunner (HERO_05c)
-* Dame Hazelbark (HERO_06d)
 * Zephrys the Great (ULD_003)
 
 ## Requirements

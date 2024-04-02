@@ -1462,13 +1462,13 @@ class HeroPower(PlayableCard):
 
 	@property
 	def events(self):
-		if self.exhausted:
+		if self.heropower_disabled:
 			return []
 		return super().events
 
 	@property
 	def update_scripts(self):
-		if not self.exhausted:
+		if not self.heropower_disabled:
 			yield from super().update_scripts
 
 	def _set_zone(self, value):

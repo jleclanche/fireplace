@@ -59,7 +59,7 @@ class DAL_011:
 	"""Lazul's Scheme"""
 	# Reduce the Attack of an enemy minion by @ until your next turn. <i>(Upgrades each
 	# turn!)</i>
-	# TODO need test
+	# TODO need to add some test cases
 	requirements = {
 		PlayReq.REQ_TARGET_TO_PLAY: 0,
 		PlayReq.REQ_MINION_TARGET: 0,

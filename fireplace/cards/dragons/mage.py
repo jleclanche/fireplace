@@ -129,7 +129,7 @@ class DRG_106:
 class DRG_321:
 	"""Rolling Fireball"""
 	# Deal $8 damage to a minion. Any excess damage continues to the left or right.
-	# TODO need test
+	# TODO need to add some test cases
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 
 	def play(self):
@@ -173,7 +173,7 @@ class DRG_324:
 	"""Elemental Allies"""
 	# [x]<b>Sidequest:</b> Play an Elemental 2 turns in a row. <b>Reward:</b> Draw 3 spells
 	# from your deck.
-	# TODO need test
+	# TODO need to add some test cases
 	progress_total = 2
 	sidequest = (
 		Play(CONTROLLER, ELEMENTAL).after(

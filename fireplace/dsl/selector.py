@@ -629,8 +629,10 @@ CARDS_PLAYED_LAST_TURN = FuncSelector(
 )
 
 CARDS_OPPONENT_PLAYED_LAST_TURN = FuncSelector(
-	lambda entities, source:
-	[e for e in entities if getattr(e, "turn_played", -1) == source.controller.opponent.last_turn]
+	lambda entities, source: [
+		e for e in entities
+		if getattr(e, "turn_played", -1) == source.controller.opponent.last_turn
+	]
 )
 
 GALAKROND = FuncSelector(lambda entities, source: source.controller.galakrond)
