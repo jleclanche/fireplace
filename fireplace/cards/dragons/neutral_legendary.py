@@ -9,7 +9,7 @@ class DRG_089:
 	# [x]<b>Battlecry:</b> If your deck has no duplicates, add 2 other random Dragons to
 	# your hand. They cost (0).
 	powered_up = -FindDuplicates(FRIENDLY_DECK)
-	play = powered_up & Give(CONTROLLER, RandomDragon()).then(
+	play = powered_up & Give(CONTROLLER, RandomDragon(exclude=SELF)).then(
 		Buff(Give.CARD, "DRG_089e")
 	) * 2
 
