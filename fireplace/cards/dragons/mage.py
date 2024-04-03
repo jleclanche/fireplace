@@ -173,7 +173,6 @@ class DRG_324:
 	"""Elemental Allies"""
 	# [x]<b>Sidequest:</b> Play an Elemental 2 turns in a row. <b>Reward:</b> Draw 3 spells
 	# from your deck.
-	# TODO need to add some test cases
 	progress_total = 2
 	sidequest = (
 		Play(CONTROLLER, ELEMENTAL).after(

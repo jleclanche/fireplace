@@ -76,3 +76,23 @@ def test_rolling_fireball():
     assert len(game.player1.field) == 7
     game.player1.give("DRG_321").play(target=wisps[6])
     assert len(game.player1.field) == 0
+
+
+def test_elemental_allies():
+    game = prepare_empty_game()
+    allies = game.player1.give("DRG_324").play()
+    game.player1.give(ELEMENTAL).play()
+    assert allies.progress == 1
+    game.player1.give(ELEMENTAL).play()
+    assert allies.progress == 1
+    game.skip_turn()
+    assert allies.progress == 1
+    game.skip_turn()
+    assert allies.progress == 0
+    game.player1.give(ELEMENTAL).play()
+    assert allies.progress == 1
+    game.skip_turn()
+    assert allies.progress == 1
+    game.player1.give(ELEMENTAL).play()
+    assert allies.progress == 2
+    assert allies.zone == Zone.GRAVEYARD
