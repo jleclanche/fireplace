@@ -113,8 +113,9 @@ class DRG_620:
 	progress_total = 2
 	play = Summon(CONTROLLER, "DRG_620t4") * 2
 	reward = Find(SELF + FRIENDLY_HERO) | (
-		Morph(SELF, "DRG_620t2"),
-		SetAttribute(CONTROLLER, "_galakrond", SELF),
+		Morph(SELF, "DRG_620t2").then(
+			SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
+		)
 	)
 
 
@@ -124,8 +125,9 @@ class DRG_620t2:
 	progress_total = 2
 	play = Summon(CONTROLLER, "DRG_620t5") * 2
 	reward = Find(SELF + FRIENDLY_HERO) | (
-		Morph(SELF, "DRG_620t3"),
-		SetAttribute(CONTROLLER, "_galakrond", SELF),
+		Morph(SELF, "DRG_620t3").then(
+			SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
+		)
 	)
 
 

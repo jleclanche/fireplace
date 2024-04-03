@@ -40,7 +40,6 @@ class DRG_306:
 	"""Envoy of Lazul"""
 	# [x]<b>Battlecry:</b> Look at 3 cards. Guess which one is in your opponent's hand to
 	# get a copy of it.
-	# TODO need to add some test cases
 	class EnvoyOfLazuljAction(TargetedAction):
 		def do(self, source, player):
 			self.player = player
@@ -83,6 +82,7 @@ class DRG_306:
 						card.zone = Zone.HAND
 				else:
 					log.info("Choose incorrectly, corrent choice is %r", self.correct_card)
+					self.source.game.queue_actions(card, [Reveal(self.correct_card)])
 			self.player.choice = None
 			self.trigger_choice_callback()
 
@@ -145,8 +145,9 @@ class DRG_660:
 	progress_total = 2
 	play = Destroy(RANDOM_ENEMY_MINION)
 	reward = Find(SELF + FRIENDLY_HERO) | (
-		Morph(SELF, "DRG_660t2"),
-		SetAttribute(CONTROLLER, "_galakrond", SELF),
+		Morph(SELF, "DRG_660t2").then(
+			SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
+		)
 	)
 
 
@@ -156,8 +157,9 @@ class DRG_660t2:
 	progress_total = 2
 	play = Destroy(RANDOM_ENEMY_MINION * 2)
 	reward = Find(SELF + FRIENDLY_HERO) | (
-		Morph(SELF, "DRG_660t3"),
-		SetAttribute(CONTROLLER, "_galakrond", SELF),
+		Morph(SELF, "DRG_660t3").then(
+			SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
+		)
 	)
 
 

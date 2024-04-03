@@ -777,6 +777,7 @@ class LiveEntity(PlayableCard, Entity):
 class Character(LiveEntity):
 	health_attribute = "health"
 	cant_attack = boolean_property("cant_attack")
+	cant_be_frozen = boolean_property("cant_be_frozen")
 	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
 	cant_be_targeted_by_abilities = boolean_property("cant_be_targeted_by_abilities")
 	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
@@ -791,7 +792,7 @@ class Character(LiveEntity):
 	stealthed = boolean_property("stealthed")
 
 	def __init__(self, data):
-		self.frozen = False
+		self._frozen = False
 		self.attack_target = None
 		self.num_attacks = 0
 		self.race = Race.INVALID
@@ -836,6 +837,18 @@ class Character(LiveEntity):
 			taunts = targets.filter(taunt=True).filter(attackable=True)
 
 		return (taunts or targets).filter(attackable=True)
+
+	@property
+	def frozen(self):
+		if self.cant_be_frozen:
+			self._frozen = False
+		return self._frozen
+
+	@frozen.setter
+	def frozen(self, value):
+		if self.cant_be_frozen:
+			value = False
+		self._frozen = value
 
 	def can_attack(self, target=None):
 		if self.controller.choice:
@@ -913,6 +926,8 @@ class Character(LiveEntity):
 
 
 class Hero(Character):
+	galakrond_hero_card = boolean_property("galakrond_hero_card")
+
 	def __init__(self, data):
 		self.armor = 0
 		self.power = None
@@ -1248,8 +1263,7 @@ class Secret(Spell):
 
 	def is_summonable(self):
 		# secrets are all unique
-		secret_ids = [secret.id for secret in self.controller.secrets]
-		if self.id in secret_ids:
+		if self.controller.secrets.contains(self.id):
 			return False
 		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
 			return False
@@ -1303,8 +1317,7 @@ class SideQuest(Spell):
 		return super().dump_hidden()
 
 	def is_summonable(self):
-		secret_ids = [secret.id for secret in self.controller.secrets]
-		if self.id in secret_ids:
+		if self.controller.secrets.contains(self.id):
 			return False
 		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
 			return False

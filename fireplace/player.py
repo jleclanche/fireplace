@@ -216,7 +216,7 @@ class Player(Entity, TargetableByAuras):
 
 	@property
 	def galakrond(self):
-		if self.hero and self.hero.tags.get(GameTag.GALAKROND_HERO_CARD):
+		if self.hero and self.hero.galakrond_hero_card:
 			return self.hero
 
 		if self._galakrond:

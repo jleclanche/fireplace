@@ -80,7 +80,7 @@ class DRG_067:
 class DRG_068:
 	"""Living Dragonbreath"""
 	# Your minions can't be_<b>Frozen</b>.
-	update = Refresh(FRIENDLY_MINIONS, {GameTag.FROZEN: False})
+	update = Refresh(FRIENDLY_MINIONS, {GameTag.CANT_BE_FROZEN: True})
 
 
 class DRG_069:

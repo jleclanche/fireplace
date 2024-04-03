@@ -124,7 +124,10 @@ class YOD_013:
 class YOD_014:
 	"""Aeon Reaver"""
 	# <b>Battlecry:</b> Deal damage to_a minion equal to its_Attack.
-	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
+	requirements = {
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	play = Hit(TARGET, ATK(SELF))
 
 
@@ -250,7 +253,7 @@ class YOD_022:
 class YOD_024:
 	"""Bomb Wrangler"""
 	# Whenever this minion takes damage, summon a_1/1 Boom Bot.
-	events = Attack(SELF).on(Summon(CONTROLLER, "GVG_110t"))
+	events = Damage(SELF).on(Summon(CONTROLLER, "GVG_110t"))
 
 
 class YOD_023:

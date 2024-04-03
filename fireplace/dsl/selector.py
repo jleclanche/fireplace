@@ -264,7 +264,12 @@ class DeDuplicate(Selector):
 		self.child = child
 
 	def eval(self, entities, source):
-		return list(set(self.child.eval(entities, source)))
+		entities = self.child.eval(entities, source)
+		ret = []
+		for entity in entities:
+			if entity.id not in ret:
+				ret.append(entity)
+		return ret
 
 	def __repr__(self):
 		return "%s(%r)" % (self.__class__.__name__, self.child)
@@ -631,8 +636,11 @@ CARDS_PLAYED_LAST_TURN = FuncSelector(
 CARDS_OPPONENT_PLAYED_LAST_TURN = FuncSelector(
 	lambda entities, source: [
 		e for e in entities
-		if getattr(e, "turn_played", -1) == source.controller.opponent.last_turn
+		if getattr(e, "turn_played", -1) == source.controller.opponent.turn
 	]
 )
 
-GALAKROND = FuncSelector(lambda entities, source: source.controller.galakrond)
+GALAKROND = FuncSelector(
+	lambda entities, source:
+	[source.controller.galakrond] if source.controller.galakrond else []
+)

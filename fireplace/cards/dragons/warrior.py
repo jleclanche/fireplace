@@ -99,8 +99,9 @@ class DRG_650:
 		Buff(ForceDraw.TARGET, "DRG_650e")
 	)
 	reward = Find(SELF + FRIENDLY_HERO) | (
-		Morph(SELF, "DRG_650t2"),
-		SetAttribute(CONTROLLER, "_galakrond", SELF),
+		Morph(SELF, "DRG_650t2").then(
+			SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
+		)
 	)
 
 
@@ -115,8 +116,9 @@ class DRG_650t2:
 		Buff(ForceDraw.TARGET, "DRG_650e2")
 	) * 2
 	reward = Find(SELF + FRIENDLY_HERO) | (
-		Morph(SELF, "DRG_650t3"),
-		SetAttribute(CONTROLLER, "_galakrond", SELF),
+		Morph(SELF, "DRG_650t3").then(
+			SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
+		)
 	)
 
 

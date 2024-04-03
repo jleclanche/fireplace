@@ -2,7 +2,6 @@ import random
 
 from hearthstone.deckstrings import Deck
 from hearthstone.enums import CardClass, CardSet, CardType, GameTag, PlayReq, Race, Rarity
-# from hearthstone.utils import LACKEY_CARDS
 
 from ..actions import *
 from ..aura import Refresh
@@ -160,7 +159,7 @@ AT_MAX_MANA = lambda s: MANA(s) == 10
 OVERLOADED = lambda s: (OVERLOAD_LOCKED(s) > 0) or (OVERLOAD_OWED(s) > 0)
 CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
 CAST_WHEN_DRAWN = Destroy(SELF), Draw(CONTROLLER), Battlecry(SELF, None)
-INVOKE = Invoke(CONTROLLER)
+INVOKE = Invoke(CONTROLLER),
 INVOKED_TWICE = Attr(CONTROLLER, GameTag.INVOKE_COUNTER) >= 2
 
 

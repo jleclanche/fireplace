@@ -8,7 +8,6 @@ class DRG_089:
 	"""Dragonqueen Alexstrasza"""
 	# [x]<b>Battlecry:</b> If your deck has no duplicates, add 2 other random Dragons to
 	# your hand. They cost (0).
-	# TODO need to add some test cases
 	powered_up = -FindDuplicates(FRIENDLY_DECK)
 	play = powered_up & Give(CONTROLLER, RandomDragon()).then(
 		Buff(Give.CARD, "DRG_089e")
@@ -32,7 +31,7 @@ class DRG_099:
 	# Devastation.
 	play = Find(GALAKROND + FRIENDLY_HERO) & (
 		Choice(CONTROLLER, ["DRG_099t1", "DRG_099t2", "DRG_099t3", "DRG_099t4"]).then(
-			Battlecry(Choice.CARD)
+			Battlecry(Choice.CARD, None)
 		)
 	) | (
 		Find(GALAKROND + FRIENDLY_DECK) & ForceDraw(GALAKROND)
