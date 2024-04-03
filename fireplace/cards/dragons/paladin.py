@@ -17,7 +17,7 @@ DRG_225e = buff(atk=1)
 class DRG_226:
 	"""Amber Watcher"""
 	# <b>Battlecry:</b> Restore #8_Health.
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0}
 	play = Heal(TARGET, 8)
 
 
@@ -82,6 +82,10 @@ DRG_008e = buff(+1, +1)
 class DRG_233:
 	"""Sand Breath"""
 	# [x]Give a minion +1/+2. Give it <b>Divine Shield</b> if you're holding a Dragon.
+	requirements = {
+		PlayReq.REQ_TARGET_TO_PLAY: 0,
+		PlayReq.REQ_MINION_TARGET: 0,
+	}
 	powered_up = HOLDING_DRAGON
 	play = Buff(TARGET, "DRG_233e"), powered_up & GiveDivineShield(TARGET)
 

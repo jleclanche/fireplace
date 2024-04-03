@@ -68,10 +68,10 @@ class DRG_099t4:
 class DRG_257:
 	"""Frizz Kindleroost"""
 	# <b>Battlecry:</b> Reduce the Cost of Dragons in your deck by_(2).
-	play = Buff(FRIENDLY_DECK + DRAGON, "DRG_257e")
+	play = Buff(FRIENDLY_DECK + DRAGON, "DRG_257e3")
 
 
-class DRG_257e:
+class DRG_257e3:
 	tags = {GameTag.COST: -2}
 	events = REMOVED_IN_PLAY
 

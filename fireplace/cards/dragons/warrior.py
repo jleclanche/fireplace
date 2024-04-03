@@ -59,7 +59,7 @@ class DRG_022:
 class DRG_249:
 	"""Awaken!"""
 	# <b>Invoke</b> Galakrond. Deal_$1 damage to all_minions.
-	play = INVOKE, Hit(ALL_MINIONS, 1)
+	play = Invoke(CONTROLLER), Hit(ALL_MINIONS, 1)
 
 
 class DRG_500:
@@ -79,7 +79,7 @@ class DRG_500:
 class DRG_021:
 	"""Ritual Chopper"""
 	# <b>Battlecry:</b> <b>Invoke</b> Galakrond.
-	play = INVOKE
+	play = Invoke(CONTROLLER)
 
 
 class DRG_025:

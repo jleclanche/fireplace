@@ -26,7 +26,7 @@ class ULD_163:
 	"""Expired Merchant"""
 	# [x]<b>Battlecry:</b> Discard your highest Cost card. <b>Deathrattle:</b> Add 2 copies
 	# of it to your hand.
-	play = Discard(RANDOM(HIGHEST_COST(FRIENDLY_HAND))).then(
+	play = Discard(HIGHEST_COST(FRIENDLY_HAND)).then(
 		StoringBuff(SELF, "ULD_163e", Discard.TARGET)
 	)
 

@@ -49,7 +49,7 @@ class DRG_037:
 	"""Flik Skyshiv"""
 	# [x]<b>Battlecry:</b> Destroy a minion and all copies of it <i>(wherever they
 	# are)</i>.
-	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_MINION_TARGET: 0}
+	requirements = {PlayReq.REQ_TARGET_IF_AVAILABLE: 0, PlayReq.REQ_MINION_TARGET: 0}
 	play = Destroy(
 		FilterSelector(lambda entity, source: getattr(entity, "id", None) == source.target.id)
 	)
@@ -68,7 +68,7 @@ class DRG_030:
 	"""Praise Galakrond!"""
 	# [x]Give a minion +1 Attack. <b>Invoke</b> Galakrond.
 	requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_MINION_TARGET: 0}
-	play = Buff(TARGET, "DRG_030e"), INVOKE
+	play = Buff(TARGET, "DRG_030e"), Invoke(CONTROLLER)
 
 
 DRG_030e = buff(atk=1)
@@ -87,7 +87,7 @@ class DRG_247:
 	requirements = requirements = {
 		PlayReq.REQ_TARGET_TO_PLAY: 0,
 		PlayReq.REQ_UNDAMAGED_TARGET: 0}
-	play = Hit(TARGET, 3), INVOKE
+	play = Hit(TARGET, 3), Invoke(CONTROLLER)
 
 
 ##

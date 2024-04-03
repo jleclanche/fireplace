@@ -100,7 +100,9 @@ class YOD_012:
 	"""Air Raid"""
 	# <b>Twinspell</b> Summon two 1/1 Silver_Hand Recruits with <b>Taunt</b>.
 	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	play = Summon(CONTROLLER, "YOD_012t") * 2
+	play = Summon(CONTROLLER, "CS2_101t").then(
+		Taunt(Summon.CARD)
+	) * 2
 
 
 class YOD_012ts(YOD_012):
@@ -199,8 +201,10 @@ class YOD_042:
 	# [x]After you cast a spell, summon a <b>Legendary</b> minion of that Cost. Lose 1
 	# Durability.
 	events = OWN_SPELL_PLAY.after(
-		Summon(CONTROLLER, RandomLegendaryMinion(cost=COST(Play.CARD))),
-		Hit(SELF, 1)
+		(COST(Play.CARD) > 0) & (
+			Summon(CONTROLLER, RandomLegendaryMinion(cost=COST(Play.CARD))),
+			Hit(SELF, 1),
+		)
 	)
 
 

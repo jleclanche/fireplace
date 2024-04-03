@@ -15,7 +15,7 @@ class DRG_202:
 	"""Dragonblight Cultist"""
 	# [x]<b>Battlecry:</b> <b>Invoke</b> Galakrond. Gain +1 Attack for each other friendly
 	# minion.
-	play = INVOKE, Buff(SELF, "DRG_202e") * Count(FRIENDLY_MINIONS - SELF)
+	play = Invoke(CONTROLLER), Buff(SELF, "DRG_202e") * Count(FRIENDLY_MINIONS - SELF)
 
 
 DRG_202e = buff(atk=1)
@@ -92,7 +92,7 @@ class DRG_206:
 class DRG_250:
 	"""Fiendish Rites"""
 	# <b>Invoke</b> Galakrond. Give your minions +1_Attack.
-	play = INVOKE, Buff(FRIENDLY_MINIONS, "DRG_250e")
+	play = Invoke(CONTROLLER), Buff(FRIENDLY_MINIONS, "DRG_250e")
 
 
 DRG_250e = buff(atk=1)

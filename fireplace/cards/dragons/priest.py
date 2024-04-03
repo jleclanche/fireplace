@@ -26,7 +26,7 @@ class DRG_300e:
 class DRG_303:
 	"""Disciple of Galakrond"""
 	# <b>Battlecry:</b> <b>Invoke</b> Galakrond.
-	play = INVOKE
+	play = Invoke(CONTROLLER)
 
 
 class DRG_304:
@@ -94,11 +94,10 @@ class DRG_308:
 	# <b>Battlecry:</b> Choose an enemy minion. <b>Deathrattle:</b> Summon a new copy of
 	# it.
 	requirements = {
-		PlayReq.REQ_ENEMY_TARGET: 0,
+		PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
 		PlayReq.REQ_MINION_TARGET: 0,
-		PlayReq.REQ_TARGET_TO_PLAY: 0
 	}
-	deathrattle = Summon(CONTROLLER, Copy(TARGET))
+	deathrattle = HAS_TARGET & Summon(CONTROLLER, Copy(TARGET))
 
 
 ##
@@ -108,7 +107,7 @@ class DRG_246:
 	"""Time Rip"""
 	# Destroy a minion. <b>Invoke</b> Galakrond.
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-	play = Destroy(TARGET), INVOKE
+	play = Destroy(TARGET), Invoke(CONTROLLER)
 
 
 class DRG_301:

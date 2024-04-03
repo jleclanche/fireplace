@@ -240,3 +240,17 @@ def test_chaos_gazer():
     game.player1.give("YOD_027").play()
     game.skip_turn()
     assert wisp.zone == Zone.GRAVEYARD
+
+
+def test_the_fist_of_raden():
+    game = prepare_game()
+    coin = game.player1.give(THE_COIN)
+    raden = game.player1.give("YOD_042").play()
+    coin.play()
+    assert raden.damage == 0
+    assert len(game.player1.field) == 0
+
+    game.player1.give(FIREBALL).play(target=game.player2.hero)
+    assert raden.damage == 1
+    assert len(game.player1.field) == 1
+    assert game.player1.field[0].cost == 4

@@ -16,7 +16,7 @@ DRG_049e = buff(+2, +2)
 class DRG_050:
 	"""Devoted Maniac"""
 	# <b>Rush</b> <b>Battlecry:</b> <b>Invoke</b> Galakrond.
-	play = INVOKE
+	play = Invoke(CONTROLLER)
 
 
 class DRG_054:
@@ -120,4 +120,4 @@ class DRG_213:
 class DRG_242:
 	"""Shield of Galakrond"""
 	# <b>Taunt</b> <b>Battlecry:</b> <b>Invoke</b> Galakrond.
-	play = INVOKE
+	play = Invoke(CONTROLLER)

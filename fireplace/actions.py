@@ -1572,6 +1572,8 @@ class Silence(TargetedAction):
 
 	def do(self, source, target):
 		log.info("Silencing %r", self)
+		if target.type != CardType.MINION:
+			return
 		self.broadcast(source, EventListener.ON, target)
 		target.clear_buffs()
 		for attr in target.silenceable_attributes:

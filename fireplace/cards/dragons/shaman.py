@@ -36,7 +36,7 @@ class DRG_216:
 class DRG_218:
 	"""Corrupt Elementalist"""
 	# <b>Battlecry:</b> <b>Invoke</b> Galakrond twice.
-	play = INVOKE * 2
+	play = Invoke(CONTROLLER) * 2
 
 
 class DRG_223:
@@ -101,7 +101,7 @@ class DRG_248:
 	"""Invocation of Frost"""
 	# <b>Freeze</b> an enemy. <b>Invoke</b> Galakrond.
 	requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-	play = Freeze(TARGET), INVOKE
+	play = Freeze(TARGET), Invoke(CONTROLLER)
 
 
 ##

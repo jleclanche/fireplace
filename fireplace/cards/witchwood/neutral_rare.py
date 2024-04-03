@@ -35,7 +35,7 @@ class GIL_202t:
 class GIL_584:
 	"""Witchwood Piper"""
 	# [x]<b>Battlecry:</b> Draw the lowest Cost minion from your deck.
-	play = ForceDraw(RANDOM(LOWEST_COST(FRIENDLY_DECK + MINION)))
+	play = ForceDraw(LOWEST_COST(FRIENDLY_DECK + MINION))
 
 
 class GIL_601:
