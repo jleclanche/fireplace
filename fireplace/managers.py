@@ -196,6 +196,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.DAMAGE: "damage",
 	GameTag.DEATHRATTLE: "has_deathrattle",
 	GameTag.DEFENDING: "defending",
+	GameTag.DISCOVER: "has_discover",
 	GameTag.DIVINE_SHIELD: "divine_shield",
 	GameTag.DORMANT: "dormant",
 	GameTag.DURABILITY: "max_durability",

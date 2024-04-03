@@ -270,6 +270,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	keep_buff = boolean_property("keep_buff")
 	echo = boolean_property("echo")
 	has_overkill = boolean_property("has_overkill")
+	has_discover = boolean_property("has_discover")
 
 	def __init__(self, data):
 		self.cant_play = False

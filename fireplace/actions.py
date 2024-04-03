@@ -1322,6 +1322,7 @@ class Give(TargetedAction):
 			card.zone = Zone.HAND
 			ret.append(card)
 			source.game.manager.targeted_action(self, source, target, card)
+			self.broadcast(source, EventListener.AFTER, target, card)
 		return ret
 
 
