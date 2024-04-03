@@ -175,7 +175,8 @@ class FindDuplicates(Evaluator):
 
 	def check(self, source):
 		entities = self.selector.eval(source.game, source)
-		return len(set(entities)) < len(entities)
+		ids = [entity.id for entity in entities]
+		return len(set(ids)) < len(ids)
 
 
 class EvenCost(Evaluator):

@@ -47,7 +47,7 @@ class TRL_257:
 class TRL_551:
 	"""Reckless Diretroll"""
 	# <b>Taunt</b> <b>Battlecry:</b> Discard your lowest Cost card.
-	play = Discard(RANDOM(LOWEST_COST(FRIENDLY_HAND)))
+	play = Discard(LOWEST_COST(FRIENDLY_HAND))
 
 
 ##
@@ -57,7 +57,7 @@ class TRL_245:
 	"""Shriek"""
 	# Discard your lowest Cost card. Deal $2 damage to all minions.
 	play = (
-		Discard(RANDOM(LOWEST_COST(FRIENDLY_HAND))),
+		Discard(LOWEST_COST(FRIENDLY_HAND)),
 		Hit(ALL_MINIONS, 2)
 	)
 

@@ -2,24 +2,6 @@ from ..utils import *
 
 
 ##
-# Hero Powers
-
-class CS2_056:
-	"""Life Tap"""
-	activate = Hit(FRIENDLY_HERO, 2), Draw(CONTROLLER)
-
-
-class CS2_056_H1(CS2_056):
-	"""Life Tap (Nemsy Necrofizzle)"""
-	pass
-
-
-class CS2_056_H2(CS2_056):
-	"""Life Tap (Mecha-Jaraxxus)"""
-	pass
-
-
-##
 # Minions
 
 class CS2_059:

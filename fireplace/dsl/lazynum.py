@@ -56,6 +56,9 @@ class LazyNum(LazyValue):
 		ret.base /= other
 		return ret
 
+	def __mod__(self, other):
+		return BinOpAttr(self, other, operator.mod)
+
 	def num(self, n):
 		return math.ceil(n * self.base)
 
@@ -190,6 +193,14 @@ class BinOpAttr(LazyNum):
 			infix = "+"
 		elif self.op.__name__ == "sub":
 			infix = "-"
+		elif self.op.__name__ == "mul":
+			infix = "*"
+		elif self.op.__name__ == "truediv":
+			infix = "/"
+		elif self.op.__name__ == "floordiv":
+			infix = "//"
+		elif self.op.__name__ == "mod":
+			infix = "%"
 		else:
 			infix = "UNKNOWN_OP"
 		return "<%r %s %r>" % (self.left, infix, self.right)

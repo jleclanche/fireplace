@@ -40,7 +40,7 @@ class CFM_751:
 
 class CFM_900:
 	"""Unlicensed Apothecary"""
-	events = Summon(CONTROLLER).on(Hit(FRIENDLY_HERO, 5))
+	events = Summon(CONTROLLER, MINION).after(Hit(FRIENDLY_HERO, 5))
 
 
 ##

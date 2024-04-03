@@ -150,6 +150,9 @@ def weighted_card_choice(source, weights: List[int], card_sets: List[str], count
 		totalweight += w * len(card_sets[i])
 		cum_weights.append(totalweight)
 
+	if totalweight == 0:
+		return []
+
 	# for each card
 	for i in range(count):
 		# choose a set according to weighting

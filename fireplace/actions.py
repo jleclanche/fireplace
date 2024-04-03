@@ -1274,8 +1274,16 @@ class SpendMana(TargetedAction):
 	AMOUNT = IntArg()
 
 	def do(self, source, target, amount):
-		target.used_mana = max(target.used_mana + amount, 0)
+		log.info("%s pays %i mana", target, amount)
+		_amount = amount
+		if target.temp_mana:
+			# Coin, Innervate etc
+			used_temp = min(target.temp_mana, amount)
+			_amount -= used_temp
+			target.temp_mana -= used_temp
+		target.used_mana = max(target.used_mana + _amount, 0)
 		source.game.manager.targeted_action(self, source, target, amount)
+		self.broadcast(source, EventListener.AFTER, target, amount)
 
 
 class SetMana(TargetedAction):
@@ -1314,6 +1322,7 @@ class Give(TargetedAction):
 			card.zone = Zone.HAND
 			ret.append(card)
 			source.game.manager.targeted_action(self, source, target, card)
+			self.broadcast(source, EventListener.AFTER, target, card)
 		return ret
 
 
@@ -1332,9 +1341,9 @@ class Hit(TargetedAction):
 		return 0
 
 
-class HitAndExcessDamageToHero(TargetedAction):
+class HitExcessDamage(TargetedAction):
 	"""
-	Hit character targets by \a amount and excess damage to their hero.
+	Hit character targets by \a amount and excess damage to other.
 	"""
 	TARGET = ActionArg()
 	AMOUNT = IntArg()
@@ -1344,13 +1353,12 @@ class HitAndExcessDamageToHero(TargetedAction):
 		if amount:
 			source.game.manager.targeted_action(self, source, target, amount)
 			if target.health >= amount:
-				return source.game.queue_actions(source, [Predamage(target, amount)])[0][0]
+				source.game.queue_actions(source, [Predamage(target, amount)])
+				return 0
 			else:
 				excess_amount = amount - target.health
-				return source.game.queue_actions(source, [
-					Predamage(target, amount),
-					Predamage(target.controller.hero, excess_amount)
-				])[0]
+				source.game.queue_actions(source, [Predamage(target, amount)])
+				return excess_amount
 		return 0
 
 
@@ -1565,6 +1573,8 @@ class Silence(TargetedAction):
 
 	def do(self, source, target):
 		log.info("Silencing %r", self)
+		if target.type != CardType.MINION:
+			return
 		self.broadcast(source, EventListener.ON, target)
 		target.clear_buffs()
 		for attr in target.silenceable_attributes:
@@ -2038,7 +2048,7 @@ class AddProgress(TargetedAction):
 		source.game.manager.targeted_action(self, source, target, card, amount)
 		if target.progress >= target.progress_total:
 			source.game.trigger(target, target.get_actions("reward"), event_args=None)
-			if target.data.quest:
+			if target.data.quest or target.data.sidequest:
 				target.zone = Zone.GRAVEYARD
 
 
@@ -2082,3 +2092,17 @@ class Replay(TargetedAction):
 			source.game.queue_actions(source, [CastSpell(target)])
 		else:
 			source.game.queue_actions(source, [Summon(source.controller, target)])
+
+
+class Invoke(TargetedAction):
+	def do(self, source, player):
+		source.game.manager.targeted_action(self, source, player)
+		player.invoke_counter += 1
+		galakrond = player.galakrond
+		if not galakrond:
+			return
+		source.game.queue_actions(source, [
+			Reveal(galakrond),
+			PlayHeroPower(galakrond.data.hero_power, None),
+			AddProgress(galakrond, source)
+		])

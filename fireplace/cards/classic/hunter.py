@@ -2,21 +2,6 @@ from ..utils import *
 
 
 ##
-# Hero Powers
-
-class DS1h_292:
-	"""Steady Shot (Rexxar)"""
-	requirements = {PlayReq.REQ_MINION_OR_ENEMY_HERO: 0, PlayReq.REQ_STEADY_SHOT: 0}
-	activate = Hit(ENEMY_HERO, 2)
-
-
-class DS1h_292_H1:
-	"""Steady Shot (Alleria Windrunner)"""
-	requirements = {PlayReq.REQ_MINION_OR_ENEMY_HERO: 0, PlayReq.REQ_STEADY_SHOT: 0}
-	activate = DS1h_292.activate
-
-
-##
 # Minions
 
 class CS2_237:

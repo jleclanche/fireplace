@@ -53,8 +53,8 @@ def test_chromaggus():
 	assert len(game.player1.hand) == 1
 	arcint.play()
 	assert len(game.player1.hand) == 4
-	assert game.player1.hand[0] == game.player1.hand[1]
-	assert game.player1.hand[2] == game.player1.hand[3]
+	assert game.player1.hand[0].id == game.player1.hand[1].id
+	assert game.player1.hand[2].id == game.player1.hand[3].id
 
 
 def test_chromaggus_naturalize():
@@ -66,8 +66,8 @@ def test_chromaggus_naturalize():
 	naturalize = game.player2.give("EX1_161")
 	naturalize.play(target=chromaggus)
 	assert len(game.player1.hand) == 4
-	assert game.player1.hand[0] == game.player1.hand[1]
-	assert game.player1.hand[2] == game.player1.hand[3]
+	assert game.player1.hand[0].id == game.player1.hand[1].id
+	assert game.player1.hand[2].id == game.player1.hand[3].id
 
 
 def test_dragon_consort():
@@ -361,7 +361,7 @@ def test_resurrect():
 	assert len(game.player1.field) == 0
 	resurrect.play()
 	assert len(game.player1.field) == 1
-	assert game.player1.field[0] == wisp
+	assert game.player1.field[0] == wisp.id
 
 
 def test_resurrect_wild_pyro():

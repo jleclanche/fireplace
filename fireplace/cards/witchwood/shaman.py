@@ -94,5 +94,5 @@ class GIL_504h:
 	# your hand.
 	tags = {enums.PASSIVE_HERO_POWER: True}
 	events = Play(CONTROLLER, MINION).on(
-		Find(SELF - EXHAUSTED) & Give(CONTROLLER, RandomSpell(card_class=CardClass.SHAMAN))
+		Give(CONTROLLER, RandomSpell(card_class=CardClass.SHAMAN))
 	)

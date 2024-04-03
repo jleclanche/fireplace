@@ -63,13 +63,13 @@ class CardDB(dict):
 			actions = getattr(card.scripts, script, None)
 			if actions is None:
 				# Set the action by default to avoid runtime hasattr() calls
-				setattr(card.scripts, script, [])
+				setattr(card.scripts, script, ())
 			elif not callable(actions):
 				if not hasattr(actions, "__iter__"):
 					# Ensure the actions are always iterable
 					setattr(card.scripts, script, (actions, ))
 
-		for script in ("events", "secret", "quest"):
+		for script in ("events", "secret", "quest", "sidequest"):
 			events = getattr(card.scripts, script, None)
 			if events is None:
 				setattr(card.scripts, script, [])
@@ -174,11 +174,12 @@ class CardDB(dict):
 
 		cards = self.values()
 
-		# Quests cannot be randomly generated
-		if "include_quest" not in kwargs:
-			cards = [card for card in cards if not card.quest]
+		if "can_pick_from_subsets" not in kwargs:
+			cards = [
+				card for card in cards if not bool(card.tags.get(GameTag.DONT_PICK_FROM_SUBSETS))
+			]
 		else:
-			kwargs.pop("include_quest")
+			kwargs.pop("can_pick_from_subsets")
 
 		# exclude default hero
 		if "include_default_hero" not in kwargs:
