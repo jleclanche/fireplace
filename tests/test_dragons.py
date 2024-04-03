@@ -53,3 +53,26 @@ def test_dwarven_sharpshooter():
 
     sharpshooter.destroy()
     assert not heropower.requires_target()
+
+
+def test_rolling_fireball():
+    game = prepare_game()
+
+    wisps = [game.player1.give(WISP).play() for i in range(7)]
+    assert len(game.player1.field) == 7
+    game.player1.give("DRG_321").play(target=wisps[0])
+    assert len(game.player1.field) == 0
+
+    game.skip_turn()
+    wisps = [game.player1.give(WISP).play() for i in range(7)]
+    assert len(game.player1.field) == 7
+    game.player1.give("DRG_321").play(target=wisps[3])
+    assert len(game.player1.field) == 3
+    for i in range(3):
+        game.player1.field[0].destroy()
+
+    game.skip_turn()
+    wisps = [game.player1.give(WISP).play() for i in range(7)]
+    assert len(game.player1.field) == 7
+    game.player1.give("DRG_321").play(target=wisps[6])
+    assert len(game.player1.field) == 0

@@ -129,7 +129,6 @@ class DRG_106:
 class DRG_321:
 	"""Rolling Fireball"""
 	# Deal $8 damage to a minion. Any excess damage continues to the left or right.
-	# TODO need to add some test cases
 	requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
 
 	def play(self):
@@ -146,15 +145,16 @@ class DRG_321:
 			direction = Direction.LEFT
 		elif right_minion:
 			direction = Direction.RIGHT
-		action = HitExcessDamage(target, 8)
+		damage = self.controller.get_spell_damage(8)
+		action = HitExcessDamage(target, damage)
 		if direction == Direction.LEFT:
 			while left_minion:
-				action = HitExcessDamage(left_minion, action)
-				left_minion = left_minion.left_minion
+				action = HitExcessDamage(left_minion[0], action)
+				left_minion = left_minion[0].left_minion
 		elif direction == Direction.RIGHT:
 			while right_minion:
-				action = HitExcessDamage(right_minion, action)
-				right_minion = right_minion.right_minion
+				action = HitExcessDamage(right_minion[0], action)
+				right_minion = right_minion[0].right_minion
 		yield action
 		return
 

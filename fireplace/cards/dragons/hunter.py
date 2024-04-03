@@ -31,7 +31,6 @@ class DRG_252:
 class DRG_253:
 	"""Dwarven Sharpshooter"""
 	# Your Hero Power can target_minions.
-	# TODO need to add some test cases
 	update = Refresh(FRIENDLY_HERO_POWER, {GameTag.STEADY_SHOT_CAN_TARGET: True})
 
 
