@@ -76,9 +76,8 @@ DAL_570e = buff(health=2)
 class DAL_727:
 	"""Call to Adventure"""
 	# Draw the lowest Cost minion from your deck. Give it +2/+2.
-	play = Buff(
-		ForceDraw(RANDOM(LOWEST_ATK(FRIENDLY_DECK + MINION))),
-		"DAL_727e"
+	play = ForceDraw(LOWEST_ATK(FRIENDLY_DECK + MINION)).then(
+		Buff(ForceDraw.TARGET, "DAL_727e")
 	)
 
 
@@ -88,7 +87,6 @@ DAL_727e = buff(+2, +2)
 class DAL_731:
 	"""Duel!"""
 	# Summon a minion from each player's deck. They fight!
-	# TODO need test
 	requirements = {
 		PlayReq.REQ_BOARD_NOT_COMPLETELY_FULL: 0,
 	}

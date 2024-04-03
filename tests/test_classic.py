@@ -1006,15 +1006,15 @@ def test_demonfire():
 	wisp.play()
 	game.player1.give("EX1_596").play(target=wisp)
 	assert wisp.dead
-	imp = game.player1.give("CS2_059")
+	imp = game.player1.give(IMP)
 	imp.play()
 	game.player1.give("EX1_596").play(target=imp)
-	assert imp.atk == 0 + 2
+	assert imp.atk == 1 + 2
 	assert imp.health == 1 + 2
 	assert imp.buffs
 	game.end_turn()
 
-	imp2 = game.player2.give("CS2_059")
+	imp2 = game.player2.give(IMP)
 	imp2.play()
 	game.end_turn()
 
@@ -2246,7 +2246,7 @@ def test_mind_vision():
 	mind_vision = game.player1.give("CS2_003")
 	mind_vision.play()
 	copied = game.player1.hand[-1]
-	assert copied == card
+	assert copied.id == card.id
 	assert copied.creator is mind_vision
 
 

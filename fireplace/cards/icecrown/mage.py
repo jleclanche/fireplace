@@ -59,7 +59,7 @@ class ICC_086:
 
 class ICC_823:
 	"""Simulacrum"""
-	play = Give(CONTROLLER, ExactCopy(RANDOM(LOWEST_COST(FRIENDLY_HAND))))
+	play = Give(CONTROLLER, ExactCopy(LOWEST_COST(FRIENDLY_HAND)))
 
 
 class ICC_836:

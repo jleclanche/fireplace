@@ -2,32 +2,6 @@ from ..utils import *
 
 
 ##
-# Hero Powers
-
-class CS2_101:
-	"""Reinforce (Uther Lightbringer)"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	activate = Summon(CONTROLLER, "CS2_101t")
-
-
-class CS2_101_H1:
-	"""Reinforce (Lady Liadrin)"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	activate = CS2_101.activate
-
-
-class CS2_101_H2:
-	"""Reinforce (Prince Arthas)"""
-	requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-	activate = CS2_101.activate
-
-
-class CS2_101_H3(CS2_101):
-	"""Reinforce (Sir Annoy-O)"""
-	pass
-
-
-##
 # Minions
 
 class CS2_088:

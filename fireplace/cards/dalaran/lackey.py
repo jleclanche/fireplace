@@ -62,3 +62,9 @@ class ULD_616:
 
 
 ULD_616e = buff(health=2, taunt=True)
+
+
+class DRG_052:
+	"""Draconic Lackey"""
+	# <b>Battlecry:</b> <b>Discover</b> a Dragon.
+	play = DISCOVER(RandomDragon())

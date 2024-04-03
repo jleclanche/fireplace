@@ -188,7 +188,7 @@ def test_forbidden_words():
 	assert words.is_playable()
 	assert minion_12 not in words.play_targets
 	assert words.play_targets == [minion_10, minion_8, minion_6, minion_4, minion_2]
-	game.player1.pay_cost(game, 4)
+	game.player1.pay_cost(game.player1, 4)
 	assert words.play_targets == [minion_6, minion_4, minion_2]
 	words.play(target=minion_4)
 	assert minion_4.dead
@@ -263,3 +263,30 @@ def test_twin_spell():
 		game.player1.give(WISP)
 	twin_spell.play()
 	assert game.player1.hand[-1].id == "DAL_141ts"
+
+
+def test_duel():
+	game1 = prepare_empty_game()
+	game1.player1.give("DAL_731").play()
+	assert len(game1.player1.field) == 0
+	assert len(game1.player1.field) == 0
+
+	game2 = prepare_empty_game()
+	game2.player1.give(MECH).shuffle_into_deck()
+	game2.player2.give(MECH).shuffle_into_deck()
+	game2.player1.give("DAL_731").play()
+	assert game2.player1.field == [MECH]
+	assert game2.player1.field == [MECH]
+	assert len(game2.player1.deck) == 0
+	assert len(game2.player1.deck) == 0
+	assert game2.player1.field[0].damage == 1
+	assert game2.player2.field[0].damage == 1
+
+	game3 = prepare_empty_game()
+	game3.player1.give(MECH).shuffle_into_deck()
+	game3.player2.give(MECH).shuffle_into_deck()
+	for _ in range(7):
+		game3.player1.summon(WISP)
+		game3.player2.summon(WISP)
+	duel = game3.player1.give("DAL_731")
+	assert not duel.is_playable()

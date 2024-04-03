@@ -65,7 +65,7 @@ def test_old_warsong_commander_faceless_manipulator():
 	faceless = game.player1.give("EX1_564")
 	faceless.play(target=boulderfist)
 	copy = game.player1.field.filter(id="CS2_200")[0]
-	assert copy == boulderfist
+	assert copy == boulderfist.id
 	assert not copy.charge
 
 	# test 8 - Warsong, then Faceless Manipulator on 1/2 Goldshire Footman
@@ -93,7 +93,7 @@ def test_old_warsong_commander_faceless_manipulator_buffed():
 	faceless = game.player1.give("EX1_564")
 	faceless.play(target=gurubashi)
 	copy = game.player1.field.filter(id="EX1_399")[0]
-	assert copy == gurubashi
+	assert copy == gurubashi.id
 	assert not copy.charge
 
 

@@ -49,7 +49,7 @@ class LOOT_101:
 	# <b>Secret:</b> After your opponent plays a minion, deal $6 damage to it and any
 	# excess to their hero.
 	secret = Play(OPPONENT, MINION).on(
-		Reveal(SELF), HitAndExcessDamageToHero(Play.CARD, 6)
+		Reveal(SELF), Hit(ENEMY_HERO, HitExcessDamage(Play.CARD, SPELL_DAMAGE(6)))
 	)
 
 

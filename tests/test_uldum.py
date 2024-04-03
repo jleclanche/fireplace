@@ -32,7 +32,7 @@ def test_dwarven_archaeologist():
 	origin_cost = card.cost
 	choice.choose(card)
 	assert card.zone == Zone.HAND
-	assert card.cost == max(origin_cost - 0, 0)
+	assert card.cost == max(origin_cost - 1, 0)
 
 
 def test_evil_recruiter():

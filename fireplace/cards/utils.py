@@ -2,7 +2,6 @@ import random
 
 from hearthstone.deckstrings import Deck
 from hearthstone.enums import CardClass, CardSet, CardType, GameTag, PlayReq, Race, Rarity
-# from hearthstone.utils import LACKEY_CARDS
 
 from ..actions import *
 from ..aura import Refresh
@@ -37,7 +36,7 @@ COINFLIP = RandomNumber(0, 1) == 1
 EMPTY_BOARD = Count(FRIENDLY_MINIONS) == 0
 EMPTY_HAND = Count(FRIENDLY_HAND) == 0
 FULL_BOARD = Count(FRIENDLY_MINIONS) == 7
-FULL_HAND = Count(FRIENDLY_HAND) == 10
+FULL_HAND = Count(FRIENDLY_HAND) == Attr(CONTROLLER, GameTag.MAXHANDSIZE)
 HOLDING_DRAGON = Find(FRIENDLY_HAND + DRAGON - SELF)
 ELEMENTAL_PLAYED_LAST_TURN = Attr(CONTROLLER, enums.ELEMENTAL_PLAYED_LAST_TURN) > 0
 TIMES_SPELL_PLAYED_THIS_GAME = Count(CARDS_PLAYED_THIS_GAME + SPELL)
@@ -56,9 +55,11 @@ UPGRADE_HERO_POWER_MAP = {
 	"CS2_017": "AT_132_DRUID",  # Malfurion Stormrage
 	"CS2_017_HS1": "AT_132_DRUIDa",  # Lunara
 	"CS2_017_HS2": "AT_132_DRUIDb",  # Elise Starseeker
+	"CS2_017_HS4": "AT_132_DRUIDc",  # Dame Hazelbark
 	# Hunter
 	"DS1h_292": "AT_132_HUNTER",  # Rexxar
 	"DS1h_292_H1": "DS1h_292_H1_AT_132",  # Alleria Windrunner
+	"DS1h_292_H3": "DS1h_292_H3_AT_132",  # Sylvanas Windrunner
 	# Mage
 	"CS2_034": "AT_132_MAGE",  # Jaina Proudmoore
 	"CS2_034_H1": "CS2_034_H1_AT_132",  # Medivh
@@ -80,6 +81,7 @@ UPGRADE_HERO_POWER_MAP = {
 	"CS2_049_H1": "CS2_049_H1_AT_132",  # Morgl the Oracle
 	"CS2_049_H2": "CS2_049_H2_AT_132",  # King Rastakhan
 	"CS2_049_H3": "CS2_049_H3_AT_132",  # The Thunder King
+	"CS2_049_H5": "CS2_049_H4_AT_132",  # Lady Vashj
 	# Warlock
 	"CS2_056": "AT_132_WARLOCK",  # Gul'dan
 	"CS2_056_H1": "AT_132_WARLOCKa",  # Nemsy Necrofizzle
@@ -139,7 +141,7 @@ LACKEY_CARDS = [
 	"DAL_739",
 	"DAL_741",
 	"ULD_616",
-	# "DRG_052",
+	"DRG_052",
 ]
 
 RandomBasicTotem = lambda *args, **kw: RandomID(*BASIC_TOTEMS, **kw)
@@ -157,6 +159,7 @@ AT_MAX_MANA = lambda s: MANA(s) == 10
 OVERLOADED = lambda s: (OVERLOAD_LOCKED(s) > 0) or (OVERLOAD_OWED(s) > 0)
 CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
 CAST_WHEN_DRAWN = Destroy(SELF), Draw(CONTROLLER), Battlecry(SELF, None)
+INVOKED_TWICE = Attr(CONTROLLER, GameTag.INVOKE_COUNTER) >= 2
 
 
 class JoustHelper(Evaluator):

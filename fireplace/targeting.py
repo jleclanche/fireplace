@@ -55,7 +55,10 @@ def is_valid_target(self, target, requirements=None):
 		return False
 
 	if requirements is None:
-		requirements = self.requirements
+		requirements = self.requirements.copy()
+
+	if PlayReq.REQ_STEADY_SHOT in requirements and self.steady_shot_can_target:
+		requirements[PlayReq.REQ_TARGET_TO_PLAY] = 0
 
 	# Check if the entity can ever target other entities
 	for req in TARGETING_PREREQUISITES:
@@ -118,6 +121,9 @@ def is_valid_target(self, target, requirements=None):
 				return False
 		elif req == PlayReq.REQ_MINION_ATTACK_LESS_OR_EQUAL_MANA:
 			if target.atk > self.controller.mana:
+				return False
+		elif req == PlayReq.REQ_MINION_OR_ENEMY_HERO:
+			if target.type != CardType.MINION and target != self.controller.opponent.hero:
 				return False
 
 	return True

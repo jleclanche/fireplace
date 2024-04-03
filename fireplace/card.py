@@ -28,10 +28,14 @@ def Card(id):
 		CardType.WEAPON: Weapon,
 		CardType.HERO_POWER: HeroPower,
 	}[data.type]
-	if subclass is Spell and data.secret:
-		subclass = Secret
-	if subclass is Spell and data.quest:
-		subclass = Quest
+	if subclass is Spell:
+		if data.secret:
+			subclass = Secret
+		elif data.quest:
+			subclass = Quest
+		elif data.sidequest:
+			subclass = SideQuest
+
 	return subclass(data)
 
 
@@ -83,7 +87,7 @@ class BaseCard(BaseEntity):
 
 	def __eq__(self, other):
 		if isinstance(other, BaseCard):
-			return self.id.__eq__(other.id)
+			return self.entity_id.__eq__(other.entity_id)
 		elif isinstance(other, str):
 			return self.id.__eq__(other)
 		return super().__eq__(other)
@@ -266,6 +270,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 	keep_buff = boolean_property("keep_buff")
 	echo = boolean_property("echo")
 	has_overkill = boolean_property("has_overkill")
+	has_discover = boolean_property("has_discover")
 
 	def __init__(self, data):
 		self.cant_play = False
@@ -424,6 +429,13 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 
 		if PlayReq.REQ_NUM_MINION_SLOTS in self.requirements:
 			if self.requirements[PlayReq.REQ_NUM_MINION_SLOTS] > self.controller.minion_slots:
+				return False
+
+		if PlayReq.REQ_BOARD_NOT_COMPLETELY_FULL in self.requirements:
+			if (
+				self.controller.minion_slots == 0 and
+				self.controller.opponent.minion_slots == 0
+			):
 				return False
 
 		min_enemy_minions = self.requirements.get(PlayReq.REQ_MINIMUM_ENEMY_MINIONS, 0)
@@ -608,7 +620,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_HAS_OVERLOADED_MANA)
 		if req is not None:
-			if self.controller.overloaded > 0:
+			if self.controller.overloaded > 0 or self.controller.overload_locked > 0:
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_DRAWN_THIS_TURN)
 		if req is not None:
@@ -640,6 +652,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 		req = self.requirements.get(PlayReq.REQ_TARGET_IF_AVAILABLE_AND_FRIENDLY_LACKEY)
 		if req is not None:
 			if self.controller.field.filter(mark_of_evil=True):
+				return bool(self.play_targets)
+		req = self.requirements.get(PlayReq.REQ_STEADY_SHOT)
+		if req is not None:
+			if self.steady_shot_can_target:
 				return bool(self.play_targets)
 		# req = self.requirements.get(
 		# 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
@@ -762,6 +778,7 @@ class LiveEntity(PlayableCard, Entity):
 class Character(LiveEntity):
 	health_attribute = "health"
 	cant_attack = boolean_property("cant_attack")
+	cant_be_frozen = boolean_property("cant_be_frozen")
 	cant_be_targeted_by_opponents = boolean_property("cant_be_targeted_by_opponents")
 	cant_be_targeted_by_abilities = boolean_property("cant_be_targeted_by_abilities")
 	cant_be_targeted_by_hero_powers = boolean_property("cant_be_targeted_by_hero_powers")
@@ -776,7 +793,7 @@ class Character(LiveEntity):
 	stealthed = boolean_property("stealthed")
 
 	def __init__(self, data):
-		self.frozen = False
+		self._frozen = False
 		self.attack_target = None
 		self.num_attacks = 0
 		self.race = Race.INVALID
@@ -821,6 +838,18 @@ class Character(LiveEntity):
 			taunts = targets.filter(taunt=True).filter(attackable=True)
 
 		return (taunts or targets).filter(attackable=True)
+
+	@property
+	def frozen(self):
+		if self.cant_be_frozen:
+			self._frozen = False
+		return self._frozen
+
+	@frozen.setter
+	def frozen(self, value):
+		if self.cant_be_frozen:
+			value = False
+		self._frozen = value
 
 	def can_attack(self, target=None):
 		if self.controller.choice:
@@ -898,6 +927,8 @@ class Character(LiveEntity):
 
 
 class Hero(Character):
+	galakrond_hero_card = boolean_property("galakrond_hero_card")
+
 	def __init__(self, data):
 		self.armor = 0
 		self.power = None
@@ -1040,17 +1071,28 @@ class Minion(Character):
 		return self.silenced
 
 	@property
-	def adjacent_minions(self):
+	def left_minion(self):
 		assert self.zone is Zone.PLAY, self.zone
 		ret = CardList()
 		index = self.zone_position - 1
 		left = self.controller.field[:index]
-		right = self.controller.field[index + 1:]
 		if left:
 			ret.append(left[-1])
+		return ret
+
+	@property
+	def right_minion(self):
+		assert self.zone is Zone.PLAY, self.zone
+		ret = CardList()
+		index = self.zone_position - 1
+		right = self.controller.field[index + 1:]
 		if right:
 			ret.append(right[0])
 		return ret
+
+	@property
+	def adjacent_minions(self):
+		return self.left_minion + self.right_minion
 
 	@property
 	def attackable(self):
@@ -1222,7 +1264,7 @@ class Secret(Spell):
 
 	def is_summonable(self):
 		# secrets are all unique
-		if self.controller.secrets.contains(self):
+		if self.controller.secrets.contains(self.id):
 			return False
 		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
 			return False
@@ -1246,8 +1288,9 @@ class Quest(Spell):
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:
-			# Move secrets to the SECRET Zone when played
 			value = Zone.SECRET
+		if self.zone == Zone.SECRET:
+			self.controller.secrets.remove(self)
 		if value == Zone.SECRET:
 			self.controller.secrets.insert(0, self)
 		super()._set_zone(value)
@@ -1257,6 +1300,44 @@ class Quest(Spell):
 		ret = super().events
 		if self.zone == Zone.SECRET:
 			ret += self.data.scripts.quest
+		return ret
+
+
+class SideQuest(Spell):
+	spelltype = enums.SpellType.SIDEQUEST
+
+	@property
+	def zone_position(self):
+		if self.zone == Zone.SECRET:
+			return self.controller.secrets.index(self) + 1
+		return super().zone_position
+
+	def dump_hidden(self):
+		if self.zone == Zone.SECRET:
+			return self.dump()
+		return super().dump_hidden()
+
+	def is_summonable(self):
+		if self.controller.secrets.contains(self.id):
+			return False
+		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
+			return False
+		return super().is_summonable()
+
+	def _set_zone(self, value):
+		if value == Zone.PLAY:
+			value = Zone.SECRET
+		if self.zone == Zone.SECRET:
+			self.controller.secrets.remove(self)
+		if value == Zone.SECRET:
+			self.controller.secrets.append(self)
+		super()._set_zone(value)
+
+	@property
+	def events(self):
+		ret = super().events
+		if self.zone == Zone.SECRET:
+			ret += self.data.scripts.sidequest
 		return ret
 
 
@@ -1381,6 +1462,7 @@ class HeroPower(PlayableCard):
 	heropower_disabled = int_property("heropower_disabled")
 	passive_hero_power = boolean_property("passive_hero_power")
 	playable_zone = Zone.PLAY
+	steady_shot_can_target = boolean_property("steady_shot_can_target")
 
 	def __init__(self, data):
 		super().__init__(data)
@@ -1401,6 +1483,17 @@ class HeroPower(PlayableCard):
 			return False
 		return self.activations_this_turn >= (
 			1 + self.additional_activations + self.additional_activations_this_turn)
+
+	@property
+	def events(self):
+		if self.heropower_disabled:
+			return []
+		return super().events
+
+	@property
+	def update_scripts(self):
+		if not self.heropower_disabled:
+			yield from super().update_scripts
 
 	def _set_zone(self, value):
 		if value == Zone.PLAY:

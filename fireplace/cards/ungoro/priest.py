@@ -74,6 +74,7 @@ class UNG_035:
 						card.zone = Zone.HAND
 				else:
 					log.info("Choose incorrectly, corrent choice is %r", self.starting_card)
+					self.source.game.queue_actions(card, [Reveal(self.starting_card)])
 			self.player.choice = None
 			self.trigger_choice_callback()
 

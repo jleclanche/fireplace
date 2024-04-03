@@ -93,9 +93,7 @@ class ICC_827e3:
 
 class ICC_827p:
 	tags = {enums.PASSIVE_HERO_POWER: True}
-	events = OWN_TURN_BEGIN.on(
-		Find(SELF - EXHAUSTED) & Give(CONTROLLER, "ICC_827t")
-	)
+	events = OWN_TURN_BEGIN.on(Give(CONTROLLER, "ICC_827t"))
 
 
 class ICC_827t:

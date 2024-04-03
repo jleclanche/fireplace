@@ -116,7 +116,7 @@ def test_duplicate():
 	game.player2.give(MOONFIRE).play(target=wisp)
 	assert duplicate not in game.player1.secrets
 	assert len(game.player1.hand) == 2
-	assert game.player1.hand[0] == game.player1.hand[1] == WISP
+	assert game.player1.hand[0].id == game.player1.hand[1].id == WISP
 
 
 def test_duplicate_full_hand():
