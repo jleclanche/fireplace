@@ -243,6 +243,7 @@ CARD_ATTRIBUTE_MAP = {
 	GameTag.SECRET_DEATHRATTLE: "secret_deathrattle",
 	GameTag.SHADOWFORM: "shadowform",
 	GameTag.SHOULDEXITCOMBAT: "should_exit_combat",
+	GameTag.STEADY_SHOT_CAN_TARGET: "steady_shot_can_target",
 	GameTag.SILENCED: "silenced",
 	GameTag.SPELLPOWER: "spellpower",
 	GameTag.SPELLPOWER_DOUBLE: "spellpower_double",

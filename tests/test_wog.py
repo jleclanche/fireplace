@@ -546,7 +546,7 @@ def test_thistle_tea():
 	tea = game.player1.give("OG_073")
 	tea.play()
 	assert len(game.player1.hand) == 3
-	assert game.player1.hand[0] == game.player1.hand[1] == game.player1.hand[2]
+	assert game.player1.hand[0].id == game.player1.hand[1].id == game.player1.hand[2].id
 
 
 def test_undercity_huckster():

@@ -119,11 +119,11 @@ def test_high_low_atk_selectors():
 
 	targets = high_selector.eval(game, game.player1)
 	assert len(targets) == 1
-	assert targets[0] == wisp
+	assert targets[0] == wisp.id
 
 	targets = low_selector.eval(game, game.player1)
 	assert len(targets) == 1
-	assert targets[0] == wisp
+	assert targets[0] == wisp.id
 
 	alex = game.player1.give("EX1_561")
 	mountain = game.player1.give("EX1_105")
@@ -134,7 +134,7 @@ def test_high_low_atk_selectors():
 
 	targets = low_selector.eval(game, game.player1)
 	assert len(targets) == 1
-	assert targets[0] == wisp
+	assert targets[0] == wisp.id
 
 
 def test_controlled_by_selector():

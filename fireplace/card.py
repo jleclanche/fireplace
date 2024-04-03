@@ -87,7 +87,7 @@ class BaseCard(BaseEntity):
 
 	def __eq__(self, other):
 		if isinstance(other, BaseCard):
-			return self.id.__eq__(other.id)
+			return self.entity_id.__eq__(other.entity_id)
 		elif isinstance(other, str):
 			return self.id.__eq__(other)
 		return super().__eq__(other)
@@ -437,7 +437,6 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 			):
 				return False
 
-
 		min_enemy_minions = self.requirements.get(PlayReq.REQ_MINIMUM_ENEMY_MINIONS, 0)
 		if len(self.controller.opponent.field) < min_enemy_minions:
 			return False
@@ -655,7 +654,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
 				return bool(self.play_targets)
 		req = self.requirements.get(PlayReq.REQ_STEADY_SHOT)
 		if req is not None:
-			if self.tags.get(GameTag.STEADY_SHOT_CAN_TARGET):
+			if self.steady_shot_can_target:
 				return bool(self.play_targets)
 		# req = self.requirements.get(
 		# 	PlayReq.REQ_TARGET_IF_AVAILABLE_AND_PLAYER_HEALTH_CHANGED_THIS_TURN)
@@ -1249,7 +1248,8 @@ class Secret(Spell):
 
 	def is_summonable(self):
 		# secrets are all unique
-		if self.controller.secrets.contains(self):
+		secret_ids = [secret.id for secret in self.controller.secrets]
+		if self.id in secret_ids:
 			return False
 		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
 			return False
@@ -1303,7 +1303,8 @@ class SideQuest(Spell):
 		return super().dump_hidden()
 
 	def is_summonable(self):
-		if self.controller.secrets.contains(self):
+		secret_ids = [secret.id for secret in self.controller.secrets]
+		if self.id in secret_ids:
 			return False
 		if len(self.controller.secrets) >= self.game.MAX_SECRETS_ON_PLAY:
 			return False
@@ -1447,6 +1448,7 @@ class HeroPower(PlayableCard):
 	heropower_disabled = int_property("heropower_disabled")
 	passive_hero_power = boolean_property("passive_hero_power")
 	playable_zone = Zone.PLAY
+	steady_shot_can_target = boolean_property("steady_shot_can_target")
 
 	def __init__(self, data):
 		super().__init__(data)
