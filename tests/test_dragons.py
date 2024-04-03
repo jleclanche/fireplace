@@ -254,3 +254,13 @@ def test_the_fist_of_raden():
     assert raden.damage == 1
     assert len(game.player1.field) == 1
     assert game.player1.field[0].cost == 4
+
+
+def test_zzeraku_the_warpe():
+    game = prepare_game()
+    game.player1.give(WISP).play()
+    game.player1.give("CFM_900").play()
+    game.skip_turn()
+    game.player1.give("DRG_209").play()
+    assert game.player1.hero.health == 5
+    assert game.player1.field == [WISP, "CFM_900", "DRG_209"] + ["DRG_209t"] * 4
