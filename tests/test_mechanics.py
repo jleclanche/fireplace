@@ -618,8 +618,8 @@ def test_mulligan():
     game.player2.choice.choose(hand2[0], hand2[1])
     assert hand2[0] not in game.player2.hand
     assert hand2[1] not in game.player2.hand
-    assert hand2[2] in game.player2.hand
-    assert hand2[3] in game.player2.hand
+    assert hand2[2] == game.player2.hand[2]
+    assert hand2[3] == game.player2.hand[3]
     assert game.player2.hand[4] == THE_COIN
 
 

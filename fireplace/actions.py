@@ -439,9 +439,12 @@ class MulliganChoice(GameAction):
         for card in cards:
             assert card in self.cards
         self.player.choice = None
-        self.player.draw(len(cards))
         for card in cards:
+            card._summon_index = 0
+            new_card = self.player.deck[-1]
+            new_card._summon_index = card.zone_position
             card.zone = Zone.DECK
+            new_card.zone = Zone.HAND
         self.player.shuffle_deck()
         self.player.mulligan_state = Mulligan.DONE
 
