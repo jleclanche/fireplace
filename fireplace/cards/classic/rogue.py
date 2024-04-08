@@ -166,7 +166,7 @@ class EX1_145:
 
 
 class EX1_145o:
-	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -3})
+	update = Refresh(FRIENDLY_HAND + SPELL, {GameTag.COST: -2})
 	events = OWN_SPELL_PLAY.on(Destroy(SELF))
 
 
@@ -202,8 +202,8 @@ class EX1_133:
 
 class EX1_182:
 	"""Pilfer"""
-	# Add a random card to your hand <i>(from your opponent's class)</i>.
-	play = Give(CONTROLLER, RandomCollectible(card_class=ENEMY_CLASS))
+	# Add a random card from another class to_your hand.</i>.
+	play = Give(CONTROLLER, RandomCollectible(card_class=ANOTHER_CLASS))
 
 
 class EX1_191:

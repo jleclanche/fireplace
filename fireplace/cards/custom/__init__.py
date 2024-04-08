@@ -2,6 +2,7 @@ from ..utils import *
 from .patch_wog import *
 from .patch_karazhan import *
 from .patch_icc import *
+from .patch_dalaran import *
 
 
 # Pre-nerf Warsong Commander for tests

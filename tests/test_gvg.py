@@ -369,7 +369,7 @@ def test_gazlowe_preparation():
 	game.player1.give("GVG_117").play()
 	drainlife = game.player1.give(FIREBALL)
 	assert drainlife.cost == 4
-	game.player1.give("EX1_145").play()
+	game.player1.give("VAN_EX1_145").play()
 	assert drainlife.cost == 1
 	drainlife.play(target=game.player2.hero)
 	assert len(game.player1.hand) == 1
