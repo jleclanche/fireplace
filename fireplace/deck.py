@@ -1,7 +1,9 @@
+from typing import TypeVar
+
 from .utils import CardList
 
 
-class Deck(CardList):
+class Deck(CardList[TypeVar("PlayableCard")]):
 	MAX_CARDS = 30
 	MAX_UNIQUE_CARDS = 2
 	MAX_UNIQUE_LEGENDARIES = 1

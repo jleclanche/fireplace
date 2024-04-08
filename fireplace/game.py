@@ -2,17 +2,22 @@ import random
 import time
 from calendar import timegm
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
-from .actions import (
-	Attack, BeginTurn, Death, EndTurn, EventListener, GameStart, Play
-)
+from .actions import Attack, BeginTurn, Death, EndTurn, EventListener, GameStart, Play
 from .card import THE_COIN
 from .entity import Entity
 from .exceptions import GameOver
 from .managers import GameManager
 from .utils import CardList
+
+
+if TYPE_CHECKING:
+	from .actions import Action
+	from .card import Character, PlayableCard
+	from .player import Player
 
 
 class BaseGame(Entity):
@@ -21,7 +26,9 @@ class BaseGame(Entity):
 	MAX_SECRETS_ON_PLAY = 5
 	Manager = GameManager
 
-	def __init__(self, players):
+	def __init__(self, players: "list[Player]"):
+		self.player1: Player
+		self.player2: Player
 		self.data = None
 		self.players = players
 		super().__init__()
@@ -31,8 +38,8 @@ class BaseGame(Entity):
 		self.step = Step.BEGIN_FIRST
 		self.next_step = Step.BEGIN_SHUFFLE
 		self.turn = 0
-		self.current_player = None
-		self.next_players = []
+		self.current_player: Player = None
+		self.next_players: list[Player] = []
 		self.tick = 0
 		self.active_aura_buffs = CardList()
 		self.setaside = CardList()
@@ -139,7 +146,13 @@ class BaseGame(Entity):
 		type = BlockType.POWER
 		return self.action_block(source, actions, type, target=target)
 
-	def play_card(self, card, target, index, choose):
+	def play_card(
+		self,
+		card: "PlayableCard",
+		target: "Character",
+		index: int,
+		choose: "PlayableCard | str"
+	):
 		type = BlockType.PLAY
 		player = card.controller
 		actions = [Play(card, target, index, choose)]
@@ -193,7 +206,7 @@ class BaseGame(Entity):
 			self.manager.step(self.next_step, Step.FINAL_GAMEOVER)
 			self.manager.step(self.next_step)
 
-	def queue_actions(self, source, actions, event_args=None):
+	def queue_actions(self, source: Entity, actions: "list[Action]", event_args=None):
 		"""
 		Queue a list of \a actions for processing from \a source.
 		Triggers an aura refresh afterwards.
@@ -204,7 +217,7 @@ class BaseGame(Entity):
 		source.event_args = old_event_args
 		return ret
 
-	def trigger_actions(self, source, actions):
+	def trigger_actions(self, source: Entity, actions: "list[Action]"):
 		"""
 		Performs a list of `actions` from `source`.
 		This should seldom be called directly - use `queue_actions` instead.
@@ -326,7 +339,7 @@ class BaseGame(Entity):
 		self.manager.turn(player)
 		return ret
 
-	def _begin_turn(self, player):
+	def _begin_turn(self, player: "Player"):
 		self.manager.step(self.next_step, Step.MAIN_START)
 		self.manager.step(self.next_step, Step.MAIN_ACTION)
 
@@ -364,7 +377,7 @@ class BaseGame(Entity):
 		self.manager.step(self.next_step, Step.MAIN_END)
 
 
-class CoinRules:
+class CoinRules(BaseGame):
 	"""
 	Randomly determines the starting player when the Game starts.
 	The second player gets "The Coin" (GAME_005).
@@ -382,7 +395,7 @@ class CoinRules:
 		super().begin_turn(player)
 
 
-class MulliganRules:
+class MulliganRules(BaseGame):
 	"""
 	Performs a Mulligan phase when the Game starts.
 	Only begin the game after both Mulligans have been chosen.

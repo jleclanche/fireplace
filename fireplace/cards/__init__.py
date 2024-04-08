@@ -30,7 +30,7 @@ def get_script_definition(id, card=None):
 			return getattr(module, id)
 
 
-class CardDB(dict):
+class CardDB(dict[str, cardxml.CardXML]):
 	def __init__(self):
 		self.initialized = False
 		self.dbf = {}

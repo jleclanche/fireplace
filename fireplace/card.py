@@ -1,9 +1,11 @@
 import random
 import re
 from itertools import chain
+from typing import TYPE_CHECKING
 
-from hearthstone.enums import CardType, GameTag, MultiClassGroup, PlayReq, PlayState, \
-	Race, Rarity, Step, Zone
+from hearthstone.enums import (
+	CardType, GameTag, MultiClassGroup, PlayReq, PlayState, Race, Rarity, Step, Zone
+)
 
 from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
@@ -14,6 +16,11 @@ from .managers import CardManager
 from .targeting import TARGETING_PREREQUISITES, is_valid_target
 from .utils import CardList
 
+
+if TYPE_CHECKING:
+	from hearthstone import cardxml
+
+	from .player import Player
 
 THE_COIN = "GAME_005"
 
@@ -43,20 +50,20 @@ class BaseCard(BaseEntity):
 	Manager = CardManager
 	delayed_destruction = False
 
-	def __init__(self, data):
+	def __init__(self, data: "cardxml.CardXML"):
 		self.data = data
 		super().__init__()
 		self.requirements = data.requirements.copy()
-		self.id = data.id
-		self.controller = None
+		self.id: str = data.id
+		self.controller: Player = None
 		self.choose = None
 		self.target = None
-		self.parent_card = None
+		self.parent_card: BaseCard = None
 		self.aura = False
 		self.heropower_damage = 0
 		self._zone = Zone.INVALID
-		self._progress = 0
-		self.progress_total = data.scripts.progress_total
+		self._progress: int = 0
+		self.progress_total: int = data.scripts.progress_total
 		self.tags.update(data.tags)
 
 	def dump(self):
@@ -931,7 +938,7 @@ class Hero(Character):
 
 	def __init__(self, data):
 		self.armor = 0
-		self.power = None
+		self.power: HeroPower = None
 		super().__init__(data)
 
 	def dump(self):

@@ -1,5 +1,6 @@
 import random
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from hearthstone.enums import CardType, GameTag, PlayState, Race, Zone
 
@@ -10,6 +11,11 @@ from .deck import Deck
 from .entity import Entity, slot_property
 from .managers import PlayerManager
 from .utils import CardList
+
+
+if TYPE_CHECKING:
+	from .card import Character, Hero, Minion, PlayableCard, Quest, Secret, SideQuest
+	from .game import Game
 
 
 class Player(Entity, TargetableByAuras):
@@ -34,25 +40,29 @@ class Player(Entity, TargetableByAuras):
 	murlocs_cost_health = slot_property("murlocs_cost_health")
 	type = CardType.PLAYER
 
-	def __init__(self, name, deck, hero, is_standard=True):
+	def __init__(self, name, deck: list[str], hero: str, is_standard=True):
+		self.game: Game = None
+		self.opponent: Player = None
+		self.first_player: bool = False
 		self.starting_deck = deck
 		self.starting_hero = hero
 		self.data = None
 		self.name = name
-		self.hero = None
+		self.hero: Hero = None
 		self.is_standard = is_standard
 		super().__init__()
 		self.deck = Deck()
-		self.hand = CardList()
-		self.field = CardList()
-		self.graveyard = CardList()
-		self.secrets = CardList()
+		self.hand = CardList["PlayableCard"]()
+		self.field = CardList["Minion"]()
+		self.graveyard = CardList["PlayableCard"]()
+		self.secrets = CardList["Secret | Quest | SideQuest"]()
 		self.choice = None
 		self.max_hand_size = 10
 		self.max_resources = 10
 		self.max_deck_size = 60
 		self.cant_draw = False
 		self.cant_fatigue = False
+		self.combo = False
 		self.fatigue_counter = 0
 		self.last_card_played = None
 		self.overloaded = 0
@@ -66,6 +76,7 @@ class Player(Entity, TargetableByAuras):
 		self.times_hero_power_used_this_game = 0
 		self.used_mana = 0
 		self.minions_killed_this_turn = 0
+		self.minions_played_this_turn = 0
 		self.weapon = None
 		self.zone = Zone.INVALID
 		self.turn = None
@@ -288,7 +299,7 @@ class Player(Entity, TargetableByAuras):
 				quests.append(card)
 			else:
 				exclude_quests.append(card)
-		self.starting_hand = CardList(
+		self.starting_hand = CardList["PlayableCard"](
 			quests + random.sample(exclude_quests, hand_size - len(quests))
 		)
 		# It's faster to move cards directly to the hand instead of drawing
@@ -339,7 +350,7 @@ class Player(Entity, TargetableByAuras):
 				return self.hero.health > card.cost
 		return self.mana >= card.cost
 
-	def pay_cost(self, source, amount: int) -> int:
+	def pay_cost(self, source: Entity, amount: int) -> int:
 		"""
 		Make player pay \a amount mana.
 		Returns how much mana is spent, after temporary mana adjustments.
@@ -374,7 +385,7 @@ class Player(Entity, TargetableByAuras):
 			return ret[0][0]
 		return ret
 
-	def give(self, id):
+	def give(self, id: str) -> "PlayableCard":
 		cards = self.game.cheat_action(self, [Give(self, id)])[0][0]
 		if len(cards) > 0:
 			return cards[0]
@@ -389,7 +400,7 @@ class Player(Entity, TargetableByAuras):
 	def steal(self, card):
 		return self.game.cheat_action(self, [Steal(card)])
 
-	def summon(self, card):
+	def summon(self, card) -> "PlayableCard":
 		"""
 		Puts \a card in the PLAY zone
 		"""

@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import os.path
 import random
 from bisect import bisect
 from importlib import import_module
 from pkgutil import iter_modules
-from typing import List
+from typing import List, TypeVar, overload
 from xml.etree import ElementTree
 
 from hearthstone.enums import CardClass, CardType
@@ -14,14 +16,23 @@ from .logging import log
 # Autogenerate the list of cardset modules
 _cards_module = os.path.join(os.path.dirname(__file__), "cards")
 CARD_SETS = [cs for _, cs, ispkg in iter_modules([_cards_module]) if ispkg]
+T = TypeVar("T")
 
 
-class CardList(list):
-	def __contains__(self, x):
+class CardList(list[T]):
+	def __contains__(self, x: T) -> bool:
 		for item in self:
 			if x is item:
 				return True
 		return False
+
+	@overload
+	def __getitem__(self, index: int) -> T:
+		pass
+
+	@overload
+	def __getitem__(self, index: slice) -> CardList[T]:
+		pass
 
 	def __getitem__(self, key):
 		ret = super().__getitem__(key)
@@ -29,11 +40,11 @@ class CardList(list):
 			return self.__class__(ret)
 		return ret
 
-	def __int__(self):
+	def __int__(self) -> int:
 		# Used in Kettle to easily serialize CardList to json
 		return len(self)
 
-	def contains(self, x):
+	def contains(self, x: T | str) -> bool:
 		"""
 		True if list contains any instance of x
 		"""
@@ -42,13 +53,13 @@ class CardList(list):
 				return True
 		return False
 
-	def index(self, x):
+	def index(self, x: T) -> int:
 		for i, item in enumerate(self):
 			if x is item:
 				return i
 		raise ValueError
 
-	def remove(self, x):
+	def remove(self, x: T):
 		for i, item in enumerate(self):
 			if x is item:
 				del self[i]

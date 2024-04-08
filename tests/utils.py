@@ -83,7 +83,7 @@ def _random_class():
 	return CardClass(random.randint(2, 10))
 
 
-def _empty_mulligan(game):
+def _empty_mulligan(game: BaseGame):
 	for player in game.players:
 		if player.choice:
 			player.choice.choose()
