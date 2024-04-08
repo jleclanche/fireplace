@@ -168,3 +168,17 @@ def test_reborn():
 	assert new_moon.divine_shield
 	new_moon.destroy()
 	assert len(game.player1.field) == 0
+
+
+def test_echo_cannot_be_reduced_below_1_mana():
+	game = prepare_empty_game()
+	game.player1.summon("EX1_608")
+	game.player1.summon("EX1_608")
+	bells = game.player1.give("GIL_145")
+	assert bells.cost == 0
+	bells.play(target=game.player1.field[0])
+	bells_echo = game.player1.hand[0]
+	assert bells_echo.cost == 1
+	bells_echo.play(target=game.player1.field[0])
+	bells_echo_2 = game.player1.hand[0]
+	assert bells_echo_2.cost == 1

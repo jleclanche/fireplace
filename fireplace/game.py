@@ -240,9 +240,10 @@ class BaseGame(Entity):
 			for script in entity.update_scripts:
 				refresh_queue.append((entity, script))
 
-		for entity in self.hands:
-			for script in entity.data.scripts.Hand.update:
-				refresh_queue.append((entity, script))
+		for hand in self.hands:
+			for entity in hand.entities:
+				for script in entity.data.scripts.Hand.update:
+					refresh_queue.append((entity, script))
 
 		# Sort the refresh queue by refresh priority (used by eg. Lightspawn)
 		refresh_queue.sort(key=lambda e: getattr(e[1], "priority", 50))
