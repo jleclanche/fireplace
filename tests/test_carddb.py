@@ -30,20 +30,20 @@ CARDS = utils.fireplace.cards.db
 
 
 def test_play_scripts():
-	for card in CARDS.values():
-		if card.scripts.activate:
-			assert card.type in (CardType.HERO_POWER, CardType.SPELL, CardType.MINION)
-		elif card.scripts.play:
-			assert card.type not in (CardType.HERO_POWER, CardType.ENCHANTMENT)
+    for card in CARDS.values():
+        if card.scripts.activate:
+            assert card.type in (CardType.HERO_POWER, CardType.SPELL, CardType.MINION)
+        elif card.scripts.play:
+            assert card.type not in (CardType.HERO_POWER, CardType.ENCHANTMENT)
 
 
 def test_card_docstrings():
-	for card in CARDS.values():
-		if card.locale != "enUS":
-			continue
-		c = utils.fireplace.cards.get_script_definition(card.id)
-		name = c.__doc__
-		if name is not None:
-			if name.endswith(")"):
-				continue
-			assert name == card.name
+    for card in CARDS.values():
+        if card.locale != "enUS":
+            continue
+        c = utils.fireplace.cards.get_script_definition(card.id)
+        name = c.__doc__
+        if name is not None:
+            if name.endswith(")"):
+                continue
+            assert name == card.name

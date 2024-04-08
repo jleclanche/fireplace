@@ -11,24 +11,24 @@ sys.path.append("..")
 
 
 def test_full_game():
-	try:
-		play_full_game()
-	except GameOver:
-		log.info("Game completed normally.")
+    try:
+        play_full_game()
+    except GameOver:
+        log.info("Game completed normally.")
 
 
 def main():
-	cards.db.initialize()
-	if len(sys.argv) > 1:
-		numgames = sys.argv[1]
-		if not numgames.isdigit():
-			sys.stderr.write("Usage: %s [NUMGAMES]\n" % (sys.argv[0]))
-			exit(1)
-		for i in range(int(numgames)):
-			test_full_game()
-	else:
-		test_full_game()
+    cards.db.initialize()
+    if len(sys.argv) > 1:
+        numgames = sys.argv[1]
+        if not numgames.isdigit():
+            sys.stderr.write("Usage: %s [NUMGAMES]\n" % (sys.argv[0]))
+            exit(1)
+        for i in range(int(numgames)):
+            test_full_game()
+    else:
+        test_full_game()
 
 
 if __name__ == "__main__":
-	main()
+    main()

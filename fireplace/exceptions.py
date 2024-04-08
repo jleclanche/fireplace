@@ -1,6 +1,6 @@
 class InvalidAction(Exception):
-	pass
+    pass
 
 
 class GameOver(Exception):
-	pass
+    pass
