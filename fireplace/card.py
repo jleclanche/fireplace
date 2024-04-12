@@ -7,7 +7,6 @@ from hearthstone.enums import (
     CardType,
     GameTag,
     MultiClassGroup,
-    PlayReq,
     PlayState,
     Race,
     Rarity,
@@ -19,6 +18,7 @@ from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
 from .dsl.lazynum import LazyNum
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
+from .enums import PlayReq
 from .exceptions import InvalidAction
 from .managers import CardManager
 from .targeting import TARGETING_PREREQUISITES, is_valid_target

@@ -6,7 +6,6 @@ from hearthstone.enums import (
     CardSet,
     CardType,
     GameTag,
-    PlayReq,
     Race,
     Rarity,
 )
@@ -15,6 +14,7 @@ from ..actions import *
 from ..aura import Refresh
 from ..cards import db
 from ..dsl import *
+from ..enums import PlayReq
 from ..events import *
 
 
