@@ -56,6 +56,7 @@ BLACKLIST = (
     "KAR_205",  # Silverware Golem
     "UNG_836",  # Clutchmother Zavas
     "TRL_252",  # High Priestess Jeklik
+    "DRG_056",  # Parachute Brigand
 )
 
 _draftcache = {}
