@@ -487,15 +487,8 @@ class Play(GameAction):
         else:
             trigger_battlecry = True
 
-        if card is card.controller.hand[0] or card is card.controller.hand[-1]:
-            trigger_outcast = True
-        else:
-            trigger_outcast = False
-
-        if card is card.controller.hand[-1]:
-            card.play_right_most = True
-        else:
-            card.play_right_most = False
+        card.play_left_most = card is card.controller.hand[0]
+        card.play_right_most = card is card.controller.hand[-1]
 
         card.zone = Zone.PLAY
 
@@ -525,7 +518,7 @@ class Play(GameAction):
 
         # "Can't Play" (aka Counter) means triggers don't happen either
         if not card.cant_play:
-            if trigger_outcast and card.get_actions("outcast"):
+            if card.trigger_outcast and card.get_actions("outcast"):
                 source.game.trigger(card, card.get_actions("outcast"), event_args=None)
             elif trigger_battlecry:
                 source.game.queue_actions(

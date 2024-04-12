@@ -305,6 +305,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
         self.turn_drawn = -1
         self.turn_played = -1
         self.cast_on_friendly_minions = False
+        self.play_left_most = False
         self.play_right_most = False
         self.custom_card = False
         super().__init__(data)
@@ -379,6 +380,10 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
     @property
     def played_this_turn(self):
         return self.turn_played == self.game.turn
+
+    @property
+    def trigger_outcast(self):
+        return self.play_left_most or self.play_right_most
 
     @property
     def zone_position(self):
