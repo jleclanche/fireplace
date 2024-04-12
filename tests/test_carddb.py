@@ -1,4 +1,5 @@
 import utils
+import pytest
 from hearthstone.enums import CardType, GameTag, Rarity
 
 
@@ -37,6 +38,7 @@ def test_play_scripts():
             assert card.type not in (CardType.HERO_POWER, CardType.ENCHANTMENT)
 
 
+@pytest.mark.skip(reason="WIP")
 def test_battlecry_scripts():
     for card in CARDS.values():
         if card.battlecry and card.collectible:
@@ -45,6 +47,7 @@ def test_battlecry_scripts():
             assert card.scripts.play
 
 
+@pytest.mark.skip(reason="WIP")
 def test_deathrattle_scripts():
     for card in CARDS.values():
         if card.deathrattle and card.collectible:

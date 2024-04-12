@@ -1,3 +1,4 @@
+from .demonhunter import *
 from .druid import *
 from .hunter import *
 from .mage import *

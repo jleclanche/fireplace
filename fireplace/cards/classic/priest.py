@@ -73,6 +73,35 @@ class EX1_623:
 EX1_623e = buff(health=3)
 
 
+class EX1_193:
+    """Psychic Conjurer"""
+
+    # <b>Battlecry:</b> Copy a card in your opponent’s deck and add it to your
+    # hand.
+    pass
+
+
+class EX1_195:
+    """Kul Tiran Chaplain"""
+
+    # <b>Battlecry:</b> Give a friendly minion +2 Health.
+    pass
+
+
+class EX1_196:
+    """Scarlet Subjugator"""
+
+    # <b>Battlecry:</b> Give an enemy minion -2 Attack until your_next turn.
+    pass
+
+
+class EX1_198:
+    """Natalie Seline"""
+
+    # <b>Battlecry:</b> Destroy a minion and gain its Health.
+    pass
+
+
 ##
 # Spells
 
@@ -81,7 +110,7 @@ class CS2_004:
     """Power Word: Shield"""
 
     requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-    play = Buff(TARGET, "CS2_004e"), Draw(CONTROLLER)
+    play = Buff(TARGET, "CS2_004e")
 
 
 CS2_004e = buff(health=2)
@@ -90,7 +119,7 @@ CS2_004e = buff(health=2)
 class CS1_112:
     """Holy Nova"""
 
-    play = Hit(ENEMY_CHARACTERS, 2), Heal(FRIENDLY_CHARACTERS, 2)
+    play = Hit(ENEMY_MINIONS, 2), Heal(FRIENDLY_CHARACTERS, 2)
 
 
 class CS1_113:
@@ -123,9 +152,10 @@ class CS1_130:
     """Holy Smite"""
 
     requirements = {
+        PlayReq.REQ_MINION_TARGET: 0,
         PlayReq.REQ_TARGET_TO_PLAY: 0,
     }
-    play = Hit(TARGET, 2)
+    play = Hit(TARGET, 3)
 
 
 class CS2_003:
@@ -265,3 +295,17 @@ class EX1_192:
 
     # Restore #5 Health to your hero.
     play = Heal(FRIENDLY_HERO, 5)
+
+
+class EX1_194:
+    """Power Infusion"""
+
+    # Give a minion +2/+6.
+    pass
+
+
+class EX1_197:
+    """Shadow Word: Ruin"""
+
+    # Destroy all minions with 5 or more Attack.
+    pass

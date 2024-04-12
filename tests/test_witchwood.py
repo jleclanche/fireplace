@@ -80,5 +80,5 @@ def test_baku_and_genn():
     player2 = Player("Player1", [WISP] * 29 + ["GIL_692"], "HERO_02")
     game = BaseTestGame(players=(player1, player2))
     game.start()
-    assert player1.hero.power.id == "AT_132_WARRIOR"
+    assert player1.hero.power.id == "HERO_01bp2"
     assert player2.hero.power.cost == 1

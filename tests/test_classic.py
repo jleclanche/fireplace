@@ -2972,7 +2972,7 @@ def test_shadowform():
     game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
     # Hero Power should reset
     shadowform1 = game.player1.give("EX1_625")
-    assert game.player1.hero.power.id == "CS1h_001"
+    assert game.player1.hero.power.id == "HERO_09bp"
     assert game.player1.hero.power.is_usable()
     game.player1.hero.power.use(target=game.player1.hero)
     assert not game.player1.hero.power.is_usable()

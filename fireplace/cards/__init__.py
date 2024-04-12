@@ -8,7 +8,7 @@ from ..logging import log
 from ..utils import CARD_SETS
 
 
-year = ZodiacYear.DRAGON
+year = ZodiacYear.PHOENIX
 default_language = "enUS"
 
 

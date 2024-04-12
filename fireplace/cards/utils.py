@@ -56,27 +56,29 @@ DISCOVER = lambda *args: Discover(CONTROLLER, *args).then(
 )
 
 BASIC_HERO_POWERS = [
-    "CS2_017",
-    "DS1h_292",
-    "CS2_034",
-    "CS2_101",
-    "CS1h_001",
-    "CS2_083b",
-    "CS2_049",
-    "CS2_056",
-    "CS2_102",
+    "HERO_01bp",
+    "HERO_02bp",
+    "HERO_03bp",
+    "HERO_04bp",
+    "HERO_05bp",
+    "HERO_06bp",
+    "HERO_07bp",
+    "HERO_08bp",
+    "HERO_09bp",
+    "HERO_10bp",
 ]
 
 UPGRADED_HERO_POWERS = [
-    "CS2_017_HS1",
-    "DS1h_292_H1",
-    "AT_132_MAGE",
-    "AT_132_PALADIN",
-    "AT_132_PRIEST",
-    "AT_132_ROGUE",
-    "AT_132_SHAMAN",
-    "AT_132_WARLOCK",
-    "AT_132_WARRIOR",
+    "HERO_01bp",
+    "HERO_02bp",
+    "HERO_03bp",
+    "HERO_04bp",
+    "HERO_05bp",
+    "HERO_06bp",
+    "HERO_07bp",
+    "HERO_08bp",
+    "HERO_09bp",
+    "HERO_10bp2",
 ]
 
 UPGRADE_HERO_POWER = Summon(CONTROLLER, UPGRADED_HERO_POWER)
