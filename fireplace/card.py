@@ -1164,7 +1164,7 @@ class Minion(Character):
         assert self.zone is Zone.PLAY, self.zone
         ret = CardList()
         index = self.zone_position - 1
-        right = self.controller.field[index + 1:]
+        right = self.controller.field[index + 1 :]
         if right:
             ret.append(right[0])
         return ret

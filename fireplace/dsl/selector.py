@@ -165,9 +165,11 @@ class ComparisonSelector(Selector):
             for e in entities
             if self.op(
                 self.left.value(e, source),
-                right_value.value(e, source)
-                if isinstance(right_value, SelectorEntityValue)
-                else right_value,
+                (
+                    right_value.value(e, source)
+                    if isinstance(right_value, SelectorEntityValue)
+                    else right_value
+                ),
             )
         ]
 
@@ -293,9 +295,9 @@ OWNER = FuncSelector(
 
 def LazyValueSelector(value):
     return FuncSelector(
-        lambda entities, source: [value.evaluate(source)]
-        if value.evaluate(source)
-        else []
+        lambda entities, source: (
+            [value.evaluate(source)] if value.evaluate(source) else []
+        )
     )
 
 
@@ -479,12 +481,12 @@ CHOOSE_ONE = EnumSelector(GameTag.CHOOSE_ONE)
 HAS_DISCOVER = EnumSelector(GameTag.DISCOVER)
 LACKEY = EnumSelector(GameTag.MARK_OF_EVIL)
 
-ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True  # noqa
-KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True  # noqa
-CAST_ON_FRIENDLY_MINIONS = AttrValue(enums.CAST_ON_FRIENDLY_MINIONS) == True  # noqa
-EXHAUSTED = AttrValue(GameTag.EXHAUSTED) == True  # noqa
-THE_TURN_SUMMONED = AttrValue(GameTag.NUM_TURNS_IN_PLAY) == 0  # noqa
-TO_BE_DESTROYED = AttrValue("to_be_destroyed") == True  # noqa
+ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True
+KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True
+CAST_ON_FRIENDLY_MINIONS = AttrValue(enums.CAST_ON_FRIENDLY_MINIONS) == True
+EXHAUSTED = AttrValue(GameTag.EXHAUSTED) == True
+THE_TURN_SUMMONED = AttrValue(GameTag.NUM_TURNS_IN_PLAY) == 0
+TO_BE_DESTROYED = AttrValue("to_be_destroyed") == True
 
 ROGUE = EnumSelector(CardClass.ROGUE)
 WARLOCK = EnumSelector(CardClass.WARLOCK)
@@ -493,7 +495,7 @@ IN_PLAY = EnumSelector(Zone.PLAY)
 IN_DECK = EnumSelector(Zone.DECK)
 IN_HAND = EnumSelector(Zone.HAND)
 IN_SECRET = EnumSelector(Zone.SECRET)
-DISCARDED = AttrValue(enums.DISCARDED) == True  # noqa
+DISCARDED = AttrValue(enums.DISCARDED) == True
 KILLED = EnumSelector(Zone.GRAVEYARD) - DISCARDED
 
 GAME = EnumSelector(CardType.GAME)
@@ -617,7 +619,7 @@ RIGTHMOST_HAND = FuncSelector(
 OUTERMOST_HAND = LEFTMOST_HAND + RIGTHMOST_HAND
 
 NUM_CARDS_PLAYED_THIS_TURN = Attr(CONTROLLER, GameTag.NUM_CARDS_PLAYED_THIS_TURN)
-CARDS_PLAYED_THIS_TURN = AttrValue("played_this_turn") == True  # noqa
+CARDS_PLAYED_THIS_TURN = AttrValue("played_this_turn") == True
 
 CARDS_PLAYED_THIS_GAME = FuncSelector(
     lambda entities, source: source.controller.cards_played_this_game
@@ -668,9 +670,9 @@ CARDS_OPPONENT_PLAYED_LAST_TURN = FuncSelector(
 )
 
 GALAKROND = FuncSelector(
-    lambda entities, source: [source.controller.galakrond]
-    if source.controller.galakrond
-    else []
+    lambda entities, source: (
+        [source.controller.galakrond] if source.controller.galakrond else []
+    )
 )
 
 STORE_CARD = FuncSelector(lambda entities, source: [source.store_card])
