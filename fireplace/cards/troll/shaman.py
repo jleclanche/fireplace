@@ -104,7 +104,7 @@ class TRL_082:
 
 class TRL_082e:
     tags = {GameTag.DEATHRATTLE: True}
-    deathrattle = Summon(CONTROLLER, RandomMinion(cost=COST(SELF) + Number(1)))
+    deathrattle = Summon(CONTROLLER, RandomMinion(cost=COST(OWNER) + Number(1)))
 
 
 class TRL_351:

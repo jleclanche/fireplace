@@ -66,7 +66,7 @@ class CS2_038:
 
 
 class CS2_038e:
-    deathrattle = Summon(CONTROLLER, Copy(SELF))
+    deathrattle = Summon(CONTROLLER, Copy(OWNER))
     tags = {GameTag.DEATHRATTLE: True}
 
 

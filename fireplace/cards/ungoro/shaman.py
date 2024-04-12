@@ -102,4 +102,4 @@ class UNG_956:
 
 class UNG_956e:
     tags = {GameTag.DEATHRATTLE: True}
-    deathrattle = Give(CONTROLLER, SELF)
+    deathrattle = Give(CONTROLLER, Copy(OWNER))

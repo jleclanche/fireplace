@@ -37,6 +37,22 @@ def test_play_scripts():
             assert card.type not in (CardType.HERO_POWER, CardType.ENCHANTMENT)
 
 
+def test_battlecry_scripts():
+    for card in CARDS.values():
+        if card.battlecry and card.collectible:
+            if card.id in ["DRG_308", "GIL_614", "ULD_003"]:
+                continue
+            assert card.scripts.play
+
+
+def test_deathrattle_scripts():
+    for card in CARDS.values():
+        if card.deathrattle and card.collectible:
+            if card.id in ["BOT_558", "DRG_086", "ULD_163", "UNG_953"]:
+                continue
+            assert card.scripts.deathrattle
+
+
 def test_card_docstrings():
     for card in CARDS.values():
         if card.locale != "enUS":

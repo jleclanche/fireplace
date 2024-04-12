@@ -42,9 +42,7 @@ class BOT_558:
 
 class BOT_558e:
     tags = {GameTag.DEATHRATTLE: True}
-
-    def deathrattle(self):
-        yield Give(CONTROLLER, self.store_card.id)
+    deathrattle = Give(CONTROLLER, Copy(STORE_CARD))
 
 
 class BOT_566:

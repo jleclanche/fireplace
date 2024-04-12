@@ -71,7 +71,7 @@ ICC_808e = buff(health=1)
 class ICC_835:
     """Hadronox"""
 
-    play = Summon(CONTROLLER, Copy(FRIENDLY + KILLED + TAUNT))
+    deathrattle = Summon(CONTROLLER, Copy(FRIENDLY + KILLED + TAUNT))
 
 
 ##

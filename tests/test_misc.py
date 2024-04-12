@@ -182,3 +182,16 @@ def test_echo_cannot_be_reduced_below_1_mana():
     bells_echo.play(target=game.player1.field[0])
     bells_echo_2 = game.player1.hand[0]
     assert bells_echo_2.cost == 1
+
+
+def test_copy_deathrattle_with_store_card():
+    game = prepare_empty_game()
+    pc = game.player1.give("UNG_953").play()
+    game.player1.give("CS2_092").play(target=pc)
+    game.player1.give("CS2_092").play(target=pc)
+    game.skip_turn()
+    raptor = game.player1.give("LOE_019").play(target=pc)
+    pc.destroy()
+    assert game.player1.hand == ["CS2_092"] * 2
+    raptor.destroy()
+    assert game.player1.hand == ["CS2_092"] * 4

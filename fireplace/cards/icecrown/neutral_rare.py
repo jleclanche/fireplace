@@ -40,7 +40,7 @@ class ICC_257:
 
 
 class ICC_257e:
-    deathrattle = Summon(CONTROLLER, Copy(SELF))
+    deathrattle = Summon(CONTROLLER, Copy(OWNER))
     tags = {GameTag.DEATHRATTLE: True}
 
 
@@ -71,7 +71,7 @@ class ICC_700e:
 class ICC_702:
     """Shallow Gravedigger"""
 
-    play = Give(CONTROLLER, RandomMinion(deathrattle=True))
+    deathrattle = Give(CONTROLLER, RandomMinion(deathrattle=True))
 
 
 class ICC_902:

@@ -52,9 +52,7 @@ class DRG_086:
 
 class DRG_086e:
     tags = {GameTag.DEATHRATTLE: True}
-
-    def deathrattle(self):
-        yield Summon(CONTROLLER, self.store_card.id)
+    deathrattle = Summon(CONTROLLER, Copy(STORE_CARD))
 
 
 class DRG_088:

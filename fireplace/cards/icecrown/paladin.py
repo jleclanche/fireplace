@@ -63,7 +63,7 @@ class ICC_244:
 
 class ICC_244e:
     tags = {GameTag.DEATHRATTLE: True}
-    deathrattle = Summon(CONTROLLER, Copy(SELF)).then(SetCurrentHealth(Summon.CARD, 1))
+    deathrattle = Summon(CONTROLLER, Copy(OWNER)).then(SetCurrentHealth(Summon.CARD, 1))
 
 
 ##

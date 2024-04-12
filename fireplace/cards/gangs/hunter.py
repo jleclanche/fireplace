@@ -33,7 +33,7 @@ class CFM_335:
 class CFM_336:
     """Shaky Zipgunner"""
 
-    play = Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_336e")
+    deathrattle = Buff(RANDOM(FRIENDLY_HAND + MINION), "CFM_336e")
 
 
 CFM_336e = buff(+2, +2)

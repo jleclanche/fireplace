@@ -191,7 +191,7 @@ class DREAM_05e:
 class EX1_577:
     """The Beast"""
 
-    deathratte = Summon(OPPONENT, "EX1_finkle")
+    deathrattle = Summon(OPPONENT, "EX1_finkle")
 
 
 class EX1_614:

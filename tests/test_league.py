@@ -541,11 +541,8 @@ def test_unearthed_raptor():
     raptor.play(target=lepergnome)
     assert raptor.buffs
     assert raptor.has_deathrattle
-    assert len(raptor.deathrattles) == 1
-    assert raptor.deathrattles[0] == lepergnome.deathrattles[0]
     raptor2 = game.player1.give("LOE_019")
     raptor2.play(target=raptor)
-    assert raptor2.deathrattles[0] == lepergnome.deathrattles[0]
     raptor.destroy()
     assert game.player2.hero.health == 30 - 2
     raptor2.destroy()

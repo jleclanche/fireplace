@@ -66,6 +66,7 @@ class ExactCopy(Copy):
             for attribute in attributes:
                 if hasattr(buff, attribute):
                     setattr(new_buff, attribute, getattr(buff, attribute))
+            new_buff.additional_deathrattles = buff.additional_deathrattles[:]
             new_buff.apply(ret)
             if buff in source.game.active_aura_buffs:
                 new_buff.tick = buff.tick
@@ -74,6 +75,7 @@ class ExactCopy(Copy):
             for k in entity.silenceable_attributes:
                 v = getattr(entity, k)
                 setattr(ret, k, v)
+            ret.additional_deathrattles = entity.additional_deathrattles[:]
             ret.silenced = entity.silenced
             ret.damage = entity.damage
         return ret

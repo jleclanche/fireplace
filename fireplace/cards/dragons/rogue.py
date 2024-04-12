@@ -19,7 +19,7 @@ class DRG_031:
     # <b>Combo:</b> Draw a <b>Deathrattle</b> minion from your deck and gain its
     # <b>Deathrattle</b>.
     combo = ForceDraw(RANDOM(FRIENDLY_DECK + MINION + DEATHRATTLE)).then(
-        CopyDeathrattleBuff(SELF, "DRG_031e")
+        CopyDeathrattleBuff(ForceDraw.TARGET, "DRG_031e")
     )
 
 

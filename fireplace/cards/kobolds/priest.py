@@ -175,7 +175,7 @@ class LOOT_278t4e:
         GameTag.ATK: 2,
         GameTag.HEALTH: 2,
     }
-    deathrattle = Summon(CONTROLLER, Copy(SELF))
+    deathrattle = Summon(CONTROLLER, Copy(OWNER))
 
 
 class LOOT_353:

@@ -68,4 +68,4 @@ class ULD_250:
     """Infested Goblin"""
 
     # <b>Taunt</b> <b>Deathrattle:</b> Add two 1/1 Scarabs with <b>Taunt</b> to your hand.
-    play = Give(CONTROLLER, "ULD_215t") * 2
+    deathrattle = Give(CONTROLLER, "ULD_215t") * 2

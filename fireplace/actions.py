@@ -342,7 +342,7 @@ class Death(GameAction):
         target = args[0]
         if (not self._trigger) and entity.play_counter > target.play_counter:
             self._trigger = True
-            if at == EventListener.ON and target.deathrattles:
+            if at == EventListener.ON and target.has_deathrattle:
                 source.game.queue_actions(target, [Deathrattle(target)])
             if (
                 at == EventListener.AFTER
@@ -871,12 +871,28 @@ class CopyDeathrattleBuff(TargetedAction):
         buff.source = source
         return [buff]
 
+    def create_buff(self, source):
+        buff = self._args[1]
+        buff = source.controller.card(buff, source=source)
+        buff.tags[GameTag.DEATHRATTLE] = True
+        buff.source = source
+        return buff
+
     def do(self, source, target, buff):
         log.info("%r copy deathrattle from %r by %r", source, target, buff)
-        if target.deathrattles:
+        if target.has_deathrattle:
             for deathrattle in target.deathrattles:
-                buff.additional_deathrattles.append(deathrattle)
+                source.additional_deathrattles.append(deathrattle)
             buff.apply(source)
+            for entity in target.buffs:
+                if not entity.has_deathrattle:
+                    continue
+                new_buff = self.create_buff(source)
+                if hasattr(entity, "store_card"):
+                    new_buff.store_card = entity.store_card
+                for deathrattle in entity.deathrattles:
+                    new_buff.additional_deathrattles.append(deathrattle)
+                new_buff.apply(source)
         source.game.manager.targeted_action(self, source, target, buff)
 
 
@@ -994,17 +1010,21 @@ class Deathrattle(TargetedAction):
     """
 
     def do(self, source, target):
-        for deathrattle in target.deathrattles:
-            if callable(deathrattle):
-                actions = deathrattle(target)
-            else:
-                actions = deathrattle
-            source.game.manager.targeted_action(self, source, target)
-            source.game.queue_actions(target, actions)
+        if not target.has_deathrattle:
+            return
 
-            if target.controller.extra_deathrattles:
-                log.info("Triggering deathrattles for %r again", target)
-                source.game.queue_actions(target, actions)
+        for entity in target.entities:
+            source.game.manager.targeted_action(self, source, target)
+            for deathrattle in entity.deathrattles:
+                if callable(deathrattle):
+                    actions = deathrattle(entity)
+                else:
+                    actions = deathrattle
+                source.game.queue_actions(entity, actions)
+
+                if target.controller.extra_deathrattles:
+                    log.info("Triggering deathrattles for %r again", target)
+                    source.game.queue_actions(entity, actions)
 
 
 class Battlecry(TargetedAction):

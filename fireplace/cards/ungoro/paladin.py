@@ -32,9 +32,7 @@ class UNG_953:
 
 class UNG_953e:
     tags = {GameTag.DEATHRATTLE: True}
-
-    def deathrattle(self):
-        yield Give(CONTROLLER, self.store_card.id)
+    deathrattle = Give(CONTROLLER, Copy(STORE_CARD))
 
 
 class UNG_962:

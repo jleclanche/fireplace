@@ -8,7 +8,7 @@ from ..utils import *
 class ICC_065:
     """Bone Baron"""
 
-    play = Give(CONTROLLER, "ICC_026t") * 2
+    deathrattle = Give(CONTROLLER, "ICC_026t") * 2
 
 
 class ICC_240:

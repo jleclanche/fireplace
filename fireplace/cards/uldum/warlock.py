@@ -37,9 +37,7 @@ class ULD_163:
 
 class ULD_163e:
     tags = {GameTag.DEATHRATTLE: True}
-
-    def deathrattle(self):
-        yield Give(CONTROLLER, self.store_card.id) * 2
+    deathrattle = Give(CONTROLLER, Copy(STORE_CARD)) * 2
 
 
 class ULD_165:

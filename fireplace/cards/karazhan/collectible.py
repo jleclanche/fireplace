@@ -39,7 +39,7 @@ class KAR_021:
 class KAR_029:
     """Runic Egg"""
 
-    deathratter = Draw(CONTROLLER)
+    deathrattle = Draw(CONTROLLER)
 
 
 class KAR_030a:

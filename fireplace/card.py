@@ -750,6 +750,7 @@ class LiveEntity(PlayableCard, Entity):
         self.turn_killed = -1
         self.damaged_this_turn = 0
         self.healed_this_turn = 0
+        self.additional_deathrattles = []
 
     def dump(self):
         data = super().dump()
@@ -782,15 +783,13 @@ class LiveEntity(PlayableCard, Entity):
         ret = []
         if not self.has_deathrattle:
             return ret
+        ret = self.additional_deathrattles[:]
         deathrattle = self.get_actions("deathrattle")
         if deathrattle:
             ret.append(deathrattle)
         if self.secret_deathrattle:
             secret_deathrattles = self.get_actions("secret_deathrattles")
             ret.append((secret_deathrattles[self.secret_deathrattle - 1],))
-        for buff in self.buffs:
-            for deathrattle in buff.deathrattles:
-                ret.append(deathrattle)
         return ret
 
     @property
@@ -1458,8 +1457,6 @@ class Enchantment(BaseCard):
         deathrattle = self.get_actions("deathrattle")
         if deathrattle:
             ret.append(deathrattle)
-        if not ret:
-            raise NotImplementedError("Missing deathrattle script for %r" % (self))
         return ret
 
     def _getattr(self, attr, i):

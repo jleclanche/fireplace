@@ -672,3 +672,5 @@ GALAKROND = FuncSelector(
     if source.controller.galakrond
     else []
 )
+
+STORE_CARD = FuncSelector(lambda entities, source: [source.store_card])
