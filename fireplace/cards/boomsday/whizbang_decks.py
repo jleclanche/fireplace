@@ -95,5 +95,28 @@ WHIZBANG_DECK_STRINGS = [
     "AAECAQcK0gL8BLj2ApL4AoP7AqCAA5qHA5uKA/aWA9+pAwpLogSRBv8Hsgjy8QKb8wKO+wLYjAOWlAMA",
 ]
 
+# Descent of Dragons
+# https://outof.games/news/606-descent-of-dragons-deck-recipes-for-whizbang-the-wonderful/
+WHIZBANG_DECK_STRINGS = [
+    "AAEBAZICBNWDA8OUA9OcA/etAw39Au0D9wPmBdfvAt/7Ar/9ArSJA86UA6+iA/ytA/6tA/+tAwAA",  # Trees are Friends - Druid Deck Recipe
+    "AAEBAZICBvX8AuyJA+iUA/atA4iwA4exAwxAX8QGjQiJ8QK/8gLoiQOvogOwrQP9rQOMrgOBsQMAAA==",  # Ysera's Dream Defenders - Druid Deck Recipe
+    "AAEBAR8GuwXtCcn4AuOLA+aWA6SlAwy1A94E2wmBCvbsAqCFA6SIA9ePA56dA8edA+SkA5ipAwAA",  # Unseal the Vault - Hunter Deck Recipe
+    "AAEBAR8KxwOvBMkErgaY8AKA8wKnggOghQOfpQOHsAMKngG1A4cE/gz1iQO+mAOipQP7rwP8rwOFsAMAAA==",  # Dragonbane's Devastation - Hunter Deck Recipe
+    "AAEBAf0EHk2KAbsCiwPJA6sEywSWBd4F8gWKB+wH+wye8AK38QLG+AKggAPsiQPnlQO9mQOfmwOKngOhoQP8owOSpAO/pAOEpwP1rAPsrwORsQMAAAA=",  # Reno's Riches - Mage Deck Recipe
+    "AAEBAf0EBJaaA4qeA4GxA+G2Aw3hB40Izu8CifEC6IkD7IkD55UDg5YDoJsD9awD+qwD8K8Dh7EDAAA=",  # Aspects of the Arcane - Mage Deck Recipe
+    "AAEBAZ8FHooB3APSBN4F8gX0Bc8G+gavB/YH/gePCfsMm/AC/fsChPwCoIADvYYD44YD7IYD7IkDg6EDoaED/KMDw6QDhKcDlqwDiK4DkK4DkbEDAAAA",  # Perfect Justice - Paladin Deck Recipe
+    "AAEBAZ8FAvoG/fsCDtwDrwf+B9b+Atn+AsWhA8OkA5amA5asA4ytA4euA5CuA5uuA5yuAwAA",  # Lightforged Retribution - Paladin Deck Recipe
+    "AAEBAa0GCNcKvfMC+/4CoIAD1pkDk5sDg6ADn6kDC/gC5QTRCtMK8vECl4cDgpQDmJsDmZsD0qUD2awDAAA=",  # Day of the Dead - Priest Deck Recipe
+    "AAEBAa0GCPYH5fcCg5QDqaUDmakDqq8D47QDyMADC+UE1QjSCvIMl4cD0qUDhKgD16wD2qwD/q4Dza8DAAA=",  # Galakrond's Wit - Priest Deck Recipe
+    "AAEBAaIHBrICmwXr8AK0hgOnqAOqqAMMtAGIB90IhgnH+AKPlwOQlwP7mgP+mgO7pQOtqAO3rgMAAA==",  # Bazaar Burglary - Rogue Deck Recipe
+    "AAEBAaIHCJwCsgKvBPYEtIYDkpcD/q4Dy8ADC7QBlwaIB90Ihgm0kQOPlwO2rgO5rgOqrwPOrwMAAA==",  # Galakrond's Guile - Rogue Deck Recipe
+    "AAEBAaoICqbwAu/3Aur6ArmZA72ZA8WZA9qdA4SnA+GoA/CtAwr1BN4F/gWyBu/xAq2RA7SRA8aZA7ulA8+lAwAA",  # Corrupt the Waters - Shaman Deck Recipe
+    "AAEBAaoIBpMJ7/cC9ooD5qUD47QD08ADDI/7Apz/ArSXA8aZA8+lA9SlA7WtA7atA7etA7mtA6qvA9CvAwAA",  # Galakrond's Fury - Shaman Deck Recipe
+    "AAEBAf0GAA8w0wHOB9kHsQjCCJDuAp7xAvT3AquRA7+YA4CaA4edA4idA/qkAwAA",  # Ultimate Impfestation - Warlock Deck Recipe
+    "AAEBAf0GBsQInPgCoIAD7IkD8KwD8awDDIoB4QeNCPMM8fcC2pYDoaED+qQD5awD66wD7KwD7qwDAAA=",  # The Clutches of Valdris - Warlock Deck Recipe
+    "AAEBAQcES6CAA/eoA+iwAw3/A6IE/wf7DJ3wApvzAvT1Ap77ArP8AoiHA5+hA/WoA/aoAwAA",  # Hack the System - Warrior Deck Recipe
+    "AAEBAQcEyAOvBN6tA+iwAw0csAL/A6gF1AXuBucHnfACn6ED9agD3K0D3a0D6bADAAA=",  # Drop the Ancharrr! - Warrior Deck Recipe
+]
+
 if "WHIZBANG_DECKS" not in globals():
     WHIZBANG_DECKS = [decode_deckstring(code) for code in WHIZBANG_DECK_STRINGS]
