@@ -133,12 +133,14 @@ class CardDB(dict[str, cardxml.CardXML]):
                 card.tags[tag] = value
 
         if hasattr(cardscript, "requirements"):
-            card.powers.append({"requirements": cardscript.requirements})
+            card.requirements = cardscript.requirements
         else:
-            card.powers.append({"requirements": {}})
+            card.requirements = {}
 
         if hasattr(cardscript, "entourage"):
             card.entourage = cardscript.entourage
+        else:
+            card.entourage = []
 
         if hasattr(cardscript, "progress_total"):
             card.scripts.progress_total = cardscript.progress_total
