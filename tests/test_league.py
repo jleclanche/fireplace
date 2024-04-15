@@ -168,7 +168,7 @@ def test_djinni_of_zephyrs():
     game.player1.give(MOONFIRE).play(target=statue)
     assert statue.damage == djinni.damage == 1
 
-    pwshield = game.player1.give("CS2_004")
+    pwshield = game.player1.give("CS2_004_Puzzle")
     pwshield.play(target=statue)
     statue.max_health == 10 + 2
     djinni.max_health == 6 + 2
