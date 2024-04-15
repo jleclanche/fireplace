@@ -78,28 +78,50 @@ class EX1_193:
 
     # <b>Battlecry:</b> Copy a card in your opponent’s deck and add it to your
     # hand.
-    pass
+    play = Give(CONTROLLER, Copy(RANDOM(ENEMY_DECK)))
 
 
 class EX1_195:
     """Kul Tiran Chaplain"""
 
     # <b>Battlecry:</b> Give a friendly minion +2 Health.
-    pass
+    requirements = {
+        PlayReq.REQ_FRIENDLY_TARGET: 0,
+        PlayReq.REQ_MINION_TARGET: 0,
+        PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+    }
+    play = Buff(TARGET, "EX1_195e")
+
+
+EX1_195e = buff(health=2)
 
 
 class EX1_196:
     """Scarlet Subjugator"""
 
     # <b>Battlecry:</b> Give an enemy minion -2 Attack until your_next turn.
-    pass
+    requirements = {
+        PlayReq.REQ_ENEMY_TARGET: 0,
+        PlayReq.REQ_MINION_TARGET: 0,
+        PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+    }
+    play = Buff(TARGET, "EX1_196e")
+
+
+class EX1_196e:
+    tags = {GameTag.ATK: -2}
+    events = OWN_TURN_BEGIN.on(Destroy(SELF))
 
 
 class EX1_198:
     """Natalie Seline"""
 
     # <b>Battlecry:</b> Destroy a minion and gain its Health.
-    pass
+    requirements = {
+        PlayReq.REQ_MINION_TARGET: 0,
+        PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+    }
+    play = (Buff(SELF, "EX1_198e", max_health=CURRENT_HEALTH(TARGET)), Destroy(TARGET))
 
 
 ##
@@ -301,11 +323,15 @@ class EX1_194:
     """Power Infusion"""
 
     # Give a minion +2/+6.
-    pass
+    requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
+    play = Buff(TARGET, "EX1_194e")
+
+
+EX1_194e = buff(+2, +2)
 
 
 class EX1_197:
     """Shadow Word: Ruin"""
 
     # Destroy all minions with 5 or more Attack.
-    pass
+    play = Destroy(ALL_MINIONS + (ATK >= 5))
