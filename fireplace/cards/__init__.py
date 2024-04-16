@@ -4,12 +4,24 @@ from importlib import import_module
 from hearthstone import cardxml
 from hearthstone.enums import CardType, GameTag, Race, ZodiacYear
 
+from ..enums import BoardEnum
 from ..logging import log
 from ..utils import CARD_SETS
 
 
 year = ZodiacYear.PHOENIX
 default_language = "enUS"
+standard_board_skins = [
+    BoardEnum.STORMWIND,
+    BoardEnum.ORGRIMMAR,
+    BoardEnum.PANDARIA,
+    BoardEnum.STRANGLETHORN,
+    BoardEnum.DALARAN,
+    BoardEnum.ULDUM_TOMB,
+    BoardEnum.ULDUM_CITY,
+    BoardEnum.DRAGONBLIGHT,
+    BoardEnum.OUTLAND,
+]
 
 
 def get_script_definition(id, card=None):

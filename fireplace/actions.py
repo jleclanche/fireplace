@@ -1922,7 +1922,7 @@ class CastSpell(TargetedAction):
         if card.twinspell:
             source.game.queue_actions(card, [Give(player, card.twinspell_copy)])
         if card.must_choose_one:
-            card = random.choice(card.choose_cards)
+            card = random.choice(source, card.choose_cards)
         for target in targets:
             if card.requires_target() and not target:
                 if len(card.targets) > 0:

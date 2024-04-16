@@ -701,7 +701,6 @@ DRAWN_THIS_TURN = FuncSelector(
     lambda entites, source: [e for e in entites if getattr(e, "drawn_this_turn", False)]
 )
 
-
 def SAME_RACE(entity1, entity2):
     races1 = getattr(entity1, "races", [])
     races2 = getattr(entity2, "races", [])
@@ -709,7 +708,6 @@ def SAME_RACE(entity1, entity2):
         if race in races2:
             return True
     return False
-
 
 SAME_RACE_TARGET = FuncSelector(
     lambda entites, source: [e for e in entites if SAME_RACE(e, source.target)]

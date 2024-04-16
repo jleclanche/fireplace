@@ -10,7 +10,12 @@ class BT_196:
 
     # [x]<b>Battlecry:</b> Destroy a minion. If drawn this turn, instead
     # destroy all minions except this one.
-    pass
+    requirements = {
+        PlayReq.REQ_MINION_TARGET: 0,
+        PlayReq.REQ_TARGET_IF_AVAILABLE_AND_NOT_DRAWN_THIS_TURN: 0,
+    }
+    powered_up = Find(SELF + DRAWN_THIS_TURN)
+    play = powered_up & Destroy(ALL_MINIONS - SELF) | Destroy(TARGET)
 
 
 class BT_301:
