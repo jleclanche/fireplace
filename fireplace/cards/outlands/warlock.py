@@ -22,7 +22,7 @@ class BT_301:
     """Nightshade Matron"""
 
     # <b>Rush</b> <b>Battlecry:</b> Discard your highest Cost card.
-    pass
+    play = Discard(HIGHEST_COST(FRIENDLY_HAND))
 
 
 class BT_304:
@@ -30,7 +30,7 @@ class BT_304:
 
     # [x]<b>Taunt</b> <b>Deathrattle:</b> Summon a 5/5 Dreadlord with
     # <b>Lifesteal</b>.
-    pass
+    deathrattle = Summon(CONTROLLER, "BT_304t")
 
 
 class BT_305:
@@ -38,14 +38,18 @@ class BT_305:
 
     # <b>Dormant</b> for 2 turns. When this awakens, give all minions in your
     # hand +2/+1.
-    pass
+    dormant_turns = 2
+    awaken = Buff(FRIENDLY_HAND, "BT_305e")
+
+
+BT_305e = buff(+2, +1)
 
 
 class BT_307:
     """Darkglare"""
 
     # After your hero takes damage, refresh 2 Mana_Crystals.
-    pass
+    events = Damage(FRIENDLY_HERO).on(FillMana(CONTROLLER, 2))
 
 
 class BT_309:
@@ -53,7 +57,15 @@ class BT_309:
 
     # [x]Your Demons cost (1) less. <b>Deathrattle:</b> Shuffle 'Kanrethad
     # Prime' into your deck.
-    pass
+    update = Refresh(FRIENDLY_HAND + DEMON, {GameTag.COST: -1})
+    deathrattle = Shuffle(CONTROLLER, "BT_309t")
+
+
+class BT_309t:
+    """Kanrethad Prime"""
+
+    # <b>Battlecry:</b> Summon 3 friendly Demons that died_this game.
+    play = Summon(CONTROLLER, Copy(RANDOM(FRIENDLY + KILLED + DEMON) * 3))
 
 
 ##
@@ -64,25 +76,43 @@ class BT_199:
     """Unstable Felbolt"""
 
     # Deal $3 damage to an enemy minion and a random friendly one.
-    pass
+    requirements = {
+        PlayReq.REQ_TARGET_TO_PLAY: 0,
+        PlayReq.REQ_MINION_TARGET: 0,
+        PlayReq.REQ_ENEMY_TARGET: 0,
+    }
+    play = Hit(TARGET, 3), Hit(RANDOM_FRIENDLY_MINION, 3)
 
 
 class BT_300:
     """Hand of Gul'dan"""
 
     # When you play or discard this, draw 3 cards.
-    pass
+    play = discard = Draw(CONTROLLER, 3)
 
 
 class BT_302:
     """The Dark Portal"""
 
     # Draw a minion. If you have at least 8 cards in hand, it costs (5) less.
-    pass
+    powered_up = Count(FRIENDLY_HAND - SELF) >= 7
+    play = powered_up & (
+        ForceDraw(RANDOM(FRIENDLY_DECK + MINION)).then(
+            Buff(ForceDraw.TARGET, "BT_302e")
+        )
+    ) | (ForceDraw(RANDOM(FRIENDLY_DECK + MINION)))
+
+
+class BT_302e:
+    tags = {GameTag.COST: -5}
+    events = REMOVED_IN_PLAY
 
 
 class BT_306:
     """Shadow Council"""
 
     # Replace your hand with random Demons. Give them +2/+2.
-    pass
+    play = Morph(FRIENDLY_HAND, RandomDemon()).then(Buff(Morph.CARD, "BT_306e"))
+
+
+BT_306e = buff(+2, +2)

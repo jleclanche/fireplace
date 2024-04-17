@@ -10,7 +10,7 @@ class BT_106:
 
     # <b>Battlecry:</b> Transform adjacent minions into random minions that
     # cost (1) more.
-    pass
+    play = Evolve(SELF_ADJACENT, 1)
 
 
 class BT_109:
@@ -18,7 +18,20 @@ class BT_109:
 
     # [x]<b>Spell Damage +1</b> <b>Deathrattle:</b> Shuffle 'Vashj Prime' into
     # your deck.
-    pass
+    deathrattle = Shuffle(CONTROLLER, "BT_109t")
+
+
+class BT_109t:
+    """Vashj Prime"""
+
+    # [x]<b>Spell Damage +1</b> <b>Battlecry:</b> Draw 3 spells. ___Reduce
+    # their Cost by (3).___
+    play = Draw(CONTROLLER).then(Buff(Draw.CARD, "BT_109te"))
+
+
+class BT_109te:
+    tags = {GameTag.COST: -3}
+    events = REMOVED_IN_PLAY
 
 
 class BT_114:
@@ -26,14 +39,16 @@ class BT_114:
 
     # <b>Battlecry:</b> If you cast a spell last turn, deal 2 damage to all
     # other minions.
-    pass
+    powered_up = Find(CARDS_PLAYED_LAST_TURN + SPELL)
+    play = powered_up & Hit(ALL_MINIONS - SELF, 2)
 
 
 class BT_115:
     """Marshspawn"""
 
     # <b>Battlecry:</b> If you cast a spell last turn, <b>Discover</b> a spell.
-    pass
+    powered_up = Find(CARDS_PLAYED_LAST_TURN + SPELL)
+    play = powered_up & DISCOVER(RandomSpell())
 
 
 class BT_230:
@@ -41,7 +56,15 @@ class BT_230:
 
     # [x]<b>Battlecry:</b> Deal 3 damage to an enemy minion. If it dies, repeat
     # on one of its neighbors.
-    pass
+    requirements = {
+        PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
+        PlayReq.REQ_MINION_TARGET: 0,
+        PlayReq.REQ_ENEMY_TARGET: 0,
+    }
+    play = Hit(TARGET, 3), Dead(TARGET) & (
+        Deaths(),
+        ExtraBattlecry(SELF, RANDOM(TARGET_ADJACENT)),
+    )
 
 
 ##
@@ -52,14 +75,20 @@ class BT_100:
     """Serpentshrine Portal"""
 
     # Deal $3 damage. Summon a random 3-Cost minion. <b>Overload:</b> (1)
-    pass
+    requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
+    play = Hit(TARGET, 3), Summon(CONTROLLER, RandomMinion(cost=3))
 
 
 class BT_101:
     """Vivid Spores"""
 
     # Give your minions "<b>Deathrattle:</b> Resummon this minion."
-    pass
+    play = Buff(FRIENDLY_MINIONS, "BT_101e")
+
+
+class BT_101e:
+    deathrattle = Summon(CONTROLLER, Copy(OWNER))
+    tags = {GameTag.DEATHRATTLE: True}
 
 
 class BT_110:
@@ -67,14 +96,29 @@ class BT_110:
 
     # [x]Deal $8 damage to a minion. Costs (3) less if you cast a spell last
     # turn.
-    pass
+    requirements = {
+        PlayReq.REQ_TARGET_TO_PLAY: 0,
+        PlayReq.REQ_MINION_TARGET: 0,
+    }
+    cost_mod = Find(CARDS_PLAYED_LAST_TURN + SPELL) & -3
+    play = Hit(TARGET, 8)
 
 
 class BT_113:
     """Totemic Reflection"""
 
     # Give a minion +2/+2. If it's a Totem, summon a copy of it.
-    pass
+    requirements = {
+        PlayReq.REQ_TARGET_TO_PLAY: 0,
+        PlayReq.REQ_MINION_TARGET: 0,
+    }
+    play = (
+        Buff(TARGET, "BT_113e"),
+        Find(TARGET + TOTEM) & Summon(CONTROLLER, ExactCopy(TARGET)),
+    )
+
+
+BT_113e = buff(+2, +2)
 
 
 ##
@@ -86,4 +130,4 @@ class BT_102:
 
     # After your hero attacks, transform your minions into random ones that
     # cost (1) more.
-    pass
+    events = Attack(FRIENDLY_HERO).after(Evolve(FRIENDLY_MINIONS, 1))

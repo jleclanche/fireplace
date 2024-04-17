@@ -10,7 +10,7 @@ class BT_155:
 
     # [x]<b>Taunt</b> <b>Deathrattle:</b> Summon a 7/7 Felcracked Colossus with
     # <b>Taunt</b>.
-    pass
+    deathrattle = Summon(CONTROLLER, "BT_155t")
 
 
 class BT_721:
@@ -18,11 +18,13 @@ class BT_721:
 
     # [x]At the end of your turn, summon a Rot with stats equal to this
     # minion's.
-    pass
+    events = OWN_TURN_END.on(
+        SummonCustomMinion(CONTROLLER, "BT_721t", 1, ATK(SELF), CURRENT_HEALTH(SELF))
+    )
 
 
 class BT_731:
     """Infectious Sporeling"""
 
     # After this damages a minion, turn it into an Infectious_Sporeling.
-    pass
+    events = Damage(source=SELF).on(Morph(Damage.TARGET, "BT_731"))

@@ -10,28 +10,47 @@ class BT_197:
 
     # [x]<b>Lifesteal</b> <b>Deathrattle:</b> Shuffle 'Reliquary Prime' into
     # your deck.
-    pass
+    deathrattle = Shuffle(CONTROLLER, "BT_197t")
+
+
+class BT_197t:
+    """Reliquary Prime"""
+
+    # [x]<b><b>Taunt</b>, Lifesteal</b> Only you can target this with spells
+    # and Hero Powers.
+    update = CurrentPlayer(OPPONENT) & Refresh(
+        SELF,
+        {
+            GameTag.CANT_BE_TARGETED_BY_HERO_POWERS: True,
+            GameTag.CANT_BE_TARGETED_BY_ABILITIES: True,
+        },
+    )
 
 
 class BT_254:
     """Sethekk Veilweaver"""
 
     # [x]After you cast a spell on a minion, add a Priest spell to your hand.
-    pass
+    events = Play(CONTROLLER, SPELL, MINION).after(
+        Give(CONTROLLER, RandomSpell(card_class=CardClass.PRIEST))
+    )
 
 
 class BT_256:
     """Dragonmaw Overseer"""
 
     # At the end of your turn, give another friendly minion +2/+2.
-    pass
+    events = OWN_TURN_END.on(Buff(RANDOM_OTHER_FRIENDLY_MINION, "BT_256e"))
+
+
+BT_256e = buff(+2, +2)
 
 
 class BT_258:
     """Imprisoned Homunculus"""
 
     # <b>Dormant</b> for 2 turns. <b>Taunt</b>
-    pass
+    dormant_turns = 2
 
 
 class BT_262:
@@ -39,14 +58,18 @@ class BT_262:
 
     # <b>Battlecry:</b> If you're holding a Dragon, gain +1 Attack and
     # <b>Lifesteal</b>.
-    pass
+    powered_up = HOLDING_DRAGON
+    play = powered_up & Buff(SELF, "BT_262e")
+
+
+BT_262e = buff(atk=1, lifesteal=True)
 
 
 class BT_341:
     """Skeletal Dragon"""
 
     # [x]<b>Taunt</b> At the end of your turn, add a Dragon to your hand.
-    pass
+    events = OWN_TURN_END.on(Give(CONTROLLER, RandomDragon()))
 
 
 ##
@@ -57,25 +80,35 @@ class BT_198:
     """Soul Mirror"""
 
     # Summon copies of enemy minions. They attack their copies.
-    pass
+    def play(self):
+        for entity in self.controller.opponent.field:
+            yield Summon(CONTROLLER, ExactCopy(entity)).then(
+                Attack(Summon.CARD, entity)
+            )
 
 
 class BT_252:
     """Renew"""
 
     # Restore #3 Health. <b>Discover</b> a spell.
-    pass
+    requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
+    play = Heal(TARGET, 3), DISCOVER(RandomSpell())
 
 
 class BT_253:
     """Psyche Split"""
 
     # Give a minion +1/+2. Summon a copy of it.
-    pass
+    requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_MINION_TARGET: 0}
+    play = Buff(TARGET, "BT_253e"), Summon(CONTROLLER, ExactCopy(TARGET))
 
 
 class BT_257:
     """Apotheosis"""
 
     # Give a minion +2/+3 and <b>Lifesteal</b>.
-    pass
+    requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_MINION_TARGET: 0}
+    play = Buff(TARGET, "BT_257e")
+
+
+BT_257e = buff(+2, +3, lifesteal=True)
