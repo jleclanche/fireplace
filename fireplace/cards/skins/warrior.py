@@ -11,10 +11,10 @@ class CS2_102:
     activate = GainArmor(FRIENDLY_HERO, 2)
 
 
-class CS2_102_H1:
+class CS2_102_H1(CS2_102):
     """Armor Up! (Magni Bronzebeard)"""
 
-    activate = CS2_102.activate
+    pass
 
 
 class CS2_102_H3(CS2_102):

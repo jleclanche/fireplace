@@ -251,7 +251,7 @@ class YOD_027:
 
     # [x]<b>Battlecry:</b> Corrupt a playable card in your opponent's hand. They have 1
     # turn to play it!
-    play = Buff(RANDOM(ENEMY_HAND + (COST <= (MANA(OPPONENT) + Number(1)))), "YOD_027e")
+    play = Buff(RANDOM(ENEMY_HAND + (COST <= (MANA(OPPONENT) + 1))), "YOD_027e")
 
 
 class YOD_027e:

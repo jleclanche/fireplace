@@ -493,13 +493,10 @@ class Play(GameAction):
         card.zone = Zone.PLAY
 
         # Remember cast on friendly characters
-        if (
-            card.type == CardType.SPELL
-            and target
-            and target.type == CardType.MINION
-            and target.controller == source
-        ):
-            card.cast_on_friendly_minions = True
+        if card.type == CardType.SPELL and target and target.controller == source:
+            card.cast_on_friendly_characters = True
+            if target.type == CardType.MINION:
+                card.cast_on_friendly_minions = True
 
         source.game.manager.game_action(self, source, card, target, index, choose)
         # NOTE: A Play is not a summon! But it sure looks like one.
@@ -518,7 +515,7 @@ class Play(GameAction):
 
         # "Can't Play" (aka Counter) means triggers don't happen either
         if not card.cant_play:
-            if card.trigger_outcast and card.get_actions("outcast"):
+            if card.play_outcast and card.get_actions("outcast"):
                 source.game.trigger(card, card.get_actions("outcast"), event_args=None)
             elif trigger_battlecry:
                 source.game.queue_actions(
@@ -908,8 +905,7 @@ class Predamage(TargetedAction):
     AMOUNT = IntArg()
 
     def do(self, source, target, amount):
-        for i in range(target.incoming_damage_multiplier):
-            amount *= 2
+        amount <<= target.incoming_damage_multiplier
         target.predamage = amount
         if amount:
             self.broadcast(source, EventListener.ON, target, amount)
@@ -930,11 +926,14 @@ class PutOnTop(TargetedAction):
         if not isinstance(cards, list):
             cards = [cards]
 
+        if cards:
+            target.shuffle_deck()
+
         for card in cards:
             if card.controller != target:
                 card.zone = Zone.SETASIDE
                 card.controller = target
-            if len(target.deck) >= target.max_deck_size:
+            if card.zone != Zone.DECK and len(target.deck) >= target.max_deck_size:
                 log.info("Put(%r) fails because %r's deck is full", card, target)
                 continue
             card.zone = Zone.DECK
@@ -1121,6 +1120,9 @@ class Destroy(TargetedAction):
     """
 
     def do(self, source, target):
+        if getattr(target, "dormant", False):
+            log.info("%r is dormant cannot be destroyed", target)
+            return
         if target.delayed_destruction:
             #  If the card is in PLAY, it is instead scheduled to be destroyed
             # It will be moved to the graveyard on the next Death event
@@ -1541,7 +1543,7 @@ class FillMana(TargetedAction):
     AMOUNT = IntArg()
 
     def do(self, source, target, amount):
-        target.used_mana -= amount
+        target.used_mana = max(0, target.used_mana - amount)
         source.game.manager.targeted_action(self, source, target, amount)
 
 
@@ -1736,30 +1738,35 @@ class SummonBothSides(Summon):
         return source_index + ((self.trigger_index + 1) % 2)
 
 
-class SummonTiger(TargetedAction):
+class SummonCustomMinion(TargetedAction):
     """
-    Summon a Tiger with stats equal to its Cost.
+    Summon custom minion with cost/atk/max_health
     """
 
     TARGET = ActionArg()
+    CARD = CardArg()
     COST = IntArg()
+    ATK = IntArg()
+    HEALTH = IntArg()
 
-    def do(self, source, target, cost):
-        if cost <= 0:
+    def do(self, source, target, cards, cost, atk, health):
+        if health <= 0:
             return
-        tiger = target.controller.card("TRL_309t", source=source)
-        tiger.custom_card = True
+        if not isinstance(cards, list):
+            cards = [cards]
+        for card in cards:
+            card.custom_card = True
 
-        def create_custom_card(tiger):
-            tiger.atk = cost
-            tiger.max_health = cost
-            tiger.cost = cost
+            def create_custom_card(card):
+                card.cost = cost
+                card.atk = atk
+                card.max_health = health
 
-        tiger.create_custom_card = create_custom_card
-        tiger.create_custom_card(tiger)
+            card.create_custom_card = create_custom_card
+            card.create_custom_card(card)
 
-        if tiger.is_summonable():
-            source.game.queue_actions(source, [Summon(target, tiger)])
+            if card.is_summonable():
+                source.game.queue_actions(source, [Summon(target, card)])
 
 
 class Shuffle(TargetedAction):
@@ -1899,6 +1906,9 @@ class CastSpell(TargetedAction):
             spell_target = ret[0]
         return [spell_target]
 
+    def choose_target(self, source, card):
+        return random.choice(card.targets)
+
     def do(self, source, card, targets):
         if source.type == CardType.MINION and (
             source.dead or source.silenced or source.zone != Zone.PLAY
@@ -1917,7 +1927,7 @@ class CastSpell(TargetedAction):
             if card.requires_target() and not target:
                 if len(card.targets) > 0:
                     if target not in card.targets:
-                        target = random.choice(card.targets)
+                        target = self.choose_target(source, card)
                 else:
                     log.info("%s cast spell %s don't have a legal target", source, card)
                     return
@@ -1938,6 +1948,17 @@ class CastSpell(TargetedAction):
             source.game.queue_actions(source, [Deaths()])
 
 
+class CastSpellTargetsEnemiesIfPossible(CastSpell):
+    def choose_target(self, source, card):
+        enemy_targets = []
+        for entity in card.targets:
+            if entity.controller == source.controller.opponent:
+                enemy_targets.append(entity)
+        if enemy_targets:
+            return random.choice(enemy_targets)
+        return random.choice(card.targets)
+
+
 class Evolve(TargetedAction):
     """
     Transform your minions into random minions that cost (\a amount) more
@@ -1951,7 +1972,7 @@ class Evolve(TargetedAction):
         card_set = RandomMinion(cost=cost).find_cards(source)
         if card_set:
             card = random.choice(card_set)
-            return source.game.queue_actions(source, [Morph(target, card)])
+            return source.game.queue_actions(source, [Morph(target, card)])[0]
 
 
 class ExtraAttack(TargetedAction):
@@ -2228,3 +2249,25 @@ class Invoke(TargetedAction):
                 AddProgress(galakrond, source),
             ],
         )
+
+
+class Awaken(TargetedAction):
+    def do(self, source, target):
+        if not target.dormant:
+            return
+        target.dormant = False
+        target.turns_in_play = 0
+        source.game.manager.targeted_action(self, source, target)
+        actions = target.get_actions("awaken")
+        if actions:
+            source.game.trigger(target, actions, event_args=None)
+
+
+class Dormant(TargetedAction):
+    TARGET = ActionArg()
+    AMOUNT = IntArg()
+
+    def do(self, source, target, amount):
+        target.dormant = True
+        target.dormant_turns += amount
+        source.game.manager.targeted_action(self, source, target, amount)

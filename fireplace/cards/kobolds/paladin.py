@@ -9,7 +9,7 @@ class LOOT_216:
     """Lynessa Sunsorrow"""
 
     # [x]<b>Battlecry:</b> Cast each spell you cast on your minions this game on this one.
-    play = CastSpell(FRIENDLY + CAST_ON_FRIENDLY_MINIONS, SELF)
+    play = CastSpell(CARDS_PLAYED_THIS_GAME + CAST_ON_FRIENDLY_MINIONS, SELF)
 
 
 class LOOT_313:

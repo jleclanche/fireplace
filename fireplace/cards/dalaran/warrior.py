@@ -61,7 +61,7 @@ class DAL_008:
     class Hand:
         events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
 
-    play = GainArmor(FRIENDLY_HERO, Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
+    play = GainArmor(FRIENDLY_HERO, Attr(SELF, GameTag.QUEST_PROGRESS) + 1)
 
 
 class DAL_059:

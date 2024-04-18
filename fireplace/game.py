@@ -6,7 +6,16 @@ from typing import TYPE_CHECKING
 
 from hearthstone.enums import BlockType, CardType, PlayState, State, Step, Zone
 
-from .actions import Attack, BeginTurn, Death, EndTurn, EventListener, GameStart, Play
+from .actions import (
+    Attack,
+    Awaken,
+    BeginTurn,
+    Death,
+    EndTurn,
+    EventListener,
+    GameStart,
+    Play,
+)
 from .card import THE_COIN
 from .entity import Entity
 from .exceptions import GameOver
@@ -374,7 +383,11 @@ class BaseGame(Entity):
         player.elemental_played_this_turn = 0
 
         for entity in self.live_entities:
-            if entity.type != CardType.PLAYER:
+            if getattr(entity, "dormant_turns", 0):
+                entity.dormant_turns -= 1
+                if entity.dormant_turns == 0:
+                    self.queue_actions(player, [Awaken(entity)])
+            elif entity.type != CardType.PLAYER:
                 entity.turns_in_play += 1
 
         if player.hero.power:

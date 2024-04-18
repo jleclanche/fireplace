@@ -366,9 +366,11 @@ def test_madam_goya():
 
 def test_wrathion():
     game = prepare_empty_game()
-    game.player1.give(WISP).put_on_top()
+    wisp = game.player1.give(WISP)
+    wisp.zone = Zone.DECK
     for _ in range(4):
-        game.player1.give("NEW1_023").put_on_top()
+        dragon = game.player1.give("NEW1_023")
+        dragon.zone = Zone.DECK
     assert len(game.player1.hand) == 0
     game.player1.give("CFM_806").play()
     assert len(game.player1.hand) == 5
