@@ -312,14 +312,3 @@ class HasTarget(Evaluator):
 
 
 HAS_TARGET = HasTarget()
-
-
-class FinishProgress(Evaluator):
-    def __init__(self):
-        super().__init__()
-
-    def check(self, source):
-        return source.progress >= source.progress_total
-
-
-FINISH_PROGRESS = FinishProgress()

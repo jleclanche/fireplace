@@ -1,3 +1,6 @@
+from fireplace.exceptions import GameOver
+from fireplace.managers import BaseObserver
+from fireplace.utils import play_turn, setup_game
 from full_game import test_full_game
 from utils import *
 
@@ -195,3 +198,67 @@ def test_copy_deathrattle_with_store_card():
     assert game.player1.hand == ["CS2_092"] * 2
     raptor.destroy()
     assert game.player1.hand == ["CS2_092"] * 4
+
+
+def test_observer():
+    class Manager(BaseObserver):
+        def __init__(self, game) -> None:
+            super().__init__()
+            self.game = game
+            self.game_state = {}
+
+        def add_to_state(self, entity):
+            state = self.game_state[entity.entity_id] = {}
+            state[GameTag.ENTITY_ID] = entity
+
+        def new_entity(self, entity):
+            self.add_to_state(entity)
+
+        def start_game(self):
+            self.add_to_state(self.game)
+
+        def get_entity(self, entity_id):
+            if not entity_id:
+                return None
+            return self.game_state[entity_id][GameTag.ENTITY_ID]
+
+        def game_action(self, action, source, *args):
+            action_data = {
+                "type": action.__class__.__name__,
+                "source": source,
+                "target": None,
+                "args": args,
+            }
+            self.dump_board()
+
+        def targeted_action(self, action, source, target, *args):
+            action_data = {
+                "type": action.__class__.__name__,
+                "source": source,
+                "target": target,
+                "args": args,
+            }
+            self.dump_board()
+
+        def dump_board(self):
+            for player in self.game.players:
+                data = {
+                    "entity_id": self.game.entity_id,
+                    "players": [
+                        player.dump(),
+                        player.opponent.dump_hidden(),
+                    ],
+                }
+
+    try:
+        game = setup_game()
+        game.manager.register(Manager(game))
+        for player in game.players:
+            log.info("Can mulligan %r" % (player.choice.cards))
+            mull_count = random.randint(0, len(player.choice.cards))
+            cards_to_mulligan = random.sample(player.choice.cards, mull_count)
+            player.choice.choose(*cards_to_mulligan)
+        while True:
+            play_turn(game)
+    except GameOver:
+        log.info("Game completed normally.")

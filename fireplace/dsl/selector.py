@@ -329,16 +329,10 @@ class BoardPositionSelector(Selector):
         result = []
         for e in self.child.eval(entities, source):
             if getattr(e, "zone", None) == Zone.PLAY:
-                field = e.controller.field
-                position = e.zone_position - 1
-                if self.direction == self.Direction.RIGHT:
-                    # Swap the list, reverse the position
-                    field = list(reversed(field))
-                    position = -(position + 1)
-
-                left = field[:position]
-                if left:
-                    result.append(left[-1])
+                if self.direction == self.Direction.LEFT:
+                    result += e.left_minion
+                else:
+                    result += e.right_minion
 
         return result
 
@@ -444,11 +438,7 @@ GameTag.test = lambda self, entity, *args: (
 )
 CardType.test = lambda self, entity, *args: (entity is not None and self == entity.type)
 Race.test = lambda self, entity, *args: (
-    entity is not None
-    and (
-        self == getattr(entity, "race", Race.INVALID)
-        or Race.ALL == getattr(entity, "race", Race.INVALID)
-    )
+    entity is not None and self in getattr(entity, "races", [])
 )
 Rarity.test = lambda self, entity, *args: (
     entity is not None and self == getattr(entity, "rarity", Rarity.INVALID)
@@ -480,10 +470,12 @@ REBORN = EnumSelector(GameTag.REBORN)
 CHOOSE_ONE = EnumSelector(GameTag.CHOOSE_ONE)
 HAS_DISCOVER = EnumSelector(GameTag.DISCOVER)
 LACKEY = EnumSelector(GameTag.MARK_OF_EVIL)
+LIBRAM = EnumSelector(GameTag.LIBRAM)
 
 ALWAYS_WINS_BRAWLS = AttrValue(enums.ALWAYS_WINS_BRAWLS) == True
 KILLED_THIS_TURN = AttrValue(enums.KILLED_THIS_TURN) == True
 CAST_ON_FRIENDLY_MINIONS = AttrValue(enums.CAST_ON_FRIENDLY_MINIONS) == True
+CAST_ON_FRIENDLY_CHARACTERS = AttrValue(enums.CAST_ON_FRIENDLY_CHARACTERS) == True
 EXHAUSTED = AttrValue(GameTag.EXHAUSTED) == True
 THE_TURN_SUMMONED = AttrValue(GameTag.NUM_TURNS_IN_PLAY) == 0
 TO_BE_DESTROYED = AttrValue("to_be_destroyed") == True
@@ -601,12 +593,16 @@ OTHER_CLASS_CHARACTER = FuncSelector(
 NEUTRAL = AttrValue(GameTag.CLASS) == CardClass.NEUTRAL
 
 LEFTMOST_FIELD = FuncSelector(
-    lambda entities, source: source.game.player1.field[:1]
-    + source.game.player2.field[:1]
+    lambda entities, source: (
+        source.game.player1.field.filter(dormant=False)[:1]
+        + source.game.player2.field.filter(dormant=False)[:1]
+    )
 )
 RIGTHMOST_FIELD = FuncSelector(
-    lambda entities, source: source.game.player1.field[-1:]
-    + source.game.player2.field[-1:]
+    lambda entities, source: (
+        source.game.player1.field.filter(dormant=False)[-1:]
+        + source.game.player2.field.filter(dormant=False)[-1:]
+    )
 )
 LEFTMOST_HAND = FuncSelector(
     lambda entities, source: source.game.player1.hand[:1]
@@ -639,6 +635,16 @@ PLAY_RIGHT_MOST = FuncSelector(
     lambda entities, source: [
         e for e in entities if getattr(e, "play_right_most", False)
     ]
+)
+
+PLAY_LEFT_MOST = FuncSelector(
+    lambda entities, source: [
+        e for e in entities if getattr(e, "play_left_most", False)
+    ]
+)
+
+PLAY_OUTCAST = FuncSelector(
+    lambda entities, source: [e for e in entities if getattr(e, "play_outcast", False)]
 )
 
 ENTOURAGE = FuncSelector(lambda entities, source: source.entourage)
@@ -676,3 +682,35 @@ GALAKROND = FuncSelector(
 )
 
 STORE_CARD = FuncSelector(lambda entities, source: [source.store_card])
+
+UPGRADED_HERO_POWER = FuncSelector(
+    lambda entities, source: (
+        [
+            source.controller.card(
+                source.controller.hero.power.upgraded_hero_power, source=source
+            )
+        ]
+        if source.controller.hero.power.upgraded_hero_power
+        else []
+    )
+)
+
+GAME_SKIN = FuncSelector(lambda entites, source: [source.game.skin])
+
+DRAWN_THIS_TURN = FuncSelector(
+    lambda entites, source: [e for e in entites if getattr(e, "drawn_this_turn", False)]
+)
+
+
+def SAME_RACE(entity1, entity2):
+    races1 = getattr(entity1, "races", [])
+    races2 = getattr(entity2, "races", [])
+    for race in races1:
+        if race in races2:
+            return True
+    return False
+
+
+SAME_RACE_TARGET = FuncSelector(
+    lambda entites, source: [e for e in entites if SAME_RACE(e, source.target)]
+)

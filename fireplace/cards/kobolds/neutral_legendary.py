@@ -74,22 +74,15 @@ class LOOT_526:
 
     # [x]Starts dormant. <b>Battlecry:</b> Shuffle 3 Candles into the enemy deck. When
     # drawn, this awakens.
-    play = Morph(SELF, "LOOT_526d"), Shuffle(CONTROLLER, "LOOT_526t") * 3
-
-
-class LOOT_526d:
+    tags = {GameTag.DORMANT: True}
     progress_total = 3
-    reward = Morph(SELF, "LOOT_526")
+    play = Shuffle(CONTROLLER, "LOOT_526t") * 3
+    reward = Awaken(SELF)
 
 
 class LOOT_526t:
-    draw = (
-        Destroy(SELF),
-        AddProgress(
-            FuncSelector(lambda entities, source: [source.creator.morphed]), SELF
-        ),
-        Draw(CONTROLLER),
-    )
+    draw = CAST_WHEN_DRAWN
+    play = AddProgress(FuncSelector(lambda entities, source: [source.creator]), SELF)
 
 
 class LOOT_541:

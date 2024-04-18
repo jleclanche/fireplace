@@ -6,6 +6,7 @@ from hearthstone.enums import (
     CardSet,
     CardType,
     GameTag,
+    MultiClassGroup,
     Race,
     Rarity,
 )
@@ -61,61 +62,24 @@ BASIC_HERO_POWERS = [
     "CS2_101",
     "CS1h_001",
     "CS2_083b",
-    "CS2_083b",
+    "CS2_049",
     "CS2_056",
     "CS2_102",
 ]
 
-UPGRADE_HERO_POWER_MAP = {
-    # Druid
-    "CS2_017": "AT_132_DRUID",  # Malfurion Stormrage
-    "CS2_017_HS1": "AT_132_DRUIDa",  # Lunara
-    "CS2_017_HS2": "AT_132_DRUIDb",  # Elise Starseeker
-    "CS2_017_HS4": "AT_132_DRUIDc",  # Dame Hazelbark
-    # Hunter
-    "DS1h_292": "AT_132_HUNTER",  # Rexxar
-    "DS1h_292_H1": "DS1h_292_H1_AT_132",  # Alleria Windrunner
-    "DS1h_292_H3": "DS1h_292_H3_AT_132",  # Sylvanas Windrunner
-    # Mage
-    "CS2_034": "AT_132_MAGE",  # Jaina Proudmoore
-    "CS2_034_H1": "CS2_034_H1_AT_132",  # Medivh
-    "CS2_034_H2": "CS2_034_H2_AT_132",  # Khadgar
-    # Paladin
-    "CS2_101": "AT_132_PALADIN",  # Uther Lightbringer
-    "CS2_101_H1": "CS2_101_H1_AT_132",  # Lady Liadrin
-    "CS2_101_H2": "CS2_101_H2_AT_132",  # Prince Arthas
-    "CS2_101_H3": "CS2_101_H3_AT_132",  # Sir Annoy-O
-    # Priest
-    "CS1h_001": "AT_132_PRIEST",  # Anduin Wrynn
-    "CS1h_001_H1": "CS1h_001_H1_AT_132",  # Tyrande Whisperwind
-    "CS1h_001_H2": "CS1h_001_H2_AT_132",  # Madame Lazul
-    # Rogue
-    "CS2_083b": "AT_132_ROGUE",  # Valeera Sanguinar
-    "CS2_083b_H1": "AT_132_ROGUE_H1",  # Maiev Shadowsong
-    # Shaman
-    "CS2_049": "AT_132_SHAMAN",  # Thrall
-    "CS2_049_H1": "CS2_049_H1_AT_132",  # Morgl the Oracle
-    "CS2_049_H2": "CS2_049_H2_AT_132",  # King Rastakhan
-    "CS2_049_H3": "CS2_049_H3_AT_132",  # The Thunder King
-    "CS2_049_H5": "CS2_049_H4_AT_132",  # Lady Vashj
-    # Warlock
-    "CS2_056": "AT_132_WARLOCK",  # Gul'dan
-    "CS2_056_H1": "AT_132_WARLOCKa",  # Nemsy Necrofizzle
-    "CS2_056_H2": "AT_132_WARLOCKb",  # Mecha-Jaraxxus
-    # Warrior
-    "CS2_102": "AT_132_WARRIOR",  # Garrosh Hellscream
-    "CS2_102_H1": "CS2_102_H1_AT_132",  # Magni Bronzebeard
-    "CS2_102_H2": "CS2_102_H3_AT_132",  # Deathwing
-}
-
 UPGRADED_HERO_POWERS = [
-    UPGRADE_HERO_POWER_MAP[hero_power] for hero_power in BASIC_HERO_POWERS
+    "CS2_017_HS1",
+    "DS1h_292_H1",
+    "AT_132_MAGE",
+    "AT_132_PALADIN",
+    "AT_132_PRIEST",
+    "AT_132_ROGUE",
+    "AT_132_SHAMAN",
+    "AT_132_WARLOCK",
+    "AT_132_WARRIOR",
 ]
 
-UPGRADE_HERO_POWER = Switch(
-    FRIENDLY_HERO_POWER,
-    {k: Summon(CONTROLLER, v) for k, v in UPGRADE_HERO_POWER_MAP.items()},
-)
+UPGRADE_HERO_POWER = Summon(CONTROLLER, UPGRADED_HERO_POWER)
 
 BASIC_TOTEMS = ["CS2_050", "CS2_051", "CS2_052", "NEW1_009"]
 
@@ -131,14 +95,6 @@ POTIONS = [
     "CFM_608",  # Blastcrystal Potion
     "CFM_611",  # Bloodfury Potion
 ]
-
-LIBRAMS = IDS(
-    [
-        "BT_011",  # Libram of Justice
-        "BT_024",  # Libram of Hope
-        "BT_025",  # Libram of Wisdom
-    ]
-)
 
 LICH_KING_CARDS = [
     "ICC_314t1",
@@ -175,7 +131,7 @@ FORGETFUL = Attack(SELF).on(
     & Retarget(SELF, RANDOM(ALL_CHARACTERS - Attack.DEFENDER - CONTROLLED_BY(SELF)))
 )
 
-AT_MAX_MANA = lambda s: MANA(s) == 10
+AT_MAX_MANA = lambda s: MANA(s) == MAX_MANA(s)
 OVERLOADED = lambda s: (OVERLOAD_LOCKED(s) > 0) or (OVERLOAD_OWED(s) > 0)
 CHECK_CTHUN = ATK(HIGHEST_ATK(CTHUN)) >= 10
 CAST_WHEN_DRAWN = Destroy(SELF), Draw(CONTROLLER), Battlecry(SELF, None)

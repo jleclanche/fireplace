@@ -27,7 +27,7 @@ class AT_132_ROGUE:
     activate = Summon(CONTROLLER, "AT_132_ROGUEt")
 
 
-class AT_132_ROGUE_H1:
+class AT_132_ROGUE_H1(AT_132_ROGUE):
     """Poisoned Daggers (Maiev Shadowsong)"""
 
-    activate = Summon(CONTROLLER, "AT_132_ROGUEt_H1")
+    pass

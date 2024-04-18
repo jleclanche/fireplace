@@ -66,12 +66,14 @@ class GIL_825:
 
     # [x]<b>Battlecry:</b> Deal 2 damage to all other minions. If any die, repeat this
     # <b>Battlecry</b>.
-    progress_total = 14
-    play = Hit(ALL_MINIONS - SELF, 2), Dead(ALL_MINIONS) & (
-        Deaths(),
-        AddProgress(SELF, None),
-        FINISH_PROGRESS | ExtraBattlecry(SELF, None),
-    )
+    def play(self):
+        yield Hit(ALL_MINIONS - SELF, 2)
+        for _ in range(13):
+            if Dead(ALL_MINIONS).check(self):
+                yield Deaths()
+                yield Hit(ALL_MINIONS - SELF, 2)
+            else:
+                break
 
 
 ##

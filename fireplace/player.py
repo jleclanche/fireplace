@@ -179,13 +179,17 @@ class Player(Entity, TargetableByAuras):
     @property
     def heropower_damage(self):
         aura_power = self.controller.heropower_damage_adjustment
-        minion_power = sum(minion.heropower_damage for minion in self.field)
+        minion_power = sum(
+            minion.heropower_damage for minion in self.field.filter(dormant=False)
+        )
         return aura_power + minion_power
 
     @property
     def spellpower(self):
         aura_power = self.controller.spellpower_adjustment
-        minion_power = sum(minion.spellpower for minion in self.field)
+        minion_power = sum(
+            minion.spellpower for minion in self.field.filter(dormant=False)
+        )
         return aura_power + minion_power
 
     @property

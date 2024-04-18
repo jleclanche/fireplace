@@ -165,8 +165,8 @@ class FP1_019:
     """Poison Seeds"""
 
     def play(self):
-        friendly_count = len(self.controller.field)
-        enemy_count = len(self.controller.opponent.field)
+        friendly_count = Count(FRIENDLY_MINIONS).evaluate(self)
+        enemy_count = Count(ENEMY_MINIONS).evaluate(self)
         yield Destroy(ALL_MINIONS)
         yield Deaths()
         yield Summon(CONTROLLER, "FP1_019t") * friendly_count
