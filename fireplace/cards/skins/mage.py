@@ -25,7 +25,7 @@ class CS2_034_H2(HERO_08bp):
 
 
 class HERO_08ebp(HERO_08bp):
-    """Fireblast (Kel'Thuzad )"""
+    """Fireblast (Kel'Thuzad)"""
 
     pass
 
@@ -54,6 +54,6 @@ class CS2_034_H2_AT_132(HERO_08bp2):
 
 
 class HERO_08ebp2(HERO_08bp2):
-    """Fireblast Rank 2 (Kel'Thuzad )"""
+    """Fireblast Rank 2 (Kel'Thuzad)"""
 
     pass
