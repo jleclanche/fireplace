@@ -28,6 +28,7 @@ class BT_121:
     """Imprisoned Gan'arg"""
 
     # <b>Dormant</b> for 2 turns. When this awakens, equip a 3/2 Axe.
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
     awaken = Summon(CONTROLLER, "CS2_106")
 

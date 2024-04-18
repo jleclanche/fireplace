@@ -38,6 +38,7 @@ class BT_305:
 
     # <b>Dormant</b> for 2 turns. When this awakens, give all minions in your
     # hand +2/+1.
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
     awaken = Buff(FRIENDLY_HAND, "BT_305e")
 
@@ -88,7 +89,7 @@ class BT_300:
     """Hand of Gul'dan"""
 
     # When you play or discard this, draw 3 cards.
-    play = discard = Draw(CONTROLLER, 3)
+    play = discard = Draw(CONTROLLER) * 3
 
 
 class BT_302:

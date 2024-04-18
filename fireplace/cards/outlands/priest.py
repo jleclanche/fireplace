@@ -50,6 +50,7 @@ class BT_258:
     """Imprisoned Homunculus"""
 
     # <b>Dormant</b> for 2 turns. <b>Taunt</b>
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
 
 
@@ -82,7 +83,7 @@ class BT_198:
     # Summon copies of enemy minions. They attack their copies.
     def play(self):
         for entity in self.controller.opponent.field:
-            yield Summon(CONTROLLER, ExactCopy(entity)).then(
+            yield Summon(CONTROLLER, ExactCopy(SELF).evaluate(entity)).then(
                 Attack(Summon.CARD, entity)
             )
 

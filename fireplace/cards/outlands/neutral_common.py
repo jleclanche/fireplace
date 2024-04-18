@@ -26,6 +26,7 @@ class BT_156:
     """Imprisoned Vilefiend"""
 
     # <b>Dormant</b> for 2 turns. <b>Rush</b>
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
 
 
@@ -119,10 +120,7 @@ class BT_723:
         PlayReq.REQ_TARGET_IF_AVAILABLE: 0,
         PlayReq.REQ_MINION_TARGET: 0,
     }
-    play = Hit(TARGET, 1), Buff(TARGET, "BT_723e")
-
-
-BT_723e = buff(rush=True)
+    play = Hit(TARGET, 1), GiveRush(TARGET)
 
 
 class BT_724:
@@ -165,17 +163,14 @@ class BT_730:
     """Overconfident Orc"""
 
     # <b>Taunt</b> While at full Health, this has +2 Attack.
-    update = Find(DAMAGED + SELF) | Refresh(SELF, buff="BT_730e")
-
-
-BT_730e = buff(atk=2)
+    update = Find(DAMAGED + SELF) | Refresh(SELF, {GameTag.ATK: +2})
 
 
 class BT_732:
     """Scavenging Shivarra"""
 
     # <b>Battlecry:</b> Deal 6 damage randomly split among all_other minions.
-    play = Hit(RANDOM(ALL_MINIONS - SELF, 1)) * 6
+    play = Hit(RANDOM_OTHER_MINION, 1) * 6
 
 
 class BT_734:

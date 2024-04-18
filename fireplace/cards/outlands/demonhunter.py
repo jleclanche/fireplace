@@ -73,6 +73,7 @@ class BT_934:
     # [x]<b>Dormant</b> for 2 turns. When this awakens, deal 10 damage randomly
     # split among all enemies.
     # TODO need test
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
     awaken = Hit(RANDOM_ENEMY_CHARACTER, 1) * 10
 

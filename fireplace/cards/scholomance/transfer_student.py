@@ -205,6 +205,7 @@ class SCH_199t22:
 
     # [x]<b>Dormant</b> for 2 turns. When this awakens, deal 3 damage to two
     # random enemy minions.
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
     awaken = Hit(RANDOM_ENEMY_MINION * 2, 3)
 

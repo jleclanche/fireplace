@@ -59,14 +59,15 @@ class OG_118:
 
     def play(self):
         classes = [
-            (CardClass.DRUID, "CS2_017"),
-            (CardClass.HUNTER, "DS1h_292"),
-            (CardClass.MAGE, "CS2_034"),
-            (CardClass.PALADIN, "CS2_101"),
-            (CardClass.PRIEST, "CS1h_001"),
-            (CardClass.ROGUE, "CS2_083b"),
-            (CardClass.SHAMAN, "CS2_049"),
-            (CardClass.WARRIOR, "CS2_102"),
+            (CardClass.DEMONHUNTER, "HERO_10bp"),
+            (CardClass.DRUID, "HERO_06bp"),
+            (CardClass.HUNTER, "HERO_05bp"),
+            (CardClass.MAGE, "HERO_08bp"),
+            (CardClass.PALADIN, "HERO_04bp"),
+            (CardClass.PRIEST, "HERO_09bp"),
+            (CardClass.ROGUE, "HERO_03bp"),
+            (CardClass.SHAMAN, "HERO_02bp"),
+            (CardClass.WARRIOR, "HERO_01bp"),
         ]
         hero_class, hero_power = random.choice(classes)
         yield Summon(CONTROLLER, hero_power)

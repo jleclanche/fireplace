@@ -42,6 +42,7 @@ class BT_211:
 
     # [x]<b>Dormant</b> for 2 turns. When this awakens, __attack a random
     # enemy.
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
     awaken = Attack(SELF, RANDOM_ENEMY_CHARACTER)
 

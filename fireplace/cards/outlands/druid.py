@@ -10,6 +10,7 @@ class BT_127:
 
     # [x]<b>Dormant</b> for 2 turns. When this awakens, reduce the Cost of a
     # random minion in your hand by (5).
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
     awaken = Buff(RANDOM(FRIENDLY_HAND + MINION), "BT_127e")
 

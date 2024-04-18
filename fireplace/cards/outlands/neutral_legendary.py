@@ -55,6 +55,10 @@ class BT_737:
     """Maiev Shadowsong"""
 
     # <b>Battlecry:</b> Choose a minion. It goes <b>Dormant</b> for 2 turns.
+    requirements = {
+        PlayReq.REQ_TARGET_TO_PLAY: 0,
+        PlayReq.REQ_MINION_TARGET: 0,
+    }
     play = Dormant(TARGET, 2)
 
 
@@ -63,6 +67,7 @@ class BT_850:
 
     # [x]<b>Dormant</b>. <b>Battlecry:</b> Summon three 1/3 enemy Warders. When
     # they die, destroy all minions and awaken.
+    tags = {GameTag.DORMANT: True}
     progress_total = 3
     play = Summon(OPPONENT, "BT_850t") * 3
     dormant_events = Death(ENEMY_MINIONS + ID("BT_850t")).on(

@@ -9,6 +9,7 @@ class BT_009:
     """Imprisoned Sungill"""
 
     # <b>Dormant</b> for 2 turns. When this awakens, summon two 1/1 Murlocs.
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
     awaken = Summon(CONTROLLER, "BT_009t") * 2
 
@@ -36,13 +37,20 @@ class BT_020:
     play = Buff(CONTROLLER, "BT_020e")
 
 
+class BT_020e:
+    update = Refresh(FRIENDLY + (IN_HAND | IN_DECK) + LIBRAM, {GameTag.COST: -1})
+
+
 class BT_026:
     """Aldor Truthseeker"""
 
     # <b>Taunt</b>. <b>Battlecry:</b> Reduce the Cost of your Librams by (2)
     # this game.
-    class BT_020e:
-        update = Refresh(FRIENDLY + (IN_HAND | IN_DECK) + LIBRAM, {GameTag.COST: -1})
+    play = Buff(CONTROLLER, "BT_026e")
+
+
+class BT_026e:
+    update = Refresh(FRIENDLY + (IN_HAND | IN_DECK) + LIBRAM, {GameTag.COST: -2})
 
 
 class BT_334:
@@ -51,7 +59,7 @@ class BT_334:
     # [x]<b>Battlecry:</b> Add a copy of each spell you cast on friendly
     # characters this game to your hand.
     play = Give(
-        CONTROLLER, Copy(Shuffle(CARDS_PLAYED_THIS_GAME + CAST_ON_FRIENDLY_CHARACTERS))
+        CONTROLLER, Copy(SHUFFLE(CARDS_PLAYED_THIS_GAME + CAST_ON_FRIENDLY_CHARACTERS))
     )
 
 

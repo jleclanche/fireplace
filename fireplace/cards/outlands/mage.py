@@ -10,6 +10,7 @@ class BT_004:
 
     # <b>Dormant</b> for 2 turns. When this awakens, deal 2 damage to all enemy
     # minions.
+    tags = {GameTag.DORMANT: True}
     dormant_turns = 2
     awaken = Hit(ENEMY_MINIONS, 2)
 
