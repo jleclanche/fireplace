@@ -82,7 +82,7 @@ class BT_198:
 
     # Summon copies of enemy minions. They attack their copies.
     def play(self):
-        for entity in self.controller.opponent.field:
+        for entity in ENEMY_MINIONS.eval(self.game, self):
             yield Summon(CONTROLLER, ExactCopy(SELF).evaluate(entity)).then(
                 Attack(Summon.CARD, entity)
             )
