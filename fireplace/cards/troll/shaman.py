@@ -28,9 +28,7 @@ class TRL_060:
     events = (
         OWN_TURN_BEGIN.on(Unstealth(SELF)),
         Play(CONTROLLER, SPELL).on(
-            ForceDraw(
-                RANDOM(FRIENDLY_DECK + SPELL + (COST == (COST(Play.CARD) + Number(1))))
-            )
+            ForceDraw(RANDOM(FRIENDLY_DECK + SPELL + (COST == (COST(Play.CARD) + 1))))
         ),
     )
 
@@ -104,7 +102,7 @@ class TRL_082:
 
 class TRL_082e:
     tags = {GameTag.DEATHRATTLE: True}
-    deathrattle = Summon(CONTROLLER, RandomMinion(cost=COST(OWNER) + Number(1)))
+    deathrattle = Summon(CONTROLLER, RandomMinion(cost=COST(OWNER) + 1))
 
 
 class TRL_351:

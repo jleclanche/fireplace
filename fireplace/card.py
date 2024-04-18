@@ -292,6 +292,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
     echo = boolean_property("echo")
     has_overkill = boolean_property("has_overkill")
     has_discover = boolean_property("has_discover")
+    libram = boolean_property("libram")
 
     def __init__(self, data):
         self.cant_play = False
@@ -304,6 +305,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
         self.morphed = None
         self.turn_drawn = -1
         self.turn_played = -1
+        self.cast_on_friendly_characters = False
         self.cast_on_friendly_minions = False
         self.play_left_most = False
         self.play_right_most = False
@@ -382,7 +384,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
         return self.turn_played == self.game.turn
 
     @property
-    def trigger_outcast(self):
+    def play_outcast(self):
         return self.play_left_most or self.play_right_most
 
     @property
@@ -763,7 +765,7 @@ class LiveEntity(PlayableCard, Entity):
         data["atk"] = self.atk
         data["max_health"] = self.max_health
         data["damage"] = self.damage
-        data["immue"] = self.immune
+        data["immune"] = self.immune
         return data
 
     def _set_zone(self, zone):
@@ -888,6 +890,7 @@ class Character(LiveEntity):
             targets = self.controller.opponent.field
         if self.rush and not self.turns_in_play:
             targets = self.controller.opponent.field
+        targets = targets.filter(dormant=False)
 
         taunts = []
         if not self.ignore_taunt:
@@ -1139,6 +1142,7 @@ class Minion(Character):
         self.silenced = False
         self._summon_index = None
         self.dormant = False
+        self.dormant_turns = data.scripts.dormant_turns
         self.reborn = False
         super().__init__(data)
 
@@ -1148,18 +1152,19 @@ class Minion(Character):
         data["divine_shield"] = self.divine_shield
         data["silenced"] = self.silenced
         data["dormant"] = self.dormant
+        data["reborn"] = self.reborn
         return data
 
     @property
     def ignore_scripts(self):
-        return self.silenced
+        return self.silenced or self.dormant
 
     @property
     def left_minion(self):
         assert self.zone is Zone.PLAY, self.zone
         ret = CardList()
         index = self.zone_position - 1
-        left = self.controller.field[:index]
+        left = self.controller.field[:index].filter(dormant=False)
         if left:
             ret.append(left[-1])
         return ret
@@ -1169,7 +1174,7 @@ class Minion(Character):
         assert self.zone is Zone.PLAY, self.zone
         ret = CardList()
         index = self.zone_position - 1
-        right = self.controller.field[index + 1 :]
+        right = self.controller.field[index + 1 :].filter(dormant=False)
         if right:
             ret.append(right[0])
         return ret
@@ -1193,6 +1198,12 @@ class Minion(Character):
             and not self.turns_in_play
             and (not self.charge and not self.rush)
         )
+
+    @property
+    def events(self):
+        if self.dormant:
+            return self.data.scripts.dormant_events
+        return super().events
 
     @property
     def exhausted(self):
@@ -1552,10 +1563,10 @@ class HeroPower(PlayableCard):
     steady_shot_can_target = boolean_property("steady_shot_can_target")
 
     def __init__(self, data):
-        super().__init__(data)
         self.activations_this_turn = 0
         self.additional_activations_this_turn = 0
-        self.old_power = None
+        self._upgraded_hero_power = None
+        super().__init__(data)
 
     def dump(self):
         data = super().dump()
@@ -1582,6 +1593,16 @@ class HeroPower(PlayableCard):
     def update_scripts(self):
         if not self.heropower_disabled:
             yield from super().update_scripts
+
+    @property
+    def upgraded_hero_power(self):
+        if self._upgraded_hero_power:
+            return cards.db.dbf[self._upgraded_hero_power]
+        return None
+
+    @upgraded_hero_power.setter
+    def upgraded_hero_power(self, value):
+        self._upgraded_hero_power = value
 
     def _set_zone(self, value):
         if value == Zone.PLAY:

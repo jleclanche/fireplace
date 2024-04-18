@@ -41,8 +41,9 @@ class UNG_065:
 
 
 class UNG_065t:
+    tags = {GameTag.DORMANT: True}
     progress_total = 4
-    events = [
+    dormant_events = [
         Play(CONTROLLER).after(AddProgress(SELF, Play.CARD)),
         TURN_BEGIN.on(ClearProgress(SELF)),
     ]

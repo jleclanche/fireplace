@@ -12,18 +12,16 @@ class CS2_034:
     activate = Hit(TARGET, 1)
 
 
-class CS2_034_H1:
+class CS2_034_H1(CS2_034):
     """Fireblast (Medivh)"""
 
-    requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-    activate = CS2_034.activate
+    pass
 
 
-class CS2_034_H2:
+class CS2_034_H2(CS2_034):
     """Fireblast (Khadgar)"""
 
-    requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-    activate = CS2_034.activate
+    pass
 
 
 ##

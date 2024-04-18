@@ -122,7 +122,7 @@ class DAL_009:
     class Hand:
         events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
 
-    play = Hit(ALL_MINIONS, Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
+    play = Hit(ALL_MINIONS, Attr(SELF, GameTag.QUEST_PROGRESS) + 1)
 
 
 class DAL_071:

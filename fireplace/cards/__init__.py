@@ -27,7 +27,14 @@ def get_script_definition(id, card=None):
     for cardset in CARD_SETS:
         module = import_module("fireplace.cards.%s" % (cardset))
         if hasattr(module, id):
-            return getattr(module, id)
+            cls = getattr(module, id)
+            methods = [
+                attr
+                for attr in dir(cls)
+                if not (attr.startswith("__") or attr.endswith("__"))
+            ]
+            if len(methods) > 0:
+                return cls
 
 
 class CardDB(dict[str, cardxml.CardXML]):
@@ -82,7 +89,7 @@ class CardDB(dict[str, cardxml.CardXML]):
                     # Ensure the actions are always iterable
                     setattr(card.scripts, script, (actions,))
 
-        for script in ("events", "secret", "quest", "sidequest"):
+        for script in ("events", "secret", "quest", "sidequest", "dormant_events"):
             events = getattr(card.scripts, script, None)
             if events is None:
                 setattr(card.scripts, script, [])
@@ -147,6 +154,11 @@ class CardDB(dict[str, cardxml.CardXML]):
         else:
             card.scripts.progress_total = 0
 
+        if hasattr(cardscript, "dormant_turns"):
+            card.scripts.dormant_turns = cardscript.dormant_turns
+        else:
+            card.scripts.dormant_turns = 0
+
         if hasattr(cardscript, "cardtext_entity_0"):
             card.cardtext_entity_0 = cardscript.cardtext_entity_0
 
@@ -162,12 +174,12 @@ class CardDB(dict[str, cardxml.CardXML]):
         self.initialized = True
         dirname = os.path.dirname(__file__)
         filename = os.path.join(dirname, "CardDefs.xml")
+        db2, _ = cardxml.load(locale=locale)
+        for id, card in db2.items():
+            self.dbf[card.dbf_id] = id
         db, _ = cardxml.load(path=filename, locale=locale)
         for id, card in db.items():
             self[id] = self.merge(id, card)
-            self.dbf[card.dbf_id] = id
-        db2, _ = cardxml.load(locale=locale)
-        for id, card in db2.items():
             self.dbf[card.dbf_id] = id
 
         log.info("Merged %i cards", len(self))
@@ -213,7 +225,7 @@ class CardDB(dict[str, cardxml.CardXML]):
             ]
 
         if "race" in kwargs:
-            kwargs["race"] = [kwargs["race"], Race.ALL]
+            kwargs["races"] = kwargs.pop("race")
 
         if "exclude" in kwargs:
             exclude = [card.id for card in kwargs.pop("exclude")]
@@ -233,6 +245,8 @@ class CardDB(dict[str, cardxml.CardXML]):
                         ]
                     else:
                         cards = [card for card in cards if value in card.classes]
+                if attr == "races":
+                    cards = [card for card in cards if value in card.races]
                 else:
                     cards = [
                         card

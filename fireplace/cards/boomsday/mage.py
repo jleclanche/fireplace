@@ -9,9 +9,7 @@ class BOT_103:
     """Stargazer Luna"""
 
     # After you play the right-most card in your hand, draw a card.
-    events = Play(CONTROLLER).after(
-        Find(Play.CARD + PLAY_RIGHT_MOST) & Draw(CONTROLLER)
-    )
+    events = Play(CONTROLLER, PLAY_RIGHT_MOST).after(Draw(CONTROLLER))
 
 
 class BOT_256:

@@ -82,9 +82,7 @@ class DAL_007:
     requirements = {
         PlayReq.REQ_NUM_MINION_SLOTS: 1,
     }
-    play = Summon(CONTROLLER, "DAL_751t") * (
-        Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1)
-    )
+    play = Summon(CONTROLLER, "DAL_751t") * (Attr(SELF, GameTag.QUEST_PROGRESS) + 1)
 
     class Hand:
         events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))

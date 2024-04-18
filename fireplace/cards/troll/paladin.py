@@ -26,7 +26,7 @@ class TRL_308:
 
     # <b>Battlecry:</b> Convert all but 1_of your Hero's Health into Armor.
     play = (
-        GainArmor(FRIENDLY_HERO, CURRENT_HEALTH(FRIENDLY_HERO) - Number(1)),
+        GainArmor(FRIENDLY_HERO, CURRENT_HEALTH(FRIENDLY_HERO) - 1),
         SetCurrentHealth(FRIENDLY_HERO, 1),
     )
 
@@ -38,7 +38,15 @@ class TRL_309:
     # to its Cost.
     events = (
         OWN_TURN_BEGIN.on(Unstealth(SELF)),
-        Play(CONTROLLER, SPELL).after(SummonTiger(CONTROLLER, COST(Play.CARD))),
+        Play(CONTROLLER, SPELL).after(
+            SummonCustomMinion(
+                CONTROLLER,
+                "TRL_309t",
+                COST(Play.CARD),
+                COST(Play.CARD),
+                COST(Play.CARD),
+            )
+        ),
     )
 
 

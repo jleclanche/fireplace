@@ -37,7 +37,7 @@ class ICC_314t3:
     """Doom Pact"""
 
     def play(self):
-        minion_count = len(self.controller.field) + len(self.controller.opponent.field)
+        minion_count = Count(ALL_MINIONS).evaluate(self)
         yield Destroy(ALL_MINIONS)
         yield Mill(CONTROLLER) * minion_count
 

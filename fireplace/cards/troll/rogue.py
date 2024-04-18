@@ -87,9 +87,7 @@ class TRL_127:
     """Cannon Barrage"""
 
     # [x]Deal $3 damage to a random enemy. Repeat for each of your Pirates.
-    play = Hit(RANDOM_ENEMY_CHARACTER, 3) * (
-        Count(FRIENDLY_MINIONS + PIRATE) + Number(1)
-    )
+    play = Hit(RANDOM_ENEMY_CHARACTER, 3) * (Count(FRIENDLY_MINIONS + PIRATE) + 1)
 
 
 class TRL_156:

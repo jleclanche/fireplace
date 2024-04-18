@@ -217,19 +217,11 @@ class BinOpAttr(LazyNum):
         return "<%r %s %r>" % (self.left, infix, self.right)
 
     def evaluate(self, source):
-        return self.op(self.left.evaluate(source), self.right.evaluate(source))
-
-
-class Number(LazyNum):
-    def __init__(self, value):
-        super().__init__()
-        self.value = value
-
-    def __repr__(self):
-        return "%s(%r)" % (self.__class__.__name__, self.value)
-
-    def evaluate(self, source):
-        return self.num(self.value)
+        left = self.left if isinstance(self.left, int) else self.left.evaluate(source)
+        right = (
+            self.right if isinstance(self.right, int) else self.right.evaluate(source)
+        )
+        return self.op(left, right)
 
 
 class RandomNumber(LazyNum):
