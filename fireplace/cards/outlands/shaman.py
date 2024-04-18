@@ -61,6 +61,7 @@ class BT_230:
         PlayReq.REQ_MINION_TARGET: 0,
         PlayReq.REQ_ENEMY_TARGET: 0,
     }
+
     def play(self):
         target = self.target
         yield Hit(target, 3)
