@@ -421,6 +421,15 @@ class Opponent(Controller):
         return entity.controller.opponent
 
 
+def SAME_RACE(entity1, entity2):
+    races1 = getattr(entity1, "races", [])
+    races2 = getattr(entity2, "races", [])
+    for race in races1:
+        if race in races2:
+            return True
+    return False
+
+
 FRIENDLY = CONTROLLER == Controller()
 ENEMY = CONTROLLER == Opponent()
 
@@ -700,14 +709,6 @@ GAME_SKIN = FuncSelector(lambda entites, source: [source.game.skin])
 DRAWN_THIS_TURN = FuncSelector(
     lambda entites, source: [e for e in entites if getattr(e, "drawn_this_turn", False)]
 )
-
-def SAME_RACE(entity1, entity2):
-    races1 = getattr(entity1, "races", [])
-    races2 = getattr(entity2, "races", [])
-    for race in races1:
-        if race in races2:
-            return True
-    return False
 
 SAME_RACE_TARGET = FuncSelector(
     lambda entites, source: [e for e in entites if SAME_RACE(e, source.target)]
