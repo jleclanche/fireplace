@@ -4,6 +4,7 @@ from itertools import chain
 from typing import TYPE_CHECKING
 
 from hearthstone.enums import (
+    CardClass,
     CardType,
     GameTag,
     MultiClassGroup,
@@ -72,6 +73,8 @@ class BaseCard(BaseEntity):
         self._zone = Zone.INVALID
         self._progress: int = 0
         self.progress_total: int = data.scripts.progress_total
+        self.card_class = CardClass.INVALID
+        self.multi_class_group = MultiClassGroup.INVALID
         self.tags.update(data.tags)
 
     def dump(self):
@@ -1327,7 +1330,17 @@ class Secret(Spell):
         if self.zone == Zone.SECRET:
             data = super().dump_hidden()
             data["type"] = int(CardType.SPELL)
-            data["name"] = "秘密"
+            data["id"] = f"{CardClass.HUNTER.name}_SECRET"
+            data["cost"] = self.cost
+            if self.card_class == CardClass.MAGE:
+                data["name"] = "法师奥秘"
+            elif self.card_class == CardClass.HUNTER:
+                data["name"] = "猎人奥秘"
+            elif self.card_class == CardClass.PALADIN:
+                data["name"] = "圣骑士奥秘"
+            elif self.card_class == CardClass.ROGUE:
+                data["name"] = "盗贼奥秘"
+            data["description"] = "小心了！这张卡牌的效果在某个特殊情况下便会触发..."
             data["spelltype"] = int(self.spelltype)
             data["classes"] = [int(card_class) for card_class in self.classes]
             return data
