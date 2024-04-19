@@ -1085,11 +1085,6 @@ class ExtraBattlecry(Battlecry):
         return False
 
     def do(self, source, card, target=None):
-        if source.type == CardType.MINION and (
-            source.dead or source.silenced or source.zone != Zone.PLAY
-        ):
-            return
-
         if target is None:
             old_requirements = source.requirements
             source.requirements = card.requirements
@@ -1910,11 +1905,6 @@ class CastSpell(TargetedAction):
         return random.choice(card.targets)
 
     def do(self, source, card, targets):
-        if source.type == CardType.MINION and (
-            source.dead or source.silenced or source.zone != Zone.PLAY
-        ):
-            return
-
         player = source.controller
         old_choice = player.choice
         player.choice = None
@@ -1945,7 +1935,6 @@ class CastSpell(TargetedAction):
                 log.info("Choosing card %r" % (choice))
                 player.opponent.choice.choose(choice)
             player.choice = old_choice
-            source.game.queue_actions(source, [Deaths()])
 
 
 class CastSpellTargetsEnemiesIfPossible(CastSpell):
