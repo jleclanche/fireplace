@@ -196,10 +196,9 @@ class BaseCard(BaseEntity):
 
     @property
     def classes(self):
-        if hasattr(self, "multi_class_group"):
+        if self.multi_class_group != MultiClassGroup.INVALID:
             return MultiClassGroup(self.multi_class_group).card_classes
-        else:
-            return [self.card_class]
+        return [self.card_class]
 
     @zone.setter
     def zone(self, value):
