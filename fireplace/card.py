@@ -1329,7 +1329,7 @@ class Secret(Spell):
         if self.zone == Zone.SECRET:
             data = super().dump_hidden()
             data["type"] = int(CardType.SPELL)
-            data["id"] = f"{CardClass.HUNTER.name}_SECRET"
+            data["id"] = f"SECRET_{CardClass.HUNTER.name}"
             data["cost"] = self.cost
             if self.card_class == CardClass.MAGE:
                 data["name"] = "法师奥秘"
