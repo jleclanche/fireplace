@@ -9,7 +9,7 @@ class ULD_158:
     """Sandstorm Elemental"""
 
     # <b>Battlecry:</b> Deal 1 damage to all enemy minions. <b>Overload:</b> (1)
-    play = Heal(ENEMY_MINIONS, 1)
+    play = Hit(ENEMY_MINIONS, 1)
 
 
 class ULD_169:
