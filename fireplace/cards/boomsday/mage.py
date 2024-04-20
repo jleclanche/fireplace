@@ -56,7 +56,7 @@ class BOT_254:
     requirements = {
         PlayReq.REQ_NUM_MINION_SLOTS: 1,
     }
-    play = Summon(CONTROLLER, RandomMinion(cost=SPELL_DAMAGE(2)))
+    play = Summon(CONTROLLER, RandomMinion(cost=SPELL_DAMAGE(2))) * 2
 
 
 class BOT_257:

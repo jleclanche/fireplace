@@ -10,7 +10,7 @@ class GIL_508:
 
     # <b>Battlecry:</b> If your hero took damage this turn, summon two 1/1 Bats.
     powered_up = DAMAGED_THIS_TURN(FRIENDLY_HERO) >= 0
-    play = powered_up & SummonBothSides(CONTROLLER, "GIL_508t")
+    play = powered_up & SummonBothSides(CONTROLLER, "GIL_508t") * 2
 
 
 class GIL_515:

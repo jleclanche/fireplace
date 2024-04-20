@@ -23,7 +23,7 @@ class TRL_020:
     """Sightless Ranger"""
 
     # <b>Rush</b> <b>Overkill</b>: Summon two 1/1_Bats.
-    overkill = SummonBothSides(CONTROLLER, "TRL_020t")
+    overkill = SummonBothSides(CONTROLLER, "TRL_020t") * 2
 
 
 class TRL_151:
