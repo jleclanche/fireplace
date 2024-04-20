@@ -45,3 +45,16 @@ def test_evil_recruiter():
     assert recruiter.requires_target()
     assert wisp not in recruiter.targets
     assert lackey in recruiter.targets
+
+
+def test_BEEEES():
+    game = prepare_game()
+    wisp = game.player1.give(WISP).play()
+    mech = game.player1.give(MECH).play()
+    game.end_turn()
+    game.player2.give("ULD_134").play(target=mech)
+    assert game.player2.field == []
+    assert mech.damage == 4
+    game.player2.give("ULD_134").play(target=wisp)
+    assert wisp.dead
+    assert game.player2.field == ["ULD_134t"] * 3

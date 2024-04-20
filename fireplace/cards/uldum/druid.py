@@ -91,7 +91,7 @@ class ULD_134:
     }
     play = Summon(CONTROLLER, "ULD_134t").then(
         Dead(TARGET) | Attack(Summon.CARD, TARGET)
-    )
+    ) * 4
 
 
 class ULD_135:
