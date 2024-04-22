@@ -57,6 +57,12 @@ BLACKLIST = (
     "UNG_836",  # Clutchmother Zavas
     "TRL_252",  # High Priestess Jeklik
     "DRG_056",  # Parachute Brigand
+    "DAL_185",  # Aranasi Broodmother
+
+    "OG_123",  # Shifter Zerus
+    "UNG_929", # Molten Blade
+    "LOOT_104", #  Shifting Scroll
+    "DRG_096", # Bandersmosh
 )
 
 _draftcache = {}
