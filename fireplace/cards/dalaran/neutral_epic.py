@@ -9,7 +9,7 @@ class DAL_087:
     """Hench-Clan Hag"""
 
     # <b>Battlecry:</b> Summon two 1/1 Amalgams with all minion types.
-    play = Summon(CONTROLLER, "DAL_087t") * 2
+    play = SummonBothSides(CONTROLLER, "DAL_087t") * 2
 
 
 class DAL_538:
