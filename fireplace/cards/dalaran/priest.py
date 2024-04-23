@@ -74,7 +74,7 @@ class DAL_011:
         PlayReq.REQ_MINION_TARGET: 0,
         PlayReq.REQ_ENEMY_TARGET: 0,
     }
-    play = Buff(TARGET, "DAL_011e") * (Attr(SELF, GameTag.QUEST_PROGRESS) + Number(1))
+    play = Buff(TARGET, "DAL_011e") * (Attr(SELF, GameTag.QUEST_PROGRESS) + 1)
 
     class Hand:
         events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))

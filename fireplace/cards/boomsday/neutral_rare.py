@@ -44,7 +44,7 @@ class BOT_270:
     """Giggling Inventor"""
 
     # <b>Battlecry:</b> Summon two 1/2 Mechs with <b>Taunt</b> and_<b>Divine Shield</b>.
-    play = SummonBothSides(CONTROLLER, "BOT_270t")
+    play = SummonBothSides(CONTROLLER, "BOT_270t") * 2
 
 
 class BOT_312:

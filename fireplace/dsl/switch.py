@@ -20,7 +20,7 @@ class Switch:
         if not entities:
             return self.default
         assert len(entities) == 1, "Switch() on more than 1 entity: %r" % (entities)
-        id = entities[0].id
+        id = entities[0].id if hasattr(entities[0], "id") else entities[0]
         if id not in self.map:
             return self.default
         return self.map[id]

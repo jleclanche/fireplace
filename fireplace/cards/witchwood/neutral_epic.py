@@ -41,14 +41,14 @@ class GIL_616:
     """Splitting Festeroot"""
 
     # <b>Deathrattle:</b> Summon two 2/2 Splitting Saplings.
-    deathrattle = Summon(CONTROLLER, "GIL_616t")
+    deathrattle = Summon(CONTROLLER, "GIL_616t") * 2
 
 
 class GIL_616t:
     """Splitting Sapling"""
 
     # <b>Deathrattle:</b> Summon two 1/1 Woodchips.
-    deathrattle = Summon(CONTROLLER, "GIL_616t2")
+    deathrattle = Summon(CONTROLLER, "GIL_616t2") * 2
 
 
 class GIL_682:

@@ -90,10 +90,10 @@ class BOT_568:
 
 
 class BOT_568e:
-    tags = {GameTag.TAG_ONE_TURN_EFFECT: True}
-
     class Hand:
         events = OWN_TURN_END.on(Discard(OWNER))
+
+    events = REMOVED_IN_PLAY
 
 
 class BOT_913:

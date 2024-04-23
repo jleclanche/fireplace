@@ -89,8 +89,9 @@ class ULD_134:
         PlayReq.REQ_MINION_TARGET: 0,
         PlayReq.REQ_NUM_MINION_SLOTS: 1,
     }
-    play = Summon(CONTROLLER, "ULD_134t").then(
-        Dead(TARGET) | Attack(Summon.CARD, TARGET)
+    play = (
+        Summon(CONTROLLER, "ULD_134t").then(Dead(TARGET) | Attack(Summon.CARD, TARGET))
+        * 4
     )
 
 

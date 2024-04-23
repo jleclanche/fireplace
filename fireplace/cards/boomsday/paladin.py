@@ -102,7 +102,7 @@ class BOT_909:
     """Crystology"""
 
     # [x]Draw two 1-Attack minions from your deck.
-    play = ForceDraw(RANDOM(FRIENDLY_DECK + MINION + (COST == 1)))
+    play = ForceDraw(RANDOM(FRIENDLY_DECK + MINION + (ATK == 1)) * 2)
 
 
 class BOT_912:

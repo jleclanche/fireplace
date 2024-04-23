@@ -12,18 +12,16 @@ class CS2_101:
     activate = Summon(CONTROLLER, "CS2_101t")
 
 
-class CS2_101_H1:
+class CS2_101_H1(CS2_101):
     """Reinforce (Lady Liadrin)"""
 
-    requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-    activate = CS2_101.activate
+    pass
 
 
-class CS2_101_H2:
+class CS2_101_H2(CS2_101):
     """Reinforce (Prince Arthas)"""
 
-    requirements = {PlayReq.REQ_NUM_MINION_SLOTS: 1}
-    activate = CS2_101.activate
+    pass
 
 
 class CS2_101_H3(CS2_101):

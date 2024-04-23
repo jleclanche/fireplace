@@ -10,7 +10,7 @@ class DRG_225:
 
     # Your other Mechs have +1 Attack. <b>Battlecry:</b> Summon two 1/1 Microcopters.
     update = Refresh(FRIENDLY_MINIONS + MECH - SELF, buff="DRG_225e")
-    play = SummonBothSides(CONTROLLER, "DRG_225t")
+    play = SummonBothSides(CONTROLLER, "DRG_225t") * 2
 
 
 DRG_225e = buff(atk=1)

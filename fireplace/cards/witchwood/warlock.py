@@ -10,7 +10,7 @@ class GIL_508:
 
     # <b>Battlecry:</b> If your hero took damage this turn, summon two 1/1 Bats.
     powered_up = DAMAGED_THIS_TURN(FRIENDLY_HERO) >= 0
-    play = powered_up & SummonBothSides(CONTROLLER, "GIL_508t")
+    play = powered_up & SummonBothSides(CONTROLLER, "GIL_508t") * 2
 
 
 class GIL_515:
@@ -66,12 +66,14 @@ class GIL_825:
 
     # [x]<b>Battlecry:</b> Deal 2 damage to all other minions. If any die, repeat this
     # <b>Battlecry</b>.
-    progress_total = 14
-    play = Hit(ALL_MINIONS - SELF, 2), Dead(ALL_MINIONS) & (
-        Deaths(),
-        AddProgress(SELF, None),
-        FINISH_PROGRESS | ExtraBattlecry(SELF, None),
-    )
+    def play(self):
+        yield Hit(ALL_MINIONS - SELF, 2)
+        for _ in range(13):
+            if Dead(ALL_MINIONS).check(self):
+                yield Deaths()
+                yield Hit(ALL_MINIONS - SELF, 2)
+            else:
+                break
 
 
 ##

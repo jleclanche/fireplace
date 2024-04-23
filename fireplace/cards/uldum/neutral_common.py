@@ -131,4 +131,4 @@ class ULD_719:
     """Desert Hare"""
 
     # <b>Battlecry:</b> Summon two 1/1 Desert Hares.
-    play = SummonBothSides(CONTROLLER, "ULD_719")
+    play = SummonBothSides(CONTROLLER, "ULD_719") * 2

@@ -47,7 +47,7 @@ class GVG_107:
     """Enhance-o Mechano"""
 
     def play(self):
-        for target in self.controller.field.exclude(self):
+        for target in (FRIENDLY_MINIONS - SELF).eval(self.game, self):
             tag = random.choice(
                 (GameTag.WINDFURY, GameTag.TAUNT, GameTag.DIVINE_SHIELD)
             )

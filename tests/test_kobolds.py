@@ -53,12 +53,10 @@ def test_explosive_runes():
 
 def test_the_darkness():
     game = prepare_empty_game()
-    game.player1.give("LOOT_526").play()
-    assert game.player1.field[0].id == "LOOT_526d"
+    darkness = game.player1.give("LOOT_526").play()
+    assert darkness.dormant
     game.skip_turn()
-    game.skip_turn()
-    game.skip_turn()
-    assert game.player1.field[0].id == "LOOT_526"
+    assert not darkness.dormant
 
 
 def test_king_togwaggle():

@@ -45,9 +45,18 @@ class GIL_820:
 
     # [x]<b>Battlecry:</b> Repeat all other <b>Battlecries</b> from cards you played this
     # game <i>(targets chosen randomly)</i>.
-    play = ExtraBattlecry(
-        RANDOM(CARDS_PLAYED_THIS_GAME + BATTLECRY - ID("GIL_820")) * 30, None
-    )
+    def play(self):
+        sel = RANDOM(CARDS_PLAYED_THIS_GAME + BATTLECRY - ID("GIL_820")) * 30
+        entities = sel.eval(self.game, self)
+        for entity in entities:
+            yield ExtraBattlecry(entity, None)
+            while self.controller.choice:
+                choice = random.choice(self.controller.choice.cards)
+                log.info("Choosing card %r" % (choice))
+                self.controller.choice.choose(choice)
+            yield Deaths()
+            if self.dead or self.silenced or self.zone != Zone.PLAY:
+                break
 
 
 ##
