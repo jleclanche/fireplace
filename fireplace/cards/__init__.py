@@ -2,7 +2,7 @@ import os
 from importlib import import_module
 
 from hearthstone import cardxml
-from hearthstone.enums import CardType, GameTag, Race, ZodiacYear
+from hearthstone.enums import CardSet, CardType, GameTag, Race, ZodiacYear
 
 from ..logging import log
 from ..utils import CARD_SETS
@@ -165,7 +165,10 @@ class CardDB(dict[str, cardxml.CardXML]):
         if hasattr(cardscript, "cardtext_entity_1"):
             card.cardtext_entity_1 = cardscript.cardtext_entity_1
 
-        card.is_standard = card.card_set in year.standard_card_sets
+        card.is_standard = (
+            card.card_set in year.standard_card_sets
+            or card.card_set == CardSet.HERO_SKINS
+        )
 
         return card
 
