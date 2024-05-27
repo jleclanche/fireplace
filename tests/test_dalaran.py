@@ -290,3 +290,20 @@ def test_duel():
         game3.player2.summon(WISP)
     duel = game3.player1.give("DAL_731")
     assert not duel.is_playable()
+
+
+def test_sweeping_strikes():
+    game = prepare_game()
+    wisp = game.player1.give(WISP).play()
+    sweeping_strikes = game.player1.give("DAL_062")
+    sweeping_strikes.play(target=wisp)
+    game.skip_turn()
+    wisp.attack(game.player2.hero)
+    assert game.player2.hero.health == 29
+
+    game.end_turn()
+    dummies = [game.player2.give(TARGET_DUMMY).play() for _ in range(3)]
+    game.end_turn()
+    wisp.attack(dummies[1])
+    for i in range(3):
+        assert dummies[i].health == 1

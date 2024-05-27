@@ -328,7 +328,10 @@ class BoardPositionSelector(Selector):
     def eval(self, entities, source):
         result = []
         for e in self.child.eval(entities, source):
-            if getattr(e, "zone", None) == Zone.PLAY:
+            if (
+                getattr(e, "zone", None) == Zone.PLAY
+                and getattr(e, "type", None) == CardType.MINION
+            ):
                 if self.direction == self.Direction.LEFT:
                     result += e.left_minion
                 else:
