@@ -58,3 +58,14 @@ def test_BEEEES():
     game.player2.give("ULD_134").play(target=wisp)
     assert wisp.dead
     assert game.player2.field == ["ULD_134t"] * 3
+
+
+def test_questing_explorer():
+    game = prepare_game()
+    game.player1.discard_hand()
+    assert len(game.player1.hand) == 0
+    game.player1.give("ULD_157").play()
+    assert len(game.player1.hand) == 0
+    game.player1.give("ULD_433").play()
+    game.player1.give("ULD_157").play()
+    assert len(game.player1.hand) == 1

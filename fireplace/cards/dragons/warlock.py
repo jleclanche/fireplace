@@ -41,7 +41,7 @@ class DRG_207:
         if count <= 0:
             return
 
-        demon = self.controller.card("TRL_309t", source=self)
+        demon = self.controller.card("DRG_207t", source=self)
         demon.custom_card = True
 
         def create_custom_card(demon):

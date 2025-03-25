@@ -29,14 +29,13 @@ class ULD_178:
     class SiamatAction(MultipleChoice):
         PLAYER = ActionArg()
         choose_times = 2
+        siamat_ids = ["ULD_178a", "ULD_178a2", "ULD_178a3", "ULD_178a4"]
 
         def do_step1(self):
-            self.siamat_ids = ["ULD_178a", "ULD_178a2", "ULD_178a3", "ULD_178a4"]
             self.cards = [self.player.card(id) for id in self.siamat_ids]
 
         def do_step2(self):
-            self.siamat_ids.remove(self.choosed_cards[0])
-            self.cards = [self.player.card(id) for id in self.siamat_ids]
+            self.cards.remove(self.choosed_cards[0])
 
         def done(self):
             for card in self.choosed_cards:

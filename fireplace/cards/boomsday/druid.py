@@ -54,7 +54,7 @@ class BOT_434:
 
     # While in your hand, this is a 3/4 copy of the last minion you played.
     class Hand:
-        events = Play(CONTROLLER).after(
+        events = Play(CONTROLLER, MINION).after(
             Morph(SELF, Copy(Play.CARD)).then(Buff(Morph.CARD, "BOT_434e"))
         )
 

@@ -94,10 +94,10 @@ class ICC_828p:
         PLAYER = ActionArg()
         choose_times = 2
 
-        def do_step1(self):
+        def do(self, source, player):
             beast_ids = RandomBeast(
                 card_class=[CardClass.HUNTER, CardClass.NEUTRAL], cost=range(0, 6)
-            ).find_cards(self.source)
+            ).find_cards(source)
             self.first_ids = []
             self.second_ids = []
             for id in beast_ids:
@@ -105,6 +105,9 @@ class ICC_828p:
                     self.first_ids.append(id)
                 else:
                     self.second_ids.append(id)
+            super().do(source, player)
+
+        def do_step1(self):
             self.cards = [
                 self.player.card(id) for id in random.sample(self.first_ids, 3)
             ]

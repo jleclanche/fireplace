@@ -236,6 +236,7 @@ CARD_ATTRIBUTE_MAP = {
     GameTag.PARENT_CARD: "parent_card",
     GameTag.POISONOUS: "poisonous",
     GameTag.POWERED_UP: "powered_up",
+    GameTag.QUEST: "quest",
     GameTag.QUEST_PROGRESS: "progress",
     GameTag.QUEST_PROGRESS_TOTAL: "progress_total",
     GameTag.RARITY: "rarity",
