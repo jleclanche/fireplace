@@ -38,7 +38,7 @@ class DAL_431:
         PLAYER = ActionArg()
         choose_times = 2
 
-        def init(self, source):
+        def do(self, source, player):
             self.all_shaman_spells = RandomSpell(
                 card_class=CardClass.SHAMAN
             ).find_cards(source)
@@ -49,9 +49,9 @@ class DAL_431:
                     self.targeted_spells.append(id)
                 else:
                     self.non_targeted_spells.append(id)
+            super().do(source, player)
 
         def do_step1(self):
-            self.init(self.source)
             self.cards = [
                 self.player.card(id) for id in random.sample(self.all_shaman_spells, 3)
             ]

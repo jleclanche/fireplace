@@ -17,7 +17,7 @@ class ULD_154:
 
     # [x]<b>Battlecry:</b> If you control a <b>Secret</b>, summon two 2/2 Hyenas.
     powered_up = Find(FRIENDLY_SECRETS)
-    play = powered_up & Summon(CONTROLLER, "ULD_154t") * 2
+    play = powered_up & SummonBothSides(CONTROLLER, "ULD_154t") * 2
 
 
 class ULD_156:
