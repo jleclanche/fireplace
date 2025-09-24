@@ -45,6 +45,8 @@ Not Implemented
 
 ## Installation
 
+> **Note**: This repository uses Git LFS (Large File Storage). Please install Git LFS before cloning: https://git-lfs.com
+
 * `pip install .`
 
 
