@@ -92,7 +92,6 @@ class Player(Entity, TargetableByAuras):
         self.spent_mana_on_spells_this_game = 0
         self.healed_this_game = 0
         self.cthun = None
-        self._galakrond = None
         self.invoke_counter = 0
 
     def dump(self):
@@ -232,25 +231,6 @@ class Player(Entity, TargetableByAuras):
     def minion_slots(self):
         return max(0, self.game.MAX_MINIONS_ON_FIELD - len(self.field))
 
-    @property
-    def galakrond(self):
-        if self.hero and self.hero.galakrond_hero_card:
-            return self.hero
-
-        if self._galakrond:
-            return self._galakrond
-
-        galakronds = []
-        for entity in self.hand + self.deck:
-            if entity and entity.tags.get(GameTag.GALAKROND_HERO_CARD):
-                if entity.card_class == self.hero.card_class:
-                    return entity
-                galakronds.append(entity)
-        if galakronds:
-            return galakronds[0]
-
-        return None
-
     def copy_cthun_buff(self, card):
         for buff in self.cthun.buffs:
             buff.source.buff(
@@ -297,7 +277,6 @@ class Player(Entity, TargetableByAuras):
         self.starting_deck = CardList(self.deck[:])
         self.shuffle_deck()
         self.cthun = self.card("OG_280")
-        self._galakrond = self.galakrond
         self.playstate = PlayState.PLAYING
 
         # Draw initial hand (but not any more than what we have in the deck)

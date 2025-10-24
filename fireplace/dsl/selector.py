@@ -503,6 +503,9 @@ SECRET = EnumSelector(GameTag.SECRET)
 QUEST = EnumSelector(GameTag.QUEST)
 HERO_POWER = EnumSelector(CardType.HERO_POWER)
 
+GALAKROND = EnumSelector(GameTag.GALAKROND_HERO_CARD)
+FRIENDLY_GALAKROND = GALAKROND + FRIENDLY
+
 BEAST = EnumSelector(Race.BEAST)
 DEMON = EnumSelector(Race.DEMON)
 DRAGON = EnumSelector(Race.DRAGON)
@@ -677,11 +680,19 @@ CARDS_OPPONENT_PLAYED_LAST_TURN = FuncSelector(
     ]
 )
 
-GALAKROND = FuncSelector(
-    lambda entities, source: (
-        [source.controller.galakrond] if source.controller.galakrond else []
-    )
-)
+def _main_galakorn_func(entities, source):
+    entities = FRIENDLY_GALAKROND.eval(entities, source)
+    for e in entities:
+        if e.zone == Zone.PLAY:
+            return [e]
+    for e in entities:
+        if getattr(e, "card_class") == getattr(source.controller.hero, "card_class"):
+            return [e]
+    if len(entities) > 0:
+        return [entities[0]]
+    return entities
+
+MAIN_GALAKROND = FuncSelector(_main_galakorn_func)
 
 STORE_CARD = FuncSelector(lambda entities, source: [source.store_card])
 

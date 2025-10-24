@@ -206,7 +206,7 @@ CARD_ATTRIBUTE_MAP = {
     GameTag.EXTRA_DEATHRATTLES: "extra_deathrattles",
     GameTag.FORGETFUL: "forgetful",
     GameTag.FROZEN: "frozen",
-    GameTag.GALAKROND_HERO_CARD: "galakrond_hero_card",
+    GameTag.GALAKROND_HERO_CARD: "galakrond",
     GameTag.HEALING_DOUBLE: "healing_double",
     GameTag.HEALTH: "max_health",
     GameTag.HEALTH_MINIMUM: "min_health",

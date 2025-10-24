@@ -41,7 +41,7 @@ class DRG_218:
     """Corrupt Elementalist"""
 
     # <b>Battlecry:</b> <b>Invoke</b> Galakrond twice.
-    play = Invoke(CONTROLLER) * 2
+    play = INVOKE, INVOKE
 
 
 class DRG_223:
@@ -111,7 +111,7 @@ class DRG_248:
 
     # <b>Freeze</b> an enemy. <b>Invoke</b> Galakrond.
     requirements = {PlayReq.REQ_ENEMY_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-    play = Freeze(TARGET), Invoke(CONTROLLER)
+    play = Freeze(TARGET), INVOKE
 
 
 ##
@@ -125,9 +125,7 @@ class DRG_620:
     progress_total = 2
     play = Summon(CONTROLLER, "DRG_620t4") * 2
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_620t2").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_620t2")
     )
 
 
@@ -138,9 +136,7 @@ class DRG_620t2:
     progress_total = 2
     play = Summon(CONTROLLER, "DRG_620t5") * 2
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_620t3").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_620t3")
     )
 
 

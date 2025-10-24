@@ -63,7 +63,7 @@ class DRG_249:
     """Awaken!"""
 
     # <b>Invoke</b> Galakrond. Deal_$1 damage to all_minions.
-    play = Invoke(CONTROLLER), Hit(ALL_MINIONS, 1)
+    play = INVOKE, Hit(ALL_MINIONS, 1)
 
 
 class DRG_500:
@@ -83,7 +83,7 @@ class DRG_021:
     """Ritual Chopper"""
 
     # <b>Battlecry:</b> <b>Invoke</b> Galakrond.
-    play = Invoke(CONTROLLER)
+    play = INVOKE
 
 
 class DRG_025:
@@ -106,9 +106,7 @@ class DRG_650:
         Buff(ForceDraw.TARGET, "DRG_650e")
     )
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_650t2").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_650t2")
     )
 
 
@@ -127,9 +125,7 @@ class DRG_650t2:
         * 2
     )
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_650t3").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_650t3")
     )
 
 

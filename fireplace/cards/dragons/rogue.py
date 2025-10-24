@@ -80,7 +80,7 @@ class DRG_030:
 
     # [x]Give a minion +1 Attack. <b>Invoke</b> Galakrond.
     requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0, PlayReq.REQ_MINION_TARGET: 0}
-    play = Buff(TARGET, "DRG_030e"), Invoke(CONTROLLER)
+    play = Buff(TARGET, "DRG_030e"), INVOKE
 
 
 DRG_030e = buff(atk=1)
@@ -102,7 +102,7 @@ class DRG_247:
         PlayReq.REQ_TARGET_TO_PLAY: 0,
         PlayReq.REQ_UNDAMAGED_TARGET: 0,
     }
-    play = Hit(TARGET, 3), Invoke(CONTROLLER)
+    play = Hit(TARGET, 3), INVOKE
 
 
 ##
@@ -116,9 +116,7 @@ class DRG_610:
     progress_total = 2
     play = Draw(CONTROLLER).then(Buff(Draw.CARD, "DRG_610e"))
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_610t2").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_610t2")
     )
 
 
@@ -129,9 +127,7 @@ class DRG_610t2:
     progress_total = 2
     play = Draw(CONTROLLER).then(Buff(Draw.CARD, "DRG_610e")) * 2
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_610t3").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_610t3")
     )
 
 

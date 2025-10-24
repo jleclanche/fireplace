@@ -2224,20 +2224,18 @@ class Replay(TargetedAction):
 
 
 class Invoke(TargetedAction):
-    def do(self, source, player):
-        source.game.manager.targeted_action(self, source, player)
-        player.invoke_counter += 1
-        galakrond = player.galakrond
-        if not galakrond:
-            return
-        source.game.queue_actions(
-            source,
-            [
-                Reveal(galakrond),
-                PlayHeroPower(galakrond.data.hero_power, None),
-                AddProgress(galakrond, source),
-            ],
-        )
+    def do(self, source, galakrond):
+        source.game.manager.targeted_action(self, source, galakrond)
+        source.controller.invoke_counter += 1
+        if galakrond is not None:
+            source.game.queue_actions(
+                source,
+                [
+                    Reveal(galakrond),
+                    PlayHeroPower(galakrond.data.hero_power, None),
+                    AddProgress(galakrond, source),
+                ],
+            )
 
 
 class Awaken(TargetedAction):

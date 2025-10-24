@@ -166,6 +166,8 @@ MAGNETIC = lambda buff: Find(RIGHT_OF(SELF) + MECH) & (
     Remove(SELF),
 )
 
+INVOKE = Invoke(MAIN_GALAKROND)
+
 
 def SET(amt):
     return lambda self, i: amt

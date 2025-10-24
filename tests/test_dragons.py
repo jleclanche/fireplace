@@ -216,11 +216,9 @@ def test_invoke():
     assert game.player1.invoke_counter == 2
     assert INVOKED_TWICE.check(game.player1)
 
-    assert game.player1.galakrond == "DRG_650t2"
     assert game.player1.deck == ["DRG_650t2"]
     game.player1.give("DRG_303").play()
     game.player1.give("DRG_303").play()
-    assert game.player1.galakrond == "DRG_650t3"
     assert game.player1.deck == ["DRG_650t3"]
 
 

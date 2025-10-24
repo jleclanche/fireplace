@@ -30,7 +30,7 @@ class DRG_303:
     """Disciple of Galakrond"""
 
     # <b>Battlecry:</b> <b>Invoke</b> Galakrond.
-    play = Invoke(CONTROLLER)
+    play = INVOKE
 
 
 class DRG_304:
@@ -122,7 +122,7 @@ class DRG_246:
 
     # Destroy a minion. <b>Invoke</b> Galakrond.
     requirements = {PlayReq.REQ_MINION_TARGET: 0, PlayReq.REQ_TARGET_TO_PLAY: 0}
-    play = Destroy(TARGET), Invoke(CONTROLLER)
+    play = Destroy(TARGET), INVOKE
 
 
 class DRG_301:
@@ -164,9 +164,7 @@ class DRG_660:
     progress_total = 2
     play = Destroy(RANDOM_ENEMY_MINION)
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_660t2").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_660t2")
     )
 
 
@@ -177,9 +175,7 @@ class DRG_660t2:
     progress_total = 2
     play = Destroy(RANDOM_ENEMY_MINION * 2)
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_660t3").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_660t3")
     )
 
 

@@ -993,7 +993,7 @@ class Character(LiveEntity):
 
 
 class Hero(Character):
-    galakrond_hero_card = boolean_property("galakrond_hero_card")
+    galakrond = boolean_property("galakrond")
 
     def __init__(self, data):
         self.armor = 0

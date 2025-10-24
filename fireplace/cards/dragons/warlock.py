@@ -18,7 +18,7 @@ class DRG_202:
 
     # [x]<b>Battlecry:</b> <b>Invoke</b> Galakrond. Gain +1 Attack for each other friendly
     # minion.
-    play = Invoke(CONTROLLER), Buff(SELF, "DRG_202e") * Count(FRIENDLY_MINIONS - SELF)
+    play = INVOKE, Buff(SELF, "DRG_202e") * Count(FRIENDLY_MINIONS - SELF)
 
 
 DRG_202e = buff(atk=1)
@@ -101,7 +101,7 @@ class DRG_250:
     """Fiendish Rites"""
 
     # <b>Invoke</b> Galakrond. Give your minions +1_Attack.
-    play = Invoke(CONTROLLER), Buff(FRIENDLY_MINIONS, "DRG_250e")
+    play = INVOKE, Buff(FRIENDLY_MINIONS, "DRG_250e")
 
 
 DRG_250e = buff(atk=1)
@@ -118,9 +118,7 @@ class DRG_600:
     progress_total = 2
     play = Summon(CONTROLLER, RandomDemon())
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_600t2").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_600t2")
     )
 
 
@@ -131,9 +129,7 @@ class DRG_600t2:
     progress_total = 2
     play = Summon(CONTROLLER, RandomDemon()) * 2
     reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_600t3").then(
-            SetAttribute(CONTROLLER, "_galakrond", Morph.CARD),
-        )
+        Morph(SELF, "DRG_600t3")
     )
 
 

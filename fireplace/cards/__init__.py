@@ -9,7 +9,7 @@ from ..utils import CARD_SETS
 
 
 year = ZodiacYear.DRAGON
-default_language = "enUS"
+default_language = "zhCN"
 
 
 def get_script_definition(id, card=None):
