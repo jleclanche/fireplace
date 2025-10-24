@@ -1784,7 +1784,11 @@ class Swap(TargetedAction):
         return [other[0]]
 
     def clear_buff(self, target, old_zone):
-        if old_zone == Zone.PLAY and target.zone not in (Zone.PLAY, Zone.GRAVEYARD, Zone.SETASIDE):
+        if old_zone == Zone.PLAY and target.zone not in (
+            Zone.PLAY,
+            Zone.GRAVEYARD,
+            Zone.SETASIDE,
+        ):
             if not target.keep_buff:
                 target.clear_buffs()
             if target.id == target.controller.cthun.id:

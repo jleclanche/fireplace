@@ -64,7 +64,9 @@ class UNG_035:
                 for card in RandomCollectible(card_class=enemy_class).find_cards(source)
                 if card not in starting_card_ids
             ]
-            other_card_id_1, other_card_id_2 = source.game.random.sample(other_card_ids, 2)
+            other_card_id_1, other_card_id_2 = source.game.random.sample(
+                other_card_ids, 2
+            )
             self.starting_card = player.card(starting_card_id)
             self.other_card_1 = player.card(other_card_id_1)
             self.other_card_2 = player.card(other_card_id_2)

@@ -53,14 +53,17 @@ class DAL_431:
 
         def do_step1(self):
             self.cards = [
-                self.player.card(id) for id in self.source.game.random.sample(self.all_shaman_spells, 3)
+                self.player.card(id)
+                for id in self.source.game.random.sample(self.all_shaman_spells, 3)
             ]
 
         def do_step2(self):
             if self.cards[0] in self.targeted_spells:
                 self.cards = [
                     self.player.card(id)
-                    for id in self.source.game.random.sample(self.non_targeted_spells, 3)
+                    for id in self.source.game.random.sample(
+                        self.non_targeted_spells, 3
+                    )
                 ]
             else:
                 self.cards = [

@@ -22,7 +22,13 @@ class TRL_096:
                 Give(CONTROLLER, GetTag(SELF, (GameTag.TAG_SCRIPT_DATA_ENT_2,))),
                 Give(OPPONENT, GetTag(SELF, (GameTag.TAG_SCRIPT_DATA_ENT_1,))),
             ),
-            UnsetTag(SELF, (GameTag.TAG_SCRIPT_DATA_ENT_1, GameTag.TAG_SCRIPT_DATA_ENT_2,))
+            UnsetTag(
+                SELF,
+                (
+                    GameTag.TAG_SCRIPT_DATA_ENT_1,
+                    GameTag.TAG_SCRIPT_DATA_ENT_2,
+                ),
+            ),
         ),
     )
 

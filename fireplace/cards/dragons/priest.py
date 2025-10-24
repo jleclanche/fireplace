@@ -67,7 +67,9 @@ class DRG_306:
             # two cards that had started in the opponent's deck will be shown instead.
             if len(player.opponent.hand) <= 0:
                 return
-            self.correct_card = player.card(source.game.random.choice(player.opponent.hand).id)
+            self.correct_card = player.card(
+                source.game.random.choice(player.opponent.hand).id
+            )
             op_deck = player.opponent.deck.exclude(id=self.correct_card)
             if len(op_deck) <= 1:
                 op_deck = player.opponent.starting_deck.exclude(id=self.correct_card)
@@ -163,9 +165,7 @@ class DRG_660:
     # [x]<b>Battlecry:</b> Destroy 1 random enemy minion. <i>(@)</i>
     progress_total = 2
     play = Destroy(RANDOM_ENEMY_MINION)
-    reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_660t2")
-    )
+    reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_660t2")
 
 
 class DRG_660t2:
@@ -174,9 +174,7 @@ class DRG_660t2:
     # [x]<b>Battlecry:</b> Destroy 2 random enemy minions. <i>(@)</i>
     progress_total = 2
     play = Destroy(RANDOM_ENEMY_MINION * 2)
-    reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_660t3")
-    )
+    reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_660t3")
 
 
 class DRG_660t3:

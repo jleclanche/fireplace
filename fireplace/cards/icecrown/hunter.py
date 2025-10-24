@@ -109,12 +109,14 @@ class ICC_828p:
 
         def do_step1(self):
             self.cards = [
-                self.player.card(id) for id in self.source.game.random.sample(self.first_ids, 3)
+                self.player.card(id)
+                for id in self.source.game.random.sample(self.first_ids, 3)
             ]
 
         def do_step2(self):
             self.cards = [
-                self.player.card(id) for id in self.source.game.random.sample(self.second_ids, 3)
+                self.player.card(id)
+                for id in self.source.game.random.sample(self.second_ids, 3)
             ]
 
         def done(self):

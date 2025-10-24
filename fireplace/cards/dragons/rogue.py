@@ -115,9 +115,7 @@ class DRG_610:
     # [x]<b>Battlecry:</b> Draw 1 card. It costs (0). <i>(@)</i>
     progress_total = 2
     play = Draw(CONTROLLER).then(Buff(Draw.CARD, "DRG_610e"))
-    reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_610t2")
-    )
+    reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_610t2")
 
 
 class DRG_610t2:
@@ -126,9 +124,7 @@ class DRG_610t2:
     # [x]<b>Battlecry:</b> Draw 2 cards. They cost (0). <i>(@)</i>
     progress_total = 2
     play = Draw(CONTROLLER).then(Buff(Draw.CARD, "DRG_610e")) * 2
-    reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_610t3")
-    )
+    reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_610t3")
 
 
 class DRG_610t3:

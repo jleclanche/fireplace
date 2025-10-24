@@ -124,9 +124,7 @@ class DRG_620:
     # [x]<b>Battlecry:</b> Summon two 2/2 Storms with <b>Rush</b>. <i>(@)</i>
     progress_total = 2
     play = Summon(CONTROLLER, "DRG_620t4") * 2
-    reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_620t2")
-    )
+    reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_620t2")
 
 
 class DRG_620t2:
@@ -135,9 +133,7 @@ class DRG_620t2:
     # [x]<b>Battlecry:</b> Summon two 4/4 Storms with <b>Rush</b>. <i>(@)</i>
     progress_total = 2
     play = Summon(CONTROLLER, "DRG_620t5") * 2
-    reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_620t3")
-    )
+    reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_620t3")
 
 
 class DRG_620t3:

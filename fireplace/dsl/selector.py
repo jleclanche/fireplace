@@ -360,7 +360,9 @@ class RandomSelector(Selector):
 
     def eval(self, entities, source):
         child_entities = self.child.eval(entities, source)
-        return source.game.random.sample(child_entities, min(len(child_entities), self.times))
+        return source.game.random.sample(
+            child_entities, min(len(child_entities), self.times)
+        )
 
     def __mul__(self, other):
         return RandomSelector(self.child, self.times * other)
@@ -680,6 +682,7 @@ CARDS_OPPONENT_PLAYED_LAST_TURN = FuncSelector(
     ]
 )
 
+
 def _main_galakorn_func(entities, source):
     entities = FRIENDLY_GALAKROND.eval(entities, source)
     for e in entities:
@@ -691,6 +694,7 @@ def _main_galakorn_func(entities, source):
     if len(entities) > 0:
         return [entities[0]]
     return entities
+
 
 MAIN_GALAKROND = FuncSelector(_main_galakorn_func)
 

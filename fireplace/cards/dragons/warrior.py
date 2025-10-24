@@ -105,9 +105,7 @@ class DRG_650:
     play = ForceDraw(RANDOM(FRIENDLY_DECK + MINION)).then(
         Buff(ForceDraw.TARGET, "DRG_650e")
     )
-    reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_650t2")
-    )
+    reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_650t2")
 
 
 DRG_650e = buff(+4, +4)
@@ -124,9 +122,7 @@ class DRG_650t2:
         )
         * 2
     )
-    reward = Find(SELF + FRIENDLY_HERO) | (
-        Morph(SELF, "DRG_650t3")
-    )
+    reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_650t3")
 
 
 DRG_650e2 = buff(+4, +4)

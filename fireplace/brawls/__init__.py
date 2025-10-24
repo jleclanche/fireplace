@@ -87,6 +87,7 @@ class BlackrockShowdownBrawl(Game):
     @classmethod
     def new_game(cls, *players):
         import random
+
         decks = random.sample((cls.NEFARIAN_DECK, cls.RAGNAROS_DECK), 2)
         for player, deck in zip(players, decks):
             player.starting_deck, player.starting_hero = deck
@@ -313,6 +314,7 @@ class GrandTournamentBrawl(Game):
     @classmethod
     def new_game(cls, *players):
         import random
+
         decks = random.sample((cls.ALLERIA_DECK, cls.MEDIVH_DECK), 2)
         for player, deck in zip(players, decks):
             player.starting_deck, player.starting_hero = deck
