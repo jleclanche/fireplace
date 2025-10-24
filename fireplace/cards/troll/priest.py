@@ -99,13 +99,13 @@ class TRL_258:
 
     def play(self):
         board = ALL_MINIONS.eval(self.game, self)
-        random.shuffle(board)
+        self.game.random.shuffle(board)
         for attacker in board:
             if attacker.dead:
                 continue
             defenders = RANDOM(ALL_MINIONS - DEAD - SELF).eval(self.game, attacker)
             if defenders:
-                defender = random.choice(defenders)
+                defender = self.game.random.choice(defenders)
                 yield Attack(attacker, defender)
 
 

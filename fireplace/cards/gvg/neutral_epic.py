@@ -48,7 +48,7 @@ class GVG_107:
 
     def play(self):
         for target in (FRIENDLY_MINIONS - SELF).eval(self.game, self):
-            tag = random.choice(
+            tag = self.game.random.choice(
                 (GameTag.WINDFURY, GameTag.TAUNT, GameTag.DIVINE_SHIELD)
             )
             yield SetTag(target, (tag,))

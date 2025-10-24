@@ -51,7 +51,7 @@ class GIL_820:
         for entity in entities:
             yield ExtraBattlecry(entity, None)
             while self.controller.choice:
-                choice = random.choice(self.controller.choice.cards)
+                choice = self.game.random.choice(self.controller.choice.cards)
                 log.info("Choosing card %r" % (choice))
                 self.controller.choice.choose(choice)
             yield Deaths()

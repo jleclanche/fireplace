@@ -58,18 +58,18 @@ class UNG_035:
                 enemy_class = CardClass.NEUTRAL
                 starting_cards = player.opponent.starting_deck[:]
             starting_card_ids = [card.id for card in starting_cards]
-            starting_card_id = random.choice(starting_card_ids)
+            starting_card_id = source.game.random.choice(starting_card_ids)
             other_card_ids = [
                 card
                 for card in RandomCollectible(card_class=enemy_class).find_cards(source)
                 if card not in starting_card_ids
             ]
-            other_card_id_1, other_card_id_2 = random.sample(other_card_ids, 2)
+            other_card_id_1, other_card_id_2 = source.game.random.sample(other_card_ids, 2)
             self.starting_card = player.card(starting_card_id)
             self.other_card_1 = player.card(other_card_id_1)
             self.other_card_2 = player.card(other_card_id_2)
             self.cards = [self.starting_card, self.other_card_1, self.other_card_2]
-            random.shuffle(self.cards)
+            source.game.random.shuffle(self.cards)
             source.game.manager.targeted_action(self, source, player)
 
         def choose(self, card):

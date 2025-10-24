@@ -1,4 +1,3 @@
-import random
 from collections import OrderedDict
 
 from hearthstone.enums import (
@@ -1089,7 +1088,7 @@ class ExtraBattlecry(Battlecry):
             old_requirements = source.requirements
             source.requirements = card.requirements
             if source.requires_target():
-                target = random.choice(source.play_targets)
+                target = source.game.random.choice(source.play_targets)
             source.requirements = old_requirements
 
         return super().do(source, card, target)
@@ -1902,7 +1901,7 @@ class CastSpell(TargetedAction):
         return [spell_target]
 
     def choose_target(self, source, card):
-        return random.choice(card.targets)
+        return source.game.random.choice(card.targets)
 
     def do(self, source, card, targets):
         player = source.controller
@@ -1912,7 +1911,7 @@ class CastSpell(TargetedAction):
         if card.twinspell:
             source.game.queue_actions(card, [Give(player, card.twinspell_copy)])
         if card.must_choose_one:
-            card = random.choice(card.choose_cards)
+            card = source.game.random.choice(card.choose_cards)
         for target in targets:
             if card.requires_target() and not target:
                 if len(card.targets) > 0:
@@ -1927,11 +1926,11 @@ class CastSpell(TargetedAction):
             source.game.manager.targeted_action(self, source, card, target)
             source.game.queue_actions(card, [Battlecry(card, card.target)])
             while player.choice:
-                choice = random.choice(player.choice.cards)
+                choice = source.game.random.choice(player.choice.cards)
                 log.info("Choosing card %r" % (choice))
                 player.choice.choose(choice)
             while player.opponent.choice:
-                choice = random.choice(player.opponent.choice.cards)
+                choice = source.game.random.choice(player.opponent.choice.cards)
                 log.info("Choosing card %r" % (choice))
                 player.opponent.choice.choose(choice)
             player.choice = old_choice
@@ -1944,8 +1943,8 @@ class CastSpellTargetsEnemiesIfPossible(CastSpell):
             if entity.controller == source.controller.opponent:
                 enemy_targets.append(entity)
         if enemy_targets:
-            return random.choice(enemy_targets)
-        return random.choice(card.targets)
+            return source.game.random.choice(enemy_targets)
+        return source.game.random.choice(card.targets)
 
 
 class Evolve(TargetedAction):
@@ -1960,7 +1959,7 @@ class Evolve(TargetedAction):
         cost = target.cost + amount
         card_set = RandomMinion(cost=cost).find_cards(source)
         if card_set:
-            card = random.choice(card_set)
+            card = source.game.random.choice(card_set)
             return source.game.queue_actions(source, [Morph(target, card)])[0]
 
 
@@ -2129,7 +2128,7 @@ class Adapt(TargetedAction):
             "UNG_999t13",
             "UNG_999t14",
         ]
-        cards = random.sample(choices, 3)
+        cards = source.game.random.sample(choices, 3)
         cards = [source.controller.card(card, source=source) for card in cards]
         return [cards]
 

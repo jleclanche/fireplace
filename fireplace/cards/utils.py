@@ -1,5 +1,3 @@
-import random
-
 from hearthstone.deckstrings import Deck
 from hearthstone.enums import (
     CardClass,

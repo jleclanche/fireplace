@@ -1,4 +1,3 @@
-import random
 from itertools import chain
 from typing import TYPE_CHECKING
 
@@ -280,12 +279,12 @@ class Player(Entity, TargetableByAuras):
         if self.starting_hero == "BOT_914h" or self.starting_deck == ["BOT_914"]:
             from .cards.boomsday.whizbang_decks import WHIZBANG_DECKS
 
-            self.starting_hero, self.starting_deck = random.choice(WHIZBANG_DECKS)
+            self.starting_hero, self.starting_deck = self.game.random.choice(WHIZBANG_DECKS)
 
         if self.starting_hero == "DAL_800h" or self.starting_deck == ["DAL_800"]:
             from .cards.dalaran.zayle_decks import ZAYLE_DECKS
 
-            self.starting_hero, self.starting_deck = random.choice(ZAYLE_DECKS)
+            self.starting_hero, self.starting_deck = self.game.random.choice(ZAYLE_DECKS)
 
         self.summon(self.starting_hero)
         # self.game.trigger(self, [Summon(self, self.starting_hero)], event_args=None)
@@ -312,7 +311,7 @@ class Player(Entity, TargetableByAuras):
             else:
                 exclude_quests.append(card)
         self.starting_hand = CardList["PlayableCard"](
-            quests + random.sample(exclude_quests, hand_size - len(quests))
+            quests + self.game.random.sample(exclude_quests, hand_size - len(quests))
         )
         # It's faster to move cards directly to the hand instead of drawing
         for card in self.starting_hand:
@@ -383,7 +382,7 @@ class Player(Entity, TargetableByAuras):
 
     def shuffle_deck(self):
         self.log("%r shuffles their deck", self)
-        random.shuffle(self.deck)
+        self.game.random.shuffle(self.deck)
 
     def draw(self, count=1):
         if self.cant_draw:

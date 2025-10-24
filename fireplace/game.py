@@ -1,5 +1,5 @@
-import random
 import time
+from random import Random
 from calendar import timegm
 from itertools import chain
 from typing import TYPE_CHECKING
@@ -35,7 +35,8 @@ class BaseGame(Entity):
     MAX_SECRETS_ON_PLAY = 5
     Manager = GameManager
 
-    def __init__(self, players: "list[Player]"):
+    def __init__(self, players: "list[Player]", seed=None):
+        self.random = Random(seed)
         self.player1: Player
         self.player2: Player
         self.data = None
@@ -410,7 +411,7 @@ class CoinRules(BaseGame):
     """
 
     def pick_first_player(self):
-        winner = random.choice(self.players)
+        winner = self.random.choice(self.players)
         self.log("Tossing the coin... %s wins!", winner)
         return winner, winner.opponent
 

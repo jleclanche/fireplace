@@ -68,7 +68,7 @@ class OG_118:
             (CardClass.SHAMAN, "CS2_049"),
             (CardClass.WARRIOR, "CS2_102"),
         ]
-        hero_class, hero_power = random.choice(classes)
+        hero_class, hero_power = self.game.random.choice(classes)
         yield Summon(CONTROLLER, hero_power)
         yield Morph(
             FRIENDLY + WARLOCK + (IN_HAND | IN_DECK),

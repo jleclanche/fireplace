@@ -78,12 +78,12 @@ class CFM_621:
             elif card1 == self.base_potions[2]:
                 self.potions_id = self.cost_10_potions
             self.potions = [self.player.card(card) for card in self.potions_id]
-            self.cards = random.sample(self.potions, 3)
+            self.cards = self.source.game.random.sample(self.potions, 3)
 
         def do_step3(self):
             card2 = self.choosed_cards[1]
             self.potions.remove(card2)
-            self.cards = random.sample(self.potions, 3)
+            self.cards = self.source.game.random.sample(self.potions, 3)
 
         def done(self):
             card0 = self.choosed_cards[0]

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os.path
-import random
 from bisect import bisect
 from importlib import import_module
 from pkgutil import iter_modules
@@ -86,10 +85,11 @@ class CardList(list[T]):
         )
 
 
-def random_draft(card_class: CardClass, exclude=[], include=[]):
+def random_draft(card_class: CardClass, exclude=[], include=[], game=None):
     """
     Return a deck of 30 random cards for the \a card_class
     """
+    import random
     from . import cards
     from .deck import Deck
 
@@ -112,14 +112,20 @@ def random_draft(card_class: CardClass, exclude=[], include=[]):
         collection.append(cls)
 
     while len(deck) < Deck.MAX_CARDS:
-        card = random.choice(collection)
+        if game:
+            card = game.random.choice(collection)
+        else:
+            card = random.choice(collection)
         if deck.count(card.id) < card.max_count_in_deck:
             deck.append(card.id)
 
     return deck
 
 
-def random_class():
+def random_class(game=None):
+    if game:
+        return CardClass(game.random.randint(2, 10))
+    import random
     return CardClass(random.randint(2, 10))
 
 
@@ -172,10 +178,10 @@ def weighted_card_choice(source, weights: List[int], card_sets: List[str], count
     # for each card
     for i in range(count):
         # choose a set according to weighting
-        chosen_set = bisect(cum_weights, random.random() * totalweight)
+        chosen_set = bisect(cum_weights, source.game.random.random() * totalweight)
 
         # choose a random card from that set
-        chosen_card_index = random.randint(0, len(card_sets[chosen_set]) - 1)
+        chosen_card_index = source.game.random.randint(0, len(card_sets[chosen_set]) - 1)
 
         chosen_cards.append(card_sets[chosen_set].pop(chosen_card_index))
         totalweight -= weights[chosen_set]
@@ -208,43 +214,43 @@ def play_turn(game):
 
     while True:
         while player.choice:
-            choice = random.choice(player.choice.cards)
+            choice = game.random.choice(player.choice.cards)
             log.info("Choosing card %r" % (choice))
             player.choice.choose(choice)
 
         heropower = player.hero.power
-        if heropower.is_usable() and random.random() < 0.1:
+        if heropower.is_usable() and game.random.random() < 0.1:
             choose = None
             target = None
             if heropower.must_choose_one:
-                choose = random.choice(heropower.choose_cards)
+                choose = game.random.choice(heropower.choose_cards)
             if heropower.requires_target():
-                target = random.choice(heropower.targets)
+                target = game.random.choice(heropower.targets)
             heropower.use(target=target, choose=choose)
             continue
 
         # eg. Deathstalker Rexxar
         while player.choice:
-            choice = random.choice(player.choice.cards)
+            choice = game.random.choice(player.choice.cards)
             log.info("Choosing card %r" % (choice))
             player.choice.choose(choice)
 
         # iterate over our hand and play whatever is playable
         for card in player.hand:
-            if card.is_playable() and random.random() < 0.5:
+            if card.is_playable() and game.random.random() < 0.5:
                 target = None
                 if card.must_choose_one:
-                    card = random.choice(card.choose_cards)
+                    card = game.random.choice(card.choose_cards)
                     if not card.is_playable():
                         continue
                 log.info("Playing %r" % card)
                 if card.requires_target():
-                    target = random.choice(card.targets)
+                    target = game.random.choice(card.targets)
                 log.info("Target on %r" % target)
                 card.play(target=target)
 
                 while player.choice:
-                    choice = random.choice(player.choice.cards)
+                    choice = game.random.choice(player.choice.cards)
                     log.info("Choosing card %r" % (choice))
                     player.choice.choose(choice)
 
@@ -253,10 +259,10 @@ def play_turn(game):
         # Randomly attack with whatever can attack
         for character in player.characters:
             if character.can_attack():
-                character.attack(random.choice(character.targets))
+                character.attack(game.random.choice(character.targets))
                 # eg. Vicious Fledgling
                 while player.choice:
-                    choice = random.choice(player.choice.cards)
+                    choice = game.random.choice(player.choice.cards)
                     log.info("Choosing card %r" % (choice))
                     player.choice.choose(choice)
 
@@ -271,8 +277,8 @@ def play_full_game():
 
     for player in game.players:
         log.info("Can mulligan %r" % (player.choice.cards))
-        mull_count = random.randint(0, len(player.choice.cards))
-        cards_to_mulligan = random.sample(player.choice.cards, mull_count)
+        mull_count = game.random.randint(0, len(player.choice.cards))
+        cards_to_mulligan = game.random.sample(player.choice.cards, mull_count)
         player.choice.choose(*cards_to_mulligan)
 
     while True:

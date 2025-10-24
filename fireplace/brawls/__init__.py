@@ -1,4 +1,3 @@
-import random
 from hearthstone.enums import CardClass, CardType, GameTag
 from ..cards.brawl.banana_brawl import RandomBanana
 from ..cards.utils import *
@@ -87,6 +86,7 @@ class BlackrockShowdownBrawl(Game):
 
     @classmethod
     def new_game(cls, *players):
+        import random
         decks = random.sample((cls.NEFARIAN_DECK, cls.RAGNAROS_DECK), 2)
         for player, deck in zip(players, decks):
             player.starting_deck, player.starting_hero = deck
@@ -137,7 +137,7 @@ class SpidersEverywhereBrawl(Game):
             spells = RandomSpell(card_class=player_class).find_cards(player)
             deck = ["FP1_011"] * 23
             for i in range(7):
-                deck.append(random.choice(spells))
+                deck.append(self.random.choice(spells))
             player.starting_deck, player.starting_hero = deck, hero
 
 
@@ -171,9 +171,9 @@ class CrossroadsEncounterBrawl(Game):
             hero = player.starting_hero
             player_class = getattr(cards, hero).card_class
             pool = RandomCollectible(card_class=player_class).find_cards(player)
-            deck = [random.choice(pool) for i in range(15)]
+            deck = [self.random.choice(pool) for i in range(15)]
             pool = RandomCollectible(card_class=CardClass.NEUTRAL).find_cards(player)
-            deck += [random.choice(pool) for i in range(15)]
+            deck += [self.random.choice(pool) for i in range(15)]
             player.starting_deck, player.starting_hero = deck, hero
 
 
@@ -213,7 +213,7 @@ class TooManyPortalsBrawl(Game):
             spells = RandomSpell(card_class=player_class).find_cards(player)
             deck = [self.UNSTABLE_PORTAL] * 23
             for i in range(7):
-                deck.append(random.choice(spells))
+                deck.append(self.random.choice(spells))
             player.starting_deck, player.starting_hero = deck, hero
 
 
@@ -312,6 +312,7 @@ class GrandTournamentBrawl(Game):
 
     @classmethod
     def new_game(cls, *players):
+        import random
         decks = random.sample((cls.ALLERIA_DECK, cls.MEDIVH_DECK), 2)
         for player, deck in zip(players, decks):
             player.starting_deck, player.starting_hero = deck

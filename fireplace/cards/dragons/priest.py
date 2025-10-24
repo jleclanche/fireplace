@@ -67,17 +67,17 @@ class DRG_306:
             # two cards that had started in the opponent's deck will be shown instead.
             if len(player.opponent.hand) <= 0:
                 return
-            self.correct_card = player.card(random.choice(player.opponent.hand).id)
+            self.correct_card = player.card(source.game.random.choice(player.opponent.hand).id)
             op_deck = player.opponent.deck.exclude(id=self.correct_card)
             if len(op_deck) <= 1:
                 op_deck = player.opponent.starting_deck.exclude(id=self.correct_card)
             if len(op_deck) <= 1:
                 return
             self.card_1, self.card_2 = [
-                player.card(card.id) for card in random.sample(op_deck, 2)
+                player.card(card.id) for card in source.game.random.sample(op_deck, 2)
             ]
             self.cards = [self.correct_card, self.card_1, self.card_2]
-            random.shuffle(self.cards)
+            source.game.random.shuffle(self.cards)
             self.player.choice = self
             source.game.manager.targeted_action(self, source, player)
 

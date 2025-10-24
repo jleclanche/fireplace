@@ -1,5 +1,4 @@
 import operator
-import random
 from abc import ABCMeta, abstractmethod
 from enum import IntEnum
 from typing import Any, Callable, Iterable, List, Optional, Set, Union
@@ -361,7 +360,7 @@ class RandomSelector(Selector):
 
     def eval(self, entities, source):
         child_entities = self.child.eval(entities, source)
-        return random.sample(child_entities, min(len(child_entities), self.times))
+        return source.game.random.sample(child_entities, min(len(child_entities), self.times))
 
     def __mul__(self, other):
         return RandomSelector(self.child, self.times * other)
@@ -370,7 +369,7 @@ class RandomSelector(Selector):
 class RandomShuffle(RandomSelector):
     def eval(self, entities, source):
         child_entities = self.child.eval(entities, source)
-        return random.sample(child_entities, len(child_entities))
+        return source.game.random.sample(child_entities, len(child_entities))
 
 
 RANDOM = RandomSelector

@@ -1,4 +1,3 @@
-import random
 import re
 from itertools import chain
 from typing import TYPE_CHECKING
@@ -569,7 +568,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
             elif target not in self.play_targets:
                 raise InvalidAction("%r is not a valid target for %r." % (target, self))
             if self.controller.all_targets_random:
-                new_target = random.choice(self.play_targets)
+                new_target = self.game.random.choice(self.play_targets)
                 self.logger.info(
                     "Retargeting %r from %r to %r", self, target, new_target
                 )
@@ -1676,7 +1675,7 @@ class HeroPower(PlayableCard):
             elif target not in self.play_targets:
                 raise InvalidAction("%r is not a valid target for %r." % (target, self))
             if self.controller.all_targets_random:
-                new_target = random.choice(self.play_targets)
+                new_target = self.game.random.choice(self.play_targets)
                 self.logger.info(
                     "Retargeting %r from %r to %r", self, target, new_target
                 )

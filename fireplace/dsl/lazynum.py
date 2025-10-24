@@ -1,7 +1,6 @@
 import copy
 import math
 import operator
-import random
 from abc import ABCMeta, abstractmethod
 
 from .evaluator import Evaluator
@@ -233,4 +232,4 @@ class RandomNumber(LazyNum):
         return "%s(%r)" % (self.__class__.__name__, self.choices)
 
     def evaluate(self, source):
-        return self.num(random.choice(self.choices))
+        return self.num(source.game.random.choice(self.choices))
