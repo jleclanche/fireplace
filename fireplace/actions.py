@@ -1603,7 +1603,7 @@ class SetTag(TargetedAction):
     def do(self, source, target, tags):
         if isinstance(tags, dict):
             for tag, value in tags.items():
-                target.tags[tag] = value
+                target.tags[tag] = _eval_card(source, value)[0]
         else:
             for tag in tags:
                 target.tags[tag] = True
@@ -1623,29 +1623,12 @@ class UnsetTag(TargetedAction):
             target.tags[tag] = False
 
 
-class SetAttribute(TargetedAction):
+class GetTag(TargetedAction):
     TARGET = ActionArg()
-    KEY = ActionArg()
-    VALUE = ActionArg()
+    TAGS = ActionArg()
 
-    def do(self, source, target, key, value):
-        setattr(target, key, value)
-
-
-class DelAttribute(TargetedAction):
-    TARGET = ActionArg()
-    KEY = ActionArg()
-
-    def do(self, source, target, key):
-        delattr(target, key)
-
-
-class GetAttribute(TargetedAction):
-    TARGET = ActionArg()
-    KEY = ActionArg()
-
-    def do(self, source, target, key):
-        return getattr(target, key)
+    def do(self, source, target, tags):
+        return [target.tags[tag] for tag in tags]
 
 
 class Silence(TargetedAction):

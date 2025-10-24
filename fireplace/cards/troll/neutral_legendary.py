@@ -10,20 +10,19 @@ class TRL_096:
 
     # [x]<b>Battlecry:</b> <b>Discover</b> two cards. Give one to your opponent at random.
     play = DISCOVER(RandomCollectible()).then(
-        SetAttribute(SELF, "_griftah_card1", Discover.CARD),
+        SetTag(SELF, {GameTag.TAG_SCRIPT_DATA_ENT_1: Discover.CARD}),
         DISCOVER(RandomCollectible()).then(
-            SetAttribute(SELF, "_griftah_card2", Discover.CARD),
+            SetTag(SELF, {GameTag.TAG_SCRIPT_DATA_ENT_2: Discover.CARD}),
             COINFLIP
             & (
-                Give(CONTROLLER, GetAttribute(SELF, "_griftah_card1")),
-                Give(OPPONENT, GetAttribute(SELF, "_griftah_card2")),
+                Give(CONTROLLER, GetTag(SELF, (GameTag.TAG_SCRIPT_DATA_ENT_1,))),
+                Give(OPPONENT, GetTag(SELF, (GameTag.TAG_SCRIPT_DATA_ENT_2,))),
             )
             | (
-                Give(OPPONENT, GetAttribute(SELF, "_griftah_card1")),
-                Give(CONTROLLER, GetAttribute(SELF, "_griftah_card2")),
+                Give(CONTROLLER, GetTag(SELF, (GameTag.TAG_SCRIPT_DATA_ENT_2,))),
+                Give(OPPONENT, GetTag(SELF, (GameTag.TAG_SCRIPT_DATA_ENT_1,))),
             ),
-            DelAttribute(SELF, "_griftah_card1"),
-            DelAttribute(SELF, "_griftah_card2"),
+            UnsetTag(SELF, (GameTag.TAG_SCRIPT_DATA_ENT_1, GameTag.TAG_SCRIPT_DATA_ENT_2,))
         ),
     )
 

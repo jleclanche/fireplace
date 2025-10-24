@@ -15,7 +15,7 @@ class UNG_843:
     """The Voraxx"""
 
     events = Play(CONTROLLER, SPELL, SELF).after(
-        Battlecry(Play.CARD, Summon(CONTROLLER, "UNG_999t2t1"))
+        CastSpell(Play.CARD, Summon(CONTROLLER, "UNG_999t2t1"))
     )
 
 
