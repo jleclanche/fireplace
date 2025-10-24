@@ -74,24 +74,14 @@ class DRG_401:
 
     # <b>Battlecry:</b> Swap Hero Powers with your opponent until your next turn.
     play = (
-        SetAttribute(SELF, "_power1", Copy(FRIENDLY_HERO_POWER)),
-        SetAttribute(SELF, "_power2", Copy(ENEMY_HERO_POWER)),
-        Summon(CONTROLLER, GetAttribute(SELF, "_power2")),
-        Summon(OPPONENT, GetAttribute(SELF, "_power1")),
-        DelAttribute(SELF, "_power1"),
-        DelAttribute(SELF, "_power2"),
+        Swap(FRIENDLY_HERO_POWER, ENEMY_HERO_POWER),
         Buff(CONTROLLER, "DRG_401e"),
     )
 
 
 class DRG_401e:
     events = OWN_TURN_BEGIN.on(
-        SetAttribute(SELF, "_power1", Copy(FRIENDLY_HERO_POWER)),
-        SetAttribute(SELF, "_power2", Copy(ENEMY_HERO_POWER)),
-        Summon(CONTROLLER, GetAttribute(SELF, "_power2")),
-        Summon(OPPONENT, GetAttribute(SELF, "_power1")),
-        DelAttribute(SELF, "_power1"),
-        DelAttribute(SELF, "_power2"),
+        Swap(FRIENDLY_HERO_POWER, ENEMY_HERO_POWER),
         Destroy(SELF),
     )
 

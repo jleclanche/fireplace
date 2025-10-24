@@ -10,6 +10,7 @@ from xml.etree import ElementTree
 from hearthstone.enums import CardClass, CardType
 
 from .logging import log
+from .entity import Entity
 
 
 # Autogenerate the list of cardset modules
@@ -18,7 +19,7 @@ CARD_SETS = [cs for _, cs, ispkg in iter_modules([_cards_module]) if ispkg]
 T = TypeVar("T")
 
 
-class CardList(list[T]):
+class CardList(list[T], Entity):
     def __contains__(self, x: T) -> bool:
         for item in self:
             if x is item:

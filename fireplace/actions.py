@@ -1790,11 +1790,6 @@ class Shuffle(TargetedAction):
 
 
 class Swap(TargetedAction):
-    """
-    Swap minion target with \a other.
-    Behaviour is undefined when swapping more than two minions.
-    """
-
     TARGET = ActionArg()
     OTHER = ActionArg()
 
@@ -1805,21 +1800,27 @@ class Swap(TargetedAction):
         assert len(other) == 1
         return [other[0]]
 
+    def clear_buff(self, target, old_zone):
+        if old_zone == Zone.PLAY and target.zone not in (Zone.PLAY, Zone.GRAVEYARD, Zone.SETASIDE):
+            if not target.keep_buff:
+                target.clear_buffs()
+            if target.id == target.controller.cthun.id:
+                target.controller.copy_cthun_buff(target)
+
     def do(self, source, target, other):
         if other is not None:
-            orig = target.zone
-            target.zone = other.zone
-            other.zone = orig
+            other._summon_index = target.zone_position - 1
+            target._summon_index = other.zone_position - 1
+            target_old_zone = target.zone
+            other_old_zone = other.zone
+            target.zone = Zone.SETASIDE
+            other.zone = Zone.SETASIDE
+            target.controller, other.controller = other.controller, target.controller
+            target.zone = other_old_zone
+            other.zone = target_old_zone
+            self.clear_buff(target, target_old_zone)
+            self.clear_buff(other, other_old_zone)
             source.game.manager.targeted_action(self, source, target, other)
-
-
-class SwapController(TargetedAction):
-    def do(self, source, card):
-        old_zone = card.zone
-        card.zone = Zone.SETASIDE
-        card.controller = card.controller.opponent
-        card.zone = old_zone
-        source.game.manager.targeted_action(self, source, card)
 
 
 class Steal(TargetedAction):

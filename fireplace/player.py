@@ -13,7 +13,7 @@ from .utils import CardList
 
 
 if TYPE_CHECKING:
-    from .card import Character, Hero, Minion, PlayableCard, Quest, Secret, SideQuest
+    from .card import Character, Hero, Minion, PlayableCard, Quest, Secret, SideQuest, HeroPower
     from .game import Game
 
 
@@ -48,6 +48,7 @@ class Player(Entity, TargetableByAuras):
         self.data = None
         self.name = name
         self.hero: Hero = None
+        self.hero_power: HeroPower = None
         self.is_standard = is_standard
         super().__init__()
         self.deck = Deck()

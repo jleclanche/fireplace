@@ -395,6 +395,8 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
         """
         if self.zone == Zone.HAND:
             return self.controller.hand.index(self) + 1
+        if self.zone == Zone.DECK:
+            return self.controller.deck.index(self) + 1
         return 0
 
     def _set_zone(self, zone):
@@ -995,7 +997,6 @@ class Hero(Character):
 
     def __init__(self, data):
         self.armor = 0
-        self.power: HeroPower = None
         super().__init__(data)
 
     def dump(self):
@@ -1004,11 +1005,19 @@ class Hero(Character):
         return data
 
     @property
+    def power(self):
+        return self.controller.hero_power
+
+    @property
+    def weapon(self):
+        return self.controller.weapon
+
+    @property
     def entities(self):
         yield self
         if self.zone == Zone.PLAY:
-            if self.power:
-                yield self.power
+            if self.controller.hero_power:
+                yield self.controller.hero_power
             if self.controller.weapon:
                 yield self.controller.weapon
         yield from self.buffs
@@ -1059,8 +1068,6 @@ class Hero(Character):
             if old_hero:
                 old_hero.zone = Zone.GRAVEYARD
         elif value == Zone.GRAVEYARD:
-            if self.power:
-                self.power.zone = Zone.GRAVEYARD
             if self.controller.hero is self:
                 self.controller.playstate = PlayState.LOSING
 
@@ -1621,14 +1628,16 @@ class HeroPower(PlayableCard):
 
     def _set_zone(self, value):
         if value == Zone.PLAY:
-            if self.controller.hero.power:
-                self.controller.hero.power.destroy()
-            self.controller.hero.power = self
+            if self.controller.hero_power:
+                self.controller.hero_power.destroy()
+            self.controller.hero_power = self
             # Create the "Choose One" subcards
             del self.choose_cards[:]
             for id in self.data.choose_cards:
                 card = self.controller.card(id, source=self, parent=self)
                 self.choose_cards.append(card)
+        elif self.zone == Zone.PLAY:
+            self.controller.hero_power = None
 
         super()._set_zone(value)
 
