@@ -30,13 +30,10 @@ Now updated to [Patch 16.6.0.43246](https://hearthstone.wiki.gg/wiki/Patch_16.6.
 * **100%** The Boomsday Project (136 of 136 cards)
 * **100%** Rastakhan's Rumble (135 of 135 cards)
 * **100%** Rise of Shadows (136 of 136 cards)
-* **99%** Saviours of Uldum (134 of 135 cards)
+* **100%** Saviours of Uldum (135 of 135 cards)
 * **100%** Descent of Dragons (140 of 140 cards)
 * **100%** Galakrond's Awakening (35 of 35 cards)
 * **100%** Ashes of Outlands (1 of 1 card)
-
-Not Implemented
-* Zephrys the Great (ULD_003)
 
 ## Requirements
 
