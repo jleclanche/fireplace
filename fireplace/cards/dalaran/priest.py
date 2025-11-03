@@ -64,7 +64,7 @@ class DAL_729:
 # Spells
 
 
-class DAL_011:
+class DAL_011(SchemeUtils):
     """Lazul's Scheme"""
 
     # Reduce the Attack of an enemy minion by @ until your next turn. <i>(Upgrades each
@@ -75,9 +75,6 @@ class DAL_011:
         PlayReq.REQ_ENEMY_TARGET: 0,
     }
     play = Buff(TARGET, "DAL_011e") * (Attr(SELF, GameTag.QUEST_PROGRESS) + 1)
-
-    class Hand:
-        events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
 
 
 class DAL_011e:

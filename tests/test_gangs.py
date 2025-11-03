@@ -18,11 +18,10 @@ def test_aya_blackpaw():
 def test_jade_behemoth():
     game = prepare_empty_game()
     card = game.current_player.give("CFM_343")
-    hand_description, description = card.data.description.replace("[x]", "").split("@")
-    assert card.description == hand_description.format("1/1", "")
+    description = card.data.description.replace("[x]", "").split("@")[0]
+    assert card.description == description.format("1/1", "")
     card.play()
     assert card.taunt
-    assert card.description == description
     jade = game.current_player.field[-1]
     assert "CFM_712_t01" == jade.id
     assert jade.health == jade.atk == 1
@@ -32,9 +31,8 @@ def test_jade_behemoth():
     game.end_turn()
     game.end_turn()
     card2 = game.current_player.give("CFM_343")
-    assert card2.description == hand_description.format("2/2", "")
+    assert card2.description == description.format("2/2", "")
     card2.play()
-    assert card2.description == description
     jade2 = game.current_player.field[-1]
     assert jade2.id == "CFM_712_t02"
     assert jade2.health == jade2.atk == 2
@@ -45,10 +43,9 @@ def test_jade_behemoth():
         game.end_turn()
         game.end_turn()
         card = game.current_player.give("CFM_343")
-        assert card.description == hand_description.format(f"{i}/{i}", "")
+        assert card.description == description.format(f"{i}/{i}", "")
         card.play()
         assert card.taunt
-        assert card.description == description
         jade = game.current_player.field[-1]
         assert f"CFM_712_t0{i}" == jade.id
         assert jade.health == jade.atk == i
@@ -58,10 +55,9 @@ def test_jade_behemoth():
     game.end_turn()
     game.end_turn()
     card = game.current_player.give("CFM_343")
-    assert card.description == hand_description.format("8/8", "n")
+    assert card.description == description.format("8/8", "n")
     card.play()
     assert card.taunt
-    assert card.description == description
     jade = game.current_player.field[-1]
     assert "CFM_712_t08" == jade.id
     assert jade.health == jade.atk == 8

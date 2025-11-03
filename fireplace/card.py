@@ -16,7 +16,7 @@ from hearthstone.enums import (
 
 from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
-from .dsl.lazynum import LazyNum
+from .dsl.lazynum import LazyValue
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
 from .enums import PlayReq
 from .exceptions import InvalidAction
@@ -120,10 +120,9 @@ class BaseCard(BaseEntity):
     @property
     def description(self):
         description = self.data.description
-        if "@" in description:
-            hand_description, description = description.split("@", 1)
-            if self.zone is Zone.HAND:
-                description = hand_description
+        custom_cardtext = self.tags[enums.CUSTOM_CARDTEXT]
+        if custom_cardtext:
+            description = custom_cardtext(self)
         formats = []
         format_tags = [
             GameTag.CARDTEXT_ENTITY_0,
@@ -139,14 +138,11 @@ class BaseCard(BaseEntity):
         ]
         formats = []
         for format_tag in format_tags:
-            entity = self.tags[format_tag]
-            if isinstance(entity, LazyNum):
-                formats.append(entity.evaluate(self))
-            elif isinstance(entity, dict):
-                if self.data.locale in entity:
-                    formats.append(entity[self.data.locale])
-                else:
-                    formats.append("")
+            tag = self.tags[format_tag]
+            if callable(tag):
+                formats.append(tag(self))
+            elif isinstance(tag, str):
+                formats.append(tag)
             else:
                 break
 

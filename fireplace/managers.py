@@ -293,6 +293,7 @@ CARD_ATTRIBUTE_MAP = {
     GameTag.CARD_SET: None,
     GameTag.CARDTEXT_INHAND: "description",
     GameTag.CardTextInPlay: None,
+    enums.CUSTOM_CARDTEXT: "custom_description",
     GameTag.COLLECTIBLE: None,
     GameTag.DevState: None,
     GameTag.ELITE: None,
