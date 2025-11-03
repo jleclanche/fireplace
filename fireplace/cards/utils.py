@@ -283,3 +283,34 @@ class SchemeUtils:
 
     class Hand:
         events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
+
+
+class GalakrondUtils:
+    def custom_cardtext(self):
+        if self.zone == Zone.PLAY:
+            return self.data.description.replace("(@)", "").replace("（@）", "")
+        locale_map = {
+            "deDE": "Noch {0}-mal",
+            "enUS": "{0} left!",
+            "esES": "Faltan: {0}",
+            "esMX": "¡Faltan {0}!",
+            "frFR": "Encore {0} !",
+            "itIT": "{0} restante!",
+            "jaJP": "あと{0}回！",
+            "koKR": "{0}회 남음",
+            "plPL": "Jeszcze {0}!",
+            "ptBR": "{0} restando",
+            "ruRU": "Еще {0} раз.",
+            "thTH": "เหลืออีก {0} ครั้ง!",
+            "zhCN": "还剩{0}次",
+            "zhTW": "還剩{0}次",
+        }
+        return self.data.description.replace("@", locale_map[self.data.locale])
+
+    def cardtext_entity_0(self):
+        return self.progress_total - self.progress
+
+    tags = {
+        enums.CUSTOM_CARDTEXT: custom_cardtext,
+        GameTag.CARDTEXT_ENTITY_0: cardtext_entity_0,
+    }
