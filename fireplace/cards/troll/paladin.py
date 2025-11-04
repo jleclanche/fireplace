@@ -50,26 +50,12 @@ class TRL_309:
     )
 
 
-class TRL_545:
+class TRL_545(ThresholdUtils):
     """Zandalari Templar"""
 
     # [x]<b>Battlecry:</b> If you've restored 10 Health this game, gain +4/+4 and
     # <b>Taunt</b>.@ <i>({0} left!)</i>@ <i>(Ready!)</i>
-    def custom_cardtext(self):
-        splited = self.data.description.split("@")
-        if self.powered_up:
-            return splited[0] + splited[2]
-        return splited[0] + splited[1]
-
-    def cardtext_entity_0(self):
-        return 10 - self.controller.healed_this_game
-
-    tags = {
-        enums.CUSTOM_CARDTEXT: custom_cardtext,
-        GameTag.CARDTEXT_ENTITY_0: cardtext_entity_0,
-    }
-    powered_up = Attr(CONTROLLER, GameTag.AMOUNT_HEALED_THIS_GAME) >= 10
-    play = powered_up & Buff(SELF, "TRL_545e")
+    play = ThresholdUtils.powered_up & Buff(SELF, "TRL_545e")
 
 
 TRL_545e = buff(+4, +4)

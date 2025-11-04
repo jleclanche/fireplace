@@ -314,3 +314,25 @@ class GalakrondUtils:
         enums.CUSTOM_CARDTEXT: custom_cardtext,
         GameTag.CARDTEXT_ENTITY_0: cardtext_entity_0,
     }
+
+
+class ThresholdUtils:
+    def custom_cardtext(self):
+        splited = self.data.description.split("@")
+        if self.powered_up:
+            return splited[0] + splited[2]
+        return splited[0] + splited[1]
+
+    def cardtext_entity_0(self):
+        return (
+            Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_VALUE) -
+            Attr(CONTROLLER, Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_TAG_ID))
+        ).evaluate(self)
+
+    tags = {
+        enums.CUSTOM_CARDTEXT: custom_cardtext,
+        GameTag.CARDTEXT_ENTITY_0: cardtext_entity_0,
+    }
+    powered_up = Attr(
+        CONTROLLER, Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_TAG_ID)
+    ) >= Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_VALUE)

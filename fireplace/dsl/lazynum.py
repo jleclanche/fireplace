@@ -171,6 +171,8 @@ class OpAttr(LazyNum):
         if entities:
             if isinstance(self.tag, str):
                 ret = self.op(getattr(e, self.tag) for e in entities)
+            elif isinstance(self.tag, LazyNum):
+                ret = self.op(int(e.tags[self.tag.evaluate(source)]) for e in entities)
             else:
                 # XXX: int() because of CardList counter tags
                 ret = self.op(int(e.tags[self.tag]) for e in entities)

@@ -236,6 +236,8 @@ CARD_ATTRIBUTE_MAP = {
     GameTag.OVERLOAD: "overload",
     GameTag.OVERKILL: "has_overkill",
     GameTag.PARENT_CARD: "parent_card",
+    GameTag.PLAYER_TAG_THRESHOLD_TAG_ID: "player_tag_threshold_tag_id",
+    GameTag.PLAYER_TAG_THRESHOLD_VALUE: "player_tag_threshold_value",
     GameTag.POISONOUS: "poisonous",
     GameTag.POWERED_UP: "powered_up",
     GameTag.QUEST: "quest",

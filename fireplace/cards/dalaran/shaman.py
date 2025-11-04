@@ -83,8 +83,8 @@ class DAL_431:
                     card1.data.scripts.play + card2.data.scripts.play
                 )
                 horror.requirements = card1.requirements | card2.requirements
-                horror.tags[GameTag.CARDTEXT_ENTITY_0] = card1.description
-                horror.tags[GameTag.CARDTEXT_ENTITY_1] = card2.description
+                horror.tags[GameTag.CARDTEXT_ENTITY_0] = card1.name
+                horror.tags[GameTag.CARDTEXT_ENTITY_1] = card2.name
                 horror.tags[GameTag.OVERLOAD] = (
                     card1.tags[GameTag.OVERLOAD] + card2.tags[GameTag.OVERLOAD]
                 )

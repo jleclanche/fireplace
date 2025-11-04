@@ -114,6 +114,10 @@ class BaseCard(BaseEntity):
         return self.data.is_standard
 
     @property
+    def name(self):
+        return self.data.name
+
+    @property
     def name_enUS(self):
         return self.data.strings[GameTag.CARDNAME]["enUS"]
 
