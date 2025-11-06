@@ -1114,7 +1114,7 @@ class Destroy(TargetedAction):
     """
 
     def do(self, source, target):
-        if getattr(target, "dormant", False):
+        if getattr(target, "dormant", False) and target.zone == Zone.PLAY:
             log.info("%r is dormant cannot be destroyed", target)
             return
         if target.delayed_destruction:
