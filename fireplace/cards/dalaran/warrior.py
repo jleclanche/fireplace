@@ -54,13 +54,10 @@ class DAL_770:
 # Spells
 
 
-class DAL_008:
+class DAL_008(SchemeUtils):
     """Dr. Boom's Scheme"""
 
     # Gain @ Armor. <i>(Upgrades each turn!)</i>
-    class Hand:
-        events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
-
     play = GainArmor(FRIENDLY_HERO, Attr(SELF, GameTag.QUEST_PROGRESS) + 1)
 
 

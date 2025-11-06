@@ -50,13 +50,12 @@ class TRL_309:
     )
 
 
-class TRL_545:
+class TRL_545(ThresholdUtils):
     """Zandalari Templar"""
 
     # [x]<b>Battlecry:</b> If you've restored 10 Health this game, gain +4/+4 and
     # <b>Taunt</b>.@ <i>({0} left!)</i>@ <i>(Ready!)</i>
-    powered_up = Attr(CONTROLLER, GameTag.AMOUNT_HEALED_THIS_GAME) >= 10
-    play = powered_up & Buff(SELF, "TRL_545e")
+    play = ThresholdUtils.powered_up & Buff(SELF, "TRL_545e")
 
 
 TRL_545e = buff(+4, +4)

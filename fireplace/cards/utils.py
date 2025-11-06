@@ -247,33 +247,92 @@ def decode_deckstring(deckstring: str):
     return hero_id, cards
 
 
-class JadeGolemCardtextEntity0(LazyNum):
-    def __init__(self, selector):
-        super().__init__()
-        self.selector = selector
+class JadeGolemUtils:
+    def custom_cardtext(self):
+        return self.data.description.split("@")[0]
 
-    def evaluate(self, source):
-        card = self.get_entities(source)[0]
-        jade_golem = card.controller.jade_golem
+    def cardtext_entity_0(self):
+        jade_golem = self.controller.jade_golem
         return f"{jade_golem}/{jade_golem}"
 
-
-class JadeGolemCardtextEntity1(LazyNum):
-    def __init__(self, selector):
-        super().__init__()
-        self.selector = selector
-
-    def evaluate(self, source):
-        card = self.get_entities(source)[0]
-        if card.data.locale == "enUS":
-            jade_golem = card.controller.jade_golem
+    def cardtext_entity_1(self):
+        if self.data.locale == "enUS":
+            jade_golem = self.controller.jade_golem
             if jade_golem == 8 or jade_golem == 18:
                 return "n"
         return ""
 
-
-class JadeGolemUtils:
     tags = {
-        GameTag.CARDTEXT_ENTITY_0: JadeGolemCardtextEntity0(SELF),
-        GameTag.CARDTEXT_ENTITY_1: JadeGolemCardtextEntity1(SELF),
+        enums.CUSTOM_CARDTEXT: custom_cardtext,
+        GameTag.CARDTEXT_ENTITY_0: cardtext_entity_0,
+        GameTag.CARDTEXT_ENTITY_1: cardtext_entity_1,
     }
+
+
+class SchemeUtils:
+    def custom_cardtext(self):
+        return self.data.description.replace("@", "{0}")
+
+    def cardtext_entity_0(self):
+        return self.progress
+
+    tags = {
+        enums.CUSTOM_CARDTEXT: custom_cardtext,
+        GameTag.CARDTEXT_ENTITY_0: cardtext_entity_0,
+    }
+
+    class Hand:
+        events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
+
+
+class GalakrondUtils:
+    def custom_cardtext(self):
+        if self.zone == Zone.PLAY:
+            return self.data.description.replace("(@)", "").replace("（@）", "")
+        locale_map = {
+            "deDE": "Noch {0}-mal",
+            "enUS": "{0} left!",
+            "esES": "Faltan: {0}",
+            "esMX": "¡Faltan {0}!",
+            "frFR": "Encore {0} !",
+            "itIT": "{0} restante!",
+            "jaJP": "あと{0}回！",
+            "koKR": "{0}회 남음",
+            "plPL": "Jeszcze {0}!",
+            "ptBR": "{0} restando",
+            "ruRU": "Еще {0} раз.",
+            "thTH": "เหลืออีก {0} ครั้ง!",
+            "zhCN": "还剩{0}次",
+            "zhTW": "還剩{0}次",
+        }
+        return self.data.description.replace("@", locale_map[self.data.locale])
+
+    def cardtext_entity_0(self):
+        return self.progress_total - self.progress
+
+    tags = {
+        enums.CUSTOM_CARDTEXT: custom_cardtext,
+        GameTag.CARDTEXT_ENTITY_0: cardtext_entity_0,
+    }
+
+
+class ThresholdUtils:
+    def custom_cardtext(self):
+        splited = self.data.description.split("@")
+        if self.powered_up:
+            return splited[0] + splited[2]
+        return splited[0] + splited[1]
+
+    def cardtext_entity_0(self):
+        return (
+            Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_VALUE)
+            - Attr(CONTROLLER, Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_TAG_ID))
+        ).evaluate(self)
+
+    tags = {
+        enums.CUSTOM_CARDTEXT: custom_cardtext,
+        GameTag.CARDTEXT_ENTITY_0: cardtext_entity_0,
+    }
+    powered_up = Attr(
+        CONTROLLER, Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_TAG_ID)
+    ) >= Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_VALUE)

@@ -127,12 +127,8 @@ class ICC_828p:
             zombeast.custom_card = True
 
             def create_custom_card(zombeast):
-                zombeast.tags[GameTag.CARDTEXT_ENTITY_0] = card2.data.strings[
-                    GameTag.CARDTEXT
-                ]
-                zombeast.tags[GameTag.CARDTEXT_ENTITY_1] = card1.data.strings[
-                    GameTag.CARDTEXT
-                ]
+                zombeast.tags[GameTag.CARDTEXT_ENTITY_0] = card2.description
+                zombeast.tags[GameTag.CARDTEXT_ENTITY_1] = card1.description
                 zombeast.data.scripts = card1.data.scripts
 
                 for k in zombeast.silenceable_attributes:

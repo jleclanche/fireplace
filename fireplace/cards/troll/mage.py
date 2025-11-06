@@ -23,13 +23,19 @@ class TRL_315:
     )
 
 
-class TRL_316:
+class TRL_316(ThresholdUtils):
     """Jan'alai, the Dragonhawk"""
 
     # [x]<b>Battlecry:</b> If your Hero Power dealt 8 damage this game, summon Ragnaros the
     # Firelord.@ <i>({0} left!)</i>@ <i>(Ready!)</i>
-    powered_up = AttrValue("hero_power_damage_this_game")(CONTROLLER) >= 8
-    play = powered_up & Summon(CONTROLLER, "TRL_316t")
+    play = ThresholdUtils.powered_up & Summon(CONTROLLER, "TRL_316t")
+
+
+class TRL_316t:
+    """Ragnaros the Firelord"""
+
+    # Can't attack. At the end of your turn, deal 8 damage to a random enemy.
+    events = OWN_TURN_END.on(Hit(RANDOM_ENEMY_CHARACTER, 8))
 
 
 class TRL_318:

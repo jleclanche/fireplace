@@ -111,7 +111,7 @@ DRG_250e = buff(atk=1)
 # Heros
 
 
-class DRG_600:
+class DRG_600(GalakrondUtils):
     """Galakrond, the Wretched"""
 
     # [x]<b>Battlecry:</b> Summon 1 random Demon. <i>(@)</i>
@@ -120,7 +120,7 @@ class DRG_600:
     reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_600t2")
 
 
-class DRG_600t2:
+class DRG_600t2(GalakrondUtils):
     """Galakrond, the Apocalypse"""
 
     # [x]<b>Battlecry:</b> Summon 2 random Demons. <i>(@)</i>

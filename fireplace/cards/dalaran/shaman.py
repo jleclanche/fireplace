@@ -83,12 +83,8 @@ class DAL_431:
                     card1.data.scripts.play + card2.data.scripts.play
                 )
                 horror.requirements = card1.requirements | card2.requirements
-                horror.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[
-                    GameTag.CARDTEXT
-                ]
-                horror.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[
-                    GameTag.CARDTEXT
-                ]
+                horror.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.name
+                horror.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.name
                 horror.tags[GameTag.OVERLOAD] = (
                     card1.tags[GameTag.OVERLOAD] + card2.tags[GameTag.OVERLOAD]
                 )
@@ -118,13 +114,10 @@ class DAL_726:
 # Spells
 
 
-class DAL_009:
+class DAL_009(SchemeUtils):
     """Hagatha's Scheme"""
 
     # Deal $@ damage to all minions. <i>(Upgrades each turn!)</i>
-    class Hand:
-        events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
-
     play = Hit(ALL_MINIONS, Attr(SELF, GameTag.QUEST_PROGRESS) + 1)
 
 

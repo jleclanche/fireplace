@@ -109,7 +109,7 @@ class DRG_247:
 # Heros
 
 
-class DRG_610:
+class DRG_610(GalakrondUtils):
     """Galakrond, the Nightmare"""
 
     # [x]<b>Battlecry:</b> Draw 1 card. It costs (0). <i>(@)</i>
@@ -118,7 +118,7 @@ class DRG_610:
     reward = Find(SELF + FRIENDLY_HERO) | Morph(SELF, "DRG_610t2")
 
 
-class DRG_610t2:
+class DRG_610t2(GalakrondUtils):
     """Galakrond, the Apocalypse"""
 
     # [x]<b>Battlecry:</b> Draw 2 cards. They cost (0). <i>(@)</i>

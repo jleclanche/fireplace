@@ -97,7 +97,7 @@ class DRG_025:
 # Heros
 
 
-class DRG_650:
+class DRG_650(GalakrondUtils):
     """Galakrond, the Unbreakable"""
 
     # [x]<b>Battlecry:</b> Draw 1 minion. Give it +4/+4. <i>(@)</i>
@@ -111,7 +111,7 @@ class DRG_650:
 DRG_650e = buff(+4, +4)
 
 
-class DRG_650t2:
+class DRG_650t2(GalakrondUtils):
     """Galakrond, the Apocalypse"""
 
     # [x]<b>Battlecry:</b> Draw 2 minions. Give them +4/+4. <i>(@)</i>

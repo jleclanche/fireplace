@@ -104,12 +104,8 @@ class CFM_621:
                     card1.data.scripts.play + card2.data.scripts.play
                 )
                 new_card.requirements = card1.requirements | card2.requirements
-                new_card.tags[GameTag.CARDTEXT_ENTITY_0] = card1.data.strings[
-                    GameTag.CARDTEXT
-                ]
-                new_card.tags[GameTag.CARDTEXT_ENTITY_1] = card2.data.strings[
-                    GameTag.CARDTEXT
-                ]
+                new_card.tags[GameTag.CARDTEXT_ENTITY_0] = card1.description
+                new_card.tags[GameTag.CARDTEXT_ENTITY_1] = card2.description
 
             new_card.create_custom_card = create_custom_card
             new_card.create_custom_card(new_card)

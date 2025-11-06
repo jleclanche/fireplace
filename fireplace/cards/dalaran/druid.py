@@ -46,13 +46,12 @@ class DAL_732:
     )
 
 
-class DAL_799:
+class DAL_799(ThresholdUtils):
     """Crystal Stag"""
 
     # <b>Rush</b>. <b>Battlecry:</b> If you've restored 5 Health this game, summon a copy
     # of this.@ <i>({0} left!)</i>@ <i>(Ready!)</i>
-    powered_up = Attr(CONTROLLER, GameTag.AMOUNT_HEALED_THIS_GAME) >= 5
-    play = powered_up & Summon(CONTROLLER, ExactCopy(SELF))
+    play = ThresholdUtils.powered_up & Summon(CONTROLLER, ExactCopy(SELF))
 
 
 ##

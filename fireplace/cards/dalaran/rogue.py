@@ -54,7 +54,7 @@ class DAL_719:
 # Spells
 
 
-class DAL_010:
+class DAL_010(SchemeUtils):
     """Togwaggle's Scheme"""
 
     # Choose a minion. Shuffle @ |4(copy, copies) of it into your deck. <i>(Upgrades each
@@ -64,9 +64,6 @@ class DAL_010:
         PlayReq.REQ_MINION_TARGET: 0,
     }
     play = Shuffle(CONTROLLER, Copy(TARGET)) * (Attr(SELF, GameTag.QUEST_PROGRESS) + 1)
-
-    class Hand:
-        events = OWN_TURN_BEGIN.on(AddProgress(SELF, SELF))
 
 
 class DAL_366:
