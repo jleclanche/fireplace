@@ -325,8 +325,8 @@ class ThresholdUtils:
 
     def cardtext_entity_0(self):
         return (
-            Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_VALUE) -
-            Attr(CONTROLLER, Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_TAG_ID))
+            Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_VALUE)
+            - Attr(CONTROLLER, Attr(SELF, GameTag.PLAYER_TAG_THRESHOLD_TAG_ID))
         ).evaluate(self)
 
     tags = {

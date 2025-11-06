@@ -16,7 +16,6 @@ from hearthstone.enums import (
 
 from . import actions, cards, enums, rules
 from .aura import TargetableByAuras
-from .dsl.lazynum import LazyValue
 from .entity import BaseEntity, Entity, boolean_property, int_property, slot_property
 from .enums import PlayReq
 from .exceptions import InvalidAction
@@ -112,10 +111,6 @@ class BaseCard(BaseEntity):
     @property
     def is_standard(self):
         return self.data.is_standard
-
-    @property
-    def name(self):
-        return self.data.name
 
     @property
     def name_enUS(self):
