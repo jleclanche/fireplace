@@ -289,6 +289,7 @@ class PlayableCard(BaseCard, Entity, TargetableByAuras):
     has_overkill = boolean_property("has_overkill")
     has_discover = boolean_property("has_discover")
     libram = boolean_property("libram")
+    rewind = int_property("rewind")
 
     def __init__(self, data):
         self.cant_play = False

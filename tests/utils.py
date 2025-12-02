@@ -4,7 +4,7 @@ from hearthstone.enums import *
 
 import fireplace.cards
 from fireplace.brawls import *
-from fireplace.game import BaseGame, CoinRules, Game
+from fireplace.game import BaseGame, CoinRules, Game, GameEntity
 from fireplace.logging import log
 from fireplace.player import Player
 from fireplace.utils import random_draft
@@ -79,18 +79,22 @@ def _draft(card_class, exclude, include):
 _heroes = fireplace.cards.filter(collectible=True, type=CardType.HERO)
 
 
-class BaseTestGame(CoinRules, BaseGame):
+class BaseTestGameEntity(CoinRules, GameEntity):
     def start(self):
         super().start()
         self.player1.max_mana = 10
         self.player2.max_mana = 10
 
 
+class BaseTestGame(Game):
+    classtype = BaseTestGameEntity
+
+
 def _random_class():
     return CardClass(random.randint(2, 10))
 
 
-def _empty_mulligan(game: BaseGame):
+def _empty_mulligan(game: GameEntity):
     for player in game.players:
         if player.choice:
             player.choice.choose()

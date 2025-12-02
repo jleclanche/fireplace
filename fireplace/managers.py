@@ -95,6 +95,9 @@ class GameManager(Manager):
 
 
 class BaseObserver:
+    def __init__(self, game, **kwargs):
+        self.game = game
+
     def action_start(self, type, source, index, target):
         pass
 
@@ -246,6 +249,7 @@ CARD_ATTRIBUTE_MAP = {
     GameTag.RARITY: "rarity",
     GameTag.REBORN: "reborn",
     GameTag.RECEIVES_DOUBLE_SPELLDAMAGE_BONUS: "receives_double_spelldamage_bonus",
+    GameTag.REWIND: "rewind",
     GameTag.RUSH: "rush",
     GameTag.ECHO: "echo",
     GameTag.SECRET: "secret",

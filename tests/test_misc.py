@@ -203,8 +203,7 @@ def test_copy_deathrattle_with_store_card():
 def test_observer():
     class Manager(BaseObserver):
         def __init__(self, game) -> None:
-            super().__init__()
-            self.game = game
+            super().__init__(game)
             self.game_state = {}
 
         def add_to_state(self, entity):

@@ -1,4 +1,5 @@
 import time
+import dill
 from random import Random
 from calendar import timegm
 from itertools import chain
@@ -29,7 +30,7 @@ if TYPE_CHECKING:
     from .player import Player
 
 
-class BaseGame(Entity):
+class GameEntity(Entity):
     type = CardType.GAME
     MAX_MINIONS_ON_FIELD = 7
     MAX_SECRETS_ON_PLAY = 5
@@ -404,7 +405,7 @@ class BaseGame(Entity):
         self.manager.step(self.next_step, Step.MAIN_END)
 
 
-class CoinRules(BaseGame):
+class CoinRules(GameEntity):
     """
     Randomly determines the starting player when the Game starts.
     The second player gets "The Coin" (GAME_005).
@@ -422,7 +423,7 @@ class CoinRules(BaseGame):
         super().begin_turn(player)
 
 
-class MulliganRules(BaseGame):
+class MulliganRules(GameEntity):
     """
     Performs a Mulligan phase when the Game starts.
     Only begin the game after both Mulligans have been chosen.
@@ -448,5 +449,71 @@ class MulliganRules(BaseGame):
         self.begin_turn(self.player1)
 
 
-class Game(MulliganRules, CoinRules, BaseGame):
+class BaseGame(MulliganRules, CoinRules, GameEntity):
     pass
+
+
+class Game:
+    classtype = BaseGame
+
+    def __init__(self, players, seed=None):
+        self.__dict__["_game"] = self.classtype(players, seed)
+        self.__dict__["_snapshot"] = ""
+        self._game.rewind_timeline = lambda: self.rewind_timeline()
+        self._game.keep_timeline = lambda: self.keep_timeline()
+
+    def __iter__(self):
+        return iter(self._game)
+
+    def __repr__(self):
+        return repr(self._game)
+
+    def __int__(self):
+        return int(self._game)
+
+    def __getattr__(self, key):
+        if key not in dir(self):
+            return getattr(self._game, key)
+        return getattr(self, key)
+
+    def __setattr__(self, key, value):
+        if key in dir(self):
+            return object.__setattr__(self, key, value)
+        setattr(self._game, key, value)
+
+    def __delattr__(self, key):
+        delattr(self._game, key)
+
+    def play_card(
+        self,
+        card: "PlayableCard",
+        target: "Character",
+        index: int,
+        choose: "PlayableCard | str",
+    ):
+        if card.rewind:
+            observers = self._game.manager.observers
+            self._game.manager.observers = []
+            delattr(self._game, "rewind_timeline")
+            delattr(self._game, "keep_timeline")
+            self._snapshot = dill.dumps((self._game, card, target, index, choose))
+            self._game.rewind_timeline = lambda: self.rewind_timeline()
+            self._game.keep_timeline = lambda: self.keep_timeline()
+            self._game.manager.observers = observers
+        return self._game.play_card(card, target, index, choose)
+
+    def rewind_timeline(self):
+        observers = self._game.manager.observers
+        self._game, card, target, index, choose = dill.loads(self._snapshot)
+        card.rewind -= 1
+        self._game.random.random()
+        self._snapshot = ""
+        for observer in observers:
+            observer.game = self._game
+        self._game.rewind_timeline = lambda: self.rewind_timeline()
+        self._game.keep_timeline = lambda: self.keep_timeline()
+        self._game.manager.observers = observers
+        self.play_card(card, target, index, choose)
+
+    def keep_timeline(self):
+        self._snapshot = ""

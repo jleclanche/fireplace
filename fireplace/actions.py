@@ -553,6 +553,16 @@ class Play(GameAction):
         card.turn_played = source.game.turn
         card.choose = None
 
+        if card.rewind:
+            source.game.queue_actions(
+                card,
+                [
+                    Choice(player, ["TIME_000ta", "TIME_000tb"]).then(
+                        Battlecry(Choice.CARD)
+                    )
+                ],
+            )
+
 
 class Activate(GameAction):
     PLAYER = ActionArg()
