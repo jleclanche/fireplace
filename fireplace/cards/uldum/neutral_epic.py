@@ -30,7 +30,7 @@ class ULD_229:
     """Mischief Maker"""
 
     # <b>Battlecry:</b> Swap the top card of your deck with your_opponent's.
-    play = Swap(FRIENDLY_DECK[:1], ENEMY_DECK[:1])
+    play = Swap(FRIENDLY_DECK[-1:], ENEMY_DECK[-1:])
 
 
 class ULD_290:

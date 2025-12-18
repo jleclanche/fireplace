@@ -74,8 +74,8 @@ def test_questing_explorer():
 def test_mischief_maker():
     game = prepare_game()
     maker = game.player1.give("ULD_229")
-    card1 = game.player1.deck[0]
-    card2 = game.player2.deck[0]
+    card1 = game.player1.deck[-1]
+    card2 = game.player2.deck[-1]
     maker.play()
-    assert game.player1.deck[0] == card2
-    assert game.player2.deck[0] == card1
+    assert game.player1.deck[-1] == card2
+    assert game.player2.deck[-1] == card1

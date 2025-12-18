@@ -1141,7 +1141,7 @@ class Discard(TargetedAction):
         self.broadcast(source, EventListener.ON, target)
         log.info("Discarding %r", target)
         old_zone = target.zone
-        target.zone = Zone.GRAVEYARD
+        target.zone = Zone.REMOVEDFROMGAME
         source.game.manager.targeted_action(self, source, target)
         if old_zone == Zone.HAND:
             target.tags[DISCARDED] = True

@@ -93,7 +93,7 @@ class DS1_183:
 class DS1_184:
     """Tracking"""
 
-    play = GenericChoice(CONTROLLER, FRIENDLY_DECK[:3])
+    play = GenericChoice(CONTROLLER, FRIENDLY_DECK[-3:])
 
 
 class DS1_185:
