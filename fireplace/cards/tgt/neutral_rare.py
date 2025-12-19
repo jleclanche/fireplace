@@ -63,7 +63,7 @@ class AT_110:
 class AT_112:
     """Master Jouster"""
 
-    play = JOUST & SetTag(SELF, (GameTag.TAUNT, GameTag.DIVINE_SHIELD))
+    play = JOUST & SetTags(SELF, (GameTag.TAUNT, GameTag.DIVINE_SHIELD))
 
 
 class AT_115:

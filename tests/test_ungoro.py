@@ -262,10 +262,10 @@ def test_mage_quest():
     assert quest.progress == 1
     game.player2.hand[0].play(target=game.player1.hero)
     assert quest.progress == 1
-    for i in range(5):
+    for i in range(7):
         game.player2.give(MOONFIRE).play(target=game.player1.hero)
         assert quest.progress == i + 2
-    assert quest.progress == 6
+    assert quest.progress == 8
     assert game.player2.hand[-1].id == "UNG_028t"
 
 

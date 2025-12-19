@@ -19,7 +19,7 @@ class DRG_089:
 
 
 class DRG_089e:
-    cost = SET(0)
+    cost = SET(1)
     events = REMOVED_IN_PLAY
 
 

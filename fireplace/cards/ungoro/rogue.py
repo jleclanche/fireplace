@@ -116,7 +116,7 @@ class UNG_823:
     requirements = {
         PlayReq.REQ_WEAPON_EQUIPPED: 0,
     }
-    play = SetTag(FRIENDLY_WEAPON, (GameTag.POISONOUS,))
+    play = SetTags(FRIENDLY_WEAPON, (GameTag.POISONOUS,))
 
 
 class UNG_856:

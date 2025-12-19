@@ -448,8 +448,7 @@ def test_graveyard_minions():
     assert wisp2 in game.graveyard
     wisp3 = game.player1.give(WISP)
     wisp3.discard()
-    assert wisp3 in game.player1.graveyard
-    assert wisp3 in game.graveyard
+    assert wisp3.zone == Zone.REMOVEDFROMGAME
     assert wisp3.discarded
 
 

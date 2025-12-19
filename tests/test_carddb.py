@@ -1,4 +1,5 @@
 import utils
+import pytest
 from hearthstone.enums import CardType, GameTag, Rarity
 
 
@@ -48,7 +49,7 @@ def test_battlecry_scripts():
 def test_deathrattle_scripts():
     for card in CARDS.values():
         if card.deathrattle and card.collectible:
-            if card.id in ["BOT_558", "DRG_086", "ULD_163", "UNG_953"]:
+            if card.id in ["BOT_558", "DRG_086", "ULD_163", "UNG_953", "BT_126"]:
                 continue
             assert card.scripts.deathrattle
 

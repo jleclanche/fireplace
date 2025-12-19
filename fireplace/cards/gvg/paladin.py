@@ -62,4 +62,4 @@ class GVG_061:
 class GVG_059:
     """Coghammer"""
 
-    play = SetTag(RANDOM_FRIENDLY_MINION, (GameTag.TAUNT, GameTag.DIVINE_SHIELD))
+    play = SetTags(RANDOM_FRIENDLY_MINION, (GameTag.TAUNT, GameTag.DIVINE_SHIELD))

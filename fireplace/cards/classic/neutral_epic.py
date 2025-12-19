@@ -49,7 +49,7 @@ class EX1_590:
 
     play = (
         Buff(SELF, "EX1_590e") * Count(ALL_MINIONS + DIVINE_SHIELD),
-        UnsetTag(ALL_MINIONS, (GameTag.DIVINE_SHIELD,)),
+        UnsetTags(ALL_MINIONS, (GameTag.DIVINE_SHIELD,)),
     )
 
 

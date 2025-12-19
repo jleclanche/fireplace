@@ -61,14 +61,14 @@ class ULD_152:
 class ULD_155:
     """Unseal the Vault"""
 
-    # <b>Quest:</b> Summon 20_minions. <b>Reward:</b> Ramkahen Roar.
+    # <b>Quest:</b> Summon 20_minions. <b>Reward:</b> Pharaoh's Warmask.
     progress_total = 20
     quest = Summon(CONTROLLER, MINION).on(AddProgress(SELF, Summon.CARD))
     reward = Summon(CONTROLLER, "ULD_155p")
 
 
 class ULD_155p:
-    """Ramkahen Roar"""
+    """Pharaoh's Warmask"""
 
     # <b>Hero Power</b> Give your minions +2_Attack.
     activate = Buff(FRIENDLY_MINIONS, "ULD_155e")

@@ -279,6 +279,7 @@ CARD_ATTRIBUTE_MAP = {
     enums.PASSIVE_HERO_POWER: "passive_hero_power",
     enums.KEEP_BUFF: "keep_buff",
     enums.DAMAGED_THIS_TURN: "damaged_this_turn",
+    enums.ACTIVATIONS_THIS_TURN: "activations_this_turn",
     GameTag.CARDTEXT_ENTITY_0: "cardtext_entity_0",
     GameTag.CARDTEXT_ENTITY_1: "cardtext_entity_1",
     GameTag.CARDTEXT_ENTITY_2: "cardtext_entity_2",

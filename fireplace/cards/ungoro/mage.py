@@ -66,7 +66,7 @@ class UNG_024e:
 class UNG_028:
     """Open the Waygate"""
 
-    progress_total = 6
+    progress_total = 8
     quest = Play(CONTROLLER, SPELL - STARTING_DECK).after(AddProgress(SELF, Play.CARD))
     reward = Give(CONTROLLER, "UNG_028t")
 

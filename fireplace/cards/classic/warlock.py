@@ -216,6 +216,7 @@ class NEW1_003:
     """Sacrificial Pact"""
 
     requirements = {
+        PlayReq.REQ_FRIENDLY_TARGET: 0,
         PlayReq.REQ_TARGET_TO_PLAY: 0,
         PlayReq.REQ_TARGET_WITH_RACE: 15,
     }

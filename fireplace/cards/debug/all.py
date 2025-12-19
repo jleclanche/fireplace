@@ -117,7 +117,7 @@ class XXX_018:
 class XXX_019:
     """Molasses"""
 
-    play = UnsetTag(CONTROLLER, (GameTag.TIMEOUT,))
+    play = UnsetTags(CONTROLLER, (GameTag.TIMEOUT,))
 
 
 class XXX_020:
@@ -224,7 +224,7 @@ class XXX_045:
 class XXX_046:
     """Force AI to Use Hero Power"""
 
-    play = SetTag(ENEMY_HERO_POWER, (GameTag.TAG_AI_MUST_PLAY,))
+    play = SetTags(ENEMY_HERO_POWER, (GameTag.TAG_AI_MUST_PLAY,))
 
 
 class XXX_047:
@@ -255,13 +255,13 @@ class XXX_050:
 class XXX_051:
     """Make Immune"""
 
-    play = SetTag(TARGET, (GameTag.CANT_BE_DAMAGED,))
+    play = SetTags(TARGET, (GameTag.CANT_BE_DAMAGED,))
 
 
 class XXX_052:
     """Grant Mega-Windfury"""
 
-    play = SetTag(TARGET, {GameTag.MEGA_WINDFURY: True})
+    play = SetTags(TARGET, {GameTag.MEGA_WINDFURY: True})
 
 
 class XXX_053:
@@ -346,7 +346,7 @@ class XXX_063:
 class XXX_065:
     """Remove All Immune"""
 
-    play = UnsetTag(TARGET, (GameTag.CANT_BE_DAMAGED,))
+    play = UnsetTags(TARGET, (GameTag.CANT_BE_DAMAGED,))
 
 
 class XXX_094:

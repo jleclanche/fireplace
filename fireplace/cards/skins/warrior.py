@@ -5,19 +5,19 @@ from ..utils import *
 # Hero Powers
 
 
-class CS2_102:
+class HERO_01bp:
     """Armor Up! (Garrosh Hellscream)"""
 
     activate = GainArmor(FRIENDLY_HERO, 2)
 
 
-class CS2_102_H1(CS2_102):
+class CS2_102_H1(HERO_01bp):
     """Armor Up! (Magni Bronzebeard)"""
 
     pass
 
 
-class CS2_102_H3(CS2_102):
+class CS2_102_H3(HERO_01bp):
     """Armro Up! (Deathwing)"""
 
     pass
@@ -27,19 +27,19 @@ class CS2_102_H3(CS2_102):
 # Upgraded Hero Powers
 
 
-class AT_132_WARRIOR:
+class HERO_01bp2:
     """Tank Up!"""
 
     activate = GainArmor(FRIENDLY_HERO, 4)
 
 
-class CS2_102_H1_AT_132(AT_132_WARRIOR):
+class CS2_102_H1_AT_132(HERO_01bp2):
     """Tank Up! (Magni Bronzebeard)"""
 
     pass
 
 
-class CS2_102_H3_AT_132(AT_132_WARRIOR):
+class CS2_102_H3_AT_132(HERO_01bp2):
     """Tank Up! (Deathwing)"""
 
     pass

@@ -318,7 +318,7 @@ def test_fist_of_jaraxxus():
     assert game.player2.hero.health == 30
     game.player1.give(SOULFIRE).play(target=game.player1.hero)
     assert game.player2.hero.health == 30 - 4
-    assert fist1.zone == Zone.GRAVEYARD
+    assert fist1.zone == Zone.REMOVEDFROMGAME
     fist2 = game.player1.give("AT_022")
     fist2.play()
     assert game.player2.hero.health == 30 - 4 - 4

@@ -1592,7 +1592,7 @@ class SetCurrentHealth(TargetedAction):
         return target
 
 
-class SetTag(TargetedAction):
+class SetTags(TargetedAction):
     """
     Sets targets' given tags.
     """
@@ -1610,7 +1610,7 @@ class SetTag(TargetedAction):
         self.broadcast(source, EventListener.AFTER, target)
 
 
-class UnsetTag(TargetedAction):
+class UnsetTags(TargetedAction):
     """
     Unset targets' given tags.
     """
@@ -1625,10 +1625,10 @@ class UnsetTag(TargetedAction):
 
 class GetTag(TargetedAction):
     TARGET = ActionArg()
-    TAGS = ActionArg()
+    TAG = ActionArg()
 
-    def do(self, source, target, tags):
-        return [target.tags[tag] for tag in tags]
+    def do(self, source, target, tag):
+        return target.tags[tag]
 
 
 class Silence(TargetedAction):
@@ -1892,6 +1892,11 @@ class CastSpell(TargetedAction):
         return source.game.random.choice(card.targets)
 
     def do(self, source, card, targets):
+        if source.type == CardType.MINION and (
+            source.dead or source.silenced or source.zone != Zone.PLAY
+        ):
+            return
+
         player = source.controller
         old_choice = player.choice
         player.choice = None

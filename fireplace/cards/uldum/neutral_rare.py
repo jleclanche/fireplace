@@ -16,7 +16,9 @@ class ULD_180:
     """Sunstruck Henchman"""
 
     # At the start of your turn, this has a 50% chance to_fall asleep.
-    events = OWN_TURN_BEGIN.on(COINFLIP & SetTag(SELF, {GameTag.NUM_TURNS_IN_PLAY: -1}))
+    events = OWN_TURN_BEGIN.on(
+        COINFLIP & SetTags(SELF, {GameTag.NUM_TURNS_IN_PLAY: -1})
+    )
 
 
 class ULD_196:

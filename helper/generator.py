@@ -59,6 +59,7 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
 
     with open(f"{args.output_dir}/__init__.py", "a") as out:
+        out.write("from .demonhunter import *\n")
         out.write("from .druid import *\n")
         out.write("from .hunter import *\n")
         out.write("from .mage import *\n")
@@ -74,6 +75,7 @@ def main():
         out.write("from .neutral_legendary import *\n")
 
     kws = [
+        {"card_class": CardClass.DEMONHUNTER},
         {"card_class": CardClass.DRUID},
         {"card_class": CardClass.HUNTER},
         {"card_class": CardClass.MAGE},

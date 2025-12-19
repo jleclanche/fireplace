@@ -17,6 +17,8 @@ from .actions import (
     Play,
 )
 from .card import THE_COIN
+from .cards import standard_board_skins
+from .enums import BoardEnum
 from .entity import Entity
 from .exceptions import GameOver
 from .managers import GameManager
@@ -314,6 +316,12 @@ class BaseGame(Entity):
 
         for player in self.players:
             player.prepare_for_game()
+
+        if self.is_standard:
+            self.skin = self.random.choice(standard_board_skins)
+        else:
+            self.skin = self.random.choice(list(BoardEnum))
+
         self.manager.start_game()
 
     def start(self):

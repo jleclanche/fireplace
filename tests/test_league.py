@@ -168,7 +168,7 @@ def test_djinni_of_zephyrs():
     game.player1.give(MOONFIRE).play(target=statue)
     assert statue.damage == djinni.damage == 1
 
-    pwshield = game.player1.give("CS2_004")
+    pwshield = game.player1.give("CS2_004_Puzzle")
     pwshield.play(target=statue)
     statue.max_health == 10 + 2
     djinni.max_health == 6 + 2
@@ -477,7 +477,7 @@ def test_rumbling_elemental():
 def test_sir_finley_mrrgglton():
     game = prepare_game(CardClass.PRIEST, CardClass.PRIEST)
     finley = game.player1.give("LOE_076")
-    assert game.player1.hero.power.id == "CS1h_001"
+    assert game.player1.hero.power.id == "HERO_09bp"
     finley.play()
     assert game.player1.choice
     assert len(game.player1.choice.cards) == 3

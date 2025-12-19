@@ -30,8 +30,8 @@ class ICC_090:
 class ICC_289:
     """Moorabi"""
 
-    events = SetTag(ALL_MINIONS - SELF, (GameTag.FROZEN,)).after(
-        Give(CONTROLLER, Copy(SetTag.TARGET))
+    events = SetTags(ALL_MINIONS - SELF, (GameTag.FROZEN,)).after(
+        Give(CONTROLLER, Copy(SetTags.TARGET))
     )
 
 

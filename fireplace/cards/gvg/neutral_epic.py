@@ -51,7 +51,7 @@ class GVG_107:
             tag = self.game.random.choice(
                 (GameTag.WINDFURY, GameTag.TAUNT, GameTag.DIVINE_SHIELD)
             )
-            yield SetTag(target, (tag,))
+            yield SetTags(target, (tag,))
 
 
 class GVG_108:

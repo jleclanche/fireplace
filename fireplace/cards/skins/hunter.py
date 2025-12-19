@@ -5,7 +5,7 @@ from ..utils import *
 # Hero Powers
 
 
-class DS1h_292:
+class HERO_05bp:
     """Steady Shot (Rexxar)"""
 
     requirements = {PlayReq.REQ_MINION_OR_ENEMY_HERO: 0, PlayReq.REQ_STEADY_SHOT: 0}
@@ -13,13 +13,13 @@ class DS1h_292:
     activate = powered_up & Hit(TARGET, 2) | Hit(ENEMY_HERO, 2)
 
 
-class DS1h_292_H1(DS1h_292):
+class DS1h_292_H1(HERO_05bp):
     """Steady Shot (Alleria Windrunner)"""
 
     pass
 
 
-class DS1h_292_H3(DS1h_292):
+class DS1h_292_H3(HERO_05bp):
     """Steady Shot (Sylvanas Windrunner)"""
 
     pass
@@ -29,7 +29,7 @@ class DS1h_292_H3(DS1h_292):
 # Upgraded Hero Powers
 
 
-class AT_132_HUNTER:
+class HERO_05bp2:
     """Ballista Shot"""
 
     requirements = {PlayReq.REQ_MINION_OR_ENEMY_HERO: 0, PlayReq.REQ_STEADY_SHOT: 0}
@@ -37,13 +37,13 @@ class AT_132_HUNTER:
     activate = powered_up & Hit(TARGET, 3) | Hit(ENEMY_HERO, 3)
 
 
-class DS1h_292_H1_AT_132(AT_132_HUNTER):
+class DS1h_292_H1_AT_132(HERO_05bp2):
     """Ballista Shot (Alleria Windrunner)"""
 
     pass
 
 
-class DS1h_292_H3_AT_132(AT_132_HUNTER):
+class DS1h_292_H3_AT_132(HERO_05bp2):
     """Steady Shot (Sylvanas Windrunner)"""
 
     pass

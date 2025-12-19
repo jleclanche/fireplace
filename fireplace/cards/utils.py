@@ -13,7 +13,7 @@ from ..actions import *
 from ..aura import Refresh
 from ..cards import db
 from ..dsl import *
-from ..enums import PlayReq
+from ..enums import PlayReq, BoardEnum
 from ..events import *
 
 
@@ -25,17 +25,20 @@ ENEMY_CLASS = Attr(ENEMY_HERO, GameTag.CLASS)
 FRIENDLY_CLASS = Attr(FRIENDLY_HERO, GameTag.CLASS)
 
 
-Freeze = lambda target: SetTag(target, (GameTag.FROZEN,))
-Stealth = lambda target: SetTag(target, (GameTag.STEALTH,))
-Unstealth = lambda target: UnsetTag(target, (GameTag.STEALTH,))
-Taunt = lambda target: SetTag(target, (GameTag.TAUNT,))
-GiveCharge = lambda target: SetTag(target, (GameTag.CHARGE,))
-GiveDivineShield = lambda target: SetTag(target, (GameTag.DIVINE_SHIELD,))
-GiveWindfury = lambda target: SetTag(target, (GameTag.WINDFURY,))
-GivePoisonous = lambda target: SetTag(target, (GameTag.POISONOUS,))
-GiveLifesteal = lambda target: SetTag(target, (GameTag.LIFESTEAL,))
-GiveRush = lambda target: SetTag(target, (GameTag.RUSH,))
-GiveReborn = lambda target: SetTag(target, (GameTag.REBORN,))
+SetTag = lambda target, tag: SetTags(target, (tag,))
+UnsetTag = lambda target, tag: UnsetTags(target, (tag,))
+
+Freeze = lambda target: SetTag(target, GameTag.FROZEN)
+Stealth = lambda target: SetTag(target, GameTag.STEALTH)
+Unstealth = lambda target: UnsetTag(target, GameTag.STEALTH)
+Taunt = lambda target: SetTag(target, GameTag.TAUNT)
+GiveCharge = lambda target: SetTag(target, GameTag.CHARGE)
+GiveDivineShield = lambda target: SetTag(target, GameTag.DIVINE_SHIELD)
+GiveWindfury = lambda target: SetTag(target, GameTag.WINDFURY)
+GivePoisonous = lambda target: SetTag(target, GameTag.POISONOUS)
+GiveLifesteal = lambda target: SetTag(target, GameTag.LIFESTEAL)
+GiveRush = lambda target: SetTag(target, GameTag.RUSH)
+GiveReborn = lambda target: SetTag(target, GameTag.REBORN)
 
 
 CLEAVE = Hit(TARGET_ADJACENT, ATK(SELF))
@@ -54,27 +57,29 @@ DISCOVER = lambda *args: Discover(CONTROLLER, *args).then(
 )
 
 BASIC_HERO_POWERS = [
-    "CS2_017",
-    "DS1h_292",
-    "CS2_034",
-    "CS2_101",
-    "CS1h_001",
-    "CS2_083b",
-    "CS2_049",
-    "CS2_056",
-    "CS2_102",
+    "HERO_01bp",
+    "HERO_02bp",
+    "HERO_03bp",
+    "HERO_04bp",
+    "HERO_05bp",
+    "HERO_06bp",
+    "HERO_07bp",
+    "HERO_08bp",
+    "HERO_09bp",
+    "HERO_10bp",
 ]
 
 UPGRADED_HERO_POWERS = [
-    "CS2_017_HS1",
-    "DS1h_292_H1",
-    "AT_132_MAGE",
-    "AT_132_PALADIN",
-    "AT_132_PRIEST",
-    "AT_132_ROGUE",
-    "AT_132_SHAMAN",
-    "AT_132_WARLOCK",
-    "AT_132_WARRIOR",
+    "HERO_01bp",
+    "HERO_02bp",
+    "HERO_03bp",
+    "HERO_04bp",
+    "HERO_05bp",
+    "HERO_06bp",
+    "HERO_07bp",
+    "HERO_08bp",
+    "HERO_09bp",
+    "HERO_10bp2",
 ]
 
 UPGRADE_HERO_POWER = Summon(CONTROLLER, UPGRADED_HERO_POWER)

@@ -14,13 +14,13 @@ class ICC_047:
 
 class ICC_047a:
     play = Morph(SELF, "ICC_047t").then(
-        SetTag(Morph.CARD, {GameTag.SECRET_DEATHRATTLE: 1})
+        SetTags(Morph.CARD, {GameTag.SECRET_DEATHRATTLE: 1})
     )
 
 
 class ICC_047b:
     play = Morph(SELF, "ICC_047t").then(
-        SetTag(Morph.CARD, {GameTag.SECRET_DEATHRATTLE: 2})
+        SetTags(Morph.CARD, {GameTag.SECRET_DEATHRATTLE: 2})
     )
 
 

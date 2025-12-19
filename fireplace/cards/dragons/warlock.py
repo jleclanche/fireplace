@@ -59,7 +59,7 @@ class DRG_208:
     """Valdris Felgorge"""
 
     # <b>Battlecry:</b> Increase your maximum hand size to 12. Draw 4 cards.
-    play = SetTag(CONTROLLER, {GameTag.MAXHANDSIZE: 12}), Draw(CONTROLLER) * 4
+    play = SetTags(CONTROLLER, {GameTag.MAXHANDSIZE: 12}), Draw(CONTROLLER) * 4
 
 
 class DRG_209:

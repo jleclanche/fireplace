@@ -712,6 +712,20 @@ UPGRADED_HERO_POWER = FuncSelector(
     )
 )
 
+STORE_CARD = FuncSelector(lambda entities, source: [source.store_card])
+
+UPGRADED_HERO_POWER = FuncSelector(
+    lambda entities, source: (
+        [
+            source.controller.card(
+                source.controller.hero.power.upgraded_hero_power, source=source
+            )
+        ]
+        if source.controller.hero.power.upgraded_hero_power
+        else []
+    )
+)
+
 GAME_SKIN = FuncSelector(lambda entites, source: [source.game.skin])
 
 DRAWN_THIS_TURN = FuncSelector(

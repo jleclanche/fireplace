@@ -9,7 +9,7 @@ class TB_MechWar_Boss1_HeroPower:
     """Hello! Hello! Hello!"""
 
     requirements = {PlayReq.REQ_FRIENDLY_TARGET: 0, PlayReq.REQ_MINION_TARGET: 0}
-    activate = SetTag(
+    activate = SetTags(
         LOWEST_ATK(FRIENDLY_MINIONS), (GameTag.TAUNT, GameTag.DIVINE_SHIELD)
     )
 
