@@ -27,5 +27,6 @@ class Switch:
 
     def trigger(self, source):
         action = self.evaluate(source)
-        if action:
-            action.trigger(source)
+        if not hasattr(action, "__iter__"):
+            action = (action,)
+        source.game.main_power(source, action, source.target)

@@ -392,12 +392,14 @@ class BaseGame(Entity):
         player.elemental_played_this_turn = 0
 
         for entity in self.live_entities:
+            if entity.type != CardType.PLAYER:
+                entity.turns_in_play += 1
+
+        for entity in player.live_entities:
             if getattr(entity, "dormant_turns", 0):
                 entity.dormant_turns -= 1
                 if entity.dormant_turns == 0:
                     self.queue_actions(player, [Awaken(entity)])
-            elif entity.type != CardType.PLAYER:
-                entity.turns_in_play += 1
 
         if player.hero.power:
             player.hero.power.activations_this_turn = 0

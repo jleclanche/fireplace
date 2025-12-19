@@ -72,7 +72,6 @@ class BT_934:
 
     # [x]<b>Dormant</b> for 2 turns. When this awakens, deal 10 damage randomly
     # split among all enemies.
-    # TODO need test
     tags = {GameTag.DORMANT: True}
     dormant_turns = 2
     awaken = Hit(RANDOM_ENEMY_CHARACTER, 1) * 10
@@ -86,7 +85,6 @@ class BT_429:
     """Metamorphosis"""
 
     # Swap your Hero Power to "Deal 4 damage." After 2 uses, swap it back.
-    # TODO need test
     play = Switch(
         FRIENDLY_HERO_POWER,
         {
@@ -144,9 +142,8 @@ class BT_429p:
                     GameTag.TAG_SCRIPT_DATA_ENT_1: GetTag(
                         SELF, GameTag.TAG_SCRIPT_DATA_ENT_1
                     ),
-                    enums.ACTIVATIONS_THIS_TURN: Attr(
-                        SELF, enums.ACTIVATIONS_THIS_TURN
-                    ),
+                    enums.ACTIVATIONS_THIS_TURN: Attr(SELF, enums.ACTIVATIONS_THIS_TURN)
+                    + 1,
                 },
             ),
         ),
@@ -158,8 +155,10 @@ class BT_429p2:
 
     # [x]<b>Hero Power</b> Deal $4 damage. <i>(Last use!)</i>
     requirements = {PlayReq.REQ_TARGET_TO_PLAY: 0}
-    activate = Hit(TARGET, 4), Summon(
-        CONTROLLER, GetTag(SELF, GameTag.TAG_SCRIPT_DATA_ENT_1)
+    activate = (
+        Hit(TARGET, 4),
+        Summon(CONTROLLER, GetTag(SELF, GameTag.TAG_SCRIPT_DATA_ENT_1)),
+        RefreshHeroPower(FRIENDLY_HERO_POWER),
     )
 
 
